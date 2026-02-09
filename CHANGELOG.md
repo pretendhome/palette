@@ -1,0 +1,91 @@
+# Palette Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [Unreleased]
+
+---
+
+## [1.3.0] - 2026-02-05
+
+### Added
+- **Security formalization** (Tier 2 Section 6)
+  - Agent identity, least privilege, guardrails, policy enforcement
+  - RIU-105: Agent Security & Access Control
+  - LIB-089: Least Privilege for Agents
+  - LIB-090: Guardrails & Policy Enforcement
+  - LIB-091: Agent Identity & Authentication
+
+- **Decision classification** (Library)
+  - LIB-092: Decision Classification Framework
+  - Formalizes ONE-WAY DOOR / TWO-WAY DOOR as reusable pattern
+
+- **Validation methods** (Tier 2 + Library)
+  - Expanded Anky role: multi-layered evaluation, LM-as-Judge
+  - LIB-093: Agent Quality Evaluation Methods
+  - Artifact-focused validation (JSON rubrics, not opinions)
+
+### Changed
+- Tier 2 section numbering (Agent Communication Protocol now Section 7)
+- Ankylosaurus description (added validation methods)
+- Taxonomy: 104 → 105 RIUs
+- Library: 76 → 81 questions
+
+### Rationale
+- Addresses enterprise security requirements (Google "Intro to Agents" research)
+- Elevates decision classification as Palette's unique differentiator
+- Strengthens maturity model with concrete evaluation methods
+- Maintains Tier 1 immutability (security in Tier 2, not Tier 1)
+
+---
+
+## [1.0.0] - 2026-01-31
+
+### Added
+- Initial release of Palette toolkit
+- Three-tier system (Tier 1: palette-core.md, Tier 2: assumptions.md, Tier 3: decisions template)
+- 7 agent implementations (Argy, Rex, Theri, Raptor, Yuty, Anky, Para)
+- Taxonomy v1.2 (104 RIUs)
+- Knowledge Library v1.2 (86 questions)
+- Interactive onboarding (type "start")
+- Demo guide with live agent switching
+- Shareable ZIP package (298 KB)
+
+### Status
+- All agents at v1.0 UNVALIDATED (0 impressions)
+- Ready for first real executions
+
+---
+
+## Version History
+
+- **v1.0.0** (2026-01-31): Initial release
+- **v1.2** (Taxonomy/Library): Current artifact versions
+
+---
+
+## Contributors
+
+Thank you to everyone who has contributed to Palette!
+
+### Maintainer
+- Mical - Creator and maintainer
+
+### Contributors
+(Contributors will be listed here as they submit validated improvements)
+
+---
+
+## How to Contribute
+
+See `CONTRIBUTING.md` for guidelines on submitting:
+- Agent failure reports
+- Validated use cases
+- Library entries
+- Taxonomy refinements
+- Documentation improvements

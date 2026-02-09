@@ -1,0 +1,32 @@
+{
+  "name": "argentavis",
+  "version": "1.0",
+  "ark_type": "ARK:Argentavis",
+  "code": "Argy",
+  "role": "Resource Gatherer",
+  "description": "Conversational research agent that clarifies intent before searching",
+  "status": "UNVALIDATED",
+  "entry_point": "argy.py",
+  "capabilities": [
+    "web_search",
+    "web_fetch",
+    "context_clarification",
+    "structured_synthesis"
+  ],
+  "constraints": {
+    "read_only": true,
+    "no_execution": true,
+    "no_commits": true,
+    "no_decisions": true,
+    "must_clarify_before_search": true
+  },
+  "invocation": {
+    "command": "/argy",
+    "aliases": ["argentavis", "research", "search"]
+  },
+  "logging": {
+    "ledger": "fde/decisions.md",
+    "track_maturity": true,
+    "log_queries": true
+  }
+}

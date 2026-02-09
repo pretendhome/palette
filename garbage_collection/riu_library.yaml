@@ -1,0 +1,581 @@
+version: '0.1'
+generated_at: '2025-12-30'
+rius:
+- riu_id: RIU-001
+  name: Engagement Intake + Convergence Brief
+  workstream: Clarify & Bound
+  problem_coordinates:
+    industry: '*'
+    category: '*'
+    use_case: '*'
+  trigger_signals:
+  - new engagement
+  - unclear scope
+  - paid commitment
+  - stakeholder misalignment
+  intervention_pattern: 'Run a structured intake to converge on: user, jobs-to-be-done, constraints, success definition, and
+    explicit non-goals. Produce a single-page Convergence Brief used as the engagement source of truth.'
+  agents:
+  - agent: Architecture
+    goal: Draft Convergence Brief with explicit assumptions and non-goals
+  - agent: Search/Research
+    goal: Collect prior art + internal references relevant to customer domain
+  - agent: Validator/Safety
+    goal: Check for missing constraints, one-way doors, and unbounded commitments
+  artifacts:
+  - convergence_brief.md
+  - risk_register.md
+  - decision_log.md
+  success_metrics:
+    outcome: Stakeholders align on what 'done' means
+    quality: No unowned requirements; all constraints captured
+    safety: One-way-door decisions explicitly flagged
+  reversibility: Two-way door (document only)
+  maturity: WORKING
+  reuse_boundary:
+    assumes:
+    - customer can clarify success criteria
+    does_not_handle:
+    - contract negotiation/legal
+    reuse_signals:
+    - any new customer build
+    confidence: Generalizable
+- riu_id: RIU-002
+  name: Stakeholder Map + Communication Cadence
+  workstream: Adoption (Non-Technical)
+  problem_coordinates:
+    industry: '*'
+    category: '*'
+    use_case: '*'
+  trigger_signals:
+  - multiple stakeholders
+  - slow approvals
+  - cross-functional dependencies
+  intervention_pattern: Create stakeholder map (deciders/influencers/approvers), RACI-lite, and a cadence (weekly demo + async
+    updates).
+  agents:
+  - agent: Search/Research
+    goal: Identify org/roles and prior communications templates
+  - agent: Architecture
+    goal: Define cadence + escalation paths
+  - agent: Implementation
+    goal: Set up lightweight tooling (docs, tracker, templates)
+  artifacts:
+  - stakeholder_map.md
+  - cadence_plan.md
+  - status_update_template.md
+  success_metrics:
+    outcome: Faster decisions; fewer surprises
+    quality: Clear owners for approvals
+    safety: Escalation path defined for blocking issues
+  reversibility: Two-way door
+  maturity: WORKING
+  reuse_boundary:
+    assumes:
+    - customer has named points of contact
+    does_not_handle:
+    - exec politics beyond scope
+    reuse_signals:
+    - '>2 stakeholder groups'
+    confidence: Generalizable
+- riu_id: RIU-003
+  name: "Problem \u2192 Task Decomposition (RIU Mapping)"
+  workstream: Clarify & Bound
+  problem_coordinates:
+    industry: '*'
+    category: '*'
+    use_case: '*'
+  trigger_signals:
+  - complex system
+  - multiple deliverables
+  - uncertain path
+  intervention_pattern: Decompose the engagement into Workstreams and select an initial set of RIUs (materials/tools). Identify
+    gaps where no RIU exists and create Candidate RIUs.
+  agents:
+  - agent: Architecture
+    goal: Produce decomposition + initial RIU set
+  - agent: Search/Research
+    goal: Locate similar past engagements/RIUs
+  - agent: Validator/Safety
+    goal: Ensure each RIU has success metrics and reversibility classification
+  artifacts:
+  - workstream_plan.yaml
+  - riu_selection.json
+  - candidate_riu_log.md
+  success_metrics:
+    outcome: Clear executable plan with multiple RIUs
+    quality: Every task mapped to at least one RIU or flagged as gap
+    safety: One-way doors isolated early
+  reversibility: Two-way door
+  maturity: UNVALIDATED
+  reuse_boundary:
+    assumes:
+    - taxonomy exists
+    does_not_handle:
+    - deep domain unknowns without discovery
+    reuse_signals:
+    - any new engagement
+    confidence: Contextual
+- riu_id: RIU-010
+  name: Data Contract Freeze
+  workstream: Interface & Inputs
+  problem_coordinates:
+    industry: '*'
+    category: '*'
+    use_case: '*'
+  trigger_signals:
+  - unknown schema
+  - multiple sources
+  - PII concerns
+  - integration blocks
+  intervention_pattern: Extract schemas, access paths, SLAs, PII handling, and sample payloads into a single versioned data_contract.yaml
+    with examples and validation rules.
+  agents:
+  - agent: Search/Research
+    goal: Gather existing schema docs and sample payloads
+  - agent: Implementation
+    goal: Generate contract + validators
+  - agent: Validator/Safety
+    goal: Check PII risks and completeness
+  artifacts:
+  - data_contract.yaml
+  - sample_payloads/
+  - validators/
+  success_metrics:
+    outcome: Integration unblocked; shared understanding of inputs/outputs
+    quality: Contract validated against samples
+    safety: PII handling documented and reviewed
+  reversibility: One-way door if external interface is promised; otherwise two-way
+  maturity: WORKING
+  reuse_boundary:
+    assumes:
+    - access to representative samples
+    does_not_handle:
+    - unknown upstream systems
+    reuse_signals:
+    - schema ambiguity
+    confidence: Generalizable
+- riu_id: RIU-011
+  name: Access + Permissions Readiness
+  workstream: Interface & Inputs
+  problem_coordinates:
+    industry: '*'
+    category: '*'
+    use_case: '*'
+  trigger_signals:
+  - blocked access
+  - missing credentials
+  - security review
+  intervention_pattern: Create an access checklist (accounts, tokens, roles, network), validate least-privilege paths, and
+    confirm data movement boundaries.
+  agents:
+  - agent: Architecture
+    goal: Define access requirements + boundary diagram
+  - agent: Validator/Safety
+    goal: Ensure least-privilege + logging expectations
+  - agent: Implementation
+    goal: Test access programmatically (read-only where possible)
+  artifacts:
+  - access_checklist.md
+  - boundary_diagram.md
+  - access_smoketests/
+  success_metrics:
+    outcome: No access-related delays
+    quality: All access documented and reproducible
+    safety: Least-privilege confirmed
+  reversibility: Two-way door
+  maturity: WORKING
+  reuse_boundary:
+    assumes:
+    - customer can provision access
+    does_not_handle:
+    - policy exceptions
+    reuse_signals:
+    - any enterprise deployment
+    confidence: Generalizable
+- riu_id: RIU-012
+  name: PII/Compliance Triage
+  workstream: Quality & Safety
+  problem_coordinates:
+    industry: '*'
+    category: '*'
+    use_case: '*'
+  trigger_signals:
+  - PII
+  - HIPAA
+  - PCI
+  - SOC2
+  - GDPR
+  - regulated industry
+  intervention_pattern: Classify data sensitivity, define redaction/minimization, establish audit log requirements, and create
+    an allowlist of safe processing operations.
+  agents:
+  - agent: Validator/Safety
+    goal: Produce compliance triage report + controls
+  - agent: Architecture
+    goal: Define safe patterns + data minimization
+  - agent: Search/Research
+    goal: Collect customer policy references
+  artifacts:
+  - compliance_triage.md
+  - data_minimization_plan.md
+  - audit_logging_requirements.md
+  success_metrics:
+    outcome: Compliance sign-off path is clear
+    quality: Controls are explicit and implementable
+    safety: No processing of disallowed fields
+  reversibility: One-way door when commitments are made
+  maturity: WORKING
+  reuse_boundary:
+    assumes:
+    - customer shares compliance requirements
+    does_not_handle:
+    - legal advice
+    reuse_signals:
+    - regulated domains
+    confidence: Generalizable
+- riu_id: RIU-020
+  name: Retrieval Baseline + Evaluation Harness
+  workstream: Quality & Safety
+  problem_coordinates:
+    industry: '*'
+    category: Knowledge/RAG
+    use_case: Search / Q&A
+  trigger_signals:
+  - RAG
+  - search quality issues
+  - no baseline metrics
+  intervention_pattern: Define golden queries, expected doc families, and implement offline eval (precision@k, MRR, coverage)
+    plus regression checks.
+  agents:
+  - agent: Evaluator
+    goal: Create golden set + evaluation runner
+  - agent: Implementation
+    goal: Implement metrics + reports
+  - agent: Validator/Safety
+    goal: Ensure tests gate deployments
+  artifacts:
+  - golden_queries.jsonl
+  - eval_runner/
+  - eval_reports/
+  success_metrics:
+    outcome: Search quality measurable
+    quality: Regression tests prevent silent degradation
+    safety: Ship decisions tied to eval results
+  reversibility: Two-way door
+  maturity: UNVALIDATED
+  reuse_boundary:
+    assumes:
+    - representative queries exist
+    does_not_handle:
+    - no access to ground truth
+    reuse_signals:
+    - any RAG/search work
+    confidence: Generalizable
+- riu_id: RIU-021
+  name: Sidecar Intelligence Artifact (Read-Only Augmentation)
+  workstream: Core Logic
+  problem_coordinates:
+    industry: '*'
+    category: Knowledge/RAG
+    use_case: Search augmentation
+  trigger_signals:
+  - need rerank
+  - need explainability
+  - cannot change KB
+  intervention_pattern: Write per-doc sidecar JSON with canonical coordinates, freshness class, computed signals, embedding
+    ref, and reason codes. Never modifies source docs.
+  agents:
+  - agent: Architecture
+    goal: Define minimal sidecar schema + contracts
+  - agent: Implementation
+    goal: Implement sidecar writer + reader library
+  - agent: Validator/Safety
+    goal: Schema validation + rollback plan
+  artifacts:
+  - sidecar_schema.json
+  - sidecar_writer/
+  - sidecar_reader/
+  - feature_flags.md
+  success_metrics:
+    outcome: Optional rerank/explain works without KB changes
+    quality: Sidecars are idempotent and versioned
+    safety: Rollback = ignore sidecars
+  reversibility: Two-way door (unless external consumers depend on sidecars)
+  maturity: UNVALIDATED
+  reuse_boundary:
+    assumes:
+    - stable doc_id mapping
+    does_not_handle:
+    - content rewriting
+    reuse_signals:
+    - must not touch KB
+    confidence: Generalizable
+- riu_id: RIU-022
+  name: Freshness / Staleness Guardrails
+  workstream: Quality & Safety
+  problem_coordinates:
+    industry: '*'
+    category: Knowledge/RAG
+    use_case: Search augmentation
+  trigger_signals:
+  - publication lag
+  - stale recommendations
+  - silent removals
+  intervention_pattern: Implement deterministic freshness classes (Fresh/Aging/Stale/Orphaned), downrank rules, and orphan
+    detection using snapshot last-seen timestamps.
+  agents:
+  - agent: Architecture
+    goal: Define rules + thresholds
+  - agent: Implementation
+    goal: Implement guardrails + tests
+  - agent: Evaluator
+    goal: Add staleness cases to golden set
+  artifacts:
+  - freshness_rules.yaml
+  - staleness_tests/
+  - orphan_detector/
+  success_metrics:
+    outcome: Reduced stale hits; predictable behavior
+    quality: Staleness tests pass in CI
+    safety: Orphaned docs never surfaced
+  reversibility: Two-way door
+  maturity: UNVALIDATED
+  reuse_boundary:
+    assumes:
+    - regular snapshots
+    does_not_handle:
+    - no timestamps anywhere
+    reuse_signals:
+    - known ingestion lag
+    confidence: Generalizable
+- riu_id: RIU-023
+  name: 'Similarity: ''Seen This Before'' Exemplars'
+  workstream: Core Logic
+  problem_coordinates:
+    industry: '*'
+    category: Knowledge/RAG
+    use_case: Similarity retrieval
+  trigger_signals:
+  - need precedents
+  - customer asks 'similar'
+  - reduce cognitive load
+  intervention_pattern: 'Hybrid similarity: enum overlap + embeddings. Produce top neighbors with reason codes; avoid LLM
+    prose by default.'
+  agents:
+  - agent: Embedding/Similarity
+    goal: Build embeddings + ANN index
+  - agent: Implementation
+    goal: Serve neighbors + reason codes
+  - agent: Validator/Safety
+    goal: Ensure neighbors have explainable reasons
+  artifacts:
+  - embeddings_index/
+  - similarity_service/
+  - reason_codes.md
+  success_metrics:
+    outcome: Users find relevant precedents faster
+    quality: Neighbors stable under no-change conditions
+    safety: Explainability prevents black-box behavior
+  reversibility: Two-way door
+  maturity: UNVALIDATED
+  reuse_boundary:
+    assumes:
+    - enums or text exist
+    does_not_handle:
+    - tiny corpora
+    reuse_signals:
+    - need examples
+    confidence: Generalizable
+- riu_id: RIU-030
+  name: Integration Adapter (API/Webhook/Connector)
+  workstream: Ops & Delivery
+  problem_coordinates:
+    industry: '*'
+    category: Integration
+    use_case: Connect systems
+  trigger_signals:
+  - needs integration
+  - webhook
+  - API
+  - events
+  intervention_pattern: Choose integration mode (API pull, webhook push, batch), define contract, implement adapter with retries,
+    idempotency, and observability.
+  agents:
+  - agent: Architecture
+    goal: Select integration mode + tradeoffs
+  - agent: Implementation
+    goal: Build adapter + retries/idempotency
+  - agent: Debugging
+    goal: Resolve failures under load
+  artifacts:
+  - integration_spec.md
+  - adapter_service/
+  - retries_idempotency.md
+  success_metrics:
+    outcome: Reliable data flow between systems
+    quality: Handles retries + duplicates
+    safety: One-way door flagged if external contract is published
+  reversibility: One-way door if external interface committed
+  maturity: WORKING
+  reuse_boundary:
+    assumes:
+    - access to endpoints
+    does_not_handle:
+    - unknown upstream SLAs
+    reuse_signals:
+    - webhook/api integration
+    confidence: Generalizable
+- riu_id: RIU-031
+  name: Feature Flags + Rollback Plan
+  workstream: Ops & Delivery
+  problem_coordinates:
+    industry: '*'
+    category: Reliability
+    use_case: Safe rollout
+  trigger_signals:
+  - new behavior
+  - risk of regression
+  - pilot rollout
+  intervention_pattern: Implement feature flags for new capabilities; define rollback path; create staged rollout plan by
+    segment.
+  agents:
+  - agent: Architecture
+    goal: Define flag strategy + rollout gates
+  - agent: Implementation
+    goal: Implement flags + kill switch
+  - agent: Evaluator
+    goal: Define regression gates
+  artifacts:
+  - flags.yaml
+  - rollout_plan.md
+  - kill_switch.md
+  success_metrics:
+    outcome: Safe deployment with controlled exposure
+    quality: Rollback tested
+    safety: One-way doors isolated behind flags
+  reversibility: Two-way door
+  maturity: WORKING
+  reuse_boundary:
+    assumes:
+    - deployment environment supports flags
+    does_not_handle:
+    - no release process
+    reuse_signals:
+    - any pilot
+    confidence: Generalizable
+- riu_id: RIU-040
+  name: Sales Narrative + 'No-Lie' Capability Statement
+  workstream: Adoption (Non-Technical)
+  problem_coordinates:
+    industry: '*'
+    category: GTM
+    use_case: Messaging
+  trigger_signals:
+  - rebrand
+  - customers paid
+  - scope ambiguity
+  - risk of overpromise
+  intervention_pattern: 'Write a truthful capability statement: what exists, what is in pilot, what is out of scope; include
+    examples and caveats; align with support readiness.'
+  agents:
+  - agent: Architecture
+    goal: Define truthful boundaries + non-goals
+  - agent: Search/Research
+    goal: Collect relevant customer language + precedents
+  - agent: Validator/Safety
+    goal: Check for implicit commitments and one-way doors
+  artifacts:
+  - capability_statement.md
+  - faq_internal.md
+  - talk_track.md
+  success_metrics:
+    outcome: Sales can message without overpromising
+    quality: Support can defend claims
+    safety: No accidental external commitments
+  reversibility: Two-way door (until published externally)
+  maturity: WORKING
+  reuse_boundary:
+    assumes:
+    - clear pilot scope
+    does_not_handle:
+    - legal terms
+    reuse_signals:
+    - new capability launch
+    confidence: Generalizable
+- riu_id: RIU-041
+  name: 'Customer Workshop: Problem Framing Session'
+  workstream: Clarify & Bound
+  problem_coordinates:
+    industry: '*'
+    category: '*'
+    use_case: '*'
+  trigger_signals:
+  - customer unclear
+  - multiple asks
+  - needs alignment
+  intervention_pattern: "Run a 60\u201390 minute workshop to produce: problem statement, constraints, success metrics, and\
+    \ prioritized tasks mapped to RIUs."
+  agents:
+  - agent: Architecture
+    goal: Facilitate workshop + produce outputs
+  - agent: Search/Research
+    goal: Prepare domain examples and questions
+  - agent: Validator/Safety
+    goal: Identify one-way doors and hidden requirements
+  artifacts:
+  - workshop_agenda.md
+  - workshop_outputs.md
+  - riu_map_after_workshop.yaml
+  success_metrics:
+    outcome: Aligned scope + prioritized plan
+    quality: Tasks mapped to RIUs
+    safety: No hidden requirements remain implicit
+  reversibility: Two-way door
+  maturity: WORKING
+  reuse_boundary:
+    assumes:
+    - customer attendance
+    does_not_handle:
+    - deep technical implementation
+    reuse_signals:
+    - scope ambiguity
+    confidence: Generalizable
+- riu_id: RIU-050
+  name: Taxonomy Drift Capture (Candidate Rows)
+  workstream: Quality & Safety
+  problem_coordinates:
+    industry: '*'
+    category: Taxonomy
+    use_case: Drift handling
+  trigger_signals:
+  - new terms
+  - no matching RIU
+  - novel problem
+  intervention_pattern: 'When no RIU fits, create Candidate RIU with: triggers, pattern, artifacts, validation. Track repeated
+    occurrences and promote only after success + review.'
+  agents:
+  - agent: Architecture
+    goal: Draft candidate RIU row
+  - agent: Validator/Safety
+    goal: Ensure bounded scope and reversibility
+  - agent: Search/Research
+    goal: Find prior art / analogous RIUs
+  artifacts:
+  - candidate_riu.yaml
+  - promotion_rules.md
+  - drift_report_weekly.md
+  success_metrics:
+    outcome: Taxonomy expands safely
+    quality: Candidates promoted only after evidence
+    safety: No auto-promotion to canonical without governance
+  reversibility: Two-way door
+  maturity: UNVALIDATED
+  reuse_boundary:
+    assumes:
+    - logging exists
+    does_not_handle:
+    - auto-governance
+    reuse_signals:
+    - no match cases
+    confidence: Contextual

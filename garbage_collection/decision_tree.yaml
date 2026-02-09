@@ -1,0 +1,61 @@
+version: '0.1'
+generated_at: '2025-12-30'
+purpose: Route customer problem statements to Workstreams and RIUs (Reusable Intervention Units).
+left_edge_inputs:
+  free_text: Primary. FDE describes problem in natural language.
+  context_fields: Optional. industry/category/use_case hints, constraints, timelines, stakeholders.
+routing_steps:
+- step: Capture Convergence Brief
+  select_rius:
+  - RIU-001
+  - RIU-002
+  - RIU-003
+- step: Classify Coordinates
+  method: Map to canonical enums (starting set) + drift candidates
+  outputs:
+  - industry
+  - category
+  - use_case
+  - constraint_profile
+  - surface_type
+- step: Decompose into Workstreams
+  workstreams:
+  - Clarify & Bound
+  - Interface & Inputs
+  - Core Logic
+  - Quality & Safety
+  - Ops & Delivery
+  - Adoption (Non-Technical)
+- step: Select RIUs
+  rule: Choose multiple RIUs per workstream; prefer proven/generalizable; add Candidate RIUs when no fit.
+- step: Execute + Validate
+  rule: Each RIU produces artifacts + validation; one-way doors require explicit approval.
+- step: Learn + Update
+  rule: Log outcomes; adjust RIU fitness; propose drift candidates; promote with governance.
+workstream_to_rius:
+  Clarify & Bound:
+  - RIU-001
+  - RIU-003
+  - RIU-041
+  Interface & Inputs:
+  - RIU-010
+  - RIU-011
+  Core Logic:
+  - RIU-021
+  - RIU-023
+  Quality & Safety:
+  - RIU-012
+  - RIU-020
+  - RIU-022
+  - RIU-050
+  Ops & Delivery:
+  - RIU-030
+  - RIU-031
+  Adoption (Non-Technical):
+  - RIU-002
+  - RIU-040
+governance:
+  canonical_enums: Treat Doc-3 lists as canonical starting set; extend via drift candidates + review.
+  promotion: Candidate RIUs promoted after repeated success and human review.
+  auditability: Every RIU must define artifacts + validation + reversibility.
+  rollback: System can ignore RIU outputs or disable capabilities with feature flags.

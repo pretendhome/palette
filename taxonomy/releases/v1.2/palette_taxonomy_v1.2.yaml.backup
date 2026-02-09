@@ -1,0 +1,4759 @@
+palette_taxonomy_version: v1.2
+generated_at: '2026-01-29'
+
+
+changelog:
+  v1.2:
+    - Added back 10 essential RIUs from v1.0 (high-value FDE patterns)
+    - RIU-121 (Webhook Reliability), RIU-122 (Batch Pipeline Safety)
+    - RIU-200 (Customer Problem Narrative), RIU-290 (Internal Demo Narrative)
+    - RIU-320-325 (Integration patterns), RIU-400 (KB Content Audit)
+    - Total RIUs: 104 (v1.1's 94 + 10 essential patterns)
+  v1.1:
+    - Refined from v1.0 (115 RIUs) to remove structural overlap (research-backed reduction)
+    - Added 8 agent archetypes (including Ankylosaurus/Validator and Parasaurolophus/Monitor)
+    - Added RIU-500 series (Multimodal AI Workflows - 4 RIUs)
+    - Added RIU-510 series (Advanced Agentic Systems - 5 RIUs)
+    - Added RIU-520 series (Modern LLMOps - 5 RIUs)
+    - Added RIU-530 series (AI Governance - 6 RIUs)
+    - Added RIU-540 series (Agent-Specific Patterns - 4 RIUs)
+    - Updated agent_types across all RIUs to include new archetypes where applicable
+    - Total RIUs: 94 (refined core)
+
+
+principles:
+  - RIUs are inert execution materials; they do not route, orchestrate, or track usage
+  - Coordinates are soft anchors (search/narrowing aids), not constraints
+  - Reversibility is explicit (two_way | one_way | mixed)
+  - Agents are referenced by type only; behavior lives in Assumptions layer
+  - Multiple RIUs may apply; "no match" is valid and surfaces gaps
+  - The taxonomy is a routing table that maps tasks to agents
+
+
+workstreams:
+  - Clarify & Bound
+  - Interfaces & Inputs
+  - Core Logic
+  - Quality & Safety
+  - Ops & Delivery
+  - Adoption & Change
+
+
+agent_archetypes:
+  - id: ARK:Argentavis
+    code: Argy
+    role: Resource Gatherer
+    description: Search, retrieval, research, context gathering (read-only)
+    disallowed:
+      - Synthesis-as-decision
+      - Execution
+      - Commits
+      - Architecture recommendations
+    route_when:
+      - Need to find information
+      - Gather context
+      - Research options
+      - Competitive analysis
+
+
+  - id: ARK:Therizinosaurus
+    code: Theri
+    role: Builder
+    description: Implementation within bounded scope
+    disallowed:
+      - Architecture commitments
+      - Scope expansion
+      - Design decisions
+    route_when:
+      - Clear spec exists
+      - Need artifact created
+      - Implementation task
+
+
+  - id: ARK:Velociraptor
+    code: Raptor
+    role: Debugger
+    description: Failure isolation, root cause analysis, repair
+    disallowed:
+      - Feature expansion
+      - Architecture changes
+      - Scope creep
+    route_when:
+      - Something is broken
+      - Need diagnosis
+      - Error investigation
+
+
+  - id: ARK:Tyrannosaurus
+    code: Rex
+    role: Architect
+    description: Design, tradeoffs, system decisions, technology selection
+    constraints:
+      - Must flag ONE-WAY DOOR for irreversible decisions
+      - Proposes designs; does not commit silently
+    route_when:
+      - Architecture decisions
+      - Technology selection
+      - System design
+      - Tradeoff analysis
+
+
+  - id: ARK:Yutyrannus
+    code: Yuty
+    role: GTM / Narrative
+    description: Customer-facing explanations, demos, documentation, enablement
+    constraints:
+      - Must not outrun evidence
+      - No overpromising
+    route_when:
+      - Need customer communication
+      - Demos
+      - Training materials
+      - Enablement content
+
+
+  - id: ARK:Ankylosaurus
+    code: Anky
+    role: Validator
+    description: Quality assurance, compliance checking, verification, auditing
+    disallowed:
+      - Implementation
+      - Architecture decisions
+      - Remediation
+    route_when:
+      - Need review
+      - Audit
+      - Compliance triage
+      - Security review
+      - Testing validation
+
+
+  - id: ARK:Parasaurolophus
+    code: Para
+    role: Monitor
+    description: Observation, anomaly detection, health checking, drift detection
+    disallowed:
+      - Remediation
+      - Changes
+      - Implementation
+    route_when:
+      - Need ongoing observation
+      - Monitoring setup
+      - Alerting configuration
+      - Drift detection
+
+
+  - id: ARK:Orchestrator
+    code: Orch
+    role: Workflow Router
+    description: Routes tasks to appropriate agents, coordinates multi-step workflows
+    disallowed:
+      - Direct execution
+      - Bypassing convergence
+    constraints:
+      - Must have convergence brief before routing
+      - Must flag ONE-WAY DOOR before agent assignment if decision is irreversible
+    route_when:
+      - Multi-step workflows
+      - Agent coordination needed
+      - Complex task sequencing
+
+
+rius:
+  # ==========================================================================
+  # CLARIFY & BOUND WORKSTREAM
+  # ==========================================================================
+
+
+  - riu_id: RIU-001
+    name: Convergence Brief (Semantic Blueprint)
+    problem_pattern: Engagement starts underspecified; stakeholders differ on goals, constraints, and non-goals.
+    execution_intent: Create a Convergence Brief capturing Goal (success criteria), Roles (human vs agent), Capabilities (agents/tools needed), Constraints (binding requirements), Non-goals (explicit out-of-scope).
+    workstreams:
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - new engagement
+      - conflicting asks
+      - paid commitment
+      - rebrand messaging risk
+    artifacts:
+      - convergence_brief.md
+      - assumptions.md
+      - open_questions.md
+    reversibility: two_way
+    success_conditions:
+      execution: Brief published and accepted as current baseline.
+      outcome: Fewer scope re-litigations; faster decision velocity.
+      safety_quality: Non-goals prevent accidental commitments.
+    failure_modes:
+      silent:
+        - scope creep via untracked asks
+      loud:
+        - stakeholder disagreement
+      clustered:
+        - multi-team engagements with unclear owner
+    dependencies: []
+    agent_types:
+      - Human:Delivery
+      - ARK:Tyrannosaurus
+      - ARK:Argentavis
+    notes: ''
+    tags:
+      - scoping
+      - requirements
+
+
+  - riu_id: RIU-002
+    name: Stakeholder Map + RACI-lite
+    problem_pattern: Decisions slow or blocked because ownership and approval paths unclear.
+    execution_intent: Map deciders/influencers/approvers; define RACI-lite for key artifacts and escalation path.
+    workstreams:
+      - Clarify & Bound
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - scoping engagement
+      - change in mgmt context
+      - ambiguous requirements
+      - stakeholder alignment needed
+    artifacts:
+      - stakeholder_map.md
+      - raci_lite.md
+      - escalation_path.md
+    reversibility: two_way
+    success_conditions:
+      execution: Owners assigned to every key decision/artifact.
+      outcome: Approvals speed up; fewer surprises.
+      safety_quality: Escalation path prevents deadlock.
+    failure_modes:
+      silent:
+        - implicit approvers appear late
+      loud:
+        - stakeholder refuses scope
+      clustered:
+        - regulated/enterprise customers
+    dependencies: []
+    agent_types:
+      - Human:Delivery
+      - ARK:Argentavis
+    notes: ''
+    tags:
+      - scoping
+      - change-mgmt
+
+
+  - riu_id: RIU-003
+    name: Decision Log + One-Way Door Registry
+    problem_pattern: Half-decisions and hidden commitments accumulate under pressure.
+    execution_intent: Maintain decisions.md with decisions, reversibility, rationale, rejected alternatives, escalation status.
+    workstreams:
+      - Clarify & Bound
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - scoping engagement
+      - quality concerns
+      - ambiguous requirements
+      - reliability concerns
+    artifacts:
+      - decisions.md
+    reversibility: two_way
+    success_conditions:
+      execution: Every irreversible decision explicitly flagged and referenced.
+      outcome: System is restartable/handoff-safe.
+      safety_quality: Prevents silent one-way door drift.
+    failure_modes:
+      silent:
+        - decisions made in chat but not recorded
+      loud:
+        - contradictory decisions
+      clustered:
+        - fast-moving prototypes
+    dependencies: []
+    agent_types:
+      - Human:Delivery
+      - ARK:Tyrannosaurus
+    notes: ''
+    tags:
+      - scoping
+      - quality
+
+
+  - riu_id: RIU-004
+    name: Problem → Workstream Decomposition
+    problem_pattern: Need expansive decomposition without committing to a plan.
+    execution_intent: Generate broad candidate workstreams + RIUs (non-commit). Human confirms active subset in decisions.md.
+    workstreams:
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - scoping engagement
+      - schema needs
+      - ambiguous requirements
+    artifacts:
+      - candidate_workstreams.yaml
+      - candidate_rius.yaml
+    reversibility: two_way
+    success_conditions:
+      execution: Candidate set broad & understandable; no silent narrowing.
+      outcome: Human can select/decline quickly.
+      safety_quality: Gaps surfaced explicitly.
+    failure_modes:
+      silent:
+        - premature narrowing
+      loud:
+        - too many irrelevant candidates
+      clustered:
+        - novel domains
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Argentavis
+    notes: ''
+    tags:
+      - scoping
+      - schema
+
+
+  - riu_id: RIU-005
+    name: Scope Freeze + Phased Delivery Contract
+    problem_pattern: Customer expects fast delivery; scope must be bounded into phases.
+    execution_intent: Define Phase 0/1/2 deliverables with acceptance criteria and rollback expectations.
+    workstreams:
+      - Clarify & Bound
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - scoping-incident-response
+      - schema needs
+      - ambiguous requirements
+      - production deployment needed
+    artifacts:
+      - phase_plan.md
+      - acceptance_criteria.md
+    reversibility: mixed
+    success_conditions:
+      execution: Phase 0 delivers value quickly; Phase 1 bounded; Phase 2 optional.
+      outcome: Expectations align; fewer surprises.
+      safety_quality: No external commitments without one-way door sign-off.
+    failure_modes:
+      silent:
+        - phase creep
+      loud:
+        - customer rejects phased approach
+      clustered:
+        - paid but missing requirements
+    dependencies: []
+    agent_types:
+      - Human:Delivery
+      - ARK:Tyrannosaurus
+    notes: ''
+    tags:
+      - scoping
+      - delivery
+
+
+  - riu_id: RIU-006
+    name: Success Metrics Charter
+    problem_pattern: Undefined success leads to churn and rework.
+    execution_intent: Define outcome metrics + leading indicators + acceptance checks; align with stakeholders.
+    workstreams:
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - debates about 'good'
+      - no KPI
+      - success criteria unclear
+    artifacts:
+      - success_metrics_charter.md
+      - acceptance_checks.md
+    reversibility: two_way
+    success_conditions:
+      execution: Metrics charter agreed.
+      outcome: Faster acceptance decisions.
+      safety_quality: Prevents scope ambiguity.
+    failure_modes:
+      silent:
+        - metrics gamed
+      loud:
+        - no baseline data
+      clustered:
+        - multiple personas
+    dependencies: []
+    agent_types:
+      - Human:Delivery
+      - ARK:Tyrannosaurus
+      - ARK:Argentavis
+    notes: ''
+    tags:
+      - scoping
+      - stakeholders
+
+
+  - riu_id: RIU-007
+    name: Constraint Profile Capture
+    problem_pattern: Hidden constraints (latency, compliance, budget) break design late.
+    execution_intent: Capture constraint profile; rank fixed vs negotiable; record in decisions.md.
+    workstreams:
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - security asks
+      - latency SLA
+      - budget cap
+      - compliance requirements
+    artifacts:
+      - constraint_profile.md
+    reversibility: two_way
+    success_conditions:
+      execution: Constraints explicit and prioritized.
+      outcome: Design choices become faster.
+      safety_quality: Avoids late surprises.
+    failure_modes:
+      silent:
+        - unstated constraints
+      loud:
+        - constraints conflict
+      clustered:
+        - enterprise security
+    dependencies: []
+    agent_types:
+      - Human:Delivery
+      - ARK:Tyrannosaurus
+    notes: ''
+    tags:
+      - scoping
+      - ranking
+
+
+  - riu_id: RIU-008
+    name: Assumptions Register
+    problem_pattern: Work proceeds on assumptions; they must be explicit and testable.
+    execution_intent: Record assumptions with validation plan and expiry; escalate if assumption implies one-way door.
+    workstreams:
+      - Clarify & Bound
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - scoping-testing
+      - quality concerns
+      - testing needed before shipping
+      - ambiguous requirements
+    artifacts:
+      - assumptions.md
+      - assumption_tests.md
+    reversibility: two_way
+    success_conditions:
+      execution: Assumptions visible and testable.
+      outcome: Wrong assumptions detected early.
+      safety_quality: Reduces hidden debt.
+    failure_modes:
+      silent:
+        - assumptions forgotten
+      loud:
+        - assumption disproved late
+      clustered:
+        - novel domains
+    dependencies: []
+    agent_types:
+      - Human:Delivery
+      - ARK:Tyrannosaurus
+    notes: ''
+    tags:
+      - scoping
+      - quality
+
+
+  - riu_id: RIU-009
+    name: Risk Register + Mitigation Plan
+    problem_pattern: Delivery risks need containment and owner assignment.
+    execution_intent: Maintain risk register with mitigations, owners, and triggers; update on cadence.
+    workstreams:
+      - Clarify & Bound
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - scoping-testing
+      - ambiguous requirements
+      - reliability concerns
+    artifacts:
+      - risk_register.md
+    reversibility: two_way
+    success_conditions:
+      execution: Risks have owners and mitigations.
+      outcome: Fewer surprises.
+      safety_quality: Escalation is timely.
+    failure_modes:
+      silent:
+        - risks not revisited
+      loud:
+        - risk realized without plan
+      clustered:
+        - tight timelines
+    dependencies: []
+    agent_types:
+      - Human:Delivery
+      - ARK:Tyrannosaurus
+    notes: ''
+    tags:
+      - scoping
+      - risk
+
+
+  # ==========================================================================
+  # INTERFACES & INPUTS WORKSTREAM
+  # ==========================================================================
+
+
+  - riu_id: RIU-010
+    name: Access & Permissions Readiness Checklist
+    problem_pattern: Blocked delivery due to missing credentials, network access, or unclear data movement constraints.
+    execution_intent: Produce least-privilege access checklist and smoke tests for read/write boundaries.
+    workstreams:
+      - Interfaces & Inputs
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - testing engagement
+      - quality concerns
+      - unclear inputs/outputs
+      - access issues
+    artifacts:
+      - access_checklist.md
+      - access_smoketests/
+      - network_requirements.md
+    reversibility: two_way
+    success_conditions:
+      execution: Required access provisioned + tested.
+      outcome: No access-related schedule slips.
+      safety_quality: Least-privilege and audit expectations explicit.
+    failure_modes:
+      silent:
+        - over-privileged tokens
+      loud:
+        - blocked network path
+      clustered:
+        - enterprise VPN/VPC
+    dependencies: []
+    agent_types:
+      - Human:Delivery
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - testing
+      - access
+
+
+  - riu_id: RIU-011
+    name: Data Contract Freeze (Schemas + Samples)
+    problem_pattern: Shifting schemas across sources cause downstream rework.
+    execution_intent: Freeze versioned data contract with schemas, sample payloads, constraints, validation rules.
+    workstreams:
+      - Interfaces & Inputs
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - schema engagement
+      - data contract needed
+      - unclear inputs/outputs
+    artifacts:
+      - data_contract.yaml
+      - sample_payloads/
+      - schema_validators/
+    reversibility: mixed
+    success_conditions:
+      execution: Contract validates against representative samples.
+      outcome: Integration unblocked; fewer misunderstandings.
+      safety_quality: PII handling recorded where relevant.
+    failure_modes:
+      silent:
+        - schema drift unnoticed
+      loud:
+        - samples missing
+      clustered:
+        - multi-source joins
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - schema
+      - data
+
+
+  - riu_id: RIU-012
+    name: PII/Compliance Triage (Controls Plan)
+    problem_pattern: Regulated data or compliance requirements constrain design and tooling.
+    execution_intent: Classify sensitivity, define minimization/redaction, document audit logging requirements.
+    workstreams:
+      - Quality & Safety
+      - Interfaces & Inputs
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - quality concerns
+      - discovery engagement
+      - compliance/audit requirements
+      - unclear inputs/outputs
+    artifacts:
+      - compliance_triage.md
+      - data_minimization_plan.md
+      - audit_logging_requirements.md
+    reversibility: one_way
+    success_conditions:
+      execution: Controls explicit; safe processing allowlist defined.
+      outcome: Compliance review path clear.
+      safety_quality: No disallowed fields processed.
+    failure_modes:
+      silent:
+        - PII in logs
+      loud:
+        - policy conflict discovered late
+      clustered:
+        - HIPAA/PCI/GDPR customers
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - Human:Delivery
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - quality
+      - compliance
+
+
+  - riu_id: RIU-013
+    name: Source-of-Truth Inventory
+    problem_pattern: Multiple systems exist; unclear which is authoritative for each datum.
+    execution_intent: Create source-of-truth map listing systems, owners, fields, cadence, trust level.
+    workstreams:
+      - Interfaces & Inputs
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - scoping engagement
+      - security concerns
+      - unclear inputs/outputs
+      - ambiguous requirements
+    artifacts:
+      - source_of_truth_inventory.md
+    reversibility: two_way
+    success_conditions:
+      execution: Each key field has authoritative owner/system.
+      outcome: Integration ambiguity reduced.
+      safety_quality: Supports drift detection.
+    failure_modes:
+      silent:
+        - shadow spreadsheets
+      loud:
+        - conflicting system owners
+      clustered:
+        - post-merger environments
+    dependencies: []
+    agent_types:
+      - Human:Delivery
+      - ARK:Argentavis
+    notes: ''
+    tags:
+      - scoping
+      - security
+
+
+  - riu_id: RIU-014
+    name: Data Sampling + Edge-Case Catalog
+    problem_pattern: Data fails in reality due to edge cases not seen during development.
+    execution_intent: Collect representative samples; catalog edge cases; convert into tests.
+    workstreams:
+      - Interfaces & Inputs
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - testing-data
+      - quality concerns
+      - testing needed before shipping
+      - unclear inputs/outputs
+    artifacts:
+      - edge_case_catalog.md
+      - edge_case_samples/
+      - edge_case_tests/
+    reversibility: two_way
+    success_conditions:
+      execution: Edge cases enumerated and testable.
+      outcome: Fewer surprises during implementation.
+      safety_quality: Improves eval harness quality.
+    failure_modes:
+      silent:
+        - rare encodings break parsing
+      loud:
+        - missing access to raw data
+      clustered:
+        - internationalization/multilingual
+    dependencies: []
+    agent_types:
+      - ARK:Therizinosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - testing
+      - data
+
+
+  - riu_id: RIU-015
+    name: Contract for Outputs (API/Events/Files)
+    problem_pattern: Downstream consumers need stable outputs; unclear payload/SLA/semantics.
+    execution_intent: Define output contract with schema, semantics, idempotency, SLAs, versioning.
+    workstreams:
+      - Interfaces & Inputs
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - schema engagement
+      - API needed
+      - unclear inputs/outputs
+      - production deployment
+      - ONE-WAY DOOR risk
+    artifacts:
+      - output_contract.yaml
+      - consumer_expectations.md
+    reversibility: one_way
+    success_conditions:
+      execution: Consumers integrate without rework.
+      outcome: Versioning/compatibility explicit.
+      safety_quality: One-way doors flagged pre-commitment.
+    failure_modes:
+      silent:
+        - breaking changes
+      loud:
+        - consumer rejects semantics
+      clustered:
+        - multiple downstream consumers
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - schema
+      - api
+
+
+  - riu_id: RIU-016
+    name: API Contract Review + Versioning Plan
+    problem_pattern: API changes break customers.
+    execution_intent: Review API contract; define compatibility + versioning rules.
+    workstreams:
+      - Interfaces & Inputs
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - quality concerns
+      - API engagement
+      - API interface needed
+      - unclear inputs/outputs
+    artifacts:
+      - api_contract_review.md
+      - versioning_plan.md
+    reversibility: one_way
+    success_conditions:
+      execution: Compatibility rules explicit.
+      outcome: Customers protected from breaking changes.
+      safety_quality: Safe evolution path.
+    failure_modes:
+      silent:
+        - undeclared breaking changes
+      loud:
+        - client incompatibility
+      clustered:
+        - mobile clients
+    dependencies:
+      - RIU-015
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - quality
+      - api
+
+
+  - riu_id: RIU-017
+    name: Connector Spec (Source/Target)
+    problem_pattern: Need to build/configure a connector reliably.
+    execution_intent: Define connector spec with auth, pagination, rate limits, retries, mapping, error handling.
+    workstreams:
+      - Interfaces & Inputs
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - integration engagement
+      - requirements needed
+      - spec/requirements document
+      - testing before shipping
+      - unclear inputs/outputs
+    artifacts:
+      - connector_spec.md
+      - mapping_rules.yaml
+      - connector_tests/
+    reversibility: mixed
+    success_conditions:
+      execution: Connector works end-to-end with retries.
+      outcome: Mapping deterministic.
+      safety_quality: Ops expectations explicit.
+    failure_modes:
+      silent:
+        - pagination bugs
+      loud:
+        - rate limit bans
+      clustered:
+        - large accounts
+    dependencies:
+      - RIU-010
+      - RIU-011
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - integration
+      - requirements
+
+
+  - riu_id: RIU-018
+    name: Schema Mapping Table (Source→Target)
+    problem_pattern: Field mapping causes endless churn.
+    execution_intent: Create mapping table with transforms/defaults/provenance; validate with samples.
+    workstreams:
+      - Interfaces & Inputs
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - schema engagement
+      - testing engagement
+      - data contract needed
+      - testing before shipping
+      - unclear inputs/outputs
+    artifacts:
+      - schema_mapping.csv
+      - transform_rules.yaml
+      - mapping_tests/
+    reversibility: two_way
+    success_conditions:
+      execution: Mappings agreed and testable.
+      outcome: Fewer mapping bugs.
+      safety_quality: Supports auditability.
+    failure_modes:
+      silent:
+        - implicit transforms
+      loud:
+        - mapping disagreement
+      clustered:
+        - optional fields
+    dependencies:
+      - RIU-011
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - schema
+      - testing
+
+
+  - riu_id: RIU-019
+    name: Data Lineage Sketch (Minimal)
+    problem_pattern: Need to understand data movement and dependencies.
+    execution_intent: Produce minimal lineage diagram + narrative (source→processing→sink) including owners.
+    workstreams:
+      - Interfaces & Inputs
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - scoping engagement
+      - data engagement
+      - unclear inputs/outputs
+      - ambiguous requirements
+    artifacts:
+      - data_lineage.md
+      - lineage_diagram.md
+    reversibility: two_way
+    success_conditions:
+      execution: Shared understanding of data flow.
+      outcome: Reduces compliance/ops surprises.
+      safety_quality: Improves debugging speed.
+    failure_modes:
+      silent:
+        - lineage outdated
+      loud:
+        - unknown processing step
+      clustered:
+        - multi-service pipelines
+    dependencies:
+      - RIU-013
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Argentavis
+    notes: ''
+    tags:
+      - scoping
+      - data
+
+
+  # ==========================================================================
+  # CORE LOGIC WORKSTREAM
+  # ==========================================================================
+
+
+  - riu_id: RIU-020
+    name: Baseline Behavior Snapshot
+    problem_pattern: Baseline unknown; risk of regressions.
+    execution_intent: Capture baseline outputs + metrics for representative cases; store as golden artifacts.
+    workstreams:
+      - Core Logic
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - testing-schema
+      - quality concerns
+      - core behavior/logic changes needed
+    artifacts:
+      - baseline_report.md
+      - baseline_outputs/
+      - baseline_metrics.json
+    reversibility: two_way
+    success_conditions:
+      execution: Baseline reproducible; improvements measurable.
+      outcome: Regression risk reduced.
+      safety_quality: Supports rollback decisions.
+    failure_modes:
+      silent:
+        - non-representative baseline
+      loud:
+        - no access to system
+      clustered:
+        - multi-tenant systems
+    dependencies: []
+    agent_types:
+      - ARK:Argentavis
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - testing
+      - baseline
+
+
+  - riu_id: RIU-021
+    name: Golden Set + Offline Evaluation Harness
+    problem_pattern: Quality needs measurement without perfect telemetry.
+    execution_intent: Build golden cases, expected doc families, and offline metrics runner.
+    workstreams:
+      - Quality & Safety
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - evaluation engagement
+      - quality concerns
+      - reliability concerns
+      - core behavior/logic changes
+    artifacts:
+      - golden_set.jsonl
+      - eval_runner/
+      - eval_report.md
+    reversibility: two_way
+    success_conditions:
+      execution: Changes gated by offline eval.
+      outcome: Quality improvements measurable.
+      safety_quality: Prevents 'feels better' shipping.
+    failure_modes:
+      silent:
+        - golden set too narrow
+      loud:
+        - no ground truth agreement
+      clustered:
+        - subjective outputs
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - evaluation
+      - quality
+
+
+  - riu_id: RIU-022
+    name: Prompt Interface Contract
+    problem_pattern: Prompting drifts; unclear variables and output format.
+    execution_intent: Define prompt interface with variables, constraints, required schema, failure handling.
+    workstreams:
+      - Core Logic
+      - Interfaces & Inputs
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - schema engagement
+      - prompting engagement
+      - data contract needed
+      - core behavior/logic changes
+      - unclear inputs/outputs
+    artifacts:
+      - prompt_contract.md
+      - output_schema.json
+      - prompt_templates/
+    reversibility: mixed
+    success_conditions:
+      execution: Prompts composable + versionable.
+      outcome: Outputs parse reliably.
+      safety_quality: Reduces brittle prompt drift.
+    failure_modes:
+      silent:
+        - schema not enforced
+      loud:
+        - model changes break format
+      clustered:
+        - long-context prompts
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - schema
+      - prompting
+
+
+  - riu_id: RIU-023
+    name: Deterministic-First Pipeline Split
+    problem_pattern: LLM used where deterministic logic would be safer; need containment.
+    execution_intent: Split pipeline into deterministic and LLM stages; add guards + fallbacks.
+    workstreams:
+      - Core Logic
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - quality concerns
+      - schema engagement
+      - core behavior/logic changes
+      - reliability concerns
+    artifacts:
+      - pipeline_split.md
+      - deterministic_modules/
+      - llm_modules/
+      - fallback_rules.yaml
+    reversibility: two_way
+    success_conditions:
+      execution: Most failures become loud and diagnosable.
+      outcome: Reduced hallucination surface.
+      safety_quality: Fallbacks maintain usability.
+    failure_modes:
+      silent:
+        - LLM used without evidence tags
+      loud:
+        - fallback not triggered
+      clustered:
+        - edge-case inputs
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - quality
+      - schema
+
+
+  - riu_id: RIU-024
+    name: Sidecar Augmentation Pattern
+    problem_pattern: Augment existing system without rewriting it.
+    execution_intent: Generate adjacent sidecar artifacts keyed by doc_id/entity_id with computed signals + reason codes.
+    workstreams:
+      - Core Logic
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - schema engagement
+      - docs engagement
+      - data contract needed
+      - core behavior/logic changes
+      - production deployment
+    artifacts:
+      - sidecar_schema.json
+      - sidecar_writer/
+      - sidecar_reader/
+    reversibility: two_way
+    success_conditions:
+      execution: Augmentation works without touching source system.
+      outcome: Rollback = ignore sidecars.
+      safety_quality: Sidecars idempotent + versioned.
+    failure_modes:
+      silent:
+        - doc_id mismatches
+      loud:
+        - schema validation fails
+      clustered:
+        - multiple doc sources
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - schema
+      - docs
+
+
+  - riu_id: RIU-025
+    name: Freshness/Staleness Rules (Deterministic)
+    problem_pattern: Recommendations stale; ingestion lag exists; removals silent.
+    execution_intent: Implement freshness classes + downrank/omit rules; orphan detection via last-seen snapshots.
+    workstreams:
+      - Quality & Safety
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - testing-schema
+      - testing before shipping
+      - reliability concerns
+      - core behavior/logic changes
+    artifacts:
+      - freshness_rules.yaml
+      - orphan_detector/
+      - staleness_tests/
+    reversibility: two_way
+    success_conditions:
+      execution: Stale outputs reduced; behavior predictable.
+      outcome: Orphans never surfaced.
+      safety_quality: Staleness cases covered in eval.
+    failure_modes:
+      silent:
+        - timestamps missing
+      loud:
+        - false orphaning
+      clustered:
+        - bursty sync schedules
+    dependencies: []
+    agent_types:
+      - ARK:Therizinosaurus
+      - ARK:Tyrannosaurus
+    notes: ''
+    tags:
+      - testing
+      - schema
+
+
+  - riu_id: RIU-026
+    name: Hybrid Similarity (Enums + Embeddings)
+    problem_pattern: Need 'seen this before' exemplars for faster operator reasoning.
+    execution_intent: Return neighbors using hybrid similarity + reason codes; avoid LLM prose by default.
+    workstreams:
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - need similar past cases
+      - hard to route/triage
+      - embedding/semantic similarity search
+      - nearest-neighbor retrieval
+      - keyword search fails
+    artifacts:
+      - similarity_index/
+      - neighbor_service/
+      - reason_codes.md
+    reversibility: two_way
+    success_conditions:
+      execution: Operators find precedents faster.
+      outcome: Neighbors explainable via reason codes.
+      safety_quality: Stable under no-change conditions.
+    failure_modes:
+      silent:
+        - semantic drift
+      loud:
+        - index build fails
+      clustered:
+        - multilingual corpora
+    dependencies: []
+    agent_types:
+      - ARK:Therizinosaurus
+      - ARK:Tyrannosaurus
+    notes: ''
+    tags:
+      - retrieval
+      - similarity
+
+
+  - riu_id: RIU-027
+    name: Reranking Layer (Post-Retrieval)
+    problem_pattern: Baseline retrieval exists; need better ordering without changing index.
+    execution_intent: Apply reranking using deterministic signals + optional model scoring; include explanations.
+    workstreams:
+      - Core Logic
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - retrieval engagement
+      - ranking engagement
+      - core behavior/logic changes
+      - reliability concerns
+      - search/retrieval quality issues
+    artifacts:
+      - reranker_module/
+      - explainability_rules.md
+      - rerank_eval.md
+    reversibility: two_way
+    success_conditions:
+      execution: Top-k relevance improves measurably.
+      outcome: Explanations cite signals.
+      safety_quality: Rollback = disable reranker.
+    failure_modes:
+      silent:
+        - overfit to popular docs
+      loud:
+        - latency regression
+      clustered:
+        - long-tail queries
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - retrieval
+      - ranking
+
+
+  - riu_id: RIU-028
+    name: Schema-Constrained Generation
+    problem_pattern: Outputs must be machine-usable; free-form text breaks downstream.
+    execution_intent: Enforce JSON schema outputs with validation, retries, and partial repair.
+    workstreams:
+      - Core Logic
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - quality-testing
+      - schema engagement
+      - data contract needed
+      - core behavior/logic changes
+      - reliability concerns
+    artifacts:
+      - output_schema.json
+      - validator/
+      - repair_rules.md
+    reversibility: two_way
+    success_conditions:
+      execution: Parse errors drop significantly.
+      outcome: Failures become loud/recoverable.
+      safety_quality: Supports deterministic downstream.
+    failure_modes:
+      silent:
+        - accepting partial invalid JSON
+      loud:
+        - schema too strict
+      clustered:
+        - nested objects
+    dependencies: []
+    agent_types:
+      - ARK:Therizinosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - quality
+      - schema
+
+
+  - riu_id: RIU-029
+    name: Tool-Calling Safety Envelope
+    problem_pattern: Agents can call tools; must limit blast radius and enforce permissions.
+    execution_intent: Define tool allowlist, rate limits, redaction, and audit requirements.
+    workstreams:
+      - Quality & Safety
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - agent-design
+      - quality concerns
+      - reliability concerns
+      - core behavior/logic changes
+      - compliance/audit requirements
+    artifacts:
+      - tool_allowlist.yaml
+      - tool_limits.md
+      - tool_audit_requirements.md
+    reversibility: one_way
+    success_conditions:
+      execution: Tool calls bounded and auditable.
+      outcome: No sensitive data leakage.
+      safety_quality: Safe-by-default execution.
+    failure_modes:
+      silent:
+        - tool called with unsafe args
+      loud:
+        - missing audit logs
+      clustered:
+        - high concurrency
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - agent
+      - safety
+
+
+  - riu_id: RIU-032
+    name: Extraction Pattern (Structured from Unstructured)
+    problem_pattern: Need reliable extraction of fields from text/docs.
+    execution_intent: Implement extraction with schema constraints, confidence, and fallbacks; produce eval set.
+    workstreams:
+      - Core Logic
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - schema engagement
+      - quality concerns
+      - data contract needed
+      - core behavior/logic changes
+      - reliability concerns
+    artifacts:
+      - extraction_schema.json
+      - extractor/
+      - extraction_eval.jsonl
+    reversibility: two_way
+    success_conditions:
+      execution: Structured fields extracted reliably.
+      outcome: Error cases visible.
+      safety_quality: Extraction measurable.
+    failure_modes:
+      silent:
+        - hallucinated fields
+      loud:
+        - schema violations
+      clustered:
+        - long docs
+    dependencies:
+      - RIU-028
+      - RIU-021
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - schema
+      - extraction
+
+
+  - riu_id: RIU-033
+    name: Classification Pattern (Soft Labels)
+    problem_pattern: Need labels for narrowing/analytics without overfitting.
+    execution_intent: Implement soft classification with confidence + abstain; log uncertainty.
+    workstreams:
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - schema engagement
+      - data contract needed
+      - core behavior/logic changes
+      - classification needed
+    artifacts:
+      - label_schema.json
+      - classifier/
+      - abstain_rules.md
+    reversibility: two_way
+    success_conditions:
+      execution: Labels useful without forced certainty.
+      outcome: Abstentions guide discovery.
+      safety_quality: Supports clustering.
+    failure_modes:
+      silent:
+        - overconfident wrong labels
+      loud:
+        - model drift
+      clustered:
+        - new categories
+    dependencies:
+      - RIU-021
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - schema
+      - classification
+
+
+  - riu_id: RIU-034
+    name: Ranking Explanation Rules (Reason Codes)
+    problem_pattern: Need explainability without LLM fluff.
+    execution_intent: Define deterministic reason codes and attach to ranked outputs.
+    workstreams:
+      - Core Logic
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - quality-ranking
+      - schema engagement
+      - core behavior/logic changes
+      - reliability concerns
+    artifacts:
+      - reason_codes.md
+      - explainability_rules.yaml
+    reversibility: two_way
+    success_conditions:
+      execution: Recommendations explainable.
+      outcome: Ranking changes debug-friendly.
+      safety_quality: Trust improves.
+    failure_modes:
+      silent:
+        - reasons don't match reality
+      loud:
+        - missing signals
+      clustered:
+        - multi-signal ranking
+    dependencies:
+      - RIU-027
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - quality
+      - ranking
+
+
+  - riu_id: RIU-035
+    name: Caching Strategy + Invalidation Plan
+    problem_pattern: Latency/cost too high; caching needed; risk of staleness.
+    execution_intent: Define caching layers, TTLs, invalidation triggers, and tradeoffs.
+    workstreams:
+      - Core Logic
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - schema-performance
+      - quality concerns
+      - core behavior/logic changes
+      - production deployment
+      - latency constraints
+    artifacts:
+      - cache_plan.md
+      - invalidation_rules.yaml
+    reversibility: mixed
+    success_conditions:
+      execution: Latency/cost reduced measurably.
+      outcome: Staleness controlled and explicit.
+      safety_quality: Cache failures diagnosable.
+    failure_modes:
+      silent:
+        - serving stale cache
+      loud:
+        - cache stampede
+      clustered:
+        - bursty queries
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+      - ARK:Parasaurolophus
+    notes: ''
+    tags:
+      - schema
+      - performance
+
+
+  # ==========================================================================
+  # OPS & DELIVERY WORKSTREAM
+  # ==========================================================================
+
+
+  - riu_id: RIU-060
+    name: Deployment Readiness Envelope
+    problem_pattern: Deployment readiness unknown; risk of environment surprises.
+    execution_intent: Define deployment envelope with envs, configs, secrets, migrations, rollback, release gates.
+    workstreams:
+      - Ops & Delivery
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - deployment engagement
+      - quality concerns
+      - deploy/operationalize needed
+      - production deployment
+      - reliability concerns
+    artifacts:
+      - deployment_envelope.md
+      - env_matrix.md
+      - release_gates.md
+    reversibility: mixed
+    success_conditions:
+      execution: Requirements for safe deploy across envs.
+      outcome: Rollback/gates defined before launch.
+      safety_quality: Reduces environment drift.
+    failure_modes:
+      silent:
+        - config drift
+      loud:
+        - missing secrets
+      clustered:
+        - multi-region deploys
+    dependencies: []
+    agent_types:
+      - Human:Delivery
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - deployment
+      - quality
+
+
+  - riu_id: RIU-061
+    name: Observability Baseline
+    problem_pattern: System not observable; failures will be silent.
+    execution_intent: Define minimum observability with logs, metrics, traces, dashboards, alerts, ownership.
+    workstreams:
+      - Ops & Delivery
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - observability engagement
+      - quality concerns
+      - spec/requirements document needed
+      - dashboards/visibility needed
+      - production deployment
+    artifacts:
+      - observability_baseline.md
+      - dashboards/
+      - alerts.md
+      - logging_spec.md
+    reversibility: two_way
+    success_conditions:
+      execution: Key flows measurable; alerts fire on bad states.
+      outcome: Debugging is faster.
+      safety_quality: Prevents silent degradation.
+    failure_modes:
+      silent:
+        - missing correlation IDs
+      loud:
+        - alert storms
+      clustered:
+        - spiky traffic patterns
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+      - ARK:Parasaurolophus
+    notes: ''
+    tags:
+      - observability
+      - quality
+
+
+  - riu_id: RIU-062
+    name: Incident Containment & Recovery Plan
+    problem_pattern: Need containment, rollback, comms, ownership before incidents happen.
+    execution_intent: Create incident runbook with kill switches, rollback, comms templates, escalation owners.
+    workstreams:
+      - Ops & Delivery
+      - Adoption & Change
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - change-mgmt
+      - quality concerns
+      - runbooks/operational procedure needed
+      - production deployment
+      - stakeholder alignment needed
+    artifacts:
+      - incident_runbook.md
+      - kill_switch.md
+      - customer_comms_templates.md
+    reversibility: mixed
+    success_conditions:
+      execution: Incidents handled predictably with minimal downtime.
+      outcome: Comms are clear/timely.
+      safety_quality: No uncontrolled changes during recovery.
+    failure_modes:
+      silent:
+        - no kill switch
+      loud:
+        - conflicting responders
+      clustered:
+        - after-hours incidents
+    dependencies: []
+    agent_types:
+      - Human:Delivery
+      - ARK:Tyrannosaurus
+      - ARK:Velociraptor
+    notes: ''
+    tags:
+      - change-mgmt
+      - incident
+
+
+  - riu_id: RIU-063
+    name: Performance & Load Characterization
+    problem_pattern: Performance unknown; risk of SLA failure after commitments.
+    execution_intent: Define performance envelope, load tests, bottleneck analysis, scaling assumptions.
+    workstreams:
+      - Ops & Delivery
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - testing-performance
+      - quality concerns
+      - testing before shipping
+      - production deployment
+      - reliability concerns
+    artifacts:
+      - perf_envelope.md
+      - load_tests/
+      - bottleneck_report.md
+    reversibility: two_way
+    success_conditions:
+      execution: Latency/throughput measured under realistic loads.
+      outcome: Scaling assumptions documented.
+      safety_quality: Prevents premature SLA commitments.
+    failure_modes:
+      silent:
+        - tests not representative
+      loud:
+        - timeouts under load
+      clustered:
+        - cold starts/cache warmups
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+      - ARK:Parasaurolophus
+    notes: ''
+    tags:
+      - testing
+      - performance
+
+
+  - riu_id: RIU-064
+    name: Feature Flags + Kill Switch Integration
+    problem_pattern: Need safe rollout and instant rollback without redeploy.
+    execution_intent: Implement feature flags for risky paths and kill switch for critical flows.
+    workstreams:
+      - Ops & Delivery
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - quality concerns
+      - deployment engagement
+      - production deployment
+      - reliability concerns
+      - system integration needed
+    artifacts:
+      - flags.yaml
+      - kill_switch.md
+      - rollout_plan.md
+    reversibility: two_way
+    success_conditions:
+      execution: New behavior can be disabled instantly.
+      outcome: Rollouts staged safely.
+      safety_quality: Incidents contained quickly.
+    failure_modes:
+      silent:
+        - flags not wired to real code paths
+      loud:
+        - flag state inconsistent
+      clustered:
+        - multi-service systems
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - quality
+      - deployment
+
+
+  - riu_id: RIU-065
+    name: Config Management + Environment Parity
+    problem_pattern: Works in one env but fails in another; configs diverge.
+    execution_intent: Centralize configs; define env parity checks; document differences explicitly.
+    workstreams:
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - deployment engagement
+      - requirements engagement
+      - spec/requirements document needed
+      - production deployment
+    artifacts:
+      - config_spec.md
+      - env_parity_checks/
+      - config_templates/
+    reversibility: two_way
+    success_conditions:
+      execution: Environment drift detected early.
+      outcome: Deploys reproduce local behavior.
+      safety_quality: Less 'works on staging'.
+    failure_modes:
+      silent:
+        - undocumented env vars
+      loud:
+        - missing config keys
+      clustered:
+        - multiple tenants
+    dependencies: []
+    agent_types:
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - deployment
+      - requirements
+
+
+  - riu_id: RIU-066
+    name: Secrets Handling + Rotation Expectations
+    problem_pattern: Secrets needed; risk leakage or rotation breakage.
+    execution_intent: Define secrets storage, access, rotation, and smoke tests.
+    workstreams:
+      - Ops & Delivery
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - testing-retrieval
+      - quality concerns
+      - playbook needed
+      - testing before shipping
+      - production deployment
+    artifacts:
+      - secrets_plan.md
+      - rotation_playbook.md
+      - secret_smoketests/
+    reversibility: one_way
+    success_conditions:
+      execution: Secrets managed safely and rotate without downtime.
+      outcome: No secrets in logs/repos.
+      safety_quality: Clear operational ownership.
+    failure_modes:
+      silent:
+        - secrets committed to git
+      loud:
+        - rotation outage
+      clustered:
+        - shared credentials
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - testing
+      - security
+
+
+  - riu_id: RIU-067
+    name: Database Migration Safety Wrapper
+    problem_pattern: Schema changes are one-way doors and can cause outages.
+    execution_intent: Stage migrations with backfill strategy, compat matrix, and rollback path.
+    workstreams:
+      - Ops & Delivery
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - quality concerns
+      - data engagement
+      - migration needed
+      - production deployment
+      - reliability concerns
+    artifacts:
+      - migration_plan.md
+      - backfill_scripts/
+      - compatibility_matrix.md
+    reversibility: one_way
+    success_conditions:
+      execution: Migrations reversible or safely staged.
+      outcome: No downtime surprises.
+      safety_quality: Backfills monitored.
+    failure_modes:
+      silent:
+        - partial backfill
+      loud:
+        - lock contention
+      clustered:
+        - large tables
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - quality
+      - data
+
+
+  - riu_id: RIU-068
+    name: Canary Rollout + Error Budget Gate
+    problem_pattern: Need to ship while learning safely from real traffic.
+    execution_intent: Implement canary with error budget gates and objective rollback criteria.
+    workstreams:
+      - Ops & Delivery
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - quality concerns
+      - incident-response
+      - production deployment
+      - reliability concerns
+    artifacts:
+      - canary_plan.md
+      - error_budget.md
+      - rollback_criteria.md
+    reversibility: mixed
+    success_conditions:
+      execution: Risk limited to small cohort.
+      outcome: Rollback triggers objective.
+      safety_quality: Learning happens safely.
+    failure_modes:
+      silent:
+        - cohort not representative
+      loud:
+        - false rollback
+      clustered:
+        - traffic skew by region
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+      - ARK:Parasaurolophus
+    notes: ''
+    tags:
+      - quality
+      - deployment
+
+
+  - riu_id: RIU-069
+    name: Runbook (Day-2 Operations)
+    problem_pattern: Solution works but cannot be operated.
+    execution_intent: Write runbook covering deploy, rollback, troubleshooting, on-call actions, known issues.
+    workstreams:
+      - Ops & Delivery
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - change-mgmt
+      - deployment engagement
+      - runbooks/operational procedure needed
+      - production deployment
+      - stakeholder alignment needed
+    artifacts:
+      - runbook.md
+      - known_issues.md
+    reversibility: two_way
+    success_conditions:
+      execution: Ops can run system without builder.
+      outcome: Incidents resolved faster.
+      safety_quality: Support load reduced.
+    failure_modes:
+      silent:
+        - runbook out of date
+      loud:
+        - missing troubleshooting steps
+      clustered:
+        - multi-service
+    dependencies:
+      - RIU-061
+      - RIU-062
+    agent_types:
+      - Human:Delivery
+      - ARK:Therizinosaurus
+      - ARK:Yutyrannus
+    notes: ''
+    tags:
+      - change-mgmt
+      - deployment
+
+
+  - riu_id: RIU-070
+    name: SLO/SLI Definition + Alert Thresholds
+    problem_pattern: Need reliability targets without overpromising.
+    execution_intent: Define SLIs/SLOs and alert thresholds tied to error budgets.
+    workstreams:
+      - Ops & Delivery
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - quality concerns
+      - monitoring engagement
+      - production deployment
+      - reliability concerns
+      - ONE-WAY DOOR risk
+    artifacts:
+      - slo_sli.md
+      - alert_thresholds.md
+    reversibility: one_way
+    success_conditions:
+      execution: Reliability targets explicit.
+      outcome: Alerts tied to user impact.
+      safety_quality: Avoid accidental SLA promises.
+    failure_modes:
+      silent:
+        - SLOs not monitored
+      loud:
+        - alert noise
+      clustered:
+        - traffic spikes
+    dependencies:
+      - RIU-061
+      - RIU-068
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Parasaurolophus
+    notes: ''
+    tags:
+      - quality
+      - monitoring
+
+
+  # ==========================================================================
+  # QUALITY & SAFETY WORKSTREAM
+  # ==========================================================================
+
+
+  - riu_id: RIU-080
+    name: Contract Tests (Input/Output)
+    problem_pattern: Interfaces drift; downstream breaks without loud failures.
+    execution_intent: Implement contract tests with fixtures and CI enforcement.
+    workstreams:
+      - Quality & Safety
+      - Interfaces & Inputs
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - testing-schema
+      - testing before shipping
+      - reliability concerns
+      - unclear inputs/outputs
+    artifacts:
+      - contract_tests/
+      - fixtures/
+      - ci_gate.md
+    reversibility: two_way
+    success_conditions:
+      execution: Breaking changes caught pre-deploy.
+      outcome: Interfaces stable.
+      safety_quality: Failures loud.
+    failure_modes:
+      silent:
+        - fixtures stale
+      loud:
+        - test flakiness
+      clustered:
+        - optional fields
+    dependencies: []
+    agent_types:
+      - ARK:Therizinosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - testing
+      - schema
+
+
+  - riu_id: RIU-081
+    name: End-to-End Smoke Tests (Critical Path)
+    problem_pattern: Need confidence that critical path works in prod-like conditions.
+    execution_intent: Create minimal e2e smoke tests and run pre/post deploy.
+    workstreams:
+      - Quality & Safety
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - testing-deployment
+      - quality concerns
+      - runbooks needed
+      - testing before shipping
+      - reliability concerns
+    artifacts:
+      - smoke_tests/
+      - smoke_test_runbook.md
+    reversibility: two_way
+    success_conditions:
+      execution: Critical failures detected quickly.
+      outcome: Deploy confidence increases.
+      safety_quality: Runbook usable by on-call.
+    failure_modes:
+      silent:
+        - missing representative inputs
+      loud:
+        - env dependency
+      clustered:
+        - async pipelines
+    dependencies: []
+    agent_types:
+      - ARK:Therizinosaurus
+      - Human:Delivery
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - testing
+      - deployment
+
+
+  - riu_id: RIU-082
+    name: LLM Safety Guardrails (Content + Tool Use)
+    problem_pattern: LLM outputs can hallucinate or violate constraints.
+    execution_intent: Define policy constraints, evidence requirements, refusal rules, tool bounds; enforce via validators.
+    workstreams:
+      - Quality & Safety
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - agent-design-scoping
+      - quality concerns
+      - reliability concerns
+      - core behavior/logic changes
+      - compliance/audit requirements
+    artifacts:
+      - llm_guardrails.md
+      - policy_rules.yaml
+      - evidence_requirements.md
+    reversibility: one_way
+    success_conditions:
+      execution: Unsafe outputs blocked/downgraded.
+      outcome: Tool calls constrained.
+      safety_quality: Compliance auditable.
+    failure_modes:
+      silent:
+        - guards not enforced everywhere
+      loud:
+        - over-refusal harms usability
+      clustered:
+        - prompt injection
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - agent
+      - safety
+
+
+  - riu_id: RIU-083
+    name: Red Team Scenarios (Abuse + Failure)
+    problem_pattern: System may be abused or fail dangerously under adversarial inputs.
+    execution_intent: Define red-team scenarios and run as pre-launch gate; document mitigations.
+    workstreams:
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - quality concerns
+      - docs engagement
+      - reliability concerns
+    artifacts:
+      - redteam_scenarios.md
+      - redteam_results.md
+      - mitigations.md
+    reversibility: two_way
+    success_conditions:
+      execution: Abuse cases tested; mitigations documented.
+      outcome: High-risk behaviors detected early.
+      safety_quality: Launch risk reduced.
+    failure_modes:
+      silent:
+        - scenario set incomplete
+      loud:
+        - false sense of security
+      clustered:
+        - adversarial prompts
+    dependencies: []
+    agent_types:
+      - ARK:Ankylosaurus
+      - ARK:Tyrannosaurus
+    notes: ''
+    tags:
+      - quality
+      - redteam
+
+
+  - riu_id: RIU-084
+    name: Data Quality Checks (Nulls, Duplicates, Ranges)
+    problem_pattern: Bad data silently degrades outcomes.
+    execution_intent: Add data quality checks and thresholds; surface anomalies loudly or as warnings.
+    workstreams:
+      - Quality & Safety
+      - Interfaces & Inputs
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - quality-schema
+      - data engagement
+      - reliability concerns
+      - unclear inputs/outputs
+    artifacts:
+      - data_quality_rules.yaml
+      - dq_checks/
+      - anomaly_report.md
+    reversibility: two_way
+    success_conditions:
+      execution: Bad data detected before downstream impact.
+      outcome: Anomalies visible to operators.
+      safety_quality: Prevents silent degradation.
+    failure_modes:
+      silent:
+        - thresholds too lax
+      loud:
+        - false alarms
+      clustered:
+        - seasonal changes
+    dependencies: []
+    agent_types:
+      - ARK:Therizinosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - quality
+      - data
+
+
+  - riu_id: RIU-085
+    name: Cost/Latency Budget Envelope
+    problem_pattern: Costs/latency can blow up unexpectedly.
+    execution_intent: Define cost/latency budgets; implement guards and alerts with fallbacks.
+    workstreams:
+      - Quality & Safety
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - quality concerns
+      - cost concerns
+      - reliability concerns
+      - production deployment
+      - latency constraints
+    artifacts:
+      - budget_envelope.md
+      - cost_guards/
+      - latency_alerts.md
+    reversibility: two_way
+    success_conditions:
+      execution: Costs/latency stay within bounded envelope.
+      outcome: Spikes trigger alerts and fallback.
+      safety_quality: Prevents runaway spend.
+    failure_modes:
+      silent:
+        - budget not enforced
+      loud:
+        - budget triggers too often
+      clustered:
+        - burst traffic
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+      - ARK:Parasaurolophus
+    notes: ''
+    tags:
+      - quality
+      - cost
+
+
+  - riu_id: RIU-086
+    name: Regression Suite (Golden + Metamorphic)
+    problem_pattern: Need regressions caught beyond a small golden set.
+    execution_intent: Add metamorphic tests and invariants alongside golden cases.
+    workstreams:
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - testing-evaluation
+      - quality concerns
+      - reliability concerns
+    artifacts:
+      - regression_suite/
+      - invariants.md
+    reversibility: two_way
+    success_conditions:
+      execution: Regressions caught even when golden set incomplete.
+      outcome: Confidence improves.
+      safety_quality: Safer shipping cadence.
+    failure_modes:
+      silent:
+        - invariants too weak
+      loud:
+        - test brittleness
+      clustered:
+        - model updates
+    dependencies:
+      - RIU-021
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - testing
+      - evaluation
+
+
+  - riu_id: RIU-087
+    name: Human Review Gate (One-Way Doors)
+    problem_pattern: Irreversible decisions need explicit gating.
+    execution_intent: Define review checklist for one-way doors; require sign-off recorded in decisions.md.
+    workstreams:
+      - Quality & Safety
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - scoping-deployment
+      - quality concerns
+      - reliability concerns
+      - ambiguous requirements
+    artifacts:
+      - one_way_door_gate.md
+    reversibility: two_way
+    success_conditions:
+      execution: No one-way door executed without sign-off.
+      outcome: Audit trail exists.
+      safety_quality: Reduces catastrophic mistakes.
+    failure_modes:
+      silent:
+        - gate bypassed
+      loud:
+        - sign-off delayed
+      clustered:
+        - urgent incidents
+    dependencies:
+      - RIU-003
+    agent_types:
+      - Human:Delivery
+      - ARK:Tyrannosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - scoping
+      - quality
+
+
+  - riu_id: RIU-088
+    name: Privacy Redaction Pipeline
+    problem_pattern: Logs/prompts may include sensitive info.
+    execution_intent: Implement redaction/minimization for logs/prompts/stored artifacts; verify with tests.
+    workstreams:
+      - Quality & Safety
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - testing-schema
+      - runbooks needed
+      - testing before shipping
+      - reliability concerns
+      - production deployment
+    artifacts:
+      - redaction_rules.yaml
+      - redaction_tests/
+      - privacy_runbook.md
+    reversibility: one_way
+    success_conditions:
+      execution: Sensitive fields never stored or logged.
+      outcome: Compliance risk reduced.
+      safety_quality: Safe handling documented.
+    failure_modes:
+      silent:
+        - missed fields
+      loud:
+        - over-redaction harms utility
+      clustered:
+        - free-text notes
+    dependencies:
+      - RIU-012
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - testing
+      - privacy
+
+
+  # ==========================================================================
+  # ADOPTION & CHANGE WORKSTREAM
+  # ==========================================================================
+
+
+  - riu_id: RIU-100
+    name: Capability Statement (What/Why/How)
+    problem_pattern: Customer/executive needs crisp 'what are we building' summary.
+    execution_intent: Write capability statement addressing what (solution), why (value), how (approach).
+    workstreams:
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - change-mgmt
+      - stakeholder alignment needed
+    artifacts:
+      - capability_statement.md
+    reversibility: two_way
+    success_conditions:
+      execution: Stakeholders aligned on value prop.
+      outcome: Faster approvals.
+      safety_quality: Prevents misaligned expectations.
+    failure_modes:
+      silent:
+        - statement drifts from reality
+      loud:
+        - stakeholder rejects framing
+      clustered:
+        - multi-audience messaging
+    dependencies: []
+    agent_types:
+      - ARK:Yutyrannus
+      - Human:Delivery
+    notes: ''
+    tags:
+      - change-mgmt
+      - stakeholders
+
+
+  - riu_id: RIU-101
+    name: Customer Workshop Design (Discovery/Alignment)
+    problem_pattern: Need structured discovery or alignment session with customer stakeholders.
+    execution_intent: Design workshop agenda, materials, and follow-up plan.
+    workstreams:
+      - Adoption & Change
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - change-mgmt
+      - scoping engagement
+      - stakeholder alignment needed
+      - ambiguous requirements
+    artifacts:
+      - workshop_agenda.md
+      - workshop_materials/
+      - follow_up_plan.md
+    reversibility: two_way
+    success_conditions:
+      execution: Workshop achieves alignment on scope/goals.
+      outcome: Clear next steps.
+      safety_quality: Decisions recorded.
+    failure_modes:
+      silent:
+        - key stakeholders absent
+      loud:
+        - conflicting priorities surface
+      clustered:
+        - large organizations
+    dependencies:
+      - RIU-002
+    agent_types:
+      - ARK:Yutyrannus
+      - ARK:Tyrannosaurus
+    notes: ''
+    tags:
+      - change-mgmt
+      - scoping
+
+
+  - riu_id: RIU-102
+    name: Enablement Pack (Docs/Examples/How-To)
+    problem_pattern: System delivered but customer cannot use it independently.
+    execution_intent: Create enablement materials with docs, examples, troubleshooting, and support contacts.
+    workstreams:
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - change-mgmt
+      - stakeholder alignment needed
+      - training needed
+    artifacts:
+      - enablement_pack/
+      - examples/
+      - troubleshooting.md
+    reversibility: two_way
+    success_conditions:
+      execution: Customer can operate independently.
+      outcome: Support requests reduced.
+      safety_quality: Clear escalation paths.
+    failure_modes:
+      silent:
+        - docs out of sync with system
+      loud:
+        - examples don't work
+      clustered:
+        - diverse user skill levels
+    dependencies: []
+    agent_types:
+      - ARK:Yutyrannus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - change-mgmt
+      - enablement
+
+
+  - riu_id: RIU-103
+    name: Training Session Design + Delivery
+    problem_pattern: Users need hands-on training to adopt new system.
+    execution_intent: Design training session with exercises, Q&A, and follow-up support.
+    workstreams:
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - change-mgmt
+      - stakeholder alignment needed
+      - training needed
+    artifacts:
+      - training_agenda.md
+      - training_exercises/
+      - training_followup.md
+    reversibility: two_way
+    success_conditions:
+      execution: Users can perform core workflows after training.
+      outcome: Adoption accelerates.
+      safety_quality: Common mistakes prevented.
+    failure_modes:
+      silent:
+        - training doesn't match reality
+      loud:
+        - exercises fail
+      clustered:
+        - diverse skill levels
+    dependencies:
+      - RIU-102
+    agent_types:
+      - ARK:Yutyrannus
+      - Human:Delivery
+    notes: ''
+    tags:
+      - change-mgmt
+      - training
+
+
+  - riu_id: RIU-104
+    name: Handoff Bundle (Restartability)
+    problem_pattern: Engagement ends; new person must continue without context loss.
+    execution_intent: Package all artifacts, decisions, open questions, and next steps for clean handoff.
+    workstreams:
+      - Adoption & Change
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - change-mgmt
+      - scoping engagement
+      - stakeholder alignment needed
+      - ambiguous requirements
+    artifacts:
+      - handoff_bundle/
+      - decisions.md
+      - open_questions.md
+      - next_steps.md
+    reversibility: two_way
+    success_conditions:
+      execution: New person can continue without original context.
+      outcome: No knowledge loss.
+      safety_quality: Decisions preserved.
+    failure_modes:
+      silent:
+        - implicit knowledge not captured
+      loud:
+        - handoff rejected as incomplete
+      clustered:
+        - complex multi-phase engagements
+    dependencies: []
+    agent_types:
+      - ARK:Yutyrannus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - change-mgmt
+      - scoping
+
+
+  - riu_id: RIU-105
+    name: Executive Update (Status/Risks/Decisions)
+    problem_pattern: Leadership needs concise status without technical detail.
+    execution_intent: Generate executive summary with status, risks, decisions, and asks.
+    workstreams:
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - change-mgmt
+      - stakeholder alignment needed
+    artifacts:
+      - executive_update.md
+    reversibility: two_way
+    success_conditions:
+      execution: Leadership understands status and risks.
+      outcome: Decisions accelerated.
+      safety_quality: Escalations clear.
+    failure_modes:
+      silent:
+        - update too technical
+      loud:
+        - risks understated
+      clustered:
+        - cross-functional projects
+    dependencies: []
+    agent_types:
+      - ARK:Yutyrannus
+      - Human:Delivery
+    notes: ''
+    tags:
+      - change-mgmt
+      - executives
+
+
+  # ==========================================================================
+  # SPECIALIZED/DOMAIN-SPECIFIC RIUs
+  # ==========================================================================
+
+
+  - riu_id: RIU-120
+    name: Integration Mode Selection (Batch vs Stream vs Hybrid)
+    problem_pattern: Unclear whether to use batch, streaming, or hybrid integration.
+    execution_intent: Evaluate tradeoffs and recommend integration mode with rationale.
+    workstreams:
+      - Interfaces & Inputs
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - integration engagement
+      - latency constraints
+      - volume requirements
+    artifacts:
+      - integration_mode.md
+      - tradeoff_analysis.md
+    reversibility: one_way
+    success_conditions:
+      execution: Integration mode selected with clear rationale.
+      outcome: Architecture aligned with constraints.
+      safety_quality: ONE-WAY DOOR flagged.
+    failure_modes:
+      silent:
+        - mode mismatch with constraints
+      loud:
+        - architecture conflict
+      clustered:
+        - hybrid requirements
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+    notes: ''
+    tags:
+      - integration
+      - architecture
+
+
+  - riu_id: RIU-140
+    name: Competitive/Alternatives Scan (Landscape)
+    problem_pattern: Need competitive intelligence or alternative solution research.
+    execution_intent: Research competitive solutions, alternatives, and market landscape; document findings.
+    workstreams:
+      - Clarify & Bound
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - competitive analysis needed
+      - alternatives evaluation
+      - market research
+    artifacts:
+      - competitive_scan.md
+      - alternatives_matrix.md
+    reversibility: two_way
+    success_conditions:
+      execution: Competitive landscape understood.
+      outcome: Positioning clear.
+      safety_quality: Alternatives documented.
+    failure_modes:
+      silent:
+        - incomplete research
+      loud:
+        - biased analysis
+      clustered:
+        - rapidly evolving markets
+    dependencies: []
+    agent_types:
+      - ARK:Argentavis
+      - ARK:Yutyrannus
+    notes: ''
+    tags:
+      - research
+      - competitive
+
+
+  - riu_id: RIU-201
+    name: Competitive/Alternatives Research
+    problem_pattern: Need detailed competitive analysis or alternative evaluation.
+    execution_intent: Conduct systematic research on competitors/alternatives with feature comparison.
+    workstreams:
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - competitive analysis
+      - alternatives needed
+      - reference games
+      - market positioning
+    artifacts:
+      - competitive_analysis.md
+      - feature_comparison.md
+    reversibility: two_way
+    success_conditions:
+      execution: Comprehensive competitive understanding.
+      outcome: Informed positioning decisions.
+      safety_quality: Objective analysis.
+    failure_modes:
+      silent:
+        - missing key competitors
+      loud:
+        - analysis bias
+      clustered:
+        - fragmented markets
+    dependencies: []
+    agent_types:
+      - ARK:Argentavis
+    notes: ''
+    tags:
+      - research
+      - competitive
+
+
+  - riu_id: RIU-231
+    name: Document Chunking Strategy
+    problem_pattern: Documents need to be chunked for RAG or processing; strategy unclear.
+    execution_intent: Define chunking strategy with size, overlap, and semantic boundaries.
+    workstreams:
+      - Core Logic
+      - Interfaces & Inputs
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - document processing
+      - RAG implementation
+      - chunking needed
+    artifacts:
+      - chunking_strategy.md
+      - chunk_validator/
+    reversibility: two_way
+    success_conditions:
+      execution: Chunks maintain semantic coherence.
+      outcome: Retrieval quality improved.
+      safety_quality: Chunk boundaries validated.
+    failure_modes:
+      silent:
+        - context lost across chunks
+      loud:
+        - chunk size mismatch
+      clustered:
+        - diverse document types
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - documents
+      - chunking
+
+
+  - riu_id: RIU-232
+    name: Deduplication System
+    problem_pattern: Duplicate data causing quality or processing issues.
+    execution_intent: Implement deduplication with similarity threshold and conflict resolution.
+    workstreams:
+      - Core Logic
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - duplicate data
+      - deduplication needed
+      - data quality issues
+    artifacts:
+      - dedup_strategy.md
+      - dedup_rules.yaml
+      - dedup_tests/
+    reversibility: two_way
+    success_conditions:
+      execution: Duplicates identified and handled.
+      outcome: Data quality improved.
+      safety_quality: No data loss from dedup.
+    failure_modes:
+      silent:
+        - false negatives (duplicates missed)
+      loud:
+        - false positives (unique items merged)
+      clustered:
+        - near-duplicates
+    dependencies: []
+    agent_types:
+      - ARK:Therizinosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - data
+      - quality
+
+
+  - riu_id: RIU-250
+    name: Security Review Packet
+    problem_pattern: Security review needed; unclear what to provide.
+    execution_intent: Compile security review packet with threat model, data flows, permissions matrix, mitigations.
+    workstreams:
+      - Quality & Safety
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - security review needed
+      - compliance requirements
+      - threat modeling
+    artifacts:
+      - security_review_packet/
+      - threat_model.md
+      - data_flow_diagram.md
+      - permissions_matrix.md
+    reversibility: two_way
+    success_conditions:
+      execution: Security review proceeds without delays.
+      outcome: Approval accelerated.
+      safety_quality: Threats documented and mitigated.
+    failure_modes:
+      silent:
+        - incomplete threat model
+      loud:
+        - review rejection
+      clustered:
+        - regulated industries
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - security
+      - review
+
+
+  - riu_id: RIU-252
+    name: Model Evaluation & Selection
+    problem_pattern: Multiple model options; need systematic evaluation and selection.
+    execution_intent: Evaluate models across cost, latency, quality dimensions; document selection rationale.
+    workstreams:
+      - Core Logic
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - model selection needed
+      - evaluation required
+      - CLEAR framework
+    artifacts:
+      - model_evaluation.md
+      - selection_rationale.md
+    reversibility: mixed
+    success_conditions:
+      execution: Model selected with documented tradeoffs.
+      outcome: Selection aligns with constraints.
+      safety_quality: Cost and quality balanced.
+    failure_modes:
+      silent:
+        - evaluation incomplete
+      loud:
+        - model doesn't meet requirements
+      clustered:
+        - rapidly evolving model landscape
+    dependencies:
+      - RIU-085
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Argentavis
+    notes: ''
+    tags:
+      - evaluation
+      - models
+
+
+  - riu_id: RIU-326
+    name: Threat Model + Attack Surface Map
+    problem_pattern: Security risks unclear; need systematic threat identification.
+    execution_intent: Create threat model with attack vectors, mitigations, and residual risks.
+    workstreams:
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - threat modeling
+      - security concerns
+      - attack vectors
+    artifacts:
+      - threat_model.md
+      - attack_surface_map.md
+      - mitigations.md
+    reversibility: two_way
+    success_conditions:
+      execution: Threats identified and mitigated.
+      outcome: Security posture understood.
+      safety_quality: Residual risks documented.
+    failure_modes:
+      silent:
+        - threat overlooked
+      loud:
+        - mitigation infeasible
+      clustered:
+        - complex distributed systems
+    dependencies: []
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - security
+      - threat
+
+
+  - riu_id: RIU-327
+    name: AuthN/AuthZ Integration
+    problem_pattern: Authentication and authorization needed for system.
+    execution_intent: Design and implement AuthN/AuthZ with appropriate tier, protocol, and security measures.
+    workstreams:
+      - Quality & Safety
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - authentication needed
+      - authorization needed
+      - security requirements
+      - user management
+    artifacts:
+      - auth_design.md
+      - auth_implementation/
+      - auth_tests/
+    reversibility: one_way
+    success_conditions:
+      execution: Secure authentication operational.
+      outcome: Authorization enforced.
+      safety_quality: Security best practices followed.
+    failure_modes:
+      silent:
+        - weak token handling
+      loud:
+        - auth failures
+      clustered:
+        - distributed services
+    dependencies:
+      - RIU-066
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+      - ARK:Ankylosaurus
+    notes: ''
+    tags:
+      - security
+      - authentication
+
+
+  - riu_id: RIU-330
+    name: Error Messaging Standards
+    problem_pattern: Error messages unclear or unhelpful; users frustrated.
+    execution_intent: Define error message standards with actionable guidance and appropriate detail levels.
+    workstreams:
+      - Adoption & Change
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - error messages
+      - user experience
+      - support burden
+    artifacts:
+      - error_standards.md
+      - error_templates/
+    reversibility: two_way
+    success_conditions:
+      execution: Error messages actionable and clear.
+      outcome: Support requests reduced.
+      safety_quality: Users not stuck.
+    failure_modes:
+      silent:
+        - errors too vague
+      loud:
+        - errors expose sensitive info
+      clustered:
+        - complex error scenarios
+    dependencies: []
+    agent_types:
+      - ARK:Yutyrannus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - ux
+      - errors
+
+
+  - riu_id: RIU-413
+    name: Customer Value Demo Creation
+    problem_pattern: Need to demonstrate value to customer stakeholders.
+    execution_intent: Create demo showcasing value with customer data (if available) or realistic synthetic data.
+    workstreams:
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - demo needed
+      - value demonstration
+      - stakeholder presentation
+    artifacts:
+      - demo_script.md
+      - demo_environment/
+      - demo_data/
+    reversibility: two_way
+    success_conditions:
+      execution: Demo runs reliably.
+      outcome: Stakeholders see value clearly.
+      safety_quality: No customer data leaks.
+    failure_modes:
+      silent:
+        - demo doesn't reflect reality
+      loud:
+        - demo fails during presentation
+      clustered:
+        - diverse stakeholder audiences
+    dependencies: []
+    agent_types:
+      - ARK:Yutyrannus
+      - ARK:Therizinosaurus
+    notes: ''
+    tags:
+      - demo
+      - gtm
+
+
+  # ==========================================================================
+  # MULTIMODAL AI WORKFLOWS (RIU-500 SERIES)
+  # ==========================================================================
+
+
+  - riu_id: RIU-500
+    name: Multimodal Data Pipeline Design
+    problem_pattern: System requires processing multiple data modalities (text, image, audio, video) with unified handling.
+    execution_intent: Design pipeline architecture for multimodal ingestion, processing, and output with modality-specific handling and cross-modal validation.
+    workstreams:
+      - Interfaces & Inputs
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - multiple data types
+      - image processing
+      - audio processing
+      - video processing
+      - multimodal
+      - cross-modal
+    artifacts:
+      - multimodal_pipeline_design.md
+      - modality_handlers/
+      - cross_modal_validation.md
+    reversibility: one_way
+    success_conditions:
+      execution: Pipeline handles all required modalities with clear interfaces.
+      outcome: Cross-modal validation prevents modality-specific failures.
+      safety_quality: Modality failures are isolated and loud.
+    failure_modes:
+      silent:
+        - modality silently dropped
+      loud:
+        - format mismatch error
+      clustered:
+        - encoding variations across modalities
+    dependencies:
+      - RIU-011
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: 'Theme: Multimodal AI'
+    tags:
+      - multimodal
+      - pipeline
+      - architecture
+
+
+  - riu_id: RIU-501
+    name: Image/Vision Processing Integration
+    problem_pattern: System needs to process, analyze, or generate images as part of AI workflow.
+    execution_intent: Implement image processing pipeline with format handling, preprocessing, model integration, and output validation.
+    workstreams:
+      - Core Logic
+      - Interfaces & Inputs
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - image processing
+      - vision model
+      - image analysis
+      - OCR
+      - visual content
+    artifacts:
+      - image_pipeline.md
+      - image_preprocessor/
+      - vision_model_integration.md
+      - image_validation_tests/
+    reversibility: two_way
+    success_conditions:
+      execution: Images processed reliably across formats.
+      outcome: Vision model outputs validated.
+      safety_quality: Format failures are loud.
+    failure_modes:
+      silent:
+        - corrupt image passed silently
+      loud:
+        - unsupported format error
+      clustered:
+        - resolution/size edge cases
+    dependencies:
+      - RIU-500
+    agent_types:
+      - ARK:Therizinosaurus
+      - ARK:Ankylosaurus
+    notes: 'Theme: Multimodal AI'
+    tags:
+      - multimodal
+      - vision
+      - image
+
+
+  - riu_id: RIU-502
+    name: Audio Processing Integration
+    problem_pattern: System needs to process, transcribe, or generate audio content.
+    execution_intent: Implement audio processing pipeline with format handling, transcription integration, and quality validation.
+    workstreams:
+      - Core Logic
+      - Interfaces & Inputs
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - audio processing
+      - transcription
+      - speech-to-text
+      - voice
+      - audio content
+    artifacts:
+      - audio_pipeline.md
+      - audio_preprocessor/
+      - transcription_integration.md
+      - audio_validation_tests/
+    reversibility: two_way
+    success_conditions:
+      execution: Audio processed reliably across formats.
+      outcome: Transcriptions validated for accuracy.
+      safety_quality: Quality thresholds enforced.
+    failure_modes:
+      silent:
+        - low-quality transcription accepted
+      loud:
+        - unsupported codec error
+      clustered:
+        - accent/language variations
+    dependencies:
+      - RIU-500
+    agent_types:
+      - ARK:Therizinosaurus
+      - ARK:Parasaurolophus
+    notes: 'Theme: Multimodal AI'
+    tags:
+      - multimodal
+      - audio
+      - transcription
+
+
+  - riu_id: RIU-503
+    name: Cross-Modal Validation Pattern
+    problem_pattern: Outputs from one modality must be validated against another (e.g., image caption vs image content).
+    execution_intent: Implement cross-modal validation with consistency checks, confidence scoring, and disagreement handling.
+    workstreams:
+      - Quality & Safety
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - cross-modal validation
+      - multimodal consistency
+      - modality alignment
+      - caption validation
+    artifacts:
+      - cross_modal_validation.md
+      - consistency_checks/
+      - disagreement_handling.md
+    reversibility: two_way
+    success_conditions:
+      execution: Cross-modal inconsistencies detected.
+      outcome: Disagreements surfaced with confidence scores.
+      safety_quality: High-confidence mismatches trigger alerts.
+    failure_modes:
+      silent:
+        - inconsistency missed
+      loud:
+        - validation threshold too strict
+      clustered:
+        - edge case content
+    dependencies:
+      - RIU-500
+      - RIU-021
+    agent_types:
+      - ARK:Ankylosaurus
+      - ARK:Velociraptor
+    notes: 'Theme: Multimodal AI'
+    tags:
+      - multimodal
+      - validation
+      - quality
+
+
+  # ==========================================================================
+  # ADVANCED AGENTIC SYSTEMS (RIU-510 SERIES)
+  # ==========================================================================
+
+
+  - riu_id: RIU-510
+    name: Multi-Agent Workflow Design
+    problem_pattern: Complex task requires coordination between multiple specialized agents.
+    execution_intent: Design multi-agent workflow with clear handoffs, state management, and failure isolation.
+    workstreams:
+      - Core Logic
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - multi-agent
+      - agent coordination
+      - workflow orchestration
+      - complex workflow
+      - agent handoff
+    artifacts:
+      - multi_agent_design.md
+      - agent_handoff_protocol.md
+      - workflow_state_schema.json
+      - failure_isolation.md
+    reversibility: one_way
+    success_conditions:
+      execution: Agents coordinate without deadlock.
+      outcome: Handoffs are explicit and traceable.
+      safety_quality: Agent failures don't cascade.
+    failure_modes:
+      silent:
+        - state corruption between agents
+      loud:
+        - handoff protocol violation
+      clustered:
+        - concurrent agent conflicts
+    dependencies:
+      - RIU-001
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Orchestrator
+    notes: 'Theme: Agentic Systems'
+    tags:
+      - agentic
+      - orchestration
+      - workflow
+
+
+  - riu_id: RIU-511
+    name: Agent State Management Pattern
+    problem_pattern: Agent execution requires persistent state across steps or sessions.
+    execution_intent: Implement state management with checkpointing, recovery, and state validation.
+    workstreams:
+      - Core Logic
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - agent state
+      - checkpointing
+      - session persistence
+      - state recovery
+      - long-running agent
+    artifacts:
+      - state_management.md
+      - checkpoint_schema.json
+      - recovery_procedures.md
+      - state_validators/
+    reversibility: two_way
+    success_conditions:
+      execution: State persists reliably across steps.
+      outcome: Recovery from checkpoint is seamless.
+      safety_quality: Corrupt state is detected and rejected.
+    failure_modes:
+      silent:
+        - state drift undetected
+      loud:
+        - checkpoint corruption error
+      clustered:
+        - concurrent state updates
+    dependencies:
+      - RIU-510
+    agent_types:
+      - ARK:Therizinosaurus
+      - ARK:Parasaurolophus
+    notes: 'Theme: Agentic Systems'
+    tags:
+      - agentic
+      - state
+      - persistence
+
+
+  - riu_id: RIU-512
+    name: Agent Failure Recovery Pattern
+    problem_pattern: Agent failure must not halt workflow; graceful degradation required.
+    execution_intent: Implement failure recovery with retry logic, fallback agents, and degraded operation modes.
+    workstreams:
+      - Quality & Safety
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - agent failure
+      - graceful degradation
+      - retry logic
+      - fallback
+      - fault tolerance
+    artifacts:
+      - failure_recovery.md
+      - retry_policy.yaml
+      - fallback_agents.md
+      - degraded_modes.md
+    reversibility: two_way
+    success_conditions:
+      execution: Failures trigger recovery automatically.
+      outcome: Degraded mode maintains core functionality.
+      safety_quality: Permanent failures escalate to human.
+    failure_modes:
+      silent:
+        - infinite retry loop
+      loud:
+        - all fallbacks exhausted
+      clustered:
+        - systemic failures
+    dependencies:
+      - RIU-510
+      - RIU-062
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Velociraptor
+      - ARK:Orchestrator
+    notes: 'Theme: Agentic Systems'
+    tags:
+      - agentic
+      - reliability
+      - recovery
+
+
+  - riu_id: RIU-513
+    name: Inter-Agent Communication Protocol
+    problem_pattern: Agents need to exchange information with clear contracts and validation.
+    execution_intent: Define communication protocol with message schemas, validation, and audit trail.
+    workstreams:
+      - Interfaces & Inputs
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - agent communication
+      - message passing
+      - inter-agent
+      - agent protocol
+    artifacts:
+      - communication_protocol.md
+      - message_schema.json
+      - protocol_validators/
+      - communication_tests/
+    reversibility: one_way
+    success_conditions:
+      execution: Messages validate before delivery.
+      outcome: Communication is traceable.
+      safety_quality: Invalid messages rejected loudly.
+    failure_modes:
+      silent:
+        - message schema drift
+      loud:
+        - validation failure
+      clustered:
+        - version mismatches
+    dependencies:
+      - RIU-510
+      - RIU-011
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: 'Theme: Agentic Systems'
+    tags:
+      - agentic
+      - communication
+      - protocol
+
+
+  - riu_id: RIU-514
+    name: Agent Capability Boundary Enforcement
+    problem_pattern: Agents must operate within defined capability boundaries to prevent scope creep or unsafe actions.
+    execution_intent: Implement capability boundaries with allowlists, action validation, and boundary violation handling.
+    workstreams:
+      - Quality & Safety
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - agent boundaries
+      - capability limits
+      - action validation
+      - scope enforcement
+      - agent constraints
+    artifacts:
+      - capability_boundaries.md
+      - action_allowlist.yaml
+      - boundary_validators/
+      - violation_handling.md
+    reversibility: one_way
+    success_conditions:
+      execution: Out-of-scope actions blocked.
+      outcome: Boundary violations logged and escalated.
+      safety_quality: No silent boundary breaches.
+    failure_modes:
+      silent:
+        - allowlist too permissive
+      loud:
+        - legitimate action blocked
+      clustered:
+        - edge case actions
+    dependencies:
+      - RIU-029
+      - RIU-510
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Ankylosaurus
+    notes: 'Theme: Agentic Systems'
+    tags:
+      - agentic
+      - safety
+      - boundaries
+
+
+  # ==========================================================================
+  # MODERN LLMOPS (RIU-520 SERIES)
+  # ==========================================================================
+
+
+  - riu_id: RIU-520
+    name: Prompt Version Control & Lifecycle
+    problem_pattern: Prompts evolve over time; need versioning, testing, and deployment management.
+    execution_intent: Implement prompt versioning with change tracking, A/B testing support, and rollback capability.
+    workstreams:
+      - Core Logic
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - prompt versioning
+      - prompt management
+      - prompt lifecycle
+      - prompt changes
+      - prompt deployment
+    artifacts:
+      - prompt_versioning.md
+      - prompt_registry/
+      - prompt_changelog.md
+      - prompt_rollback.md
+    reversibility: two_way
+    success_conditions:
+      execution: Prompts versioned with full history.
+      outcome: Rollback to previous version is instant.
+      safety_quality: Breaking changes flagged.
+    failure_modes:
+      silent:
+        - undocumented prompt change
+      loud:
+        - version conflict
+      clustered:
+        - multi-environment drift
+    dependencies:
+      - RIU-022
+    agent_types:
+      - ARK:Therizinosaurus
+      - ARK:Tyrannosaurus
+    notes: 'Theme: LLMOps'
+    tags:
+      - llmops
+      - prompts
+      - versioning
+
+
+  - riu_id: RIU-521
+    name: LLM Model Version Management
+    problem_pattern: Model versions change; need to track, test, and manage model transitions.
+    execution_intent: Implement model version tracking with compatibility testing, migration planning, and fallback configuration.
+    workstreams:
+      - Ops & Delivery
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - model versioning
+      - model upgrade
+      - model migration
+      - model deprecation
+      - LLM version
+    artifacts:
+      - model_version_registry.md
+      - compatibility_matrix.md
+      - migration_plan.md
+      - model_fallback.yaml
+    reversibility: mixed
+    success_conditions:
+      execution: Model versions tracked with compatibility info.
+      outcome: Migrations tested before production.
+      safety_quality: Fallback to stable version available.
+    failure_modes:
+      silent:
+        - behavior change undetected
+      loud:
+        - API incompatibility
+      clustered:
+        - provider deprecation
+    dependencies:
+      - RIU-252
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Parasaurolophus
+    notes: 'Theme: LLMOps'
+    tags:
+      - llmops
+      - models
+      - versioning
+
+
+  - riu_id: RIU-522
+    name: Token Budget Management
+    problem_pattern: LLM costs scale with token usage; need budgeting, monitoring, and optimization.
+    execution_intent: Implement token budget tracking with alerts, optimization strategies, and cost attribution.
+    workstreams:
+      - Ops & Delivery
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - token budget
+      - LLM cost
+      - token optimization
+      - cost management
+      - usage limits
+    artifacts:
+      - token_budget.md
+      - cost_attribution.md
+      - optimization_strategies.md
+      - budget_alerts.yaml
+    reversibility: two_way
+    success_conditions:
+      execution: Token usage tracked per request/user/feature.
+      outcome: Budget breaches trigger alerts.
+      safety_quality: Runaway costs prevented.
+    failure_modes:
+      silent:
+        - cost attribution incorrect
+      loud:
+        - budget exceeded
+      clustered:
+        - traffic spikes
+    dependencies:
+      - RIU-085
+    agent_types:
+      - ARK:Parasaurolophus
+      - ARK:Ankylosaurus
+    notes: 'Theme: LLMOps'
+    tags:
+      - llmops
+      - cost
+      - tokens
+
+
+  - riu_id: RIU-523
+    name: LLM Response Caching Strategy
+    problem_pattern: Repeated similar queries waste tokens; caching can reduce cost and latency.
+    execution_intent: Implement semantic caching with similarity matching, TTL management, and cache invalidation.
+    workstreams:
+      - Core Logic
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - LLM caching
+      - response cache
+      - semantic cache
+      - repeated queries
+      - latency optimization
+    artifacts:
+      - caching_strategy.md
+      - cache_config.yaml
+      - invalidation_rules.md
+      - cache_metrics.md
+    reversibility: two_way
+    success_conditions:
+      execution: Cache hit rate measurable.
+      outcome: Cost/latency reduced measurably.
+      safety_quality: Stale responses invalidated.
+    failure_modes:
+      silent:
+        - stale cache served
+      loud:
+        - cache miss spike
+      clustered:
+        - cache stampede
+    dependencies:
+      - RIU-035
+    agent_types:
+      - ARK:Therizinosaurus
+      - ARK:Parasaurolophus
+    notes: 'Theme: LLMOps'
+    tags:
+      - llmops
+      - caching
+      - optimization
+
+
+  - riu_id: RIU-524
+    name: LLM Output Quality Monitoring
+    problem_pattern: LLM output quality can drift; need ongoing monitoring without manual review of every response.
+    execution_intent: Implement automated quality monitoring with sampling, scoring, and drift detection.
+    workstreams:
+      - Quality & Safety
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - output quality
+      - quality monitoring
+      - LLM drift
+      - response quality
+      - quality degradation
+    artifacts:
+      - quality_monitoring.md
+      - sampling_strategy.md
+      - quality_scores.md
+      - drift_alerts.yaml
+    reversibility: two_way
+    success_conditions:
+      execution: Quality sampled and scored automatically.
+      outcome: Drift detected before customer impact.
+      safety_quality: Quality thresholds enforced.
+    failure_modes:
+      silent:
+        - sampling not representative
+      loud:
+        - quality threshold breach
+      clustered:
+        - model update drift
+    dependencies:
+      - RIU-021
+      - RIU-061
+    agent_types:
+      - ARK:Parasaurolophus
+      - ARK:Ankylosaurus
+    notes: 'Theme: LLMOps'
+    tags:
+      - llmops
+      - quality
+      - monitoring
+
+
+  # ==========================================================================
+  # AI GOVERNANCE (RIU-530 SERIES)
+  # ==========================================================================
+
+
+  - riu_id: RIU-530
+    name: AI System Risk Classification
+    problem_pattern: AI system needs risk classification for regulatory compliance and governance.
+    execution_intent: Classify AI system risk level per EU AI Act and applicable frameworks with documentation.
+    workstreams:
+      - Quality & Safety
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - risk classification
+      - EU AI Act
+      - AI regulation
+      - compliance requirement
+      - high-risk AI
+    artifacts:
+      - risk_classification.md
+      - regulatory_mapping.md
+      - compliance_requirements.md
+    reversibility: one_way
+    success_conditions:
+      execution: Risk level documented with rationale.
+      outcome: Compliance requirements identified.
+      safety_quality: Classification reviewed by human.
+    failure_modes:
+      silent:
+        - misclassification
+      loud:
+        - classification disputed
+      clustered:
+        - multi-jurisdiction systems
+    dependencies:
+      - RIU-012
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Ankylosaurus
+      - Human:Delivery
+    notes: 'Theme: AI Governance'
+    tags:
+      - governance
+      - compliance
+      - risk
+
+
+  - riu_id: RIU-531
+    name: Algorithmic Bias Detection
+    problem_pattern: AI system may exhibit bias; need systematic detection and documentation.
+    execution_intent: Implement bias detection with test datasets, fairness metrics, and remediation tracking.
+    workstreams:
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - bias detection
+      - fairness
+      - discrimination
+      - protected attributes
+      - algorithmic bias
+    artifacts:
+      - bias_detection.md
+      - fairness_metrics.md
+      - bias_test_datasets/
+      - remediation_tracking.md
+    reversibility: two_way
+    success_conditions:
+      execution: Bias tested across protected attributes.
+      outcome: Fairness metrics documented.
+      safety_quality: Bias findings trigger remediation.
+    failure_modes:
+      silent:
+        - bias in untested dimension
+      loud:
+        - fairness threshold breach
+      clustered:
+        - intersectional bias
+    dependencies:
+      - RIU-021
+      - RIU-530
+    agent_types:
+      - ARK:Ankylosaurus
+      - ARK:Velociraptor
+    notes: 'Theme: AI Governance'
+    tags:
+      - governance
+      - bias
+      - fairness
+
+
+  - riu_id: RIU-532
+    name: AI Explainability Framework
+    problem_pattern: AI decisions need explanation for users, auditors, or regulators.
+    execution_intent: Implement explainability with appropriate techniques, user-facing explanations, and audit documentation.
+    workstreams:
+      - Quality & Safety
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - explainability
+      - AI transparency
+      - decision explanation
+      - interpretability
+      - right to explanation
+    artifacts:
+      - explainability_framework.md
+      - explanation_templates/
+      - technical_explanations.md
+      - user_explanations.md
+    reversibility: two_way
+    success_conditions:
+      execution: Explanations generated for decisions.
+      outcome: Explanations understandable by target audience.
+      safety_quality: Explanations accurate to actual reasoning.
+    failure_modes:
+      silent:
+        - explanation doesn't match reality
+      loud:
+        - explanation generation fails
+      clustered:
+        - complex multi-step decisions
+    dependencies:
+      - RIU-034
+      - RIU-530
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Yutyrannus
+    notes: 'Theme: AI Governance'
+    tags:
+      - governance
+      - explainability
+      - transparency
+
+
+  - riu_id: RIU-533
+    name: Fundamental Rights Impact Assessment (FRIA)
+    problem_pattern: High-risk AI system requires fundamental rights impact assessment per EU AI Act.
+    execution_intent: Conduct FRIA with stakeholder input, rights mapping, and mitigation documentation.
+    workstreams:
+      - Quality & Safety
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - FRIA
+      - fundamental rights
+      - human rights
+      - impact assessment
+      - high-risk AI
+    artifacts:
+      - fria_report.md
+      - rights_mapping.md
+      - stakeholder_input.md
+      - mitigation_measures.md
+    reversibility: one_way
+    success_conditions:
+      execution: All relevant rights assessed.
+      outcome: Mitigations documented and tracked.
+      safety_quality: FRIA reviewed by appropriate authority.
+    failure_modes:
+      silent:
+        - rights impact missed
+      loud:
+        - stakeholder objection
+      clustered:
+        - cross-border deployments
+    dependencies:
+      - RIU-530
+      - RIU-012
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Ankylosaurus
+      - Human:Delivery
+    notes: 'Theme: AI Governance'
+    tags:
+      - governance
+      - compliance
+      - rights
+
+
+  - riu_id: RIU-534
+    name: AI Audit Trail Requirements
+    problem_pattern: AI system requires audit trail for compliance, debugging, or accountability.
+    execution_intent: Define audit trail requirements with retention periods, access controls, and retrieval procedures.
+    workstreams:
+      - Quality & Safety
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - audit trail
+      - logging requirements
+      - compliance logging
+      - accountability
+      - audit requirements
+    artifacts:
+      - audit_trail_requirements.md
+      - retention_policy.md
+      - access_controls.md
+      - retrieval_procedures.md
+    reversibility: one_way
+    success_conditions:
+      execution: Audit requirements documented.
+      outcome: Retention periods comply with regulations.
+      safety_quality: Access appropriately restricted.
+    failure_modes:
+      silent:
+        - gaps in audit coverage
+      loud:
+        - retention violation
+      clustered:
+        - multi-jurisdiction requirements
+    dependencies:
+      - RIU-012
+      - RIU-061
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Ankylosaurus
+    notes: 'Theme: AI Governance'
+    tags:
+      - governance
+      - audit
+      - compliance
+
+
+  - riu_id: RIU-535
+    name: AI System Documentation Package
+    problem_pattern: AI system requires comprehensive documentation for compliance, handoff, or audit.
+    execution_intent: Compile documentation package with technical specs, risk assessments, and operational procedures.
+    workstreams:
+      - Adoption & Change
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - AI documentation
+      - compliance documentation
+      - system documentation
+      - technical documentation
+      - audit documentation
+    artifacts:
+      - documentation_package/
+      - technical_specification.md
+      - risk_assessment.md
+      - operational_procedures.md
+      - compliance_evidence.md
+    reversibility: two_way
+    success_conditions:
+      execution: Documentation complete and current.
+      outcome: Package sufficient for audit/handoff.
+      safety_quality: No undocumented components.
+    failure_modes:
+      silent:
+        - documentation drift from reality
+      loud:
+        - missing required section
+      clustered:
+        - rapid system evolution
+    dependencies:
+      - RIU-530
+      - RIU-102
+    agent_types:
+      - ARK:Therizinosaurus
+      - ARK:Yutyrannus
+    notes: 'Theme: AI Governance'
+    tags:
+      - governance
+      - documentation
+      - compliance
+
+
+  # ==========================================================================
+  # AGENT-SPECIFIC PATTERNS (RIU-540 SERIES)
+  # ==========================================================================
+
+
+  - riu_id: RIU-540
+    name: Validation Gate Design
+    problem_pattern: Quality checkpoint needed before proceeding to next phase or deployment.
+    execution_intent: Design validation gate with criteria, evidence requirements, and pass/fail handling.
+    workstreams:
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - quality gate
+      - validation checkpoint
+      - approval gate
+      - review required
+      - quality check
+    artifacts:
+      - validation_gate.md
+      - criteria_checklist.md
+      - evidence_requirements.md
+      - gate_results/
+    reversibility: two_way
+    success_conditions:
+      execution: Gate criteria explicit and testable.
+      outcome: Pass/fail decision documented.
+      safety_quality: Failed gates block progression.
+    failure_modes:
+      silent:
+        - gate bypassed
+      loud:
+        - criteria ambiguous
+      clustered:
+        - time pressure overrides
+    dependencies: []
+    agent_types:
+      - ARK:Ankylosaurus
+      - Human:Delivery
+    notes: 'Theme: Validation'
+    tags:
+      - validation
+      - quality
+      - gates
+
+
+  - riu_id: RIU-541
+    name: Compliance Audit Preparation
+    problem_pattern: External or internal audit requires evidence gathering and preparation.
+    execution_intent: Prepare audit package with evidence collection, gap analysis, and remediation tracking.
+    workstreams:
+      - Quality & Safety
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - audit preparation
+      - compliance audit
+      - evidence gathering
+      - audit readiness
+      - regulatory audit
+    artifacts:
+      - audit_preparation.md
+      - evidence_inventory.md
+      - gap_analysis.md
+      - remediation_tracker.md
+    reversibility: two_way
+    success_conditions:
+      execution: Evidence collected and organized.
+      outcome: Gaps identified with remediation plan.
+      safety_quality: No surprises during audit.
+    failure_modes:
+      silent:
+        - evidence gaps undetected
+      loud:
+        - missing critical evidence
+      clustered:
+        - multi-framework audits
+    dependencies:
+      - RIU-534
+    agent_types:
+      - ARK:Ankylosaurus
+      - ARK:Argentavis
+    notes: 'Theme: Validation'
+    tags:
+      - validation
+      - audit
+      - compliance
+
+
+  - riu_id: RIU-542
+    name: Observability Stack Design
+    problem_pattern: System needs comprehensive observability but stack is undefined or incomplete.
+    execution_intent: Design observability stack with metrics, logs, traces, dashboards, and alerting.
+    workstreams:
+      - Ops & Delivery
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - observability design
+      - monitoring stack
+      - metrics design
+      - logging design
+      - tracing design
+    artifacts:
+      - observability_design.md
+      - metrics_catalog.md
+      - logging_spec.md
+      - tracing_spec.md
+      - dashboard_specs/
+      - alerting_rules.yaml
+    reversibility: two_way
+    success_conditions:
+      execution: Stack covers all critical paths.
+      outcome: Issues detectable before customer impact.
+      safety_quality: No silent failure modes.
+    failure_modes:
+      silent:
+        - coverage gaps
+      loud:
+        - alert storms
+      clustered:
+        - distributed systems
+    dependencies:
+      - RIU-061
+    agent_types:
+      - ARK:Parasaurolophus
+      - ARK:Tyrannosaurus
+    notes: 'Theme: Monitoring'
+    tags:
+      - monitoring
+      - observability
+      - design
+
+
+  - riu_id: RIU-543
+    name: Drift Detection Configuration
+    problem_pattern: System behavior may drift over time; need automated detection.
+    execution_intent: Configure drift detection for data, model, and behavior with alerting and response procedures.
+    workstreams:
+      - Quality & Safety
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - drift detection
+      - model drift
+      - data drift
+      - behavior drift
+      - distribution shift
+    artifacts:
+      - drift_detection.md
+      - drift_metrics.yaml
+      - detection_thresholds.md
+      - response_procedures.md
+    reversibility: two_way
+    success_conditions:
+      execution: Drift detected automatically.
+      outcome: Alerts trigger before significant impact.
+      safety_quality: Response procedures documented.
+    failure_modes:
+      silent:
+        - gradual drift undetected
+      loud:
+        - false positive alerts
+      clustered:
+        - seasonal patterns
+    dependencies:
+      - RIU-542
+      - RIU-524
+    agent_types:
+      - ARK:Parasaurolophus
+      - ARK:Velociraptor
+    notes: 'Theme: Monitoring'
+    tags:
+      - monitoring
+      - drift
+      - detection
+
+
+taxonomy_statistics:
+
+  # ==========================================================================
+  # ESSENTIAL FDE PATTERNS (Added back from v1.0)
+  # ==========================================================================
+
+  - riu_id: RIU-121
+    name: Webhook Reliability Pattern (Retries + Idempotency)
+    problem_pattern: Webhooks fail under retries/duplicates; consumers break.
+    execution_intent: Implement retry policy, idempotency keys, signature verification, replay handling.
+    workstreams:
+      - Ops & Delivery
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - webhooks
+      - event-driven
+      - real-time updates
+      - retry logic
+      - idempotency
+    artifacts:
+      - webhook_spec.md
+      - retry_policy.md
+      - idempotency_design.md
+      - webhook_tests/
+    reversibility: mixed
+    success_conditions:
+      execution: At-least-once delivery safe; duplicates handled.
+      outcome: Retries do not overload systems.
+      safety_quality: Security verified.
+    failure_modes:
+      silent:
+        - duplicate side effects
+      loud:
+        - signature mismatch
+      clustered:
+        - burst retries
+    dependencies:
+      - RIU-015
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+      - ARK:Velociraptor
+    notes: 'Essential FDE pattern: webhook reliability'
+    tags:
+      - webhooks
+      - reliability
+      - idempotency
+
+  - riu_id: RIU-122
+    name: Batch Pipeline Safety Pattern (Checkpointing)
+    problem_pattern: Batch jobs fail mid-run; partial results corrupt downstream.
+    execution_intent: Add checkpointing/resumability; define rerun semantics and idempotent writes.
+    workstreams:
+      - Ops & Delivery
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - batch processing
+      - data pipeline
+      - checkpointing
+      - resumability
+      - idempotent writes
+    artifacts:
+      - batch_semantics.md
+      - checkpointing_design.md
+      - batch_tests/
+    reversibility: two_way
+    success_conditions:
+      execution: Batch reruns are safe and predictable.
+      outcome: Partial failures recover cleanly.
+      safety_quality: Operational burden reduced.
+    failure_modes:
+      silent:
+        - partial writes
+      loud:
+        - checkpoint corruption
+      clustered:
+        - cascading failures
+    dependencies:
+      - RIU-015
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: 'Essential FDE pattern: batch safety'
+    tags:
+      - batch
+      - checkpointing
+      - reliability
+
+  - riu_id: RIU-200
+    name: Customer Problem Narrative (JTBD + Constraints)
+    problem_pattern: Customer describes symptoms, not root cause; narrative fragmented.
+    execution_intent: Synthesize a JTBD narrative and symptom map from notes; confirm with customer.
+    workstreams:
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - customer problem
+      - JTBD
+      - problem narrative
+      - symptom mapping
+      - root cause
+    artifacts:
+      - customer_narrative.md
+      - jtbd_analysis.md
+      - symptom_map.md
+    reversibility: two_way
+    success_conditions:
+      execution: Narrative synthesized from fragmented input.
+      outcome: Customer confirms understanding.
+      safety_quality: Root cause identified.
+    failure_modes:
+      silent:
+        - misunderstood problem
+      loud:
+        - customer rejects narrative
+      clustered:
+        - multiple root causes
+    dependencies:
+      - RIU-001
+      - RIU-002
+    agent_types:
+      - ARK:Argentavis
+      - ARK:Yutyrannus
+    notes: 'Essential FDE pattern: customer problem understanding'
+    tags:
+      - customer
+      - JTBD
+      - narrative
+
+  - riu_id: RIU-290
+    name: Internal Demo Narrative (Problem→Value→Limits)
+    problem_pattern: Need crisp internal alignment on what was built and what wasn't.
+    execution_intent: Create demo narrative with limitations and next decisions; avoid hype.
+    workstreams:
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - demo
+      - internal alignment
+      - value proposition
+      - limitations
+      - next decisions
+    artifacts:
+      - demo_narrative.md
+      - value_proposition.md
+      - limitations.md
+      - next_decisions.md
+    reversibility: two_way
+    success_conditions:
+      execution: Demo narrative crisp and honest.
+      outcome: Internal alignment achieved.
+      safety_quality: Limitations explicit.
+    failure_modes:
+      silent:
+        - overpromising
+      loud:
+        - demo fails
+      clustered:
+        - misaligned expectations
+    dependencies:
+      - RIU-001
+    agent_types:
+      - ARK:Yutyrannus
+    notes: 'Essential FDE pattern: demo enablement'
+    tags:
+      - demo
+      - narrative
+      - enablement
+
+  - riu_id: RIU-320
+    name: Third-Party API Integration Pattern
+    problem_pattern: Need to integrate external API with unknown reliability/rate limits.
+    execution_intent: Design integration with circuit breakers, rate limiting, fallback handling, and monitoring.
+    workstreams:
+      - Interfaces & Inputs
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - third-party API
+      - external integration
+      - rate limiting
+      - circuit breaker
+      - fallback handling
+    artifacts:
+      - api_integration_design.md
+      - circuit_breaker_config.yaml
+      - rate_limit_strategy.md
+      - fallback_procedures.md
+    reversibility: mixed
+    success_conditions:
+      execution: API integrated with resilience patterns.
+      outcome: Failures handled gracefully.
+      safety_quality: Monitoring in place.
+    failure_modes:
+      silent:
+        - silent API failures
+      loud:
+        - rate limit exceeded
+      clustered:
+        - cascading timeouts
+    dependencies:
+      - RIU-015
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: 'Essential FDE pattern: API integration'
+    tags:
+      - integration
+      - API
+      - resilience
+
+  - riu_id: RIU-321
+    name: Database Migration Strategy
+    problem_pattern: Need to migrate data/schema without downtime or data loss.
+    execution_intent: Design migration strategy with rollback plan, validation, and monitoring.
+    workstreams:
+      - Ops & Delivery
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - database migration
+      - schema change
+      - data migration
+      - zero downtime
+      - rollback plan
+    artifacts:
+      - migration_strategy.md
+      - rollback_plan.md
+      - validation_tests/
+      - migration_monitoring.md
+    reversibility: one_way
+    success_conditions:
+      execution: Migration completes without data loss.
+      outcome: Zero downtime achieved.
+      safety_quality: Rollback tested.
+    failure_modes:
+      silent:
+        - data corruption
+      loud:
+        - migration failure
+      clustered:
+        - performance degradation
+    dependencies:
+      - RIU-015
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+      - ARK:Velociraptor
+    notes: 'Essential FDE pattern: database migration'
+    tags:
+      - database
+      - migration
+      - reliability
+
+  - riu_id: RIU-322
+    name: Authentication/Authorization Integration
+    problem_pattern: Need to integrate auth system (SSO/OAuth/SAML) with existing application.
+    execution_intent: Design auth integration with session management, token handling, and security best practices.
+    workstreams:
+      - Interfaces & Inputs
+      - Quality & Safety
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - authentication
+      - authorization
+      - SSO
+      - OAuth
+      - SAML
+      - session management
+    artifacts:
+      - auth_integration_design.md
+      - session_management.md
+      - token_handling.md
+      - security_checklist.md
+    reversibility: one_way
+    success_conditions:
+      execution: Auth integrated securely.
+      outcome: Users can authenticate.
+      safety_quality: Security reviewed.
+    failure_modes:
+      silent:
+        - session hijacking
+      loud:
+        - auth failure
+      clustered:
+        - token expiration issues
+    dependencies:
+      - RIU-015
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+      - ARK:Ankylosaurus
+    notes: 'Essential FDE pattern: auth integration'
+    tags:
+      - authentication
+      - authorization
+      - security
+
+  - riu_id: RIU-323
+    name: Message Queue Integration Pattern
+    problem_pattern: Need to integrate message queue (SQS/Kafka/RabbitMQ) for async processing.
+    execution_intent: Design queue integration with consumer patterns, error handling, and monitoring.
+    workstreams:
+      - Interfaces & Inputs
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - message queue
+      - async processing
+      - SQS
+      - Kafka
+      - RabbitMQ
+      - consumer pattern
+    artifacts:
+      - queue_integration_design.md
+      - consumer_pattern.md
+      - error_handling.md
+      - queue_monitoring.md
+    reversibility: mixed
+    success_conditions:
+      execution: Queue integrated with reliable consumers.
+      outcome: Messages processed reliably.
+      safety_quality: Dead letter queue configured.
+    failure_modes:
+      silent:
+        - message loss
+      loud:
+        - consumer crash
+      clustered:
+        - queue backlog
+    dependencies:
+      - RIU-015
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: 'Essential FDE pattern: message queue'
+    tags:
+      - queue
+      - async
+      - messaging
+
+  - riu_id: RIU-324
+    name: Caching Strategy Design
+    problem_pattern: Need to add caching to improve performance without introducing stale data issues.
+    execution_intent: Design caching strategy with invalidation, TTL, and cache warming.
+    workstreams:
+      - Core Logic
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - caching
+      - performance
+      - cache invalidation
+      - TTL
+      - cache warming
+      - stale data
+    artifacts:
+      - caching_strategy.md
+      - invalidation_rules.md
+      - ttl_configuration.yaml
+      - cache_monitoring.md
+    reversibility: two_way
+    success_conditions:
+      execution: Caching improves performance.
+      outcome: Stale data prevented.
+      safety_quality: Invalidation tested.
+    failure_modes:
+      silent:
+        - stale data served
+      loud:
+        - cache miss storm
+      clustered:
+        - thundering herd
+    dependencies:
+      - RIU-015
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Therizinosaurus
+    notes: 'Essential FDE pattern: caching'
+    tags:
+      - caching
+      - performance
+      - reliability
+
+  - riu_id: RIU-400
+    name: KB Content Audit (Coverage + Gaps)
+    problem_pattern: Customer knowledge base exists but quality/coverage unknown.
+    execution_intent: Audit KB for coverage, duplication, staleness, and structure; propose prioritized fixes.
+    workstreams:
+      - Quality & Safety
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: '*'
+      use_case: '*'
+    trigger_signals:
+      - knowledge base
+      - content audit
+      - coverage gaps
+      - duplication
+      - stale content
+      - KB quality
+    artifacts:
+      - kb_audit_report.md
+      - coverage_analysis.md
+      - duplication_report.md
+      - staleness_analysis.md
+      - prioritized_fixes.md
+    reversibility: two_way
+    success_conditions:
+      execution: KB audited comprehensively.
+      outcome: Gaps and issues identified.
+      safety_quality: Fixes prioritized.
+    failure_modes:
+      silent:
+        - missed gaps
+      loud:
+        - audit incomplete
+      clustered:
+        - systemic quality issues
+    dependencies:
+      - RIU-001
+    agent_types:
+      - ARK:Argentavis
+      - ARK:Ankylosaurus
+    notes: 'Essential FDE pattern: knowledge management'
+    tags:
+      - knowledge-base
+      - audit
+      - quality
+
+
+taxonomy_statistics:
+  total_rius: 104
+  v1_2_base: 94
+  essential_added: 10
+  workstream_distribution:
+    clarify_bound: 9
+    interfaces_inputs: 10
+    core_logic: 16
+    quality_safety: 29
+    ops_delivery: 11
+    adoption_change: 6
+    specialized: 6
+    multimodal: 4
+    agentic: 5
+    llmops: 5
+    governance: 6
+    agent_patterns: 4
+  reversibility_distribution:
+    two_way: 71
+    one_way: 30
+    mixed: 10
+  agent_coverage:
+    argy: 15
+    theri: 62
+    raptor: 18
+    rex: 58
+    yuty: 15
+    anky: 35
+    para: 16
+    orch: 2
+```

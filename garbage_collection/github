@@ -1,0 +1,1418 @@
+github
+    Myth-Fall-Game/.kiro/steering
+
+/product.md
+# Product Overview
+
+**MythFall** is an open-world multiplayer action RPG where players explore ancient mythological realms, collect powers from world mythology, and battle mythic creatures. Built for web-first deployment with anime-inspired visuals and accessible gameplay.
+
+## Core Vision
+
+**Theme**: Powers from world mythology (Greek, Norse, Egyptian, Japanese, Celtic, Hindu, Aztec, etc.)  
+**Setting**: Ancient mythological realm with interconnected zones  
+**Art Style**: Anime-inspired but original, vibrant and dynamic  
+**Tone**: Fun and adventurous early game, mysterious and epic late game  
+**Target Audience**: Players who enjoy exploration, progression, and mythological themes
+
+## Core Gameplay
+
+### Exploration (Primary Loop)
+- **Open Zones**: Large explorable mythological realms (50 players per instance)
+- **Zone Variety**: Greek Olympus, Norse Asgard, Egyptian Duat, Japanese Spirit Realm, etc.
+- **Secrets & Discovery**: Hidden mythic artifacts, lore fragments, rare creatures
+- **Seamless Within Zones**: No loading during exploration, transitions between major realms
+
+### Combat System
+- **Real-Time Action**: Melee attacks, ranged abilities, dodging, combos
+- **Mythic Powers**: Collectible abilities from different pantheons (Zeus lightning, Thor hammer, Ra sun beam)
+- **Server-Authoritative**: All combat validated server-side for fairness
+- **PvE Focus**: Mythic creatures, bosses, world events
+- **PvP Endgame**: Competitive arena unlocked for experienced players
+
+### Progression System
+- **Experience & Leveling**: Gain XP from exploration, combat, quests
+- **Mythic Artifacts**: Collect relics to unlock powers from different mythologies
+- **Skill Trees**: Customize abilities within each mythic power set
+- **Equipment**: Armor, weapons, accessories with mythological themes
+- **Stat Allocation**: Strength, agility, wisdom, vitality
+
+### Multiplayer Features
+- **Instanced Zones**: 50 players per zone instance
+- **Cooperative Exploration**: Players can team up for dungeons and bosses
+- **Trading System**: Exchange artifacts, equipment, resources
+- **Endgame Arena**: Competitive PvP for experienced players with accumulated powers
+
+## World Structure
+
+### Mythological Realms (Zones)
+1. **Starter Realm**: Tutorial area, mixed mythology, friendly atmosphere
+2. **Greek Realm**: Mount Olympus, Underworld, Mediterranean landscapes
+3. **Norse Realm**: Asgard, Midgard, Jotunheim, frozen mountains
+4. **Egyptian Realm**: Pyramids, desert temples, Duat underworld
+5. **Japanese Realm**: Spirit forests, shrines, yokai territories
+6. **Endgame Arena**: Competitive battleground for max-level players
+
+### Zone Characteristics
+- **Size**: Large enough for 30-60 minutes of exploration per zone
+- **Capacity**: 50 concurrent players per instance
+- **Transitions**: Loading screen between major realms, seamless within zones
+- **Atmosphere**: Each realm has unique visual style, music, and tone
+
+## Network Architecture
+
+- **Server Tick Rate**: 20 Hz authoritative game loop
+- **State Sync**: Server broadcasts every 50ms for smooth gameplay
+- **Client Prediction**: Movement and input handling with server reconciliation
+- **WebSocket Transport**: Socket.io for real-time bidirectional communication
+- **Zone Instancing**: Automatic matchmaking into zone instances
+
+## Target Metrics
+
+- **Performance**: 60 FPS target on mid-range devices
+- **Cost**: ~$0.48 per concurrent user monthly at 1,000 user scale
+- **Latency**: Sub-100ms roundtrip times
+- **Scalability**: Horizontal scaling across multiple VPS instances
+- **Accessibility**: Web-first (HTML5/WebAssembly), no downloads required
+
+## Development Phases
+
+### Phase 0: Pre-Code Risk Reduction
+- Architecture validation
+- Godot + Socket.io prototype
+- Zone instancing proof-of-concept
+- Asset pipeline setup
+
+### Phase 1: Minimal Viable Slice
+- Single starter zone (small, explorable)
+- Basic movement and combat
+- 1-2 mythic powers (Zeus lightning, Thor hammer)
+- Simple enemy AI
+- Multiplayer networking (10-20 players)
+
+### Phase 2: Core Loop Validation
+- 2-3 full mythological realms
+- 5-10 mythic powers
+- Progression system (leveling, stats)
+- Boss encounters
+- Load testing (50 players per zone)
+
+### Phase 3: Content Expansion
+- Additional realms and powers
+- Trading system
+- Endgame arena
+- Polish and optimization
+
+### Phase 4: Hardening & Launch
+- Monitoring and observability
+- Deployment automation
+- Security hardening
+- Performance optimization
+- Documentation
+
+## Differentiation from Blox Fruits
+
+**What We Share** (Inspired By):
+- Multiplayer action combat
+- Collectible power system
+- Player progression
+- Web accessibility
+
+**What Makes Us Unique**:
+- ❌ NOT pirate/anime theme → ✅ World mythology theme
+- ❌ NOT Devil Fruits → ✅ Mythic Artifacts from various cultures
+- ❌ NOT island-hopping → ✅ Large explorable mythological realms
+- ❌ NOT One Piece references → ✅ Original mythology-inspired lore
+- ✅ Exploration-focused (not just combat arenas)
+- ✅ Endgame PvP arena (not constant PvP)
+- ✅ Anime-inspired but original art style
+
+
+.kiro/steering/structure.md
+
+# Project Structure
+
+## Monorepo Layout
+
+```
+/
+├── client/          # Godot game project
+├── server/          # Node.js Socket.io backend
+├── shared/          # Common protocols and types
+├── deployment/      # Docker, Nginx configs, CI/CD
+└── package.json     # Root package with convenience scripts
+```
+
+## Client Structure (`/client`)
+
+```
+client/
+├── project.godot           # Godot project file
+├── export_presets.cfg      # HTML5 export configuration
+├── scenes/
+│   ├── main.tscn          # Main game scene
+│   ├── player.tscn        # Player character
+│   └── ui/                # UI components
+├── scripts/
+│   ├── network_client.gd  # WebSocket client
+│   ├── player.gd          # Player controller
+│   ├── game_state.gd      # Client-side state
+│   └── protocol.gd        # Shared protocol (Godot)
+└── assets/
+    ├── sprites/           # Character and world sprites
+    ├── audio/             # Sound effects and music
+    └── fonts/             # UI fonts
+```
+
+## Server Structure (`/server`)
+
+```
+server/
+├── src/
+│   ├── index.ts           # Entry point, Express + Socket.io setup
+│   ├── game-server.ts     # Authoritative game loop (20Hz)
+│   ├── room-manager.ts    # Room creation and matchmaking
+│   ├── protocol.ts        # Shared protocol types (TypeScript)
+│   ├── database/
+│   │   ├── schema.sql     # PostgreSQL schema
+│   │   ├── player-store.ts
+│   │   └── session-store.ts
+│   └── utils/
+│       ├── validation.ts  # Input validation
+│       └── auth.ts        # JWT authentication
+├── package.json
+├── tsconfig.json
+└── Dockerfile             # Multi-stage build
+```
+
+## Shared Structure (`/shared`)
+
+```
+shared/
+├── protocol.md            # Protocol documentation
+└── types/
+    └── game-protocol.ts   # Shared TypeScript types
+```
+
+## Deployment Structure (`/deployment`)
+
+```
+deployment/
+├── docker/
+│   ├── docker-compose.yml      # Local dev stack
+│   └── docker-compose.prod.yml # Production stack
+├── nginx/
+│   └── nginx.conf              # WebSocket proxy config
+├── monitoring/
+│   ├── prometheus.yml
+│   └── grafana-dashboards/
+└── github-actions/
+    └── deploy.yml              # CI/CD workflow
+```
+
+## Architecture Patterns
+
+### Protocol Sharing
+
+- Protocol defined in `/shared/types/game-protocol.ts` (TypeScript)
+- Godot client implements equivalent in `/client/scripts/protocol.gd`
+- Keep both in sync when modifying protocol
+- Documentation in `/shared/protocol.md`
+
+### Authoritative Server Pattern
+
+- Server maintains complete game state authority
+- Clients send input commands only (movement, actions)
+- Server validates all inputs server-side
+- Server broadcasts state snapshots at 50ms intervals
+- Clients use prediction/reconciliation for responsiveness
+
+### Room-Based Architecture
+
+- Each game room supports up to 50 concurrent players
+- Room manager handles matchmaking and room creation
+- Rooms are isolated game instances with independent state
+- Cross-room communication via Redis pub/sub
+
+### Client-Server Communication
+
+**Client → Server**:
+- `ClientHello` - Initial connection with auth token
+- `ClientInput` - Player input (movement, actions)
+- `ClientReady` - Ready state for match start
+
+**Server → Client**:
+- `ServerHello` - Welcome message with player ID
+- `Snapshot` - Game state update (players, NPCs, items)
+- `ServerEvent` - Game events (player joined, item collected)
+- `ServerOver` - Match end with results
+
+### State Management
+
+- **Server**: Authoritative source of truth
+  - Player positions, health, inventory
+  - NPC states, item spawns
+  - Combat resolution, damage calculation
+  
+- **Client**: Predictive rendering
+  - Local player prediction
+  - Entity interpolation
+  - Rollback on server correction
+
+### Database Schema
+
+- **players** - User accounts, authentication
+- **player_stats** - Experience, levels, progression
+- **player_items** - Inventory and equipment
+- **game_sessions** - Active and historical matches
+- **leaderboards** - Competitive rankings
+
+## Conventions
+
+- **TypeScript**: Strict mode enabled
+- **Godot**: GDScript with static typing where possible
+- **Naming**: snake_case for Godot, camelCase for TypeScript
+- **Network**: 20Hz server tick, 50ms state broadcast
+- **IDs**: UUIDs for players, rooms, and sessions
+- **Validation**: All inputs validated server-side
+- **Security**: JWT tokens, HTTP-only cookies, rate limiting
+
+.kiro/steering/tech.md
+
+# Tech Stack
+
+## Game Engine (Client)
+
+- **Engine**: Godot 4.3+ (MIT license, zero royalties)
+- **Export Target**: HTML5/WebAssembly (WebGL 2.0)
+- **Language**: GDScript / C# (Godot native)
+- **Asset Optimization**: Brotli compression, WebP textures, <10MB initial load
+
+## Backend (Server)
+
+- **Runtime**: Node.js (LTS)
+- **Networking**: Socket.io 4.7.5+ (WebSocket with fallbacks)
+- **Database**: PostgreSQL 18 (asynchronous I/O, OAuth support)
+- **Session Management**: Redis (cross-server communication)
+- **Language**: TypeScript
+
+## Infrastructure (Hosting)
+
+- **VPS Provider**: Vultr (optimized CPU instances)
+- **Load Balancer**: Nginx (WebSocket proxy, SSL termination)
+- **Containerization**: Docker (multi-stage builds)
+- **Monitoring**: Prometheus + Grafana
+- **CI/CD**: GitHub Actions
+
+## Cost Structure
+
+- **100 users**: $30-60/month (single Vultr instance)
+- **1,000 users**: $480-720/month (12-15 distributed instances)
+- **10,000 users**: $4,800-7,200/month (120 instances, multi-region)
+
+## Common Commands
+
+### Development (Local)
+
+```bash
+# Run Node.js game server (from /server)
+npm run dev
+# Runs at http://localhost:3000
+
+# Open Godot project (from /client)
+# Use Godot Editor to run/debug
+
+# Run both
+npm run dev:server
+# Open Godot Editor separately
+```
+
+### Build & Deploy
+
+```bash
+# Build Godot web export (from /client)
+# Export → HTML5 in Godot Editor
+
+# Build Docker image (from /server)
+docker build -t game-server .
+
+# Deploy to Vultr VPS
+# Via GitHub Actions or manual SSH deployment
+```
+
+### Environment Setup
+
+**Server (.env)**:
+```
+DATABASE_URL=postgresql://user:pass@localhost:5432/gamedb
+REDIS_URL=redis://localhost:6379
+PORT=3000
+NODE_ENV=development
+```
+
+**Client (Godot project settings)**:
+- WebSocket URL: `ws://localhost:3000` (dev)
+- WebSocket URL: `wss://your-domain.com` (production)
+
+### Testing MVP
+
+1. Start PostgreSQL and Redis locally (Docker Compose recommended)
+2. Run Node.js server: `npm run dev` (from /server)
+3. Open Godot project and run HTML5 export
+4. Test multiplayer: Open 2+ browser tabs
+5. Verify: Player movement, combat, state sync, reconnection
+
+## Key Dependencies
+
+**Server**:
+- `socket.io@^4.7.5` - Real-time networking
+- `express@^4.18.0` - HTTP server
+- `pg@^8.11.0` - PostgreSQL client
+- `redis@^4.6.0` - Session management
+- `prom-client@^15.1.0` - Metrics collection
+
+**Client (Godot)**:
+- Godot 4.3+ (download from godotengine.org)
+- WebSocket support (built-in)
+- HTML5 export templates
+
+**Infrastructure**:
+- `nginx@^1.28.0` - Reverse proxy
+- `docker@^24.0.0` - Containerization
+- `prometheus@^2.45.0` - Metrics
+- `grafana@^10.0.0` - Visualization
+
+## Platform-Specific Notes
+
+**Windows (Adam)**:
+- Install Node.js LTS from nodejs.org
+- Install Godot 4.3+ from godotengine.org
+- Docker Desktop for Windows (optional, for local testing)
+- Git for Windows (already installed)
+
+**Linux (Mical)**:
+- Node.js via package manager or nvm
+- Godot via package manager or official download
+- Docker via package manager
+- Standard git installation
+
+client/README.md
+# MythFall Client (Godot)
+
+## Setup Instructions
+
+### Prerequisites
+
+- **Godot 4.3+** - Download from [godotengine.org](https://godotengine.org/download)
+- **HTML5 Export Templates** - Install via Godot Editor
+
+### Installation
+
+#### Windows (Adam)
+1. Download Godot 4.3+ (Standard version, not .NET)
+2. Extract to a folder (e.g., `C:\Godot\`)
+3. Run `Godot_v4.3_win64.exe`
+4. In Godot Editor: Editor → Manage Export Templates → Download and Install
+
+#### Linux (Mical)
+```bash
+# Option 1: Download from godotengine.org
+wget https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3_linux.x86_64.zip
+unzip Godot_v4.3_linux.x86_64.zip
+chmod +x Godot_v4.3_linux.x86_64
+./Godot_v4.3_linux.x86_64
+
+# Option 2: Package manager (if available)
+# Check your distro's package manager for godot4
+```
+
+### Opening the Project
+
+1. Launch Godot Editor
+2. Click "Import"
+3. Navigate to this `client/` directory
+4. Select `project.godot` (will be created in Phase 0)
+5. Click "Import & Edit"
+
+### Project Structure (To Be Created)
+
+```
+client/
+├── project.godot           # Godot project file
+├── export_presets.cfg      # HTML5 export configuration
+├── scenes/
+│   ├── main.tscn          # Main game scene
+│   ├── player.tscn        # Player character
+│   └── ui/                # UI components
+├── scripts/
+│   ├── network_client.gd  # WebSocket client
+│   ├── player.gd          # Player controller
+│   ├── game_state.gd      # Client-side state
+│   └── protocol.gd        # Shared protocol (Godot)
+└── assets/
+    ├── sprites/           # Character and world sprites
+    ├── audio/             # Sound effects and music
+    └── fonts/             # UI fonts
+```
+
+### Development Workflow
+
+1. **Run locally**: Press F5 in Godot Editor (runs in desktop mode)
+2. **Test HTML5 export**: Project → Export → HTML5 → Export Project
+3. **Connect to server**: Update WebSocket URL in `scripts/network_client.gd`
+
+### WebSocket Configuration
+
+**Development** (local server):
+```gdscript
+const SERVER_URL = "ws://localhost:3000"
+```
+
+**Production** (deployed server):
+```gdscript
+const SERVER_URL = "wss://your-domain.com"
+```
+
+### HTML5 Export Settings
+
+- **Export Type**: HTML5
+- **Texture Format**: WebP (smaller file size)
+- **Compression**: Brotli (best compression)
+- **Target Size**: <10MB initial load
+- **WebGL Version**: 2.0
+
+### Testing Multiplayer
+
+1. Start the Node.js server: `npm run dev:server` (from root)
+2. Run Godot project in editor (F5)
+3. Open browser to exported HTML5 build
+4. Test with 2+ clients simultaneously
+
+### Common Issues
+
+**WebSocket connection fails**:
+- Verify server is running (`npm run dev:server`)
+- Check SERVER_URL matches server port
+- Ensure firewall allows WebSocket connections
+
+**HTML5 export doesn't work**:
+- Install HTML5 export templates in Godot
+- Check browser console for errors
+- Verify WebGL 2.0 support in browser
+
+**Performance issues**:
+- Reduce sprite resolution
+- Optimize scene complexity
+- Check browser performance profiler
+
+### Next Steps (Phase 0)
+
+1. Create basic Godot project structure
+2. Implement WebSocket client (Socket.io compatible)
+3. Create simple player character with movement
+4. Test connection to Node.js server
+5. Validate 60 FPS in HTML5 export
+
+---
+
+**Note**: This directory is currently a placeholder. The actual Godot project will be created during Phase 0 (Technology Stack Validation).
+
+deployment/docker/docker-compose.yml
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: mythfall-postgres
+    environment:
+      POSTGRES_USER: mythfall
+      POSTGRES_PASSWORD: mythfall_dev
+      POSTGRES_DB: mythfall
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mythfall"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: mythfall-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
+
+  server/src/index.ts
+  import express from 'express';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: process.env.NODE_ENV === 'production' ? false : '*',
+    methods: ['GET', 'POST']
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+
+// Basic health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Socket.io connection handling
+io.on('connection', (socket) => {
+  console.log(`Client connected: ${socket.id}`);
+
+  socket.on('disconnect', () => {
+    console.log(`Client disconnected: ${socket.id}`);
+  });
+});
+
+httpServer.listen(PORT, () => {
+  console.log(`MythFall server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+});
+
+server/.env.example
+# Server Configuration
+PORT=3000
+NODE_ENV=development
+
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/mythfall
+
+# Redis
+REDIS_URL=redis://localhost:6379
+
+# JWT Authentication
+JWT_SECRET=your-secret-key-change-in-production
+JWT_EXPIRES_IN=7d
+
+# Game Configuration
+MAX_PLAYERS_PER_ROOM=50
+SERVER_TICK_RATE=20
+
+
+
+server/package.json
+{
+  "name": "@mythfall/server",
+  "version": "0.1.0",
+  "description": "MythFall game server - Node.js + Socket.io",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "dependencies": {
+    "socket.io": "^4.7.5",
+    "express": "^4.18.0",
+    "pg": "^8.11.0",
+    "redis": "^4.6.0",
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/express": "^4.17.21",
+    "@types/pg": "^8.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.2.0",
+    "eslint": "^8.56.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
+
+server/tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "lib": ["ES2022"],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "types": ["node"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
+
+shared/types/game-protocol.ts
+/**
+ * MythFall Game Protocol
+ * Shared types between client (Godot) and server (Node.js)
+ * 
+ * Note: Godot client must implement equivalent types in GDScript
+ * See: client/scripts/protocol.gd
+ */
+
+// ============================================================================
+// Client → Server Messages
+// ============================================================================
+
+export interface ClientHello {
+  type: 'ClientHello';
+  authToken?: string;
+  playerName: string;
+}
+
+export interface ClientInput {
+  type: 'ClientInput';
+  sequenceNumber: number;
+  timestamp: number;
+  movement: {
+    x: number;
+    y: number;
+  };
+  actions: {
+    attack?: boolean;
+    ability?: number; // Ability slot index
+    interact?: boolean;
+  };
+}
+
+export interface ClientReady {
+  type: 'ClientReady';
+}
+
+export type ClientMessage = ClientHello | ClientInput | ClientReady;
+
+// ============================================================================
+// Server → Client Messages
+// ============================================================================
+
+export interface ServerHello {
+  type: 'ServerHello';
+  playerId: string;
+  roomId: string;
+  serverTime: number;
+}
+
+export interface Snapshot {
+  type: 'Snapshot';
+  timestamp: number;
+  players: PlayerState[];
+  npcs: NPCState[];
+  items: ItemState[];
+}
+
+export interface ServerEvent {
+  type: 'ServerEvent';
+  eventType: 'player_joined' | 'player_left' | 'item_collected' | 'combat_hit';
+  data: any;
+}
+
+export interface ServerOver {
+  type: 'ServerOver';
+  reason: string;
+}
+
+export type ServerMessage = ServerHello | Snapshot | ServerEvent | ServerOver;
+
+// ============================================================================
+// Game State Types
+// ============================================================================
+
+export interface PlayerState {
+  id: string;
+  name: string;
+  position: { x: number; y: number };
+  velocity: { x: number; y: number };
+  health: number;
+  maxHealth: number;
+  level: number;
+  mythicPowers: string[]; // Power IDs
+}
+
+export interface NPCState {
+  id: string;
+  type: string;
+  position: { x: number; y: number };
+  health: number;
+  maxHealth: number;
+}
+
+export interface ItemState {
+  id: string;
+  type: string;
+  position: { x: number; y: number };
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+}
+
+
+shared/package.json
+
+{
+  "name": "@mythfall/shared",
+  "version": "0.1.0",
+  "description": "Shared protocol types and documentation for MythFall",
+  "main": "types/game-protocol.ts",
+  "types": "types/game-protocol.ts",
+  "scripts": {
+    "lint": "echo 'No linting configured yet'"
+  },
+  "keywords": [
+    "protocol",
+    "types",
+    "shared"
+  ],
+  "author": "Adam Neill & Mical",
+  "license": "MIT"
+}
+
+shared/protocol.md
+
+# MythFall Network Protocol
+
+## Overview
+
+MythFall uses WebSocket communication via Socket.io for real-time multiplayer. The server is authoritative - all game state is validated and maintained server-side.
+
+## Connection Flow
+
+1. **Client connects** → Socket.io handshake
+2. **Client sends `ClientHello`** → Authentication + player name
+3. **Server responds `ServerHello`** → Assigns player ID and room
+4. **Client sends `ClientReady`** → Ready to receive game state
+5. **Server starts sending `Snapshot`** → Game state updates (50ms intervals)
+6. **Client sends `ClientInput`** → Player actions (as they occur)
+7. **Server broadcasts `ServerEvent`** → Game events to all clients
+
+## Message Types
+
+### Client → Server
+
+#### ClientHello
+```typescript
+{
+  type: 'ClientHello',
+  authToken?: string,      // Optional JWT token
+  playerName: string       // Display name
+}
+```
+
+#### ClientInput
+```typescript
+{
+  type: 'ClientInput',
+  sequenceNumber: number,  // Incremental for reconciliation
+  timestamp: number,       // Client timestamp
+  movement: {
+    x: number,             // -1 to 1 (normalized)
+    y: number              // -1 to 1 (normalized)
+  },
+  actions: {
+    attack?: boolean,
+    ability?: number,      // Ability slot (0-9)
+    interact?: boolean
+  }
+}
+```
+
+#### ClientReady
+```typescript
+{
+  type: 'ClientReady'
+}
+```
+
+### Server → Client
+
+#### ServerHello
+```typescript
+{
+  type: 'ServerHello',
+  playerId: string,        // Unique player ID
+  roomId: string,          // Room/instance ID
+  serverTime: number       // Server timestamp for sync
+}
+```
+
+#### Snapshot
+```typescript
+{
+  type: 'Snapshot',
+  timestamp: number,       // Server timestamp
+  players: PlayerState[],  // All players in room
+  npcs: NPCState[],        // All NPCs in room
+  items: ItemState[]       // All items in room
+}
+```
+
+#### ServerEvent
+```typescript
+{
+  type: 'ServerEvent',
+  eventType: 'player_joined' | 'player_left' | 'item_collected' | 'combat_hit',
+  data: any                // Event-specific data
+}
+```
+
+#### ServerOver
+```typescript
+{
+  type: 'ServerOver',
+  reason: string           // Disconnect reason
+}
+```
+
+## Client Prediction & Reconciliation
+
+1. **Client sends input** with sequence number
+2. **Client predicts** movement locally (immediate feedback)
+3. **Server validates** and applies input
+4. **Server sends snapshot** with authoritative state
+5. **Client reconciles** if prediction differs from server
+
+## Network Timing
+
+- **Server tick rate**: 20 Hz (50ms intervals)
+- **Snapshot broadcast**: Every 50ms
+- **Client input**: As events occur (not throttled)
+- **Target latency**: <100ms roundtrip
+
+## Godot Implementation Notes
+
+Godot client must implement equivalent types in `client/scripts/protocol.gd`:
+
+```gdscript
+# Example structure (not complete)
+class_name Protocol
+
+enum MessageType {
+    CLIENT_HELLO,
+    CLIENT_INPUT,
+    CLIENT_READY,
+    SERVER_HELLO,
+    SNAPSHOT,
+    SERVER_EVENT,
+    SERVER_OVER
+}
+
+class ClientInput:
+    var sequence_number: int
+    var timestamp: int
+    var movement: Vector2
+    var actions: Dictionary
+```
+
+## Security Considerations
+
+- All inputs validated server-side
+- Movement speed clamped to prevent cheating
+- Ability cooldowns enforced server-side
+- Combat damage calculated server-side only
+- JWT tokens for authentication (optional for MVP)
+
+.git-ssh-test
+SSH connection test - 2026-01-19
+
+.gitignore
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# Build outputs
+dist/
+build/
+.output/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Godot
+.godot/
+*.import
+export_presets.cfg
+
+# Wrangler
+.wrangler/
+.dev.vars
+
+README.md
+# MythFall
+
+**Mythology-themed multiplayer open-world RPG**
+
+Explore ancient mythological realms, collect powers from world mythology, and battle mythic creatures in this web-based action RPG.
+
+## Quick Start
+
+### Prerequisites
+- Node.js 20+ (LTS)
+- Godot 4.3+
+- Docker (optional, for local database)
+
+### Installation
+
+```bash
+# Clone repository
+git clone https://github.com/jkj9786/Myth-Fall-Game.git
+cd Myth-Fall-Game
+
+# Install dependencies
+npm install
+
+# Start development services (PostgreSQL + Redis)
+cd deployment/docker
+docker-compose up -d
+cd ../..
+
+# Configure server
+cd server
+cp .env.example .env
+# Edit .env with your settings
+
+# Start server
+npm run dev:server
+```
+
+For detailed setup instructions, see [SETUP.md](SETUP.md).
+
+## Project Structure
+
+```
+/
+├── client/          # Godot game project (HTML5/WebAssembly)
+├── server/          # Node.js + Socket.io backend
+├── shared/          # Protocol types and documentation
+├── deployment/      # Docker configs, CI/CD
+└── legacy/          # Archived previous projects
+```
+
+## Tech Stack
+
+- **Client**: Godot 4.3+ (HTML5 export)
+- **Server**: Node.js + Socket.io + TypeScript
+- **Database**: PostgreSQL 16
+- **Session**: Redis
+- **Hosting**: Vultr VPS + Nginx
+
+## Development
+
+- **Server**: `npm run dev:server` (runs on port 3000)
+- **Client**: Open `client/project.godot` in Godot Editor
+- **Tests**: `npm test`
+
+## Documentation
+
+- [Setup Guide](SETUP.md) - Environment setup for Windows and Linux
+- [Protocol Documentation](shared/protocol.md) - Network protocol specification
+- [Product Vision](.kiro/steering/product.md) - Game design and vision
+- [Tech Stack](.kiro/steering/tech.md) - Technology choices
+- [Project Structure](.kiro/steering/structure.md) - Code organization
+
+## Team
+
+- **Adam Neill** - Client (Godot) + Windows
+- **Mical** - Server (Node.js) + Linux
+
+## License
+
+MIT
+
+SETUP.md
+# MythFall Development Environment Setup
+
+## Overview
+
+This guide covers environment setup for both team members:
+- **Adam** (Windows + Kiro IDE)
+- **Mical** (Linux + Kiro CLI)
+
+## Prerequisites
+
+### Both Platforms
+
+- **Git** - Version control
+- **Node.js LTS** (v20+) - Server runtime
+- **Godot 4.3+** - Game engine
+- **Docker** (optional) - For local PostgreSQL/Redis
+
+---
+
+## Windows Setup (Adam)
+
+### 1. Node.js Installation
+
+1. Download Node.js LTS from [nodejs.org](https://nodejs.org/)
+2. Run installer (use default settings)
+3. Verify installation:
+```cmd
+node --version
+npm --version
+```
+
+### 2. Godot Installation
+
+1. Download Godot 4.3+ Standard (not .NET) from [godotengine.org](https://godotengine.org/download)
+2. Extract to `C:\Godot\`
+3. Add to PATH (optional):
+   - Right-click "This PC" → Properties → Advanced System Settings
+   - Environment Variables → System Variables → Path → Edit
+   - Add `C:\Godot\`
+4. Run Godot Editor
+5. Install HTML5 export templates:
+   - Editor → Manage Export Templates → Download and Install
+
+### 3. Docker Desktop (Optional)
+
+1. Download from [docker.com](https://www.docker.com/products/docker-desktop/)
+2. Run installer
+3. Restart computer
+4. Verify: `docker --version`
+
+### 4. Clone Repository
+
+```cmd
+git clone https://github.com/jkj9786/Myth-Fall-Game.git
+cd Myth-Fall-Game
+```
+
+### 5. Install Dependencies
+
+```cmd
+npm install
+```
+
+### 6. Start Development Services
+
+**Option A: Docker Compose (Recommended)**
+```cmd
+cd deployment\docker
+docker-compose up -d
+```
+
+**Option B: Manual (if no Docker)**
+- Install PostgreSQL 16 from [postgresql.org](https://www.postgresql.org/download/windows/)
+- Install Redis from [redis.io](https://redis.io/download) (or use WSL)
+
+### 7. Configure Environment
+
+```cmd
+cd server
+copy .env.example .env
+```
+
+Edit `server/.env` with your database credentials.
+
+### 8. Start Server
+
+```cmd
+npm run dev:server
+```
+
+Server should start on `http://localhost:3000`
+
+### 9. Open Godot Project
+
+1. Launch Godot Editor
+2. Click "Import"
+3. Navigate to `client/` directory
+4. Select `project.godot` (will be created in Phase 0)
+
+---
+
+## Linux Setup (Mical)
+
+### 1. Node.js Installation
+
+**Option A: Package Manager (Ubuntu/Debian)**
+```bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+**Option B: nvm (Recommended)**
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+source ~/.bashrc
+nvm install 20
+nvm use 20
+```
+
+Verify:
+```bash
+node --version
+npm --version
+```
+
+### 2. Godot Installation
+
+**Option A: Official Download**
+```bash
+wget https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3_linux.x86_64.zip
+unzip Godot_v4.3_linux.x86_64.zip
+chmod +x Godot_v4.3_linux.x86_64
+sudo mv Godot_v4.3_linux.x86_64 /usr/local/bin/godot
+```
+
+**Option B: Package Manager (if available)**
+```bash
+# Check your distro's package manager
+sudo apt search godot  # Ubuntu/Debian
+sudo dnf search godot  # Fedora
+```
+
+Install HTML5 export templates:
+```bash
+godot --headless --export-templates
+```
+
+### 3. Docker Installation
+
+```bash
+# Ubuntu/Debian
+sudo apt-get update
+sudo apt-get install docker.io docker-compose
+sudo usermod -aG docker $USER
+# Log out and back in for group changes
+
+# Verify
+docker --version
+docker-compose --version
+```
+
+### 4. Clone Repository
+
+```bash
+git clone https://github.com/jkj9786/Myth-Fall-Game.git
+cd Myth-Fall-Game
+```
+
+### 5. Install Dependencies
+
+```bash
+npm install
+```
+
+### 6. Start Development Services
+
+```bash
+cd deployment/docker
+docker-compose up -d
+```
+
+### 7. Configure Environment
+
+```bash
+cd ../../server
+cp .env.example .env
+```
+
+Edit `server/.env` with your database credentials.
+
+### 8. Start Server
+
+```bash
+npm run dev:server
+```
+
+Server should start on `http://localhost:3000`
+
+### 9. Open Godot Project (GUI)
+
+```bash
+cd ../client
+godot project.godot  # Will be created in Phase 0
+```
+
+---
+
+## Verification Checklist
+
+### Server
+- [ ] Node.js installed (`node --version`)
+- [ ] Dependencies installed (`npm install` successful)
+- [ ] PostgreSQL running (port 5432)
+- [ ] Redis running (port 6379)
+- [ ] Server starts without errors (`npm run dev:server`)
+- [ ] Health check responds: `curl http://localhost:3000/health`
+
+### Client
+- [ ] Godot 4.3+ installed
+- [ ] HTML5 export templates installed
+- [ ] Can open Godot Editor
+- [ ] Can create/run basic project
+
+### Docker (Optional)
+- [ ] Docker installed (`docker --version`)
+- [ ] Docker Compose installed (`docker-compose --version`)
+- [ ] Containers start: `docker-compose up -d`
+- [ ] Containers healthy: `docker ps`
+
+---
+
+## Common Issues
+
+### Windows
+
+**"npm not recognized"**
+- Restart terminal after Node.js installation
+- Verify PATH includes Node.js directory
+
+**Docker Desktop won't start**
+- Enable Hyper-V in Windows Features
+- Enable WSL 2 (Windows Subsystem for Linux)
+
+**Godot won't run**
+- Install Visual C++ Redistributable from Microsoft
+- Check antivirus isn't blocking Godot
+
+### Linux
+
+**Permission denied (Docker)**
+- Add user to docker group: `sudo usermod -aG docker $USER`
+- Log out and back in
+
+**Godot missing dependencies**
+```bash
+sudo apt-get install libxcursor1 libxinerama1 libxi6 libxrandr2 libgl1
+```
+
+**Port already in use**
+```bash
+# Find process using port 3000
+sudo lsof -i :3000
+# Kill process
+sudo kill -9 <PID>
+```
+
+---
+
+## Next Steps
+
+1. Verify all services are running
+2. Proceed to Phase 0: Technology Stack Validation
+3. Create basic Godot project
+4. Test WebSocket connection between client and server
+5. Validate 60 FPS in HTML5 export
+
+---
+
+## Support
+
+- **Documentation**: See `README.md` and `shared/protocol.md`
+- **Issues**: GitHub Issues
+- **Team Communication**: [Your communication channel]
+
+{
+  "name": "mythfall",
+  "version": "0.1.0",
+  "description": "MythFall - Mythology-themed multiplayer open-world RPG",
+  "private": true,
+  "workspaces": [
+    "server",
+    "shared"
+  ],
+  "scripts": {
+    "dev:server": "cd server && npm run dev",
+    "build:server": "cd server && npm run build",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jkj9786/Myth-Fall-Game.git"
+  },
+  "keywords": [
+    "game",
+    "multiplayer",
+    "mythology",
+    "godot",
+    "socketio"
+  ],
+  "author": "Adam Neill & Mical",
+  "license": "MIT"
+}
+
+---
+
+##AS FOLLOWS ARE THE ISSTRUCTIONS THAT ADAM HAS BEEN FOLLOWING
+
+{
+  "name": "mythfall",
+  "version": "0.1.0",
+  "description": "MythFall - Mythology-themed multiplayer open-world RPG",
+  "private": true,
+  "workspaces": [
+    "server",
+    "shared"
+  ],
+  "scripts": {
+    "dev:server": "cd server && npm run dev",
+    "build:server": "cd server && npm run build",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jkj9786/Myth-Fall-Game.git"
+  },
+  "keywords": [
+    "game",
+    "multiplayer",
+    "mythology",
+    "godot",
+    "socketio"
+  ],
+  "author": "Adam Neill & Mical",
+  "license": "MIT"
+}

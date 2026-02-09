@@ -1,0 +1,545 @@
+# Adam's Windows Setup Guide — Blox Fruits Multiplayer Game Project
+
+## Who You Are
+
+You're Adam Neill, the engineer on this project. You'll be building a Blox Fruits-style multiplayer game using:
+- **Godot 4.3+** (game engine)
+- **Node.js + Socket.io** (server)
+- **PostgreSQL + Redis** (persistence)
+- **Vultr VPS** (hosting)
+
+You're working with an operator (Mical) who handles infrastructure and Palette system maintenance. You focus on building the game.
+
+---
+
+## What You're Setting Up
+
+```
+C:\Users\Adam\
+├── .kiro\
+│   └── steering\
+│       └── game-core.md          ← Your steering file (rules for AI assistance)
+│
+└── projects\
+    └── blox-game\
+        ├── steering\
+        │   ├── decisions.md      ← Project decision log (append-only)
+        │   └── adam-prompts.md   ← Your Kiro prompts for each phase
+        │
+        └── repo\                 ← The actual game code (Git repo)
+            ├── client\           ← Godot project (YOU OWN THIS)
+            ├── server\           ← Node.js backend (shared)
+            ├── shared\           ← Common protocols/types (shared)
+            ├── deployment\       ← Docker, CI/CD (Mical owns)
+            └── docs\             ← Documentation (shared)
+```
+
+---
+
+## Step 1: Install Prerequisites
+
+### Required Software
+
+1. **Kiro IDE** — Download from https://kiro.dev (or wherever Anthropic hosts it)
+   - Install normally, follow prompts
+
+2. **Git for Windows** — https://git-scm.com/download/win
+   - During install, choose "Git from the command line and also from 3rd-party software"
+   - Choose "Checkout as-is, commit Unix-style line endings"
+
+3. **Node.js LTS** — https://nodejs.org/
+   - Download the LTS version (not Current)
+   - Install with default options
+
+4. **Godot 4.3+** — https://godotengine.org/download/windows/
+   - Download the standard version (not .NET)
+   - Extract to `C:\Godot\` or wherever you prefer
+   - Add to PATH or create desktop shortcut
+
+5. **VS Code** (optional but recommended) — https://code.visualstudio.com/
+   - Useful for editing server code alongside Kiro
+
+---
+
+## Step 2: Create Directory Structure
+
+Open **PowerShell** (not Command Prompt) and run:
+
+```powershell
+# Create Kiro steering directory
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.kiro\steering"
+
+# Create project structure
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\projects\blox-game\steering"
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\projects\blox-game\repo\client"
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\projects\blox-game\repo\server"
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\projects\blox-game\repo\shared"
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\projects\blox-game\repo\deployment"
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\projects\blox-game\repo\docs"
+
+# Create placeholder files
+New-Item -ItemType File -Force -Path "$env:USERPROFILE\projects\blox-game\steering\decisions.md"
+New-Item -ItemType File -Force -Path "$env:USERPROFILE\projects\blox-game\steering\adam-prompts.md"
+
+# Verify
+Get-ChildItem -Recurse "$env:USERPROFILE\projects\blox-game" | Select-Object FullName
+```
+
+---
+
+## Step 3: Create Your Steering File
+
+Create the file `C:\Users\Adam\.kiro\steering\game-core.md` with this content:
+
+```markdown
+# Game Development Steering — Blox Fruits Project
+
+## Your Role
+
+You are an AI assistant helping Adam build a Blox Fruits-style multiplayer game. You operate under these principles.
+
+---
+
+## Core Principles (Inherited from Palette)
+
+### 1. Convergence First
+Before writing code, ensure you understand:
+- What problem we're solving
+- What constraints exist
+- What "done" looks like
+
+If unclear, ask — don't guess.
+
+### 2. Decision Classification
+
+**🚨 ONE-WAY DOOR** — Hard to reverse, requires confirmation:
+- Architecture changes (database schema, networking protocol)
+- External commitments (API contracts, hosting setup)
+- Security decisions (auth flow, data handling)
+- Anything that affects the other team member's work
+
+**🔄 TWO-WAY DOOR** — Easy to reverse, proceed autonomously:
+- Refactoring within a module
+- Adding tests
+- UI tweaks
+- Documentation updates
+
+**Rule**: If you're unsure whether something is one-way, treat it as one-way.
+
+### 3. Reversibility First
+When uncertain, prefer:
+- Smaller changes over larger ones
+- Tested code over untested code
+- Documented decisions over implicit ones
+
+### 4. Server-Authoritative Architecture
+All game logic runs server-side. The client is an input device and display terminal.
+- Never trust client data
+- Validate all inputs server-side
+- Client predicts, server confirms
+
+---
+
+## Project Constraints
+
+### Technical
+- **Latency target**: Sub-100ms round-trip
+- **Initial bundle**: <10MB for web client
+- **Concurrent users**: Design for 1,000 (scale to 10,000)
+- **Cost target**: ~$0.48/user/month at 1,000 users
+
+### Stack (Locked)
+- **Engine**: Godot 4.3+ with HTML5/WebGL 2.0 export
+- **Networking**: Socket.io (Node.js server)
+- **Database**: PostgreSQL 18
+- **Cache/Sessions**: Redis
+- **Hosting**: Vultr VPS
+
+### Your Ownership
+You own the `client/` directory (Godot project). You collaborate on `server/` and `shared/`. Mical owns `deployment/`.
+
+---
+
+## How to Work
+
+### Starting a Task
+1. Check `steering/decisions.md` for current state
+2. Identify which phase/prompt applies
+3. Execute using Kiro
+4. Validate output works
+5. Commit with clear message
+6. Update `decisions.md` if needed
+
+### When to Pause and Ask
+- You're about to change something in `deployment/`
+- You're about to modify database schema
+- You're unsure if something is reversible
+- Two approaches seem equally valid
+- You need access/credentials you don't have
+
+### When to Proceed
+- Changes are within `client/` directory
+- You're following an established pattern
+- Tests pass
+- It's clearly a two-way door
+
+---
+
+## Communication Protocol
+
+### With Mical (Operator)
+- Major decisions go through `decisions.md`
+- Quick questions can go through chat/Discord
+- If blocked, say so immediately — don't spin
+
+### With Kiro (AI Assistant)
+- Be specific about what you want
+- Provide context (what phase, what file, what problem)
+- If output is wrong, say what's wrong specifically
+- Use `/context show` to verify what Kiro sees
+
+---
+
+## Quick Reference
+
+### Git Workflow
+```bash
+# Before starting work
+git pull origin main
+
+# Working on a feature
+git checkout -b feature/your-feature-name
+# ... make changes ...
+git add .
+git commit -m "feat: description of change"
+git push origin feature/your-feature-name
+
+# Create PR for review (for shared code)
+# Or merge directly (for client/ code)
+```
+
+### Kiro Commands
+```
+/context show     — See what files Kiro has loaded
+/context add      — Add a file to context
+/compact          — Summarize conversation to save space
+/clear            — Clear conversation history
+/quit             — Exit Kiro
+```
+
+### File Locations
+| What | Where |
+|------|-------|
+| Your steering file | `~/.kiro/steering/game-core.md` |
+| Project decisions | `~/projects/blox-game/steering/decisions.md` |
+| Your prompts | `~/projects/blox-game/steering/adam-prompts.md` |
+| Godot project | `~/projects/blox-game/repo/client/` |
+| Server code | `~/projects/blox-game/repo/server/` |
+
+---
+
+## The Golden Rules
+
+1. **Server is authoritative** — Client never decides game state
+2. **Decisions are logged** — If it matters, it's in `decisions.md`
+3. **One-way doors require confirmation** — Always
+4. **Ask when uncertain** — Faster than fixing mistakes
+5. **Small commits** — Easy to review, easy to revert
+6. **Tests before features** — Especially for server code
+
+---
+
+## Getting Help
+
+- **Stuck on Godot?** → Ask Kiro with context from client/ files
+- **Stuck on architecture?** → Check decisions.md, then ask Mical
+- **Stuck on server code?** → Check shared/ protocols first
+- **Stuck on deployment?** → That's Mical's domain, ask him
+- **Kiro giving bad answers?** → Check /context show, add missing files
+```
+
+---
+
+## Step 4: Create Initial decisions.md
+
+Create the file `C:\Users\Adam\projects\blox-game\steering\decisions.md` with this content:
+
+```markdown
+# Blox Fruits Game Project — Decision Log
+
+**Project**: Blox Fruits-style multiplayer web game  
+**Start Date**: 2026-01-19  
+**Team**: Mical (Operator), Adam (Engineer)
+
+---
+
+## Authority
+
+This file is subordinate to:
+1. `~/.kiro/steering/palette-core.md` (global principles)
+2. `~/.kiro/steering/game-core.md` (game-specific rules)
+
+This file is **append-only**. Never delete or rewrite entries. Always add new blocks.
+
+---
+
+## ONE-WAY DOORS (Project-Level)
+
+*Decisions that are hard to reverse. Listed here for visibility.*
+
+- (none yet)
+
+---
+
+## Engagement Updates
+
+*Append new blocks below. Most recent at bottom.*
+
+---
+
+### Engagement Update: 2026-01-19 / 1
+
+#### Semantic Blueprint (Convergence Brief)
+- **Goal**: Build a playable Blox Fruits-style multiplayer web game with movement, combat, and one fruit ability
+- **Roles**: 
+  - Adam (Engineer): Godot client, game mechanics, server collaboration
+  - Mical (Operator): Infrastructure, deployment, Palette maintenance
+- **Capabilities**: Godot 4.3+, Socket.io, PostgreSQL, Redis, Vultr VPS, Kiro IDE
+- **Constraints**: 
+  - Sub-100ms latency
+  - <10MB initial bundle
+  - ~$0.48/user/month at 1,000 users
+  - Server-authoritative architecture
+- **Non-goals**: 
+  - Mobile native apps (web only for MVP)
+  - Multiple fruit abilities (one for MVP)
+  - Trading system (post-MVP)
+- **What changed**: Initial project setup
+
+#### Phase
+- Current: **Phase 0 — Environment Setup**
+- Next: Phase 1 — Project Structure Creation
+
+#### Open Questions
+- Git repo URL (pending creation)
+- Vultr account setup status
+- Which fruit ability to implement for MVP?
+
+#### Next Steps
+1. Complete environment setup (both team members)
+2. Create shared Git repository
+3. Initialize project structure using Kiro Prompt 1
+4. Verify client-server communication works
+
+---
+```
+
+---
+
+## Step 5: Create Your Prompts File
+
+Create the file `C:\Users\Adam\projects\blox-game\steering\adam-prompts.md` with this content:
+
+```markdown
+# Kiro Prompts — Blox Fruits Game Project
+
+These are your prompts for each development phase. Copy-paste into Kiro when ready.
+
+---
+
+## Phase 1: Project Structure Creation
+
+```
+Initialize a Godot 4.3+ multiplayer game project with the following structure:
+
+Create a main project directory with subdirectories:
+- /client (Godot game project)
+- /server (Node.js backend)  
+- /shared (common data structures and protocols)
+- /deployment (Docker and configuration files)
+
+Set up Godot project with HTML5 export template enabled and configure project settings for WebGL 2.0 target.
+
+Initialize Node.js project in /server directory with package.json including Socket.io, Express, PostgreSQL client, and Redis client dependencies.
+
+Create basic .gitignore files for both Godot and Node.js environments.
+```
+
+---
+
+## Phase 2: Game Server Implementation
+
+```
+Create a Node.js game server in the /server directory implementing the following architecture:
+
+Set up Express.js HTTP server with Socket.io WebSocket support configured for CORS and production deployment.
+
+Implement room-based game sessions supporting maximum 50 players per room with automatic room creation and player matchmaking.
+
+Create authoritative server tick loop running at 20Hz for game state updates and physics simulation.
+
+Implement player connection handling with authentication, reconnection logic, and graceful disconnection cleanup.
+
+Set up PostgreSQL database connection with connection pooling for player data persistence and Redis client for session management and cross-server communication.
+
+Configure environment variables for database credentials, Redis connection, and server port settings.
+```
+
+---
+
+## Phase 3: Core Gameplay Systems
+
+```
+Implement core Blox Fruits-style game mechanics with server-authoritative architecture:
+
+Create player character controller with movement validation, jump mechanics, and collision detection on server side.
+
+Implement combat system with melee attacks, ranged abilities, and damage calculation with server-side hit detection and client-side prediction for responsiveness.
+
+Design fruit/power system with collectible Devil Fruit abilities, unique skill trees, and transformation mechanics stored in PostgreSQL player profiles.
+
+Create NPC enemy spawning system with AI behavior patterns, respawn timers, and loot drop mechanics.
+
+Implement experience and leveling system with stat progression, skill point allocation, and level-based content unlocking.
+
+Design basic inventory system with item management, equipment slots, and item trading capabilities between players.
+
+Ensure all game logic runs server-side with state synchronization to clients every 50ms for smooth gameplay.
+```
+
+---
+
+## Phase 4: Godot Client Development
+
+```
+Build the Godot game client with optimized web deployment:
+
+Create WebSocket client connection manager with automatic reconnection, connection state handling, and network error recovery.
+
+Implement client-side prediction for player movement and input handling to minimize perceived latency while awaiting server confirmation.
+
+Design entity interpolation system for smooth movement of other players and NPCs between server updates.
+
+Create responsive UI system with health bars, experience indicators, inventory interface, and ability activation buttons optimized for both desktop and mobile browsers.
+
+Implement asset loading system with progressive download, texture compression, and audio optimization to maintain <10MB initial bundle size.
+
+Configure Godot export settings for HTML5 with WebGL 2.0, enable threading where supported, and optimize for mobile browser performance.
+
+Set up client-side caching for frequently accessed game assets and implement efficient memory management for long gaming sessions.
+```
+
+---
+
+## Phase 5: Production Deployment Setup
+
+*Note: This is primarily Mical's domain. Collaborate as needed.*
+
+```
+Create comprehensive deployment pipeline for Vultr VPS infrastructure:
+
+Set up Docker containerization for Node.js game servers with multi-stage builds, environment variable injection, and health check endpoints.
+
+Configure Nginx load balancer with WebSocket proxy support, SSL termination using Let's Encrypt certificates, and geographic routing for optimal player connections.
+
+Implement PostgreSQL database deployment with master-replica configuration, automated backups, and connection pooling optimization.
+
+Set up Redis cluster for session management with persistence configuration and cross-server communication.
+
+Create CI/CD pipeline using GitHub Actions with automated testing, Docker image building, and deployment to Vultr instances.
+
+Configure auto-scaling triggers at 80% CPU utilization with automatic instance provisioning and load balancer registration.
+
+Implement monitoring stack with server health checks, player connection metrics, database performance monitoring, and cost tracking dashboards.
+```
+
+---
+
+## Phase 6: Performance and Analytics
+
+```
+Implement comprehensive performance optimization and monitoring systems:
+
+Create real-time performance metrics collection for server tick rates, player connection latency, and database query performance.
+
+Set up automated alerting for server overload conditions, database connection failures, and unusual player activity patterns.
+
+Implement game analytics tracking for player engagement metrics, session duration, and feature usage statistics while maintaining privacy compliance.
+
+Configure CDN integration for static asset delivery with cache optimization and geographic distribution.
+
+Set up database query optimization with indexing strategies, connection pooling tuning, and read replica load balancing.
+
+Create automated backup systems for player data with point-in-time recovery capabilities and disaster recovery procedures.
+```
+
+---
+
+## Usage Tips
+
+1. **One prompt at a time** — Don't rush through phases
+2. **Validate before moving on** — Make sure each phase works
+3. **Commit after each phase** — Clean git history
+4. **Update decisions.md** — Log what you completed
+5. **Ask if stuck** — Don't spin for hours
+```
+
+---
+
+## Step 6: Initialize Git Repository
+
+Once Mical creates the shared repo, you'll clone it:
+
+```powershell
+cd $env:USERPROFILE\projects\blox-game\repo
+git clone <REPO_URL> .
+```
+
+If starting fresh locally first:
+
+```powershell
+cd $env:USERPROFILE\projects\blox-game\repo
+git init
+git add .
+git commit -m "chore: initial project structure"
+```
+
+---
+
+## Step 7: Open in Kiro IDE
+
+1. Launch Kiro IDE
+2. Open folder: `C:\Users\Adam\projects\blox-game\repo`
+3. Kiro should automatically load your steering file from `~/.kiro/steering/game-core.md`
+4. Verify with the context/steering panel
+
+---
+
+## Step 8: Verify Everything Works
+
+### Checklist
+
+- [ ] Kiro IDE installed and opens
+- [ ] Git installed (`git --version` works in PowerShell)
+- [ ] Node.js installed (`node --version` shows v18+ or v20+)
+- [ ] Godot 4.3+ downloaded and runs
+- [ ] Directory structure created
+- [ ] `game-core.md` exists in `~/.kiro/steering/`
+- [ ] `decisions.md` exists in `~/projects/blox-game/steering/`
+- [ ] `adam-prompts.md` exists in `~/projects/blox-game/steering/`
+- [ ] Kiro loads steering file (check context panel)
+
+---
+
+## You're Ready!
+
+Once this checklist is complete:
+
+1. Let Mical know you're set up
+2. Wait for Git repo URL
+3. Start with Phase 1 prompt when given the go-ahead
+
+**Remember**: 
+- Check `decisions.md` before starting work
+- Update `decisions.md` after completing work
+- Ask if uncertain — it's faster than fixing mistakes
