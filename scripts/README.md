@@ -112,16 +112,30 @@ Updating agents/README.md...
 
 ## Future: Git Hook Automation
 
-Once validated, can add post-commit hook:
+**✅ IMPLEMENTED** (2026-02-10)
+
+Git hook installed at `.git/hooks/post-commit`:
 
 ```bash
-# .git/hooks/post-commit
-#!/bin/bash
-if git diff --name-only HEAD~1 | grep -q "projects/.*/decisions.md"; then
-    python3 palette/scripts/sync-impressions.py
-    git add palette/agents/README.md
-    git commit --amend --no-edit
-fi
+# Automatically runs when you commit decision log changes
+# 1. Detects changes to decisions.md or execution_summary.md
+# 2. Runs sync-impressions.py
+# 3. Amends commit with updated agents/README.md
+# 4. Pushes to GitHub
 ```
 
-**Not implemented yet** - validating manual workflow first.
+**How it works:**
+- Commit any decision log → Hook auto-syncs → GitHub updated
+- No manual sync needed
+- Recursion-safe (won't trigger on amended commits)
+
+**To disable:**
+```bash
+rm .git/hooks/post-commit
+```
+
+**To re-enable:**
+```bash
+cp palette/scripts/post-commit.sh .git/hooks/post-commit
+chmod +x .git/hooks/post-commit
+```
