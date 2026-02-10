@@ -19,6 +19,16 @@ Eight specialized agents with bounded responsibilities and enforced constraints.
 
 ---
 
+## Composite Agents (Multi-Agent Workflows)
+
+| Agent | Purpose | Agents Used | Status |
+|-------|---------|-------------|--------|
+| **Business Plan Creation** | End-to-end business plan (25-50 pages) | Argy, Rex, Yuty, Anky | WORKING (Rossi validated) |
+
+See `agents/business-plan-creation/` for details.
+
+---
+
 ## Agent Maturity Model
 
 ### Tier 1: UNVALIDATED (0-9 successes)
@@ -44,8 +54,17 @@ Eight specialized agents with bounded responsibilities and enforced constraints.
 
 ---
 
-## Current Status
+## Current Status (as of 2026-02-10)
 
-All agents at **v1.0 UNVALIDATED** (0 impressions).
+| Agent | Status | Impressions | Next Tier | Projects |
+|-------|--------|-------------|-----------|----------|
+| **Yutyrannus** | WORKING | 10 success, 0 fail | PRODUCTION (40 more) | rossi-mission (10) |
+| **Argentavis** | UNVALIDATED | 6 success, 0 fail | WORKING (4 more) | rossi-mission (6) |
+| **Tyrannosaurus** | UNVALIDATED | 1 success, 0 fail | WORKING (9 more) | rossi-mission (1) |
+| **Ankylosaurus** | UNVALIDATED | 1 success, 0 fail | WORKING (9 more) | rossi-mission (1) |
+| **Therizinosaurus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Velociraptor** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Parasaurolophus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Orchestrator** | DESIGN ONLY | - | - | - |
 
 See individual agent directories for implementation details.
