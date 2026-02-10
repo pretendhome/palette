@@ -62,7 +62,7 @@ See `agents/business-plan-creation/` for details.
 | **Argentavis** | UNVALIDATED | 7 success, 0 fail | WORKING (3 more) | rossi-mission (7) |
 | **Tyrannosaurus** | UNVALIDATED | 1 success, 0 fail | WORKING (9 more) | rossi-mission (1) |
 | **Ankylosaurus** | UNVALIDATED | 1 success, 0 fail | WORKING (9 more) | rossi-mission (1) |
-| **Therizinosaurus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Therizinosaurus** | UNVALIDATED | 1 success, 0 fail | WORKING (9 more) | rossi-mission (1) |
 | **Velociraptor** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
 | **Parasaurolophus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
 | **Orchestrator** | DESIGN ONLY | - | - | - |
