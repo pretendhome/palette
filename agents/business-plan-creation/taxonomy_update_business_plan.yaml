@@ -1,0 +1,293 @@
+# Add to palette_taxonomy_v1.2.yaml
+
+- riu_id: RIU-105
+  name: Business Plan Creation
+  problem_pattern: Customer needs comprehensive business plan but lacks time/expertise to research comparables, model financials, and structure narrative
+  execution_intent: |
+    End-to-end business plan creation through 8-phase process:
+    1. Discovery: Customer interview → convergence brief
+    2. Comparable Research: Find 2-3 organizations with financial data
+    3. Market Research: Size, trends, segments, competition
+    4. Strategic Framework: Revenue model, org structure, financials
+    5. Product Strategy: Offerings, pricing, go-to-market
+    6. Document Assembly: Executive summary, plan, appendix
+    7. Quality Validation: Score 75+, gap identification
+    8. Customer Review: Feedback, iteration, approval
+    
+    Validated with Rossi Mission (Feb 2026) - "very well received"
+  
+  workstreams:
+    - Clarify & Bound
+    - Interfaces & Inputs
+    - Core Logic
+    - Quality & Safety
+    - Ops & Delivery
+  
+  coordinates:
+    industry: '*'
+    category: business_planning
+    use_case: strategic_planning
+  
+  trigger_signals:
+    - business plan
+    - strategic plan
+    - product strategy
+    - go-to-market plan
+    - market analysis
+    - competitive analysis
+    - business model
+    - revenue model
+    - funding requirements
+  
+  artifacts:
+    - convergence_brief.md
+    - comparable_organizations.md
+    - market_research.md
+    - strategic_framework.md
+    - product_strategy.md
+    - business_plan_draft.md
+    - validation_report.md
+  
+  reversibility: mixed
+  
+  success_conditions:
+    execution: |
+      - Convergence brief approved
+      - Comparable found with financial data
+      - All claims sourced [Research: ...] [Case Study: ...]
+      - Cash crises identified (monthly cash flow)
+      - Quality score 75+ (Anky validation)
+      - Customer approves final document
+    outcome: |
+      - Customer finds plan valuable ("well-received")
+      - Plan is comprehensive (all strategic elements)
+      - Plan is actionable (customer can execute)
+      - Process is repeatable (works across industries)
+    safety_quality: |
+      - 4 ONE-WAY DOORS flagged (scope, revenue model, funding, approval)
+      - 8 quality gates enforced
+      - Evidence markers required [Research: ...] [Case Study: ...]
+      - Financial crisis detection (cash flow modeling)
+  
+  failure_modes:
+    silent:
+      - Generic/templated output (not customer-specific)
+      - Unrealistic projections (not benchmarked)
+      - Hidden cash crises (no monthly modeling)
+    loud:
+      - No comparable found (can't validate model)
+      - Customer rejects plan (misalignment)
+      - Quality score <75 (insufficient rigor)
+    clustered:
+      - Complex multi-sided businesses
+      - Highly regulated industries
+      - Novel business models (no comparables)
+  
+  dependencies:
+    - RIU-001 (Convergence Brief)
+    - RIU-106 (Comparable Organization Research)
+    - RIU-107 (Financial Crisis Detection)
+  
+  agent_types:
+    - Human:Delivery
+    - ARK:Orchestrator
+    - ARK:Argentavis
+    - ARK:Tyrannosaurus
+    - ARK:Yutyrannus
+    - ARK:Ankylosaurus
+  
+  notes: |
+    Time budget: 9-16 agent hours, 2.5-4.5 customer hours, 1-2 weeks elapsed
+    
+    Customization by industry:
+    - Retail: Focus location, inventory, foot traffic
+    - SaaS: Focus product-market fit, retention, scalability
+    - Service: Focus delivery model, capacity, utilization
+    
+    Customization by stage:
+    - Startup: Focus validation, MVP, initial customers
+    - Growth: Focus scaling, systems, team building
+    - Established: Focus optimization, expansion, profitability
+    
+    Customization by complexity:
+    - Simple (single product): 8-10 hours, 15-25 pages
+    - Medium (multiple offerings): 12-16 hours, 25-40 pages
+    - Complex (marketplace): 20+ hours, 40-60 pages
+  
+  tags:
+    - business-planning
+    - strategic-planning
+    - market-research
+    - financial-modeling
+    - comparable-analysis
+
+- riu_id: RIU-106
+  name: Comparable Organization Research
+  problem_pattern: Customer claims "no one does this" or uses weak analogies; need credible comparables with financial data to validate business model
+  execution_intent: |
+    Find and analyze comparable organizations:
+    1. Search for 2-3 organizations solving same problem at scale
+    2. Extract financial data (Form 990, public filings, reports)
+    3. Benchmark key metrics (revenue, costs, model, growth)
+    4. Validate customer's model against comparables (or identify gaps)
+    
+    Breakthrough example: Creative Growth Art Center (Rossi Mission)
+    - Form 990: $3.26M revenue, 140 artists, 50/50 split, 50 years
+    - Proved nonprofit artist collective model works at scale
+    - Replaced weak analogies (Supreme, Stüssy) with credible comparable
+  
+  workstreams:
+    - Interfaces & Inputs
+    - Core Logic
+  
+  coordinates:
+    industry: '*'
+    category: research
+    use_case: market_validation
+  
+  trigger_signals:
+    - comparable organizations
+    - case studies
+    - who else does this
+    - market validation
+    - proven models
+    - similar businesses
+  
+  artifacts:
+    - comparable_organizations.md
+    - financial_benchmarks.md
+  
+  reversibility: two_way
+  
+  success_conditions:
+    execution: |
+      - Find 1-3 credible comparables
+      - Extract financial data (revenue, costs, model)
+      - Benchmark key metrics
+    outcome: |
+      - Validate customer's model (or identify gaps)
+      - Provide financial benchmarks for projections
+      - Build credibility with stakeholders
+    safety_quality: |
+      - Comparables must be credible (not weak analogies)
+      - Financial data must be sourced (Form 990, public filings)
+      - Benchmarks must be relevant (same industry, stage, model)
+  
+  failure_modes:
+    silent:
+      - Weak comparables (not credible)
+      - Missing financial data (can't benchmark)
+    loud:
+      - No comparables found (novel business model)
+      - Comparables invalidate customer's model
+  
+  dependencies: []
+  
+  agent_types:
+    - ARK:Argentavis
+  
+  notes: |
+    Time budget: 1-2 hours
+    
+    Data sources:
+    - Nonprofits: IRS Form 990 (public)
+    - Public companies: SEC filings (10-K, 10-Q)
+    - Private companies: Crunchbase, PitchBook, news
+    
+    Search strategy:
+    - Start with customer's description
+    - Search for "[industry] + [model] + [scale]"
+    - Look for organizations 2-5 years ahead
+    - Prioritize geographic/cultural similarity
+  
+  tags:
+    - research
+    - comparables
+    - benchmarking
+    - market-validation
+
+- riu_id: RIU-107
+  name: Financial Crisis Detection
+  problem_pattern: Customer has revenue projections but hasn't modeled cash flow; crises hidden in spreadsheet (e.g., Month 17 crisis in Rossi)
+  execution_intent: |
+    Analyze cash flow to identify future crises:
+    1. Build 3-year cash flow model (monthly Year 1, quarterly Year 2-3)
+    2. Identify months with negative cash (crises)
+    3. Calculate reserve buffer needed (3-month minimum)
+    4. Recommend funding ask increase (if needed)
+    
+    Rossi example: Month 17 crisis detected
+    - Cash flow modeling showed negative cash in Month 17
+    - Led to funding ask increase ($150K → $185-200K)
+    - 3-month reserve buffer added
+  
+  workstreams:
+    - Core Logic
+    - Quality & Safety
+  
+  coordinates:
+    industry: '*'
+    category: financial_modeling
+    use_case: cash_flow_analysis
+  
+  trigger_signals:
+    - cash flow
+    - runway
+    - funding requirements
+    - when do we run out of money
+    - burn rate
+    - reserve buffer
+  
+  artifacts:
+    - cash_flow_model.xlsx
+    - crisis_analysis.md
+    - funding_requirements.md
+  
+  reversibility: two_way
+  
+  success_conditions:
+    execution: |
+      - Monthly cash flow for Year 1
+      - Identify all negative cash months
+      - Calculate reserve buffer (3-month minimum)
+    outcome: |
+      - Prevent cash crises (early warning)
+      - Right-size funding ask (adequate runway)
+      - Build stakeholder confidence (rigor)
+    safety_quality: |
+      - Must model monthly (not quarterly) for Year 1
+      - Must include all costs (fixed + variable)
+      - Must flag all negative months as crises
+  
+  failure_modes:
+    silent:
+      - Quarterly modeling (misses monthly crises)
+      - Missing costs (underestimates burn)
+    loud:
+      - Multiple crises identified (business not viable)
+  
+  dependencies: []
+  
+  agent_types:
+    - ARK:Tyrannosaurus
+  
+  notes: |
+    Time budget: 1 hour
+    
+    Modeling approach:
+    - Start with revenue projections (by stream)
+    - Add all costs (fixed: rent, salaries; variable: COGS, marketing)
+    - Calculate monthly net cash flow
+    - Identify negative months (crises)
+    - Add 3-month reserve buffer to funding ask
+    
+    Common crises:
+    - Month 1-3: Pre-revenue burn
+    - Month 6-9: Scaling costs before revenue scales
+    - Month 12-18: Growth investment before payback
+  
+  tags:
+    - financial-modeling
+    - cash-flow
+    - crisis-detection
+    - funding-requirements

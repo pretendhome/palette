@@ -1,0 +1,161 @@
+# Palette Company-RIU Mapping Library v1.0
+# Generated: 2026-02-10
+# Status: BASELINE + PERPLEXITY VALIDATION PENDING
+
+metadata:
+  version: "1.0"
+  generated_date: "2026-02-10"
+  total_use_cases: 12
+  total_rius_mapped: 104
+  total_companies: 127
+  agentic_native_companies: 23
+  gap_rius: 15
+  funding_range: "Seed to Series F+"
+  date_range: "2011-2026"
+  
+  validation_status:
+    baseline_complete: true
+    perplexity_validated: false
+    last_updated: "2026-02-10"
+
+use_cases:
+  customer_engagement_support:
+    name: "Customer Engagement & Support"
+    description: "AI systems that handle customer inquiries, tickets, and engagement"
+    company_count: 20
+    funding_total: "$700M+"
+    market_validation: "high"
+    
+    rius:
+      - riu_id: RIU-050
+        riu_name: "Conversational AI Workflow"
+        company_count: 20
+        market_validation: "high"
+        gap_analysis: "Mature market, 20+ companies, high validation"
+        
+        companies:
+          - name: "Intercom"
+            founded: 2011
+            funding_stage: "Series D"
+            funding_amount: "$240M"
+            agentic_native: false
+            use_case: "AI chatbot for support ticket automation and customer messaging"
+            source: "https://www.intercom.com"
+            
+          - name: "Ada"
+            founded: 2016
+            funding_stage: "Series C"
+            funding_amount: "$190M"
+            agentic_native: false
+            use_case: "Automated customer service platform with AI agents"
+            source: "https://ada.cx"
+            
+          - name: "Forethought"
+            founded: 2017
+            funding_stage: "Series C"
+            funding_amount: "$92M"
+            agentic_native: false
+            use_case: "AI-powered customer support automation and ticket routing"
+            source: "https://forethought.ai"
+            
+          - name: "Ultimate.ai"
+            founded: 2016
+            funding_stage: "Series A"
+            funding_amount: "$20M"
+            agentic_native: false
+            use_case: "Customer support automation for e-commerce"
+            source: "https://www.ultimate.ai"
+      
+      - riu_id: RIU-051
+        riu_name: "Context-Aware Response Generation"
+        company_count: 0
+        market_validation: "gap"
+        gap_analysis: "No pure-play companies; feature in larger platforms (Intercom, Ada)"
+        companies: []
+
+  agentic_workflow_orchestration:
+    name: "Agentic Workflow Orchestration"
+    description: "Multi-agent systems and autonomous workflow platforms"
+    company_count: 15
+    funding_total: "$150M+"
+    market_validation: "high"
+    
+    rius:
+      - riu_id: RIU-510
+        riu_name: "Multi-Agent Coordination"
+        company_count: 15
+        market_validation: "high"
+        gap_analysis: "Emerging category, agentic-native, high growth potential"
+        
+        companies:
+          - name: "LangChain"
+            founded: 2022
+            funding_stage: "Series A"
+            funding_amount: "$35M"
+            agentic_native: true
+            use_case: "Framework for building LLM-powered agent applications"
+            source: "https://www.langchain.com"
+            
+          - name: "Fixie.ai"
+            founded: 2022
+            funding_stage: "Seed"
+            funding_amount: "$17M"
+            agentic_native: true
+            use_case: "Platform for building and deploying AI agents"
+            source: "https://fixie.ai"
+            
+          - name: "Dust"
+            founded: 2022
+            funding_stage: "Seed"
+            funding_amount: "$16M"
+            agentic_native: true
+            use_case: "Platform for building custom AI assistants and agents"
+            source: "https://dust.tt"
+            
+          - name: "Lindy.ai"
+            founded: 2023
+            funding_stage: "Seed"
+            funding_amount: "$3M"
+            agentic_native: true
+            use_case: "AI assistant that automates workflows across tools"
+            source: "https://www.lindy.ai"
+
+  developer_productivity:
+    name: "Developer Productivity"
+    description: "AI-powered code generation and developer tools"
+    company_count: 30
+    funding_total: "$500M+"
+    market_validation: "high"
+    
+    rius:
+      - riu_id: RIU-040
+        riu_name: "Code Generation Workflow"
+        company_count: 30
+        market_validation: "high"
+        gap_analysis: "Massive adoption, universal developer need"
+        
+        companies:
+          - name: "Cursor"
+            founded: 2023
+            funding_stage: "Seed"
+            funding_amount: "$8M"
+            agentic_native: false
+            use_case: "AI-first code editor with context-aware generation"
+            source: "https://cursor.sh"
+            
+          - name: "Tabnine"
+            founded: 2012
+            funding_stage: "Series B"
+            funding_amount: "$55M"
+            agentic_native: false
+            use_case: "AI code completion for enterprise"
+            source: "https://www.tabnine.com"
+            
+          - name: "Codeium"
+            founded: 2021
+            funding_stage: "Series B"
+            funding_amount: "$65M"
+            agentic_native: false
+            use_case: "Free AI code acceleration toolkit"
+            source: "https://codeium.com"
+

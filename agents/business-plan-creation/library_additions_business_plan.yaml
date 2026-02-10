@@ -1,0 +1,269 @@
+# Add to palette_knowledge_library_v1.2.yaml
+
+- id: LIB-089
+  question: What frameworks should I use for business model design?
+  answer: |
+    Use these proven frameworks for business model design:
+    
+    **1. Business Model Canvas** (Osterwalder)
+    - 9 building blocks: Value proposition, customer segments, channels, 
+      customer relationships, revenue streams, key resources, key activities, 
+      key partnerships, cost structure
+    - Best for: Startups and new ventures
+    - Time: 1-2 hours to complete
+    - Output: One-page visual business model
+    
+    **2. Value Proposition Canvas** (Osterwalder)
+    - Customer profile: Jobs to be done, pains, gains
+    - Value map: Products/services, pain relievers, gain creators
+    - Best for: Product-market fit validation
+    - Time: 30-60 min to complete
+    - Output: Customer-value alignment map
+    
+    **3. Lean Canvas** (Maurya)
+    - Focuses on: Problem, solution, key metrics, unfair advantage, channels
+    - Best for: Lean startups and MVPs
+    - Time: 20-30 min to complete
+    - Output: One-page lean business model
+    
+    **4. Strategic Framework** (Porter's 5 Forces + SWOT)
+    - Porter's 5 Forces: Supplier power, buyer power, competitive rivalry, 
+      threat of substitutes, threat of new entrants
+    - SWOT: Strengths, weaknesses, opportunities, threats
+    - Best for: Established businesses and competitive strategy
+    - Time: 2-3 hours to complete
+    - Output: Competitive positioning analysis
+    
+    **When to use which**:
+    - New startup → Lean Canvas or Business Model Canvas
+    - Product validation → Value Proposition Canvas
+    - Strategic planning → Porter's 5 Forces + SWOT
+    - Comprehensive plan → Combine multiple frameworks
+    
+    **Rossi Mission example**:
+    - Used Business Model Canvas for revenue streams (7 streams)
+    - Used Value Proposition Canvas for artist value (50/50 split)
+    - Used SWOT for competitive positioning (scarcity economics)
+  
+  problem_type: Intake_and_Convergence
+  
+  related_rius:
+    - RIU-105
+  
+  difficulty: medium
+  
+  industries:
+    - All
+  
+  tags:
+    - business-planning
+    - strategy
+    - frameworks
+    - business-model
+  
+  sources:
+    - title: Business Model Generation
+      url: https://www.strategyzer.com/books/business-model-generation
+    - title: Running Lean
+      url: https://leanstack.com/running-lean-book
+    - title: Value Proposition Design
+      url: https://www.strategyzer.com/books/value-proposition-design
+
+- id: LIB-090
+  question: How do I conduct market research for a business plan?
+  answer: |
+    Comprehensive market research process for business plans:
+    
+    **1. Market Sizing (TAM/SAM/SOM)**
+    - TAM (Total Addressable Market): Total market demand if you had 100% share
+    - SAM (Serviceable Addressable Market): Segment you can realistically reach
+    - SOM (Serviceable Obtainable Market): What you can capture in 3-5 years
+    - Growth rates: Historical (3-5 years) and projected (3-5 years)
+    
+    **2. Customer Research**
+    - Customer segments: Demographics, psychographics, behavior
+    - Pain points and needs: What problems do they have?
+    - Buying behavior: How do they make decisions?
+    - Willingness to pay: What's their budget?
+    - Decision criteria: What matters most?
+    
+    **3. Competitive Analysis**
+    - Direct competitors: Same solution, same market
+    - Indirect competitors: Different solution, same need
+    - Substitute products: Alternative ways to solve problem
+    - Competitive positioning map: Price vs quality, features vs simplicity
+    - Market share: Who dominates? Who's growing?
+    
+    **4. Industry Analysis (Porter's 5 Forces)**
+    - Supplier power: How much leverage do suppliers have?
+    - Buyer power: How much leverage do customers have?
+    - Competitive rivalry: How intense is competition?
+    - Threat of substitutes: How easy to switch to alternatives?
+    - Threat of new entrants: How easy for new competitors to enter?
+    
+    **Data Sources**:
+    - Primary: Customer interviews (10-20), surveys (100+), focus groups (6-10)
+    - Secondary: Industry reports (IBISWorld, Gartner), government data (Census, BLS)
+    - Competitive: Competitor websites, reviews (G2, Capterra), job postings (LinkedIn)
+    - Financial: Form 990 (nonprofits), SEC filings (public companies), Crunchbase (startups)
+    
+    **Time Budget**:
+    - Quick (2-4 hours): Secondary research only, basic sizing
+    - Medium (8-12 hours): Secondary + limited primary (5-10 interviews)
+    - Comprehensive (20+ hours): Full primary + secondary, detailed analysis
+    
+    **Rossi Mission example**:
+    - TAM: SF Bay Area graffiti/street art market
+    - SAM: Valencia Street corridor (2-4% vacancy, healthy)
+    - SOM: 80 artists, $780K Year 1 revenue
+    - Comparable: Creative Growth ($3.26M, 140 artists, 50 years)
+    - Competitive: Stüssy Tribe, ALIFE, GX1000 (rejected as weak analogies)
+  
+  problem_type: Human_to_System_Translation
+  
+  related_rius:
+    - RIU-105
+    - RIU-106
+  
+  difficulty: medium
+  
+  industries:
+    - All
+  
+  tags:
+    - market-research
+    - business-planning
+    - customer-discovery
+    - competitive-analysis
+  
+  sources:
+    - title: The Lean Startup - Customer Development
+      url: http://theleanstartup.com/
+    - title: IBISWorld Industry Reports
+      url: https://www.ibisworld.com/
+    - title: U.S. Census Bureau - Economic Data
+      url: https://www.census.gov/programs-surveys/economic-census.html
+
+- id: LIB-091
+  question: What should a business plan document include?
+  answer: |
+    Standard business plan structure (25-50 pages):
+    
+    **1. Executive Summary** (2 pages)
+    - Business concept and value proposition
+    - Market opportunity (size, trends, segments)
+    - Competitive advantage (differentiation)
+    - Financial highlights (revenue, costs, funding)
+    - Team overview (founders, key hires)
+    - Funding requirements (if applicable)
+    - Go/no-go recommendation
+    
+    **2. Decision Framework** (3 pages) - Palette addition
+    - 3-5 ONE-WAY DOORS with gradient descent options
+    - Human confirmation checkboxes
+    - Game theory analysis (when each option wins)
+    
+    **3. Company Description** (3-5 pages)
+    - Mission and vision
+    - Legal structure (LLC, C-corp, nonprofit, etc.)
+    - Location and facilities
+    - History (if established)
+    - Products/services overview
+    
+    **4. Market Analysis** (5-10 pages)
+    - Industry overview and trends
+    - Target market definition (TAM/SAM/SOM)
+    - Market size and growth rates
+    - Customer segments (demographics, needs, behavior)
+    - Competitive analysis (direct, indirect, substitutes)
+    - Market positioning (differentiation)
+    - [Research: ...] citations throughout
+    
+    **5. Organization & Management** (3-5 pages)
+    - Organizational structure (chart)
+    - Management team (bios, experience)
+    - Board of directors/advisors (if applicable)
+    - Key personnel requirements (hires, contractors)
+    - Governance model (decision-making, meetings)
+    
+    **6. Products/Services** (5-10 pages)
+    - Detailed description (features, benefits)
+    - Unique value proposition (why customers buy)
+    - Product lifecycle (development, launch, growth)
+    - Intellectual property (if applicable)
+    - R&D activities (if applicable)
+    
+    **7. Marketing & Sales Strategy** (5-10 pages)
+    - Go-to-market strategy (channels, tactics)
+    - Marketing channels (digital, events, partnerships)
+    - Sales process (lead gen, conversion, retention)
+    - Pricing strategy (benchmarked against comparables)
+    - Customer acquisition cost (CAC)
+    - Lifetime value (LTV)
+    
+    **8. Operations Plan** (5-10 pages)
+    - Production/service delivery process
+    - Technology and equipment
+    - Suppliers and vendors
+    - Quality control
+    - Facilities and location
+    
+    **9. Financial Projections** (5-10 pages)
+    - Revenue model (3-7 streams with projections)
+    - 3-year financial projections (revenue, costs, profit)
+    - Cash flow analysis (monthly Year 1, quarterly Year 2-3)
+    - Break-even analysis
+    - Funding requirements (with 3-month reserve)
+    - Key assumptions (growth rates, conversion rates)
+    
+    **10. Implementation Plan** (3-5 pages) - Palette addition
+    - 6-week action plan (week-by-week tasks)
+    - Milestones and checkpoints
+    - Resource requirements (time, money, people)
+    - Risk mitigation (what could go wrong)
+    
+    **11. Appendices**
+    - Market research data (sources, reports)
+    - Comparable organization data (Form 990, financials)
+    - Product specifications
+    - Legal documents
+    - Resumes of key personnel
+    - Letters of intent from customers
+    
+    **Customization by audience**:
+    - Investors: Emphasize financials, scalability, return potential, exit strategy
+    - Banks: Emphasize stability, collateral, repayment ability, cash flow
+    - Partners: Emphasize mutual benefits, capabilities, alignment, win-win
+    - Internal: Emphasize execution, milestones, resource needs, accountability
+    
+    **Rossi Mission example**:
+    - 25-page main report (UNDERWRITER_READY_REPORT.md)
+    - 80 pages total (including supporting docs)
+    - Every claim cited with [Research: ...] or [Case Study: ...]
+    - 3 ONE-WAY DOORS flagged (revenue model, funding ask, governance)
+    - 6-week implementation plan with checkboxes
+    - Anky validation score: 82/100 (conditional pass)
+  
+  problem_type: Ops_and_Delivery
+  
+  related_rius:
+    - RIU-105
+  
+  difficulty: medium
+  
+  industries:
+    - All
+  
+  tags:
+    - business-planning
+    - documentation
+    - strategic-planning
+    - financial-projections
+  
+  sources:
+    - title: SBA - Write Your Business Plan
+      url: https://www.sba.gov/business-guide/plan-your-business/write-your-business-plan
+    - title: Harvard Business Review - How to Write a Business Plan
+      url: https://hbr.org/2016/09/how-to-write-a-winning-business-plan
+    - title: Bplans - Business Plan Template
+      url: https://www.bplans.com/business-plan-template/

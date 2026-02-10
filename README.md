@@ -24,7 +24,7 @@ So I built a system with three tiers:
 
 ---
 
-## The Two Artifacts
+## The Three Artifacts
 
 ### 1. Optimized Taxonomy (105 RIUs)
 
@@ -36,7 +36,7 @@ What I would design for AWS if I could start from scratch. Uses AWS "use cases"�
 
 **New in v1.3**: RIU-105 (Agent Security & Access Control)
 
-### 2. Knowledge Library (81 Questions + Answers + Sources)
+### 2. Knowledge Library (93 Questions + Answers + Sources)
 
 Located: `knowledge-library/v1.2/palette_knowledge_library_v1.2.yaml`
 
@@ -50,16 +50,26 @@ Curated GTM knowledge from AWS internal chatbot, validated with internal tooling
 
 **New in v1.3**: 5 new entries (security, decision classification, quality evaluation)
 
+### 3. Company-RIU Mapping Library (127 companies, 12 use cases)
+
+Located: `company-library/v1.0/palette_company_riu_mapping_v1.0.yaml`
+
+Maps 127 funded AI companies to Palette RIUs across 12 use cases. Market validation — funded companies = real problems. Each entry includes company name, funding stage, use case description, and RIU mapping.
+
+**Why this matters**: If venture-backed companies are building solutions in a space, that's external evidence the problem is real. This library connects market signals to Palette's taxonomy.
+
+**New in v1.3**: Initial baseline (v1.0), Perplexity validation pending
+
 ---
 
 ## How It Works
 
 1. **You give me a problem**
-2. **System classifies it in the taxonomy** (matches to one of 104 RIUs)
+2. **System classifies it in the taxonomy** (matches to one of 105 RIUs)
 3. **Routes to an agent** that already has information on how to solve it
 4. **Agent has access to**:
    - Internal code patterns (from agents/)
-   - GTM knowledge library (86 Q&A pairs)
+   - GTM knowledge library (93 Q&A pairs)
 5. **Agent builds what's needed**
 6. **When it does good work consistently, it gets promoted**:
    - UNVALIDATED → WORKING (after 10 successes)
@@ -81,16 +91,31 @@ The system:
 
 ---
 
+## Active Projects
+
+Three projects currently validate Palette in practice:
+
+### 1. Teaching Agentic Systems (`/fde/projects/agent-class/`)
+Interview prep and 30-minute demos showing how Palette's three-tier system works. Uses taxonomy routing and agent archetypes to teach agentic concepts with a live toolkit.
+
+### 2. Small Business Help (`/fde/projects/rossi-mission/`)
+Building a business plan for a graffiti art gallery. Palette routes the problem through RIUs covering customer engagement, market analysis, and operational planning.
+
+### 3. Video Game Development (`/fde/projects/myth-fall-game/`)
+Multiplayer RPG built with Godot + Node.js. Palette manages architecture decisions, implementation patterns, and quality validation across a complex game development stack.
+
+---
+
 ## File Structure
 
 ```
 palette/
 ├── README.md                           # This file
-├── GETTING_STARTED.md                  # 5-minute onboarding (NEW)
+├── GETTING_STARTED.md                  # 5-minute onboarding
 ├── VISION.md                           # Self-improving infrastructure vision
-├── CONTRIBUTING.md                     # How to contribute (NEW)
-├── CHANGELOG.md                        # Version history (NEW)
-├── DEMO_GUIDE.md                       # How to demo Palette
+├── CONTRIBUTING.md                     # How to contribute
+├── CHANGELOG.md                        # Version history
+├── DEMO.md                             # How to demo Palette
 │
 ├── .kiro/steering/
 │   ├── palette-core.md                 # Tier 1: Core prompt (immutable rules)
@@ -99,47 +124,46 @@ palette/
 │
 ├── taxonomy/
 │   ├── releases/v1.2/
-│   │   └── palette_taxonomy_v1.2.yaml  # 104 RIUs (problems → solutions)
-│   └── README.md                       # Taxonomy guide (NEW)
+│   │   └── palette_taxonomy_v1.2.yaml  # 105 RIUs (problems → solutions)
+│   └── README.md                       # Taxonomy guide
 │
 ├── knowledge-library/
 │   ├── v1.2/
-│   │   └── palette_knowledge_library_v1.2.yaml  # 86 Q&A + sources
-│   └── README.md                       # Library guide (NEW)
+│   │   └── palette_knowledge_library_v1.2.yaml  # 93 Q&A + sources
+│   └── README.md                       # Library guide
 │
-├── agents/                             # 8 agent implementations
+├── company-library/                    # Market validation (NEW in v1.3)
+│   └── v1.0/
+│       ├── palette_company_riu_mapping_v1.0.yaml  # 127 companies → RIUs
+│       └── README.md                   # Company library guide
+│
+├── agents/                             # 7 agent implementations
 │   ├── argentavis/                     # Argy - Research
-│   ├── tyrannosaurus/                  # Rex - Architecture
+│   ├── rex/                            # Rex - Architecture
 │   ├── therizinosaurus/                # Theri - Build
 │   ├── velociraptor/                   # Raptor - Debug
 │   ├── yutyrannus/                     # Yuty - Narrative
 │   ├── ankylosaurus/                   # Anky - Validate
 │   ├── parasaurolophus/                # Para - Monitor
-│   └── README.md                       # Agent overview (NEW)
+│   └── README.md                       # Agent overview
 │
-├── examples/                           # Production use cases (NEW)
-│   ├── intake-convergence/             # RIU-001 examples
-│   ├── architecture-design/            # RIU-042 examples
-│   ├── implementation/                 # RIU-078 examples
-│   ├── quality-safety/                 # RIU-089 examples
-│   ├── operations-delivery/            # RIU-095 examples
-│   ├── adoption-change/                # RIU-101 examples
-│   └── README.md                       # Examples index (NEW)
+├── examples/                           # Production use cases
+│   └── README.md                       # Examples index
 │
-├── assets/                             # Visual identity (NEW)
-│   └── README.md                       # Brand guidelines (pending Yuty)
+├── research/                           # Agent research & recommendations
+│   └── google-agents-final-recommendations.md
 │
-├── .github/                            # Contribution workflow (NEW)
-│   ├── ISSUE_TEMPLATE/
-│   │   ├── agent-failure.md
-│   │   ├── use-case-submission.md
-│   │   └── library-entry.md
-│   └── PULL_REQUEST_TEMPLATE.md
+├── scripts/                            # Automation scripts
+│   └── setup-perplexity-mcp.sh
+│
+├── assets/                             # Visual identity & brand
+│   ├── brand-guidelines.md
+│   ├── palette-one-pager.md
+│   └── UX/
 │
 ├── decisions.md                        # Tier 3: Toolkit development decisions
 │
-└── docs/
-    └── [future deep-dive guides]
+└── garbage_collection/                 # Archived/superseded files
 ```
 
 ---
@@ -199,7 +223,7 @@ The testing tier. Logs what works, what doesn't, and why.
 
 **Palette doesn't just solve problems — it learns which solutions work, then teaches itself to get better.**
 
-- Knowledge library grows (86 → 300 → 800 questions)
+- Knowledge library grows (93 → 300 → 800 questions)
 - Agents evolve (UNVALIDATED → PRODUCTION)
 - Cross-domain patterns emerge
 - Institutional knowledge that doesn't leave when people do
@@ -218,9 +242,10 @@ The testing tier. Logs what works, what doesn't, and why.
 ### Deep Dive
 1. **Read VISION.md** — Understand why Palette exists
 2. **Read .kiro/steering/palette-core.md** — Understand Tier 1 rules
-3. **Browse taxonomy/** — See the 104 RIUs (v1.2)
-4. **Browse knowledge-library/** — See the 86 Q&A pairs
-5. **Read docs/** — Deep-dive guides (coming soon)
+3. **Browse taxonomy/** — See the 105 RIUs (v1.2)
+4. **Browse knowledge-library/** — See the 93 Q&A pairs
+5. **Browse company-library/** — See 127 companies mapped to RIUs
+6. **Read docs/** — Deep-dive guides (coming soon)
 
 ### Contributing
 1. **Read CONTRIBUTING.md** — Learn how to contribute
@@ -239,4 +264,4 @@ The testing tier. Logs what works, what doesn't, and why.
 
 ---
 
-**This is the toolkit. Projects using it live in `/home/mical/projects/`**
+**This is the toolkit. Projects using it live in `/fde/projects/`**
