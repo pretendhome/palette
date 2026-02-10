@@ -11,6 +11,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.3.1] - 2026-02-10
+
+### Added
+- **Company-RIU Mapping Library v1.0**: 127 funded AI companies mapped to Palette RIUs across 12 use cases
+- **Business Plan Composite Agent**: Multi-agent workflow (Argy → Rex → Yuty → Anky) validated on Rossi project
+- **Impression Sync Script**: `scripts/sync-impressions.py` aggregates agent performance from project logs
+- **Git Hook Automation**: Post-commit hook auto-syncs impressions and pushes to GitHub
+- **Windows Quick Start Guide**: Platform-agnostic setup instructions addressing Windows confusion
+- **Agent Maturity Tracking**: Live status in `agents/README.md` with impression counts
+
+### Changed
+- **Yutyrannus promoted to WORKING tier**: First agent to reach Tier 2 (10 consecutive successes on rossi-mission)
+- **Updated palette.zip**: Now 462KB, includes v1.3.1 features, Windows-friendly with clear setup guide
+- **Agents README**: Shows real-time impression counts, maturity status, and projects contributing
+
+### Fixed
+- **Platform confusion**: Clarified Palette is markdown files (works on Windows/macOS/Linux, no installation)
+- **Impression rollup**: Projects now automatically sync to global agent maturity on commit
+
+---
+
 ## [1.3.0] - 2026-02-05
 
 ### Added
