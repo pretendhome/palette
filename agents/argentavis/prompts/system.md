@@ -2,7 +2,7 @@
 
 **Version**: 1.0  
 **Archetype**: ARK:Argentavis  
-**Status**: UNVALIDATED  
+**Status**: WORKING  
 **Authority**: Subordinate to Palette Tier 1-3
 
 ---

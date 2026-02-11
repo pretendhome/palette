@@ -2,7 +2,7 @@
 
 **Agent Type**: ARK:Yutyrannus  
 **Version**: 1.0  
-**Status**: UNVALIDATED (Tier 1)  
+**Status**: WORKING (Tier 2)
 **Invocation**: `#yutyrannus` or `#yuty`  
 **Authority**: Subordinate to Palette Tier 1-3
 
@@ -357,10 +357,22 @@ Yuty handoff: Created narrative for [audience] with goal [goal], evidence level 
 
 ## Maturity Tracking
 
-**Current Status**: UNVALIDATED (Tier 1)
-- Requires human review of all narratives
+**Current Status**: WORKING (Tier 2)
+- Autonomous with review
 - Success/failure logged after each execution
-- Promotion to WORKING after 10 consecutive successes
+- Promotion to PRODUCTION after 50 impressions with <5% failure
+
+```
+agent: yutyrannus
+ark_type: ARK:Yutyrannus
+version: 1.0
+status: WORKING
+impressions:
+  success: 13
+  fail: 0
+  fail_gap: 13
+notes: Promoted to WORKING 2026-02-10. rossi-mission (10) + drop (3).
+```
 
 **Success criteria**:
 - Narrative resonates with audience

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Argentavis (Argy) - Resource Gatherer Agent v1.0
-Status: UNVALIDATED (Tier 1)
+Status: WORKING (Tier 2)
 
 Conversational research agent that:
 1. Checks knowledge library first

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Yutyrannus (Yuty) - GTM/Narrative Agent v1.0
-Status: UNVALIDATED (Tier 1)
+Status: WORKING (Tier 2)
 
 Narrative agent that:
 1. Creates customer-facing explanations

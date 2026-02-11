@@ -429,10 +429,10 @@ ark_type: ARK:Tyrannosaurus
 version: 1.0
 status: UNVALIDATED
 impressions:
-  success: 0
+  success: 5
   fail: 0
-  fail_gap: 0
-notes: Steering file implementation - awaiting first real use
+  fail_gap: 5
+notes: rossi-mission (1) + drop (4). 5 more successes to WORKING.
 ```
 
 **Promotion path**:

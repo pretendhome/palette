@@ -325,6 +325,18 @@ Theri handoff: Built [artifact], verified [acceptance criteria], [N] tests passi
 - Success/failure logged after each execution
 - Promotion to WORKING after 10 consecutive successes
 
+```
+agent: therizinosaurus
+ark_type: ARK:Therizinosaurus
+version: 1.0
+status: UNVALIDATED
+impressions:
+  success: 6
+  fail: 0
+  fail_gap: 6
+notes: rossi-mission (1) + drop (5). 4 more successes to WORKING.
+```
+
 **Success criteria**:
 - Artifact meets acceptance criteria
 - Code is minimal and clear

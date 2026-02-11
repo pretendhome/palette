@@ -369,6 +369,18 @@ Anky handoff: Validated [artifact], found [X] critical risks, [Y] gaps, readines
 - Success/failure logged after each execution
 - Promotion to WORKING after 10 consecutive successes
 
+```
+agent: ankylosaurus
+ark_type: ARK:Ankylosaurus
+version: 1.0
+status: UNVALIDATED
+impressions:
+  success: 2
+  fail: 0
+  fail_gap: 2
+notes: rossi-mission (1) + drop (1). 8 more successes to WORKING.
+```
+
 **Success criteria**:
 - All 7 validation points covered
 - Risks accurately identified

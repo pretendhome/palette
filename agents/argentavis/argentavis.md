@@ -2,7 +2,7 @@
 
 **Agent Type**: ARK:Argentavis  
 **Version**: 1.0  
-**Status**: UNVALIDATED (Tier 1)  
+**Status**: WORKING (Tier 2)
 **Invocation**: `#argentavis` or `#argy`  
 **Authority**: Subordinate to Palette Tier 1-3
 
@@ -508,12 +508,12 @@ When research is complete (human confirms or declines):
 agent: argentavis
 ark_type: ARK:Argentavis
 version: 1.0
-status: UNVALIDATED
+status: WORKING
 impressions:
-  success: 0
+  success: 13
   fail: 0
-  fail_gap: 0
-notes: Steering file implementation - awaiting first real use
+  fail_gap: 13
+notes: Promoted to WORKING 2026-02-11. rossi-mission (7) + drop (6).
 ```
 
 **Promotion path**:
