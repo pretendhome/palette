@@ -261,6 +261,30 @@ These are cognitive shorthand only:
 - **Status**: DESIGN-ONLY PLACEHOLDER — The Orchestrator is not considered an implemented agent until explicitly promoted via decisions.md
 - **Promotion**: Requires an explicit decisions.md entry marking the Orchestrator as implemented
 
+#### Sub-Agent Spawning Rules (for future promotion)
+
+When the Orchestrator is promoted, it may spawn parallel sub-agents for independent work items within a phase. These rules govern spawning:
+
+1. **Independence requirement**: Only spawn parallel sub-agents for work items with NO dependencies between them. If output B requires output A, they must be sequential.
+2. **Reduced context**: Each sub-agent receives ONLY:
+   - The engagement's MEMORY.md (canonical facts)
+   - The specific task assignment (what to research/build/validate)
+   - Relevant input artifacts (not all engagement artifacts)
+   - The agent archetype definition (e.g., argentavis.md for Argy tasks)
+3. **Restricted scope**: Sub-agents produce their assigned artifact and nothing else. They do NOT update MEMORY.md, decisions.md, or other shared state. Only the Orchestrator updates shared state after collecting results.
+4. **Concurrency limit**: Maximum 6 parallel sub-agents per phase (prevents context fragmentation and ensures review quality).
+5. **Result format**: Each sub-agent returns a structured result:
+   - Artifact produced (file path)
+   - Canonical numbers introduced (for MEMORY.md consideration)
+   - Decisions encountered (for decisions.md consideration)
+   - Gaps or blockers discovered
+   - Confidence level (HIGH/MEDIUM/LOW)
+6. **Post-collection**: After all sub-agents complete, the Orchestrator:
+   - Reviews all results for consistency
+   - Updates MEMORY.md with new canonical facts
+   - Logs any decisions in decisions.md
+   - Runs quality gate (Anky spot-check) before proceeding to next phase
+
 ---
 
 ## 6. Agent Security & Access Control

@@ -5083,18 +5083,487 @@ taxonomy_statistics:
     - funding-requirements
 
 
+  # ==========================================================================
+  # ENTERPRISE AI STRATEGY (v1.4 — Gap Project additions)
+  # ==========================================================================
+
+  - riu_id: RIU-600
+    name: Multi-Brand AI Strategy Framework
+    problem_pattern: Organization has multiple brands with different customer bases, operations, and strategies; needs AI approach that preserves brand autonomy while enabling shared learning.
+    execution_intent: |
+      Design multi-brand AI strategy using LVMH maison autonomy pattern:
+      1. Map brand landscape (customers, operations, price points, culture)
+      2. Define shared platform capabilities vs brand-specific use cases
+      3. Design federated governance (centralized platform + decentralized execution)
+      4. Establish cross-brand learning mechanisms without forced uniformity
+      5. Create per-brand convergence briefs with shared constraint profile
+    workstreams:
+      - Clarify & Bound
+      - Adoption & Change
+    coordinates:
+      industry: Retail
+      category: strategy
+      use_case: multi_brand_ai
+    trigger_signals:
+      - multi-brand organization
+      - brand autonomy
+      - shared platform
+      - federated AI governance
+      - brand-specific AI needs
+    artifacts:
+      - multi_brand_strategy.md
+      - brand_landscape_map.md
+      - shared_vs_specific_capabilities.md
+      - federated_governance_model.md
+      - per_brand_convergence_briefs/
+    reversibility: one_way
+    success_conditions:
+      execution: Each brand has distinct AI roadmap on shared platform.
+      outcome: Brand autonomy preserved; shared learning active.
+      safety_quality: No forced uniformity; no brand identity dilution.
+    failure_modes:
+      silent:
+        - one-size-fits-all despite multi-brand
+      loud:
+        - brand leaders reject shared platform
+      clustered:
+        - brands with vastly different maturity levels
+    dependencies:
+      - RIU-001
+      - RIU-002
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Argentavis
+      - Human:Delivery
+    notes: 'Added v1.4: Gap project — LVMH maison autonomy pattern for multi-brand retail'
+    tags:
+      - strategy
+      - multi-brand
+      - governance
+      - retail
+
+
+  - riu_id: RIU-601
+    name: AI Operating Model Design
+    problem_pattern: Organization needs to structure AI decision rights, team topology, and budget allocation between central and federated teams.
+    execution_intent: |
+      Design AI operating model:
+      1. Define Center of Excellence (CoE) vs federated team structure
+      2. Map decision rights (platform = central, use cases = federated)
+      3. Design budget allocation model (shared platform + brand-specific)
+      4. Establish reporting lines and escalation paths
+      5. Define "Office of AI" role and boundaries
+    workstreams:
+      - Clarify & Bound
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: strategy
+      use_case: operating_model
+    trigger_signals:
+      - operating model
+      - AI team structure
+      - decision rights
+      - center of excellence
+      - budget allocation
+    artifacts:
+      - operating_model.md
+      - decision_rights_matrix.md
+      - team_topology.md
+      - budget_allocation_model.md
+    reversibility: one_way
+    success_conditions:
+      execution: Decision rights clear; no ambiguity about who owns what.
+      outcome: AI initiatives move faster; fewer bottlenecks.
+      safety_quality: Escalation paths prevent deadlock.
+    failure_modes:
+      silent:
+        - shadow AI programs outside governance
+      loud:
+        - brand leaders reject central platform
+      clustered:
+        - overlapping responsibilities
+    dependencies:
+      - RIU-001
+      - RIU-002
+      - RIU-600
+    agent_types:
+      - ARK:Tyrannosaurus
+      - Human:Delivery
+    notes: 'Added v1.4: Gap project — AI operating model design'
+    tags:
+      - operating-model
+      - governance
+      - team-design
+
+
+  - riu_id: RIU-602
+    name: AI Use Case Prioritization Matrix
+    problem_pattern: Multiple AI use cases proposed; need structured way to score, rank, and select based on business impact, feasibility, and risk.
+    execution_intent: |
+      Build prioritization framework:
+      1. Collect candidate use cases (from all brands/departments)
+      2. Score each on: business impact (1-10), feasibility (1-10), risk (1-10), alignment (1-10)
+      3. Apply WSJF (Weighted Shortest Job First) for sequencing
+      4. Plot on Eisenhower matrix (urgent/important)
+      5. Apply responsible AI assessment (may reprioritize based on hidden complexity)
+      6. Present ranked list with ONE-WAY DOOR flags
+    workstreams:
+      - Clarify & Bound
+    coordinates:
+      industry: '*'
+      category: strategy
+      use_case: use_case_prioritization
+    trigger_signals:
+      - use case prioritization
+      - which AI project first
+      - portfolio management
+      - too many AI ideas
+    artifacts:
+      - use_case_inventory.md
+      - prioritization_matrix.xlsx
+      - ranked_use_cases.md
+      - responsible_ai_assessment.md
+    reversibility: two_way
+    success_conditions:
+      execution: Use cases ranked with clear scoring criteria.
+      outcome: Organization focuses on highest-impact use cases first.
+      safety_quality: Responsible AI flags surface hidden risks.
+    failure_modes:
+      silent:
+        - pet projects ranked high without evidence
+      loud:
+        - stakeholders disagree on scoring criteria
+      clustered:
+        - too many urgent use cases
+    dependencies:
+      - RIU-001
+      - RIU-004
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Argentavis
+      - Human:Delivery
+    notes: 'Added v1.4: Gap project — WSJF + responsible AI assessment'
+    tags:
+      - prioritization
+      - portfolio
+      - scoping
+
+
+  - riu_id: RIU-603
+    name: Employee AI Adoption Program
+    problem_pattern: AI tools deployed but employees don't use them, fear them, or use them incorrectly; need behavior change, not just training.
+    execution_intent: |
+      Design adoption program focused on behavior change:
+      1. Map employee personas (store associate, manager, merchandiser, corporate)
+      2. Identify per-persona incentives, constraints, and pain points
+      3. Design "recipes" (5-minute live workflows) per persona
+      4. Create champions program (peer adoption, not top-down mandate)
+      5. Define adoption metrics: behavior change, not just login counts
+      6. Measure: confidence improvement, time-to-decision, CSAT impact
+      7. Apply LVMH pattern: dashboard use as KPI, non-adoption halts initiatives
+    workstreams:
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: enablement
+      use_case: adoption
+    trigger_signals:
+      - AI adoption
+      - employee resistance
+      - behavior change
+      - training program
+      - champions program
+      - change management
+    artifacts:
+      - persona_map.md
+      - adoption_playbook.md
+      - recipe_library/
+      - champions_program.md
+      - adoption_metrics.md
+      - behavior_change_dashboard.md
+    reversibility: two_way
+    success_conditions:
+      execution: Recipes exist for every persona; champions identified.
+      outcome: Employee behavior changes measurably (not just trained).
+      safety_quality: No forced adoption; no stigma for learning curve.
+    failure_modes:
+      silent:
+        - training completed but behavior unchanged
+      loud:
+        - employee backlash or union concerns
+      clustered:
+        - store-level adoption varies wildly
+    dependencies:
+      - RIU-001
+      - RIU-200
+    agent_types:
+      - ARK:Yutyrannus
+      - ARK:Argentavis
+      - Human:Delivery
+    notes: 'Added v1.4: Gap project — behavior change methodology from AWS proof point'
+    tags:
+      - adoption
+      - change-management
+      - enablement
+      - behavior-change
+
+
+  - riu_id: RIU-604
+    name: AI ROI Quantification Framework
+    problem_pattern: CFO needs defensible business case for AI investment; standard revenue-growth framing doesn't work when goal is cost reduction and efficiency.
+    execution_intent: |
+      Build CFO-ready ROI framework:
+      1. Establish pre-AI baseline (current costs, error rates, cycle times)
+      2. Define three-bucket model:
+         - Bucket 1: Cost Reduction (40%) — direct operational savings
+         - Bucket 2: Productivity Gains (35%) — time freed, error reduction
+         - Bucket 3: Cost Avoidance (25%) — risk prevented, incidents avoided
+      3. Calculate risk-adjusted NPV per bucket
+      4. Model multi-horizon benefits (0-12 mo vs 12+ mo compounding)
+      5. Show budget shrinking trajectory (Year 1 investment → Year 3 reduction)
+      6. Compare: one agentic system vs tool sprawl TCO
+    workstreams:
+      - Clarify & Bound
+      - Ops & Delivery
+    coordinates:
+      industry: '*'
+      category: financial
+      use_case: roi_quantification
+    trigger_signals:
+      - ROI quantification
+      - business case
+      - CFO presentation
+      - budget justification
+      - cost reduction
+      - total cost of ownership
+    artifacts:
+      - roi_framework.md
+      - baseline_metrics.md
+      - three_bucket_model.xlsx
+      - budget_trajectory.md
+      - tco_comparison.md
+    reversibility: two_way
+    success_conditions:
+      execution: Baseline established; ROI defensible with conservative estimates.
+      outcome: CFO approves investment based on cost reduction narrative.
+      safety_quality: Estimates risk-adjusted; not overpromising.
+    failure_modes:
+      silent:
+        - inflated productivity estimates
+      loud:
+        - no baseline data available
+      clustered:
+        - shared costs across brands hard to allocate
+    dependencies:
+      - RIU-006
+      - RIU-020
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Argentavis
+      - Human:Delivery
+    notes: 'Added v1.4: Gap project — three-bucket ROI from Argy research'
+    tags:
+      - roi
+      - business-case
+      - financial
+      - budget
+
+
+  - riu_id: RIU-605
+    name: Cross-Brand Knowledge Transfer
+    problem_pattern: AI learnings in one brand stay siloed; need systematic way to transfer successful patterns to other brands without forcing uniformity.
+    execution_intent: |
+      Design cross-brand learning system:
+      1. Catalog successful AI patterns per brand (use cases, metrics, lessons learned)
+      2. Abstract patterns from brand-specific context (what's transferable vs unique)
+      3. Create shared pattern library (like Palette's knowledge library)
+      4. Establish cross-brand learning cadence (quarterly reviews)
+      5. Enable "opt-in replication" — brands choose what to adopt
+    workstreams:
+      - Adoption & Change
+      - Core Logic
+    coordinates:
+      industry: '*'
+      category: knowledge_management
+      use_case: cross_brand_learning
+    trigger_signals:
+      - cross-brand learning
+      - knowledge sharing
+      - pattern replication
+      - best practices transfer
+    artifacts:
+      - cross_brand_pattern_library.md
+      - brand_learning_catalog.md
+      - transfer_playbook.md
+      - quarterly_review_template.md
+    reversibility: two_way
+    success_conditions:
+      execution: Pattern library active; cross-brand reviews happening.
+      outcome: Successful patterns replicated 2-3x faster than independent discovery.
+      safety_quality: No forced adoption; brand context preserved.
+    failure_modes:
+      silent:
+        - patterns cataloged but never adopted
+      loud:
+        - brand leaders refuse to share competitive intelligence
+      clustered:
+        - brands at very different AI maturity levels
+    dependencies:
+      - RIU-600
+    agent_types:
+      - ARK:Argentavis
+      - ARK:Yutyrannus
+      - Human:Delivery
+    notes: 'Added v1.4: Gap project — cross-brand knowledge sharing'
+    tags:
+      - knowledge-transfer
+      - cross-brand
+      - learning
+      - patterns
+
+
+  - riu_id: RIU-606
+    name: Brand Safety for AI-Generated Content
+    problem_pattern: Customer-facing AI can generate content that damages brand reputation; need guardrails that respect brand voice without killing utility.
+    execution_intent: |
+      Design brand safety framework:
+      1. Define brand voice per brand (tone, vocabulary, prohibitions)
+      2. Implement content guardrails (Bedrock Guardrails / equivalent)
+      3. Create brand-specific denied topics and word filters
+      4. Build review workflow for generated content before public exposure
+      5. Establish incident response for brand safety breaches
+      6. Test with adversarial inputs (red-teaming per brand)
+    workstreams:
+      - Quality & Safety
+      - Adoption & Change
+    coordinates:
+      industry: '*'
+      category: safety
+      use_case: brand_safety
+    trigger_signals:
+      - brand safety
+      - AI-generated content
+      - customer-facing AI
+      - content moderation
+      - brand voice
+    artifacts:
+      - brand_safety_policy.md
+      - guardrail_configuration.yaml
+      - brand_voice_guide_per_brand/
+      - incident_response_plan.md
+      - red_team_test_cases/
+    reversibility: one_way
+    success_conditions:
+      execution: Guardrails active; brand voice enforced per brand.
+      outcome: Zero brand safety incidents from AI-generated content.
+      safety_quality: Red-team tested before deployment.
+    failure_modes:
+      silent:
+        - off-brand tone goes undetected
+      loud:
+        - public brand safety incident
+      clustered:
+        - new product launches with untested AI content
+    dependencies:
+      - RIU-029
+      - RIU-534
+    agent_types:
+      - ARK:Tyrannosaurus
+      - ARK:Ankylosaurus
+      - Human:Delivery
+    notes: 'Added v1.4: Gap project — brand safety for multi-brand AI content'
+    tags:
+      - brand-safety
+      - content-moderation
+      - guardrails
+      - customer-facing
+
+  - id: RIU-607
+    name: Context Compaction for Long Engagements
+    domain: Engagement Operations
+    description: Protocol for preserving engagement state when approaching context window limits. Ensures continuity across sessions through structured memory flush, daily logging, and continuation notes.
+    primary_agent: Yuty
+    supporting_agents:
+      - Anky
+    triggers:
+      - Context window approaching limit
+      - Session break in multi-phase engagement
+      - Operator requests compaction
+    artifacts:
+      - Updated MEMORY.md
+      - Daily log entry with continuation note
+      - Updated decisions.md
+    quality_gate: Anky confirms MEMORY.md is current and continuation note is actionable
+    impressions: 0
+    status: UNVALIDATED
+    reversibility: two_way
+    failure_modes:
+      silent:
+        - incomplete memory flush loses canonical facts
+      loud:
+        - continuation note too vague to resume
+      clustered:
+        - multiple sessions compact without consolidation
+    dependencies: []
+    agent_types:
+      - ARK:Yutyrannus
+      - ARK:Ankylosaurus
+    notes: 'Added v1.4: OpenClaw upgrade — context compaction protocol'
+    tags:
+      - engagement-operations
+      - context-management
+      - continuity
+      - memory
+
+  - id: RIU-608
+    name: Workflow Definition for Multi-Agent Engagements
+    domain: Engagement Operations
+    description: Typed workflow format (YAML) defining phases, agent assignments, quality gates, decision checkpoints, and memory update expectations for multi-agent engagements. Makes implicit workflows explicit and auditable.
+    primary_agent: Orchestrator
+    supporting_agents:
+      - Anky
+    triggers:
+      - New engagement with 3+ planned phases
+      - Existing engagement needs structure formalization
+    artifacts:
+      - workflow.yaml
+    quality_gate: Anky validates workflow completeness and gate definitions
+    impressions: 1
+    status: WORKING
+    reversibility: two_way
+    failure_modes:
+      silent:
+        - workflow defined but gates not enforced
+      loud:
+        - workflow too rigid, blocks necessary pivots
+      clustered:
+        - multiple workflows for same engagement type
+    dependencies: []
+    agent_types:
+      - ARK:Orchestrator
+      - ARK:Ankylosaurus
+    notes: 'Added v1.4: OpenClaw upgrade — workflow definition pattern, validated on Gap project'
+    tags:
+      - engagement-operations
+      - workflow
+      - quality-gates
+      - multi-agent
+
+
 taxonomy_statistics:
-  total_rius: 108
+  total_rius: 117
   v1_2_base: 94
   essential_added: 10
   v1_3_added: 4
+  v1_4_added: 9
   workstream_distribution:
-    clarify_bound: 10
+    clarify_bound: 14
     interfaces_inputs: 12
-    core_logic: 19
-    quality_safety: 31
-    ops_delivery: 12
-    adoption_change: 6
+    core_logic: 20
+    quality_safety: 32
+    ops_delivery: 13
+    adoption_change: 11
     specialized: 6
     multimodal: 4
     agentic: 5
@@ -5102,16 +5571,15 @@ taxonomy_statistics:
     governance: 6
     agent_patterns: 4
   reversibility_distribution:
-    two_way: 73
-    one_way: 30
+    two_way: 77
+    one_way: 33
     mixed: 11
   agent_coverage:
-    argy: 17
+    argy: 22
     theri: 62
     raptor: 18
-    rex: 60
-    yuty: 16
-    anky: 36
+    rex: 66
+    yuty: 18
+    anky: 37
     para: 16
     orch: 3
-```

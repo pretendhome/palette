@@ -8449,3 +8449,338 @@ context_specific_questions:
       url: https://hbr.org/2016/09/how-to-write-a-winning-business-plan
     - title: Bplans - Business Plan Template
       url: https://www.bplans.com/business-plan-template/
+
+# ==========================================================================
+# ENTERPRISE AI STRATEGY (v1.4 — Gap Project additions)
+# ==========================================================================
+
+- id: LIB-094
+  question: How do I design an AI strategy for a multi-brand retailer where each
+    brand has different customers, price points, and operations?
+  answer: |
+    Use the LVMH Maison Autonomy pattern adapted for mass-to-premium retail:
+
+    Shared Platform (Centralized):
+    - One agentic system serving all brands (like LVMH's MaIA: 40K employees, 2M+ monthly requests)
+    - Core capabilities: research, architecture, build, validate, monitor
+    - Security, compliance, data governance — uniform across brands
+    - Cross-brand learning mechanisms (pattern library, quarterly reviews)
+
+    Brand-Specific Use Cases (Federated):
+    - Each brand develops own AI roadmap aligned to its strategy
+    - Cost-sensitive brands: Operations-first (Old Navy)
+    - Premium brands: Customer experience-first (Banana Republic)
+    - Community brands: Personalization + wellness (Athleta)
+
+    Governance Model:
+    - Platform decisions: Office of AI (centralized)
+    - Use case decisions: Brand leadership (federated)
+    - Risk/compliance: Office of AI enables, brands execute
+    - Budget: Platform shared, use cases brand-funded
+
+    Implementation Sequence:
+    - Year 1: Shared platform + 2 brand pilots
+    - Year 2: Scale to all brands, each develops use cases
+    - Year 3: Cross-brand optimization, budget reduction
+
+    Evidence: LVMH achieved 40K+ employee adoption, 2M+ monthly AI requests.
+    Gap's 4-brand structure (vs LVMH's 75) makes this MORE achievable.
+
+    PALETTE integration:
+    - RIU-600 (Multi-Brand AI Strategy Framework)
+    - RIU-001 per brand (separate convergence briefs)
+    - RIU-002 maps cross-brand decision authority
+    - RIU-601 designs the operating model
+  problem_type: Intake_and_Convergence
+  related_rius:
+    - RIU-600
+    - RIU-601
+    - RIU-001
+    - RIU-002
+  difficulty: critical
+  industries:
+    - Retail
+    - Multi-Brand Enterprise
+  tags:
+    - multi-brand
+    - retail
+    - strategy
+    - governance
+  sources:
+    - title: LVMH AI Strategy Reports
+      url: https://www.lvmh.com/news-documents/news/lvmh-and-google-cloud-partner-to-accelerate-ai-innovation/
+    - title: Gap Inc. Retail AI Strategy Matrix
+      url: internal://projects/gap/gap_retail_ai_strategy_matrix.md
+
+- id: LIB-095
+  question: How do I quantify AI ROI for a CFO focused on cost reduction and budget
+    shrinking, not revenue growth?
+  answer: |
+    Three-Bucket ROI Framework:
+
+    Bucket 1: Cost Reduction (40% weight)
+    - Direct operational savings (inventory accuracy, forecast improvement)
+    - Tool consolidation (one agentic system vs 100 tools)
+    - Maintenance reduction (shared platform vs tool sprawl)
+    - Example: Walmart — 30% logistics savings
+
+    Bucket 2: Productivity Gains (35% weight)
+    - Time freed for customer-facing work (store associates)
+    - Faster decision-making (store managers, merchandisers)
+    - Error reduction (fewer returns, better inventory accuracy)
+    - Example: Perry Ellis — 95% SKU launch time reduction
+
+    Bucket 3: Cost Avoidance (25% weight)
+    - Brand safety incidents prevented
+    - Compliance violations avoided
+    - Employee turnover reduction
+    - Example: Stitch Fix — 30% return reduction
+
+    The Narrative: "We invested $5M and reduced operational costs by $8M.
+    Request $3M for Year 2 because we built one system, not 100 tools."
+
+    CFO Checklist:
+    - Pre-implementation baseline (current costs, error rates)
+    - Fully-loaded costs (not just licenses)
+    - Conservative estimates (risk-adjusted)
+    - Multi-horizon benefits (0-12 mo vs 12+ mo compounding)
+    - Pilot results (proof before scale)
+    - Total cost of ownership (ongoing, not just initial)
+
+    PALETTE integration: RIU-604 drives this framework.
+  problem_type: Intake_and_Convergence
+  related_rius:
+    - RIU-604
+    - RIU-006
+    - RIU-020
+  difficulty: high
+  industries:
+    - Retail
+    - Enterprise
+  tags:
+    - roi
+    - cfo
+    - cost-reduction
+    - budget
+  sources:
+    - title: Artefact Concentric ROI Framework
+      url: https://www.artefact.com/
+    - title: IDC AI Business Value Benefit Framework
+      url: https://www.idc.com/
+    - title: GetDX Multi-Phase Lifecycle Model
+      url: https://getdx.com/
+
+- id: LIB-096
+  question: How do I prioritize AI use cases when multiple brands each have different
+    needs and every leader thinks their use case is most important?
+  answer: |
+    Scoring Framework (score each use case 1-10):
+    1. Business Impact: Revenue/cost impact in $ terms
+    2. Feasibility: Data availability, technical complexity, team readiness
+    3. Risk: Brand safety, compliance, customer impact
+    4. Strategic Alignment: Fits brand strategy and enterprise AI vision
+    5. Time to Value: Months to measurable impact
+
+    Sequencing with WSJF:
+    Priority = (Business Value + Time Criticality + Risk Reduction) / Job Size
+
+    Cross-Brand Balancing:
+    - At least one pilot per brand in Year 1 (political buy-in)
+    - Operations-first pilots for cost-sensitive brands
+    - Customer experience pilots for premium brands
+    - Early wins build organizational confidence
+
+    Red Flags to Deprioritize:
+    - No clear business metric ("improve productivity")
+    - No executive sponsor
+    - Requires ONE-WAY DOOR decision without research
+    - Data doesn't exist yet
+
+    PALETTE integration: RIU-602 drives this framework.
+    Use RIU-004 to decompose bundled requests into discrete use cases first.
+  problem_type: Intake_and_Convergence
+  related_rius:
+    - RIU-602
+    - RIU-004
+    - RIU-001
+  difficulty: high
+  industries:
+    - Retail
+    - Multi-Brand Enterprise
+  tags:
+    - prioritization
+    - multi-brand
+    - portfolio
+  sources:
+    - title: AI Use Case Identification and Prioritization (AIR Workshop)
+      url: https://broadcast.amazon.com/videos/1811883
+    - title: Incorporating responsible AI into generative AI project prioritization
+      url: https://aws.amazon.com/blogs/machine-learning/incorporating-responsible-ai-into-generative-ai-project-prioritization/
+
+- id: LIB-097
+  question: How do I drive AI adoption with non-technical employees when the goal
+    is behavior change, not just training completion?
+  answer: |
+    Behavior Change > Training:
+    Training says "here's how to use this tool."
+    Behavior change says "here's how this tool makes YOUR specific job easier."
+
+    5-Step Adoption Methodology:
+    1. Start with personas, not tools — map incentives, required forms, workflows
+    2. Build agentic workflows in production BEFORE asking anyone to use them
+    3. Reduce fear through 5-minute "recipes" — live workflows they can copy
+    4. Move from mass promotion to targeted activation — specific teams, channels
+    5. Reframe narrative — humanize adoption, remove stigma, assume high intelligence
+
+    Measurement (behavior, not adoption):
+    - Leading: Dashboard login frequency, feature usage depth, recipe completion rate
+    - Lagging: Time-to-decision improvement, confidence scores, CSAT impact
+    - LVMH pattern: Dashboard use IS a KPI — non-adoption halts initiatives
+
+    AWS Proof Point:
+    - +17% attendance increase (153 to 179 avg/session)
+    - +50% increase in high-CSAT sessions (>4.9)
+    - +67% increase in sales plays covered (133 to 222)
+    - Key: Shifted from "users aren't technical enough" to
+      "systems aren't aligned to how people work"
+
+    PALETTE integration: RIU-603 drives this framework.
+    Use RIU-200 to frame AI value per persona.
+    Use RIU-290 to create demo "recipes" per role.
+  problem_type: Trust_Governance_and_Adoption
+  related_rius:
+    - RIU-603
+    - RIU-200
+    - RIU-290
+  difficulty: high
+  industries:
+    - Retail
+    - Enterprise
+  tags:
+    - adoption
+    - behavior-change
+    - enablement
+    - non-technical
+  sources:
+    - title: Beyond the technology - Workforce changes for AI
+      url: https://aws.amazon.com/blogs/machine-learning/beyond-the-technology-workforce-changes-for-ai/
+    - title: LVMH AI Strategy Reports
+      url: https://www.lvmh.com/news-documents/news/lvmh-and-google-cloud-partner-to-accelerate-ai-innovation/
+
+- id: LIB-098
+  question: How do I prevent AI tool sprawl in an enterprise and make the case for
+    one agentic interface instead of 100 tools?
+  answer: |
+    The Problem: Enterprises buy AI tools reactively. Each team gets its own.
+    Result: 50-100 tools, $2-5M/year in licenses, each requiring training,
+    integration, maintenance. Nobody knows which tool to use for what.
+
+    The Alternative: One agentic interface with core capabilities:
+    - Research (find information, gather context)
+    - Architecture (design solutions, evaluate tradeoffs)
+    - Build (implement within scope)
+    - Validate (quality check, compliance)
+    - Monitor (observe, detect drift)
+
+    TCO Comparison:
+    Tool Sprawl (100 tools): $2-5M/year licenses, 100 training programs,
+    100 integrations, fragmented knowledge, manual improvement per tool.
+    Agentic Platform (1 system): $500K-1M/year, 1 interface with role-based
+    recipes, 1 platform with modular capabilities, unified knowledge base,
+    auto-improves with usage.
+
+    Budget Trajectory:
+    - Year 1: Platform investment (higher)
+    - Year 2: Platform + reduced tools (neutral)
+    - Year 3: Platform only, tools eliminated (30-40% lower)
+
+    PALETTE integration: RIU-604 models the TCO comparison.
+    RIU-510 designs the agentic platform architecture.
+  problem_type: Operationalization_and_Scaling
+  related_rius:
+    - RIU-510
+    - RIU-604
+    - RIU-601
+  difficulty: high
+  industries:
+    - Enterprise
+    - Retail
+  tags:
+    - tool-sprawl
+    - platform
+    - agentic
+    - tco
+  sources:
+    - title: Why agentic AI marks an inflection point for enterprise modernization
+      url: https://aws.amazon.com/blogs/aws-insights/aws-why-agentic-ai-marks-an-inflection-point-for-enterprise-modernization/
+
+- id: LIB-099
+  question: What are the common patterns in successful retail AI strategies and when
+    does each pattern apply?
+  answer: |
+    5 Strategy Patterns (from GAP Retail AI Strategy Matrix):
+
+    1. Centralized Investment (Walmart: $500M)
+       - Best for: Single-brand, centralized operations
+       - Metrics: 30% logistics savings, 15% waste reduction
+       - Risk: High upfront bet, slow to adapt
+       - Multi-brand fit: Low
+
+    2. Maison Autonomy (LVMH: 75 brands, MaIA platform)
+       - Best for: Multi-brand with distinct identities
+       - Metrics: 40K employees adopted, 2M+ monthly requests
+       - Risk: Fragmentation, slower enterprise adoption
+       - Multi-brand fit: High
+
+    3. Operations-First (Zara: 85% sell-through, Perry Ellis: 95% reduction)
+       - Best for: Complex supply chains, inventory challenges
+       - Metrics: Clear cost savings, less brand risk
+       - Risk: No customer differentiation
+       - Multi-brand fit: High
+
+    4. Customer Experience-First (ASOS: 20% conversion, Breuninger: 40%)
+       - Best for: Online-first, strong digital presence
+       - Metrics: Direct revenue lift
+       - Risk: Brand safety, requires data infrastructure
+       - Multi-brand fit: Medium
+
+    5. Core Business Model (Stitch Fix: 30% return reduction)
+       - Best for: AI-native companies only
+       - Multi-brand fit: Low
+
+    Recommended Hybrid for multi-brand retail: Pattern 2 + Pattern 3
+    (Maison autonomy + operations-first, with CX in Year 2-3)
+  problem_type: Intake_and_Convergence
+  related_rius:
+    - RIU-600
+    - RIU-602
+  difficulty: medium
+  industries:
+    - Retail
+  tags:
+    - retail
+    - strategy-patterns
+    - competitive-analysis
+  sources:
+    - title: Walmart 2025 Retail Rewired Report
+      url: https://corporate.walmart.com/
+    - title: LVMH AI Strategy Reports
+      url: https://www.lvmh.com/
+
+
+- id: LIB-100
+  question: How do I maintain continuity across sessions in a long engagement?
+  answer: |
+    Use the COMPACT protocol (RIU-607). Before context fills: flush canonical facts to MEMORY.md, write a daily log with continuation note, update decisions.md. Next session starts by reading MEMORY.md + latest daily log + decisions.md before touching any phase artifacts. This prevents the two most common continuity failures: number drift between documents and lost operational context.
+  problem_type: Engagement Operations
+  related_rius:
+    - RIU-607
+  difficulty: medium
+  industries:
+    - All
+  tags:
+    - continuity
+    - context-management
+    - memory
+    - engagement-operations
+  validated: false
