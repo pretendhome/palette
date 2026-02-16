@@ -162,7 +162,7 @@ palette/
 │
 ├── decisions.md                        # Tier 3: Toolkit development decisions
 │
-└── garbage_collection/                 # Archived/superseded files
+└── /garbage-collection/                # Archived/superseded files (single repo-level folder; see /garbage-collection/POLICY.md)
 ```
 
 ---
