@@ -58,12 +58,12 @@ See `agents/business-plan-creation/` for details.
 
 | Agent | Status | Impressions | Next Tier | Projects |
 |-------|--------|-------------|-----------|----------|
-| **Yutyrannus** | WORKING | 10 success, 0 fail | PRODUCTION (40 more) | rossi-mission (10) |
-| **Argentavis** | UNVALIDATED | 7 success, 0 fail | WORKING (3 more) | rossi-mission (7) |
-| **Tyrannosaurus** | UNVALIDATED | 1 success, 0 fail | WORKING (9 more) | rossi-mission (1) |
-| **Ankylosaurus** | UNVALIDATED | 1 success, 0 fail | WORKING (9 more) | rossi-mission (1) |
-| **Therizinosaurus** | UNVALIDATED | 1 success, 0 fail | WORKING (9 more) | rossi-mission (1) |
+| **Argentavis** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Tyrannosaurus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Therizinosaurus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
 | **Velociraptor** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Yutyrannus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Ankylosaurus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
 | **Parasaurolophus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
 | **Orchestrator** | DESIGN ONLY | - | - | - |
 
