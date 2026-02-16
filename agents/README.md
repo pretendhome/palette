@@ -29,6 +29,14 @@ See `agents/business-plan-creation/` for details.
 
 ---
 
+## Orchestrator Spec (Orch-Lite)
+
+- `agents/orchestrator/orchestrator.md` defines Orch v0.1 as a routing-only design spec.
+- `agents/orchestrator/fixtures/` contains gate and routing fixtures.
+- Promotion from design-only requires explicit `decisions.md` entry and fixture evidence.
+
+---
+
 ## Agent Maturity Model
 
 ### Tier 1: UNVALIDATED (0-9 successes)
@@ -52,18 +60,20 @@ See `agents/business-plan-creation/` for details.
 **Claude/Cursor**: Load `agents/argentavis/argentavis.md`  
 **Any AI**: Copy/paste agent definition
 
+Rebuild protocol: `agents/REBUILD_CYCLE_V1_3.md`
+
 ---
 
 ## Current Status (as of 2026-02-10)
 
 | Agent | Status | Impressions | Next Tier | Projects |
 |-------|--------|-------------|-----------|----------|
-| **Argentavis** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
-| **Tyrannosaurus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
-| **Therizinosaurus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Yutyrannus** | WORKING | 10 success, 0 fail | PRODUCTION (40 more) | retail-rossi-store (10) |
+| **Argentavis** | UNVALIDATED | 7 success, 0 fail | WORKING (3 more) | retail-rossi-store (7) |
+| **Tyrannosaurus** | UNVALIDATED | 1 success, 0 fail | WORKING (9 more) | retail-rossi-store (1) |
+| **Ankylosaurus** | UNVALIDATED | 1 success, 0 fail | WORKING (9 more) | retail-rossi-store (1) |
+| **Therizinosaurus** | UNVALIDATED | 1 success, 0 fail | WORKING (9 more) | retail-rossi-store (1) |
 | **Velociraptor** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
-| **Yutyrannus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
-| **Ankylosaurus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
 | **Parasaurolophus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
 | **Orchestrator** | DESIGN ONLY | - | - | - |
 

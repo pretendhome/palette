@@ -13,7 +13,7 @@ from collections import defaultdict
 SCRIPT_DIR = Path(__file__).parent
 PALETTE_ROOT = SCRIPT_DIR.parent
 FDE_ROOT = PALETTE_ROOT.parent
-PROJECTS_DIR = FDE_ROOT / "projects"
+IMPLEMENTATIONS_DIR = FDE_ROOT / "implementations"
 AGENTS_README = PALETTE_ROOT / "agents" / "README.md"
 
 # Agent name mappings
@@ -79,7 +79,7 @@ def aggregate_impressions():
     # Find all decisions.md and execution_summary.md files
     files_found = []
     for pattern in ["*/decisions.md", "*/*/execution_summary.md"]:
-        for file_path in PROJECTS_DIR.glob(pattern):
+        for file_path in IMPLEMENTATIONS_DIR.glob(pattern):
             files_found.append(file_path)
             print(f"  Parsing {file_path.relative_to(FDE_ROOT)}...")
             impressions = parse_impressions(file_path)
@@ -89,7 +89,7 @@ def aggregate_impressions():
                 totals[agent]["projects"].extend(data["projects"])
     
     if not files_found:
-        print(f"  WARNING: No decision logs found in {PROJECTS_DIR}")
+        print(f"  WARNING: No decision logs found in {IMPLEMENTATIONS_DIR}")
     
     return totals
 

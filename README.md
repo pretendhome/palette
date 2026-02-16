@@ -1,7 +1,7 @@
 # Palette: Agent Toolkit for Forward Deployed Engineers
 
 **Version**: 1.3  
-**Status**: Production-Ready  
+**Status**: Active Development (production-like daily use, formal hardening in progress)  
 **Development Time**: 2.5 years  
 **Validation**: AWS Solutions Engineering POC tools
 
@@ -26,17 +26,17 @@ So I built a system with three tiers:
 
 ## The Three Artifacts
 
-### 1. Optimized Taxonomy (105 RIUs)
+### 1. Optimized Taxonomy (Dynamic RIU Catalog)
 
-Located: `taxonomy/releases/v1.2/palette_taxonomy_v1.2.yaml`
+Located: `taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml` (current snapshot)
 
 What I would design for AWS if I could start from scratch. Uses AWS "use cases"—problems connected to proven solutions. Hard-fought, battle-tested solutions that cover everything you can build on a cloud platform.
 
 **Why this doesn't get outdated**: While technology changes (LLMs can do X, agents can do Y), the core customer problems and desired solutions are relatively static.
 
-**New in v1.3**: RIU-105 (Agent Security & Access Control)
+**Current snapshot**: 117 RIUs (see `taxonomy_statistics.total_rius` in taxonomy file)
 
-### 2. Knowledge Library (93 Questions + Answers + Sources)
+### 2. Knowledge Library (Dynamic Q&A + Sources)
 
 Located: `knowledge-library/v1.2/palette_knowledge_library_v1.2.yaml`
 
@@ -48,7 +48,7 @@ Curated GTM knowledge from AWS internal chatbot, validated with internal tooling
 
 **How it stays current**: Manually add sources when we find them. Do deep dives when areas feel lacking.
 
-**New in v1.3**: 5 new entries (security, decision classification, quality evaluation)
+**Current status**: Metadata reports 81 curated questions; audit and dedupe checks run via integrity script.
 
 ### 3. Company-RIU Mapping Library (127 companies, 12 use cases)
 
@@ -65,7 +65,7 @@ Maps 127 funded AI companies to Palette RIUs across 12 use cases. Market validat
 ## How It Works
 
 1. **You give me a problem**
-2. **System classifies it in the taxonomy** (matches to one of 105 RIUs)
+2. **System classifies it in the taxonomy** (matches one or more RIUs)
 3. **Routes to an agent** that already has information on how to solve it
 4. **Agent has access to**:
    - Internal code patterns (from agents/)
@@ -95,13 +95,13 @@ The system:
 
 Three projects currently validate Palette in practice:
 
-### 1. Teaching Agentic Systems (`/fde/projects/agent-class/`)
+### 1. Teaching Agentic Systems (`/fde/implementations/talent-gap-interview/`)
 Interview prep and 30-minute demos showing how Palette's three-tier system works. Uses taxonomy routing and agent archetypes to teach agentic concepts with a live toolkit.
 
-### 2. Small Business Help (`/fde/projects/rossi-mission/`)
+### 2. Small Business Help (`/fde/implementations/retail-rossi-store/`)
 Building a business plan for a graffiti art gallery. Palette routes the problem through RIUs covering customer engagement, market analysis, and operational planning.
 
-### 3. Video Game Development (`/fde/projects/myth-fall-game/`)
+### 3. Video Game Development (`/fde/implementations/dev-mythfall-game/`)
 Multiplayer RPG built with Godot + Node.js. Palette manages architecture decisions, implementation patterns, and quality validation across a complex game development stack.
 
 ---
@@ -112,24 +112,23 @@ Multiplayer RPG built with Godot + Node.js. Palette manages architecture decisio
 palette/
 ├── README.md                           # This file
 ├── GETTING_STARTED.md                  # 5-minute onboarding
-├── VISION.md                           # Self-improving infrastructure vision
 ├── CONTRIBUTING.md                     # How to contribute
 ├── CHANGELOG.md                        # Version history
 ├── DEMO.md                             # How to demo Palette
 │
 ├── .kiro/steering/
-│   ├── palette-core.md                 # Tier 1: Core prompt (immutable rules)
+│   ├── palette-core-v1.0-archived.md   # Tier 1: Core prompt (current canonical file in repo)
 │   ├── assumptions.md                  # Tier 2: Agent definitions
 │   └── TIER3_decisions_prompt.md       # Tier 3: Decision template
 │
 ├── taxonomy/
 │   ├── releases/v1.2/
-│   │   └── palette_taxonomy_v1.2.yaml  # 105 RIUs (problems → solutions)
+│   │   └── palette_taxonomy_v1.3.yaml  # Current RIU snapshot (dynamic count)
 │   └── README.md                       # Taxonomy guide
 │
 ├── knowledge-library/
 │   ├── v1.2/
-│   │   └── palette_knowledge_library_v1.2.yaml  # 93 Q&A + sources
+│   │   └── palette_knowledge_library_v1.2.yaml  # Curated Q&A + sources (audited separately)
 │   └── README.md                       # Library guide
 │
 ├── company-library/                    # Market validation (NEW in v1.3)
@@ -137,7 +136,7 @@ palette/
 │       ├── palette_company_riu_mapping_v1.0.yaml  # 127 companies → RIUs
 │       └── README.md                   # Company library guide
 │
-├── agents/                             # 7 agent implementations
+├── agents/                             # 7 implemented agents + Orchestrator (design-only)
 │   ├── argentavis/                     # Argy - Research
 │   ├── rex/                            # Rex - Architecture
 │   ├── therizinosaurus/                # Theri - Build
@@ -200,7 +199,7 @@ The testing tier. Logs what works, what doesn't, and why.
 
 ## Using Palette on Your Project
 
-1. **Create project directory**: `/home/mical/projects/your-company/`
+1. **Create implementation directory**: `/home/mical/fde/implementations/<implementation-name>/`
 2. **Add project-specific steering**: `.kiro/steering/product.md`, `tech.md`, `structure.md`
 3. **Create project decisions.md**: Track project-specific decisions
 4. **Reference Palette toolkit**: Agents use taxonomy and knowledge library
@@ -241,9 +240,9 @@ The testing tier. Logs what works, what doesn't, and why.
 
 ### Deep Dive
 1. **Read VISION.md** — Understand why Palette exists
-2. **Read .kiro/steering/palette-core.md** — Understand Tier 1 rules
-3. **Browse taxonomy/** — See the 105 RIUs (v1.2)
-4. **Browse knowledge-library/** — See the 93 Q&A pairs
+2. **Read .kiro/steering/palette-core-v1.0-archived.md** — Understand Tier 1 rules
+3. **Browse taxonomy/** — See current RIU snapshot and version history
+4. **Browse knowledge-library/** — See curated Q&A pairs
 5. **Browse company-library/** — See 127 companies mapped to RIUs
 6. **Read docs/** — Deep-dive guides (coming soon)
 
@@ -264,4 +263,4 @@ The testing tier. Logs what works, what doesn't, and why.
 
 ---
 
-**This is the toolkit. Projects using it live in `/fde/projects/`**
+**This is the toolkit. Implementations using it live in `/fde/implementations/`**

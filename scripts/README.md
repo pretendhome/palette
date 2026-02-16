@@ -1,6 +1,8 @@
-# Impression Sync Script
+# Palette Scripts
 
-**Purpose**: Aggregate agent impressions from project decision logs to global agent maturity tracker.
+## `sync-impressions.py`
+
+**Purpose**: Aggregate agent impressions from implementation decision logs to global agent maturity tracker.
 
 **Location**: `/home/mical/fde/palette/scripts/sync-impressions.py`
 
@@ -27,9 +29,9 @@ git commit -m "sync: Update agent maturity from project impressions"
 
 ## What It Does
 
-1. **Scans** all project decision logs:
-   - `projects/*/decisions.md`
-   - `projects/*/*/execution_summary.md`
+1. **Scans** all implementation decision logs:
+   - `implementations/*/decisions.md`
+   - `implementations/*/*/execution_summary.md`
 
 2. **Extracts** agent impressions:
    - Looks for `**Impressions**: X success, Y fail` format
@@ -71,9 +73,9 @@ git commit -m "sync: Update agent maturity from project impressions"
 
 ```
 Scanning project decision logs...
-  Parsing projects/myth-fall-game/decisions.md...
-  Parsing projects/rossi-mission/decisions.md...
-  Parsing projects/agent-class/interview-prep/execution_summary.md...
+  Parsing implementations/dev-mythfall-game/decisions.md...
+  Parsing implementations/retail-rossi-store/decisions.md...
+  Parsing implementations/talent-gap-interview/execution_summary.md...
 
 Found impressions for 4 agents:
   Yutyrannus: 10 success, 0 fail
@@ -105,8 +107,36 @@ Updating agents/README.md...
 
 **Script fails?**
 - Ensure running from `/home/mical/fde/` directory
-- Check Python 3.12+ installed
+- Check Python 3.11+ installed
 - Verify file paths haven't changed
+
+---
+
+## `validate_palette_state.py`
+
+**Purpose**: Drift guard that checks path consistency, taxonomy count consistency, duplicate library IDs, and Orchestrator guardrails.
+
+### Usage
+
+```bash
+python3 palette/scripts/validate_palette_state.py
+```
+
+### CI Integration
+
+This script is wired into `.github/workflows/palette-integrity.yml` and runs on pushes/PRs that touch `palette/**` or `implementations/**`.
+
+---
+
+## `company_intel_report.py`
+
+**Purpose**: Generate `company_intel_report.md` from the company-RIU mapping to support build-vs-buy and pattern adoption analysis.
+
+### Usage
+
+```bash
+python3 palette/scripts/company_intel_report.py
+```
 
 ---
 

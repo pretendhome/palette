@@ -1,8 +1,8 @@
 # TIER 3: decisions.md Integration Prompt (Policy Reference)
 
 **This file**: Static policy/reference for how to use decisions.md  
-**Actual ledger location (Toolkit)**: `~/fde/decisions.md`  
-**Actual ledger location (Project)**: `~/projects/<client>/fde/decisions.md`  
+**Actual ledger location (Toolkit)**: `~/fde/palette/decisions.md`  
+**Actual ledger location (Implementation)**: `~/fde/implementations/<implementation>/fde/decisions.md`  
 **Project-scoped install**: `.kiro/steering/palette/TIER3_decisions_prompt.md`  
 **Authority**: Subordinate to palette-core.md (core wins on conflict)  
 **Status**: ACTIVE  
@@ -14,8 +14,8 @@
 ## About This File
 
 This is the **policy reference** that explains how to use decisions.md. The actual append-only engagement log lives at:
-- **Toolkit development**: `~/fde/decisions.md` 
-- **Customer projects**: `~/projects/<client>/fde/decisions.md`
+- **Toolkit development**: `~/fde/palette/decisions.md`
+- **Implementation-scoped**: `~/fde/implementations/<implementation>/fde/decisions.md`
 
 Do not append engagement updates to this file. This is read-only steering documentation.
 
@@ -47,9 +47,9 @@ This file (decisions.md) is the single engagement log and control surface for:
 
 ## Taxonomy Access
 
-You have access to: **palette_taxonomy_v1.2.yaml** (104 RIUs - refined core + essential patterns)
+You have access to: **palette_taxonomy_v1.3.yaml** (current canonical release snapshot)
 
-**File location**: `.kiro/steering/palette/palette_taxonomy_v1_1.yaml`
+**File location**: `~/fde/palette/taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml`
 
 ### What the taxonomy is:
 
@@ -88,7 +88,7 @@ You have access to: **palette_taxonomy_v1.2.yaml** (104 RIUs - refined core + es
 ### 0a. Check Curated Knowledge Library (for research/architecture questions)
 
 **If the engagement involves research or architecture decisions**:
-- Check `fde/palette_knowledge_library_v1_0_FINAL.yaml` for matching questions
+- Check `~/fde/palette/knowledge-library/v1.2/palette_knowledge_library_v1.2.yaml` for matching questions
 - Search by tags, problem_type, or semantic similarity
 - If match found: Use curated answer and cite as "per LIB-XXX"
 - If no match: Proceed with normal RIU selection

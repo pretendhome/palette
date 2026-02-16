@@ -8,18 +8,18 @@
 
 ## Core Principle
 
-**Palette is the toolkit. Projects use the toolkit.**
+**Palette is the toolkit. Implementations use the toolkit.**
 
 - Palette: `/home/mical/fde/palette/` (versioned, canonical, toolkit development)
-- Projects: `/home/mical/fde/projects/<client-name>/` (project execution)
-- Learnings flow: Projects → Palette (promote patterns that work)
+- Implementations: `/home/mical/fde/implementations/<implementation-name>/` (real-world execution)
+- Learnings flow: Implementations → Palette (promote patterns that work)
 
 ---
 
 ## Standard Project Structure
 
 ```
-/home/mical/fde/projects/<client-name>/
+/home/mical/fde/implementations/<implementation-name>/
 ├── .kiro/steering/              # Project-specific steering (required)
 │   ├── product.md               # Product purpose, users, goals
 │   ├── tech.md                  # Tech stack, frameworks, constraints
@@ -60,13 +60,13 @@
 
 ## Learning Flow
 
-**Projects → Palette**:
+**Implementations → Palette**:
 1. Agent succeeds consistently → Promote maturity tier
 2. New pattern discovered → Add to knowledge library
 3. New problem type → Add RIU to taxonomy
 4. Steering pattern works → Document in examples
 
-**Palette → Projects**:
+**Palette → Implementations**:
 1. Reference taxonomy for problem classification
 2. Use Palette agents for execution
 3. Follow decision framework (ONE-WAY vs TWO-WAY DOOR)
@@ -76,11 +76,11 @@
 
 ## Implementation Status
 
-**Rossi Mission**: ✓ Standardized (local only, no remote configured)  
-**Myth Fall Game**: ✓ Standardized and pushed to GitHub
+**retail-rossi-store**: ✓ Standardized in `implementations/`  
+**dev-mythfall-game**: ✓ Standardized in `implementations/`
 
 ---
 
 ## Version History
 
-- **v1.0** (2026-02-07): Initial standard, applied to rossi-mission and myth-fall-game
+- **v1.1** (2026-02-16): Updated canonical path from `projects/` to `implementations/`

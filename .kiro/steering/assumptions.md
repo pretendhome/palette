@@ -260,6 +260,7 @@ These are cognitive shorthand only:
 - **Route when**: Multi-step workflows, agent coordination needed, complex task sequencing
 - **Status**: DESIGN-ONLY PLACEHOLDER — The Orchestrator is not considered an implemented agent until explicitly promoted via decisions.md
 - **Promotion**: Requires an explicit decisions.md entry marking the Orchestrator as implemented
+- **Canonical spec**: `palette/agents/orchestrator/orchestrator.md` (Orch-Lite v0.1, routing-only)
 
 #### Sub-Agent Spawning Rules (for future promotion)
 
@@ -525,5 +526,4 @@ Palette must always be restartable from:
 ---
 ---
 ---
-
 

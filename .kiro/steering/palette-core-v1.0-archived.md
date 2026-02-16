@@ -191,8 +191,8 @@ All material decisions must be classified as:
 **File**: `decisions.md` (canonical decision log)
 
 **Location**:
-- Toolkit development: `~/fde/decisions.md`
-- Customer projects: `~/projects/<client>/decisions.md`
+- Toolkit development: `~/fde/palette/decisions.md`
+- Implementations: `~/fde/implementations/<implementation>/fde/decisions.md`
 
 **Purpose**: Enable restartability from scratch using existing documentation
 

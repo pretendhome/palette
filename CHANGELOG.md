@@ -11,6 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## Framework Milestones
+
+- **v1.0 (Foundation)**: Initial three-tier system only (Tier 1/2/3 governance backbone).
+- **v1.1 (Mythfall Precedent)**: First implementation precedent for convergence briefing + multi-agent workflow in one engagement.
+- **v1.2 (Rossi External Precedent)**: First real external customer implementation with artifact-heavy business-plan workflow and alignment-first execution.
+- **v1.3 (Professionalization + OpenClaw Learnings)**: Structural hardening, governance refinements, and system mechanism improvements informed by comparative analysis.
+
+---
+
 ## [1.3.1] - 2026-02-10
 
 ### Added
@@ -20,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Git Hook Automation**: Post-commit hook auto-syncs impressions and pushes to GitHub
 - **Windows Quick Start Guide**: Platform-agnostic setup instructions addressing Windows confusion
 - **Agent Maturity Tracking**: Live status in `agents/README.md` with impression counts
+- **Operational learnings integration**: Continued v1.3 hardening toward a reproducible framework handoff model per implementation
 
 ### Changed
 - **Yutyrannus promoted to WORKING tier**: First agent to reach Tier 2 (10 consecutive successes on rossi-mission)
@@ -85,8 +95,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
-- **v1.0.0** (2026-01-31): Initial release
-- **v1.2** (Taxonomy/Library): Current artifact versions
+- **v1.0**: Foundation (three tiers only)
+- **v1.1**: Mythfall precedent (convergence + multi-agent workflow)
+- **v1.2**: Rossi precedent (external environment, alignment-first artifact workflow)
+- **v1.3**: OpenClaw-informed structural/professionalization phase
+- **v1.3.1** (2026-02-10): Incremental additions and tooling updates
 
 ---
 
