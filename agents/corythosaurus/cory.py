@@ -189,12 +189,40 @@ def save_history(riu_id: str, raw_input: str, refined_task: str) -> None:
 # ── Utilities ─────────────────────────────────────────────────────────────────
 
 def progress(msg: str) -> None:
-    ts = datetime.datetime.utcnow().strftime("%H:%M:%S")
+    ts = datetime.datetime.now(datetime.timezone.utc).strftime("%H:%M:%S")
     print(f"[cory {ts}] {msg}", file=sys.stderr, flush=True)
 
 
 def _now() -> str:
-    return datetime.datetime.utcnow().isoformat() + "Z"
+    return datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def _parse_json(text: str) -> dict:
+    """
+    Parse JSON from Claude responses robustly:
+    - strips markdown code fences (```json ... ```)
+    - extracts the first complete JSON object regardless of surrounding text
+    """
+    text = text.strip()
+    # Strip markdown code fences
+    if text.startswith("```"):
+        lines = text.splitlines()
+        start = 1
+        end   = len(lines) - 1 if lines[-1].strip() == "```" else len(lines)
+        text  = "\n".join(lines[start:end]).strip()
+    # Extract first complete {...} object — ignore any trailing text
+    start_idx = text.find("{")
+    if start_idx >= 0:
+        depth = 0
+        for i, ch in enumerate(text[start_idx:], start_idx):
+            if ch == "{":
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0:
+                    text = text[start_idx : i + 1]
+                    break
+    return json.loads(text)
 
 
 # ── Claude calls ──────────────────────────────────────────────────────────────
@@ -229,7 +257,7 @@ def classify_cluster(
     )
 
     try:
-        result         = json.loads(message.content[0].text.strip())
+        result         = _parse_json(message.content[0].text)
         cluster        = result.get("cluster", CLUSTER_NAMES[0])
         confidence     = int(result.get("confidence", 50))
         runner_up      = result.get("runner_up", "")
@@ -281,7 +309,7 @@ def match_riu(
     )
 
     try:
-        result         = json.loads(message.content[0].text.strip())
+        result         = _parse_json(message.content[0].text)
         top_id         = result.get("top_riu", "")
         confidence     = int(result.get("confidence", 40))
         runner_up_id   = result.get("runner_up") or ""
@@ -394,7 +422,7 @@ def refine_prompt(
     )
 
     try:
-        return json.loads(message.content[0].text.strip())
+        return _parse_json(message.content[0].text)
     except (json.JSONDecodeError, KeyError) as e:
         progress(f"refine parse error: {e} — using raw input")
         return {

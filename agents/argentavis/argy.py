@@ -227,8 +227,34 @@ def classify_query(task: str, hint: Optional[str] = None) -> QueryType:
 
 def progress(msg: str) -> None:
     """Write human-readable progress to stderr (never pollutes stdout/JSON)."""
-    ts = datetime.datetime.utcnow().strftime("%H:%M:%S")
+    ts = datetime.datetime.now(datetime.timezone.utc).strftime("%H:%M:%S")
     print(f"[argy {ts}] {msg}", file=sys.stderr, flush=True)
+
+
+def _parse_json(text: str) -> dict:
+    """
+    Parse JSON from Claude responses robustly:
+    - strips markdown code fences (```json ... ```)
+    - extracts the first complete JSON object regardless of surrounding text
+    """
+    text = text.strip()
+    if text.startswith("```"):
+        lines = text.splitlines()
+        start = 1
+        end   = len(lines) - 1 if lines[-1].strip() == "```" else len(lines)
+        text  = "\n".join(lines[start:end]).strip()
+    start_idx = text.find("{")
+    if start_idx >= 0:
+        depth = 0
+        for i, ch in enumerate(text[start_idx:], start_idx):
+            if ch == "{":
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0:
+                    text = text[start_idx : i + 1]
+                    break
+    return json.loads(text)
 
 
 # ── Perplexity backend ────────────────────────────────────────────────────────
@@ -483,7 +509,7 @@ Return ONLY the JSON object. No markdown, no prose."""
     )
 
     try:
-        synthesis = json.loads(message.content[0].text)
+        synthesis = _parse_json(message.content[0].text)
     except (json.JSONDecodeError, IndexError, KeyError) as e:
         progress(f"claude synthesis parse error: {e} — using raw results")
         return raw_result
