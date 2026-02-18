@@ -5,13 +5,22 @@
   "code": "Argy",
   "role": "Resource Gatherer",
   "description": "Conversational research agent that clarifies intent before searching",
-  "status": "UNVALIDATED",
+  "status": "WORKING",
+  "maturity": {
+    "tier": 2,
+    "successes": 13,
+    "failures": 0,
+    "promotes_at": 50
+  },
   "entry_point": "argy.py",
+  "runtime": "python",
   "capabilities": [
     "web_search",
     "web_fetch",
     "context_clarification",
-    "structured_synthesis"
+    "structured_synthesis",
+    "tradeoff_identification",
+    "gap_flagging"
   ],
   "constraints": {
     "read_only": true,
@@ -20,12 +29,14 @@
     "no_decisions": true,
     "must_clarify_before_search": true
   },
+  "accepts_from": ["orchestrator", "rex", "human"],
+  "routes_to": ["orchestrator", "rex", "therizinosaurus", "human"],
   "invocation": {
     "command": "/argy",
     "aliases": ["argentavis", "research", "search"]
   },
   "logging": {
-    "ledger": "fde/decisions.md",
+    "ledger": "palette/decisions.md",
     "track_maturity": true,
     "log_queries": true
   }

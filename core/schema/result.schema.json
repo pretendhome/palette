@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/pretendhome/pretendhome/palette/core/schema/result.schema.json",
+  "title": "HandoffResult",
+  "description": "Response produced by a Palette agent after processing a HandoffPacket. The Orchestrator reads 'status' first to determine next routing step.",
+  "type": "object",
+  "required": ["packet_id", "from", "status", "timestamp"],
+  "additionalProperties": false,
+  "properties": {
+    "packet_id": {
+      "type": "string",
+      "description": "ID of the HandoffPacket this result answers"
+    },
+    "from": { "$ref": "#/definitions/AgentID" },
+    "status": {
+      "type": "string",
+      "enum": ["complete", "blocked", "escalate", "one_way_door"],
+      "description": "complete=done | blocked=cannot proceed | escalate=wrong agent | one_way_door=human required"
+    },
+    "output": {
+      "type": "object",
+      "description": "Structured agent output. Schema varies by agent.",
+      "additionalProperties": true
+    },
+    "produced_artifacts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "File paths created or modified by this agent during execution",
+      "default": []
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Human-readable list of what is blocking completion. Required when status=blocked.",
+      "default": []
+    },
+    "next_agent": {
+      "$ref": "#/definitions/AgentID",
+      "description": "Agent this result should be routed to next. Optional; Orchestrator may override."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "definitions": {
+    "AgentID": {
+      "type": "string",
+      "enum": [
+        "orchestrator",
+        "rex",
+        "argentavis",
+        "therizinosaurus",
+        "ankylosaurus",
+        "parasaurolophus",
+        "velociraptor",
+        "yutyrannus",
+        "human"
+      ]
+    }
+  }
+}

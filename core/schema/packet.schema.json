@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/pretendhome/pretendhome/palette/core/schema/packet.schema.json",
+  "title": "HandoffPacket",
+  "description": "Structured inter-agent communication envelope for the Palette multi-agent system. Every inter-agent message uses this envelope — nothing travels as free-form text.",
+  "type": "object",
+  "required": ["id", "trace_id", "from", "to", "task", "timestamp"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique packet identifier (UUID recommended)"
+    },
+    "trace_id": {
+      "type": "string",
+      "description": "Groups all packets belonging to a single session or task chain"
+    },
+    "from": { "$ref": "#/definitions/AgentID" },
+    "to":   { "$ref": "#/definitions/AgentID" },
+    "riu_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Relevant RIU identifiers that scope this task (e.g. 'RIU-006')",
+      "default": []
+    },
+    "task": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Single bounded objective for the receiving agent"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Input file paths the receiving agent needs to complete this task",
+      "default": []
+    },
+    "constraints": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Behavioral constraints that apply to this specific task",
+      "default": []
+    },
+    "one_way_door": {
+      "type": "object",
+      "description": "When detected=true the Orchestrator must pause and get human confirmation before routing further",
+      "required": ["detected"],
+      "additionalProperties": false,
+      "properties": {
+        "detected": { "type": "boolean" },
+        "details": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "default": { "detected": false }
+    },
+    "payload": {
+      "type": "object",
+      "description": "Agent-specific structured data. Schema varies by agent and task type.",
+      "additionalProperties": true
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of packet creation"
+    }
+  },
+  "definitions": {
+    "AgentID": {
+      "type": "string",
+      "enum": [
+        "orchestrator",
+        "rex",
+        "argentavis",
+        "therizinosaurus",
+        "ankylosaurus",
+        "parasaurolophus",
+        "velociraptor",
+        "yutyrannus",
+        "human"
+      ]
+    }
+  }
+}

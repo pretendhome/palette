@@ -1,0 +1,51 @@
+{
+  "name": "orchestrator",
+  "version": "0.1",
+  "ark_type": "ARK:Orchestrator",
+  "code": "Orch",
+  "role": "Workflow Router",
+  "description": "Multi-agent workflow coordination and routing after convergence; reads convergence brief, dispatches HandoffPackets, gates on ONE-WAY DOORS",
+  "status": "DESIGN-ONLY",
+  "maturity": {
+    "tier": 0,
+    "successes": 0,
+    "failures": 0,
+    "promotes_at": 5
+  },
+  "entry_point": null,
+  "runtime": "none",
+  "capabilities": [
+    "task_routing",
+    "parallel_dispatch",
+    "one_way_door_gating",
+    "handoff_aggregation",
+    "agent_roster_management",
+    "convergence_brief_parsing",
+    "riu_matching"
+  ],
+  "constraints": {
+    "no_domain_execution": true,
+    "no_architecture_decisions": true,
+    "no_convergence_bypass": true,
+    "no_human_gate_bypass": true,
+    "routing_only": true
+  },
+  "accepts_from": ["human"],
+  "routes_to": [
+    "rex",
+    "argentavis",
+    "therizinosaurus",
+    "ankylosaurus",
+    "parasaurolophus",
+    "velociraptor",
+    "yutyrannus"
+  ],
+  "invocation": {
+    "command": "/orch",
+    "aliases": ["orchestrate", "route", "dispatch"]
+  },
+  "logging": {
+    "ledger": "palette/decisions.md",
+    "track_maturity": true
+  }
+}

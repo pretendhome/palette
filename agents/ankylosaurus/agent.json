@@ -1,0 +1,42 @@
+{
+  "name": "ankylosaurus",
+  "version": "1.0",
+  "ark_type": "ARK:Ankylosaurus",
+  "code": "Anky",
+  "role": "Validator",
+  "description": "Plan, spec, and implementation assessment specialist; produces GO/NO-GO verdicts but never fixes what it finds",
+  "status": "UNVALIDATED",
+  "maturity": {
+    "tier": 1,
+    "successes": 2,
+    "failures": 0,
+    "promotes_at": 10
+  },
+  "entry_point": "anky.py",
+  "runtime": "python",
+  "capabilities": [
+    "plan_validation",
+    "spec_assessment",
+    "feasibility_evaluation",
+    "risk_identification",
+    "dependency_mapping",
+    "go_no_go_decision"
+  ],
+  "constraints": {
+    "assessment_only": true,
+    "no_implementation": true,
+    "no_decisions_beyond_go_no_go": true,
+    "no_fixes": true,
+    "must_produce_risk_list": true
+  },
+  "accepts_from": ["orchestrator", "therizinosaurus", "rex", "human"],
+  "routes_to": ["orchestrator", "therizinosaurus", "rex", "human"],
+  "invocation": {
+    "command": "/anky",
+    "aliases": ["ankylosaurus", "validate", "review"]
+  },
+  "logging": {
+    "ledger": "palette/decisions.md",
+    "track_maturity": true
+  }
+}

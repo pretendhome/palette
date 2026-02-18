@@ -1,0 +1,42 @@
+{
+  "name": "therizinosaurus",
+  "version": "1.0",
+  "ark_type": "ARK:Therizinosaurus",
+  "code": "Theri",
+  "role": "Builder",
+  "description": "Implementation specialist that executes within a clearly bounded spec; never expands scope or makes architecture decisions",
+  "status": "UNVALIDATED",
+  "maturity": {
+    "tier": 1,
+    "successes": 6,
+    "failures": 0,
+    "promotes_at": 10
+  },
+  "entry_point": "theri.py",
+  "runtime": "python",
+  "capabilities": [
+    "code_implementation",
+    "file_creation",
+    "directory_structuring",
+    "test_writing",
+    "error_handling",
+    "artifact_delivery"
+  ],
+  "constraints": {
+    "no_architecture_decisions": true,
+    "no_scope_expansion": true,
+    "no_research": true,
+    "bounded_implementation_only": true,
+    "must_validate_spec_before_building": true
+  },
+  "accepts_from": ["orchestrator", "rex", "human"],
+  "routes_to": ["orchestrator", "ankylosaurus", "velociraptor", "human"],
+  "invocation": {
+    "command": "/theri",
+    "aliases": ["therizinosaurus", "build", "implement"]
+  },
+  "logging": {
+    "ledger": "palette/decisions.md",
+    "track_maturity": true
+  }
+}

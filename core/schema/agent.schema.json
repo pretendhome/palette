@@ -1,0 +1,133 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/pretendhome/pretendhome/palette/core/schema/agent.schema.json",
+  "title": "AgentManifest",
+  "description": "Schema for agent.json — the machine-readable manifest that every Palette agent must provide. The Orchestrator uses manifests to discover agents, build the routing table, and enforce maturity constraints.",
+  "type": "object",
+  "required": [
+    "name", "version", "ark_type", "code", "role", "description",
+    "status", "maturity", "runtime", "capabilities", "constraints",
+    "accepts_from", "routes_to", "invocation", "logging"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Canonical agent identifier. Must match the agents/ subdirectory name."
+    },
+    "version": { "type": "string" },
+    "ark_type": {
+      "type": "string",
+      "description": "ARK archetype label (e.g. ARK:Velociraptor)"
+    },
+    "code": {
+      "type": "string",
+      "description": "Short callsign used in logs and handoff packets (e.g. Raptor)"
+    },
+    "role": {
+      "type": "string",
+      "description": "One-line role description (e.g. Debugger)"
+    },
+    "description": {
+      "type": "string",
+      "description": "One-sentence agent description"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["UNVALIDATED", "WORKING", "PRODUCTION", "DESIGN-ONLY"]
+    },
+    "maturity": {
+      "type": "object",
+      "required": ["tier", "successes", "failures", "promotes_at"],
+      "additionalProperties": false,
+      "properties": {
+        "tier": {
+          "type": "integer",
+          "minimum": 0, "maximum": 3,
+          "description": "0=design-only, 1=unvalidated, 2=working, 3=production"
+        },
+        "successes": { "type": "integer", "minimum": 0 },
+        "failures":  { "type": "integer", "minimum": 0 },
+        "promotes_at": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of consecutive successes needed to promote to next tier"
+        }
+      }
+    },
+    "entry_point": {
+      "type": ["string", "null"],
+      "description": "Primary executable or script. null for DESIGN-ONLY agents."
+    },
+    "runtime": {
+      "type": "string",
+      "enum": ["go", "python", "none"],
+      "description": "go=compiled binary | python=script | none=DESIGN-ONLY"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Exhaustive list of what this agent can do. Used by Orchestrator for task matching."
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": { "type": "boolean" },
+      "description": "Hard behavioral constraints. All values must be true (false constraints should be omitted)."
+    },
+    "accepts_from": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/AgentID" },
+      "description": "Agents allowed to send HandoffPackets to this agent"
+    },
+    "routes_to": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/AgentID" },
+      "description": "Agents this agent may route HandoffResults to"
+    },
+    "invocation": {
+      "type": "object",
+      "required": ["command"],
+      "additionalProperties": false,
+      "properties": {
+        "command": {
+          "type": "string",
+          "description": "Primary invocation command (e.g. /argy or raptor)"
+        },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "logging": {
+      "type": "object",
+      "required": ["ledger", "track_maturity"],
+      "additionalProperties": false,
+      "properties": {
+        "ledger": {
+          "type": "string",
+          "description": "Path to the decisions ledger where this agent logs outcomes"
+        },
+        "track_maturity": { "type": "boolean" },
+        "log_queries":    { "type": "boolean" }
+      }
+    }
+  },
+  "definitions": {
+    "AgentID": {
+      "type": "string",
+      "enum": [
+        "orchestrator",
+        "rex",
+        "argentavis",
+        "therizinosaurus",
+        "ankylosaurus",
+        "parasaurolophus",
+        "velociraptor",
+        "yutyrannus",
+        "human"
+      ]
+    }
+  }
+}

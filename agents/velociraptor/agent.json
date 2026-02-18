@@ -1,0 +1,44 @@
+{
+  "name": "velociraptor",
+  "version": "2.1",
+  "ark_type": "ARK:Velociraptor",
+  "code": "Raptor",
+  "role": "Debugger",
+  "description": "Failure diagnosis and minimal repair specialist for containerized AI services; auto-recursive probe chain isolates root cause, applies minimal fix, verifies",
+  "status": "UNVALIDATED",
+  "maturity": {
+    "tier": 1,
+    "successes": 0,
+    "failures": 0,
+    "promotes_at": 10
+  },
+  "entry_point": "raptor",
+  "runtime": "go",
+  "capabilities": [
+    "root_cause_analysis",
+    "probe_chain_execution",
+    "connectivity_diagnosis",
+    "docker_bridge_fix",
+    "nsenter_socat_bridge",
+    "ssh_tunnel_management",
+    "systemd_persistence",
+    "remote_vps_execution"
+  ],
+  "constraints": {
+    "minimal_fix_only": true,
+    "no_feature_addition": true,
+    "no_scope_expansion": true,
+    "no_architecture_changes": true,
+    "diagnose_before_fix": true
+  },
+  "accepts_from": ["orchestrator", "parasaurolophus", "human"],
+  "routes_to": ["orchestrator", "rex", "therizinosaurus", "human"],
+  "invocation": {
+    "command": "raptor",
+    "aliases": ["debug", "fix", "diagnose"]
+  },
+  "logging": {
+    "ledger": "palette/decisions.md",
+    "track_maturity": true
+  }
+}

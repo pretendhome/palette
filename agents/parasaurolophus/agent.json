@@ -1,0 +1,43 @@
+{
+  "name": "parasaurolophus",
+  "version": "1.0",
+  "ark_type": "ARK:Parasaurolophus",
+  "code": "Para",
+  "role": "Signal Monitor",
+  "description": "Continuous metric monitoring and anomaly detection agent; emits signals only — never interprets, diagnoses, or fixes",
+  "status": "UNVALIDATED",
+  "maturity": {
+    "tier": 1,
+    "successes": 0,
+    "failures": 0,
+    "promotes_at": 10
+  },
+  "entry_point": "para.py",
+  "runtime": "python",
+  "capabilities": [
+    "metric_monitoring",
+    "threshold_alerting",
+    "anomaly_detection",
+    "baseline_tracking",
+    "signal_routing",
+    "drift_detection"
+  ],
+  "constraints": {
+    "signals_only": true,
+    "no_interpretation": true,
+    "no_diagnosis": true,
+    "no_fixes": true,
+    "no_implementation": true,
+    "emit_and_route_only": true
+  },
+  "accepts_from": ["orchestrator", "human"],
+  "routes_to": ["orchestrator", "velociraptor", "therizinosaurus", "rex", "ankylosaurus", "human"],
+  "invocation": {
+    "command": "/para",
+    "aliases": ["parasaurolophus", "monitor", "watch"]
+  },
+  "logging": {
+    "ledger": "palette/decisions.md",
+    "track_maturity": true
+  }
+}

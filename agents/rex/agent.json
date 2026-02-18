@@ -1,0 +1,42 @@
+{
+  "name": "rex",
+  "version": "1.0",
+  "ark_type": "ARK:Tyrannosaurus",
+  "code": "Rex",
+  "role": "Architect",
+  "description": "System design and tradeoff evaluation specialist; never implements, never decides — proposes and flags",
+  "status": "UNVALIDATED",
+  "maturity": {
+    "tier": 1,
+    "successes": 5,
+    "failures": 0,
+    "promotes_at": 10
+  },
+  "entry_point": "rex.py",
+  "runtime": "python",
+  "capabilities": [
+    "architecture_design",
+    "tradeoff_analysis",
+    "game_theory_evaluation",
+    "one_way_door_detection",
+    "integration_reasoning",
+    "option_generation"
+  ],
+  "constraints": {
+    "no_implementation": true,
+    "no_research": true,
+    "no_final_decisions": true,
+    "must_flag_one_way_doors": true,
+    "must_present_2_to_4_options": true
+  },
+  "accepts_from": ["orchestrator", "human", "argentavis"],
+  "routes_to": ["orchestrator", "argentavis", "therizinosaurus", "ankylosaurus", "human"],
+  "invocation": {
+    "command": "/rex",
+    "aliases": ["architect", "design", "tradeoff"]
+  },
+  "logging": {
+    "ledger": "palette/decisions.md",
+    "track_maturity": true
+  }
+}

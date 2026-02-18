@@ -1,0 +1,43 @@
+{
+  "name": "yutyrannus",
+  "version": "1.0",
+  "ark_type": "ARK:Yutyrannus",
+  "code": "Yuty",
+  "role": "Narrator",
+  "description": "Evidence-based customer communication and narrative creation specialist; never outruns available proof",
+  "status": "WORKING",
+  "maturity": {
+    "tier": 2,
+    "successes": 13,
+    "failures": 0,
+    "promotes_at": 50
+  },
+  "entry_point": "yuty.py",
+  "runtime": "python",
+  "capabilities": [
+    "narrative_creation",
+    "evidence_audit",
+    "demo_scripting",
+    "customer_communication",
+    "business_value_translation",
+    "talking_point_generation",
+    "limitation_acknowledgment"
+  ],
+  "constraints": {
+    "no_unvalidated_claims": true,
+    "no_future_feature_promises": true,
+    "evidence_required_for_all_claims": true,
+    "must_acknowledge_limitations": true,
+    "no_marketing_language_without_proof": true
+  },
+  "accepts_from": ["orchestrator", "human", "therizinosaurus", "parasaurolophus", "rex"],
+  "routes_to": ["orchestrator", "human"],
+  "invocation": {
+    "command": "/yuty",
+    "aliases": ["yutyrannus", "narrate", "pitch", "demo"]
+  },
+  "logging": {
+    "ledger": "palette/decisions.md",
+    "track_maturity": true
+  }
+}
