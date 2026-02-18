@@ -1,357 +1,837 @@
 #!/usr/bin/env python3
 """
-Argentavis (Argy) - Resource Gatherer Agent v1.0
-Status: WORKING (Tier 2)
+argy.py — Argentavis (Argy) Research Agent
+Palette Workflow Agent v2.0
 
-Conversational research agent that:
-1. Checks knowledge library first
-2. Clarifies intent before searching
-3. Searches strategically
-4. Synthesizes for decision-making
-5. NEVER makes decisions or recommendations
+Input:  HandoffPacket JSON via stdin  OR  --task / --context flags
+Output: HandoffResult JSON to stdout  (machine-readable for Orch)
+Stderr: Human-readable progress log
 
-Constraint: Read-only. No synthesis-as-decision. No execution.
+HandoffPacket.payload fields read:
+  decision_context   REQUIRED — what decision does this research inform?
+  depth              fast | standard | deep  (default: standard)
+  query_type_hint    factual | synthesis | academic | current_events (optional)
+  decisions_path     path to decisions.md for maturity logging (optional)
+
+HandoffResult.output fields produced:
+  findings[]   {claim, evidence, source, confidence}
+  gaps[]       things we could not find or resolve — FIRST-CLASS, min 1
+  sources[]    {url, title, retrieved_at, reliability}
+  confidence   0-100 overall confidence in the findings
+  query_type   classification used for backend routing
+  depth_used   which backend(s) did the work
+  cache_hit    whether knowledge library answered it
+  next_agent   routing suggestion (rex | therizinosaurus | ankylosaurus | human)
+
+Backend selection by query type:
+  factual        → Tavily → Perplexity → Exa
+  current_events → Perplexity → Tavily
+  academic       → Exa → Perplexity
+  synthesis      → Perplexity → Tavily → Exa
+Claude always runs synthesis over raw results when ANTHROPIC_API_KEY is set.
 """
+from __future__ import annotations
 
+import argparse
+import datetime
 import json
+import os
 import sys
-import yaml
-from datetime import datetime
-from pathlib import Path
+import time
+from dataclasses import asdict, dataclass, field
+from enum import Enum
+from typing import Optional
 
 
-class Argentavis:
-    """Resource Gatherer Agent - Clarify, Search, Synthesize"""
-    
-    def __init__(self):
-        self.version = "1.0"
-        self.ark_type = "ARK:Argentavis"
-        self.status = "UNVALIDATED"
-        self.agent_dir = Path(__file__).parent
-        self.palette_root = self.agent_dir.parent.parent
-        self.ledger_path = self.palette_root / "decisions.md"
-        self.knowledge_library_path = self.palette_root / "knowledge-library" / "v1.2" / "palette_knowledge_library_v1.2.yaml"
-        
-    def load_system_prompt(self):
-        """Load agent personality and constraints"""
-        prompt_path = self.agent_dir / "prompts" / "system.md"
-        with open(prompt_path, 'r') as f:
-            return f.read()
-    
-    def check_knowledge_library(self, request):
-        """Check knowledge library before external search"""
-        print("\n📚 Checking knowledge library first...")
-        
-        if not self.knowledge_library_path.exists():
-            print("   ⚠️  Knowledge library not found")
-            return None
-        
+# ── Query types ───────────────────────────────────────────────────────────────
+
+class QueryType(str, Enum):
+    FACTUAL        = "factual"         # concrete facts, comparisons, costs → Tavily
+    SYNTHESIS      = "synthesis"       # design, strategy, tradeoffs → Perplexity + Claude
+    ACADEMIC       = "academic"        # papers, theory, algorithms → Exa
+    CURRENT_EVENTS = "current_events"  # latest news, releases → Perplexity
+    UNKNOWN        = "unknown"         # fallback — try all
+
+
+# ── Data structures ───────────────────────────────────────────────────────────
+
+@dataclass
+class Finding:
+    claim:      str
+    evidence:   str
+    source:     str
+    confidence: int  # 0-100
+
+
+@dataclass
+class Source:
+    url:          str
+    title:        str
+    retrieved_at: str
+    reliability:  str  # high | medium | low
+
+
+@dataclass
+class SearchResult:
+    findings:   list[Finding] = field(default_factory=list)
+    gaps:       list[str]     = field(default_factory=list)
+    sources:    list[Source]  = field(default_factory=list)
+    confidence: int           = 0
+    depth_used: str           = "none"
+    cache_hit:  bool          = False
+    next_agent: str           = "human"  # filled by Claude synthesis
+
+
+# ── Backend registry ──────────────────────────────────────────────────────────
+
+class BackendRegistry:
+    """Checks which API keys are present at startup."""
+
+    def __init__(self) -> None:
+        self.anthropic  = bool(os.environ.get("ANTHROPIC_API_KEY"))
+        self.perplexity = bool(os.environ.get("PERPLEXITY_API_KEY"))
+        self.tavily     = bool(os.environ.get("TAVILY_API_KEY"))
+        self.exa        = bool(os.environ.get("EXA_API_KEY"))
+
+    def available(self) -> list[str]:
+        out = []
+        if self.anthropic:  out.append("claude")
+        if self.perplexity: out.append("perplexity")
+        if self.tavily:     out.append("tavily")
+        if self.exa:        out.append("exa")
+        return out
+
+    def report(self) -> str:
+        a = self.available()
+        return "backends: " + ", ".join(a) if a else "no backends — set API keys"
+
+
+# ── Knowledge library ─────────────────────────────────────────────────────────
+
+_HERE = os.path.dirname(os.path.abspath(__file__))
+KNOWLEDGE_LIBRARY_PATH = os.path.normpath(os.path.join(
+    _HERE, "..", "..", "knowledge-library",
+    "v1.2", "palette_knowledge_library_v1.2.yaml",
+))
+
+
+def check_knowledge_library(task: str) -> Optional[SearchResult]:
+    """
+    Check the local knowledge library BEFORE any external API call.
+    Returns a SearchResult with matched entries, or None if no hits.
+    """
+    if not os.path.exists(KNOWLEDGE_LIBRARY_PATH):
+        progress(f"knowledge library not found at {KNOWLEDGE_LIBRARY_PATH}")
+        return None
+
+    try:
+        import yaml
+    except ImportError:
+        progress("pyyaml not installed — pip install pyyaml to enable knowledge library")
+        return None
+
+    try:
+        with open(KNOWLEDGE_LIBRARY_PATH) as f:
+            lib = yaml.safe_load(f)
+    except Exception as e:
+        progress(f"knowledge library read error: {e}")
+        return None
+
+    questions = lib.get("library_questions", [])
+    task_lower = task.lower()
+    task_words = set(w for w in task_lower.split() if len(w) > 4)
+
+    scored: list[tuple[int, dict]] = []
+    for q in questions:
+        q_text  = q.get("question", "").lower()
+        q_words = set(w for w in q_text.split() if len(w) > 4)
+        overlap = len(task_words & q_words)
+        if overlap >= 2:
+            scored.append((overlap, q))
+
+    if not scored:
+        return None
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    top = scored[:3]
+
+    result = SearchResult(cache_hit=True, depth_used="knowledge-library:v1.2")
+    now    = datetime.datetime.utcnow().isoformat() + "Z"
+
+    for _, q in top:
+        answer = q.get("answer", "")
+        if not answer:
+            continue
+        lib_id  = q.get("id", "LIB-???")
+        preview = answer[:500] + ("..." if len(answer) > 500 else "")
+        result.findings.append(Finding(
+            claim      = q.get("question", ""),
+            evidence   = preview,
+            source     = f"Palette Knowledge Library {lib_id}",
+            confidence = 82,
+        ))
+        result.sources.append(Source(
+            url          = f"file://{KNOWLEDGE_LIBRARY_PATH}#{lib_id}",
+            title        = f"Knowledge Library: {lib_id}",
+            retrieved_at = now,
+            reliability  = "high",
+        ))
+
+    if result.findings:
+        result.confidence = 68  # good signal, but may be stale
+        result.gaps.append(
+            "Knowledge library answers may be stale — external validation recommended"
+        )
+        return result
+
+    return None
+
+
+# ── Query classifier ──────────────────────────────────────────────────────────
+
+_FACTUAL_SIGNALS        = ["what is", "how does", "define", "explain", "describe",
+                           "vs", "versus", "compare", "difference between",
+                           "cost", "pricing", "latency", "benchmark", "list"]
+_SYNTHESIS_SIGNALS      = ["best approach", "should i", "trade-off", "tradeoff",
+                           "design", "architecture", "pattern", "strategy",
+                           "recommend", "evaluate", "assess", "how should"]
+_ACADEMIC_SIGNALS       = ["research", "study", "paper", "published", "academic",
+                           "theory", "algorithm", "formal", "proof", "survey"]
+_CURRENT_EVENTS_SIGNALS = ["latest", "recent", "2025", "2026", "current",
+                           "new release", "just announced", "breaking", "today",
+                           "changelog", "update"]
+
+
+def classify_query(task: str, hint: Optional[str] = None) -> QueryType:
+    """Classify query type from task text and optional override hint."""
+    if hint:
         try:
-            with open(self.knowledge_library_path, 'r') as f:
-                library = yaml.safe_load(f)
-            
-            # Simple keyword matching (can be improved)
-            request_lower = request.lower()
-            matches = []
-            
-            for question in library.get('library_questions', []):
-                q_text = question.get('question', '').lower()
-                # Check if key terms overlap
-                if any(word in q_text for word in request_lower.split() if len(word) > 4):
-                    matches.append({
-                        'id': question.get('id'),
-                        'question': question.get('question'),
-                        'answer': question.get('answer', '')[:200] + '...',  # Preview
-                        'related_rius': question.get('related_rius', [])
-                    })
-            
-            if matches:
-                print(f"   ✓ Found {len(matches)} potentially relevant entries")
-                for i, match in enumerate(matches[:3], 1):  # Show top 3
-                    print(f"   {i}. {match['id']}: {match['question'][:80]}...")
-                return matches
-            else:
-                print("   ℹ️  No direct matches in library")
-                return None
-                
-        except Exception as e:
-            print(f"   ⚠️  Error reading library: {e}")
-            return None
-    
-    def clarify_intent(self, initial_request):
-        """Ask clarifying questions before searching"""
-        print("\n🔍 Argentavis (Argy) - Resource Gatherer")
-        print("=" * 60)
-        print(f"\nInitial request: {initial_request}")
-        print("\nBefore I search, let me clarify:\n")
-        
-        questions = [
-            "What decision is this research informing?",
-            "What have you already tried or know?",
-            "What would 'good enough' look like?",
-            "What's the timeline/urgency?",
-            "What will you do with these findings?"
-        ]
-        
-        context = {"initial_request": initial_request}
-        
-        for i, question in enumerate(questions, 1):
-            print(f"{i}. {question}")
-            answer = input("   → ").strip()
-            if answer:
-                context[f"q{i}"] = answer
-        
-        return context
-    
-    def plan_search_strategy(self, context):
-        """Plan multi-step search strategy"""
-        print("\n🎯 Search Strategy:")
-        
-        strategy = {
-            "primary_query": self._build_primary_query(context),
-            "search_phases": [
-                {
-                    "phase": 1,
-                    "focus": "Official documentation and technical specs",
-                    "sources": ["AWS docs", "GitHub repos", "official guides"]
-                },
-                {
-                    "phase": 2,
-                    "focus": "Real-world examples and case studies",
-                    "sources": ["Blog posts", "conference talks", "production stories"]
-                },
-                {
-                    "phase": 3,
-                    "focus": "Comparative analyses and tradeoffs",
-                    "sources": ["Technical comparisons", "architecture reviews"]
-                }
-            ],
-            "stop_conditions": [
-                "Found 3+ reliable sources with consistent patterns",
-                "Identified clear tradeoffs",
-                "Answered the decision question"
-            ]
-        }
-        
-        print(f"   Primary query: {strategy['primary_query']}")
-        for phase in strategy['search_phases']:
-            print(f"   Phase {phase['phase']}: {phase['focus']}")
-        
-        return strategy
-    
-    def _build_primary_query(self, context):
-        """Build focused search query from clarified context"""
-        request = context['initial_request']
-        decision = context.get('q1', '')
-        
-        # Combine request with decision context
-        if decision:
-            return f"{request} {decision}"
-        return request
-    
-    def generate_kiro_search_request(self, context, strategy, library_matches=None):
-        """Generate structured search request for Kiro to execute"""
-        
-        request = f"""
-# Argentavis Research Request
+            return QueryType(hint)
+        except ValueError:
+            pass
 
-**Agent**: Argentavis v{self.version}
-**Status**: {self.status}
-**Timestamp**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
-
----
-
-## Original Question
-{context['initial_request']}
-
-## Context
-- **Decision**: {context.get('q1', 'Not specified')}
-- **Already known**: {context.get('q2', 'Not specified')}
-- **Success criteria**: {context.get('q3', 'Not specified')}
-- **Timeline**: {context.get('q4', 'Not specified')}
-- **Next action**: {context.get('q5', 'Not specified')}
-
----
-
-## Knowledge Library Check
-"""
-        
-        if library_matches:
-            request += f"✓ Found {len(library_matches)} relevant entries:\n"
-            for match in library_matches[:3]:
-                request += f"- {match['id']}: {match['question']}\n"
-                request += f"  RIUs: {', '.join(match['related_rius'])}\n"
-            request += "\n**Recommendation**: Review these entries before external search.\n"
-        else:
-            request += "ℹ️  No direct matches in knowledge library. Proceeding to external search.\n"
-        
-        request += f"""
----
-
-## Search Strategy
-
-**Primary Query**: `{strategy['primary_query']}`
-
-### Search Phases
-"""
-        
-        for phase in strategy['search_phases']:
-            request += f"\n**Phase {phase['phase']}**: {phase['focus']}\n"
-            request += f"Sources: {', '.join(phase['sources'])}\n"
-        
-        request += """
-### Stop Conditions
-"""
-        for condition in strategy['stop_conditions']:
-            request += f"- {condition}\n"
-        
-        request += """
----
-
-## Required Output Format
-
-### 1. Key Findings (3-5 main points)
-- Finding 1: [description]
-  - Source: [URL]
-  - Confidence: [High/Medium/Low]
-  
-### 2. Patterns Observed
-- Pattern 1: [what multiple sources agree on]
-- Pattern 2: [emerging trends]
-
-### 3. Tradeoffs & Considerations
-- Tradeoff 1: [X vs Y]
-- Consideration 1: [important factor]
-
-### 4. Gaps & Uncertainties
-- What we still don't know
-- Where sources conflict
-
-### 5. Recommended Next Steps
-- Immediate: [what to do now]
-- Follow-up: [what to research next]
-
----
-
-## Constraint Reminder
-**Argy does NOT**:
-- Make decisions or recommendations
-- Synthesize findings into "you should do X"
-- Execute or commit to actions
-
-**Argy ONLY**:
-- Gathers information
-- Identifies patterns
-- Surfaces tradeoffs
-- Presents options
-
----
-
-**This request should be executed by Kiro using web_search tool.**
-**Argy will review and structure results once search completes.**
-"""
-        
-        return request
-    
-    def log_execution(self, context, success, notes=""):
-        """Log execution to decisions.md for maturity tracking"""
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
-        log_entry = f"""
----
-### Agent Execution: Argentavis
-
-**Timestamp**: {timestamp}
-**Agent**: argentavis v{self.version}
-**Ark Type**: {self.ark_type}
-**Status**: {self.status}
-**Request**: {context['initial_request']}
-**Outcome**: {'SUCCESS' if success else 'FAILURE'}
-**Notes**: {notes}
-
-**Impression Update**:
-- success: {'+1' if success else '0'}
-- fail: {'0' if success else '+1'}
-- fail_gap: {'+1' if success else '0 (reset)'}
-
-"""
-        
-        # Append to ledger
-        try:
-            with open(self.ledger_path, 'a') as f:
-                f.write(log_entry)
-            print(f"\n✅ Logged to {self.ledger_path}")
-        except Exception as e:
-            print(f"\n⚠️  Could not log to decisions.md: {e}")
-    
-    def run(self, initial_request):
-        """Main execution flow"""
-        try:
-            # Step 1: Check knowledge library
-            library_matches = self.check_knowledge_library(initial_request)
-            
-            # Step 2: Clarify intent
-            context = self.clarify_intent(initial_request)
-            
-            # Step 3: Plan search strategy
-            strategy = self.plan_search_strategy(context)
-            
-            # Step 4: Generate Kiro search request
-            kiro_request = self.generate_kiro_search_request(context, strategy, library_matches)
-            
-            # Step 5: Output request
-            print("\n" + "=" * 60)
-            print("SEARCH REQUEST FOR KIRO")
-            print("=" * 60)
-            print(kiro_request)
-            print("=" * 60)
-            
-            # Step 6: Save to file for easy copy-paste
-            output_file = self.agent_dir / "last_search_request.md"
-            with open(output_file, 'w') as f:
-                f.write(kiro_request)
-            print(f"\n💾 Saved to: {output_file}")
-            
-            # Step 7: Get feedback
-            print("\nWas this research request well-structured? (y/n): ", end="")
-            feedback = input().strip().lower()
-            success = feedback == 'y'
-            
-            # Step 8: Log execution
-            self.log_execution(context, success, 
-                             notes="Generated search request for Kiro execution")
-            
-            return success
-            
-        except Exception as e:
-            print(f"\n❌ Error: {e}")
-            import traceback
-            traceback.print_exc()
-            self.log_execution({"initial_request": initial_request}, 
-                             False, 
-                             notes=f"Error: {str(e)}")
-            return False
+    t = task.lower()
+    scores = {
+        QueryType.FACTUAL:        sum(1 for s in _FACTUAL_SIGNALS        if s in t),
+        QueryType.SYNTHESIS:      sum(1 for s in _SYNTHESIS_SIGNALS      if s in t),
+        QueryType.ACADEMIC:       sum(1 for s in _ACADEMIC_SIGNALS       if s in t),
+        QueryType.CURRENT_EVENTS: sum(1 for s in _CURRENT_EVENTS_SIGNALS if s in t),
+    }
+    best = max(scores, key=scores.get)
+    if scores[best] == 0:
+        return QueryType.SYNTHESIS  # default for undifferentiated research tasks
+    return best
 
 
-def main():
-    """Entry point for Argentavis agent"""
-    if len(sys.argv) < 2:
-        print("Usage: python argy.py '<research request>'")
-        print("Example: python argy.py 'multiplayer game networking patterns'")
-        print("\nOr run in interactive mode:")
-        print("  python argy.py")
-        sys.exit(1)
-    
-    if len(sys.argv) == 1:
-        # Interactive mode
-        print("Argentavis (Argy) - Interactive Mode")
-        request = input("Research request: ").strip()
+# ── Progress output ───────────────────────────────────────────────────────────
+
+def progress(msg: str) -> None:
+    """Write human-readable progress to stderr (never pollutes stdout/JSON)."""
+    ts = datetime.datetime.utcnow().strftime("%H:%M:%S")
+    print(f"[argy {ts}] {msg}", file=sys.stderr, flush=True)
+
+
+# ── Perplexity backend ────────────────────────────────────────────────────────
+
+def search_perplexity(task: str, context: str, model: str = "sonar-pro") -> SearchResult:
+    """Call Perplexity Sonar API — best for synthesis and current-events queries."""
+    import httpx
+
+    api_key = os.environ["PERPLEXITY_API_KEY"]
+    progress(f"querying perplexity:{model}")
+
+    prompt = (
+        f"Research task: {task}\n\n"
+        f"Decision context: {context}\n\n"
+        "Provide:\n"
+        "1. Key findings with evidence and explicit source citations\n"
+        "2. Tradeoffs and technical considerations\n"
+        "3. What is NOT known or unclear — gaps matter as much as findings\n\n"
+        "Be factual. Cite sources. Flag uncertainty honestly."
+    )
+
+    payload = {
+        "model":   model,
+        "messages": [
+            {
+                "role": "system",
+                "content": (
+                    "You are a precise research assistant. "
+                    "Cite sources explicitly. Flag uncertainty. Never hallucinate."
+                ),
+            },
+            {"role": "user", "content": prompt},
+        ],
+        "return_citations":         True,
+        "return_related_questions": False,
+    }
+
+    with httpx.Client(timeout=30.0) as client:
+        resp = client.post(
+            "https://api.perplexity.ai/chat/completions",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type":  "application/json",
+            },
+            json=payload,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+
+    content   = data["choices"][0]["message"]["content"]
+    citations = data.get("citations", [])
+    now       = datetime.datetime.utcnow().isoformat() + "Z"
+
+    sources = [
+        Source(url=url, title=f"Source {i+1}", retrieved_at=now, reliability="medium")
+        for i, url in enumerate(citations[:10])
+    ]
+
+    result = SearchResult(depth_used=f"perplexity:{model}", cache_hit=False)
+    result.findings.append(Finding(
+        claim      = content[:300] + ("..." if len(content) > 300 else ""),
+        evidence   = content,
+        source     = f"perplexity:{model}",
+        confidence = 72,
+    ))
+    result.sources    = sources
+    result.confidence = 72
+    result.gaps.append(
+        "Perplexity synthesis — verify key claims against primary sources"
+    )
+    return result
+
+
+# ── Tavily backend ────────────────────────────────────────────────────────────
+
+def search_tavily(task: str, context: str, depth: str = "standard") -> SearchResult:
+    """Call Tavily Search API — best for factual, fast queries."""
+    import httpx
+
+    api_key      = os.environ["TAVILY_API_KEY"]
+    search_depth = "advanced" if depth == "deep" else "basic"
+    progress(f"querying tavily:{search_depth}")
+
+    query   = f"{task} ({context})" if context else task
+    payload = {
+        "api_key":        api_key,
+        "query":          query,
+        "search_depth":   search_depth,
+        "include_answer": True,
+        "max_results":    8,
+    }
+
+    with httpx.Client(timeout=20.0) as client:
+        resp = client.post("https://api.tavily.com/search", json=payload)
+        resp.raise_for_status()
+        data = resp.json()
+
+    now    = datetime.datetime.utcnow().isoformat() + "Z"
+    result = SearchResult(depth_used=f"tavily:{search_depth}", cache_hit=False)
+
+    answer = data.get("answer", "")
+    if answer:
+        result.findings.append(Finding(
+            claim      = answer[:300] + ("..." if len(answer) > 300 else ""),
+            evidence   = answer,
+            source     = "tavily:aggregated",
+            confidence = 68,
+        ))
+
+    for item in data.get("results", [])[:6]:
+        result.findings.append(Finding(
+            claim      = item.get("title", ""),
+            evidence   = item.get("content", "")[:400],
+            source     = item.get("url", ""),
+            confidence = 62,
+        ))
+        result.sources.append(Source(
+            url          = item.get("url", ""),
+            title        = item.get("title", ""),
+            retrieved_at = now,
+            reliability  = "medium",
+        ))
+
+    result.confidence = 64
+    if not result.findings:
+        result.gaps.append("Tavily returned no results for this query")
     else:
-        request = " ".join(sys.argv[1:])
-    
-    agent = Argentavis()
-    agent.run(request)
+        result.gaps.append(
+            "Tavily results are raw web data — synthesis and cross-validation needed"
+        )
+    return result
+
+
+# ── Exa backend ───────────────────────────────────────────────────────────────
+
+def search_exa(task: str, context: str) -> SearchResult:
+    """Call Exa neural search — best for academic and semantic queries."""
+    import httpx
+
+    api_key = os.environ["EXA_API_KEY"]
+    progress("querying exa:neural")
+
+    payload = {
+        "query":         task,
+        "numResults":    8,
+        "useAutoprompt": True,
+        "contents": {"text": {"maxCharacters": 800}},
+    }
+
+    with httpx.Client(timeout=25.0) as client:
+        resp = client.post(
+            "https://api.exa.ai/search",
+            headers={"x-api-key": api_key, "Content-Type": "application/json"},
+            json=payload,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+
+    now    = datetime.datetime.utcnow().isoformat() + "Z"
+    result = SearchResult(depth_used="exa:neural", cache_hit=False)
+
+    for item in data.get("results", [])[:6]:
+        text = item.get("text", "") or item.get("excerpt", "")
+        result.findings.append(Finding(
+            claim      = item.get("title", ""),
+            evidence   = text[:400],
+            source     = item.get("url", ""),
+            confidence = 78,
+        ))
+        result.sources.append(Source(
+            url          = item.get("url", ""),
+            title        = item.get("title", ""),
+            retrieved_at = now,
+            reliability  = "high",
+        ))
+
+    result.confidence = 76
+    if not result.findings:
+        result.gaps.append("Exa found no relevant academic or technical sources")
+    else:
+        result.gaps.append(
+            "Academic sources found — check publication dates for recency"
+        )
+    return result
+
+
+# ── Claude synthesis layer ────────────────────────────────────────────────────
+
+def synthesize_with_claude(
+    task:       str,
+    context:    str,
+    raw_result: SearchResult,
+) -> SearchResult:
+    """
+    Transform raw backend results into structured findings using Claude.
+    Claude is always the final synthesis layer — regardless of which search
+    backend did the retrieval. Synthesis is not the same as search.
+    """
+    import anthropic
+
+    progress("synthesizing with claude:opus-4-6")
+
+    raw_findings = "\n".join(
+        f"- [{f.source}] {f.claim}: {f.evidence[:250]}"
+        for f in raw_result.findings
+    )
+
+    prompt = f"""You are a research synthesizer. Transform raw search findings into structured analysis.
+
+Research task: {task}
+Decision context: {context}
+
+Raw findings:
+{raw_findings}
+
+Produce a JSON object with EXACTLY this structure:
+{{
+  "findings": [
+    {{
+      "claim":      "precise, verifiable factual claim",
+      "evidence":   "supporting evidence directly from the sources",
+      "source":     "URL or source identifier",
+      "confidence": 0-100
+    }}
+  ],
+  "gaps": [
+    "specific unanswered question",
+    "area where sources conflict or are missing",
+    "claim that needs primary-source validation"
+  ],
+  "confidence": 0-100,
+  "next_agent": "rex|therizinosaurus|ankylosaurus|human"
+}}
+
+Rules:
+- findings: 3-7 items, each a distinct verifiable claim with evidence
+- gaps: MINIMUM 2 items — empty gaps means stopped looking too soon
+- confidence: honest score for how well this answers the decision question
+- next_agent routing:
+    rex              → architectural decisions or system design needed
+    therizinosaurus  → implementation or code changes needed
+    ankylosaurus     → validation, testing, or risk assessment needed
+    human            → judgment call beyond technical facts
+
+Return ONLY the JSON object. No markdown, no prose."""
+
+    client  = anthropic.Anthropic()
+    message = client.messages.create(
+        model      = "claude-opus-4-6",
+        max_tokens = 2000,
+        messages   = [{"role": "user", "content": prompt}],
+    )
+
+    try:
+        synthesis = json.loads(message.content[0].text)
+    except (json.JSONDecodeError, IndexError, KeyError) as e:
+        progress(f"claude synthesis parse error: {e} — using raw results")
+        return raw_result
+
+    result = SearchResult(
+        depth_used = raw_result.depth_used + "+claude:opus-4-6",
+        cache_hit  = raw_result.cache_hit,
+        sources    = raw_result.sources,
+    )
+    for f in synthesis.get("findings", []):
+        result.findings.append(Finding(
+            claim      = f.get("claim", ""),
+            evidence   = f.get("evidence", ""),
+            source     = f.get("source", ""),
+            confidence = int(f.get("confidence", 60)),
+        ))
+
+    raw_gaps          = synthesis.get("gaps", [])
+    result.gaps       = raw_gaps if raw_gaps else ["synthesis complete — review findings for edge cases"]
+    result.confidence = int(synthesis.get("confidence", 60))
+    result.next_agent = synthesis.get("next_agent", "human")
+    return result
+
+
+# ── Main research flow ────────────────────────────────────────────────────────
+
+def run_research(
+    task:       str,
+    context:    str,
+    depth:      str,
+    query_type: QueryType,
+    registry:   BackendRegistry,
+) -> SearchResult:
+    """
+    Execute research using the best available backends for the query type.
+    Always ends with Claude synthesis if the anthropic key is available.
+    """
+    raw: Optional[SearchResult] = None
+
+    # Step 1: Knowledge library FIRST — always, before any API call
+    progress("checking knowledge library")
+    lib_result = check_knowledge_library(task)
+
+    if lib_result:
+        n = len(lib_result.findings)
+        progress(f"knowledge library: {n} matching entries")
+        if depth == "fast" and lib_result.confidence >= 68:
+            progress("knowledge library sufficient for fast depth — skipping external search")
+            if registry.anthropic:
+                return synthesize_with_claude(task, context, lib_result)
+            return lib_result
+    else:
+        progress("knowledge library: no matches")
+
+    # Step 2: External search — route by query type
+    progress(f"routing by query type: {query_type.value}")
+
+    try:
+        if query_type == QueryType.FACTUAL:
+            if registry.tavily:
+                raw = search_tavily(task, context, depth)
+            elif registry.perplexity:
+                raw = search_perplexity(task, context)
+            elif registry.exa:
+                raw = search_exa(task, context)
+
+        elif query_type == QueryType.CURRENT_EVENTS:
+            if registry.perplexity:
+                raw = search_perplexity(task, context)
+            elif registry.tavily:
+                raw = search_tavily(task, context, depth)
+
+        elif query_type == QueryType.ACADEMIC:
+            if registry.exa:
+                raw = search_exa(task, context)
+            elif registry.perplexity:
+                raw = search_perplexity(task, context)
+
+        else:  # SYNTHESIS or UNKNOWN — Perplexity first
+            if registry.perplexity:
+                model = "sonar-reasoning" if depth == "deep" else "sonar-pro"
+                raw   = search_perplexity(task, context, model=model)
+            elif registry.tavily:
+                raw = search_tavily(task, context, depth)
+            elif registry.exa:
+                raw = search_exa(task, context)
+
+    except Exception as e:
+        progress(f"primary backend failed: {e}")
+        raw = None
+
+    # Step 3: Merge library hits with external results when both exist
+    if lib_result and raw:
+        raw.findings = lib_result.findings + raw.findings
+        raw.sources  = lib_result.sources  + raw.sources
+        raw.gaps.append(
+            "merged knowledge library + external results — check for consistency"
+        )
+    elif lib_result and raw is None:
+        raw = lib_result
+    elif raw is None:
+        return SearchResult(
+            findings   = [],
+            gaps       = [
+                "No search backends available — set PERPLEXITY_API_KEY, TAVILY_API_KEY, or EXA_API_KEY",
+                "Knowledge library had no matches for this task",
+            ],
+            confidence = 0,
+            depth_used = "none",
+            next_agent = "human",
+        )
+
+    # Step 4: Claude synthesis (always when key is available)
+    if registry.anthropic:
+        return synthesize_with_claude(task, context, raw)
+
+    progress("ANTHROPIC_API_KEY not set — returning raw results without synthesis")
+    if not raw.gaps:
+        raw.gaps.append(
+            "Claude synthesis unavailable — set ANTHROPIC_API_KEY for structured findings"
+        )
+    return raw
+
+
+# ── Maturity logging ──────────────────────────────────────────────────────────
+
+def log_execution(
+    task:           str,
+    context:        str,
+    result:         SearchResult,
+    packet_id:      str,
+    trace_id:       str,
+    decisions_path: str,
+) -> None:
+    """Append execution record to decisions.md for maturity tracking."""
+    if not decisions_path:
+        return
+
+    ddir = os.path.dirname(decisions_path)
+    if ddir and not os.path.exists(ddir):
+        return
+
+    outcome    = "SUCCESS" if result.confidence >= 50 else "FAILURE"
+    lib_status = "HIT" if result.cache_hit else "MISS"
+    ts         = datetime.datetime.utcnow().isoformat()
+
+    entry = (
+        f"\n---\n"
+        f"### Agent Execution: Argentavis\n\n"
+        f"**Timestamp**: {ts}\n"
+        f"**Trace**: {trace_id}\n"
+        f"**Packet**: {packet_id}\n"
+        f"**Agent**: argentavis v2.0\n"
+        f"**Status**: WORKING\n"
+        f"**Request**: {task[:120]}\n"
+        f"**Decision Context**: {context[:120]}\n"
+        f"**Outcome**: {outcome}\n"
+        f"**Confidence**: {result.confidence}%\n"
+        f"**Knowledge Library**: {lib_status}\n"
+        f"**Sources Found**: {len(result.sources)}\n"
+        f"**Depth Used**: {result.depth_used}\n"
+        f"**Gaps**: {len(result.gaps)}\n"
+    )
+
+    try:
+        with open(decisions_path, "a") as f:
+            f.write(entry)
+        progress(f"logged to {decisions_path}")
+    except OSError as e:
+        progress(f"could not write to decisions.md: {e}")
+
+
+# ── HandoffResult builder ─────────────────────────────────────────────────────
+
+def build_handoff_result(
+    packet_id:  str,
+    result:     SearchResult,
+    query_type: QueryType,
+    status:     str = "complete",
+) -> dict:
+    return {
+        "packet_id": packet_id,
+        "from":      "argentavis",
+        "status":    status,
+        "output": {
+            "findings":   [asdict(f) for f in result.findings],
+            "gaps":       result.gaps if result.gaps else ["no gaps recorded — review findings manually"],
+            "sources":    [asdict(s) for s in result.sources],
+            "confidence": result.confidence,
+            "query_type": query_type.value,
+            "depth_used": result.depth_used,
+            "cache_hit":  result.cache_hit,
+            "next_agent": result.next_agent,
+        },
+        "produced_artifacts": [],
+        "blockers":           [],
+        "next_agent":         result.next_agent,
+        "timestamp":          datetime.datetime.utcnow().isoformat() + "Z",
+    }
+
+
+# ── Entry point ───────────────────────────────────────────────────────────────
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Argy — Argentavis Research Agent",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=(
+            "Examples:\n"
+            "  argy.py --task 'compare Redis vs DynamoDB' --context 'choosing session store'\n"
+            "  echo '{...HandoffPacket JSON...}' | argy.py\n"
+            "  argy.py --task 'latest Go concurrency patterns' --depth deep --dry-run\n"
+        ),
+    )
+    parser.add_argument("--task",    help="Research task description (CLI mode)")
+    parser.add_argument("--context", default="", help="Decision context (CLI mode)")
+    parser.add_argument("--depth",   choices=["fast", "standard", "deep"], default="standard")
+    parser.add_argument(
+        "--query-type", dest="query_type_hint",
+        choices=[t.value for t in QueryType if t != QueryType.UNKNOWN],
+        help="Override automatic query type classification",
+    )
+    parser.add_argument("--decisions", default="", help="Path to decisions.md for maturity logging")
+    parser.add_argument("--dry-run",   action="store_true", help="Classify without calling any APIs")
+    args = parser.parse_args()
+
+    # ── Load input ────────────────────────────────────────────────────────────
+    packet: dict = {}
+    if not sys.stdin.isatty():
+        try:
+            raw_input = sys.stdin.read().strip()
+            if raw_input:
+                packet = json.loads(raw_input)
+        except json.JSONDecodeError as e:
+            progress(f"invalid JSON on stdin: {e}")
+            return 1
+
+    payload = packet.get("payload", {})
+
+    task            = args.task             or packet.get("task", "")
+    context         = args.context          or payload.get("decision_context", "")
+    depth           = args.depth            or payload.get("depth", "standard")
+    query_type_hint = args.query_type_hint  or payload.get("query_type_hint")
+    packet_id       = packet.get("id",       "cli")
+    trace_id        = packet.get("trace_id", "cli")
+    decisions_path  = args.decisions        or payload.get("decisions_path", "")
+
+    if not task:
+        progress("no task provided — use --task or pass a HandoffPacket on stdin")
+        return 1
+
+    # ── Gate: decision_context required ──────────────────────────────────────
+    if not context:
+        clarify = {
+            "packet_id": packet_id,
+            "from":      "argentavis",
+            "status":    "clarify",
+            "output": {
+                "question": (
+                    "What decision does this research inform? "
+                    "(required to focus the search and calibrate depth)"
+                ),
+                "findings": [],
+                "gaps":     [
+                    "decision_context missing — cannot determine relevance or search depth"
+                ],
+            },
+            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+        }
+        json.dump(clarify, sys.stdout, indent=2)
+        sys.stdout.write("\n")
+        return 0
+
+    # ── Registry ──────────────────────────────────────────────────────────────
+    registry = BackendRegistry()
+    progress(f"argentavis v2.0 | {registry.report()}")
+    progress(f"task:    {task[:80]}")
+    progress(f"context: {context[:80]}")
+    progress(f"depth:   {depth}")
+
+    # ── Dry-run ───────────────────────────────────────────────────────────────
+    if args.dry_run:
+        qt = classify_query(task, query_type_hint)
+        progress(f"[dry-run] query_type={qt.value} | available: {registry.available()}")
+        out = build_handoff_result(
+            packet_id  = packet_id,
+            result     = SearchResult(
+                gaps       = ["dry-run mode — no search performed"],
+                depth_used = "none",
+                confidence = 0,
+            ),
+            query_type = qt,
+            status     = "dry-run",
+        )
+        json.dump(out, sys.stdout, indent=2)
+        sys.stdout.write("\n")
+        return 0
+
+    # ── Classify ──────────────────────────────────────────────────────────────
+    query_type = classify_query(task, query_type_hint)
+    progress(f"query type: {query_type.value}")
+
+    # ── Research ──────────────────────────────────────────────────────────────
+    t0 = time.time()
+    try:
+        search_result = run_research(task, context, depth, query_type, registry)
+    except Exception as e:
+        progress(f"research failed: {e}")
+        err_out = {
+            "packet_id": packet_id,
+            "from":      "argentavis",
+            "status":    "error",
+            "output": {
+                "findings":   [],
+                "gaps":       [f"search error: {e}"],
+                "sources":    [],
+                "confidence": 0,
+                "query_type": query_type.value,
+                "depth_used": "error",
+                "cache_hit":  False,
+                "next_agent": "human",
+            },
+            "blockers":  [str(e)],
+            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+        }
+        json.dump(err_out, sys.stdout, indent=2)
+        sys.stdout.write("\n")
+        return 1
+
+    elapsed = time.time() - t0
+    progress(
+        f"done in {elapsed:.1f}s | "
+        f"confidence={search_result.confidence}% | "
+        f"findings={len(search_result.findings)} | "
+        f"gaps={len(search_result.gaps)} | "
+        f"sources={len(search_result.sources)}"
+    )
+
+    # ── Log maturity ──────────────────────────────────────────────────────────
+    if decisions_path:
+        log_execution(task, context, search_result, packet_id, trace_id, decisions_path)
+
+    # ── Emit HandoffResult ────────────────────────────────────────────────────
+    handoff = build_handoff_result(packet_id, search_result, query_type)
+    json.dump(handoff, sys.stdout, indent=2)
+    sys.stdout.write("\n")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
