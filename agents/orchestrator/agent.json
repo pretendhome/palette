@@ -5,15 +5,15 @@
   "code": "Orch",
   "role": "Workflow Router",
   "description": "Multi-agent workflow coordination and routing after convergence; reads convergence brief, dispatches HandoffPackets, gates on ONE-WAY DOORS",
-  "status": "DESIGN-ONLY",
+  "status": "UNVALIDATED",
   "maturity": {
-    "tier": 0,
+    "tier": 1,
     "successes": 0,
     "failures": 0,
     "promotes_at": 5
   },
-  "entry_point": null,
-  "runtime": "none",
+  "entry_point": "orch",
+  "runtime": "go",
   "capabilities": [
     "task_routing",
     "parallel_dispatch",
