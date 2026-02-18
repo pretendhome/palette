@@ -13,6 +13,7 @@ type AgentID string
 
 const (
 	AgentOrchestrator AgentID = "orchestrator"
+	AgentCory         AgentID = "corythosaurus"
 	AgentRex          AgentID = "rex"
 	AgentArgy         AgentID = "argentavis"
 	AgentTheri        AgentID = "therizinosaurus"

@@ -1,0 +1,46 @@
+{
+  "name": "corythosaurus",
+  "version": "0.1",
+  "ark_type": "ARK:Corythosaurus",
+  "code": "Cory",
+  "role": "Intent Resolver",
+  "description": "Front-door agent for all user input; maps raw natural-language requests to the 111 RIUs through patient single-question clarification, refines prompts using historical context, and hands a clean HandoffPacket to the Orchestrator — never executes, never decides, only listens and translates",
+  "status": "UNVALIDATED",
+  "maturity": {
+    "tier": 1,
+    "successes": 0,
+    "failures": 0,
+    "promotes_at": 10
+  },
+  "entry_point": "cory.py",
+  "runtime": "python",
+  "capabilities": [
+    "intent_classification",
+    "riu_matching",
+    "cluster_routing",
+    "single_question_disambiguation",
+    "slot_filling",
+    "prompt_refinement",
+    "historical_learning",
+    "out_of_scope_detection",
+    "multi_turn_clarification"
+  ],
+  "constraints": {
+    "no_execution": true,
+    "no_domain_decisions": true,
+    "no_recommendations": true,
+    "bounded_intent_catalog": true,
+    "one_question_per_turn": true
+  },
+  "accepts_from": ["human", "orchestrator"],
+  "routes_to": ["orchestrator"],
+  "invocation": {
+    "command": "/cory",
+    "aliases": ["clarify", "resolve", "translate", "intent"]
+  },
+  "logging": {
+    "ledger": "palette/decisions.md",
+    "history": "palette/agents/corythosaurus/history.jsonl",
+    "track_maturity": true
+  }
+}

@@ -108,6 +108,20 @@ var routeRules = []struct {
 		Agent:  core.AgentYuty,
 		Reason: "narrative/GTM keywords → Yuty (narrator)",
 	},
+	{
+		// Cory catches conversational, exploratory, or vague inputs that don't
+		// map cleanly to a specialist. She resolves intent first, then hands
+		// a refined packet back to Orch for final routing.
+		Name: "intent/clarify",
+		Keywords: []string{
+			"help me", "i need", "i want", "i have a", "how do i",
+			"what should", "not sure", "can you", "i'm trying to",
+			"we need to", "we should", "looking for", "wondering if",
+			"any advice", "where do i start", "not sure where",
+		},
+		Agent:  core.AgentCory,
+		Reason: "conversational/ambiguous input → Cory (intent resolver)",
+	},
 }
 
 // ── ONE-WAY DOOR detection ────────────────────────────────────────────────────
@@ -221,6 +235,14 @@ func routeByCapability(task Task, roster Roster) RouteDecision {
 	}
 
 	if len(candidates) == 0 {
+		// Before giving up, try Cory — she can resolve intent from any input
+		if cory, ok := roster[core.AgentCory]; ok && isDispatchable(cory) {
+			return RouteDecision{
+				Agents:     []core.AgentID{core.AgentCory},
+				Reason:     "no routing rule and no capability overlap → Cory (intent resolver)",
+				Confidence: 40,
+			}
+		}
 		return RouteDecision{
 			Reason:     "no routing rule and no capability overlap — route to human",
 			Confidence: 0,
