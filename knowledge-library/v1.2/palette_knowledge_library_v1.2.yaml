@@ -7944,7 +7944,7 @@ context_specific_questions:
       url: "internal://tier2/assumptions.md#agent-security"
       type: "framework"
 
-- id: LIB-091
+- id: LIB-101
   question: How do I manage agent identity and authentication?
   answer: |
     Agents are a new class of principal (distinct from users and services).
@@ -8005,7 +8005,7 @@ context_specific_questions:
       url: "internal://tier2/assumptions.md#agent-security"
       type: "framework"
 
-- id: LIB-092
+- id: LIB-102
   question: How do I classify decisions as reversible vs irreversible?
   answer: |
     All material decisions must be classified before execution.
@@ -8089,7 +8089,7 @@ context_specific_questions:
       url: "internal://tier1/palette-core.md#decision-handling"
       type: "framework"
 
-- id: LIB-093
+- id: LIB-103
   question: How do I evaluate agent quality and performance?
   answer: |
     Agent outputs are probabilistic, not deterministic. 
@@ -8182,7 +8182,7 @@ context_specific_questions:
       url: "internal://tier2/assumptions.md#agent-maturity"
       type: "framework"
 
-- id: LIB-089
+- id: LIB-104
   question: What frameworks should I use for business model design?
   answer: |
     Use these proven frameworks for business model design:
@@ -8251,7 +8251,7 @@ context_specific_questions:
     - title: Value Proposition Design
       url: https://www.strategyzer.com/books/value-proposition-design
 
-- id: LIB-090
+- id: LIB-105
   question: How do I conduct market research for a business plan?
   answer: |
     Comprehensive market research process for business plans:
@@ -8326,7 +8326,7 @@ context_specific_questions:
     - title: U.S. Census Bureau - Economic Data
       url: https://www.census.gov/programs-surveys/economic-census.html
 
-- id: LIB-091
+- id: LIB-106
   question: What should a business plan document include?
   answer: |
     Standard business plan structure (25-50 pages):
@@ -8512,7 +8512,7 @@ context_specific_questions:
     - title: Gap Inc. Retail AI Strategy Matrix
       url: internal://projects/gap/gap_retail_ai_strategy_matrix.md
 
-- id: LIB-095
+- id: LIB-107
   question: How do I quantify AI ROI for a CFO focused on cost reduction and budget
     shrinking, not revenue growth?
   answer: |
@@ -8570,7 +8570,7 @@ context_specific_questions:
     - title: GetDX Multi-Phase Lifecycle Model
       url: https://getdx.com/
 
-- id: LIB-096
+- id: LIB-108
   question: How do I prioritize AI use cases when multiple brands each have different
     needs and every leader thinks their use case is most important?
   answer: |
@@ -8617,7 +8617,7 @@ context_specific_questions:
     - title: Incorporating responsible AI into generative AI project prioritization
       url: https://aws.amazon.com/blogs/machine-learning/incorporating-responsible-ai-into-generative-ai-project-prioritization/
 
-- id: LIB-097
+- id: LIB-109
   question: How do I drive AI adoption with non-technical employees when the goal
     is behavior change, not just training completion?
   answer: |

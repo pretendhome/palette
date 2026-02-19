@@ -1,6 +1,6 @@
 # Add to palette_knowledge_library_v1.2.yaml
 
-- id: LIB-089
+- id: LIB-103
   question: What frameworks should I use for business model design?
   answer: |
     Use these proven frameworks for business model design:
@@ -69,7 +69,7 @@
     - title: Value Proposition Design
       url: https://www.strategyzer.com/books/value-proposition-design
 
-- id: LIB-090
+- id: LIB-104
   question: How do I conduct market research for a business plan?
   answer: |
     Comprehensive market research process for business plans:
@@ -144,7 +144,7 @@
     - title: U.S. Census Bureau - Economic Data
       url: https://www.census.gov/programs-surveys/economic-census.html
 
-- id: LIB-091
+- id: LIB-105
   question: What should a business plan document include?
   answer: |
     Standard business plan structure (25-50 pages):
