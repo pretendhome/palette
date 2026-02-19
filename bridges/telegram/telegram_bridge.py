@@ -25,6 +25,7 @@ import time
 import json
 import datetime
 import tempfile
+import threading
 import httpx
 import anthropic
 
@@ -34,6 +35,9 @@ BOT_TOKEN    = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 POLL_TIMEOUT = 30   # long-poll seconds
 MAX_HISTORY  = 20   # messages kept per chat
+
+SESSION_LOG  = '/home/mical/fde/implementations/talent-glean-interview/live_session.jsonl'
+CHEATSHEET   = '/home/mical/fde/implementations/talent-glean-interview/cheetsheet.txt'
 
 TELEGRAM = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
@@ -126,6 +130,75 @@ tell them what you'd route to which agent.
 Available interview modes (tell the user if they seem to want practice):
   /interview josh  — VP Customer Outcomes, strategic/commercial focus
   /interview avril — AI Outcomes Specialist, hands-on technical focus"""
+
+# ── Live cheat sheet ──────────────────────────────────────────────────────────
+
+_EXTRACT_PROMPT = """\
+You are reviewing one exchange from a live Glean AI Outcomes Manager interview practice session.
+
+INTERVIEWER: {question}
+
+CANDIDATE: {answer}
+
+Extract the following. Be concise — this is a cheat sheet, not a report.
+
+Format exactly like this:
+
+**Q: [5-8 word compression of the question]**
+**A: [one sentence capturing the core of their answer]**
+- [key phrase, framework, or point worth remembering]
+- [key phrase, framework, or point worth remembering]
+Score: [1-5] — [one word: e.g. Strong / Solid / Thin / Vague / Weak]
+
+Rules:
+- Q line: compress to essential context only, no filler
+- A line: one tight sentence — the "headline" of what they said
+- Bullets: 2-4 max, only the most reusable phrases or moves
+- Score 5 = VP-ready, 4 = solid, 3 = adequate, 2 = thin, 1 = weak
+- If score is 1, output exactly: SKIP"""
+
+
+def log_exchange(mode: str, turn: int, question: str, answer: str) -> None:
+    entry = {
+        "ts":       datetime.datetime.now().isoformat(),
+        "mode":     mode,
+        "turn":     turn,
+        "question": question[:600],
+        "answer":   answer[:1200],
+    }
+    try:
+        with open(SESSION_LOG, "a") as f:
+            f.write(json.dumps(entry) + "\n")
+    except Exception as e:
+        print(f"[cheatsheet] log error: {e}", flush=True)
+
+
+def _cheatsheet_worker(question: str, answer: str) -> None:
+    try:
+        client = anthropic.Anthropic()
+        msg = client.messages.create(
+            model      = "claude-haiku-4-5-20251001",
+            max_tokens = 350,
+            messages   = [{"role": "user", "content": _EXTRACT_PROMPT.format(
+                question=question[:600], answer=answer[:1200]
+            )}],
+        )
+        text = msg.content[0].text.strip()
+        if text.upper() == "SKIP" or not text:
+            return
+        ts    = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+        block = f"\n\n<!-- live: {ts} -->\n{text}\n"
+        with open(CHEATSHEET, "a") as f:
+            f.write(block)
+        print(f"[cheatsheet] appended: {text[:60]}", flush=True)
+    except Exception as e:
+        print(f"[cheatsheet] worker error: {e}", flush=True)
+
+
+def update_cheatsheet_async(question: str, answer: str) -> None:
+    t = threading.Thread(target=_cheatsheet_worker, args=(question, answer), daemon=True)
+    t.start()
+
 
 # ── Chat state ────────────────────────────────────────────────────────────────
 
@@ -273,10 +346,13 @@ def cmd_start(chat_id: int) -> None:
         "*Interview simulation:*\n"
         "`/interview josh` — Josh Rutberg, VP Customer Outcomes\n"
         "`/interview avril` — Avril, AI Outcomes Specialist (Singapore)\n\n"
-        "*Controls:*\n"
-        "`/feedback` — get honest feedback on your last answer\n"
+        "*During the interview:*\n"
+        "`/feedback` — honest feedback on your last answer\n"
+        "`/saveanswer` — ⭐ star and save your last answer verbatim\n"
+        "`/cheatsheet` — pull a summary of best answers so far\n"
         "`/reset` — end interview, back to assistant\n"
         "`/help` — this menu\n\n"
+        "Your answers are saved to your cheat sheet automatically.\n\n"
         "Or just talk — I'm listening."
     )
 
@@ -287,6 +363,8 @@ def cmd_help(chat_id: int, state: ChatState) -> None:
         "`/interview josh` — simulate Josh (VP, strategic)\n"
         "`/interview avril` — simulate Avril (hands-on, technical)\n"
         "`/feedback` — coaching on your last answer\n"
+        "`/saveanswer` — ⭐ save last answer to cheat sheet\n"
+        "`/cheatsheet` — pull session summary to cheat sheet\n"
         "`/reset` — back to assistant\n"
         "`/help` — this menu"
     )
@@ -333,6 +411,56 @@ def cmd_reset(chat_id: int, state: ChatState) -> None:
     send(chat_id, "✅ Interview ended. Back to assistant mode.\n\nWhat do you need?")
 
 
+def cmd_cheatsheet(chat_id: int, state: ChatState) -> None:
+    """Summarise session so far → send to Telegram + append to cheat sheet file."""
+    qa_pairs = []
+    h = state.history
+    for i in range(len(h) - 1):
+        if h[i]["role"] == "assistant" and h[i + 1]["role"] == "user":
+            qa_pairs.append(f"Q: {h[i]['content'][:300]}\nA: {h[i+1]['content'][:500]}")
+
+    if not qa_pairs:
+        send(chat_id, "No interview answers yet to summarise.")
+        return
+
+    typing(chat_id)
+    prompt = (
+        "Review these interview Q&A pairs from a Glean AI Outcomes Manager practice session.\n"
+        "Extract the strongest phrases, frameworks, and talking points, grouped by theme.\n\n"
+        + "\n\n---\n".join(qa_pairs[-8:])
+    )
+    client = anthropic.Anthropic()
+    msg = client.messages.create(
+        model      = "claude-sonnet-4-6",
+        max_tokens = 900,
+        messages   = [{"role": "user", "content": prompt}],
+    )
+    summary = msg.content[0].text.strip()
+
+    ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    with open(CHEATSHEET, "a") as f:
+        f.write(f"\n\n## /cheatsheet pull — {ts}\n{summary}\n")
+
+    send(chat_id, f"📝 *Cheat sheet updated:*\n\n{summary[:3000]}")
+
+
+def cmd_saveanswer(chat_id: int, state: ChatState) -> None:
+    """Star and save the last answer verbatim."""
+    if not state.last_answer:
+        send(chat_id, "Answer a question first, then use /saveanswer.")
+        return
+    question = ""
+    h = state.history
+    for msg in reversed(h[:-2]):
+        if msg["role"] == "assistant":
+            question = msg["content"][:300]
+            break
+    ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    with open(CHEATSHEET, "a") as f:
+        f.write(f"\n\n## ⭐ Saved — {ts}\n**Q:** {question}\n**A:** {state.last_answer}\n")
+    send(chat_id, "⭐ Answer saved to cheat sheet.")
+
+
 # ── Message router ────────────────────────────────────────────────────────────
 
 def handle_message(chat_id: int, text: str) -> None:
@@ -361,6 +489,13 @@ def handle_message(chat_id: int, text: str) -> None:
         cmd_interview(chat_id, state, who)
         return
 
+    if text.startswith("/cheatsheet"):
+        cmd_cheatsheet(chat_id, state)
+        return
+    if text.startswith("/saveanswer"):
+        cmd_saveanswer(chat_id, state)
+        return
+
     # Regular message — pass to Claude
     if state.mode != "assistant":
         state.last_answer = text  # save for /feedback
@@ -369,6 +504,14 @@ def handle_message(chat_id: int, text: str) -> None:
     typing(chat_id)
     response = reply(state, text)
     send(chat_id, response)
+
+    # Log exchange and update cheat sheet asynchronously
+    if state.mode != "assistant" and state.turn > 0:
+        h = state.history
+        question = h[-3]["content"] if len(h) >= 3 and h[-3]["role"] == "assistant" else ""
+        if question:
+            log_exchange(state.mode, state.turn, question, text)
+            update_cheatsheet_async(question, text)
 
 
 # ── Polling loop ──────────────────────────────────────────────────────────────

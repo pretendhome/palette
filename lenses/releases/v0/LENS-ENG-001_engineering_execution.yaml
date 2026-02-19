@@ -1,0 +1,71 @@
+lens_id: LENS-ENG-001
+version: 0.1
+status: pilot
+name: Engineering Execution Lens
+optional: true
+
+critical_question:
+  as_palette: "How will this lens best help me, and what would it actually help me do?"
+  answer: "It helps Palette turn good plans into executable engineering slices with clear constraints, test expectations, rollback paths, and dependency sequencing. It reduces vague implementation handoffs."
+
+when_to_use:
+  signals:
+    - implementation planning
+    - integration sequencing
+    - technical risk containment
+    - release readiness
+    - incident follow-through
+  not_for:
+    - executive narrative crafting
+    - non-technical stakeholder positioning
+
+palette_fit:
+  primary_rius:
+    - RIU-062
+    - RIU-073
+    - RIU-001
+  supporting_rius:
+    - RIU-014
+  primary_agents:
+    - therizinosaurus
+    - velociraptor
+    - rex
+  supporting_agents:
+    - ankylosaurus
+    - parasaurolophus
+    - argentavis
+  library_links:
+    - "Use LIB entries tied to reliability, failure handling, integration, and operational runbooks."
+  company_matrix_use:
+    - "Use company mappings to estimate implementation patterns and delivery risk, not as architecture authority."
+
+output_contract:
+  required_sections:
+    - Scope boundary
+    - Task slices (ordered)
+    - Dependencies and blockers
+    - Test/validation plan
+    - Rollback or recovery path
+    - Operational checks
+  forbidden_patterns:
+    - architecture drift during build
+    - untestable acceptance criteria
+    - no rollback for risky changes
+
+quality_checks:
+  - "Each slice is independently verifiable."
+  - "Dependencies are explicit and ordered."
+  - "Validation checks are executable, not narrative."
+  - "Risky steps include rollback or containment."
+
+evaluation_plan:
+  compare_against_no_lens:
+    - implementation_rework_rate
+    - defect_escape_rate
+    - time_to_first_valid_artifact
+    - rollback_readiness_score
+  minimum_sample_size: 20
+  kill_if:
+    - "No measurable gain in implementation quality metrics."
+    - "Adds planning complexity without reducing downstream defects."
+

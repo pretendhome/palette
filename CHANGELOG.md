@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Lenses (Optional Context Overlays)** (`palette/lenses/`): Three pilot lenses that shape output framing without overriding agent routing or ONE-WAY DOOR gates. LENS-PM-001 (product decisions), LENS-ENG-001 (engineering execution), LENS-DEV-001 (developer delivery). All v0.1/pilot with built-in kill criteria after 20 evaluation runs. Integration plan at `palette/lenses/INTEGRATION_PLAN.md`.
+
 ---
 
 ## [2.0.0] - 2026-02-18

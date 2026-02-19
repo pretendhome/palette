@@ -1,0 +1,72 @@
+lens_id: LENS-PM-001
+version: 0.1
+status: pilot
+name: Product Decision Lens
+optional: true
+
+critical_question:
+  as_palette: "How will this lens best help me, and what would it actually help me do?"
+  answer: "It helps Palette convert route outputs into explicit product decisions with evidence, reversibility labels, owners, and success metrics. It reduces 'analysis without decision' and improves go/no-go quality."
+
+when_to_use:
+  signals:
+    - roadmap
+    - prioritization
+    - launch readiness
+    - go/no-go
+    - scope negotiation
+  not_for:
+    - deep debugging root-cause analysis
+    - low-level implementation tasks
+
+palette_fit:
+  primary_rius:
+    - RIU-001
+    - RIU-014
+    - RIU-062
+    - RIU-073
+  supporting_rius:
+    - RIU-039
+  primary_agents:
+    - yutyrannus
+    - rex
+    - ankylosaurus
+  supporting_agents:
+    - argentavis
+    - therizinosaurus
+  library_links:
+    - "Use LIB entries tied to decision frameworks, risk framing, and launch operations."
+  company_matrix_use:
+    - "Use company examples only to validate market reality, not to copy strategy blindly."
+
+output_contract:
+  required_sections:
+    - Decision
+    - Why now
+    - Evidence
+    - One-way vs two-way door classification
+    - Risks and mitigations
+    - Owner and due date
+    - Success metric
+  forbidden_patterns:
+    - unsupported certainty
+    - ownerless recommendations
+    - no metric/no deadline action lists
+
+quality_checks:
+  - "Decision is explicit (not implied)."
+  - "At least one measurable success metric is present."
+  - "Reversibility is labeled."
+  - "Top risk has mitigation and owner."
+
+evaluation_plan:
+  compare_against_no_lens:
+    - convergence_turn_count
+    - artifact_rework_rate
+    - gate_decision_time
+    - owd_false_positive_rate
+  minimum_sample_size: 20
+  kill_if:
+    - "No improvement on at least 2 of 4 metrics."
+    - "Process overhead increases >20% with no quality gain."
+

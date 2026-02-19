@@ -485,7 +485,28 @@ Confidence delta:
 - <...>
 ---
 
-## 12. Reset Rule
+## 12. Lenses (Optional Context Overlays)
+
+Lenses are optional framing overlays that shape output contracts without changing agent roles or routing.
+
+**What they do**: Inject a structured output contract (required sections, forbidden patterns, quality checks) into an agent's context when the task type calls for a specific stakeholder frame.
+
+**What they do NOT do**: Override RIU routing, modify ONE-WAY DOOR gates, or change agent authority.
+
+**Available lenses** (`palette/lenses/releases/v0/`):
+- `LENS-PM-001` — Product Decision (owner, metric, reversibility, risk)
+- `LENS-ENG-001` — Engineering Execution (task slices, dependencies, rollback)
+- `LENS-DEV-001` — Developer Delivery (scoped tasks, acceptance checks, test plan)
+
+**Activation rule (v0)**: Manual only. Pick no lens by default. Activate only when right agent + right stakeholder context + measurable framing need.
+
+**Kill criteria**: If no measurable gain on ≥2 of 4 target metrics after 20 comparable runs, the lens is removed. No exceptions.
+
+**Detailed integration plan**: `palette/lenses/INTEGRATION_PLAN.md`
+
+---
+
+## 13. Reset Rule
 
 At any time, this file may be:
 

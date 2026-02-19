@@ -1,0 +1,74 @@
+lens_id: LENS-DEV-001
+version: 0.1
+status: pilot
+name: Developer Delivery Lens
+optional: true
+
+critical_question:
+  as_palette: "How will this lens best help me, and what would it actually help me do?"
+  answer: "It helps Palette produce developer-ready implementation outputs: scoped code tasks, concrete acceptance checks, test-first expectations, and debugging-ready handoffs. It reduces ambiguity between architecture intent and code execution."
+
+when_to_use:
+  signals:
+    - code implementation request
+    - refactor planning
+    - test plan definition
+    - bug-to-fix workflow
+    - release hardening
+  not_for:
+    - executive narrative framing
+    - non-technical stakeholder communication
+
+palette_fit:
+  primary_rius:
+    - RIU-062
+    - RIU-073
+    - RIU-001
+  supporting_rius:
+    - RIU-014
+  primary_agents:
+    - therizinosaurus
+    - velociraptor
+    - ankylosaurus
+  supporting_agents:
+    - rex
+    - parasaurolophus
+    - argentavis
+  library_links:
+    - "Prefer LIB entries covering implementation patterns, validation, reliability, and rollback-safe changes."
+  company_matrix_use:
+    - "Use company matrix signals to inform practical stack constraints, not to force specific tooling choices."
+
+output_contract:
+  required_sections:
+    - Implementation scope boundary
+    - Ordered code tasks
+    - Acceptance checks (verifiable)
+    - Test plan (unit/integration/e2e as applicable)
+    - Risk and rollback notes
+    - Handoff notes for debugging/monitoring
+  forbidden_patterns:
+    - vague implementation steps
+    - no test strategy
+    - architecture changes hidden inside build tasks
+    - irreversible changes without gate callout
+
+quality_checks:
+  - "Tasks are small enough to execute independently."
+  - "Each task has a clear done condition."
+  - "At least one explicit validation command/check is present."
+  - "Risky tasks include rollback or containment strategy."
+  - "Debug context is preserved for downstream Raptor/Para use."
+
+evaluation_plan:
+  compare_against_no_lens:
+    - implementation_rework_rate
+    - test_pass_rate_on_first_run
+    - bug_reopen_rate
+    - time_to_first_mergeable_artifact
+  minimum_sample_size: 20
+  kill_if:
+    - "No measurable improvement in at least 2 of 4 metrics."
+    - "Increases implementation latency >20% without quality gain."
+    - "Creates higher defect reopen rate than baseline."
+
