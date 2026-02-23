@@ -146,6 +146,6 @@ sudo journalctl -u rossi-relay-consumer.service -f
 
 ### Optional Request Syntax (metadata only)
 ```text
-/relay update_request publish:implementations/retail-rossi-store/updates/2026-02-23.md | Draft today's Rossi update from our chat
+/relay update_request publish:implementations/retail/retail-rossi-store/updates/2026-02-23.md | Draft today's Rossi update from our chat
 ```
 This records a publish request in artifact metadata, but does not write to GitHub in v1.

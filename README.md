@@ -95,13 +95,13 @@ The system:
 
 Three projects currently validate Palette in practice:
 
-### 1. Teaching Agentic Systems (`/fde/implementations/talent-gap-interview/`)
+### 1. Teaching Agentic Systems (`/fde/implementations/talent/talent-gap-interview/`)
 Interview prep and 30-minute demos showing how Palette's three-tier system works. Uses taxonomy routing and agent archetypes to teach agentic concepts with a live toolkit.
 
-### 2. Small Business Help (`/fde/implementations/retail-rossi-store/`)
+### 2. Small Business Help (`/fde/implementations/retail/retail-rossi-store/`)
 Building a business plan for a graffiti art gallery. Palette routes the problem through RIUs covering customer engagement, market analysis, and operational planning.
 
-### 3. Video Game Development (`/fde/implementations/dev-mythfall-game/`)
+### 3. Video Game Development (`/fde/implementations/dev/dev-mythfall-game/`)
 Multiplayer RPG built with Godot + Node.js. Palette manages architecture decisions, implementation patterns, and quality validation across a complex game development stack.
 
 ---

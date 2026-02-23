@@ -283,5 +283,5 @@ Do not store exhaustive raw traces.
 1. Start in `mode = planning` and `allow_execution = false`.
 2. Add execution only for clearly reversible actions.
 3. Keep one-way-door gating hard-blocked until explicit confirmation wiring is verified.
-4. Gate rollout with one pilot implementation first (recommended: `implementations/retail-rossi-store`).
+4. Gate rollout with one pilot implementation first (recommended: `implementations/retail/retail-rossi-store`).
 

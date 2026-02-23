@@ -43,7 +43,7 @@ ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 POLL_TIMEOUT  = 30
 MAX_HISTORY   = 20
 
-SESSION_LOG   = '/home/mical/fde/implementations/retail-rossi-store/sahar_session.jsonl'
+SESSION_LOG   = '/home/mical/fde/implementations/retail/retail-rossi-store/sahar_session.jsonl'
 IMPLEMENTATION_ID = "retail-rossi-store"
 IMPLEMENTATIONS_ROOT = os.environ.get("PALETTE_IMPLEMENTATIONS_ROOT", "/home/mical/fde/implementations")
 RELAY_ENABLED = os.environ.get("ROSSI_RELAY_ENABLED", "1").lower() not in {"0", "false", "no"}

@@ -36,8 +36,8 @@ ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 POLL_TIMEOUT = 30   # long-poll seconds
 MAX_HISTORY  = 20   # messages kept per chat
 
-SESSION_LOG  = '/home/mical/fde/implementations/talent-glean-interview/live_session.jsonl'
-CHEATSHEET   = '/home/mical/fde/implementations/talent-glean-interview/cheetsheet.txt'
+SESSION_LOG  = '/home/mical/fde/implementations/talent/talent-glean-interview/live_session.jsonl'
+CHEATSHEET   = '/home/mical/fde/implementations/talent/talent-glean-interview/cheetsheet.txt'
 
 TELEGRAM = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
