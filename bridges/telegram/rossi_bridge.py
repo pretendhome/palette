@@ -47,11 +47,23 @@ SESSION_LOG   = '/home/mical/fde/implementations/retail/retail-rossi-store/sahar
 IMPLEMENTATION_ID = "retail-rossi-store"
 IMPLEMENTATIONS_ROOT = os.environ.get("PALETTE_IMPLEMENTATIONS_ROOT", "/home/mical/fde/implementations")
 RELAY_ENABLED = os.environ.get("ROSSI_RELAY_ENABLED", "1").lower() not in {"0", "false", "no"}
+RELAY_ALLOWLIST_RAW = os.environ.get("ROSSI_RELAY_ALLOWLIST", "").strip()
+DEFAULT_ACTOR_MODE = os.environ.get("ROSSI_DEFAULT_ACTOR_MODE", "sahar").strip().lower()
 
 TELEGRAM = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
 _relay_store = None
 _active_trace_by_chat: dict[int, dict] = {}
+_actor_mode_by_chat: dict[int, str] = {}
+
+
+def _parse_allowlist(raw: str) -> set[str]:
+    if not raw:
+        return set()
+    return {p.strip() for p in raw.split(",") if p.strip()}
+
+
+RELAY_ALLOWLIST = _parse_allowlist(RELAY_ALLOWLIST_RAW)
 
 # ── Rossi system prompt ─────────────────────────────────────────────────────────
 
@@ -168,6 +180,21 @@ def get_state(chat_id: int) -> ChatState:
     return states[chat_id]
 
 
+def get_actor_mode(chat_id: int) -> str:
+    mode = _actor_mode_by_chat.get(chat_id, DEFAULT_ACTOR_MODE)
+    if mode not in {"sahar", "eiad", "auto"}:
+        return "sahar"
+    return mode
+
+
+def set_actor_mode(chat_id: int, mode: str) -> str:
+    mode = mode.strip().lower()
+    if mode not in {"sahar", "eiad", "auto"}:
+        mode = "sahar"
+    _actor_mode_by_chat[chat_id] = mode
+    return mode
+
+
 # ── Session logging ─────────────────────────────────────────────────────────────
 
 def log_exchange(chat_id: int, question: str, answer: str) -> None:
@@ -254,7 +281,7 @@ def relay_log_outbound(chat_id: int, text: str) -> None:
     )
 
 
-def relay_create_request(chat_id: int, raw_text: str) -> tuple[str, str] | None:
+def relay_create_request(chat_id: int, raw_text: str, *, sender_id: int | None = None, sender_label: str | None = None) -> tuple[str, str] | None:
     """
     Create an inbox relay artifact from a Telegram command.
     Syntax:
@@ -297,7 +324,6 @@ def relay_create_request(chat_id: int, raw_text: str) -> tuple[str, str] | None:
         intent=intent,
         user_request=user_request,
         requested_by=f"telegram:{chat_id}",
-        requested_by_label="Sahar",
         target_agent="orch",
         source_event_ids=[ctx["inbound_event_id"]],
         related_session=str(chat_id),
@@ -305,6 +331,8 @@ def relay_create_request(chat_id: int, raw_text: str) -> tuple[str, str] | None:
         publish_to_github_requested=publish_requested,
         publish_target_path=publish_target_path,
         publish_commit_message=publish_commit_message,
+        # Better attribution than a hardcoded label once Rossi team members join.
+        requested_by_label=(sender_label or "telegram-user"),
     )
     store.mark_idempotency_seen(idempotency_key, ctx["trace_id"], ctx["inbound_event_id"])
     store.append_event(
@@ -383,13 +411,36 @@ def transcribe_voice(file_id: str) -> str:
 
 # ── Claude ──────────────────────────────────────────────────────────────────────
 
-def reply(state: ChatState, user_message: str) -> str:
+def _actor_instructions(actor_mode: str) -> str:
+    if actor_mode == "sahar":
+        return (
+            "ACTIVE RESPONSE LENS: SAHAR (owner / creative + decision-maker)\n"
+            "- Recommendation first, options second.\n"
+            "- Emphasize the single best next step, what decision is needed, and what input is missing.\n"
+            "- Keep responses concise and momentum-oriented.\n"
+            "- If the question is about the drop, prefer single-image-first branding coherence guidance unless user provides a different decision state.\n"
+        )
+    if actor_mode == "eiad":
+        return (
+            "ACTIVE RESPONSE LENS: EIAD (operator / execution + feasibility)\n"
+            "- Emphasize sequencing, dependencies, blockers, and fastest safe path.\n"
+            "- Provide checklist-style answers with owners/inputs when possible.\n"
+            "- Distinguish what can move now vs what requires Sahar approval.\n"
+        )
+    return (
+        "ACTIVE RESPONSE LENS: AUTO\n"
+        "- Infer whether the user needs an owner-style decision answer or operator-style execution answer.\n"
+        "- Explicitly label 'Decision needed' vs 'Execution next step' when both appear.\n"
+    )
+
+
+def reply(state: ChatState, user_message: str, *, actor_mode: str = "sahar") -> str:
     state.add("user", user_message)
     client = anthropic.Anthropic()
     message = client.messages.create(
         model      = "claude-sonnet-4-6",
         max_tokens = 1024,
-        system     = ROSSI_SYSTEM,
+        system     = ROSSI_SYSTEM + "\n\n" + _actor_instructions(actor_mode),
         messages   = state.history,
     )
     response = message.content[0].text
@@ -418,6 +469,7 @@ def cmd_start(chat_id: int) -> None:
 
 
 def cmd_help(chat_id: int) -> None:
+    actor_mode = get_actor_mode(chat_id)
     send(chat_id,
         "*Rossi Mission Project — Commands*\n\n"
         "`/status` — fundability score and current state\n"
@@ -426,9 +478,23 @@ def cmd_help(chat_id: int) -> None:
         "`/decisions` — open decisions for Rossi team\n"
         "`/revenue` — revenue model and Creative Growth comparable\n"
         "`/grants` — grant targets, timeline, and amounts\n"
+        "`/as_sahar` — owner/decision framing\n"
+        "`/as_eiad` — operator/execution framing\n"
+        "`/as_auto` — auto lens selection (experimental)\n"
         "`/relay <intent> <text>` — create a Palette relay request artifact (safe, no exec)\n"
-        "`/help` — this menu"
+        "`/help` — this menu\n\n"
+        f"*Actor mode:* `{actor_mode}`"
     )
+
+
+def cmd_set_actor_mode(chat_id: int, mode: str) -> None:
+    mode = set_actor_mode(chat_id, mode)
+    labels = {
+        "sahar": "Sahar (owner / decision-focused)",
+        "eiad": "Eiad (operator / execution-focused)",
+        "auto": "Auto (bot chooses framing)",
+    }
+    send(chat_id, f"✅ Actor mode set to *{labels[mode]}*")
 
 
 def cmd_status(chat_id: int, state: ChatState) -> None:
@@ -436,7 +502,7 @@ def cmd_status(chat_id: int, state: ChatState) -> None:
     prompt = ("Give me a concise status update on the Rossi Mission Project: "
               "current fundability score, what's blocking it, and the path to 'strong yes'. "
               "Use bullet points. Keep it under 200 words.")
-    response = reply(state, prompt)
+    response = reply(state, prompt, actor_mode=get_actor_mode(chat_id))
     send(chat_id, response)
 
 
@@ -444,7 +510,7 @@ def cmd_gaps(chat_id: int, state: ChatState) -> None:
     typing(chat_id)
     prompt = ("List the 5 critical gaps blocking Rossi's funding, in priority order. "
               "For each: the problem in one sentence, the fix, and the time to complete it.")
-    response = reply(state, prompt)
+    response = reply(state, prompt, actor_mode=get_actor_mode(chat_id))
     send(chat_id, response)
 
 
@@ -453,7 +519,7 @@ def cmd_fixes(chat_id: int, state: ChatState) -> None:
     prompt = ("Give me the 3 critical fixes for Rossi's business plan in priority order. "
               "For each fix: what the problem is, what to do, and the specific target numbers. "
               "Be direct — what should Sahar do first thing tomorrow?")
-    response = reply(state, prompt)
+    response = reply(state, prompt, actor_mode=get_actor_mode(chat_id))
     send(chat_id, response)
 
 
@@ -462,7 +528,7 @@ def cmd_decisions(chat_id: int, state: ChatState) -> None:
     prompt = ("List all open decisions that are waiting on the Rossi team. "
               "For each: what the decision is, why it matters, and what options exist. "
               "Don't make the decision — lay out what they need to decide.")
-    response = reply(state, prompt)
+    response = reply(state, prompt, actor_mode=get_actor_mode(chat_id))
     send(chat_id, response)
 
 
@@ -472,7 +538,7 @@ def cmd_revenue(chat_id: int, state: ChatState) -> None:
               "Compare to Creative Growth Art Center (the validated comparable). "
               "Show the numbers: current vs target vs Creative Growth. "
               "Why does this change matter for fundability?")
-    response = reply(state, prompt)
+    response = reply(state, prompt, actor_mode=get_actor_mode(chat_id))
     send(chat_id, response)
 
 
@@ -481,12 +547,23 @@ def cmd_grants(chat_id: int, state: ChatState) -> None:
     prompt = ("List the grant targets for Rossi: which funders, amounts to apply for, "
               "likely success rates, and timeline. What's the total target and how does it "
               "change the revenue model? What should Sahar do to start the grant process?")
-    response = reply(state, prompt)
+    response = reply(state, prompt, actor_mode=get_actor_mode(chat_id))
     send(chat_id, response)
 
 
-def cmd_relay(chat_id: int, text: str) -> None:
-    result = relay_create_request(chat_id, text)
+def _relay_allowed(sender_id: int | None) -> bool:
+    if not RELAY_ALLOWLIST:
+        return True
+    if sender_id is None:
+        return False
+    return str(sender_id) in RELAY_ALLOWLIST or f"telegram:{sender_id}" in RELAY_ALLOWLIST
+
+
+def cmd_relay(chat_id: int, text: str, *, sender_id: int | None = None, sender_label: str | None = None) -> None:
+    if not _relay_allowed(sender_id):
+        send(chat_id, "⛔ `/relay` is restricted. Ask the Rossi admin to allow your Telegram user ID.")
+        return
+    result = relay_create_request(chat_id, text, sender_id=sender_id, sender_label=sender_label)
     if result is None:
         send(chat_id, "Relay store unavailable. Check `ROSSI_RELAY_ENABLED` and local relay module.")
         return
@@ -523,6 +600,15 @@ def handle_message(chat_id: int, text: str, *, msg_id: int | None = None, sender
         if text.startswith("/help"):
             cmd_help(chat_id)
             return
+        if text.startswith("/as_sahar"):
+            cmd_set_actor_mode(chat_id, "sahar")
+            return
+        if text.startswith("/as_eiad"):
+            cmd_set_actor_mode(chat_id, "eiad")
+            return
+        if text.startswith("/as_auto"):
+            cmd_set_actor_mode(chat_id, "auto")
+            return
         if text.startswith("/status"):
             cmd_status(chat_id, state)
             return
@@ -542,12 +628,12 @@ def handle_message(chat_id: int, text: str, *, msg_id: int | None = None, sender
             cmd_grants(chat_id, state)
             return
         if text.startswith("/relay"):
-            cmd_relay(chat_id, text)
+            cmd_relay(chat_id, text, sender_id=sender_id, sender_label=sender_label)
             return
 
         # Regular message
         typing(chat_id)
-        response = reply(state, text)
+        response = reply(state, text, actor_mode=get_actor_mode(chat_id))
         send(chat_id, response)
 
         # Log the exchange
