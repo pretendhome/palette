@@ -143,13 +143,20 @@ def _build_service_recommendations(
     for svc in services:
         name = svc.get("name", "")
         name_lower = name.lower()
-        # Look up recipe — try exact lowercased name, and also first word
+        # Look up recipe — try exact, then substring, then word-overlap
         recipe = data.recipes.get(name_lower)
         if not recipe:
-            # Try matching on first significant word (e.g. "AWS Bedrock Guardrails" → "openrouter" won't match,
-            # but "Gamma" → "gamma" will)
             for rkey, rval in data.recipes.items():
+                # Substring match
                 if rkey in name_lower or name_lower in rkey:
+                    recipe = rval
+                    break
+        if not recipe:
+            # Word overlap — "Perplexity AI" matches "Perplexity API" recipe
+            name_words = {w for w in name_lower.split() if len(w) > 2}
+            for rkey, rval in data.recipes.items():
+                rkey_words = {w for w in rkey.split() if len(w) > 2}
+                if name_words and rkey_words and len(name_words & rkey_words) >= max(len(name_words) // 2, 1):
                     recipe = rval
                     break
 

@@ -1,0 +1,71 @@
+# Palette Integration Recipe: LaunchDarkly
+# Generated: 2026-02-25
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-064 (Feature Flag Strategy)
+# Priority: MEDIUM — feature flag management for progressive rollouts
+
+service_name: "LaunchDarkly"
+company: "LaunchDarkly"
+company_url: "https://launchdarkly.com"
+api_url: "https://app.launchdarkly.com/api/v2"
+api_docs: "https://apidocs.launchdarkly.com"
+
+auth_method:
+  type: "api_key"
+  header: "Authorization: $LAUNCHDARKLY_API_KEY"
+  key_source: "LaunchDarkly dashboard → Account Settings → Authorization → Access Tokens"
+  note: "SDK keys (client-side/server-side) are separate from REST API access tokens"
+
+rate_limits:
+  note: "REST API: varies by endpoint. SDK evaluations are local (no network call per evaluation)."
+
+cost_model: subscription
+cost_per_unit:
+  foundation: "$10/seat/month — feature flags, targeting, audit log"
+  enterprise: "Custom pricing — advanced workflows, approvals, custom roles"
+  note: "Pricing is per-seat. Flag evaluations are unlimited on all plans."
+free_tier:
+  availability: "14-day trial. No permanent free tier."
+  limitation: "No free tier — $10/seat/month minimum"
+
+capabilities:
+  - "Server-side and client-side feature flags with instant toggle"
+  - "Percentage-based rollouts and user targeting rules"
+  - "Multi-variate flags (not just boolean — string, number, JSON)"
+  - "Flag prerequisites and dependencies"
+  - "Audit log for all flag changes"
+  - "SDK evaluation is local — no latency penalty per flag check"
+  - "25+ language SDKs (Python, Node.js, Go, Java, etc.)"
+  - "Experimentation add-on for A/B testing"
+
+limitations:
+  - "No permanent free tier — $10/seat/month minimum"
+  - "Experimentation is a paid add-on, not included in base plan"
+  - "Complexity overhead for small teams — Statsig free tier may suffice"
+  - "REST API access tokens have different scopes than SDK keys"
+
+example_request:
+  description: "Evaluate a feature flag using the LaunchDarkly Python SDK"
+  python: |
+    import ldclient
+    from ldclient.config import Config
+
+    ldclient.set_config(Config("$LAUNCHDARKLY_SDK_KEY"))
+    client = ldclient.get()
+
+    context = ldclient.Context.builder("user-123").kind("user").build()
+    use_new_model = client.variation("palette-use-claude-4", context, False)
+
+    if use_new_model:
+        response = call_llm(model="claude-4")
+    else:
+        response = call_llm(model="claude-sonnet-4-6")
+
+palette_agent: "Rex (Architect) — rollout strategy; Para (Monitor) — flag state tracking"
+palette_integration_plan:
+  phase_1: "Evaluate LaunchDarkly vs Statsig for Palette's flag needs"
+  phase_2: "Implement model version flags for progressive LLM rollouts"
+  phase_3: "Flag-driven A/B testing of prompt variants per RIU"
+
+status: available
+evaluation_verdict: "EVALUATE — industry leader in feature flags but no free tier. Compare with Statsig (1M free events) before committing to $10/seat/month."

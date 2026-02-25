@@ -1,0 +1,82 @@
+# Palette Integration Recipe: Pinecone
+# Generated: 2026-02-25
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-026 (Vector Store Selection)
+# Priority: HIGH — core vector database for RAG pipelines
+
+service_name: "Pinecone"
+company: "Pinecone"
+company_url: "https://www.pinecone.io"
+api_url: "https://{index-name}-{project-id}.svc.{environment}.pinecone.io"
+api_docs: "https://docs.pinecone.io/reference/api/introduction"
+
+auth_method:
+  type: "api_key"
+  header: "Api-Key: $PINECONE_API_KEY"
+  key_source: "Pinecone Console → API Keys"
+  note: "Each API key is scoped to a project. Index host URL is unique per index."
+
+rate_limits:
+  free: "100 write units/sec, 50 read units/sec"
+  starter: "Higher limits — scales with pod type and replicas"
+  note: "Serverless indexes auto-scale. Pod-based indexes have fixed throughput per replica."
+
+cost_model: freemium
+cost_per_unit:
+  serverless: "Reads: $8.25/M read units. Writes: $2/M write units. Storage: $0.33/GB/month"
+  starter_pod: "$70/month — s1 pod, 1 replica"
+  standard_pod: "From $70/month — scales with pod type (s1, p1, p2) and replicas"
+  enterprise: "Custom pricing — dedicated infrastructure, SLA, HIPAA"
+  note: "Serverless is pay-per-request. Pod-based is fixed monthly cost."
+free_tier:
+  availability: "1 serverless index, 2GB storage, unlimited reads (within rate limits)"
+  limitation: "Single index only, no backups, community support"
+
+capabilities:
+  - "Managed vector database — no infrastructure to operate"
+  - "Serverless indexes — auto-scale, pay per request"
+  - "Hybrid search (dense + sparse vectors) with alpha tuning"
+  - "Metadata filtering on vector queries"
+  - "Namespaces for logical partitioning within an index"
+  - "Collections for index snapshots and cloning"
+  - "Python, Node.js, Go, Java, and REST API clients"
+  - "Integrations with LangChain, LlamaIndex, Haystack"
+
+limitations:
+  - "Vendor lock-in — proprietary format, no self-hosted option"
+  - "Serverless cold starts on low-traffic indexes (~100-200ms)"
+  - "No full-text search — vector search only (use hybrid with sparse for keyword matching)"
+  - "Free tier limited to 1 index — multiple use cases require paid plan"
+  - "Dimension limit: 20,000 (sufficient for all current embedding models)"
+
+example_request:
+  description: "Upsert vectors and query for similar documents"
+  python: |
+    from pinecone import Pinecone
+
+    pc = Pinecone(api_key="$PINECONE_API_KEY")
+    index = pc.Index("palette-knowledge")
+
+    # Upsert document embeddings
+    index.upsert(vectors=[
+        {"id": "LIB-001", "values": embedding_vector, "metadata": {
+            "riu": "RIU-026", "journey_stage": "retrieval", "tier": 1
+        }},
+    ])
+
+    # Query for similar knowledge entries
+    results = index.query(
+        vector=query_embedding,
+        top_k=5,
+        filter={"journey_stage": {"$eq": "retrieval"}},
+        include_metadata=True
+    )
+
+palette_agent: "Argy (Research) — knowledge retrieval; Rex (Architect) — vector store design"
+palette_integration_plan:
+  phase_1: "Use free tier to index Palette knowledge library for semantic search"
+  phase_2: "Hybrid search with metadata filtering for RIU-scoped retrieval"
+  phase_3: "Multi-namespace strategy — knowledge, people signals, company index"
+
+status: available
+evaluation_verdict: "INTEGRATE — market-leading managed vector DB. Free tier (1 index, 2GB) sufficient for Palette knowledge library. Serverless pricing aligns with usage-based philosophy."

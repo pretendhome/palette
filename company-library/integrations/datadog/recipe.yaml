@@ -1,0 +1,74 @@
+# Palette Integration Recipe: Datadog
+# Generated: 2026-02-25
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-061 (Observability Baseline), RIU-542 (Observability Stack Design)
+# Priority: MEDIUM — evaluate vs New Relic free tier
+
+service_name: "Datadog"
+company: "Datadog"
+company_url: "https://www.datadoghq.com"
+api_url: "https://api.datadoghq.com/api/v2"
+api_docs: "https://docs.datadoghq.com/api/"
+
+auth_method:
+  type: "api_key"
+  header: "DD-API-KEY: $DATADOG_API_KEY"
+  key_source: "Datadog dashboard → Organization Settings → API Keys"
+  additional_headers:
+    - "DD-APPLICATION-KEY: $DATADOG_APP_KEY (for read endpoints)"
+
+rate_limits:
+  note: "Varies by endpoint. Generally 300 requests/hour for API, higher for data ingestion."
+
+cost_model: subscription
+cost_per_unit:
+  infrastructure: "$15/host/month (Pro), $23/host/month (Enterprise)"
+  apm: "$31/host/month (APM)"
+  log_management: "$0.10/GB ingested (after retention)"
+  llm_observability: "Included with APM — traces LLM calls, token usage, latency"
+  note: "Costs scale with hosts and data volume. Budget carefully."
+free_tier:
+  availability: "14-day trial. Free tier: 5 hosts, 1-day metric retention."
+  limitation: "Very limited free tier. New Relic offers 100GB/month free with all features."
+
+capabilities:
+  - "Infrastructure monitoring (hosts, containers, serverless)"
+  - "APM with distributed tracing"
+  - "Log management with search and analytics"
+  - "LLM Observability (traces LLM calls, token usage, model performance)"
+  - "Custom dashboards and alerting"
+  - "700+ integrations (AWS, GCP, Azure, Kubernetes)"
+  - "SLO/SLI tracking with error budgets"
+  - "Real User Monitoring (RUM)"
+
+limitations:
+  - "Expensive at scale — costs grow with data volume and host count"
+  - "Free tier is minimal compared to New Relic (100GB free) or Grafana Cloud"
+  - "Lock-in risk — proprietary query language and dashboard format"
+  - "LLM Observability is newer, less mature than core APM features"
+
+example_request:
+  description: "Send custom metric via Datadog API"
+  python: |
+    from datadog_api_client import Configuration, ApiClient
+    from datadog_api_client.v2.api.metrics_api import MetricsApi
+
+    configuration = Configuration()
+    with ApiClient(configuration) as api_client:
+        api = MetricsApi(api_client)
+        api.submit_metrics(body={
+            "series": [{
+                "metric": "palette.traversal.completeness",
+                "points": [{"timestamp": int(time.time()), "value": 82}],
+                "tags": ["riu:RIU-082", "env:production"]
+            }]
+        })
+
+palette_agent: "Para (Monitor) — production observability; Anky (Validator) — SLO enforcement"
+palette_integration_plan:
+  phase_1: "Evaluate Datadog vs New Relic free tier for Palette's monitoring needs"
+  phase_2: "Deploy LLM Observability for agent tracing and token tracking"
+  phase_3: "SLO/SLI dashboards for production quality gates"
+
+status: available
+evaluation_verdict: "EVALUATE — industry standard but expensive. New Relic's 100GB/month free tier may be better for Palette's current scale. Datadog's LLM Observability is compelling for agent tracing."

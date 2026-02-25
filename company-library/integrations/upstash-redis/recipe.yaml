@@ -1,0 +1,74 @@
+# Palette Integration Recipe: Upstash Redis
+# Generated: 2026-02-25
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-035 (Caching Strategy), RIU-523 (Rate Limiting)
+# Priority: MEDIUM — serverless caching for agentic workflows
+
+service_name: "Upstash Redis"
+company: "Upstash"
+company_url: "https://upstash.com"
+api_url: "https://{endpoint}.upstash.io"
+api_docs: "https://upstash.com/docs/redis/overall/getstarted"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $UPSTASH_REDIS_TOKEN"
+  key_source: "Upstash Console → Database → REST API section → UPSTASH_REDIS_REST_TOKEN"
+  note: "Also supports standard Redis protocol with UPSTASH_REDIS_URL and UPSTASH_REDIS_TOKEN"
+
+rate_limits:
+  free: "10,000 commands/day"
+  pay_as_you_go: "No hard limit — scales with usage"
+  note: "Per-second throughput depends on plan (1,000 commands/sec on free, higher on paid)"
+
+cost_model: usage_based
+cost_per_unit:
+  commands: "$0.2 per 100K commands"
+  storage: "$0.25/GB per month"
+  bandwidth: "Free up to plan limit"
+  note: "Pay-per-request — no idle cost. True serverless pricing."
+free_tier:
+  availability: "10,000 commands/day, 256MB storage, 1 database"
+  limitation: "Single region, no replication, 1,000 commands/sec max throughput"
+
+capabilities:
+  - "Serverless Redis — no infrastructure management, scales to zero"
+  - "REST API — works from edge functions and serverless environments"
+  - "Standard Redis protocol support (any Redis client works)"
+  - "Global replication across multiple regions (paid plans)"
+  - "Built-in rate limiting library (@upstash/ratelimit)"
+  - "Durable storage — data persists without active connections"
+  - "Edge-compatible — sub-millisecond latency from Vercel/Cloudflare edge"
+
+limitations:
+  - "Higher latency than self-hosted Redis (~1-5ms vs sub-ms)"
+  - "Free tier limited to 10K commands/day — insufficient for production"
+  - "No Redis modules (RedisJSON, RediSearch) — core Redis commands only"
+  - "Global replication adds $0.2/100K commands per replica region"
+
+example_request:
+  description: "Cache an LLM response with TTL using Upstash REST API"
+  python: |
+    from upstash_redis import Redis
+
+    redis = Redis(
+        url="https://{endpoint}.upstash.io",
+        token="$UPSTASH_REDIS_TOKEN"
+    )
+
+    # Cache LLM response with 1-hour TTL
+    redis.set("palette:llm:cache:prompt_hash_abc123",
+              '{"model": "claude-sonnet-4-6", "response": "..."}',
+              ex=3600)
+
+    # Retrieve cached response
+    cached = redis.get("palette:llm:cache:prompt_hash_abc123")
+
+palette_agent: "Rex (Architect) — caching strategy; Para (Monitor) — rate limiting enforcement"
+palette_integration_plan:
+  phase_1: "Use free tier for LLM response caching on high-frequency prompts"
+  phase_2: "Implement @upstash/ratelimit for agent API call throttling"
+  phase_3: "Global replication for multi-region deployment"
+
+status: available
+evaluation_verdict: "INTEGRATE — true serverless Redis with pay-per-request pricing. Ideal for agentic caching and rate limiting without infrastructure overhead."

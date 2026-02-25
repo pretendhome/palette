@@ -1,0 +1,76 @@
+# Palette Integration Recipe: Statsig
+# Generated: 2026-02-25
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-068 (A/B Testing & Experimentation)
+# Priority: MEDIUM — experimentation platform with strong free tier
+
+service_name: "Statsig"
+company: "Statsig"
+company_url: "https://statsig.com"
+api_url: "https://statsigapi.net/v1"
+api_docs: "https://docs.statsig.com/server/introduction"
+
+auth_method:
+  type: "api_key"
+  header: "statsig-api-key: $STATSIG_SERVER_SECRET"
+  key_source: "Statsig Console → Project Settings → Keys & Environments → Server Secret Key"
+  note: "Client SDK key and Server Secret key are separate. Server key for backend evaluation."
+
+rate_limits:
+  note: "SDK evaluations are local (no network call). Log events batched and sent periodically."
+
+cost_model: freemium
+cost_per_unit:
+  free: "Free — up to 1M events/month, unlimited feature flags and experiments"
+  pro: "$150/month — 5M events, advanced analytics, data warehouse export"
+  enterprise: "Custom pricing — SSO, SLA, dedicated support"
+  note: "Events = exposure checks + custom events. Flag checks without logging are free."
+free_tier:
+  availability: "1M events/month, unlimited flags, unlimited experiments, 3 seats"
+  limitation: "Limited to 3 seats, no data warehouse export, community support only"
+
+capabilities:
+  - "Feature flags with targeting rules and percentage rollouts"
+  - "A/B testing with statistical significance calculations"
+  - "Dynamic configs (remote configuration without deploy)"
+  - "Layers for mutually exclusive experiments"
+  - "Autotune — automatic multi-armed bandit optimization"
+  - "Holdout groups for measuring cumulative feature impact"
+  - "Server-side and client-side SDKs (Python, Node.js, Go, etc.)"
+  - "Warehouse-native mode — compute on your data warehouse"
+
+limitations:
+  - "1M event limit on free tier can be reached quickly at scale"
+  - "Statistical engine is proprietary — less transparent than open-source alternatives"
+  - "Warehouse-native mode requires Pro plan or higher"
+  - "Learning curve for layers and holdout group configuration"
+
+example_request:
+  description: "Check a feature gate and log an experiment exposure"
+  python: |
+    from statsig import statsig, StatsigUser
+
+    statsig.initialize("$STATSIG_SERVER_SECRET")
+
+    user = StatsigUser(user_id="user-123", custom={"tier": "enterprise"})
+
+    # Feature gate check
+    if statsig.check_gate(user, "palette_new_routing_algorithm"):
+        route = new_routing_algorithm(query)
+    else:
+        route = legacy_routing(query)
+
+    # Get experiment parameter
+    experiment = statsig.get_experiment(user, "prompt_variant_test")
+    prompt_template = experiment.get("prompt_template", "default_v1")
+
+    statsig.shutdown()
+
+palette_agent: "Rex (Architect) — experiment design; Anky (Validator) — statistical significance review"
+palette_integration_plan:
+  phase_1: "Use free tier for feature flags and model A/B tests"
+  phase_2: "Implement Autotune for automatic prompt optimization per RIU"
+  phase_3: "Warehouse-native mode for experimentation on Palette's own data"
+
+status: available
+evaluation_verdict: "INTEGRATE — best free tier for experimentation (1M events, unlimited flags). Preferred over LaunchDarkly for cost-sensitive teams. Autotune is uniquely valuable for prompt optimization."

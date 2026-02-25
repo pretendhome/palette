@@ -1,0 +1,73 @@
+# Palette Integration Recipe: Braintrust
+# Generated: 2026-02-25
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-021 (Golden Set Eval), RIU-524 (Quality Monitoring), RIU-520 (Prompt Version Control)
+# Priority: HIGH — core eval platform for Palette quality gates
+
+service_name: "Braintrust"
+company: "Braintrust"
+company_url: "https://braintrust.dev"
+api_url: "https://api.braintrust.dev/v1"
+api_docs: "https://www.braintrust.dev/docs"
+
+auth_method:
+  type: "api_key"
+  header: "Authorization: Bearer $BRAINTRUST_API_KEY"
+  key_source: "Braintrust dashboard → Settings → API Keys"
+
+rate_limits:
+  note: "Credit-based. Free tier: 10k scores/evaluations. Pro: $249/month."
+
+cost_model: freemium
+cost_per_unit:
+  free_tier: "10,000 scores/evaluations per month"
+  pro: "$249/month — unlimited evaluations, advanced features"
+  enterprise: "Custom pricing"
+free_tier:
+  availability: "10k scores — generous for eval development and testing"
+  limitation: "Limited dataset storage, no SSO"
+
+capabilities:
+  - "Dataset management for golden sets and evaluation corpora"
+  - "LLM-as-judge, code-based, and human evaluation in one platform"
+  - "Regression tracking across model/prompt changes"
+  - "Experiment comparison dashboards with statistical significance"
+  - "Prompt playground with versioning"
+  - "Tracing and logging for production LLM calls"
+  - "Python SDK and REST API"
+
+limitations:
+  - "$249/month Pro tier is significant for small teams"
+  - "Newer platform — less battle-tested than Datadog/New Relic for infra monitoring"
+  - "Eval-focused — not a replacement for full observability stack"
+
+example_request:
+  description: "Run an evaluation using Braintrust Python SDK"
+  python: |
+    import braintrust
+
+    # Create or get a project
+    project = braintrust.init(project="palette-eval")
+
+    # Run evaluation
+    experiment = project.start_experiment("prompt-v2-test")
+
+    for case in golden_set:
+        output = call_llm(case["input"])
+        experiment.log(
+            input=case["input"],
+            output=output,
+            expected=case["expected"],
+            scores={"accuracy": score_fn(output, case["expected"])}
+        )
+
+    experiment.summarize()
+
+palette_agent: "Anky (Validator) — evaluation gate enforcement; Rex (Architect) — prompt version decisions"
+palette_integration_plan:
+  phase_1: "Use free tier for golden set eval on priority RIUs"
+  phase_2: "Integrate eval runs into CI/CD for prompt regression testing"
+  phase_3: "Production logging for quality monitoring (RIU-524)"
+
+status: available
+evaluation_verdict: "INTEGRATE — strongest eval-first platform. $80M Series B (Feb 2026, $800M valuation). 10k free scores is sufficient for Palette's current eval needs."

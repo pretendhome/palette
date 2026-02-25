@@ -1,0 +1,70 @@
+# Palette Integration Recipe: Perplexity API
+# Generated: 2026-02-25
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-201 (Competitive Research), RIU-106 (Comparable Org Research), RIU-109 (Business Plan)
+# Priority: HIGH — already integrated via MCP, API extends reach
+
+service_name: "Perplexity API"
+company: "Perplexity AI"
+company_url: "https://www.perplexity.ai"
+api_url: "https://api.perplexity.ai"
+api_docs: "https://docs.perplexity.ai/reference"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $PERPLEXITY_API_KEY"
+  key_source: "Perplexity Pro account → Settings → API"
+
+rate_limits:
+  note: "Varies by plan. Pro subscribers get higher limits."
+
+cost_model: usage_based
+cost_per_unit:
+  sonar_small: "~$0.0002 per request (unvalidated)"
+  sonar_medium: "~$0.0006 per request (unvalidated)"
+  note: "Per-request pricing. Much cheaper than equivalent web search + LLM synthesis."
+free_tier:
+  availability: "Limited free queries via MCP integration with existing Perplexity subscription"
+  limitation: "API requires Pro subscription or API credits"
+
+capabilities:
+  - "Real-time web research with automatic source citations"
+  - "AI-synthesized answers from multiple web sources"
+  - "Competitive landscape scans with recency advantage"
+  - "Company enrichment — funding, team, traction data"
+  - "OpenAI-compatible API format"
+  - "MCP integration available for Claude Code / Argy agent"
+
+limitations:
+  - "Requires Pro subscription for meaningful API access"
+  - "Citation accuracy should be verified — not all sources are authoritative"
+  - "Rate limits on free/basic tiers"
+  - "Cannot access paywalled content"
+
+example_request:
+  description: "Research query via Perplexity API (OpenAI-compatible format)"
+  python: |
+    from openai import OpenAI
+
+    client = OpenAI(
+        api_key="$PERPLEXITY_API_KEY",
+        base_url="https://api.perplexity.ai"
+    )
+
+    response = client.chat.completions.create(
+        model="sonar",
+        messages=[{
+            "role": "user",
+            "content": "What companies compete with Braintrust in LLM evaluation? Include funding and pricing."
+        }]
+    )
+    print(response.choices[0].message.content)
+
+palette_agent: "Argy (Researcher) — primary research tool; Yuty (GTM) — market data for narratives"
+palette_integration_plan:
+  phase_1: "Already integrated via Perplexity MCP for Argy's research workflow"
+  phase_2: "Use API directly for batch enrichment of people-library stubs"
+  phase_3: "Automate competitive landscape scans on schedule"
+
+status: integrated
+evaluation_verdict: "INTEGRATED — Perplexity MCP already configured for Argy. API extends this to batch operations and automated enrichment. Top 3 consumer AI by usage (a16z data)."

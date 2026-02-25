@@ -1,0 +1,78 @@
+# Palette Integration Recipe: Cohere Rerank
+# Generated: 2026-02-25
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-027 (Retrieval Quality Tuning)
+# Priority: HIGH — critical for RAG accuracy improvement
+
+service_name: "Cohere Rerank"
+company: "Cohere"
+company_url: "https://cohere.com"
+api_url: "https://api.cohere.com/v2/rerank"
+api_docs: "https://docs.cohere.com/reference/rerank"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $COHERE_API_KEY"
+  key_source: "Cohere Dashboard → API Keys"
+
+rate_limits:
+  trial: "10 requests/minute"
+  production: "10,000 requests/minute"
+  note: "Trial key has strict limits. Production key requires billing setup."
+
+cost_model: usage_based
+cost_per_unit:
+  rerank: "$1.00 per 1,000 searches (each search ranks up to 1,000 documents)"
+  note: "A search = one query reranked against N documents. Billing is per search, not per document."
+free_tier:
+  availability: "Trial API key — 1,000 free rerank calls per month"
+  limitation: "10 requests/minute, no SLA, no production use"
+
+capabilities:
+  - "Semantic reranking of search results for RAG pipelines"
+  - "Rerank-v3.5 — latest model with multilingual support (100+ languages)"
+  - "Accepts up to 1,000 documents per query for reranking"
+  - "Returns relevance scores (0-1) for each document"
+  - "Works with any retriever — Pinecone, Elasticsearch, BM25, etc."
+  - "Dramatically improves top-k precision over vector similarity alone"
+  - "Simple API — pass query + documents, get ranked results"
+
+limitations:
+  - "Adds latency to retrieval pipeline (~50-200ms per rerank call)"
+  - "Cost accumulates at scale — $1/1K searches adds up for high-volume RAG"
+  - "No fine-tuning available for Rerank models"
+  - "Max 1,000 documents per rerank call"
+  - "Proprietary — no self-hosted option"
+
+example_request:
+  description: "Rerank retrieved knowledge library entries for a query"
+  python: |
+    import cohere
+
+    co = cohere.ClientV2(api_key="$COHERE_API_KEY")
+
+    # Documents retrieved from Pinecone or other vector store
+    docs = [
+        "LIB-026: Vector store selection criteria — dimensions, latency, cost...",
+        "LIB-027: Retrieval quality tuning — chunk size, overlap, reranking...",
+        "LIB-045: Embedding model comparison — OpenAI, Cohere, BGE...",
+    ]
+
+    results = co.rerank(
+        model="rerank-v3.5",
+        query="How to improve RAG retrieval accuracy",
+        documents=docs,
+        top_n=3
+    )
+
+    for r in results.results:
+        print(f"Rank {r.index}: score={r.relevance_score:.3f} — {docs[r.index][:60]}")
+
+palette_agent: "Argy (Research) — retrieval quality improvement; Rex (Architect) — RAG pipeline design"
+palette_integration_plan:
+  phase_1: "Add Cohere Rerank as post-retrieval step in Argy's knowledge lookup"
+  phase_2: "Benchmark reranked vs raw vector results on golden set queries"
+  phase_3: "Evaluate cost/benefit — rerank only when initial retrieval confidence is low"
+
+status: available
+evaluation_verdict: "INTEGRATE — proven reranking model that significantly improves RAG precision. $1/1K searches is reasonable for Palette's query volume. Essential complement to Pinecone."

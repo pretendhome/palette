@@ -1,0 +1,77 @@
+# Palette Integration Recipe: Flyway
+# Generated: 2026-02-25
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-067 (Schema Migration Strategy)
+# Priority: LOW — database migration tooling when Palette needs persistent storage
+
+service_name: "Flyway"
+company: "Redgate"
+company_url: "https://www.red-gate.com/products/flyway/"
+api_url: null
+api_docs: "https://documentation.red-gate.com/flyway"
+
+auth_method:
+  type: "none"
+  note: "Flyway is a CLI/library tool — no hosted API. Runs locally or in CI/CD pipelines."
+
+rate_limits:
+  note: "N/A — local CLI tool, no API rate limits."
+
+cost_model: freemium
+cost_per_unit:
+  community: "Free and open source (Apache 2.0)"
+  teams: "$788/year per schema (10 schemas) — undo, dry runs, check"
+  enterprise: "Custom pricing — Oracle, DB2 support, audit"
+  note: "Community edition covers most migration needs. Teams adds undo and drift detection."
+free_tier:
+  availability: "Community edition is fully free and open source"
+  limitation: "No undo migrations, no dry run, no drift detection, limited database support"
+
+capabilities:
+  - "Version-controlled database migrations (SQL or Java-based)"
+  - "Supports PostgreSQL, MySQL, SQLite, SQL Server, Oracle, and 20+ databases"
+  - "Baseline existing databases for adoption on legacy schemas"
+  - "Repeatable migrations for views, procedures, and reference data"
+  - "CI/CD integration via CLI, Maven, Gradle, Docker"
+  - "Migration history tracking in flyway_schema_history table"
+  - "Community edition: migrate, clean, info, validate, repair commands"
+
+limitations:
+  - "No hosted API — CLI or library integration only"
+  - "Undo migrations require Teams license ($788/year)"
+  - "No native rollback in Community — must write reverse migrations manually"
+  - "Java-based — requires JVM runtime"
+  - "No built-in drift detection in Community edition"
+
+example_request:
+  description: "Run database migrations using Flyway CLI"
+  python: |
+    import subprocess
+
+    # Run pending migrations
+    result = subprocess.run([
+        "flyway",
+        "-url=jdbc:postgresql://localhost:5432/palette",
+        "-user=palette_admin",
+        "-password=$DB_PASSWORD",
+        "-locations=filesystem:./db/migrations",
+        "migrate"
+    ], capture_output=True, text=True)
+    print(result.stdout)
+
+    # Check migration status
+    result = subprocess.run([
+        "flyway",
+        "-url=jdbc:postgresql://localhost:5432/palette",
+        "info"
+    ], capture_output=True, text=True)
+    print(result.stdout)
+
+palette_agent: "Theri (Builder) — schema migration execution; Rex (Architect) — migration strategy"
+palette_integration_plan:
+  phase_1: "Use Community edition for local development schema management"
+  phase_2: "Integrate Flyway into CI/CD pipeline for automated migration validation"
+  phase_3: "Evaluate Teams edition if undo/drift detection becomes necessary"
+
+status: available
+evaluation_verdict: "INTEGRATE — standard database migration tool. Free Community edition sufficient for current needs. Only upgrade to Teams if undo or drift detection required."

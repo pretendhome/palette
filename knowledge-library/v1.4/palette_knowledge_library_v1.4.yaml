@@ -5579,6 +5579,370 @@ library_questions:
     url: https://services.google.com/fh/files/misc/practitioners_guide_to_mlops_whitepaper.pdf
   - title: Zheng et al., Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena (NeurIPS 2023)
     url: https://arxiv.org/abs/2306.05685
+- id: LIB-116
+  question: How do I track data lineage across complex multi-service AI pipelines?
+  answer: Use automated lineage tools rather than manual sketches once pipelines span 3+ services. dbt captures SQL-level lineage
+    natively. For broader pipeline lineage, implement OpenLineage (open standard) with Marquez for visualization. Key decision — lineage
+    granularity must match your debugging needs. Column-level lineage is needed for regulated industries (healthcare, finance);
+    table-level is sufficient for most AI/ML pipelines. Start with table-level and add column-level only when compliance requires it.
+    Integrate lineage capture into your CI/CD pipeline so it stays current automatically.
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-019
+  - RIU-011
+  difficulty: medium
+  industries:
+  - Enterprise SaaS
+  - Healthcare
+  - Fintech
+  tags:
+  - data-lineage
+  - observability
+  - compliance
+  - dbt
+  journey_stage: orchestration
+- id: LIB-117
+  question: How do I enforce structured output schemas from LLMs without manual parsing?
+  answer: Use a schema-constrained generation library that validates LLM output against Pydantic models or JSON Schema at inference
+    time. Instructor (Python) wraps the LLM call and retries on validation failure — supports OpenAI, Anthropic, and open-source
+    models. Outlines uses constrained decoding (grammar-based sampling) for guaranteed schema compliance without retries but only
+    works with open-source models. Decision — use Instructor for cloud LLM APIs (retry-based, model-agnostic), use Outlines for
+    self-hosted models where you control decoding. Always define output schemas as Pydantic models, not raw JSON — you get type
+    safety, validation, and documentation for free.
+  problem_type: Systems_Integration
+  related_rius:
+  - RIU-028
+  - RIU-022
+  difficulty: medium
+  industries:
+  - All
+  tags:
+  - structured-output
+  - schema-validation
+  - pydantic
+  - instructor
+  journey_stage: orchestration
+- id: LIB-118
+  question: When should I add a caching layer to my LLM pipeline and what strategy should I use?
+  answer: Add caching when you see repeated identical or semantically similar queries consuming LLM tokens. Three patterns —
+    exact-match cache (Redis/Upstash, simple key-value, highest hit rate for deterministic queries), semantic cache (GPTCache or
+    custom embedding similarity, catches paraphrases but adds latency), and response fragment cache (cache intermediate steps like
+    retrieval results, not final LLM output). Start with exact-match on the highest-volume query patterns. Measure cache hit rate
+    before adding semantic caching complexity. Invalidation strategy must match your data freshness requirements — TTL-based for
+    most AI use cases, event-based invalidation for real-time data. Upstash Redis is serverless with per-request pricing (no idle
+    cost), ElastiCache for high-throughput on AWS.
+  problem_type: Reliability_and_Failure_Handling
+  related_rius:
+  - RIU-035
+  - RIU-523
+  difficulty: medium
+  industries:
+  - All
+  tags:
+  - caching
+  - performance
+  - cost-optimization
+  - redis
+  journey_stage: orchestration
+- id: LIB-119
+  question: How do I implement feature flags and kill switches for AI model rollouts?
+  answer: Feature flags gate model versions, prompt variants, and pipeline configurations behind runtime toggles. Use a dedicated
+    feature flag platform (LaunchDarkly or Statsig) rather than config files — you need instant kill switches without redeployment.
+    Key patterns — percentage rollouts (10% to 50% to 100%), targeting rules (route enterprise customers to stable model, beta users
+    to experimental), and kill switches (disable a model variant in seconds if quality degrades). Statsig adds built-in A/B testing
+    and statistical significance tracking. LaunchDarkly is more mature for enterprise governance. Decision — if you need experiment
+    analytics, use Statsig. If you need enterprise audit trails and approval workflows, use LaunchDarkly. Both support server-side
+    SDKs for backend AI services.
+  problem_type: Operationalization_and_Scaling
+  related_rius:
+  - RIU-064
+  - RIU-068
+  difficulty: medium
+  industries:
+  - All
+  tags:
+  - feature-flags
+  - rollout
+  - kill-switch
+  - experimentation
+  journey_stage: orchestration
+- id: LIB-120
+  question: How do I manage secrets and API keys securely for AI agent workflows?
+  answer: Never store secrets in code, environment variables, or config files. Use a secrets manager — AWS Secrets Manager for
+    AWS-native workflows (automatic rotation, IAM integration), HashiCorp Vault for multi-cloud or on-premise. For AI agents
+    specifically, each agent should have its own IAM role or service account with least-privilege access. Rotate API keys on a
+    schedule (90 days minimum). Use short-lived credentials (STS AssumeRole) instead of long-lived keys wherever possible. Agent
+    credential access should be auditable — log which agent accessed which secret and when. Decision — if you are AWS-only, use
+    Secrets Manager. If multi-cloud or complex rotation policies, use Vault.
+  problem_type: Reliability_and_Failure_Handling
+  related_rius:
+  - RIU-066
+  - RIU-108
+  difficulty: high
+  industries:
+  - All
+  - Fintech
+  - Healthcare
+  tags:
+  - secrets-management
+  - security
+  - api-keys
+  - credentials
+  journey_stage: orchestration
+- id: LIB-121
+  question: How do I safely run database migrations in AI systems without downtime or data loss?
+  answer: Use a versioned migration tool (Flyway for JVM/SQL, Alembic for Python/SQLAlchemy) with mandatory dry-run before apply.
+    Every migration must be reversible — write both up and down scripts. For AI systems specifically, schema changes to feature stores
+    or embedding tables require coordinated deployment with the model that reads them. Pattern — deploy new schema version alongside
+    old (expand phase), update application code (migrate phase), drop old columns (contract phase). Never run ALTER TABLE on
+    production without a tested rollback script. Use blue-green deployment for vector database index rebuilds — build new index in
+    parallel, swap pointer when ready.
+  problem_type: Reliability_and_Failure_Handling
+  related_rius:
+  - RIU-067
+  difficulty: medium
+  industries:
+  - All
+  tags:
+  - database-migration
+  - schema-change
+  - rollback
+  - flyway
+  journey_stage: orchestration
+- id: LIB-122
+  question: How do I build a PII redaction pipeline for AI training data and inference inputs?
+  answer: Use a dedicated PII detection library — Microsoft Presidio (open-source, supports custom recognizers, runs on-premise)
+    or AWS Comprehend PII (managed, pay-per-request). For AI pipelines, redact PII before it enters the LLM context window — this
+    is a guardrail, not a post-processing step. Build a three-layer pipeline — detection (find PII entities), classification (determine
+    sensitivity level), and action (redact, mask, or tokenize based on policy). Use entity-level redaction (replace names with
+    consistent pseudonyms) rather than full removal to preserve semantic meaning for the model. Test with adversarial inputs —
+    PII detectors miss embedded PII in code snippets, URLs, and structured data. AWS Comprehend PII detection is free when used
+    with Bedrock Guardrails.
+  problem_type: Trust_Governance_and_Adoption
+  related_rius:
+  - RIU-088
+  - RIU-012
+  difficulty: high
+  industries:
+  - Healthcare
+  - Fintech
+  - Government
+  tags:
+  - pii-redaction
+  - privacy
+  - compliance
+  - presidio
+  journey_stage: orchestration
+  evaluation_signal: PII recall below 95% on your test set means the pipeline is not production-ready. Measure
+    false negative rate specifically — missed PII is a compliance violation, while false positives are merely
+    inconvenient.
+- id: LIB-123
+  question: How do I use Perplexity to research comparable organizations for strategic positioning?
+  answer: Use Perplexity API or MCP integration for comparable organization research. Structure queries as specific comparisons
+    rather than broad searches — ask for companies with similar tech stack, funding stage, team size, and target market. Perplexity
+    returns sourced, cited answers which makes it superior to raw web search for Argy's research workflow. Cross-reference Perplexity
+    results with Crunchbase for funding validation and LinkedIn for team composition. For competitive landscape scans, use Perplexity's
+    recency advantage — it indexes recent funding rounds, product launches, and hiring patterns that static databases miss. Always
+    verify funding figures from at least two sources before including in deliverables.
+  problem_type: Intake_and_Convergence
+  related_rius:
+  - RIU-106
+  - RIU-201
+  - RIU-140
+  difficulty: medium
+  industries:
+  - All
+  tags:
+  - competitive-research
+  - perplexity
+  - market-analysis
+  - comparable-organizations
+  journey_stage: foundation
+- id: LIB-124
+  question: How do I secure AI agent access to tools, APIs, and sensitive data?
+  answer: Agent security requires identity-based access control at the tool level — each agent gets its own service identity with
+    least-privilege permissions. Use AWS Bedrock Guardrails for content-level safety (denied topics, PII filtering) and IAM roles
+    for resource-level access control. For tool-calling agents, implement an approval layer for high-risk actions (financial
+    transactions, data deletion, external API calls) — flag these as ONE-WAY DOOR operations requiring human confirmation. Lakera
+    Guard adds prompt injection detection as a pre-processing firewall. HashiCorp Vault manages agent credentials with automatic
+    rotation. Key principle — the agent should never have broader access than the human it serves.
+  problem_type: Trust_Governance_and_Adoption
+  related_rius:
+  - RIU-108
+  - RIU-066
+  - RIU-082
+  difficulty: high
+  industries:
+  - All
+  - Fintech
+  - Healthcare
+  tags:
+  - agent-security
+  - access-control
+  - guardrails
+  - iam
+  journey_stage: orchestration
+- id: LIB-125
+  question: How do I create a business plan using AI research and presentation tools?
+  answer: Combine AI research (Perplexity for market data, competitive landscape, and TAM/SAM/SOM estimates) with AI presentation
+    tools (Gamma for polished decks). Palette's Yuty agent produces the narrative and evidence base; Gamma's API converts that into
+    investor-ready presentations. Structure — executive summary, problem statement, market analysis (Perplexity-sourced with
+    citations), solution, business model, competitive positioning, financial projections, and team. Key decision — use Perplexity
+    for ALL market claims so every number has a source URL. Use Gamma for the visual layer so non-designers can produce professional
+    output. The business plan is a Palette deliverable that routes through Yuty to Gamma pipeline.
+  problem_type: Intake_and_Convergence
+  related_rius:
+  - RIU-109
+  - RIU-413
+  - RIU-201
+  difficulty: medium
+  industries:
+  - All
+  tags:
+  - business-plan
+  - presentation
+  - market-research
+  - gamma
+  journey_stage: foundation
+- id: LIB-126
+  question: How do I research competitors and alternatives systematically for AI product decisions?
+  answer: Use Perplexity MCP for depth-first competitive research with automatic citations. Structure research as three passes —
+    landscape scan (who exists in this space), capability comparison (feature-by-feature matrix), and signal analysis (funding,
+    hiring, practitioner sentiment). Perplexity is superior to raw web search because it synthesizes across sources and provides
+    citation URLs for verification. For real-time social signal, Grok provides live Twitter/X intelligence that Perplexity misses.
+    Cross-reference with people-library signals — practitioner endorsements are stronger evidence than marketing claims. Output
+    should be a structured comparison matrix, not prose — Rossi needs ONE answer, Claudia needs the full evidence table.
+  problem_type: Intake_and_Convergence
+  related_rius:
+  - RIU-201
+  - RIU-140
+  - RIU-106
+  difficulty: medium
+  industries:
+  - All
+  tags:
+  - competitive-analysis
+  - alternatives
+  - perplexity
+  - market-research
+  journey_stage: foundation
+- id: LIB-127
+  question: How do I create customer-facing demos and presentations using AI tools?
+  answer: Use Gamma for AI-generated presentations (slides, carousels, one-pagers) and Lovable for interactive application prototypes.
+    Gamma converts text prompts into polished visual deliverables — 70M users, profitable, API now available via Generate API (GA Jan
+    2026, Pro tier $15/month). Lovable creates full application prototypes without code — useful when the demo needs to be interactive,
+    not just slides. Decision — if the deliverable is a deck or carousel (investor pitch, status update, LinkedIn content), use Gamma.
+    If the deliverable is an interactive prototype (product demo, proof of concept), evaluate Lovable. Palette's Yuty agent produces
+    the narrative content; these tools provide the visual delivery layer.
+  problem_type: Operationalization_and_Scaling
+  related_rius:
+  - RIU-413
+  - RIU-109
+  difficulty: low
+  industries:
+  - All
+  tags:
+  - demos
+  - presentations
+  - gamma
+  - lovable
+  - no-code
+  journey_stage: foundation
+- id: LIB-128
+  question: How do I set up multi-model LLM routing with automatic fallback and cost tracking?
+  answer: Use OpenRouter as the routing layer — single OpenAI-compatible API that routes to 500+ models across providers. Change
+    base URL and API key, existing code unchanged. Key features — automatic fallback routing (if Claude fails, route to GPT-4o),
+    cost tracking per model per API key, and routing suffixes (nitro for fastest, floor for cheapest). Zero percent model markup, 5.5
+    percent credit purchase fee. For self-hosted alternative, LiteLLM provides similar routing with zero markup but requires
+    infrastructure management. Decision — use OpenRouter for simplicity and zero-ops, LiteLLM if you need on-premise or want zero
+    fees. Both support budget limits and usage analytics. This is critical infrastructure for Palette's SageMaker disruptor thesis.
+  problem_type: Systems_Integration
+  related_rius:
+  - RIU-521
+  - RIU-252
+  - RIU-522
+  difficulty: medium
+  industries:
+  - All
+  tags:
+  - llm-routing
+  - openrouter
+  - multi-model
+  - cost-optimization
+  - fallback
+  journey_stage: orchestration
+- id: LIB-129
+  question: How do I design an observability stack for AI/ML systems in production?
+  answer: AI observability requires three layers — infrastructure metrics (CPU, memory, latency), model metrics (prediction quality,
+    drift, throughput), and business metrics (user satisfaction, task completion). Choose one primary platform — Datadog for
+    enterprise-scale with broad integrations, Honeycomb for high-cardinality debugging, New Relic for best free tier (100GB/month,
+    all features). Key decision — start with the free tier of your chosen platform and validate it captures what you need before
+    committing budget. For AI-specific observability, add Arize AI or Evidently for model monitoring (drift, data quality, feature
+    importance). Do not build custom dashboards until you have proven the platform captures the signals that predict production
+    incidents.
+  problem_type: Operationalization_and_Scaling
+  related_rius:
+  - RIU-542
+  - RIU-061
+  - RIU-070
+  difficulty: high
+  industries:
+  - All
+  tags:
+  - observability
+  - monitoring
+  - datadog
+  - production
+  journey_stage: orchestration
+  evaluation_signal: If your observability stack cannot answer the question why did this prediction fail within
+    5 minutes of an alert firing, the stack is insufficient. Measure mean-time-to-diagnosis as the primary
+    observability quality metric.
+- id: LIB-130
+  question: How do I detect data drift and model drift in production AI systems?
+  answer: Use a dedicated drift detection platform — Arize AI (managed, production-grade, supports embeddings and tabular data)
+    or Evidently AI (open-source, Python-native, good for experimentation). Monitor three drift types — data drift (input feature
+    distributions shift), prediction drift (model output distribution shifts), and concept drift (the real-world relationship between
+    inputs and outcomes changes). Set statistical thresholds — PSI above 0.2 or KS test p-value below 0.05 triggers investigation,
+    not automatic retraining. Key insight — most drift is seasonal or cyclical, not catastrophic. Build dashboards that show drift
+    trends over time, not just point-in-time alerts. Retrain only when drift correlates with measured quality degradation.
+  problem_type: Operationalization_and_Scaling
+  related_rius:
+  - RIU-543
+  - RIU-524
+  difficulty: high
+  industries:
+  - All
+  tags:
+  - drift-detection
+  - monitoring
+  - arize
+  - evidently
+  journey_stage: specialization
+  evaluation_signal: Drift alerts that do not correlate with measured quality degradation are false alarms. Track
+    the ratio of drift alerts to actual model quality incidents — if below 30 percent correlation, recalibrate
+    thresholds.
+- id: LIB-131
+  question: How do I ensure AI-generated content is brand-safe before publishing?
+  answer: Use AWS Bedrock Guardrails for automated brand safety enforcement — denied topic detection, custom word filters, and
+    content filters across 6 harm categories. Configure guardrails as a mandatory post-processing step on all AI-generated content
+    before it reaches end users. For advanced brand voice compliance, Guardrails AI (open-source) offers composable validators
+    including tone, formality, and custom brand rules. Lakera Guard adds adversarial defense against prompt injection that could
+    bypass brand guidelines. Key pattern — defense in depth. System prompt sets brand voice, guardrails enforce it, and human review
+    gates the highest-visibility content. Automate the 90 percent of content that is clearly safe, human-review the 10 percent that
+    triggers edge-case flags.
+  problem_type: Trust_Governance_and_Adoption
+  related_rius:
+  - RIU-606
+  - RIU-082
+  difficulty: medium
+  industries:
+  - All
+  tags:
+  - brand-safety
+  - content-moderation
+  - guardrails
+  - trust
+  journey_stage: specialization
 gap_additions:
 - id: LIB-076
   question: How do I orchestrate multimodal data pipelines for enterprise AI systems?

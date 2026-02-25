@@ -31,6 +31,24 @@ def _load_yaml_docs(path: str) -> list[dict]:
         return [doc for doc in yaml.safe_load_all(f) if doc is not None]
 
 
+def _normalize_gap_addition(item: dict) -> dict:
+    """Convert a gap_additions entry to standard knowledge entry format."""
+    proposed = item.get("proposed_answer", {})
+    return {
+        "id": item["id"],
+        "question": item.get("question", ""),
+        "answer": proposed.get("primary_action", "") + " " + proposed.get("implementation", ""),
+        "problem_type": item.get("problem_type", ""),
+        "related_rius": proposed.get("related_rius", []),
+        "difficulty": item.get("difficulty", "medium"),
+        "industries": item.get("industries", []),
+        "tags": item.get("tags", []),
+        "journey_stage": item.get("journey_stage", ""),
+        "sources": item.get("sources", []),
+        "_from_gap_additions": True,
+    }
+
+
 def _load_knowledge(root: str) -> dict[str, dict]:
     path = os.path.join(root, "knowledge-library", "v1.4", "palette_knowledge_library_v1.4.yaml")
     docs = _load_yaml_docs(path)
@@ -40,6 +58,10 @@ def _load_knowledge(root: str) -> dict[str, dict]:
             continue
         for item in doc.get("library_questions", []):
             entries[item["id"]] = item
+        # Also load gap_additions (proposed entries with different schema)
+        for item in doc.get("gap_additions", []):
+            if item.get("id") and item["id"] not in entries:
+                entries[item["id"]] = _normalize_gap_addition(item)
     return entries
 
 

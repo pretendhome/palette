@@ -1,0 +1,80 @@
+# Palette Integration Recipe: AWS Bedrock Guardrails
+# Generated: 2026-02-25
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-082 (LLM Safety), RIU-108 (Agent Security), RIU-606 (Brand Safety)
+# Priority: HIGH — safety-critical infrastructure
+
+service_name: "AWS Bedrock Guardrails"
+company: "Amazon Web Services"
+company_url: "https://aws.amazon.com/bedrock/guardrails/"
+api_url: "https://bedrock-runtime.{region}.amazonaws.com"
+api_docs: "https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html"
+
+auth_method:
+  type: "aws_iam"
+  header: "AWS Signature Version 4"
+  key_source: "AWS IAM credentials (role-based access recommended)"
+  note: "No separate API key needed — uses existing AWS credentials"
+
+rate_limits:
+  note: "Standard AWS service limits. Configurable via Service Quotas."
+
+cost_model: usage_based
+cost_per_unit:
+  content_filters: "$0.15 per 1,000 text units"
+  denied_topics: "$0.15 per 1,000 text units"
+  pii_filters: "FREE"
+  word_filters: "FREE"
+  automated_reasoning: "$0.17 per 1,000 text units"
+  note: "80-85% price reduction in Dec 2024. PII + word filters now completely free."
+free_tier:
+  availability: "PII detection and word filters are free. Content filters have standard pricing."
+  limitation: "Automated Reasoning checks cost extra"
+
+capabilities:
+  - "Content filters across 6 harm categories (Hate, Insults, Sexual, Violence, Misconduct, Prompt Attack)"
+  - "Custom denied topic detection with natural language descriptions"
+  - "PII detection and masking — 30+ entity types, FREE"
+  - "Word and phrase filters for custom blocklists, FREE"
+  - "Contextual grounding checks for RAG hallucination detection"
+  - "Automated Reasoning with formal logic verification (unique to AWS)"
+  - "IAM policy-based enforcement — mandatory guardrails on every inference call"
+  - "ApplyGuardrail API for use with any model, not just Bedrock-hosted"
+
+limitations:
+  - "AWS-only — requires Bedrock access"
+  - "Content filter categories are predefined — limited customization of harm taxonomy"
+  - "Automated Reasoning requires structured knowledge bases"
+  - "Adds latency to inference calls (typically 50-200ms)"
+
+example_request:
+  description: "Apply guardrails to text content using ApplyGuardrail API"
+  python: |
+    import boto3
+
+    client = boto3.client("bedrock-runtime", region_name="us-east-1")
+
+    response = client.apply_guardrail(
+        guardrailIdentifier="my-guardrail-id",
+        guardrailVersion="1",
+        source="INPUT",
+        content=[{
+            "text": {"text": user_input}
+        }]
+    )
+
+    if response["action"] == "GUARDRAIL_INTERVENED":
+        # Content was blocked — use the guardrail's response
+        safe_output = response["outputs"][0]["text"]
+    else:
+        # Content passed — proceed with LLM call
+        llm_response = call_llm(user_input)
+
+palette_agent: "Anky (Validator) — guardrail enforcement; Rex (Architect) — guardrail policy design"
+palette_integration_plan:
+  phase_1: "Configure PII + word filters (free) for all agent outputs"
+  phase_2: "Add content filters and denied topics for customer-facing outputs"
+  phase_3: "Evaluate Automated Reasoning for high-stakes accuracy validation"
+
+status: available
+evaluation_verdict: "INTEGRATE — lowest cost after Dec 2024 price reduction. PII and word filters are free. Natural choice if Palette runs Claude via Bedrock. ApplyGuardrail API works with any model."

@@ -1,0 +1,70 @@
+# Palette Integration Recipe: dbt
+# Generated: 2026-02-25
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-019 (Data Pipeline Design)
+# Priority: MEDIUM — analytics engineering foundation
+
+service_name: "dbt"
+company: "dbt Labs"
+company_url: "https://www.getdbt.com"
+api_url: "https://cloud.getdbt.com/api/v2"
+api_docs: "https://docs.getdbt.com/docs/dbt-cloud-apis/overview"
+
+auth_method:
+  type: "api_key"
+  header: "Authorization: Token $DBT_CLOUD_API_TOKEN"
+  key_source: "dbt Cloud → Account Settings → API Access → Service Tokens"
+  note: "dbt Core (CLI) requires no auth — runs locally. Cloud API requires dbt Cloud account."
+
+rate_limits:
+  note: "dbt Cloud API: varies by plan. No rate limits on dbt Core CLI."
+
+cost_model: freemium
+cost_per_unit:
+  core_cli: "Free and open source (Apache 2.0)"
+  cloud_developer: "$100/month per seat — IDE, job scheduling, CI"
+  cloud_team: "$100/month per seat + usage — advanced CI, multi-project"
+  cloud_enterprise: "Custom pricing — SSO, RBAC, audit logs"
+free_tier:
+  availability: "dbt Core CLI is fully free and open source"
+  limitation: "No hosted IDE, no job scheduling, no lineage UI without dbt Cloud"
+
+capabilities:
+  - "SQL-first data transformation with Jinja templating"
+  - "Automated DAG-based dependency resolution"
+  - "Built-in data tests (not_null, unique, accepted_values, relationships)"
+  - "Column-level lineage tracking and documentation"
+  - "Snapshot strategy for slowly changing dimensions"
+  - "Package ecosystem (dbt Hub) for reusable macros"
+  - "dbt Cloud API for triggering runs, fetching artifacts, and CI integration"
+
+limitations:
+  - "SQL-only — no Python transformations in dbt Core (dbt Cloud supports Python models)"
+  - "Cloud API requires paid plan ($100/month minimum)"
+  - "Lineage visualization requires dbt Cloud or third-party tools"
+  - "Learning curve for Jinja macros and advanced patterns"
+
+example_request:
+  description: "Trigger a dbt Cloud job run via API"
+  python: |
+    import requests
+
+    response = requests.post(
+        "https://cloud.getdbt.com/api/v2/accounts/{account_id}/jobs/{job_id}/run/",
+        headers={
+            "Authorization": "Token $DBT_CLOUD_API_TOKEN",
+            "Content-Type": "application/json"
+        },
+        json={"cause": "Triggered by Palette pipeline"}
+    )
+    run = response.json()["data"]
+    print(f"Run {run['id']} status: {run['status_humanized']}")
+
+palette_agent: "Rex (Architect) — data pipeline design and lineage decisions"
+palette_integration_plan:
+  phase_1: "Use dbt Core for local SQL transformations and lineage tracking"
+  phase_2: "Evaluate dbt Cloud for scheduled runs and CI integration"
+  phase_3: "Feed dbt lineage metadata into Palette for data dependency mapping"
+
+status: available
+evaluation_verdict: "INTEGRATE — industry standard for analytics engineering. Free CLI covers core needs. Cloud API adds scheduling and CI when needed."

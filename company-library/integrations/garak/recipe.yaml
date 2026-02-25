@@ -1,0 +1,75 @@
+# Palette Integration Recipe: Garak
+# Generated: 2026-02-25
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-083 (Adversarial Testing)
+# Priority: MEDIUM — LLM security and red-teaming
+
+service_name: "Garak"
+company: "NVIDIA (open source)"
+company_url: "https://github.com/NVIDIA/garak"
+api_url: null
+api_docs: "https://docs.garak.ai"
+
+auth_method:
+  type: "none"
+  note: "Garak is a CLI tool — no hosted API. Requires API keys for the LLM endpoints being tested."
+
+rate_limits:
+  note: "N/A — local CLI tool. Rate limits depend on the target LLM API being probed."
+
+cost_model: free
+cost_per_unit:
+  tool: "Free and open source (Apache 2.0)"
+  llm_costs: "Testing incurs API costs on the target LLM (tokens consumed by probes)"
+  note: "Garak itself is free. Budget for LLM API calls during scanning."
+free_tier:
+  availability: "Fully free and open source"
+  limitation: "No managed service — must run locally or in CI/CD"
+
+capabilities:
+  - "Automated LLM vulnerability scanning with 50+ probe families"
+  - "Tests for: prompt injection, jailbreaks, data leakage, hallucination, toxicity"
+  - "Supports OpenAI, Anthropic, Hugging Face, and custom model endpoints"
+  - "Detector modules score model responses for vulnerability indicators"
+  - "Configurable probe/detector combinations via YAML config"
+  - "HTML and JSON reporting for audit trails"
+  - "Extensible — write custom probes and detectors in Python"
+  - "NVIDIA-backed — active development and research community"
+
+limitations:
+  - "CLI-only — no hosted service or dashboard"
+  - "Scanning consumes significant tokens on target LLM (cost implication)"
+  - "False positive rate varies by probe — manual review recommended"
+  - "No real-time monitoring — point-in-time scanning only"
+  - "Newer tool — probe coverage still expanding"
+
+example_request:
+  description: "Run a vulnerability scan against an LLM endpoint"
+  python: |
+    import subprocess
+
+    # Scan for prompt injection vulnerabilities
+    result = subprocess.run([
+        "python", "-m", "garak",
+        "--model_type", "openai",
+        "--model_name", "gpt-4",
+        "--probes", "promptinject",
+        "--report_prefix", "palette_security_scan"
+    ], capture_output=True, text=True)
+    print(result.stdout)
+
+    # Full scan with all probes
+    # python -m garak --model_type openai --model_name gpt-4
+
+    # Scan with specific detector
+    # python -m garak --model_type openai --model_name gpt-4 \
+    #   --probes encoding --detectors always.Pass
+
+palette_agent: "Anky (Validator) — security validation; Rex (Architect) — guardrail design"
+palette_integration_plan:
+  phase_1: "Run baseline vulnerability scan against Palette's prompt templates"
+  phase_2: "Integrate Garak into CI/CD for regression testing on prompt changes"
+  phase_3: "Custom probes for Palette-specific attack vectors (RIU traversal manipulation, agent hijacking)"
+
+status: available
+evaluation_verdict: "INTEGRATE — essential red-teaming tool for LLM security. Free, NVIDIA-backed, and extensible. Complements Bedrock Guardrails (runtime defense) with pre-deployment vulnerability scanning."

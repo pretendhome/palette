@@ -5,3 +5,5 @@ __pycache__/
 *.backup
 agents/orchestrator/orch
 .DS_Store
+.venv/
+scripts/pis/traversal_health.jsonl
