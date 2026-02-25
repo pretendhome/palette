@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.pyo
+*.zip
+*.backup
+agents/orchestrator/orch
+.DS_Store

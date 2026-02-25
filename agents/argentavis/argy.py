@@ -111,7 +111,7 @@ class BackendRegistry:
 _HERE = os.path.dirname(os.path.abspath(__file__))
 KNOWLEDGE_LIBRARY_PATH = os.path.normpath(os.path.join(
     _HERE, "..", "..", "knowledge-library",
-    "v1.2", "palette_knowledge_library_v1.2.yaml",
+    "v1.4", "palette_knowledge_library_v1.4.yaml",
 ))
 
 
@@ -155,7 +155,7 @@ def check_knowledge_library(task: str) -> Optional[SearchResult]:
     scored.sort(key=lambda x: x[0], reverse=True)
     top = scored[:3]
 
-    result = SearchResult(cache_hit=True, depth_used="knowledge-library:v1.2")
+    result = SearchResult(cache_hit=True, depth_used="knowledge-library:v1.4")
     now    = datetime.datetime.utcnow().isoformat() + "Z"
 
     for _, q in top:

@@ -53,7 +53,7 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 
 KNOWLEDGE_LIBRARY_PATH = os.path.normpath(os.path.join(
     _HERE, "..", "..", "knowledge-library",
-    "v1.2", "palette_knowledge_library_v1.2.yaml",
+    "v1.4", "palette_knowledge_library_v1.4.yaml",
 ))
 HISTORY_PATH = os.path.join(_HERE, "history.jsonl")
 
