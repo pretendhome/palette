@@ -1,0 +1,100 @@
+# Palette Integration Recipe: Tavily
+# Generated: 2026-02-25
+# RIUs served: RIU-201 (Competitive Research), RIU-106 (Comparable Org Research)
+# Context: Evaluated as alternative/complement to Perplexity MCP for agentic search
+
+service_name: "Tavily"
+company: "Tavily"
+company_url: "https://tavily.com"
+api_url: "https://api.tavily.com"
+api_docs: "https://docs.tavily.com"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $TAVILY_API_KEY"
+  key_source: "tavily.com → Dashboard → API Keys"
+
+rate_limits:
+  note: "Credit-based system. 1,000 free credits/month. No documented hard rate limit."
+
+cost_model: freemium
+cost_per_unit:
+  free: "$0.00 (1,000 credits/month, no card required)"
+  pay_as_you_go: "$0.008 per credit"
+  project: "$30/month (4,000 credits, ~$0.0075/credit)"
+  bootstrap: "$100/month (15,000 credits, ~$0.0067/credit)"
+  startup: "$220/month (38,000 credits, ~$0.0058/credit)"
+  growth: "$500/month (100,000 credits, ~$0.005/credit)"
+  credit_costs:
+    basic_search: "1 credit per request"
+    advanced_search: "2 credits per request"
+    basic_extract: "1 credit per 5 URLs"
+    advanced_extract: "2 credits per 5 URLs"
+    research_pro: "15–250 credits per request (dynamic)"
+    research_mini: "4–110 credits per request (dynamic)"
+free_tier:
+  availability: "1,000 credits/month — ~1,000 basic searches or ~500 advanced searches"
+  limitation: "No card required. Sufficient for evaluation and light usage."
+
+capabilities:
+  - "Search API: real-time web search returning structured results (titles, URLs, content snippets, relevance scores)"
+  - "Extract API: pull clean content from specific URLs (HTML → structured text)"
+  - "Crawl API: crawl sites with depth control and custom instructions"
+  - "Map API: sitemap generation and page discovery"
+  - "Research API (GA Jan 2026): multi-step research with structured output schemas and streaming"
+  - "Domain inclusion/exclusion filtering for source control"
+  - "Date range filtering and country-specific search"
+  - "Returns raw structured results — agent decides how to synthesize (vs. Perplexity which pre-synthesizes)"
+  - "SOC 2 certified, zero data retention"
+  - "Native integrations: LangChain, LlamaIndex, Vercel AI SDK"
+
+limitations:
+  - "Returns raw results, not synthesized answers — agent must do its own reasoning (more work, more control)"
+  - "Research endpoint pricing is dynamic and can be expensive (up to 250 credits per request)"
+  - "Newer company, smaller than Perplexity — less battle-tested at scale"
+  - "No MCP integration available (Perplexity has this, Tavily does not)"
+  - "Cannot access paywalled content (same as Perplexity)"
+
+example_request:
+  description: "Search for competitive intelligence on a tool"
+  python: |
+    from tavily import TavilyClient
+
+    client = TavilyClient(api_key="$TAVILY_API_KEY")
+
+    # Basic search — 1 credit
+    results = client.search(
+        query="Braintrust LLM evaluation competitors funding pricing 2026",
+        search_depth="advanced",         # 2 credits for deeper results
+        max_results=10,
+        include_domains=["crunchbase.com", "techcrunch.com", "github.com"],
+    )
+
+    for result in results["results"]:
+        print(f"{result['title']}")
+        print(f"  {result['url']}")
+        print(f"  Score: {result['score']:.2f}")
+        print(f"  {result['content'][:200]}")
+        print()
+
+palette_agent: "Argy (Researcher) — alternative search primitive to Perplexity MCP"
+palette_integration_plan:
+  phase_1: "Evaluate free tier (1,000 credits/month) for Argy's research workflow"
+  phase_2: "Compare result quality vs. Perplexity on 10 standardized research queries"
+  phase_3: "If superior for structured data extraction, use Tavily for enrichment pipeline + Perplexity for synthesis"
+
+comparison_to_current:
+  perplexity_advantage:
+    - "Already integrated via MCP — zero additional work"
+    - "Pre-synthesized answers save agent reasoning tokens"
+    - "Better for end-user-facing research summaries"
+  tavily_advantage:
+    - "Raw structured results give Argy more control over reasoning"
+    - "Cheaper at scale ($0.005–0.008/search vs. Perplexity's per-token model)"
+    - "Extract + Crawl APIs useful for enrichment pipeline (Phase 3)"
+    - "Free tier (1,000/month) is more generous than Perplexity's API access"
+    - "SOC 2 + zero data retention for sensitive queries"
+  verdict: "Not a replacement for Perplexity MCP — a complement. Perplexity synthesizes (good for Argy's current workflow). Tavily returns raw data (good for batch enrichment and structured extraction). Evaluate when enrichment pipeline begins."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — strong agentic search API with generous free tier. Not urgent because Perplexity MCP already works for Argy. Becomes relevant when enrichment pipeline (Phase 3) needs structured extraction at scale. Compare on 10 queries before committing."
