@@ -1,8 +1,14 @@
 lens_id: LENS-DEV-001
-version: 0.1
+version: 0.2
 status: pilot
 name: Developer Delivery Lens
 optional: true
+origin:
+  type: hybrid
+  palette_basis: "Palette lenses v0"
+  external_inspiration:
+    - "OpenAI Academy Prompt Packs (role-based developer workflows)"
+  notes: "Refined for code-level execution, acceptance checks, and fast iteration loops."
 
 critical_question:
   as_palette: "How will this lens best help me, and what would it actually help me do?"
@@ -18,6 +24,11 @@ when_to_use:
   not_for:
     - executive narrative framing
     - non-technical stakeholder communication
+  user_intents:
+    - "Write or change code safely"
+    - "Refactor with tests"
+    - "Fix a bug and prove it is fixed"
+    - "Prepare a mergeable implementation handoff"
 
 palette_fit:
   primary_rius:
@@ -47,6 +58,7 @@ output_contract:
     - Test plan (unit/integration/e2e as applicable)
     - Risk and rollback notes
     - Handoff notes for debugging/monitoring
+    - Local verification commands (where applicable)
   forbidden_patterns:
     - vague implementation steps
     - no test strategy
@@ -59,6 +71,26 @@ quality_checks:
   - "At least one explicit validation command/check is present."
   - "Risky tasks include rollback or containment strategy."
   - "Debug context is preserved for downstream Raptor/Para use."
+  - "Verification steps are concrete and runnable where possible."
+  - "Code tasks do not hide architecture changes without calling them out."
+
+interaction_style:
+  default_answer_shape:
+    - implementation_scope
+    - ordered_code_tasks
+    - acceptance_checks_and_tests
+    - risk_and_debug_handoff
+  presentation_rules:
+    - "Prefer short task lists with explicit done conditions."
+    - "Name files/commands/checks whenever possible."
+    - "Separate implementation steps from optional cleanup."
+
+prompt_pack_alignment:
+  closest_role_pack: "ChatGPT for engineers"
+  role_pack_translation:
+    - "Bias toward executable outputs and verification loops."
+    - "Keep debugging context and rollback notes in every risky change."
+    - "Turn generic coding requests into merge-ready task plans."
 
 evaluation_plan:
   compare_against_no_lens:

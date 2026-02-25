@@ -1,8 +1,14 @@
 lens_id: LENS-ENG-001
-version: 0.1
+version: 0.2
 status: pilot
 name: Engineering Execution Lens
 optional: true
+origin:
+  type: hybrid
+  palette_basis: "Palette lenses v0"
+  external_inspiration:
+    - "OpenAI Academy Prompt Packs (role-based task framing for engineering users)"
+  notes: "Refined for systems-level execution planning, operational risk containment, and handoff readiness."
 
 critical_question:
   as_palette: "How will this lens best help me, and what would it actually help me do?"
@@ -18,6 +24,11 @@ when_to_use:
   not_for:
     - executive narrative crafting
     - non-technical stakeholder positioning
+  user_intents:
+    - "How should we sequence implementation safely?"
+    - "What are the dependencies and rollout risks?"
+    - "What needs to be true before release?"
+    - "How do we contain or recover if this fails?"
 
 palette_fit:
   primary_rius:
@@ -47,6 +58,7 @@ output_contract:
     - Test/validation plan
     - Rollback or recovery path
     - Operational checks
+    - Decision gates / stop points
   forbidden_patterns:
     - architecture drift during build
     - untestable acceptance criteria
@@ -57,6 +69,26 @@ quality_checks:
   - "Dependencies are explicit and ordered."
   - "Validation checks are executable, not narrative."
   - "Risky steps include rollback or containment."
+  - "Release/readiness gates are explicit for risky changes."
+  - "Assumptions and unknowns are surfaced before execution starts."
+
+interaction_style:
+  default_answer_shape:
+    - scope_boundary
+    - ordered_slices
+    - dependencies_and_gates
+    - validation_and_rollback
+  presentation_rules:
+    - "Prefer ordered execution plans over prose."
+    - "State blockers and gate conditions before optimistic timelines."
+    - "Tie operational checks to deployment or incident risk."
+
+prompt_pack_alignment:
+  closest_role_pack: "ChatGPT for engineers"
+  role_pack_translation:
+    - "Convert architecture intent into executable slices."
+    - "Make validation and rollback part of the output by default."
+    - "Prefer operational readiness and containment over feature completeness."
 
 evaluation_plan:
   compare_against_no_lens:
@@ -68,4 +100,3 @@ evaluation_plan:
   kill_if:
     - "No measurable gain in implementation quality metrics."
     - "Adds planning complexity without reducing downstream defects."
-

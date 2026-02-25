@@ -1,0 +1,85 @@
+# Template: Convert "ChatGPT for <Role>" prompt-pack content into a Palette lens
+# Copy to releases/<version>/LENS-<ROLE>-<NNN>_<slug>.yaml and fill all TODOs.
+
+lens_id: LENS-ROLE-001
+version: 0.1
+status: draft
+name: "<Role> Lens"
+optional: true
+
+origin:
+  type: hybrid
+  palette_basis: "Palette lenses framework"
+  external_inspiration:
+    - "OpenAI Academy Prompt Packs (role-based 'ChatGPT for ...')"
+  source_pack: "ChatGPT for <role>"
+  notes: "Translate role-pack workflow guidance into Palette output framing without overriding RIU routing."
+
+critical_question:
+  as_palette: "How will this lens best help me, and what would it actually help me do?"
+  answer: "TODO: one-sentence role-specific value statement"
+
+when_to_use:
+  signals:
+    - TODO_role_signal_1
+    - TODO_role_signal_2
+  not_for:
+    - TODO_not_for_1
+    - TODO_not_for_2
+  user_intents:
+    - "TODO: common question phrasing 1"
+    - "TODO: common question phrasing 2"
+
+palette_fit:
+  primary_rius:
+    - RIU-001
+  supporting_rius:
+    - RIU-014
+  primary_agents:
+    - TODO_primary_agent
+  supporting_agents:
+    - TODO_supporting_agent
+  library_links:
+    - "TODO: which knowledge categories should be preferred"
+  company_matrix_use:
+    - "Use company examples as evidence and constraints, not as copy-paste strategy."
+
+output_contract:
+  required_sections:
+    - TODO_section_1
+    - TODO_section_2
+    - TODO_section_3
+  forbidden_patterns:
+    - unsupported certainty
+    - ownerless recommendations
+
+quality_checks:
+  - "Output is role-appropriate and action-oriented."
+  - "At least one measurable success check is present where relevant."
+  - "Assumptions are labeled when evidence is incomplete."
+
+interaction_style:
+  default_answer_shape:
+    - TODO_shape_1
+    - TODO_shape_2
+    - TODO_shape_3
+  presentation_rules:
+    - "Lead with the answer or recommendation."
+    - "Prefer concise, role-native formatting."
+
+prompt_pack_alignment:
+  closest_role_pack: "ChatGPT for <role>"
+  role_pack_translation:
+    - "TODO: how role-pack behaviors map into Palette lens framing"
+    - "TODO: what to preserve"
+    - "TODO: what to avoid"
+
+evaluation_plan:
+  compare_against_no_lens:
+    - TODO_metric_1
+    - TODO_metric_2
+  minimum_sample_size: 20
+  kill_if:
+    - "No measurable improvement on target metrics."
+    - "Adds process overhead without quality gain."
+

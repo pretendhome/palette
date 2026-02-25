@@ -1,0 +1,115 @@
+lens_id: LENS-HR-001
+version: 0.1
+status: pilot
+name: HR / People Operations Lens
+optional: true
+
+origin:
+  type: hybrid
+  palette_basis: "Palette lenses framework"
+  external_inspiration:
+    - "OpenAI Academy Prompt Packs (ChatGPT for HR)"
+  source_pack: "ChatGPT for HR"
+  notes: "Designed for HR and people-ops workflows: policy drafting support, process clarity, manager guidance, communications, and operational consistency."
+
+critical_question:
+  as_palette: "How will this lens best help me, and what would it actually help me do?"
+  answer: "It helps Palette generate people-ops-ready process and communication outputs with clear policy boundaries, stakeholder owners, review steps, and implementation sequencing."
+
+when_to_use:
+  signals:
+    - policy draft support
+    - people process design
+    - manager guidance
+    - internal communication planning
+    - onboarding/offboarding workflow
+    - training / enablement operations
+    - employee support process
+  not_for:
+    - legal advice
+    - employment law interpretation
+    - unsupported employee performance judgments
+    - confidential case decisions without authorized context
+  user_intents:
+    - "How should we structure this people process?"
+    - "Can you draft a clear HR communication for this change?"
+    - "What should managers do in this situation?"
+    - "What are the steps and owners for onboarding/offboarding?"
+
+palette_fit:
+  primary_rius:
+    - RIU-001
+    - RIU-002
+    - RIU-006
+    - RIU-007
+    - RIU-014
+    - RIU-062
+  supporting_rius:
+    - RIU-009
+    - RIU-073
+  primary_agents:
+    - yutyrannus
+    - rex
+    - ankylosaurus
+  supporting_agents:
+    - parasaurolophus
+    - argentavis
+    - therizinosaurus
+  library_links:
+    - "Prefer LIB entries on governance, adoption, risk framing, process design, and communication clarity."
+  company_matrix_use:
+    - "Use examples to benchmark process patterns and rollout risk, not to infer legal or policy authority."
+
+output_contract:
+  required_sections:
+    - Objective / policy or process goal
+    - Scope and audience
+    - Proposed process or communication draft
+    - Roles / responsibilities (owners)
+    - Review and approval checkpoints
+    - Risks / sensitivities
+    - Implementation steps and timeline
+    - Assumptions / legal-review-needed flags
+  forbidden_patterns:
+    - legal advice phrased as definitive
+    - missing review/approval checkpoints for policy changes
+    - unsupported assumptions about employee intent or behavior
+    - communications without audience/scope clarity
+
+quality_checks:
+  - "Audience and scope are explicit."
+  - "Owners and approval checkpoints are present for process/policy outputs."
+  - "Legal-review-needed is flagged when appropriate."
+  - "Risk/sensitivity section exists for people-impacting changes."
+  - "Outputs are clear and operational, not vague HR-speak."
+
+interaction_style:
+  default_answer_shape:
+    - goal_scope_and_audience
+    - proposed_process_or_message
+    - owners_reviews_and_risks
+    - rollout_steps_and_assumptions
+  presentation_rules:
+    - "Lead with objective, audience, and scope."
+    - "Use plain language suitable for policy/process communication."
+    - "Keep legal boundaries explicit and visible."
+
+prompt_pack_alignment:
+  closest_role_pack: "ChatGPT for HR"
+  role_pack_translation:
+    - "Translate role-pack prompts into process-safe people-ops artifacts."
+    - "Bias outputs toward clarity, approvals, and operational consistency."
+    - "Enforce policy/legal boundary labeling."
+
+evaluation_plan:
+  compare_against_no_lens:
+    - process_artifact_acceptance_rate
+    - revision_round_count
+    - policy_communication_clarity_score
+    - manager_follow_through_rate
+  minimum_sample_size: 20
+  kill_if:
+    - "No measurable improvement on at least 2 of 4 metrics."
+    - "Outputs create policy confusion or require major rewrites."
+    - "Increases confident-but-unsupported guidance in sensitive contexts."
+

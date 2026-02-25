@@ -1,0 +1,114 @@
+lens_id: LENS-FIN-001
+version: 0.1
+status: pilot
+name: Finance Analysis Lens
+optional: true
+
+origin:
+  type: hybrid
+  palette_basis: "Palette lenses framework"
+  external_inspiration:
+    - "OpenAI Academy Prompt Packs (ChatGPT for finance)"
+  source_pack: "ChatGPT for finance"
+  notes: "Designed for finance-facing analysis, scenario planning, assumptions discipline, and decision-ready summaries without overstating certainty."
+
+critical_question:
+  as_palette: "How will this lens best help me, and what would it actually help me do?"
+  answer: "It helps Palette produce finance-ready outputs: assumption-aware analysis, scenario comparisons, variance framing, and decision support with explicit confidence and risk labels."
+
+when_to_use:
+  signals:
+    - budgeting
+    - forecast review
+    - variance analysis
+    - scenario planning
+    - investment tradeoff
+    - cost optimization
+    - financial risk framing
+  not_for:
+    - accounting or tax advice
+    - audited financial statements
+    - unsupported financial commitments
+    - legal/regulatory interpretation
+  user_intents:
+    - "What does this mean financially?"
+    - "What are the scenarios and tradeoffs?"
+    - "Where is the variance coming from?"
+    - "What assumptions drive this forecast?"
+
+palette_fit:
+  primary_rius:
+    - RIU-001
+    - RIU-006
+    - RIU-009
+    - RIU-014
+    - RIU-062
+    - RIU-073
+  supporting_rius:
+    - RIU-039
+  primary_agents:
+    - rex
+    - ankylosaurus
+    - yutyrannus
+  supporting_agents:
+    - argentavis
+    - parasaurolophus
+    - therizinosaurus
+  library_links:
+    - "Prefer LIB entries on metrics, evaluation discipline, risk framing, and operationalization."
+  company_matrix_use:
+    - "Use company comparables for ranges and benchmarks; never present them as direct equivalents without assumptions."
+
+output_contract:
+  required_sections:
+    - Objective / decision context
+    - Baseline and assumptions
+    - Scenario options (base/upside/downside or equivalent)
+    - Variance drivers / sensitivity factors
+    - Recommendation or decision framing
+    - Risks and confidence level
+    - Metrics to monitor
+    - Open questions / data gaps
+  forbidden_patterns:
+    - unsupported precision
+    - hidden assumptions
+    - financial claims without ranges where uncertainty is high
+    - recommendation without decision context
+
+quality_checks:
+  - "Assumptions are explicit and separate from facts."
+  - "At least two scenarios or options are compared for non-trivial decisions."
+  - "Confidence/risk is labeled when inputs are incomplete."
+  - "Metrics to monitor are tied to the recommendation."
+  - "Data gaps are surfaced instead of silently ignored."
+
+interaction_style:
+  default_answer_shape:
+    - decision_context_and_baseline
+    - assumptions_and_scenarios
+    - variance_risks_and_recommendation
+    - monitoring_and_data_gaps
+  presentation_rules:
+    - "Lead with decision context and key financial takeaway."
+    - "Use ranges and sensitivity framing for uncertain inputs."
+    - "Keep calculations interpretable and assumption-linked."
+
+prompt_pack_alignment:
+  closest_role_pack: "ChatGPT for finance"
+  role_pack_translation:
+    - "Translate role-pack prompts into assumption-disciplined finance analyses."
+    - "Bias outputs toward scenario comparison and decision support."
+    - "Preserve uncertainty labeling and monitoring guidance."
+
+evaluation_plan:
+  compare_against_no_lens:
+    - assumption_labeling_rate
+    - decision_readout_acceptance_rate
+    - rework_due_to_missing_context
+    - forecast_discussion_clarity_score
+  minimum_sample_size: 20
+  kill_if:
+    - "No measurable improvement on at least 2 of 4 metrics."
+    - "Outputs create false confidence or unsupported precision."
+    - "Increases analysis time without clearer decisions."
+

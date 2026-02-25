@@ -1,8 +1,14 @@
 lens_id: LENS-PM-001
-version: 0.1
+version: 0.2
 status: pilot
 name: Product Decision Lens
 optional: true
+origin:
+  type: hybrid
+  palette_basis: "Palette lenses v0"
+  external_inspiration:
+    - "OpenAI Academy Prompt Packs (role-based 'ChatGPT for ...' framing)"
+  notes: "Refined to better mirror role-pack behavior: decision framing, prioritization clarity, and stakeholder-ready outputs."
 
 critical_question:
   as_palette: "How will this lens best help me, and what would it actually help me do?"
@@ -18,6 +24,11 @@ when_to_use:
   not_for:
     - deep debugging root-cause analysis
     - low-level implementation tasks
+  user_intents:
+    - "What should we do next?"
+    - "Which option should we pick?"
+    - "Is this worth building now?"
+    - "What do I need to decide before launch?"
 
 palette_fit:
   primary_rius:
@@ -48,6 +59,7 @@ output_contract:
     - Risks and mitigations
     - Owner and due date
     - Success metric
+    - Open questions / assumptions
   forbidden_patterns:
     - unsupported certainty
     - ownerless recommendations
@@ -58,6 +70,26 @@ quality_checks:
   - "At least one measurable success metric is present."
   - "Reversibility is labeled."
   - "Top risk has mitigation and owner."
+  - "Assumptions are labeled when evidence is incomplete."
+  - "Options are compared before recommending if more than one credible path exists."
+
+interaction_style:
+  default_answer_shape:
+    - decision_first
+    - evidence_and_tradeoffs
+    - owner_deadline_metric
+    - assumptions_and_open_questions
+  presentation_rules:
+    - "Lead with the recommendation in the first 1-2 lines."
+    - "Use bullets for option comparison when multiple paths exist."
+    - "Avoid background-heavy summaries when a decision is requested."
+
+prompt_pack_alignment:
+  closest_role_pack: "ChatGPT for product"
+  role_pack_translation:
+    - "Turn broad prompts into decision-ready outputs with explicit tradeoffs."
+    - "Bias toward prioritization and launch readiness artifacts, not general summaries."
+    - "Make decisions auditable (owner, date, metric, reversibility)."
 
 evaluation_plan:
   compare_against_no_lens:
@@ -69,4 +101,3 @@ evaluation_plan:
   kill_if:
     - "No improvement on at least 2 of 4 metrics."
     - "Process overhead increases >20% with no quality gain."
-

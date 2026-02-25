@@ -1,0 +1,114 @@
+lens_id: LENS-CS-001
+version: 0.1
+status: pilot
+name: Customer Success Lens
+optional: true
+
+origin:
+  type: hybrid
+  palette_basis: "Palette lenses framework"
+  external_inspiration:
+    - "OpenAI Academy Prompt Packs (ChatGPT for customer success)"
+  source_pack: "ChatGPT for customer success"
+  notes: "Designed to convert customer-facing ambiguity into success plans, adoption actions, and renewal-risk-aware execution."
+
+critical_question:
+  as_palette: "How will this lens best help me, and what would it actually help me do?"
+  answer: "It helps Palette produce customer-success-ready outputs: success plans, adoption blockers, next-step actions, risk signals, and stakeholder follow-up paths. It reduces generic advice and improves customer progress tracking."
+
+when_to_use:
+  signals:
+    - customer onboarding
+    - adoption blocker
+    - success plan
+    - renewal risk
+    - expansion readiness
+    - health review
+    - executive business review
+  not_for:
+    - contract/legal interpretation
+    - deep technical implementation debugging
+    - unsupported commercial commitments
+  user_intents:
+    - "How do we help this customer adopt faster?"
+    - "What is blocking this account?"
+    - "What should our success plan look like?"
+    - "Is this account at risk, and what should we do next?"
+
+palette_fit:
+  primary_rius:
+    - RIU-001
+    - RIU-002
+    - RIU-006
+    - RIU-009
+    - RIU-039
+    - RIU-062
+  supporting_rius:
+    - RIU-014
+    - RIU-073
+  primary_agents:
+    - yutyrannus
+    - rex
+    - ankylosaurus
+  supporting_agents:
+    - parasaurolophus
+    - argentavis
+    - therizinosaurus
+  library_links:
+    - "Prefer LIB entries related to adoption, metrics, trust/governance, risk framing, and operational rollout."
+  company_matrix_use:
+    - "Use company examples to calibrate realistic adoption patterns and rollout risks, not as direct customer promises."
+
+output_contract:
+  required_sections:
+    - Customer objective and success outcome
+    - Current state / adoption stage
+    - Top blockers (ordered)
+    - Recommended next actions (owner + due date)
+    - Success plan milestones / checkpoints
+    - Risk signals (renewal/adoption/exec alignment)
+    - Evidence / signals used
+    - Open questions / assumptions
+  forbidden_patterns:
+    - generic encouragement without action
+    - no owner for customer-facing follow-up
+    - hidden assumptions about customer capacity or buy-in
+    - unsupported commercial or technical promises
+
+quality_checks:
+  - "At least one concrete next action includes an owner and due date."
+  - "Top blockers are explicit and ordered by impact."
+  - "Customer success metrics or signals are named (not just activity)."
+  - "Renewal/health risk is either assessed or explicitly marked unknown."
+  - "Assumptions about customer maturity, data, or stakeholder alignment are labeled."
+
+interaction_style:
+  default_answer_shape:
+    - customer_goal_and_current_state
+    - blockers_and_next_actions
+    - milestone_plan_and_risks
+    - evidence_and_assumptions
+  presentation_rules:
+    - "Lead with customer outcome and blocker summary."
+    - "Prefer action plans and milestones over generic recommendations."
+    - "Make customer-risk language specific and evidence-based."
+
+prompt_pack_alignment:
+  closest_role_pack: "ChatGPT for customer success"
+  role_pack_translation:
+    - "Translate role-pack productivity prompts into customer outcome and adoption plans."
+    - "Bias outputs toward blockers, milestones, and health signals."
+    - "Keep recommendations concrete, accountable, and risk-aware."
+
+evaluation_plan:
+  compare_against_no_lens:
+    - success_plan_acceptance_rate
+    - time_to_next_customer_action
+    - blocker_resolution_rate
+    - renewal_risk_detection_lead_time
+  minimum_sample_size: 20
+  kill_if:
+    - "No measurable improvement on at least 2 of 4 metrics."
+    - "Outputs are not used in customer follow-up workflows."
+    - "Increases confident-but-unsupported customer promises."
+

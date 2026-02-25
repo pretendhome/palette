@@ -1,0 +1,234 @@
+fixture_pack_id: LENS-EVAL-FIXTURES-v0
+version: 0.1
+status: pilot
+created_at: "2026-02-25"
+purpose: "Shared prompt fixtures for evaluating lens quality vs no-lens baseline"
+
+scoring_dimensions:
+  - role_fit
+  - actionability
+  - specificity
+  - evidence_discipline
+  - structural_quality
+  - rework_risk
+
+fixtures:
+  - id: FIX-001
+    title: Product launch go/no-go with missing validation data
+    prompt: |
+      We planned to launch this feature next week, but QA only covered happy paths and customer success is worried about onboarding confusion. What should we do?
+    intended_lenses:
+      primary: [LENS-PM-001]
+      comparison: [LENS-EXEC-001, LENS-MGR-001]
+    expected_output_shape:
+      - decision
+      - risks and mitigations
+      - owner and due date
+      - success metric
+    failure_patterns:
+      - no_explicit_decision
+      - no_reversibility_label
+      - unsupported_certainty
+
+  - id: FIX-002
+    title: Executive investment tradeoff across three initiatives
+    prompt: |
+      We can fund only one of these this quarter: customer AI assistant, internal analytics cleanup, or sales enablement automation. Give me a recommendation and tradeoffs.
+    intended_lenses:
+      primary: [LENS-EXEC-001]
+      comparison: [LENS-PM-001, LENS-FIN-001]
+    expected_output_shape:
+      - executive_summary
+      - options_and_tradeoffs
+      - recommendation
+      - risks_and_asks
+    failure_patterns:
+      - no_options_compared
+      - hidden_assumptions
+      - over_tactical_detail
+
+  - id: FIX-003
+    title: Engineering rollout sequencing with rollback requirements
+    prompt: |
+      We need to integrate a new provider into the production workflow this sprint. There are dependencies across API auth, monitoring, and fallback behavior. Plan the work safely.
+    intended_lenses:
+      primary: [LENS-ENG-001]
+      comparison: [LENS-DEV-001, LENS-IT-001]
+    expected_output_shape:
+      - scope_boundary
+      - ordered_task_slices
+      - dependencies
+      - validation_and_rollback
+    failure_patterns:
+      - no_rollback
+      - untestable_slices
+      - architecture_drift
+
+  - id: FIX-004
+    title: Developer bug fix with verification expectations
+    prompt: |
+      The JSON parser fails on multi-document YAML in our service routing file. I need a fix plan and how to verify it before merge.
+    intended_lenses:
+      primary: [LENS-DEV-001]
+      comparison: [LENS-ENG-001, LENS-IT-001]
+    expected_output_shape:
+      - implementation_scope
+      - ordered_code_tasks
+      - acceptance_checks
+      - local_verification_commands
+    failure_patterns:
+      - no_test_strategy
+      - vague_fix_steps
+      - no_verification
+
+  - id: FIX-005
+    title: Manager delegation and follow-up plan for cross-functional deadline risk
+    prompt: |
+      We have a deadline in two weeks and the team is blocked across design, engineering, and legal review. I need a manager plan for the next 10 days.
+    intended_lenses:
+      primary: [LENS-MGR-001]
+      comparison: [LENS-PM-001, LENS-EXEC-001]
+    expected_output_shape:
+      - priorities
+      - delegation_plan
+      - checkpoints
+      - escalation_triggers
+    failure_patterns:
+      - ownerless_tasks
+      - no_followup_cadence
+      - no_escalation
+
+  - id: FIX-006
+    title: Customer success account adoption blocker
+    prompt: |
+      The customer bought the product but usage is flat after onboarding. The champion is engaged, but the manager hasn't reinforced adoption. What should our CS team do next?
+    intended_lenses:
+      primary: [LENS-CS-001]
+      comparison: [LENS-MGR-001, LENS-SALES-001]
+    expected_output_shape:
+      - current_state
+      - blockers
+      - next_actions_owner_due
+      - milestones
+      - risk_signals
+    failure_patterns:
+      - generic_cs_advice
+      - no_health_signal
+      - no_owner_for_followup
+
+  - id: FIX-007
+    title: Sales deal motion with qualification gaps
+    prompt: |
+      The prospect likes the demo, but we still don't know budget, timeline, or who signs. They asked for a proposal anyway. How should we handle the next step?
+    intended_lenses:
+      primary: [LENS-SALES-001]
+      comparison: [LENS-CS-001, LENS-EXEC-001]
+    expected_output_shape:
+      - deal_hypothesis
+      - qualification_gaps
+      - stakeholder_map
+      - next_step_plan
+      - risk_response
+    failure_patterns:
+      - generic_pitch_language
+      - no_qualification_gaps
+      - no_desired_outcome_for_next_step
+
+  - id: FIX-008
+    title: IT incident triage with user impact
+    prompt: |
+      Users are reporting intermittent failures after a config change. We don't know root cause yet. We need a response plan now.
+    intended_lenses:
+      primary: [LENS-IT-001]
+      comparison: [LENS-ENG-001, LENS-MGR-001]
+    expected_output_shape:
+      - severity
+      - hypotheses_and_checks
+      - containment
+      - communication_plan
+      - recovery_validation
+    failure_patterns:
+      - unsupported_root_cause
+      - no_containment
+      - no_communication_owner
+
+  - id: FIX-009
+    title: HR process change communication and approvals
+    prompt: |
+      We are changing the onboarding process for new hires next month and need a clear internal communication plus review checkpoints. Draft the plan.
+    intended_lenses:
+      primary: [LENS-HR-001]
+      comparison: [LENS-MGR-001, LENS-EXEC-001]
+    expected_output_shape:
+      - objective_scope_audience
+      - process_or_comms_draft
+      - owners_and_approvals
+      - risks_and_rollout_steps
+      - legal_review_flags
+    failure_patterns:
+      - no_audience_scope
+      - no_approval_checkpoints
+      - legal_sounding_certainty
+
+  - id: FIX-010
+    title: Finance scenario planning under uncertainty
+    prompt: |
+      We need to decide whether to fund a new initiative now, but demand assumptions are weak and cost estimates may move. Give me a finance-ready recommendation.
+    intended_lenses:
+      primary: [LENS-FIN-001]
+      comparison: [LENS-EXEC-001, LENS-PM-001]
+    expected_output_shape:
+      - baseline_and_assumptions
+      - scenarios
+      - variance_drivers
+      - recommendation
+      - confidence_and_metrics
+    failure_patterns:
+      - unsupported_precision
+      - hidden_assumptions
+      - no_scenarios
+
+  - id: FIX-011
+    title: Marketing campaign test plan with measurement
+    prompt: |
+      We want to launch a campaign next month to increase qualified inbound leads. Propose a marketing plan with experiments and how we’ll measure success.
+    intended_lenses:
+      primary: [LENS-MKT-001]
+      comparison: [LENS-PM-001, LENS-SALES-001]
+    expected_output_shape:
+      - objective_and_audience
+      - message_hypothesis
+      - channel_and_variants
+      - execution_timeline
+      - measurement_plan
+    failure_patterns:
+      - no_testable_hypothesis
+      - no_metrics
+      - generic_brainstorm_list
+
+  - id: FIX-012
+    title: Cross-role ambiguity test — same problem, manager vs executive framing
+    prompt: |
+      The project is slipping and teams disagree on priorities. Give me a plan for what to do next.
+    intended_lenses:
+      primary: [LENS-MGR-001, LENS-EXEC-001]
+      comparison: [LENS-PM-001]
+    expected_output_shape:
+      - clearly different framing by role lens
+    failure_patterns:
+      - lenses_produce_nearly_identical_outputs
+      - no_role_specific_action_structure
+
+  - id: FIX-013
+    title: Cross-role ambiguity test — engineering vs IT ops incident follow-through
+    prompt: |
+      We had an outage due to a change rollout. We need to prevent recurrence and communicate next steps.
+    intended_lenses:
+      primary: [LENS-ENG-001, LENS-IT-001]
+      comparison: [LENS-MGR-001]
+    expected_output_shape:
+      - clearly different execution vs ops communication framing
+    failure_patterns:
+      - no_divergence_between_lenses
+      - missing_recovery_or_prevention_actions
+
