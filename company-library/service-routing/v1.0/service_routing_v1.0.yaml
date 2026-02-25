@@ -1,0 +1,1579 @@
+# Palette Service Routing Index v1.0
+# Generated: 2026-02-24
+# Status: SEED — cost data unvalidated; quality rankings based on practitioner signals only
+# Purpose: For each RIU, which external service should Palette route to?
+#
+# This is the bridge between Palette's RIU taxonomy (WHAT problem) and
+# external services (HOW to solve it without building from scratch).
+#
+# Schema per service entry:
+#   quality_tier: tier_1 (best available) | tier_2 | tier_3
+#   cost_model: free | freemium | usage_based | subscription | enterprise
+#   cost_estimate: rough cost per unit (requires Perplexity validation)
+#   integration_status: integrated | available | recipe_needed | evaluate | no_api
+#   palette_integration_status: how Palette currently uses this
+#   signal_source: people_library | benchmark | market_data | internal
+#   build_vs_buy: adopt_pattern | integrate | defer
+#     adopt_pattern = Palette agents can replicate this without the service
+#     integrate = use the external service directly
+#     defer = not worth integrating yet
+
+metadata:
+  version: "1.0"
+  generated_date: "2026-02-24"
+  phase_2_date: "2026-02-24"
+  taxonomy_ref: "../../../../taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml"
+  signal_source_ref: "../people-library/v1.1/people_library_company_signals_v1.1.yaml"
+  total_rius_covered: 40
+  both_rius_covered: "37/37 (all 'both' classified RIUs have entries)"
+  additional_rius: 3
+  additional_rius_note: "RIU-500, RIU-200, RIU-320 are routed but classified differently in riu_classification_v1.0.yaml"
+  existing_full_entries: 8
+  phase_2_full_entries: 12
+  phase_2_stub_entries: 20
+  total_services_indexed: 55
+  note: "Phase 2 complete: all 37 'both' RIUs now have routing entries. 20 with full cost-validated data, 17 stubs pending enrichment."
+
+---
+
+routing_entries:
+
+  # ═══════════════════════════════════════════════════════════
+  # RIU-252: Model Evaluation & Selection
+  # Problem: Need to choose the right LLM for a given task
+  # ═══════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-252"
+    riu_name: "Model Evaluation & Selection"
+    routing_intent: "Choose the right LLM for a task based on quality, cost, and capability fit"
+    palette_current_approach: "Default to Claude Sonnet 4.6 for most tasks; escalate to Claude Opus 4.6 for complex reasoning"
+    signal_strength: high
+
+    services:
+
+      - name: "Claude (Anthropic)"
+        company_url: "https://claude.ai"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "Sonnet: ~$0.003/1K tokens; Opus: ~$0.015/1K tokens (unvalidated)"
+        integration_status: integrated
+        palette_integration_status: "PRIMARY — Palette's default LLM for all agents"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Writing and instruction-following"
+          - "Long-form reasoning and synthesis"
+          - "Competitive intelligence with extended thinking (Anisha use case)"
+          - "Sounds human, not AI-generated"
+        build_vs_buy: integrate
+        notes: "Palette-native. Multi-practitioner endorsement. Grant Lee validates for data analysis at a $2B company."
+
+      - name: "OpenAI (GPT-4/o series)"
+        company_url: "https://openai.com"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "GPT-4o: ~$0.005/1K tokens (unvalidated)"
+        integration_status: available
+        palette_integration_status: "Available via API; not currently default"
+        signal_source: market_data
+        signal_strength: low
+        best_for:
+          - "Largest consumer mindshare (ChatGPT #1 by usage per a16z)"
+          - "Broad capability baseline"
+          - "Function calling and tool use"
+        build_vs_buy: defer
+        notes: "Not recommended by any tracked practitioner for specific tasks. Monitor. Use if Claude unavailable."
+
+      - name: "Gemini (Google DeepMind)"
+        company_url: "https://gemini.google.com"
+        quality_tier: tier_2
+        cost_model: freemium
+        cost_estimate: "Gemini Flash: free tier available; Pro: ~$0.00075/1K tokens (unvalidated)"
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for specific multimodal tasks"
+        signal_source: people_library
+        signal_strength: medium
+        best_for:
+          - "YouTube video ingestion and processing"
+          - "Music generation"
+          - "Google Workspace integration"
+          - "Very long context (1M+ tokens)"
+        build_vs_buy: evaluate
+        notes: "Anisha and Axelle use for YouTube-to-content pipelines. Gemini's multimodal strength is a specific niche where Claude is weaker."
+
+      - name: "OpenRouter"
+        company_url: "https://openrouter.ai"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "5% markup on model costs + model base rate"
+        integration_status: available
+        palette_integration_status: "Research priority: evaluate as LLM routing layer"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "500+ models through single API"
+          - ":nitro routing (fastest throughput)"
+          - ":floor routing (cheapest available)"
+          - "Automatic fallback when primary model unavailable"
+          - "A/B testing models in production"
+        build_vs_buy: evaluate
+        notes: "Research shows 27-55% cost reduction with smart routing. Raised $40M, $500M valuation (2025). Evaluate as the LLM gateway layer underneath Palette agents."
+
+  # ═══════════════════════════════════════════════════════════
+  # RIU-201: Competitive / Alternatives Research
+  # Problem: Need to research competitors, alternatives, market landscape
+  # ═══════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-201"
+    riu_name: "Competitive/Alternatives Research"
+    routing_intent: "Find and evaluate competitors, alternatives, and market landscape for a given topic"
+    palette_current_approach: "Argy agent → Perplexity MCP → web_search fallback"
+    signal_strength: high
+
+    services:
+
+      - name: "Perplexity AI"
+        company_url: "https://www.perplexity.ai"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "API: ~$0.0002/request (unvalidated); MCP: free via existing key"
+        integration_status: integrated
+        palette_integration_status: "INTEGRATED — Perplexity MCP configured for Argy; all 18 people-library profiles have queries ready"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Real-time web research with automatic citations"
+          - "Competitive landscape scans"
+          - "Company enrichment (people-library stub enrichment)"
+          - "AI-synthesized answers with source tracking"
+        build_vs_buy: integrate
+        notes: "Already integrated. Top 3 consumer AI by usage (a16z data). Primary enrichment tool for Phase 1."
+
+      - name: "Grok (xAI)"
+        company_url: "https://grok.com"
+        quality_tier: tier_2
+        cost_model: subscription
+        cost_estimate: "Via X Premium+ subscription (unvalidated API pricing)"
+        integration_status: recipe_needed
+        palette_integration_status: "Not integrated; evaluate for social signal tasks"
+        signal_source: people_library
+        signal_strength: medium
+        best_for:
+          - "Real-time Twitter/X signal monitoring"
+          - "Social media intelligence"
+          - "Trending topics before they hit mainstream"
+        build_vs_buy: evaluate
+        notes: "Unique differentiator: only mainstream AI with live social data. Ruben: 'Only AI with real-time Twitter/news access.' Evaluate for people-library update triggers — when influencers post about new tools."
+
+  # ═══════════════════════════════════════════════════════════
+  # RIU-502: Audio Processing Integration
+  # Problem: Need to process, transcribe, or capture audio
+  # ═══════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-502"
+    riu_name: "Audio Processing Integration"
+    routing_intent: "Convert speech to text, or process audio for analysis"
+    palette_current_approach: "Whisper (OpenAI) integrated in Telegram bot for voice input"
+    signal_strength: high
+
+    services:
+
+      - name: "Whisper (OpenAI) — self-hosted"
+        company_url: "https://github.com/openai/whisper"
+        quality_tier: tier_2
+        cost_model: free
+        cost_estimate: "$0.00 (open source, self-hosted)"
+        integration_status: integrated
+        palette_integration_status: "INTEGRATED — Palette Telegram bot voice input"
+        signal_source: internal
+        signal_strength: high
+        best_for:
+          - "Batch audio transcription"
+          - "Cost-free voice input"
+          - "On-premise/privacy requirements"
+        build_vs_buy: integrate
+        notes: "Current Palette baseline. Zero cost. Quality is good but not best-in-class."
+
+      - name: "Wispr Flow"
+        company_url: "https://wispr.ai"
+        quality_tier: tier_1
+        cost_model: subscription
+        cost_estimate: "$9/month per user (unvalidated)"
+        integration_status: no_api
+        palette_integration_status: "Consumer app; no API yet — evaluate roadmap"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Cross-app voice input (works system-wide on macOS)"
+          - "143 WPM transcription speed"
+          - "Context-aware corrections"
+          - "Fortune 500 adoption"
+        build_vs_buy: evaluate
+        notes: "Multi-practitioner endorsement (Ruben, Anisha, Axelle). Consumer wrapper over best-in-class voice AI. Check if API is available or planned — if not, adopt_pattern is the fallback."
+
+  # ═══════════════════════════════════════════════════════════
+  # RIU-413: Customer Value Demo Creation
+  # Problem: Need to create a compelling demo/presentation for customers or stakeholders
+  # ═══════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-413"
+    riu_name: "Customer Value Demo Creation"
+    routing_intent: "Create a demo, presentation, or visual narrative for stakeholder communication"
+    palette_current_approach: "Yuty agent generates narrative; output is markdown/text; no visual layer"
+    signal_strength: high
+
+    services:
+
+      - name: "Gamma"
+        company_url: "https://gamma.app"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Free tier available; Pro: $10/month (unvalidated)"
+        integration_status: recipe_needed
+        palette_integration_status: "Not integrated; high priority for Yuty agent output layer"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "AI-generated presentations from prompts"
+          - "Carousels for LinkedIn/social"
+          - "One-page documents and landing pages"
+          - "Embedded AI agent (Superhuman Go integration)"
+        build_vs_buy: integrate
+        notes: "Grant Lee (CEO) validates the tool from inside. 70M users, $2B valuation. Gamma API would let Yuty's narrative output go directly into a polished presentation format."
+
+      - name: "Lovable"
+        company_url: "https://lovable.dev"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Free tier; Pro: $20/month (unvalidated)"
+        integration_status: evaluate
+        palette_integration_status: "Not integrated; evaluate for rapid prototype delivery"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Full application prototypes without code"
+          - "Interactive demos (not just slides)"
+          - "Non-technical founder tooling"
+        build_vs_buy: evaluate
+        notes: "Lovable creates interactive apps, not just slides. Evaluate for Phase 0 demo delivery where Palette currently uses markdown."
+
+  # ═══════════════════════════════════════════════════════════
+  # RIU-501: Image/Vision Processing Integration
+  # Problem: Need to generate, analyze, or enhance images
+  # ═══════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-501"
+    riu_name: "Image/Vision Processing Integration"
+    routing_intent: "Generate or enhance images for a workflow output"
+    palette_current_approach: "No image generation capability currently"
+    signal_strength: medium
+
+    services:
+
+      - name: "Canva AI (Magic Media)"
+        company_url: "https://canva.com/ai-image-generator/"
+        quality_tier: tier_2
+        cost_model: freemium
+        cost_estimate: "Free tier; Pro: $12.99/month (unvalidated)"
+        integration_status: no_api
+        palette_integration_status: "Consumer tool; low priority"
+        signal_source: people_library
+        signal_strength: low
+        best_for:
+          - "Non-technical users needing quick visuals"
+          - "Brand-consistent design templates"
+        build_vs_buy: defer
+        notes: "Low signal strength. Consumer-grade. Defer until specific use case."
+
+      - name: "Leonardo AI"
+        company_url: "https://app.leonardo.ai"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Free tier; Pro: $12/month (unvalidated)"
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for creative AI workflows"
+        signal_source: people_library
+        signal_strength: medium
+        best_for:
+          - "High-quality AI image generation"
+          - "Fine-tunable custom models"
+          - "Production-quality creative output"
+        build_vs_buy: evaluate
+        notes: "Alex Patrascu (Head of Creative Partnerships at Topaz Labs) is a client. Production-grade signal."
+
+      - name: "Topaz Labs"
+        company_url: "https://www.topazlabs.com"
+        quality_tier: tier_1
+        cost_model: subscription
+        cost_estimate: "$99/year (approximate; unvalidated)"
+        integration_status: available
+        palette_integration_status: "Not integrated; production signal but narrow use case"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Image upscaling (Gigapixel AI)"
+          - "Video enhancement (Video AI)"
+          - "Noise reduction and sharpening"
+          - "Post-processing AI-generated images"
+        build_vs_buy: evaluate
+        notes: "Alex Patrascu is Head of Creative Partnerships — strong insider signal. Production-grade for AI filmmaking pipelines."
+
+  # ═══════════════════════════════════════════════════════════
+  # RIU-500: Multimodal Data Pipeline Design
+  # Problem: Need to generate or process video content
+  # Note: See taxonomy_gaps in company_signals for proposed RIU-504 split
+  # ═══════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-500"
+    riu_name: "Multimodal Data Pipeline Design"
+    routing_intent: "Generate video from text/image, or process video content"
+    palette_current_approach: "No video generation capability currently"
+    signal_strength: high
+
+    services:
+
+      - name: "Seedance Pro (via Higgsfield AI)"
+        company_url: "https://higgsfield.ai"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "unvalidated — Perplexity enrichment needed"
+        integration_status: recipe_needed
+        palette_integration_status: "Not integrated; monitor for future capability"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Realistic physics and motion in AI video"
+          - "Cinematic quality generation"
+          - "Production-level AI filmmaking"
+        build_vs_buy: defer
+        notes: "Best-in-class signal (Feb 2026) from two independent production practitioners. Platform: use Higgsfield AI as the access layer."
+
+      - name: "Kling 2.1/3.0 (via Higgsfield AI)"
+        company_url: "https://higgsfield.ai"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "unvalidated"
+        integration_status: recipe_needed
+        palette_integration_status: "Not integrated; monitor"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Realistic physics"
+          - "Cinematic work"
+          - "Consistent top-3 performer in head-to-head comparisons"
+        build_vs_buy: defer
+        notes: "Consistent competitor to Seedance. Both access via Higgsfield AI. Track Seedance vs Kling race."
+
+      - name: "Runway (Aleph model)"
+        company_url: "https://runwayml.com"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "$0.05/second of video (unvalidated)"
+        integration_status: available
+        palette_integration_status: "Not integrated; monitor"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Video transformation/editing (not generation from scratch)"
+          - "'Photoshop for motion pictures' use case"
+          - "Reimagining existing footage with AI direction"
+        build_vs_buy: defer
+        notes: "Categorically different from Seedance/Kling: transforms existing footage vs. text-to-video. $237M funded. Most established company in the video AI space."
+
+  # ═══════════════════════════════════════════════════════════
+  # RIU-200: Customer Problem Narrative (JTBD + Constraints)
+  # Problem: Synthesize customer inputs into a JTBD narrative
+  # ═══════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-200"
+    riu_name: "Customer Problem Narrative (JTBD + Constraints)"
+    routing_intent: "Capture and synthesize customer voice into structured narratives"
+    palette_current_approach: "Argy research + manual synthesis by Yuty"
+    signal_strength: medium
+
+    services:
+
+      - name: "Granola"
+        company_url: "https://granola.ai"
+        quality_tier: tier_2
+        cost_model: freemium
+        cost_estimate: "unvalidated — Perplexity enrichment needed"
+        integration_status: recipe_needed
+        palette_integration_status: "Not integrated; evaluate for customer call capture"
+        signal_source: people_library
+        signal_strength: medium
+        best_for:
+          - "Meeting notes that run locally (no bot joining calls)"
+          - "Structured capture from audio"
+          - "Privacy-preserving call processing"
+        build_vs_buy: evaluate
+        notes: "Ruben's specific endorsement of the 'no bot joining your calls' differentiator is relevant for enterprise customer contexts where bots are unwelcome."
+
+      - name: "NotebookLM (Google)"
+        company_url: "https://notebooklm.google.com"
+        quality_tier: tier_1
+        cost_model: free
+        cost_estimate: "$0.00 (Google product)"
+        integration_status: evaluate
+        palette_integration_status: "Not integrated; evaluate for document synthesis use cases"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Large document synthesis (50+ page reports)"
+          - "Audio summary generation from written sources"
+          - "Customer research synthesis from multiple documents"
+          - "Cross-document Q&A"
+        build_vs_buy: evaluate
+        notes: "Grant Lee (Gamma CEO) uses for customer research. Ruben: 'Upload anything, let AI teach it back to you.' Free product — low cost evaluation risk."
+
+  # ═══════════════════════════════════════════════════════════
+  # RIU-320: Third-Party API Integration Pattern
+  # Problem: Need to integrate an external service into Palette workflows
+  # ═══════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-320"
+    riu_name: "Third-Party API Integration Pattern"
+    routing_intent: "Integrate an external service or API into Palette's workflow execution layer"
+    palette_current_approach: "Manual integration — each service integrated independently (Perplexity MCP, etc.)"
+    signal_strength: high
+
+    services:
+
+      - name: "OpenRouter"
+        company_url: "https://openrouter.ai"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "5% markup on model costs"
+        integration_status: available
+        palette_integration_status: "Not integrated; high priority as LLM routing layer"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "500+ models through single API"
+          - "Cost-optimized routing (:floor)"
+          - "Speed-optimized routing (:nitro)"
+          - "Automatic fallback across providers"
+          - "OpenAI-compatible interface (drop-in replacement)"
+        build_vs_buy: integrate
+        notes: "Research finding: 27-55% cost reduction with smart routing. 5% markup on model costs. Could be the single integration that replaces multiple direct API integrations (Anthropic, OpenAI, Google)."
+
+      - name: "LiteLLM (self-hosted)"
+        company_url: "https://github.com/BerriAI/litellm"
+        quality_tier: tier_1
+        cost_model: free
+        cost_estimate: "$0.00 (self-hosted open source)"
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate vs. OpenRouter"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "Self-hosted control over routing logic"
+          - "Policy-as-code routing rules"
+          - "3-5ms overhead vs OpenRouter's ~40ms"
+          - "On-premise or VPC deployment"
+        build_vs_buy: evaluate
+        notes: "OpenRouter vs LiteLLM decision: OpenRouter is managed SaaS (simpler, 5% markup). LiteLLM is self-hosted (free, more control). Evaluate based on Palette's hosting model."
+
+      - name: "Vercel AI Gateway"
+        company_url: "https://vercel.com/docs/ai"
+        quality_tier: tier_2
+        cost_model: usage_based
+        cost_estimate: "bundled with Vercel hosting (unvalidated standalone pricing)"
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for web-native deployments"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Frontend AI applications"
+          - "Next.js ecosystem"
+          - "Video generation API (generateVideo)"
+          - "Unified model access for web apps"
+        build_vs_buy: evaluate
+        notes: "Guillermo Rauch (CEO) signal. Best for web-native Palette deployments. If Palette ever has a web UI, Vercel AI Gateway becomes the natural choice."
+
+  # ═══════════════════════════════════════════════════════════════
+  # PHASE 2 — HIGH-SIGNAL RIU ROUTING (12 entries, cost-validated)
+  # Added: 2026-02-24
+  # ═══════════════════════════════════════════════════════════════
+
+  # ─── LLMOps Cluster ────────────────────────────────────────────
+
+  # ═══════════════════════════════════════════════════════════════
+  # RIU-520: Prompt Version Control & Lifecycle
+  # Problem: Need to version, test, and manage prompts across environments
+  # ═══════════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-520"
+    riu_name: "Prompt Version Control & Lifecycle"
+    routing_intent: "Version, test, and manage prompt lifecycles with rollback and A/B testing"
+    palette_current_approach: "Prompts stored in agent files (markdown); versioned via git"
+    signal_strength: medium
+
+    services:
+
+      - name: "Braintrust"
+        company_url: "https://www.braintrust.dev"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Free: 1M trace spans, 10k scores, 14-day retention. Pro: $249/month (unlimited spans, 5GB data, 1-month retention, 5 users)"
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for prompt lifecycle management"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "Prompt management with versioning and A/B testing"
+          - "Evaluation framework with LLM-as-judge and code-based scoring"
+          - "Production tracing and logging"
+          - "AI proxy for model routing with caching"
+          - "Dataset management for golden sets"
+        build_vs_buy: evaluate
+        notes: "$80M Series B at $800M valuation (Feb 2026). Positions as 'the observability layer for AI'. Low integration effort: SDK wraps OpenAI/Anthropic calls with 2-3 lines."
+
+      - name: "Helicone"
+        company_url: "https://helicone.ai"
+        quality_tier: tier_2
+        cost_model: freemium
+        cost_estimate: "Free: 10k requests/month, 1GB, 1 seat. Pro: $79/month. ~$0.97 per 10k requests beyond included."
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for cost tracking"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "LLM cost tracking and spend analytics"
+          - "Request logging with latency/token breakdowns"
+          - "Prompt templating and experimentation"
+          - "Open source (Apache 2.0) — self-hostable"
+        build_vs_buy: evaluate
+        notes: "Proxy-based integration: change base URL or add 1-line header. Lightweight option if Braintrust is overkill."
+
+      - name: "LangSmith"
+        company_url: "https://smith.langchain.com"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Free: 1 seat, 5k traces/month, 14-day retention. Plus: $39/seat/month. Traces: $2.50/1k (14-day) or $5.00/1k (400-day)"
+        integration_status: available
+        palette_integration_status: "Not integrated; LangChain dependency concern"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "End-to-end tracing for LangChain and non-LangChain apps"
+          - "Prompt hub for versioning and sharing"
+          - "Production monitoring with feedback collection"
+          - "Tight LangChain/LangGraph ecosystem integration"
+        build_vs_buy: defer
+        notes: "Best if Palette adopts LangChain. Otherwise Braintrust or Helicone are more framework-agnostic."
+
+  # ═══════════════════════════════════════════════════════════════
+  # RIU-521: LLM Model Version Management
+  # Problem: Need to manage multiple model versions with fallback and cost tracking
+  # ═══════════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-521"
+    riu_name: "LLM Model Version Management"
+    routing_intent: "Route requests across LLM providers with automatic fallback, version management, and cost tracking"
+    palette_current_approach: "Direct Claude API calls; no fallback or multi-model routing"
+    signal_strength: high
+
+    services:
+
+      - name: "OpenRouter"
+        company_url: "https://openrouter.ai"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "0% markup on model prices. Credit purchase fee: 5.5% ($0.80 min). BYOK: 5% usage fee. Free models available, 50 req/day without credits."
+        integration_status: available
+        palette_integration_status: "Not integrated; highest priority for LLM routing"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "500+ models through single OpenAI-compatible API"
+          - "Automatic fallback routing — billed only for successful completions"
+          - "Model comparison and benchmarking"
+          - "BYOK support for direct provider key routing"
+        build_vs_buy: integrate
+        notes: "Critical for SageMaker thesis. Change base URL and API key — that's it. No subscription fee, pay only for usage."
+
+      - name: "LiteLLM (self-hosted)"
+        company_url: "https://github.com/BerriAI/litellm"
+        quality_tier: tier_1
+        cost_model: free
+        cost_estimate: "OSS: $0.00 (self-hosted). Enterprise Basic: $250/month. Enterprise Premium: $30,000/year."
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate vs. OpenRouter"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "Unified API gateway for 100+ LLM providers in OpenAI format"
+          - "Load balancing, fallbacks, retry logic across providers"
+          - "Cost tracking and budget enforcement per key/team"
+          - "Self-hosted Docker deployment with Redis for production"
+        build_vs_buy: evaluate
+        notes: "Free at scale. Medium integration effort (Docker + Redis). Choose LiteLLM for control, OpenRouter for simplicity."
+
+      - name: "Vercel AI Gateway"
+        company_url: "https://vercel.com/ai-gateway"
+        quality_tier: tier_2
+        cost_model: freemium
+        cost_estimate: "$5/month free credits. 0% markup on provider prices. 0% BYOK markup."
+        integration_status: available
+        palette_integration_status: "Not integrated; best if Palette goes web-native"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Budget controls and spend alerts"
+          - "Load balancing and automatic fallback"
+          - "Edge-optimized for Vercel-deployed apps"
+          - "Native Vercel AI SDK integration"
+        build_vs_buy: evaluate
+        notes: "Best for web-native Palette deployments. Guillermo Rauch (CEO) signal."
+
+  # ═══════════════════════════════════════════════════════════════
+  # RIU-522: Token Budget Management
+  # Problem: Need to track and enforce token budgets across teams and features
+  # ═══════════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-522"
+    riu_name: "Token Budget Management"
+    routing_intent: "Track, attribute, and enforce token cost budgets across teams, users, and features"
+    palette_current_approach: "No cost tracking; manual estimation only"
+    signal_strength: medium
+
+    services:
+
+      - name: "Helicone"
+        company_url: "https://helicone.ai"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Free: 10k requests/month. Pro: $79/month (unlimited seats, alerts, HQL query)."
+        integration_status: available
+        palette_integration_status: "Not integrated; primary candidate for cost tracking"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "Token cost attribution per feature, team, user"
+          - "Custom property segmentation (HQL query language)"
+          - "Spend alerts and analytics dashboards"
+          - "Proxy-based — minimal code changes"
+        build_vs_buy: evaluate
+        notes: "Helicone specializes in cost tracking. If Palette adopts OpenRouter/LiteLLM for routing, both include cost tracking — evaluate whether dedicated Helicone adds value."
+
+      - name: "OpenRouter (built-in)"
+        company_url: "https://openrouter.ai"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "Included with OpenRouter usage — no additional cost"
+        integration_status: available
+        palette_integration_status: "Bundled with RIU-521 routing decision"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "Per-model cost tracking"
+          - "Usage analytics across all routed models"
+          - "Budget limits per API key"
+        build_vs_buy: integrate
+        notes: "If OpenRouter is chosen for RIU-521, token budget management comes free. Avoid paying for separate cost tracking."
+
+      - name: "LiteLLM (built-in)"
+        company_url: "https://github.com/BerriAI/litellm"
+        quality_tier: tier_1
+        cost_model: free
+        cost_estimate: "$0.00 (included in self-hosted proxy)"
+        integration_status: available
+        palette_integration_status: "Bundled with RIU-521 routing decision"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "Budget enforcement per key/team/user"
+          - "Custom rate limits and spend caps"
+          - "Prometheus metrics export for dashboards"
+        build_vs_buy: evaluate
+        notes: "LiteLLM Enterprise ($250/month) adds Prometheus metrics, guardrails, audit logs."
+
+  # ═══════════════════════════════════════════════════════════════
+  # RIU-524: LLM Output Quality Monitoring
+  # Problem: Need to monitor LLM output quality in production
+  # ═══════════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-524"
+    riu_name: "LLM Output Quality Monitoring"
+    routing_intent: "Monitor LLM output quality with automated scoring, drift alerts, and production sampling"
+    palette_current_approach: "Manual review; no automated quality monitoring"
+    signal_strength: high
+
+    services:
+
+      - name: "Braintrust"
+        company_url: "https://www.braintrust.dev"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Free: 1M spans, 10k scores. Pro: $249/month."
+        integration_status: available
+        palette_integration_status: "Not integrated; top candidate for quality monitoring"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "Production eval with automated LLM-as-judge scoring"
+          - "Quality regression detection"
+          - "Experiment management and A/B testing"
+          - "Dataset management for golden sets"
+        build_vs_buy: evaluate
+        notes: "Braintrust spans RIU-520 (prompt mgmt) and RIU-524 (quality monitoring). Single platform for both."
+
+      - name: "Arize AI (Phoenix)"
+        company_url: "https://arize.com"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Phoenix OSS: $0.00. AX Free: 25k spans/month, 1GB, 7-day retention. AX Pro: $50/month."
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for LLM observability"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "LLM tracing with OpenTelemetry/OpenInference"
+          - "Embedding drift detection"
+          - "Evaluation framework with LLM-as-judge and custom scorers"
+          - "Production monitoring with alerting and dashboards"
+        build_vs_buy: evaluate
+        notes: "Phoenix is fully open-source (pip install). Strong for combined ML + LLM monitoring. AX Pro at $50/month is cheaper than Braintrust Pro."
+
+      - name: "Evidently AI"
+        company_url: "https://evidentlyai.com"
+        quality_tier: tier_2
+        cost_model: freemium
+        cost_estimate: "OSS: $0.00 (Apache 2.0). Cloud Pro: $50/month. Enterprise: custom."
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for data quality + LLM quality"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "100+ pre-built metrics for drift, performance, data quality"
+          - "LLM evaluation (text quality, retrieval, bias)"
+          - "CI/CD test suites for automated eval"
+          - "Combined tabular data + LLM monitoring"
+        build_vs_buy: evaluate
+        notes: "Strongest for combined data quality + LLM quality monitoring. OSS first, cloud for dashboards."
+
+  # ─── Evaluation & Safety Cluster ───────────────────────────────
+
+  # ═══════════════════════════════════════════════════════════════
+  # RIU-021: Golden Set + Offline Evaluation Harness
+  # Problem: Need to build and run offline evaluation against golden datasets
+  # ═══════════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-021"
+    riu_name: "Golden Set + Offline Evaluation Harness"
+    routing_intent: "Design eval harness with golden datasets, run offline evaluations, track regressions"
+    palette_current_approach: "Manual golden set definition; no automated eval pipeline"
+    signal_strength: high
+
+    services:
+
+      - name: "Braintrust"
+        company_url: "https://www.braintrust.dev"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Free: 10k scores/evaluations. Pro: $249/month."
+        integration_status: available
+        palette_integration_status: "Not integrated; primary candidate for eval harness"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "Dataset management for golden sets"
+          - "Regression tracking across model/prompt changes"
+          - "LLM-as-judge, code-based, and human evaluation"
+          - "Experiment comparison dashboards"
+        build_vs_buy: evaluate
+        notes: "10k free scores is generous for evaluation. Braintrust is the strongest eval-first platform."
+
+      - name: "LangSmith"
+        company_url: "https://smith.langchain.com"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Free: 5k traces/month. Plus: $39/seat/month."
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate if LangChain adopted"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "Dataset management with custom evaluators"
+          - "Prompt hub for versioned golden prompts"
+          - "Feedback collection on evaluation results"
+        build_vs_buy: defer
+        notes: "Strong eval capabilities but tied to LangChain ecosystem. Defer unless Palette adopts LangChain."
+
+      - name: "Evidently AI"
+        company_url: "https://evidentlyai.com"
+        quality_tier: tier_2
+        cost_model: freemium
+        cost_estimate: "OSS: $0.00. Cloud Pro: $50/month."
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for CI/CD eval integration"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "Test suites for CI/CD integration"
+          - "100+ pre-built metrics for data drift and quality"
+          - "No-code evaluation dashboards"
+        build_vs_buy: evaluate
+        notes: "Best for integrating eval into CI/CD pipelines. Python-native, pip install."
+
+  # ═══════════════════════════════════════════════════════════════
+  # RIU-082: LLM Safety Guardrails (Content + Tool Use)
+  # Problem: Need to enforce content safety and prevent prompt injection
+  # ═══════════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-082"
+    riu_name: "LLM Safety Guardrails (Content + Tool Use)"
+    routing_intent: "Enforce content safety, prevent prompt injection, filter harmful outputs"
+    palette_current_approach: "Prompt-level instructions only; no dedicated guardrail layer"
+    signal_strength: high
+
+    services:
+
+      - name: "AWS Bedrock Guardrails"
+        company_url: "https://aws.amazon.com/bedrock/guardrails/"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "Content filters: $0.15/1K text units. Denied topics: $0.15/1K text units. PII filters: FREE. Word filters: FREE. Automated Reasoning: $0.17/1K text units. (Post Dec 2024 80-85% price reduction)"
+        integration_status: available
+        palette_integration_status: "Not integrated; natural choice if Palette runs on Bedrock"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "Content filters across 6 harm categories (Hate, Insults, Sexual, Violence, Misconduct, Prompt Attack)"
+          - "Custom denied topic detection"
+          - "PII detection and masking (FREE)"
+          - "Contextual grounding checks for RAG hallucination detection"
+          - "Automated Reasoning with formal logic — unique to AWS"
+        build_vs_buy: integrate
+        notes: "If Palette runs Claude via Bedrock, guardrails are configuration-only — no extra infra. PII and word filters are free. Automated Reasoning (formal logic verification) is unique and valuable for high-stakes accuracy."
+
+      - name: "Lakera Guard"
+        company_url: "https://lakera.ai"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Community: free (10k requests/month). Pro: $99/month. Enterprise: custom."
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate as prompt injection firewall"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "Prompt injection detection (99.2% accuracy)"
+          - "Jailbreak detection with continuous updates"
+          - "Data leakage prevention"
+          - "Threat intelligence from 100K+ daily real-world attacks"
+        build_vs_buy: evaluate
+        notes: "Complementary to Bedrock Guardrails. Lakera specializes in adversarial defense; Bedrock specializes in content safety. 10k free requests for evaluation."
+
+      - name: "Guardrails AI"
+        company_url: "https://guardrailsai.com"
+        quality_tier: tier_1
+        cost_model: free
+        cost_estimate: "OSS: $0.00 (Apache 2.0). Guardrails Pro: ~$50/month (managed). Enterprise: custom."
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for output validation"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "100+ validators on Guardrails Hub (PII, toxicity, factuality, format)"
+          - "Composable input/output guards"
+          - "Automatic re-asking on validation failure"
+          - "Structured output enforcement (JSON schema, Pydantic)"
+        build_vs_buy: evaluate
+        notes: "Different niche than Bedrock/Lakera: output validation and correction. Complementary layer. Open-source, model-agnostic."
+
+  # ═══════════════════════════════════════════════════════════════
+  # RIU-108: Agent Security & Access Control
+  # Problem: Need to secure AI agent access to tools, APIs, and data
+  # ═══════════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-108"
+    riu_name: "Agent Security & Access Control"
+    routing_intent: "Secure AI agent access to tools, APIs, credentials, and data with identity-based controls"
+    palette_current_approach: "Manual credential management; agents have broad access"
+    signal_strength: medium
+
+    services:
+
+      - name: "AWS Bedrock Guardrails"
+        company_url: "https://aws.amazon.com/bedrock/guardrails/"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "$0.15/1K text units (content filters). PII: FREE."
+        integration_status: available
+        palette_integration_status: "Not integrated; same service as RIU-082"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "Content-level guardrails on agent outputs"
+          - "Denied topic enforcement for agents"
+          - "PII masking on agent inputs/outputs"
+        build_vs_buy: integrate
+        notes: "Overlap with RIU-082. Use same guardrail configuration for both content safety and agent security."
+
+      - name: "Lakera Guard"
+        company_url: "https://lakera.ai"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Free: 10k req/month. Pro: $99/month."
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for agent prompt injection defense"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "Prompt injection firewall for agent tool calls"
+          - "Preventing indirect prompt injection from tool outputs"
+          - "Data leakage prevention from agent conversations"
+        build_vs_buy: evaluate
+        notes: "Critical for agent security: Lakera detects indirect prompt injection where malicious content in tool outputs tries to hijack the agent."
+
+      - name: "HashiCorp Vault"
+        company_url: "https://www.hashicorp.com/products/vault"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Community (BSL 1.1): $0.00. HCP Vault Dedicated: $1.58/hour (~$360/month). Enterprise: custom."
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for credential management"
+        signal_source: market_data
+        signal_strength: low
+        best_for:
+          - "Centralized secrets management with fine-grained ACLs"
+          - "Dynamic secrets — auto-expiring API credentials"
+          - "Encryption as a service (Transit engine)"
+          - "PKI / Certificate Authority for service auth"
+        build_vs_buy: defer
+        notes: "High integration effort (ops-heavy). Defer unless Palette grows to multi-agent production with many API credentials. Simpler alternatives: AWS Secrets Manager, Doppler."
+
+  # ─── Research Cluster ──────────────────────────────────────────
+
+  # ═══════════════════════════════════════════════════════════════
+  # RIU-106: Comparable Organization Research
+  # Problem: Need to find and analyze comparable organizations
+  # ═══════════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-106"
+    riu_name: "Comparable Organization Research"
+    routing_intent: "Find comparable organizations with financial data, team size, and market positioning"
+    palette_current_approach: "Argy agent → Perplexity MCP for web research"
+    signal_strength: high
+
+    services:
+
+      - name: "Perplexity API"
+        company_url: "https://www.perplexity.ai"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "Search API: $5/1K requests. Sonar: $1/M input + $1/M output tokens. Sonar Pro: $3/M input + $15/M output tokens."
+        integration_status: integrated
+        palette_integration_status: "INTEGRATED — Perplexity MCP in Argy agent"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Real-time web research with citations"
+          - "Company enrichment with financial data"
+          - "Cross-referencing comparable organizations"
+          - "OpenAI-compatible API format"
+        build_vs_buy: integrate
+        notes: "Already integrated. Citation tokens no longer billed on Sonar/Sonar Pro (2026 cost reduction)."
+
+      - name: "Crunchbase"
+        company_url: "https://crunchbase.com"
+        quality_tier: tier_1
+        cost_model: subscription
+        cost_estimate: "Pro: $49/month (annual). Business: $199/month (annual). API/Enterprise: $10K-$25K+/year."
+        integration_status: evaluate
+        palette_integration_status: "Not integrated; API requires enterprise contract"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "Comprehensive funding rounds and investor data"
+          - "Company firmographics and leadership"
+          - "Advanced search/filtering by industry and stage"
+          - "Automated alerts on company events"
+        build_vs_buy: defer
+        notes: "API access requires enterprise negotiation ($10K+/year). Perplexity can surface Crunchbase data for free. Defer direct integration."
+
+      - name: "PitchBook"
+        company_url: "https://pitchbook.com"
+        quality_tier: tier_1
+        cost_model: enterprise
+        cost_estimate: "Solo: $12K-$20K/year. Team (3): $20K-$32K/year. Enterprise (7+): $45K-$70K+/year."
+        integration_status: evaluate
+        palette_integration_status: "Not integrated; cost-prohibitive"
+        signal_source: market_data
+        signal_strength: low
+        best_for:
+          - "Deepest private market dataset (VC, PE, M&A)"
+          - "Daily startup valuations"
+          - "Investor fund performance and LP data"
+        build_vs_buy: defer
+        notes: "Cost-prohibitive ($12K+ minimum). No public API. Perplexity surfaces enough comparable data for Palette's needs."
+
+  # ═══════════════════════════════════════════════════════════════
+  # RIU-109: Business Plan Creation
+  # Problem: Need to create a business plan with research depth and presentation quality
+  # ═══════════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-109"
+    riu_name: "Business Plan Creation"
+    routing_intent: "Create business plans combining deep research, financial modeling, and presentation output"
+    palette_current_approach: "Argy (research) → Yuty (narrative) → markdown output"
+    signal_strength: medium
+
+    services:
+
+      - name: "Perplexity API"
+        company_url: "https://www.perplexity.ai"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "Sonar: $1/M input + $1/M output tokens. Sonar Pro: $3/M input + $15/M output."
+        integration_status: integrated
+        palette_integration_status: "INTEGRATED — research layer for business plan data"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Market research with citations for business plans"
+          - "Competitive landscape for positioning sections"
+          - "Financial data for comparable analysis"
+        build_vs_buy: integrate
+        notes: "Already integrated. Use Sonar Pro for deep research sections."
+
+      - name: "Gamma"
+        company_url: "https://gamma.app"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Free: 400 AI credits. Plus: $8/month (annual). Pro: $15/month (annual, includes API). Ultra: $100/month."
+        integration_status: recipe_needed
+        palette_integration_status: "Not integrated; Generate API available since Jan 2026 on Pro+"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Polished business plan presentation from text input"
+          - "Generate API (GA Jan 2026) for programmatic creation"
+          - "Export to PDF, PPTX, Google Slides"
+          - "Custom branding on Pro+"
+        build_vs_buy: integrate
+        notes: "Gamma Generate API is GA since Jan 2026. Pro tier ($15/month) unlocks API. Natural output layer for Yuty → Gamma pipeline."
+
+      - name: "NotebookLM (Google)"
+        company_url: "https://notebooklm.google.com"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Free: full features with usage limits. Enterprise: $9/license/month (15-license min = $135/month floor)."
+        integration_status: evaluate
+        palette_integration_status: "Not integrated; Enterprise API requires Google Cloud setup"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Source-grounded synthesis from uploaded documents"
+          - "Audio Overview (AI podcast summaries)"
+          - "Multi-modal source support (PDF, Docs, YouTube, audio)"
+          - "Enterprise API (since Sept 2025)"
+        build_vs_buy: evaluate
+        notes: "Enterprise API requires 15-license minimum ($135/month). Consumer version has no API. Evaluate for document synthesis tasks."
+
+  # ═══════════════════════════════════════════════════════════════
+  # RIU-140: Competitive/Alternatives Scan (Landscape)
+  # Problem: Need to scan competitive landscape for a specific market
+  # ═══════════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-140"
+    riu_name: "Competitive/Alternatives Scan (Landscape)"
+    routing_intent: "Scan and map competitive landscape for a specific market or category"
+    palette_current_approach: "Argy agent → Perplexity MCP (already integrated)"
+    signal_strength: high
+
+    services:
+
+      - name: "Perplexity API"
+        company_url: "https://www.perplexity.ai"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "Search API: $5/1K requests. Sonar Pro: $3/M input + $15/M output."
+        integration_status: integrated
+        palette_integration_status: "INTEGRATED — primary tool for competitive scans"
+        signal_source: people_library
+        signal_strength: high
+        best_for:
+          - "Real-time competitive landscape scanning"
+          - "Cited comparisons across competitors"
+          - "Market sizing and positioning data"
+        build_vs_buy: integrate
+        notes: "Already integrated and primary tool for this RIU. Sonar Pro for comprehensive scans, regular Sonar for quick checks."
+
+  # ─── Observability Cluster ─────────────────────────────────────
+
+  # ═══════════════════════════════════════════════════════════════
+  # RIU-061: Observability Baseline
+  # Problem: Need baseline observability for system health and performance
+  # ═══════════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-061"
+    riu_name: "Observability Baseline"
+    routing_intent: "Establish baseline observability with metrics, traces, logs, and alerting"
+    palette_current_approach: "Console logs only; no structured observability"
+    signal_strength: medium
+
+    services:
+
+      - name: "Datadog"
+        company_url: "https://www.datadoghq.com"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "Infra: $15/host/month (Pro). APM: $31-40/host/month. LLM Observability: per-span billing (~$120/day baseline). Logs: $0.10/GB ingested."
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for full-stack observability"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "End-to-end distributed tracing with 800+ integrations"
+          - "LLM Observability: trace prompt/response chains, token costs"
+          - "Unified platform: APM, logs, infra, security, RUM"
+          - "AI-powered anomaly detection and root cause analysis"
+        build_vs_buy: evaluate
+        notes: "Most comprehensive but most expensive. LLM Observability auto-activates premium billing — configure carefully. Best for larger teams with budget."
+
+      - name: "Honeycomb"
+        company_url: "https://honeycomb.io"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "Free: 20M events/month, 60-day retention. Pro: $100/month (100M events). Enterprise: custom."
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for LLM-heavy systems"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "High-cardinality event analysis (wide structured events)"
+          - "BubbleUp automatic root cause detection"
+          - "Query-time aggregation on raw events (no pre-aggregation)"
+          - "OpenTelemetry-native ingestion"
+        build_vs_buy: evaluate
+        notes: "Best for LLM-heavy systems where you need to debug individual prompts/responses. 20M free events is generous. Preferred over Datadog for agentic workloads."
+
+      - name: "Grafana Cloud"
+        company_url: "https://grafana.com"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "Free: 10K active series, 50GB logs/traces, 3 users, 14-day retention. Pro: $19/month + usage overage."
+        integration_status: available
+        palette_integration_status: "Not integrated; evaluate for cost-effective monitoring"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "Full LGTM stack: Loki, Grafana, Tempo, Mimir"
+          - "Open-source core with 1000+ data source plugins"
+          - "Prometheus-native metrics; OpenTelemetry-compatible"
+          - "AI-powered dashboard creation (Grafana Assistant)"
+        build_vs_buy: evaluate
+        notes: "Best value: $19/month for full observability stack. Free tier covers early-stage Palette. Open-source option for self-hosted."
+
+      - name: "New Relic"
+        company_url: "https://newrelic.com"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "Free: 100GB/month + 1 full platform user with ALL features. Overage: $0.40/GB (Standard)."
+        integration_status: available
+        palette_integration_status: "Not integrated; strongest free tier"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "All-in-one: APM, infra, logs, browser, mobile, synthetics, security"
+          - "NRQL query language for ad-hoc analysis"
+          - "AI-powered root cause analysis"
+          - "100GB free tier with full feature access"
+        build_vs_buy: evaluate
+        notes: "Most generous free tier: 100GB/month with ALL features. Strong for proof-of-concept without commitment."
+
+  # ═══════════════════════════════════════════════════════════════
+  # RIU-542: Observability Stack Design
+  # Problem: Need to select and design the observability stack
+  # ═══════════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-542"
+    riu_name: "Observability Stack Design"
+    routing_intent: "Select and configure the observability platform stack for production monitoring"
+    palette_current_approach: "No observability stack; same as RIU-061"
+    signal_strength: medium
+
+    services:
+
+      - name: "Datadog"
+        company_url: "https://www.datadoghq.com"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "See RIU-061. Total cost depends on feature mix."
+        integration_status: available
+        palette_integration_status: "Same decision as RIU-061"
+        signal_source: market_data
+        signal_strength: high
+        best_for:
+          - "Widest coverage across the full stack"
+          - "Enterprise-grade SLO management"
+          - "Integrated security monitoring"
+        build_vs_buy: evaluate
+        notes: "RIU-542 and RIU-061 are the same decision. Choose one observability platform for both."
+
+      - name: "Honeycomb"
+        company_url: "https://honeycomb.io"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "See RIU-061."
+        integration_status: available
+        palette_integration_status: "Same decision as RIU-061"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "Best for debugging individual LLM agent interactions"
+          - "SLOs and burn alerts (Enterprise)"
+          - "Designed for distributed tracing"
+        build_vs_buy: evaluate
+        notes: "Recommended for Palette: Honeycomb's wide-event model fits agentic workloads better than Datadog's metric-first approach."
+
+      - name: "Grafana Cloud"
+        company_url: "https://grafana.com"
+        quality_tier: tier_1
+        cost_model: freemium
+        cost_estimate: "See RIU-061."
+        integration_status: available
+        palette_integration_status: "Same decision as RIU-061"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "Most cost-effective at scale (open-source core)"
+          - "Full control with self-hosted option"
+          - "Prometheus ecosystem compatibility"
+        build_vs_buy: evaluate
+        notes: "Best for cost-sensitive deployments. Requires more configuration than Datadog/Honeycomb."
+
+      - name: "New Relic"
+        company_url: "https://newrelic.com"
+        quality_tier: tier_1
+        cost_model: usage_based
+        cost_estimate: "See RIU-061."
+        integration_status: available
+        palette_integration_status: "Same decision as RIU-061"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "Fastest time-to-value with guided setup"
+          - "All-in-one platform (no separate tools to manage)"
+          - "Best free tier for proof-of-concept"
+        build_vs_buy: evaluate
+        notes: "Start with New Relic free tier for evaluation, then compare against Honeycomb/Grafana for production."
+
+  # ═══════════════════════════════════════════════════════════════
+  # PHASE 2 — LOW-SIGNAL STUB ENTRIES (17 entries)
+  # Status: stub — cost data not validated; candidate services from classification
+  # Enrichment priority: low — these are DevOps/infrastructure/governance RIUs
+  # Added: 2026-02-24
+  # ═══════════════════════════════════════════════════════════════
+
+  - riu_id: "RIU-012"
+    riu_name: "PII/Compliance Triage (Controls Plan)"
+    routing_intent: "Automate PII detection across data volumes to support compliance controls"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "AWS Comprehend"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Microsoft Presidio"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-019"
+    riu_name: "Data Lineage Sketch (Minimal)"
+    routing_intent: "Track data lineage across pipelines beyond manual sketching"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "dbt"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "OpenLineage"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-026"
+    riu_name: "Hybrid Similarity (Enums + Embeddings)"
+    routing_intent: "Scale embedding-based retrieval with vector databases at production volumes"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Pinecone"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Qdrant"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "pgvector (PostgreSQL)"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-027"
+    riu_name: "Reranking Layer (Post-Retrieval)"
+    routing_intent: "Improve retrieval quality with neural reranking models"
+    signal_strength: medium
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Cohere Rerank"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Jina Reranker"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-028"
+    riu_name: "Schema-Constrained Generation"
+    routing_intent: "Enforce structured output from LLMs with reduced parse errors"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Instructor"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Outlines"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Guardrails AI"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-035"
+    riu_name: "Caching Strategy + Invalidation Plan"
+    routing_intent: "Implement managed caching with TTL management at scale"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Upstash Redis"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "ElastiCache (AWS)"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-063"
+    riu_name: "Performance & Load Characterization"
+    routing_intent: "Run realistic load tests and performance characterization at scale"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "k6"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Locust"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-064"
+    riu_name: "Feature Flags + Kill Switch Integration"
+    routing_intent: "Enable safe rollouts with targeting, scheduling, and instant kill switches"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "LaunchDarkly"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Statsig"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Unleash"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-066"
+    riu_name: "Secrets Handling + Rotation Expectations"
+    routing_intent: "Manage secrets securely with rotation and access controls"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "HashiCorp Vault"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "AWS Secrets Manager"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Doppler"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-067"
+    riu_name: "Database Migration Safety Wrapper"
+    routing_intent: "Manage database migrations with versioning, rollback, and dry-run"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Flyway"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Alembic"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Prisma Migrate"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-068"
+    riu_name: "Canary Rollout + Error Budget Gate"
+    routing_intent: "Reduce release blast radius with canary deployments and error budget enforcement"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Statsig"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Argo Rollouts"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-070"
+    riu_name: "SLO/SLI Definition + Alert Thresholds"
+    routing_intent: "Define and enforce SLOs with error budget burn rate visibility"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Datadog SLOs"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Honeycomb SLOs"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Nobl9"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-083"
+    riu_name: "Red Team Scenarios (Abuse + Failure)"
+    routing_intent: "Expand attack surface coverage with automated red-teaming tools"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Garak"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Promptfoo"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-084"
+    riu_name: "Data Quality Checks (Nulls, Duplicates, Ranges)"
+    routing_intent: "Automate data quality monitoring with rule libraries and anomaly detection"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Great Expectations"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Soda"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Evidently AI"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-088"
+    riu_name: "Privacy Redaction Pipeline"
+    routing_intent: "Detect and redact PII across free-text at production scale"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Microsoft Presidio"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "AWS Comprehend PII"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-523"
+    riu_name: "LLM Response Caching Strategy"
+    routing_intent: "Reduce token costs with semantic caching for repeated/similar queries"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "GPTCache"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Redis (semantic layer)"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-531"
+    riu_name: "Algorithmic Bias Detection"
+    routing_intent: "Detect bias across protected attributes with fairness metrics"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Fairlearn (Microsoft)"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Evidently AI"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-532"
+    riu_name: "AI Explainability Framework"
+    routing_intent: "Generate model explanations with SHAP values and feature importance"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "SHAP"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "LIME"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-543"
+    riu_name: "Drift Detection Configuration"
+    routing_intent: "Detect data and model drift with statistical tests and alerting"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Arize AI"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Evidently AI"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "NannyML"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-606"
+    riu_name: "Brand Safety for AI-Generated Content"
+    routing_intent: "Enforce brand safety for customer-facing AI content with managed guardrails"
+    signal_strength: low
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "AWS Bedrock Guardrails"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Lakera Guard"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+# ══════════════════════════════════════════════════════════════════
+# ROUTING DECISION TREE (simplified)
+# For Palette operators: when to route to external services vs. internal agents
+# ══════════════════════════════════════════════════════════════════
+
+routing_decision_tree:
+  when_to_use_external_service:
+    - "Task requires real-time data (use Grok or Perplexity)"
+    - "Task requires specialized model quality (code → Cursor; video → Seedance/Runway)"
+    - "Task requires non-text output (video → Higgsfield; presentation → Gamma)"
+    - "Cost of building internally exceeds service cost over 12 months"
+    - "Service has practitioner signal_strength: high AND is already funded/stable"
+
+  when_to_use_palette_agents:
+    - "Task matches an existing RIU and internal agents can execute it"
+    - "Data privacy requirements prevent external service use"
+    - "Cost of external service exceeds internal build cost"
+    - "Service has no API (consumer-only)"
+    - "Signal strength is low or unvalidated"
+
+  when_to_build_internally:
+    - "No external service exists for this pattern (taxonomy gap)"
+    - "Service exists but the pattern is replicable via existing RIUs"
+    - "Build cost is low AND service dependency risk is high"
+    - "External service requires lock-in (one-way door) without clear ROI"

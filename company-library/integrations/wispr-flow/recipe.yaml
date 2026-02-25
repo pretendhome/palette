@@ -1,0 +1,63 @@
+# Palette Integration Recipe: Wispr Flow
+# Generated: 2026-02-24
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-502 (Audio Processing)
+# Priority: MEDIUM — voice input modality evaluation
+
+service_name: "Wispr Flow"
+company: "Wispr Flow"
+company_url: "https://wispr.ai"
+api_url: "N/A — no public API as of 2026-02"
+api_docs: "N/A"
+
+auth_method:
+  type: "N/A"
+  note: "Consumer macOS app only. No developer API, SDK, or programmatic access available."
+
+rate_limits:
+  note: "N/A — consumer app, not an API service"
+
+cost_model: subscription
+cost_per_unit:
+  monthly: "$9/month per user (unvalidated — from people-library signals)"
+  note: "Consumer subscription model. No usage-based or per-request pricing."
+free_tier:
+  availability: "Free trial available (duration unvalidated)"
+  limitation: "Full features during trial; subscription required after"
+
+capabilities:
+  - "Cross-app voice dictation — works system-wide on macOS in any text field"
+  - "143 WPM transcription speed (vs 40 WPM typing)"
+  - "Context-aware corrections — understands technical terminology"
+  - "Fortune 500 adoption (95% per Tanay Kothari claim)"
+  - "Strongest multi-practitioner endorsement in people-library (4 recommenders)"
+
+limitations:
+  - "NO API — consumer macOS app only, no programmatic integration possible"
+  - "macOS only — no Windows, Linux, or mobile"
+  - "Cannot be integrated into Palette agent workflows programmatically"
+  - "No webhook or event-based integration"
+  - "Consumer-grade — no enterprise API roadmap publicly shared"
+
+example_request:
+  description: "N/A — no API available"
+  workaround: |
+    # Wispr Flow cannot be called programmatically.
+    # Alternative: use OpenAI Whisper API (already integrated in Palette Telegram bot)
+
+    import openai
+
+    # Existing Palette integration — Whisper via OpenAI API
+    with open("audio.mp3", "rb") as audio_file:
+        transcript = openai.Audio.transcribe("whisper-1", audio_file)
+    print(transcript["text"])
+
+palette_agent: "N/A — cannot be integrated into any agent workflow"
+palette_integration_plan:
+  current: "Wispr Flow is a personal productivity tool for Palette operators, not a system integration"
+  alternative: "Continue using Whisper (self-hosted) in Telegram bot for voice input"
+  watch_for: "Wispr Flow API announcement — would change this evaluation from 'no_api' to 'evaluate'"
+  adopt_pattern: "If Wispr Flow never ships API, adopt their pattern: context-aware voice dictation via fine-tuned Whisper + LLM correction layer"
+
+status: no_api
+evaluation_verdict: "NO API — cannot integrate. Wispr Flow is a consumer macOS app. Palette continues with Whisper (self-hosted) for voice input. Monitor for API announcement. If none by Phase 4, consider building an adopt_pattern: Whisper + LLM correction layer to replicate Wispr Flow's quality."

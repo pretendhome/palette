@@ -1,0 +1,93 @@
+# Palette Integration Recipe: OpenRouter
+# Generated: 2026-02-24
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-252 (Model Selection), RIU-521 (Model Version Mgmt), RIU-522 (Token Budget), RIU-320 (API Integration)
+# Priority: CRITICAL — core to SageMaker disruptor thesis
+
+service_name: "OpenRouter"
+company: "OpenRouter"
+company_url: "https://openrouter.ai"
+api_url: "https://openrouter.ai/api/v1"
+api_docs: "https://openrouter.ai/docs"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $OPENROUTER_API_KEY"
+  key_source: "https://openrouter.ai/keys"
+  additional_headers:
+    - "HTTP-Referer: <your-site-url>"
+    - "X-Title: <your-app-name>"
+
+rate_limits:
+  without_credits: "50 requests/day, 20 requests/minute"
+  with_credits_10_plus: "1,000 requests/day (increases with spend)"
+  note: "Rate limits increase automatically as spend grows. Contact for enterprise limits."
+
+cost_model: usage_based
+cost_per_unit:
+  model_pricing: "0% markup on provider list prices (pass-through)"
+  credit_purchase_fee: "5.5% ($0.80 minimum) when buying credits via dashboard"
+  byok_fee: "5% usage fee on provider cost when using your own provider keys"
+  billing: "Only billed for successful completions — failed/timed-out requests are free"
+free_tier:
+  free_models: "Several models available at $0 (e.g., meta-llama/llama-3-8b-instruct:free)"
+  rate: "50 requests/day, 20 rpm without credits"
+
+capabilities:
+  - "500+ models across OpenAI, Anthropic, Google, Meta, Mistral, open-source"
+  - "OpenAI-compatible API format — change base URL and API key, code unchanged"
+  - "Automatic fallback routing: if primary model fails, routes to next available"
+  - ":nitro suffix for fastest throughput, :floor suffix for cheapest available"
+  - "BYOK (Bring Your Own Key) — route through OpenRouter using your provider keys"
+  - "Model comparison, benchmarking, and cost tracking per model"
+  - "Usage analytics and budget limits per API key"
+
+limitations:
+  - "5.5% credit purchase fee adds up at scale"
+  - "~40ms latency overhead vs direct API calls"
+  - "No SLA guarantees on free tier"
+  - "Model availability depends on upstream providers"
+  - "BYOK still incurs 5% usage fee"
+
+example_request:
+  description: "Chat completion via OpenRouter (identical to OpenAI format)"
+  curl: |
+    curl https://openrouter.ai/api/v1/chat/completions \
+      -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+      -H "Content-Type: application/json" \
+      -H "HTTP-Referer: https://palette.dev" \
+      -H "X-Title: Palette" \
+      -d '{
+        "model": "anthropic/claude-sonnet-4-6",
+        "messages": [
+          {"role": "user", "content": "Analyze this company positioning..."}
+        ]
+      }'
+  python: |
+    from openai import OpenAI
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key="$OPENROUTER_API_KEY",
+        default_headers={
+            "HTTP-Referer": "https://palette.dev",
+            "X-Title": "Palette"
+        }
+    )
+    response = client.chat.completions.create(
+        model="anthropic/claude-sonnet-4-6",
+        messages=[{"role": "user", "content": "Analyze this..."}]
+    )
+
+routing_examples:
+  cheapest: "model: 'anthropic/claude-sonnet-4-6:floor'"
+  fastest: "model: 'anthropic/claude-sonnet-4-6:nitro'"
+  fallback: "Set fallback models via transforms or client-side retry"
+
+palette_agent: "Rex (Architect) — model routing decisions; all agents benefit from cost tracking"
+palette_integration_plan:
+  phase_1: "Replace direct Claude API calls with OpenRouter for cost tracking and fallback"
+  phase_2: "Add :floor routing for non-critical tasks (Argy enrichment, batch processing)"
+  phase_3: "A/B test model quality for specific RIUs (Claude vs Gemini for multimodal)"
+
+status: available
+evaluation_verdict: "INTEGRATE — lowest barrier to multi-model routing. Aligns with SageMaker thesis of routing to cheapest/best service per task."

@@ -1,0 +1,85 @@
+# Palette Integration Recipe: Gamma Generate API
+# Generated: 2026-02-24
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-413 (Demo Creation), RIU-109 (Business Plan Creation)
+# Priority: HIGH — Yuty agent output layer
+
+service_name: "Gamma"
+company: "Gamma"
+company_url: "https://gamma.app"
+api_url: "https://api.gamma.app"
+api_docs: "https://developers.gamma.app/docs"
+
+auth_method:
+  type: "api_key"
+  header: "Authorization: Bearer $GAMMA_API_KEY"
+  key_source: "Gamma Pro+ account → Settings → API Keys"
+  requires_plan: "Pro ($15/month annual) or higher for API access"
+
+rate_limits:
+  note: "Credit-based. Each generation consumes AI credits. Higher plans get more monthly credits."
+  pro_credits: "Included in Pro plan; ad-hoc purchase available"
+  auto_recharge: "Configurable auto-recharge when credits run low"
+
+cost_model: freemium
+cost_per_unit:
+  free: "400 AI credits (Gamma branding on output)"
+  plus: "$8/month (annual) — unlimited AI, no branding, advanced image models"
+  pro: "$15/month (annual) — premium AI models, API access, custom branding, analytics, 10 custom domains"
+  ultra: "$100/month — most advanced AI models, 100 custom domains, early access"
+  business: "$40/user/month"
+  enterprise: "custom"
+free_tier:
+  credits: "400 AI credits"
+  features: "Export to PDF/PPTX/Google Slides/PNG, publish as webpage"
+  limitation: "Gamma branding on all exports"
+
+capabilities:
+  - "AI-generated presentations, documents, and webpages from text prompts"
+  - "Generate API (GA since January 2026) — programmatic content creation via REST"
+  - "Export to PDF, PowerPoint (.pptx), Google Slides, PNG"
+  - "Direct LinkedIn publishing"
+  - "Custom branding, analytics, and custom domains on Pro+"
+  - "Real-time collaboration and webpage publishing"
+  - "70M users, $2B valuation — production-grade"
+
+limitations:
+  - "API requires Pro plan ($15/month minimum)"
+  - "Credit-based billing — costs vary per generation complexity"
+  - "API is GA but feature set may expand; check changelog"
+  - "No real-time collaboration API — generation is async"
+  - "Output quality depends on prompt quality"
+
+example_request:
+  description: "Generate a presentation via Gamma API"
+  curl: |
+    # Step 1: Create generation request
+    curl -X POST https://api.gamma.app/v1/generate \
+      -H "Authorization: Bearer $GAMMA_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "type": "presentation",
+        "prompt": "Palette Intelligence System: AI-powered service routing for enterprise AI deployments",
+        "options": {
+          "slides": 8,
+          "style": "professional"
+        }
+      }'
+
+    # Step 2: Poll for completion
+    curl https://api.gamma.app/v1/generate/{generation_id} \
+      -H "Authorization: Bearer $GAMMA_API_KEY"
+
+    # Step 3: Export
+    curl https://api.gamma.app/v1/export/{generation_id}?format=pptx \
+      -H "Authorization: Bearer $GAMMA_API_KEY"
+  note: "API endpoints are illustrative — check developers.gamma.app for exact schema"
+
+palette_agent: "Yuty (GTM/Narrative) — narrative → presentation pipeline"
+palette_integration_plan:
+  phase_1: "Yuty generates narrative markdown → Gamma API converts to polished presentation"
+  phase_2: "Template library for recurring deliverable types (competitive scan, business plan, exec update)"
+  phase_3: "Custom-branded Palette deliverables via Gamma custom domains"
+
+status: available
+evaluation_verdict: "INTEGRATE — Generate API is GA (Jan 2026). Pro plan at $15/month unlocks API. Natural output layer for Yuty agent. Grant Lee (CEO, PERSON-016) insider signal."
