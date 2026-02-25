@@ -1,0 +1,65 @@
+# Palette Integration Recipe: k6
+# Generated: 2026-02-25
+# RIUs served: RIU-063 (Performance & Load Characterization)
+
+service_name: "k6"
+company: "Grafana Labs"
+company_url: "https://k6.io"
+api_url: null
+api_docs: "https://grafana.com/docs/k6/latest/"
+
+auth_method:
+  type: "N/A"
+  note: "Open-source CLI tool. Grafana Cloud k6 requires Grafana Cloud account for hosted runs."
+
+rate_limits:
+  note: "Local execution has no limits. Grafana Cloud k6 limits vary by plan."
+
+cost_model: freemium
+cost_per_unit:
+  oss: "$0.00 (open source, Apache 2.0)"
+  cloud: "Free tier: 50 cloud tests/month. Pro: from $99/month."
+free_tier:
+  availability: "Full-featured OSS CLI. Cloud: 50 tests/month free."
+  limitation: "Cloud-only features (geo-distributed load, dashboards) require paid plan"
+
+capabilities:
+  - "JavaScript-based load test scripting"
+  - "HTTP, WebSocket, gRPC, and browser protocol support"
+  - "Thresholds for pass/fail criteria on latency, error rate, throughput"
+  - "Stages for ramping load patterns (spike, soak, stress tests)"
+  - "Integration with Grafana dashboards for real-time visualization"
+  - "CI/CD integration via CLI exit codes"
+  - "Extensions ecosystem for custom protocols"
+
+limitations:
+  - "JavaScript scripting only (no Python)"
+  - "Browser testing is newer, less mature than Playwright"
+  - "Cloud execution requires Grafana Cloud account"
+
+example_request:
+  description: "Run a load test against an API endpoint"
+  python: |
+    # k6 is a CLI tool — invoke from Python via subprocess
+    # k6 scripts are written in JavaScript
+
+    # script.js:
+    # import http from 'k6/http';
+    # import { check } from 'k6';
+    # export const options = { vus: 50, duration: '30s' };
+    # export default function () {
+    #   const res = http.get('https://api.example.com/health');
+    #   check(res, { 'status is 200': (r) => r.status === 200 });
+    # }
+
+    import subprocess
+    result = subprocess.run(["k6", "run", "script.js"], capture_output=True, text=True)
+    print(result.stdout)
+
+palette_agent: "Anky (Validator) — performance gate enforcement"
+palette_integration_plan:
+  phase_1: "Write k6 scripts for critical Palette API endpoints"
+  phase_2: "Integrate into CI/CD with pass/fail thresholds"
+
+status: available
+evaluation_verdict: "INTEGRATE — industry standard for load testing. OSS, scriptable, CI/CD-native. Grafana Labs backing ensures long-term maintenance."

@@ -1,0 +1,71 @@
+# Palette Integration Recipe: Arize AI
+# Generated: 2026-02-25
+# RIUs served: RIU-543 (Drift Detection Configuration)
+
+service_name: "Arize AI"
+company: "Arize AI"
+company_url: "https://arize.com"
+api_url: "https://api.arize.com/v1"
+api_docs: "https://docs.arize.com"
+
+auth_method:
+  type: "api_key"
+  header: "Authorization: Bearer $ARIZE_API_KEY"
+  key_source: "Arize dashboard → Settings → API Keys"
+  additional_headers:
+    - "space-id: $ARIZE_SPACE_ID"
+
+rate_limits:
+  note: "Varies by plan. Community tier has ingestion limits."
+
+cost_model: freemium
+cost_per_unit:
+  community: "$0.00 (1M predictions/month, 1 model)"
+  teams: "From $250/month"
+  enterprise: "Custom pricing"
+free_tier:
+  availability: "Community: 1M predictions/month, 1 model, 30-day retention"
+  limitation: "Single model, limited retention, no SSO"
+
+capabilities:
+  - "Data and model drift detection (PSI, KL divergence, KS test)"
+  - "Embedding drift monitoring for LLM and vector search"
+  - "Performance monitoring with automatic alerting"
+  - "LLM tracing and evaluation (LLM-specific features)"
+  - "Root cause analysis with automated insights"
+  - "Integration with MLflow, SageMaker, Vertex AI"
+  - "Real-time and batch ingestion via SDK"
+
+limitations:
+  - "Community tier limited to 1 model"
+  - "Teams pricing ($250+/month) is significant for small teams"
+  - "Newer LLM features are less mature than core ML monitoring"
+  - "Vendor lock-in risk for monitoring data"
+
+example_request:
+  description: "Log predictions and monitor for drift"
+  python: |
+    from arize.api import Client
+    from arize.utils.types import ModelTypes, Environments
+
+    client = Client(space_id="$ARIZE_SPACE_ID", api_key="$ARIZE_API_KEY")
+
+    response = client.log(
+        model_id="palette-router-v1",
+        model_version="1.0",
+        model_type=ModelTypes.SCORE_CATEGORICAL,
+        environment=Environments.PRODUCTION,
+        prediction_id=prediction_id,
+        prediction_label=predicted_service,
+        actual_label=actual_service_used,
+        features=feature_dict,
+    )
+
+palette_agent: "Para (Monitor) — drift detection and model health; Anky (Validator) — quality gate enforcement"
+palette_integration_plan:
+  phase_1: "Evaluate community tier for Palette routing model drift"
+  phase_2: "Monitor embedding drift in knowledge library search"
+  phase_3: "Automated retraining triggers based on drift alerts"
+
+status: available
+evaluation_verdict: "INTEGRATE — strongest production ML monitoring platform. Community tier (free, 1M predictions) is sufficient for Palette's current scale. WhyLabs discontinued (acquired by Apple) — Arize is the primary alternative."

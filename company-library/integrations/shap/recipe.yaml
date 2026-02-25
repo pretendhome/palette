@@ -1,0 +1,61 @@
+# Palette Integration Recipe: SHAP
+# Generated: 2026-02-25
+# RIUs served: RIU-532 (AI Explainability Framework)
+
+service_name: "SHAP"
+company: "Open Source (Scott Lundberg / Microsoft Research)"
+company_url: "https://shap.readthedocs.io"
+api_url: null
+api_docs: "https://shap.readthedocs.io/en/latest/"
+
+auth_method:
+  type: "N/A"
+  note: "Open-source Python library. pip install shap."
+
+rate_limits:
+  note: "N/A — local library, no API calls."
+
+cost_model: free
+cost_per_unit:
+  note: "$0.00 (MIT License)"
+free_tier:
+  availability: "Fully open source"
+  limitation: "None — all features available"
+
+capabilities:
+  - "SHAP values: unified measure of feature importance based on game theory"
+  - "Model-agnostic explainability (works with any model)"
+  - "TreeExplainer: fast exact SHAP for tree-based models (XGBoost, LightGBM)"
+  - "DeepExplainer: approximate SHAP for deep learning models"
+  - "KernelExplainer: model-agnostic (slow but works with anything)"
+  - "Rich visualizations: force plots, summary plots, dependence plots, waterfall"
+  - "Text and image explainability support"
+
+limitations:
+  - "KernelExplainer is slow for large datasets (O(2^n) worst case)"
+  - "LLM-specific explainability is limited — better for traditional ML"
+  - "Shapley values can be unintuitive for non-technical stakeholders"
+  - "Memory-intensive for high-dimensional data"
+
+example_request:
+  description: "Explain a model prediction with SHAP values"
+  python: |
+    import shap
+
+    # For tree-based models (fast)
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(X_test)
+    shap.summary_plot(shap_values, X_test)
+
+    # For any model (slower, model-agnostic)
+    explainer = shap.KernelExplainer(model.predict, X_train[:100])
+    shap_values = explainer.shap_values(X_test[:10])
+    shap.force_plot(explainer.expected_value, shap_values[0], X_test.iloc[0])
+
+palette_agent: "Anky (Validator) — model explainability for stakeholder trust"
+palette_integration_plan:
+  phase_1: "Use SHAP to explain Palette's routing decisions to Claudia-type users"
+  phase_2: "Integrate SHAP visualizations into evaluation reports"
+
+status: available
+evaluation_verdict: "INTEGRATE — gold standard for model explainability. 20k+ GitHub stars. Complements Fairlearn for a full bias+explainability stack."

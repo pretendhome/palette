@@ -1,0 +1,60 @@
+# Palette Integration Recipe: Fairlearn
+# Generated: 2026-02-25
+# RIUs served: RIU-531 (Algorithmic Bias Detection)
+
+service_name: "Fairlearn (Microsoft)"
+company: "Microsoft"
+company_url: "https://fairlearn.org"
+api_url: null
+api_docs: "https://fairlearn.org/v0.10/user_guide/"
+
+auth_method:
+  type: "N/A"
+  note: "Open-source Python library. pip install fairlearn."
+
+rate_limits:
+  note: "N/A — local library, no API calls."
+
+cost_model: free
+cost_per_unit:
+  note: "$0.00 (MIT License)"
+free_tier:
+  availability: "Fully open source"
+  limitation: "None — all features available"
+
+capabilities:
+  - "Bias metrics: demographic parity, equalized odds, equal opportunity"
+  - "Fairness dashboard for interactive exploration"
+  - "Mitigation algorithms: exponentiated gradient, threshold optimizer, grid search"
+  - "Integration with scikit-learn estimators"
+  - "Group fairness and individual fairness assessment"
+  - "Support for classification and regression tasks"
+
+limitations:
+  - "Focused on tabular/structured data — limited support for LLM-specific bias"
+  - "Mitigation algorithms may reduce overall accuracy"
+  - "Requires well-defined sensitive attributes (not always available)"
+  - "No hosted service — library only"
+
+example_request:
+  description: "Assess demographic parity of a classifier"
+  python: |
+    from fairlearn.metrics import MetricFrame, selection_rate
+    from sklearn.metrics import accuracy_score
+
+    metric_frame = MetricFrame(
+        metrics={"accuracy": accuracy_score, "selection_rate": selection_rate},
+        y_true=y_test,
+        y_pred=y_pred,
+        sensitive_features=sensitive_features
+    )
+    print(metric_frame.by_group)
+    print(f"Disparity: {metric_frame.difference()}")
+
+palette_agent: "Anky (Validator) — bias detection in AI outputs"
+palette_integration_plan:
+  phase_1: "Evaluate Fairlearn for classification bias in Palette's routing decisions"
+  phase_2: "Build bias dashboard for production model outputs"
+
+status: available
+evaluation_verdict: "INTEGRATE — Microsoft-backed, MIT-licensed, scikit-learn compatible. Standard for algorithmic fairness assessment. Use alongside SHAP for full explainability stack."
