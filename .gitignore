@@ -7,3 +7,5 @@ agents/orchestrator/orch
 .DS_Store
 .venv/
 scripts/pis/traversal_health.jsonl
+scripts/pis/state/
+scripts/pis/pis_query_log.jsonl
