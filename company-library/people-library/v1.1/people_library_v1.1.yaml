@@ -611,6 +611,7 @@ profiles:
         handle: "guillermo-rauch"
         followers: 52519
         connection_degree: "2nd"
+      github: "rauchg"
       company: "https://vercel.com"
 
     affiliation:
@@ -813,6 +814,7 @@ profiles:
         followers: 159127
         badge: "Executive Top Voice"
         connection_degree: "3rd"
+      github: "AntOsika"
       company: "https://lovable.dev"
 
     affiliation:
@@ -1643,6 +1645,7 @@ profiles:
         handle: "pablorpalafox"
         url: "https://www.linkedin.com/in/pablorpalafox"
         connection_degree: "2nd"
+      github: "pablorpalafox"
       twitter: "x.com/pablorpalafox"
 
     affiliation:
@@ -1706,7 +1709,7 @@ profiles:
     signal_quality: high
     status: active
     perplexity_enrichment_status: complete
-    enrichment_date: "2026-02-24"
+    enrichment_date: "2026-02-25"
     enrichment_notes: "Promoted from watch list. Score 5/5. Frontier AI paradigm-setter — when he names a paradigm (vibe coding, agentic engineering), the industry follows within weeks. No equivalent in existing library."
 
     location:
@@ -1717,6 +1720,7 @@ profiles:
         handle: "karpathy"
         url: "https://x.com/karpathy"
         followers: 1700000
+      github: "karpathy"
       youtube: "Andrej Karpathy (educational content)"
 
     affiliation:
@@ -1779,6 +1783,44 @@ profiles:
     added_date: "2026-02-24"
     last_verified: "2026-02-24"
 
+    github_data:
+      username: "karpathy"
+      followers: 135011
+      public_repos: 61
+      bio: I like to train Deep Neural Nets on large datasets.
+      blog: https://twitter.com/karpathy
+      top_repos:
+      - name: rustbpe
+        stars: 368
+        description: The missing tiktoken training code
+        language: Rust
+        forks: 27
+        last_push: '2026-01-03T22:24:54Z'
+      - name: hn-time-capsule
+        stars: 563
+        description: Analyzing Hacker News discussions from a decade ago in hindsight with LLMs
+        language: Python
+        forks: 52
+        last_push: '2025-12-10T16:59:29Z'
+      - name: cpython
+        stars: 43
+        description: The Python programming language
+        forks: 2
+        last_push: '2025-12-19T06:13:32Z'
+      - name: llm-council
+        stars: 14982
+        description: LLM Council works together to answer your hardest questions
+        language: Python
+        forks: 3024
+        last_push: '2025-11-22T23:35:21Z'
+      - name: reader3
+        stars: 3319
+        description: Quick illustration of how one can easily read books together with LLMs. It's great and I highly recommend it.
+        language: Python
+        forks: 416
+        last_push: '2025-11-18T02:37:51Z'
+      fetched_at: '2026-02-25T16:42:07Z'
+
   # ───────────────────────────────────────────
 
   - id: "PERSON-020"
@@ -1796,6 +1838,7 @@ profiles:
 
     platforms:
       website: "huyenchip.com"
+      github: "chiphuyen"
       linkedin: "LinkedIn Top Voice in Data Science & AI (2020)"
 
     affiliation:

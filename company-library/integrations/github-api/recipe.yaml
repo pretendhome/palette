@@ -1,0 +1,64 @@
+service_name: "GitHub API"
+company: "GitHub (Microsoft)"
+company_url: "https://github.com"
+api_url: "https://api.github.com"
+api_docs: "https://docs.github.com/en/rest"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $GITHUB_TOKEN"
+  key_source: "https://github.com/settings/tokens"
+  note: "Fine-grained personal access token recommended. Public data only — no scopes needed beyond default."
+
+rate_limits:
+  unauthenticated: "60 requests/hour"
+  authenticated: "5,000 requests/hour"
+  note: "Palette enrichment uses ~4 calls per profile (user, repos, events, orgs). 21 profiles = ~84 calls — well within limits."
+
+cost_model: free
+cost_per_unit:
+  api_access: "Free (public data)"
+  note: "No charges for REST API access to public user/repo data"
+
+capabilities:
+  - "User profiles: bio, company, location, blog, follower count"
+  - "Repository listing: stars, forks, language, last push date"
+  - "Public events: push events for recent commit estimation"
+  - "Organization memberships: public org list"
+  - "Search: code, repositories, users, issues"
+
+limitations:
+  - "Events API returns last 90 days only, max 300 events"
+  - "Rate limit resets hourly (X-RateLimit-Reset header)"
+  - "Private repos/activity not visible without additional scopes"
+  - "GraphQL API available but REST sufficient for enrichment"
+
+example_request:
+  python: |
+    import httpx
+
+    headers = {
+        "Authorization": "Bearer $GITHUB_TOKEN",
+        "Accept": "application/vnd.github.v3+json",
+    }
+    # Fetch user profile
+    resp = httpx.get("https://api.github.com/users/karpathy", headers=headers)
+    user = resp.json()
+    print(f"{user['login']}: {user['followers']} followers, {user['public_repos']} repos")
+
+    # Fetch top repos by stars
+    resp = httpx.get(
+        "https://api.github.com/users/karpathy/repos?type=owner&sort=stars&per_page=5",
+        headers=headers,
+    )
+    for repo in resp.json():
+        print(f"  {repo['name']}: {repo['stargazers_count']} stars")
+
+palette_agent: "Argy (Research) → Enrichment Pipeline"
+palette_integration_plan:
+  phase_3a: "Automated people-library enrichment — GitHub profile, repos, activity, orgs"
+  phase_3b: "Price oracle — fetch repo metadata for service-routing cost validation"
+  phase_4: "PIS query agent — live GitHub data in Argy research responses"
+
+status: available
+evaluation_verdict: "INTEGRATE — free, authenticated, 5,000 req/hr. First enrichment source for Phase 3."

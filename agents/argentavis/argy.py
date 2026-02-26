@@ -92,6 +92,7 @@ class BackendRegistry:
         self.perplexity = bool(os.environ.get("PERPLEXITY_API_KEY"))
         self.tavily     = bool(os.environ.get("TAVILY_API_KEY"))
         self.exa        = bool(os.environ.get("EXA_API_KEY"))
+        self.github     = bool(os.environ.get("GITHUB_TOKEN"))
 
     def available(self) -> list[str]:
         out = []
@@ -99,11 +100,18 @@ class BackendRegistry:
         if self.perplexity: out.append("perplexity")
         if self.tavily:     out.append("tavily")
         if self.exa:        out.append("exa")
+        if self.github:     out.append("github")
         return out
 
     def report(self) -> str:
         a = self.available()
         return "backends: " + ", ".join(a) if a else "no backends — set API keys"
+
+    def github_enrichment_note(self) -> str:
+        """Return a gap note about GitHub enrichment availability."""
+        if self.github:
+            return "GitHub enrichment available — run enrichment pipeline to update stale profiles"
+        return "GitHub enrichment unavailable — set GITHUB_TOKEN to enable"
 
 
 # ── Knowledge library ─────────────────────────────────────────────────────────
