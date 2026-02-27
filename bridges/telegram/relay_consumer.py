@@ -84,9 +84,10 @@ def build_stub_response(intent: str, user_request: str) -> str:
             "A downstream Palette/Orch worker should read this request and produce a reviewed summary.\n\n"
             f"Captured request: {user_request[:500]}"
         )
-    if intent == "status_request":
+    if intent in {"status_request", "daily_update"}:
+        label = "daily_update" if intent == "daily_update" else "status_request"
         return (
-            "Accepted relay `status_request`.\n\n"
+            f"Accepted relay `{label}`.\n\n"
             "V1 consumer is a safe stub: it recorded your request and generated this placeholder response. "
             "No runtime/system status was queried."
         )
@@ -204,7 +205,7 @@ def build_orch_task(
                 "safety=do not fabricate live repo/system state; route if live data required",
             ]
         )
-    elif impl_id == "retail-rossi-store" and intent == "status_request":
+    elif impl_id == "retail-rossi-store" and intent in {"status_request", "daily_update"}:
         base.extend(
             [
                 "domain=rossi mission project status/fundability tracking",

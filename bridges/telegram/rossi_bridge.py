@@ -296,6 +296,7 @@ def relay_create_request(chat_id: int, raw_text: str, *, sender_id: int | None =
         return ("error", "Usage: `/relay <intent> <request text>`")
     intent, user_request = m.group(1).strip(), m.group(2).strip()
     allowlist = {
+        "daily_update",
         "orch_summary_request",
         "status_request",
         "update_request",
@@ -482,6 +483,7 @@ def cmd_help(chat_id: int) -> None:
         "`/as_eiad` — operator/execution framing\n"
         "`/as_auto` — auto lens selection (experimental)\n"
         "`/relay <intent> <text>` — create a Palette relay request artifact (safe, no exec)\n"
+        "`/relay daily_update <text>` — intuitive alias for status-style daily priorities\n"
         "`/help` — this menu\n\n"
         f"*Actor mode:* `{actor_mode}`"
     )
