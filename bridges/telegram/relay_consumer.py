@@ -76,6 +76,167 @@ def extract_section(body: str, heading: str) -> str:
     return tail.strip()
 
 
+def _read_text(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+
+
+def _priority_rank(value: str) -> int:
+    text = (value or "").strip().upper()
+    if text == "P0":
+        return 0
+    if text == "P1":
+        return 1
+    if text == "P2":
+        return 2
+    return 9
+
+
+def _extract_weekly_tasks(board_text: str) -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
+    lines = board_text.splitlines()
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        if not (line.startswith("|") and "Priority" in line and "Task" in line):
+            i += 1
+            continue
+
+        headers = [c.strip().lower() for c in line.strip("|").split("|")]
+        i += 1
+        # Skip separator row if present.
+        if i < len(lines) and lines[i].strip().startswith("|---"):
+            i += 1
+
+        while i < len(lines):
+            row = lines[i].strip()
+            if not row.startswith("|"):
+                break
+            if row.startswith("|---"):
+                i += 1
+                continue
+            cells = [c.strip() for c in row.strip("|").split("|")]
+            if len(cells) != len(headers):
+                i += 1
+                continue
+            item = dict(zip(headers, cells))
+            task = item.get("task", "")
+            if task:
+                rows.append(
+                    {
+                        "priority": item.get("priority", ""),
+                        "task": task,
+                        "owner": item.get("owner", ""),
+                        "due": item.get("due", ""),
+                        "blocked_by": item.get("blocked by", ""),
+                        "status": item.get("status", ""),
+                    }
+                )
+            i += 1
+    return rows
+
+
+def _extract_backlog_tasks(backlog_text: str) -> list[str]:
+    tasks: list[str] = []
+    for line in backlog_text.splitlines():
+        m = re.match(r"^\s*-\s+\[\s\]\s+(.+?)\s*$", line)
+        if m:
+            tasks.append(m.group(1).strip())
+    return tasks
+
+
+def _resolve_impl_root(store: TelegramRelayStore) -> Path:
+    # Primary shape: <implementations_root>/<impl_id>/telegram
+    direct = store.paths.base.parent
+    if (direct / "workflows").exists():
+        return direct
+
+    # Alternate shape: <implementations_root>/<domain>/<impl_id>/telegram
+    base_parent = store.paths.base.parent.parent
+    if base_parent.exists():
+        for child in sorted(base_parent.glob(f"*/{store.impl_id}")):
+            if (child / "workflows").exists():
+                return child
+    return direct
+
+
+def build_daily_update_response(store: TelegramRelayStore, user_request: str) -> tuple[str, dict[str, Any]]:
+    impl_root = _resolve_impl_root(store)
+    weekly_path = impl_root / "workflows" / "WEEKLY_ACTION_BOARD.md"
+    backlog_path = impl_root / "telegram" / "ROSSI_ACTION_BACKLOG.md"
+
+    weekly_text = _read_text(weekly_path)
+    backlog_text = _read_text(backlog_path)
+    weekly_tasks = _extract_weekly_tasks(weekly_text)
+    weekly_tasks.sort(key=lambda t: (_priority_rank(t["priority"]), t["due"] or "ZZZ", t["task"]))
+    top = weekly_tasks[:5]
+
+    lines = [
+        "## Daily Update — Rossi (File-Backed)",
+        "",
+        f"Request: {user_request[:400]}",
+        "",
+    ]
+
+    missing_fields: list[str] = []
+    if top:
+        lines.append("### Top 5 Priorities")
+        for idx, item in enumerate(top, start=1):
+            owner = item.get("owner") or "missing"
+            due = item.get("due") or "missing"
+            blocker = item.get("blocked_by") or "none listed"
+            status = item.get("status") or "unknown"
+            if owner == "missing":
+                missing_fields.append(f"row {idx} owner")
+            if due == "missing":
+                missing_fields.append(f"row {idx} due")
+            lines.extend(
+                [
+                    f"{idx}. [{item.get('priority') or 'P?'}] {item.get('task', '')}",
+                    f"   - Owner: {owner}",
+                    f"   - Due: {due}",
+                    f"   - Blocker: {blocker}",
+                    f"   - Status: {status}",
+                ]
+            )
+    else:
+        lines.extend(
+            [
+                "No actionable priority rows were found in `workflows/WEEKLY_ACTION_BOARD.md`.",
+                "Please fill the action board table with Priority/Task/Owner/Due/Blocked By.",
+            ]
+        )
+
+    backlog = _extract_backlog_tasks(backlog_text)
+    if backlog:
+        lines.extend(["", "### Backlog Pull (Next Unowned Items)"])
+        for item in backlog[:3]:
+            lines.append(f"- {item}")
+
+    if missing_fields:
+        lines.extend(["", "### Missing Data", "- " + "; ".join(missing_fields[:8])])
+
+    lines.extend(
+        [
+            "",
+            "Source files:",
+            f"- {weekly_path}",
+            f"- {backlog_path}",
+        ]
+    )
+
+    evidence = {
+        "daily_update_mode": "file_backed_v1",
+        "source_files": [str(weekly_path), str(backlog_path)],
+        "weekly_task_count": len(weekly_tasks),
+        "backlog_open_count": len(backlog),
+        "missing_fields": missing_fields[:20],
+    }
+    return "\n".join(lines), evidence
+
+
 def build_stub_response(intent: str, user_request: str) -> str:
     if intent == "orch_summary_request":
         return (
@@ -319,6 +480,9 @@ def process_request_file(store: TelegramRelayStore, req_path: Path) -> tuple[str
     live_call = False
     evidence: dict[str, Any] = {"request_artifact": str(req_path)}
     response_text = build_stub_response(intent, user_request)
+    if store.impl_id == "retail-rossi-store" and intent == "daily_update":
+        response_text, daily_evidence = build_daily_update_response(store, user_request)
+        evidence.update(daily_evidence)
     structured_task = build_orch_task(
         impl_id=store.impl_id,
         intent=intent,
