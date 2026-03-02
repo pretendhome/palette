@@ -237,7 +237,11 @@ def _check_service_recipe_ambiguity(data: IntegrityData) -> list[Finding]:
                 if svc_words and rec_words and len(svc_words & rec_words) >= 2:
                     candidates.append(key)
             if len(set(candidates)) > 1:
-                ambiguous.append((riu_id, name, sorted(set(candidates))))
+                # Check if an override exists for this service
+                from scripts.pis.integrity import _load_overrides
+                overrides = _load_overrides()
+                if name.lower() not in overrides:
+                    ambiguous.append((riu_id, name, sorted(set(candidates))))
 
     if ambiguous:
         evidence_rows = [f"{riu}: {svc} -> {cands}" for riu, svc, cands in ambiguous[:5]]
