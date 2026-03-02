@@ -262,8 +262,8 @@ signals:
   - id: "PERSON-016"
     name: "Grant Lee (Gamma CEO)"
     reason: "Coding efficiency for 28-person engineering team at Gamma"
-  riu_primary: "RIU-040"
-  riu_name: "Code Generation Workflow (company-library internal reference)"
+  riu_primary: "RIU-413"
+  riu_name: "Customer Value Demo Creation"
   riu_secondary: []
   company_library_status: in_company_library
   palette_action: integrate

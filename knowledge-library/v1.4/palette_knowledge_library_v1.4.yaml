@@ -5467,7 +5467,6 @@ library_questions:
   problem_type: Data_Semantics_and_Quality
   related_rius:
   - RIU-252
-  - RIU-253
   - RIU-524
   difficulty: medium
   industries:
