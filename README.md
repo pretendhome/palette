@@ -1,266 +1,298 @@
-# Palette: Agent Toolkit for Forward Deployed Engineers
+<div align="center">
 
-**Version**: 1.3  
-**Status**: Active Development (production-like daily use, formal hardening in progress)  
-**Development Time**: 2.5 years  
-**Validation**: AWS Solutions Engineering POC tools
+# Palette
+
+### An Applied Intelligence Toolkit for Forward Deployed Engineers
+
+One conversational interface that knows your business, routes any problem to the best service at the lowest cost, and delivers a governed outcome — not just an answer.
+
+---
+
+[![Status](https://img.shields.io/badge/status-production--ready-brightgreen)]()
+[![Integrity](https://img.shields.io/badge/integrity-8%2F8_passing-brightgreen)]()
+[![SLOs](https://img.shields.io/badge/SLOs-7%2F7_passing-brightgreen)]()
+[![RIUs](https://img.shields.io/badge/RIUs-117-blue)]()
+[![Knowledge](https://img.shields.io/badge/knowledge-498_entries-blue)]()
+[![Recipes](https://img.shields.io/badge/recipes-69-blue)]()
+[![License](https://img.shields.io/badge/license-private-lightgrey)]()
+
+</div>
 
 ---
 
 ## What Is Palette?
 
-Palette is a three-tier agent toolkit that does the work of a team of language engineers.
+Palette is an applied intelligence toolkit that turns natural language problems into governed, evidence-backed decisions. It maps 117 validated problem-solution pairs across 6 data layers, routes to the cheapest and best service for each task, and proves its own structural health at every step.
 
-I built this over 2.5 years at AWS, starting from a science team working on a POI knowledge graph (25 billion nodes). The whole team spent our time curating one main prompt, testing changes, iterating.
+**The thesis**: instead of configuring pipelines and picking models, you describe your problem. The system knows your context, routes to the right tool at the right price, and delivers a governed outcome with evidence at every step.
 
-**I kept thinking: There has to be a better way.**
+### Key Capabilities
 
-So I built a system with three tiers:
-1. **Core Prompt** (Tier 1) — The final prompt, immutable rules, never changes
-2. **Agents** (Tier 2) — Middle tier that tests problems against solutions and builds what's needed
-3. **Testing at Scale** (Tier 3) — Logs what works, enables learning and promotion
-
-**New in v1.3**: Enterprise security (agent identity, guardrails, least privilege), decision classification framework, and quality evaluation methods.
+- **Traversal Engine** — Query any problem, get a structured decision packet: top recommendation, ranked alternatives, cost data, knowledge citations, completeness score
+- **Integrity Engine** — 8 consistency checks across 6 data layers, catching orphans, missing links, and ambiguous mappings in real time
+- **Governance Layer** — Every decision classified as `ship` / `ship_with_risks` / `ship_with_convergence` / `block` with explicit reversibility gates
+- **Multi-Agent Relay** — 7 specialized agents with promotion/demotion logic and explicit handoff contracts
 
 ---
 
-## The Three Artifacts
+## System Summary
 
-### 1. Optimized Taxonomy (Dynamic RIU Catalog)
+<div align="center">
 
-Located: `taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml` (current snapshot)
+| Component | Specification |
+|:--|:--|
+| Problem-Solution Pairs (RIUs) | 117 (80 internal, 37 service-routed) |
+| Knowledge Entries | 498 with verified source citations |
+| Integration Recipes | 69 (auth, endpoints, cost, quality tier) |
+| Service Routing | 106 services across 40 routing profiles |
+| People Signals | 21 profiles, 33 tools tracked |
+| Override Registry | 19 explicit mappings for ambiguous cases |
+| Agents | 7 specialized (research, architecture, build, debug, narrative, validation, monitoring) |
+| Active Projects | 9 (retail, talent, education, finance, dev) |
 
-What I would design for AWS if I could start from scratch. Uses AWS "use cases"—problems connected to proven solutions. Hard-fought, battle-tested solutions that cover everything you can build on a cloud platform.
-
-**Why this doesn't get outdated**: While technology changes (LLMs can do X, agents can do Y), the core customer problems and desired solutions are relatively static.
-
-**Current snapshot**: 117 RIUs (see `taxonomy_statistics.total_rius` in taxonomy file)
-
-### 2. Knowledge Library (Dynamic Q&A + Sources)
-
-Located: `knowledge-library/v1.2/palette_knowledge_library_v1.2.yaml`
-
-Curated GTM knowledge from AWS internal chatbot, validated with internal tooling. Each entry includes:
-- Question
-- Answer
-- Source (many public, verifiable, cross-referenceable)
-- Metadata connecting to taxonomy
-
-**How it stays current**: Manually add sources when we find them. Do deep dives when areas feel lacking.
-
-**Current status**: Metadata reports 81 curated questions; audit and dedupe checks run via integrity script.
-
-### 3. Company-RIU Mapping Library (127 companies, 12 use cases)
-
-Located: `company-library/v1.0/palette_company_riu_mapping_v1.0.yaml`
-
-Maps 127 funded AI companies to Palette RIUs across 12 use cases. Market validation — funded companies = real problems. Each entry includes company name, funding stage, use case description, and RIU mapping.
-
-**Why this matters**: If venture-backed companies are building solutions in a space, that's external evidence the problem is real. This library connects market signals to Palette's taxonomy.
-
-**New in v1.3**: Initial baseline (v1.0), Perplexity validation pending
+</div>
 
 ---
 
-## How It Works
+## Architecture
 
-1. **You give me a problem**
-2. **System classifies it in the taxonomy** (matches one or more RIUs)
-3. **Routes to an agent** that already has information on how to solve it
-4. **Agent has access to**:
-   - Internal code patterns (from agents/)
-   - GTM knowledge library (93 Q&A pairs)
-5. **Agent builds what's needed**
-6. **When it does good work consistently, it gets promoted**:
-   - UNVALIDATED → WORKING (after 10 successes)
-   - WORKING → PRODUCTION (after 50 runs <5% failure)
-   - Automatic demotion if 2 failures within 10 runs
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     Natural Language In                       │
+├─────────────────────────────────────────────────────────────┤
+│  Cory (Resolver)  →  Coordination Pipeline  →  Traverse     │
+│                                                              │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │  6 Data Layers                                       │    │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐            │    │
+│  │  │Taxonomy  │ │Routing   │ │Recipes   │            │    │
+│  │  │117 RIUs  │ │106 svcs  │ │69 specs  │            │    │
+│  │  └──────────┘ └──────────┘ └──────────┘            │    │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐            │    │
+│  │  │Knowledge │ │Signals   │ │Overrides │            │    │
+│  │  │498 entries│ │21 people │ │19 maps   │            │    │
+│  │  └──────────┘ └──────────┘ └──────────┘            │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                                                              │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │  Integrity Layer                                     │    │
+│  │  Integrity → Audit → Regression → Drift → Para      │    │
+│  │  8/8 checks   1 finding  7/7 SLOs   15 clusters     │    │
+│  └─────────────────────────────────────────────────────┘    │
+├─────────────────────────────────────────────────────────────┤
+│                    Governed Action Out                        │
+│         ship │ ship_with_risks │ ship_with_convergence │ block│
+└─────────────────────────────────────────────────────────────┘
+```
 
----
+### Three Tiers
 
-## Day-One Value
+**Tier 1: Core Prompt** — Immutable rules. Convergence before execution, glass-box reasoning, ONE-WAY DOOR vs TWO-WAY DOOR classification.
 
-**You give me a few problems. I immediately become a manager of agents solving those issues.**
+**Tier 2: Agents** — 7 specialized agents that earn autonomy through measured performance. UNVALIDATED → WORKING → PRODUCTION. Automatic demotion on repeated failures.
 
-The system:
-- Classifies your problem
-- Routes to appropriate agent
-- Agent retrieves proven patterns
-- Builds solution
-- Learns from success/failure
-
----
-
-## Active Projects
-
-Three projects currently validate Palette in practice:
-
-### 1. Teaching Agentic Systems (`/fde/implementations/talent/talent-gap-interview/`)
-Interview prep and 30-minute demos showing how Palette's three-tier system works. Uses taxonomy routing and agent archetypes to teach agentic concepts with a live toolkit.
-
-### 2. Small Business Help (`/fde/implementations/retail/retail-rossi-store/`)
-Building a business plan for a graffiti art gallery. Palette routes the problem through RIUs covering customer engagement, market analysis, and operational planning.
-
-### 3. Video Game Development (`/fde/implementations/dev/dev-mythfall-game/`)
-Multiplayer RPG built with Godot + Node.js. Palette manages architecture decisions, implementation patterns, and quality validation across a complex game development stack.
+**Tier 3: Integrity System** — Structural proof that the system is healthy. Consistency checks, audit findings, regression detection, SLO enforcement, terminology drift tracking.
 
 ---
 
-## File Structure
+## Current Status
+
+<div align="center">
+
+| Metric | Value | Threshold |
+|:--|:--|:--|
+| Consistency checks | **8/8 passing** | 8/8 |
+| SLO compliance | **7/7 passing** | 7/7 |
+| Regressions | **0** | 0 |
+| Improvements tracked | **44** | — |
+| Audit findings | **1** (medium, non-blocking) | 0 critical |
+| Risk score | **2** (down from 14) | — |
+| Avg completeness | **81.8/100** | ≥ 40 |
+| Routing↔Recipe match | **106/106** | ≥ 95% |
+| Knowledge coverage | **498/498** (100%) | ≥ 50% |
+| Terminology drift clusters | **15** (3 high, 9 medium, 3 low) | — |
+| Traverse health | **117/117 healthy** | — |
+
+</div>
+
+---
+
+## Traverse Engine
+
+The traverse engine is the read path of the system. Query any RIU and get a structured decision packet:
+
+```
+$ python3 -c "
+from scripts.pis.loader import load_all
+from scripts.pis.traverse import traverse
+r = traverse(load_all(), riu_id='RIU-082')
+"
+
+RIU: RIU-082 — LLM Safety Guardrails (Content + Tool Use)
+Classification: both
+Recommendation: AWS Bedrock Guardrails
+  Quality: tier_1 | Cost: PII + word filters FREE. Content: $0.15/1K units.
+  Integration: available | Recipe: True
+Alternatives:
+  - Lakera Guard (tier_1, free 10K req/month, Pro $99/month)
+  - Guardrails AI (tier_1, OSS free, Pro ~$50/month)
+Knowledge support: 9 entries
+Completeness: 85/100
+Health: ok
+```
+
+Every both-classified RIU (37/37) returns a recommendation with alternatives, cost data, and evidence citations.
+
+---
+
+## Integrity Engine
+
+The integrity engine is the write path — structural proof that the system is healthy.
+
+```bash
+# Consistency checks
+python3 -m scripts.pis.integrity --checks-only
+
+# Audit with severity ranking
+python3 -m scripts.pis.audit_system
+
+# Regression check against baseline
+python3 -m scripts.pis.regression --check
+
+# Terminology drift detection
+python3 -m scripts.pis.drift
+
+# Governance decision
+python3 -m scripts.pis.para_decision
+```
+
+The Para decision engine chains all four checks and outputs a governed decision:
+
+```
+Decision: ship_with_risks
+Accepted risks:
+  - LINK_MISSING_PEOPLE_SIGNALS: 28 RIUs without people signal coverage
+Required actions:
+  - Expand people signal crossrefs for uncovered both-classified RIUs
+```
+
+---
+
+## Agents
+
+| Agent | Role | Specialty |
+|:--|:--|:--|
+| **Argentavis** (Argy) | Research | Check internal libraries first, then external sources |
+| **Tyrannosaurus** (Rex) | Architecture | Design with explicit tradeoff clarity |
+| **Therizinosaurus** (Theri) | Build | Scope-bounded implementation |
+| **Velociraptor** (Raptor) | Debug | Root cause analysis, fix verification |
+| **Yutyrannus** (Yuty) | Narrative | Evidence-based GTM, no speculation |
+| **Ankylosaurus** (Anky) | Validation | Quality gates, test coverage |
+| **Parasaurolophus** (Para) | Monitoring | Governance decisions, block routing |
+
+**Maturity Model**: Agents earn trust through performance.
+- **UNVALIDATED** → 10 successes → **WORKING** → 50 runs <5% fail → **PRODUCTION**
+- 2 failures in 10 runs → automatic demotion
+
+**Block Routing**: When Para blocks a decision, it routes to the right agent:
+- Self-inflicted bug → Raptor
+- Architecture gap → Rex
+- Research gap → Argy
+
+---
+
+## Project Structure
 
 ```
 palette/
-├── README.md                           # This file
-├── GETTING_STARTED.md                  # 5-minute onboarding
-├── CONTRIBUTING.md                     # How to contribute
-├── CHANGELOG.md                        # Version history
-├── DEMO.md                             # How to demo Palette
-│
-├── .kiro/steering/
-│   ├── palette-core-v1.0-archived.md   # Tier 1: Core prompt (current canonical file in repo)
-│   ├── assumptions.md                  # Tier 2: Agent definitions
-│   └── TIER3_decisions_prompt.md       # Tier 3: Decision template
-│
-├── taxonomy/
-│   ├── releases/v1.2/
-│   │   └── palette_taxonomy_v1.3.yaml  # Current RIU snapshot (dynamic count)
-│   └── README.md                       # Taxonomy guide
-│
-├── knowledge-library/
-│   ├── v1.2/
-│   │   └── palette_knowledge_library_v1.2.yaml  # Curated Q&A + sources (audited separately)
-│   └── README.md                       # Library guide
-│
-├── company-library/                    # Market validation (NEW in v1.3)
-│   └── v1.0/
-│       ├── palette_company_riu_mapping_v1.0.yaml  # 127 companies → RIUs
-│       └── README.md                   # Company library guide
-│
-├── agents/                             # 7 implemented agents + Orchestrator (design-only)
-│   ├── argentavis/                     # Argy - Research
-│   ├── rex/                            # Rex - Architecture
-│   ├── therizinosaurus/                # Theri - Build
-│   ├── velociraptor/                   # Raptor - Debug
-│   ├── yutyrannus/                     # Yuty - Narrative
-│   ├── ankylosaurus/                   # Anky - Validate
-│   ├── parasaurolophus/                # Para - Monitor
-│   └── README.md                       # Agent overview
-│
-├── examples/                           # Production use cases
-│   └── README.md                       # Examples index
-│
-├── research/                           # Agent research & recommendations
-│   └── google-agents-final-recommendations.md
-│
-├── scripts/                            # Automation scripts
-│   └── setup-perplexity-mcp.sh
-│
-├── assets/                             # Visual identity & brand
-│   ├── brand-guidelines.md
-│   ├── palette-one-pager.md
-│   └── UX/
-│
-├── decisions.md                        # Tier 3: Toolkit development decisions
-│
-└── /garbage-collection/                # Archived/superseded files (single repo-level folder; see /garbage-collection/POLICY.md)
+├── taxonomy/releases/v1.3/          # 117 RIUs (problem-solution pairs)
+├── knowledge-library/v1.4/          # 498 entries with source citations
+├── company-library/
+│   ├── integrations/                # 69 integration recipes
+│   ├── service-routing/v1.0/        # 106 services, 40 routing profiles
+│   ├── people-library/v1.1/         # 21 profiles, 33 tools tracked
+│   └── PALETTE_INTELLIGENCE_SYSTEM_v1.0.md
+├── agents/
+│   ├── argentavis/                  # Argy — Research
+│   ├── rex/                         # Rex — Architecture
+│   ├── therizinosaurus/             # Theri — Build
+│   ├── velociraptor/                # Raptor — Debug
+│   ├── yutyrannus/                  # Yuty — Narrative
+│   ├── ankylosaurus/                # Anky — Validation
+│   └── parasaurolophus/             # Para — Monitoring
+├── scripts/pis/
+│   ├── integrity.py                 # 8 consistency checks across 6 layers
+│   ├── audit_system.py              # Severity-ranked findings
+│   ├── regression.py                # Baseline snapshots + 7 SLOs
+│   ├── drift.py                     # Terminology inconsistency detection
+│   ├── para_decision.py             # Governance decision engine
+│   ├── traverse.py                  # Structured decision packets
+│   └── test_*.py                    # 60 tests, all passing
+├── docs/
+│   ├── architecture/                # E2E system diagrams (Mermaid)
+│   ├── audits/                      # Hardening reviews
+│   └── PARA_DECISION_CONTRACT.md    # Governance spec
+└── implementations/                 # Live projects using the toolkit
+    ├── retail/                      # Small business (Rossi Store)
+    ├── talent/                      # Interview prep (Glean, Gap)
+    ├── education/                   # Resume optimization (Lenovo EKM)
+    └── ...                          # 9 active projects
 ```
 
 ---
 
-## Three Tiers Explained
+## Quick Start
 
-### Tier 1: Core Prompt (palette-core.md)
+```bash
+# Clone
+git clone https://github.com/pretendhome/pretendhome.git
+cd pretendhome/palette
 
-The final prompt. The physics of collaboration. Never changes.
+# Run integrity checks
+python3 -m scripts.pis.integrity --checks-only
 
-- **Convergence before execution** — Force clarity, no guessing
-- **Glass-box reasoning** — Every decision is traceable
-- **ONE-WAY DOOR vs TWO-WAY DOOR** — Distinguish reversible from irreversible
-- **Semantic blueprints** — Goal, Roles, Capabilities, Constraints, Non-goals
+# Run full audit
+python3 -m scripts.pis.audit_system
 
-### Tier 2: Agents (assumptions.md)
+# Check regression status
+python3 -m scripts.pis.regression --check
 
-The middle tier. Agents that test problems against solutions and build what's needed.
+# Run governance decision
+python3 -m scripts.pis.para_decision
 
-- **Agent archetypes** — Argy searches, Theri builds, Rex architects, Raptor debugs
-- **Maturity tracking** — UNVALIDATED → WORKING → PRODUCTION
-- **Empirical trust** — Agents earn autonomy through measured performance
-- **Automatic demotion** — Two failures within 10 runs = demote tier
-
-### Tier 3: Testing at Scale (decisions.md)
-
-The testing tier. Logs what works, what doesn't, and why.
-
-- Captures: what was decided, why, what was built, what's next
-- Anyone can pick up where you left off
-- Only logs what matters (no exhaustive logs)
-
----
-
-## Using Palette on Your Project
-
-1. **Create implementation directory**: `/home/mical/fde/implementations/<implementation-name>/`
-2. **Add project-specific steering**: `.kiro/steering/product.md`, `tech.md`, `structure.md`
-3. **Create project decisions.md**: Track project-specific decisions
-4. **Reference Palette toolkit**: Agents use taxonomy and knowledge library
-5. **Log agent performance**: Track which agents work for your domain
+# Traverse a specific RIU
+python3 -c "
+from scripts.pis.loader import load_all
+from scripts.pis.traverse import traverse
+r = traverse(load_all(), riu_id='RIU-521')
+print(f'{r.query_riu} — {r.query_riu_name}')
+print(f'Recommendation: {r.recommendation.service_name}')
+print(f'Completeness: {r.completeness.total}/100')
+"
+```
 
 ---
 
-## What Makes It Different
+## Development History
 
-**Not agentic AI hype.** It's a **battle-tested agent toolkit** that:
-- Does the work of a team of language engineers
-- Routes problems through a taxonomy to agents with proven solutions
-- Agents have access to massive amounts of GTM knowledge
-- When agents do good work long enough, we promote them
-- Optimizes for restartability, not autonomy
-
----
-
-## The Self-Improving Infrastructure
-
-**Palette doesn't just solve problems — it learns which solutions work, then teaches itself to get better.**
-
-- Knowledge library grows (93 → 300 → 800 questions)
-- Agents evolve (UNVALIDATED → PRODUCTION)
-- Cross-domain patterns emerge
-- Institutional knowledge that doesn't leave when people do
-
-**You're not building a tool. You're building a flywheel that turns experience into capability.**
+| Phase | Status | What Was Built |
+|:--|:--|:--|
+| Phase 0 | Done | Taxonomy v1.3 (117 RIUs), knowledge library, company mapping |
+| Phase 1 | Done | People library (21 profiles), service routing (40 entries), 3 recipes |
+| Phase 2 | Done | RIU classification, cost enrichment, repo cleanup |
+| Phase 3 | Done | Integrity engine, audit system, regression/SLO, drift detection, 49 recipes, 116 knowledge entries, override registry, Para decision contract |
+| Phase 4 | Next | Decision quality audit, operational monitoring, contradiction ledger |
 
 ---
 
-## Getting Started
+## Built By
 
-### Quick Start (5 minutes)
-1. **Read GETTING_STARTED.md** — Understand Palette in 5 minutes
-2. **Browse examples/** — See validated use cases
-3. **Run your first agent** — Pick a problem, route to agent
-
-### Deep Dive
-1. **Read VISION.md** — Understand why Palette exists
-2. **Read .kiro/steering/palette-core-v1.0-archived.md** — Understand Tier 1 rules
-3. **Browse taxonomy/** — See current RIU snapshot and version history
-4. **Browse knowledge-library/** — See curated Q&A pairs
-5. **Browse company-library/** — See 127 companies mapped to RIUs
-6. **Read docs/** — Deep-dive guides (coming soon)
-
-### Contributing
-1. **Read CONTRIBUTING.md** — Learn how to contribute
-2. **Submit use cases** — Share validated examples
-3. **Report agent failures** — Help improve agent quality
-4. **Propose Library entries** — Add validated solutions
+**Mical Neill** — 11 years at Amazon/AWS. Knowledge architecture, AI deployment, GenAI partnerships. Built Palette over 2.5 years to solve the problem of scaling human expertise through governed AI systems.
 
 ---
 
-## Contact
+<div align="center">
 
-**Built by**: Mical Neill  
-**Experience**: 7 years knowledge architecture at AWS  
-**Validation**: AWS Solutions Engineering POC tools  
-**Status**: Production-ready, battle-tested
+*Natural language in. Governed action out. Structural proof at every step.*
 
----
-
-**This is the toolkit. Implementations using it live in `/fde/implementations/`**
+</div>
