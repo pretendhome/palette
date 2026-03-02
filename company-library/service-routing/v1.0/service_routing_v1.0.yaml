@@ -165,6 +165,21 @@ routing_entries:
         build_vs_buy: evaluate
         notes: "Unique differentiator: only mainstream AI with live social data. Ruben: 'Only AI with real-time Twitter/news access.' Evaluate for people-library update triggers — when influencers post about new tools."
 
+      - name: "Tavily"
+        company_url: "https://tavily.com"
+        quality_tier: tier_2
+        cost_model: usage_based
+        cost_estimate: "Search API usage-based pricing (validate against current dashboard)"
+        integration_status: recipe_available
+        palette_integration_status: "Recipe exists; wire as fallback when Perplexity is unavailable"
+        signal_source: market_data
+        signal_strength: medium
+        best_for:
+          - "Research-focused web search with structured results"
+          - "Fallback path for competitive research flows"
+        build_vs_buy: integrate
+        notes: "Aligned with RIU-201 classification candidate services as a Perplexity alternative."
+
   # ═══════════════════════════════════════════════════════════
   # RIU-502: Audio Processing Integration
   # Problem: Need to process, transcribe, or capture audio
