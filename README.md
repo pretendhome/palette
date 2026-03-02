@@ -1,6 +1,6 @@
 <div align="center">
 
-# Palette
+<table><tr><td><img src="legal/trademarks/palette_tag_primary_uspto.jpg" alt="Palette" height="80"></td><td><h1>Palette</h1></td></tr></table>
 
 ### An Applied Intelligence Toolkit for Forward Deployed Engineers
 
