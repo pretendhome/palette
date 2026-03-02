@@ -1,0 +1,90 @@
+# Palette Integration Recipe: Unleash
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-064 (Feature Flags + Kill Switch Integration)
+# Priority: LOW — relevant for safe agent rollouts and A/B testing
+
+service_name: "Unleash"
+company: "Unleash"
+company_url: "https://www.getunleash.io"
+api_url: "https://us.app.unleash-hosted.com/api (hosted) or http://localhost:4242/api (self-hosted)"
+api_docs: "https://docs.getunleash.io/reference/api/unleash"
+
+auth_method:
+  type: "api_key"
+  header: "Authorization: $UNLEASH_API_TOKEN"
+  key_source: "Unleash Dashboard → API Access → Create API Token (client, frontend, or admin)"
+  note: "Client tokens for SDKs (read-only flags), Admin tokens for management API."
+
+rate_limits:
+  note: "Self-hosted: no limits. Hosted Pro: fair use. Enterprise: custom."
+
+cost_model: freemium
+cost_per_unit:
+  open_source: "$0.00 — self-hosted, Apache 2.0 + Unleash Enterprise license"
+  pro: "$80/month — up to 15 seats, hosted, includes environments"
+  enterprise: "Custom — SSO, change requests, audit logs, custom environments"
+  note: "Open-source version includes core feature flag functionality. Pro/Enterprise add governance."
+free_tier:
+  availability: "Open-source self-hosted — full core features, unlimited flags and environments"
+  limitation: "No SSO, no change request approval, no advanced audit logs. Self-hosted ops required."
+
+capabilities:
+  - "Feature flags with gradual rollout (percentage-based)"
+  - "Targeting by user ID, user attributes, IP, hostname, custom context"
+  - "Kill switch — instant flag disable across all environments"
+  - "Multiple activation strategies: standard, gradual rollout, user IDs, IPs, custom"
+  - "Environment separation (development, staging, production)"
+  - "Variants — A/B testing with weighted distribution"
+  - "SDKs for Python, Node.js, Go, Java, Ruby, .NET, React, and more"
+  - "Metrics — track flag evaluation counts and exposure"
+  - "Open source (Apache 2.0 core) — no vendor lock-in on core features"
+  - "Webhook and event integrations (Slack, Datadog, Jira)"
+
+limitations:
+  - "Self-hosted requires PostgreSQL and Docker/Kubernetes"
+  - "Pro pricing ($80/month) is higher than LaunchDarkly's developer tier for small teams"
+  - "UI is less polished than LaunchDarkly or Statsig"
+  - "Advanced governance (change requests, audit logs) requires Enterprise"
+  - "No built-in experimentation analytics — flag metrics only, no statistical significance"
+  - "SDK initialization fetches full flag configuration — large flag sets may add startup latency"
+
+example_request:
+  description: "Check feature flag before routing to new agent version"
+  python: |
+    from UnleashClient import UnleashClient
+
+    client = UnleashClient(
+        url="http://localhost:4242/api",
+        app_name="palette",
+        custom_headers={"Authorization": "$UNLEASH_API_TOKEN"}
+    )
+    client.initialize_client()
+
+    # Check if new Argy v2 research pipeline is enabled
+    context = {"userId": "operator-1", "environment": "production"}
+
+    if client.is_enabled("argy-v2-research-pipeline", context):
+        # Route to new research pipeline
+        result = argy_v2.research(query)
+    else:
+        # Use existing pipeline
+        result = argy_v1.research(query)
+
+    # Variants for A/B testing model routing
+    variant = client.get_variant("llm-model-experiment", context)
+    if variant["name"] == "claude-sonnet":
+        model = "anthropic/claude-sonnet-4-6"
+    elif variant["name"] == "gemini-pro":
+        model = "google/gemini-2.0-pro"
+    else:
+        model = "anthropic/claude-sonnet-4-6"  # default
+
+palette_agent: "Rex (Architect) — rollout strategy; Para (Monitor) — flag state monitoring"
+palette_integration_plan:
+  phase_1: "Deploy self-hosted Unleash when Palette has multiple agent versions to manage"
+  phase_2: "Use kill switches for instant disable of agent capabilities that misbehave"
+  phase_3: "A/B test model routing strategies via Unleash variants"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — strongest open-source feature flag platform. Apache 2.0 core, self-hostable, Python SDK available. Relevant when Palette needs safe agent rollouts, kill switches, or A/B testing model routing. Not urgent at current stage — Palette has no production deployment requiring feature flags yet."

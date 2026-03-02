@@ -1,0 +1,88 @@
+# Palette Integration Recipe: Seedance Pro (via Higgsfield AI)
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-501 (Image Processing), RIU-503 (Video Processing), RIU-413 (Demo Creation)
+# Priority: MEDIUM — AI video generation, accessible via Higgsfield API
+# Note: GAP-002 — No RIU for AI video generation model selection. Propose RIU-504.
+
+service_name: "Seedance Pro"
+company: "ByteDance (model) / Higgsfield AI (API access)"
+company_url: "https://seedance.ai"
+api_url: "https://api.higgsfield.ai/v1"
+api_docs: "https://docs.higgsfield.ai"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $HIGGSFIELD_API_KEY"
+  key_source: "https://higgsfield.ai — create account, generate API key"
+  note: "Seedance is ByteDance's video model. API access via Higgsfield AI marketplace. Also available via Replicate."
+
+rate_limits:
+  note: "Credit-based. Each video generation consumes credits based on duration and resolution."
+
+cost_model: usage_based
+cost_per_unit:
+  seedance_1_0: "~$0.10-0.30 per video (5s, 720p) via Higgsfield"
+  seedance_1_0_hd: "~$0.30-0.60 per video (5s, 1080p) via Higgsfield"
+  replicate: "~$0.10-0.50 per video via Replicate (varies by compute time)"
+  note: "Pricing via third-party platforms. ByteDance does not offer direct API. Costs vary by resolution, duration, and platform."
+free_tier:
+  availability: "Limited free credits on Higgsfield and Replicate for new users"
+  limitation: "Free credits are quickly exhausted. No sustained free tier."
+
+capabilities:
+  - "Text-to-video: generate video from text prompts (up to 10 seconds)"
+  - "Image-to-video: animate a still image into video"
+  - "Strong motion quality — one of the best for natural human movement"
+  - "Dance and performance videos — Seedance excels at choreographed motion"
+  - "720p and 1080p output resolution"
+  - "Fast generation — typically 30-90 seconds per video"
+  - "Consistent character identity across frames"
+  - "API access via Higgsfield, Replicate, and other model marketplaces"
+
+limitations:
+  - "No direct API from ByteDance — must use third-party platforms"
+  - "Maximum ~10 second video clips"
+  - "Content policy restrictions — no violent/explicit content"
+  - "Quality degrades on complex multi-character scenes"
+  - "No audio generation — video only, must add audio separately"
+  - "Prompt engineering is critical — vague prompts produce poor results"
+  - "API availability depends on third-party platform uptime"
+  - "Model versioning — different platforms may run different Seedance versions"
+
+example_request:
+  description: "Generate video with Seedance via Replicate API"
+  python: |
+    import replicate
+
+    # Text-to-video generation
+    output = replicate.run(
+        "bytedance/seedance-1-lite",
+        input={
+            "prompt": "A professional presenter explaining an AI architecture diagram on a whiteboard, smooth camera movement, corporate office setting",
+            "duration": 5,
+            "seed": 42
+        }
+    )
+    print(output)  # Returns URL to generated video
+
+    # Image-to-video generation
+    output = replicate.run(
+        "bytedance/seedance-1-lite",
+        input={
+            "prompt": "Camera slowly zooms out, the dashboard comes to life with animated charts",
+            "image": open("dashboard_screenshot.png", "rb"),
+            "duration": 5
+        }
+    )
+    print(output)
+
+palette_agent: "Yuty (GTM/Narrative) — video content for demos and marketing"
+palette_integration_plan:
+  phase_1: "Evaluate Seedance vs Kling vs Runway for Palette demo video generation"
+  phase_2: "Integrate via Replicate API for programmatic video generation in Yuty pipeline"
+  phase_3: "Build demo video automation — screenshot → Seedance animate → narration overlay"
+  note: "GAP-002 — propose RIU-504 for AI video generation model selection. Seedance excels at human motion."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — Seedance Pro has strong motion quality, especially for human movement. API access via Replicate or Higgsfield (no direct ByteDance API). Compare against Kling and Runway for Palette's demo video needs. Cost-effective at ~$0.10-0.30 per video. Relevant to GAP-002 (propose RIU-504)."

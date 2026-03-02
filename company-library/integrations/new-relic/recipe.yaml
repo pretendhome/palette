@@ -1,0 +1,122 @@
+# Palette Integration Recipe: New Relic
+# Generated: 2026-03-01
+# RIUs served: RIU-524 (Quality Monitoring), RIU-523 (Latency Optimization)
+# Context: Full-stack observability with best-in-class free tier — 100GB/month, ALL features included
+
+service_name: "New Relic"
+company: "New Relic, Inc."
+company_url: "https://newrelic.com"
+api_url: "https://api.newrelic.com"
+api_docs: "https://docs.newrelic.com/docs/apis/"
+
+auth_method:
+  type: "api_key"
+  header: "Api-Key: $NEW_RELIC_API_KEY"
+  key_source: "newrelic.com → API Keys page (one.newrelic.com/api-keys)"
+  note: "Multiple key types: User key (NRAK-...) for GraphQL/REST, License key (ingest), Browser key. Ingest uses License key via X-License-Key header."
+
+rate_limits:
+  events_api: "Up to 1MB/min per account on free tier"
+  graphql_nerdgraph: "25 concurrent queries, query timeout 60s"
+  metric_api: "No documented per-second limit, volume-based (GB/month)"
+  note: "Free tier is 100GB/month total ingest across all telemetry types."
+
+cost_model: freemium
+cost_per_unit:
+  free: "$0.00 (100GB/month ingest, 1 full-platform user, unlimited basic users)"
+  standard: "$0.00 base + $0.35/GB beyond 100GB"
+  pro: "$0.00 base + $0.35/GB beyond 100GB + $49/full-user/month (TODO: verify current pricing)"
+  enterprise: "Custom pricing"
+  data_plus: "$0.50/GB (extended retention: 90 days, HIPAA, FedRAMP)"
+free_tier:
+  availability: "100GB/month ingest — ALL features included (APM, infrastructure, logs, traces, alerts, dashboards, AI monitoring). 1 full-platform user, unlimited basic users. 8-day data retention."
+  limitation: "8-day retention (vs. 30+ on paid). 1 full-platform user (basic users can view dashboards). No HIPAA/SOC 2 Type II on free tier."
+
+capabilities:
+  - "APM: auto-instrumented distributed tracing for Python, Node.js, Java, Go, .NET, Ruby, PHP"
+  - "Infrastructure monitoring: hosts, containers, Kubernetes, cloud integrations"
+  - "Log management: ingest, parse, and query logs with NRQL"
+  - "Distributed tracing: end-to-end trace visualization with OpenTelemetry support"
+  - "AI Monitoring: LLM observability (token usage, response times, model comparisons)"
+  - "NRQL: powerful query language across all telemetry types"
+  - "Alerts & Applied Intelligence: anomaly detection, alert correlation, incident management"
+  - "Dashboards: customizable visualization with NRQL-driven widgets"
+  - "Synthetics: scheduled uptime and functional monitoring"
+  - "Change tracking: deployment markers and CI/CD integration"
+  - "NerdGraph API: GraphQL API for full platform automation"
+  - "OpenTelemetry-native ingest via OTLP endpoint"
+  - "Errors Inbox: centralized error tracking across stack"
+
+limitations:
+  - "NRQL has a learning curve — not standard SQL despite SQL-like syntax"
+  - "8-day retention on free tier may be too short for trend analysis"
+  - "AI Monitoring is relatively new — less mature than Helicone or LangSmith for LLM-specific use cases"
+  - "Full-platform user seats expensive on paid tiers ($49+/month/user)"
+  - "Data ingest costs add up quickly beyond 100GB ($0.35/GB)"
+  - "UI can be overwhelming — many features buried in navigation"
+
+example_request:
+  description: "Send a custom event for LLM call tracking via the Events API"
+  python: |
+    import requests
+    import json
+
+    headers = {
+        "Api-Key": "$NEW_RELIC_LICENSE_KEY",
+        "Content-Type": "application/json",
+    }
+
+    # Send custom event
+    event = [{
+        "eventType": "PaletteLLMCall",
+        "agent": "argy",
+        "model": "claude-opus-4-6",
+        "tokens_in": 1500,
+        "tokens_out": 800,
+        "duration_ms": 1250,
+        "cost_usd": 0.045,
+        "query_type": "research",
+        "status": "success",
+    }]
+
+    resp = requests.post(
+        "https://insights-collector.newrelic.com/v1/accounts/$NEW_RELIC_ACCOUNT_ID/events",
+        headers=headers,
+        json=event,
+    )
+    print(resp.status_code)  # 200
+
+  description_nrql: "Query LLM metrics via NerdGraph (GraphQL)"
+  graphql: |
+    # NerdGraph endpoint: https://api.newrelic.com/graphql
+    # Header: Api-Key: $NEW_RELIC_USER_KEY
+
+    {
+      actor {
+        account(id: $ACCOUNT_ID) {
+          nrql(query: "SELECT average(duration_ms), sum(cost_usd) FROM PaletteLLMCall FACET agent SINCE 1 day ago") {
+            results
+          }
+        }
+      }
+    }
+
+palette_agent: "Para (Monitor) — full-stack observability with generous free tier"
+palette_integration_plan:
+  phase_1: "Enable AI Monitoring for LLM call tracing (built-in, no custom instrumentation needed)"
+  phase_2: "Build NRQL dashboards for agent cost and latency tracking"
+  phase_3: "Set up alerts: cost per query >$0.10, latency >5s, error rate >2%"
+  phase_4: "Integrate with CI/CD for deployment change tracking"
+
+comparison_to_current:
+  vs_honeycomb:
+    - "New Relic: broader (APM + infra + logs + AI monitoring). Honeycomb: deeper tracing UX."
+    - "New Relic: 100GB free > Honeycomb 20M events free (roughly)."
+    - "New Relic: NRQL more powerful. Honeycomb: BubbleUp more intuitive."
+  vs_grafana:
+    - "New Relic: simpler setup (SaaS). Grafana: more configurable (open source)."
+    - "New Relic: all-in-one. Grafana: assemble Prometheus + Loki + Tempo."
+  verdict: "Best free tier in observability. Recommended starting point for Palette monitoring unless specific trace analysis needs (then Honeycomb) or open-source requirement (then Grafana)."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — best free tier in the market (100GB/month, ALL features). AI Monitoring feature directly relevant for LLM observability. Start here for Para's monitoring stack. The 8-day retention on free tier is the main limitation — sufficient for active monitoring but not historical trend analysis."

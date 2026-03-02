@@ -1,0 +1,129 @@
+# Palette Integration Recipe: LangSmith
+# Generated: 2026-03-01
+# RIUs served: RIU-524 (Quality Monitoring), RIU-523 (Latency Optimization), RIU-082 (Guardrails)
+# Context: LLM tracing and evaluation platform by LangChain — deep agent workflow observability
+
+service_name: "LangSmith"
+company: "LangChain, Inc."
+company_url: "https://www.langchain.com"
+api_url: "https://api.smith.langchain.com"
+api_docs: "https://docs.smith.langchain.com/"
+
+auth_method:
+  type: "api_key"
+  header: "x-api-key: $LANGCHAIN_API_KEY"
+  key_source: "smith.langchain.com → Settings → API Keys"
+  env_vars:
+    - "LANGCHAIN_API_KEY: API key for authentication"
+    - "LANGCHAIN_TRACING_V2: set to 'true' to enable tracing"
+    - "LANGCHAIN_ENDPOINT: 'https://api.smith.langchain.com' (default)"
+    - "LANGCHAIN_PROJECT: project name for trace grouping"
+
+rate_limits:
+  note: "Trace-volume-based limits per plan tier, not request-rate limits."
+
+cost_model: freemium
+cost_per_unit:
+  developer: "$0.00 (5,000 traces/month)"
+  plus: "$39/seat/month (TODO: verify current pricing — 50K traces/month included)"
+  enterprise: "Custom pricing"
+free_tier:
+  availability: "5,000 traces/month. Full tracing, playground, prompt hub, basic evaluation."
+  limitation: "5,000 traces is low for production use. Limited data retention on free tier. 1 seat."
+
+capabilities:
+  - "LLM tracing: hierarchical trace visualization for chains, agents, and tools"
+  - "Run tree: nested span view showing every step in an agent pipeline"
+  - "Evaluation framework: dataset-driven evaluation with custom evaluators"
+  - "Online evaluation: real-time scoring of production traces via LLM-as-judge"
+  - "Annotation queue: human review and feedback on traces"
+  - "Prompt Hub: versioned prompt management and sharing"
+  - "Playground: interactive prompt testing with different models"
+  - "Comparison view: side-by-side evaluation of prompt/model variants"
+  - "Datasets: manage test datasets for regression testing"
+  - "Automations: rules-based actions on incoming traces (sampling, alerts, evals)"
+  - "Works with any LLM provider — not limited to LangChain framework"
+  - "Python SDK and REST API for programmatic access"
+  - "OpenTelemetry-compatible trace export"
+
+limitations:
+  - "Best experience is with LangChain/LangGraph — works without it but extra setup required"
+  - "5,000 free traces/month is restrictive — heavy development can exhaust this quickly"
+  - "Evaluation framework has learning curve — datasets, evaluators, experiments"
+  - "No infrastructure monitoring — LLM-specific only"
+  - "Trace data retention limited on free tier"
+  - "Some advanced features (online evaluation, automations) only on paid tiers"
+  - "Vendor lock-in concern — traces stored in LangSmith format, not standard OTel"
+
+example_request:
+  description: "Trace an LLM call with LangSmith (without LangChain framework)"
+  python: |
+    import os
+    from langsmith import Client, traceable
+
+    os.environ["LANGCHAIN_API_KEY"] = "$LANGCHAIN_API_KEY"
+    os.environ["LANGCHAIN_TRACING_V2"] = "true"
+    os.environ["LANGCHAIN_PROJECT"] = "palette-agents"
+
+    client = Client()
+
+    @traceable(name="argy-research")
+    def research_query(question: str) -> str:
+        """Traced function — all nested calls are captured."""
+        # Your LLM call here (any provider)
+        import anthropic
+        c = anthropic.Anthropic()
+        response = c.messages.create(
+            model="claude-opus-4-6",
+            max_tokens=1024,
+            messages=[{"role": "user", "content": question}],
+        )
+        return response.content[0].text
+
+    result = research_query("What are the latest funding rounds in LLM observability?")
+
+  description_eval: "Run an evaluation experiment"
+  python_eval: |
+    from langsmith import Client
+    from langsmith.evaluation import evaluate
+
+    client = Client()
+
+    # Create a dataset
+    dataset = client.create_dataset("palette-research-quality")
+    client.create_examples(
+        inputs=[{"question": "What is Braintrust?"}],
+        outputs=[{"answer": "Braintrust is an LLM evaluation platform..."}],
+        dataset_id=dataset.id,
+    )
+
+    # Run evaluation
+    def predict(inputs: dict) -> dict:
+        # Your agent logic here
+        return {"answer": "..."}
+
+    def correctness(run, example) -> dict:
+        # Custom evaluator
+        return {"key": "correct", "score": 1.0 if "evaluation" in run.outputs["answer"] else 0.0}
+
+    evaluate(predict, data="palette-research-quality", evaluators=[correctness])
+
+palette_agent: "Para (Monitor) + Anky (Validator) — tracing for debugging, evaluation for quality"
+palette_integration_plan:
+  phase_1: "Instrument Cory and Argy with @traceable decorator for pipeline visibility"
+  phase_2: "Build evaluation datasets from real queries for regression testing"
+  phase_3: "Set up LLM-as-judge online evaluation for production quality scoring"
+  phase_4: "Use Prompt Hub for agent system prompt version control"
+
+comparison_to_current:
+  vs_helicone:
+    - "LangSmith: deeper tracing (nested spans, run trees). Helicone: simpler proxy."
+    - "LangSmith: built-in evaluation. Helicone: observation only."
+    - "LangSmith: 5K free traces. Helicone: 100K free requests (more generous)."
+  vs_braintrust:
+    - "LangSmith: better tracing/debugging. Braintrust: better evaluation framework."
+    - "LangSmith: LangChain ecosystem. Braintrust: provider-agnostic."
+  verdict: "Best for deep agent pipeline debugging. Consider Braintrust for eval-focused workflows. Not mutually exclusive — LangSmith for tracing, Braintrust for evals."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — strongest agent tracing and debugging tool. The @traceable decorator is very low-friction. Free tier (5K traces) is tight but sufficient for evaluation. Main concern: 5K trace limit makes it expensive at scale vs. Helicone (100K free). Best paired with a dedicated eval tool (Braintrust) for production quality measurement."

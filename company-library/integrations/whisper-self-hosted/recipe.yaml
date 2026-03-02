@@ -1,0 +1,92 @@
+# Palette Integration Recipe: Whisper (Self-Hosted)
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-502 (Audio Processing)
+# Priority: HIGH — voice input modality, already deployed in Palette Telegram bot
+
+service_name: "Whisper (Self-Hosted)"
+company: "OpenAI (open-source model)"
+company_url: "https://openai.com"
+api_url: "N/A — self-hosted model, no external API call"
+api_docs: "https://github.com/openai/whisper"
+
+auth_method:
+  type: "none"
+  note: "Self-hosted model. No API key required. Runs locally or on your own infrastructure."
+
+rate_limits:
+  note: "Limited only by hardware. No external rate limits."
+
+cost_model: free
+cost_per_unit:
+  model_download: "Free — MIT license, open-source"
+  compute_cost: "Depends on hosting — GPU recommended for real-time performance"
+  comparison_openai_api: "OpenAI hosted Whisper API costs $0.006/minute"
+  note: "Self-hosted is free at the model level. Compute cost depends on infrastructure."
+free_tier:
+  availability: "Fully free — open-source MIT license"
+  limitation: "Requires GPU for real-time performance. CPU inference is 5-10x slower."
+
+capabilities:
+  - "Speech-to-text in 99 languages with automatic language detection"
+  - "Multiple model sizes: tiny (39M), base (74M), small (244M), medium (769M), large-v3 (1.5B)"
+  - "Word-level timestamps for precise alignment"
+  - "Translation mode — transcribe and translate to English simultaneously"
+  - "Robust to background noise, accents, and technical jargon"
+  - "Fully offline — no internet connection required after model download"
+  - "MIT license — no usage restrictions, commercial use permitted"
+  - "Whisper.cpp for efficient CPU inference (C/C++ port)"
+  - "faster-whisper (CTranslate2) — 4x faster than original with lower memory usage"
+  - "Distil-Whisper — 6x faster with minimal quality loss"
+  - "Already deployed in Palette Telegram bot for voice message processing"
+
+limitations:
+  - "GPU recommended — large-v3 needs ~10GB VRAM for real-time"
+  - "No speaker diarization (who said what) — need separate tool (pyannote.audio)"
+  - "No streaming/real-time transcription out of the box — requires wrapper (whisper-streaming)"
+  - "Hallucination on silence — model may generate text when given silent audio"
+  - "No fine-tuning pipeline provided — community solutions available"
+  - "Large model (1.5B params) is slow on CPU — use tiny/base for low-latency needs"
+  - "Punctuation and formatting quality varies by language"
+
+example_request:
+  description: "Transcribe audio file using self-hosted Whisper"
+  python: |
+    import whisper
+
+    model = whisper.load_model("large-v3")
+    result = model.transcribe("meeting_recording.mp3")
+    print(result["text"])
+
+    # With faster-whisper for 4x speed improvement
+    from faster_whisper import WhisperModel
+
+    model = WhisperModel("large-v3", device="cuda", compute_type="float16")
+    segments, info = model.transcribe("meeting_recording.mp3")
+    for segment in segments:
+        print(f"[{segment.start:.2f}s -> {segment.end:.2f}s] {segment.text}")
+
+  docker: |
+    # Run Whisper as a local API server using whisper-asr-webservice
+    docker run -d -p 9000:9000 \
+      -e ASR_MODEL=large-v3 \
+      -e ASR_ENGINE=faster_whisper \
+      --gpus all \
+      onerahmet/openai-whisper-asr-webservice:latest
+
+    # Then call it like an API
+    curl -X POST http://localhost:9000/asr \
+      -F "audio_file=@meeting.mp3" \
+      -F "task=transcribe" \
+      -F "language=en"
+
+palette_agent: "Cory (Intent Resolver) — voice input processing; all agents benefit from voice-to-text pipeline"
+palette_integration_plan:
+  current: "Already deployed in Palette Telegram bot for voice message transcription"
+  phase_1: "Standardize on faster-whisper large-v3 for best speed/quality balance"
+  phase_2: "Add speaker diarization via pyannote.audio for multi-speaker meetings"
+  phase_3: "Build voice-first Palette interface — speak command, Whisper transcribes, Cory routes"
+  note: "Self-hosted Whisper is the programmatic alternative to Wispr Flow (which has no API)."
+
+status: integrated
+evaluation_verdict: "INTEGRATED — already running in Palette Telegram bot. Self-hosted Whisper is the audio processing backbone for Palette. faster-whisper recommended over original for 4x speed. Complements Wispr Flow (personal use) with programmatic voice input for agents."

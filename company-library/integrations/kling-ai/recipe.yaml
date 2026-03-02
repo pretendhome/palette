@@ -1,0 +1,124 @@
+# Palette Integration Recipe: Kling AI (Kuaishou)
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-501 (Image Processing), RIU-503 (Video Processing), RIU-413 (Demo Creation)
+# Priority: MEDIUM — AI video generation, accessible via multiple platforms
+# Note: GAP-002 — No RIU for AI video generation model selection. Propose RIU-504.
+
+service_name: "Kling AI"
+company: "Kuaishou Technology"
+company_url: "https://klingai.com"
+api_url: "https://api.klingai.com/v1 (direct); also via Replicate, Higgsfield, FAL"
+api_docs: "https://docs.klingai.com"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $KLING_API_KEY"
+  key_source: "https://klingai.com — create account, access API section"
+  alternative: "Also available via Replicate (replicate.com), FAL (fal.ai), Higgsfield (higgsfield.ai)"
+  note: "Direct Kling API and multiple third-party platform access. Replicate is often easiest for developers."
+
+rate_limits:
+  note: "Credit-based on direct platform. Third-party platforms have their own rate limits."
+
+cost_model: usage_based
+cost_per_unit:
+  kling_direct_standard: "~$0.014 per 5s video (standard mode)"
+  kling_direct_pro: "~$0.028 per 5s video (professional mode)"
+  kling_direct_10s: "~$0.028 standard / $0.056 pro per 10s video"
+  replicate: "~$0.10-0.50 per video (varies by compute time and model version)"
+  fal: "~$0.05-0.20 per video"
+  subscription_standard: "$8/month — 660 credits/month"
+  subscription_pro: "$28/month — 3,000 credits/month"
+  subscription_premier: "$68/month — 8,000 credits/month"
+  note: "Direct Kling platform is cheapest. Third-party APIs add markup but offer convenience."
+free_tier:
+  availability: "66 free credits on signup (enough for ~10 standard videos)"
+  limitation: "Free credits are one-time. No sustained free tier."
+
+capabilities:
+  - "Kling 2.1: text-to-video and image-to-video, up to 10 seconds, 1080p"
+  - "Kling 3.0 (when available): next-generation model with improved quality"
+  - "Strong photorealistic quality — competitive with Runway and Sora"
+  - "Motion Brush — control specific areas of motion in the video"
+  - "Camera control — specify camera movements (pan, zoom, dolly)"
+  - "Lip sync — generate videos with lip-synced speech"
+  - "Virtual try-on — clothing/accessory visualization"
+  - "Image-to-video with strong identity preservation"
+  - "720p and 1080p output"
+  - "API access both direct and via Replicate, FAL, Higgsfield"
+  - "Batch generation support on direct platform"
+
+limitations:
+  - "Direct API documentation primarily in Chinese — English docs improving"
+  - "Maximum 10 second clips"
+  - "Content moderation can be aggressive — rejects some legitimate prompts"
+  - "Quality inconsistency across generations — may need multiple attempts"
+  - "No audio generation — video only"
+  - "Direct platform has geographic restrictions in some regions"
+  - "Third-party APIs may lag behind latest model versions"
+  - "Kling 3.0 availability may be limited initially"
+
+example_request:
+  description: "Generate video with Kling via Replicate API"
+  python: |
+    import replicate
+
+    # Text-to-video with Kling 2.1
+    output = replicate.run(
+        "kuaishou/kling-v2.1-standard",
+        input={
+            "prompt": "A sleek dashboard interface with data visualizations animating in real-time, modern tech aesthetic, smooth camera zoom",
+            "duration": 5,
+            "aspect_ratio": "16:9"
+        }
+    )
+    print(output)  # Returns URL to generated video
+
+    # Image-to-video with Kling
+    output = replicate.run(
+        "kuaishou/kling-v2.1-standard",
+        input={
+            "prompt": "Subtle animation, charts updating, gentle parallax movement",
+            "image": "https://example.com/dashboard.png",
+            "duration": 5
+        }
+    )
+    print(output)
+
+  direct_api: |
+    import requests
+
+    headers = {
+        "Authorization": "Bearer $KLING_API_KEY",
+        "Content-Type": "application/json"
+    }
+
+    # Generate video via direct Kling API
+    response = requests.post(
+        "https://api.klingai.com/v1/videos/text2video",
+        headers=headers,
+        json={
+            "prompt": "Professional presenter explaining AI architecture",
+            "duration": "5",
+            "mode": "standard",
+            "aspect_ratio": "16:9"
+        }
+    )
+    task_id = response.json()["data"]["task_id"]
+
+    # Poll for completion
+    result = requests.get(
+        f"https://api.klingai.com/v1/videos/{task_id}",
+        headers=headers
+    )
+
+palette_agent: "Yuty (GTM/Narrative) — video content for demos and marketing"
+palette_integration_plan:
+  phase_1: "Evaluate Kling 2.1 vs Seedance vs Runway quality and cost for Palette demo videos"
+  phase_2: "Integrate via Replicate API for easiest developer experience"
+  phase_3: "If Kling wins evaluation, consider direct API for cost savings"
+  note: "GAP-002 — propose RIU-504 for AI video generation model selection. Kling is cost-competitive, especially on direct platform."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — Kling 2.1 offers strong video quality at competitive prices, especially via direct API ($0.014/video). Multiple access routes (direct, Replicate, FAL). Compare against Seedance and Runway for Palette demo video needs. Direct API is cheapest but documentation is primarily Chinese. Replicate is easier for integration. Relevant to GAP-002 (propose RIU-504)."

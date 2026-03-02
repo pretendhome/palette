@@ -1,0 +1,103 @@
+# Palette Integration Recipe: Leonardo AI
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-501 (Image Processing), RIU-413 (Demo Creation)
+# Priority: MEDIUM — AI image generation with API access
+
+service_name: "Leonardo AI"
+company: "Leonardo AI"
+company_url: "https://leonardo.ai"
+api_url: "https://cloud.leonardo.ai/api/rest/v1"
+api_docs: "https://docs.leonardo.ai/reference"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $LEONARDO_API_KEY"
+  key_source: "Leonardo.ai → Settings → API → API Keys"
+
+rate_limits:
+  note: "Token-based system. Each generation costs tokens. Tokens refresh daily based on plan."
+  free: "150 tokens/day"
+  apprentice: "8,500 tokens/month"
+  artisan: "25,000 tokens/month"
+  maestro: "60,000 tokens/month"
+
+cost_model: freemium
+cost_per_unit:
+  free: "150 tokens/day, community models, limited features"
+  apprentice: "$12/month ($10/month annual) — 8,500 tokens/month"
+  artisan: "$30/month ($24/month annual) — 25,000 tokens/month, priority processing"
+  maestro: "$60/month ($48/month annual) — 60,000 tokens/month, private models"
+  api_tokens: "Tokens consumed per generation — varies by model and resolution"
+  note: "Token cost per generation depends on model, resolution, and features used. Expect 4-24 tokens per image."
+free_tier:
+  availability: "150 tokens/day — enough for ~10-30 basic generations"
+  limitation: "Limited model selection. Slower processing. Community models only."
+
+capabilities:
+  - "Text-to-image generation with multiple fine-tuned models"
+  - "Phoenix model — Leonardo's flagship foundation model"
+  - "Image-to-image transformation and style transfer"
+  - "AI Canvas — inpainting, outpainting, sketch-to-image"
+  - "Realtime Canvas — live image generation as you sketch"
+  - "Motion generation — animate still images into short videos"
+  - "3D texture generation for game assets"
+  - "Model fine-tuning — train custom models on your own images"
+  - "REST API with full generation, upscaling, and variation capabilities"
+  - "Negative prompts and advanced generation parameters"
+  - "Upscaling (Universal Upscaler) for resolution enhancement"
+  - "16M+ users, strong gaming/creative community"
+
+limitations:
+  - "Token-based pricing makes cost prediction difficult"
+  - "API is async — generation takes seconds to minutes"
+  - "Fine-tuned models require meaningful token investment"
+  - "Image quality varies significantly by model selection and prompt"
+  - "Motion/video generation is basic — short clips only"
+  - "Content policy restrictions on certain image types"
+  - "Community models can be unpredictable in quality"
+  - "No real-time API — must poll for generation completion"
+
+example_request:
+  description: "Generate an image via Leonardo AI REST API"
+  python: |
+    import requests
+    import time
+
+    headers = {
+        "Authorization": "Bearer $LEONARDO_API_KEY",
+        "Content-Type": "application/json"
+    }
+
+    # Step 1: Create generation
+    response = requests.post(
+        "https://cloud.leonardo.ai/api/rest/v1/generations",
+        headers=headers,
+        json={
+            "prompt": "Professional dashboard UI for an AI intelligence platform, clean modern design",
+            "modelId": "6b645e3a-d64f-4341-a6d8-7a3690fbf042",  # Phoenix
+            "width": 1024,
+            "height": 768,
+            "num_images": 1
+        }
+    )
+    generation_id = response.json()["sdGenerationJob"]["generationId"]
+
+    # Step 2: Poll for completion
+    time.sleep(15)
+    result = requests.get(
+        f"https://cloud.leonardo.ai/api/rest/v1/generations/{generation_id}",
+        headers=headers
+    )
+    images = result.json()["generations_by_pk"]["generated_images"]
+    print(images[0]["url"])
+
+palette_agent: "Yuty (GTM/Narrative) — visual assets for presentations and marketing materials"
+palette_integration_plan:
+  phase_1: "Evaluate image quality vs DALL-E 3 and Imagen 3 for Palette visual needs"
+  phase_2: "Use API for automated visual asset generation in Yuty pipeline"
+  phase_3: "Fine-tune model on Palette brand assets for consistent visual identity"
+  note: "API available — can integrate. Compete against DALL-E 3 (OpenAI) and Imagen 3 (Google) on quality/cost."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — Leonardo AI has a functional REST API, generous free tier, and competitive image quality. Compare against DALL-E 3 and Imagen 3 for Palette's visual asset needs. Phoenix model is strong for professional/commercial imagery. Token-based pricing needs cost analysis."

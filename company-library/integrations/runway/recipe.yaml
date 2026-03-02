@@ -1,0 +1,109 @@
+# Palette Integration Recipe: Runway (Aleph Model)
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-501 (Image Processing), RIU-503 (Video Processing), RIU-413 (Demo Creation)
+# Priority: MEDIUM — premium AI video generation, API available
+# Note: GAP-002 — No RIU for AI video generation model selection. Propose RIU-504.
+
+service_name: "Runway"
+company: "Runway AI, Inc."
+company_url: "https://runwayml.com"
+api_url: "https://api.dev.runwayml.com/v1"
+api_docs: "https://docs.dev.runwayml.com"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $RUNWAY_API_KEY"
+  key_source: "https://app.runwayml.com — Settings → API Keys (requires paid plan)"
+
+rate_limits:
+  note: "Credit-based. Each generation consumes credits. API access requires Team plan or higher."
+
+cost_model: subscription
+cost_per_unit:
+  basic: "$15/month — 125 credits/month (Gen-3 Alpha: 10 credits/second of video)"
+  standard: "$35/month — 625 credits/month"
+  pro: "$100/month — 2,250 credits/month"
+  unlimited: "$250/month — unlimited generations"
+  enterprise: "Custom pricing — API access, custom models, dedicated support"
+  api_credits: "Per-second pricing — varies by model (Gen-3 Alpha ~10 credits/s, Aleph TBD)"
+  note: "API access may require Team/Enterprise plan. Credits consumed per second of video generated."
+free_tier:
+  availability: "125 credits on signup (enough for ~12.5 seconds of Gen-3 Alpha video)"
+  limitation: "Very limited. No API access on free tier. Watermarked output on some plans."
+
+capabilities:
+  - "Gen-3 Alpha: text-to-video and image-to-video generation, up to 10 seconds"
+  - "Aleph (latest): next-gen model with improved quality, motion, and prompt adherence"
+  - "Premium video quality — Runway is considered industry-leading for production use"
+  - "Multi-Motion Brush — granular control over motion in different areas"
+  - "Camera controls — pan, tilt, zoom, dolly, roll"
+  - "Image-to-video with strong style preservation"
+  - "Video-to-video style transfer and transformation"
+  - "Inpainting/outpainting for video"
+  - "Green Screen — AI background removal for video"
+  - "REST API with async generation and webhook callbacks"
+  - "Used by major studios and creative agencies"
+  - "Real-time collaboration for teams"
+
+limitations:
+  - "Most expensive video generation platform"
+  - "API access restricted to higher-tier plans"
+  - "Maximum 10 second clips (extend by chaining, but quality degrades)"
+  - "Credit consumption is high — 10 credits per second of video"
+  - "Aleph model availability may be limited to higher tiers"
+  - "Content moderation — restrictive on certain content types"
+  - "No audio generation — video only"
+  - "Generation can be slow — 30 seconds to several minutes"
+  - "Quality varies with prompt complexity"
+
+example_request:
+  description: "Generate video with Runway Gen-3 Alpha via API"
+  python: |
+    import requests
+    import time
+
+    headers = {
+        "Authorization": "Bearer $RUNWAY_API_KEY",
+        "Content-Type": "application/json",
+        "X-Runway-Version": "2024-11-06"
+    }
+
+    # Text-to-video generation
+    response = requests.post(
+        "https://api.dev.runwayml.com/v1/image_to_video",
+        headers=headers,
+        json={
+            "model": "gen3a_turbo",
+            "promptImage": "https://example.com/dashboard.png",
+            "promptText": "Subtle animation with data visualizations updating smoothly",
+            "duration": 5,
+            "ratio": "16:9"
+        }
+    )
+    task_id = response.json()["id"]
+
+    # Poll for completion
+    while True:
+        time.sleep(10)
+        result = requests.get(
+            f"https://api.dev.runwayml.com/v1/tasks/{task_id}",
+            headers=headers
+        )
+        status = result.json()["status"]
+        if status == "SUCCEEDED":
+            print(result.json()["output"])
+            break
+        elif status == "FAILED":
+            print("Generation failed:", result.json())
+            break
+
+palette_agent: "Yuty (GTM/Narrative) — premium video content for client deliverables and demos"
+palette_integration_plan:
+  phase_1: "Evaluate Runway vs Seedance vs Kling for Palette demo video generation"
+  phase_2: "If Runway wins quality evaluation, integrate API for Yuty video pipeline"
+  phase_3: "Build template-based video generation for recurring deliverable types"
+  note: "GAP-002 — propose RIU-504. Runway is premium tier — use only when quality justifies cost premium over Kling/Seedance."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — Runway is the premium option for AI video generation. Highest quality but also highest cost. API available on paid plans. Compare against Kling ($0.014/video) and Seedance ($0.10-0.30/video) — Runway is likely 5-10x more expensive per video. Reserve for production-quality client deliverables where quality premium is justified. Relevant to GAP-002 (propose RIU-504)."

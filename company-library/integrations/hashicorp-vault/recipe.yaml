@@ -1,0 +1,93 @@
+# Palette Integration Recipe: HashiCorp Vault
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-066 (Secrets Handling + Rotation), RIU-108 (Agent Security & Access Control)
+# Priority: MEDIUM — important for production credential management, but high integration effort
+
+service_name: "HashiCorp Vault"
+company: "HashiCorp (IBM)"
+company_url: "https://www.hashicorp.com/products/vault"
+api_url: "http://127.0.0.1:8200/v1/ (self-hosted) or https://vault.hashicorp.cloud (HCP)"
+api_docs: "https://developer.hashicorp.com/vault/api-docs"
+
+auth_method:
+  type: "bearer_token"
+  header: "X-Vault-Token: $VAULT_TOKEN"
+  key_source: "Vault server — via vault login (userpass, AppRole, OIDC, AWS IAM, etc.)"
+  note: "Vault supports 15+ auth methods. AppRole recommended for machine-to-machine."
+
+rate_limits:
+  note: "Self-hosted: no external limits. HCP Vault: rate limits vary by cluster tier."
+
+cost_model: freemium
+cost_per_unit:
+  community: "$0.00 — BSL 1.1 licensed (source-available, not fully open source since 2023)"
+  hcp_plus: "$1.58/hour (~$1,137/month) — HCP Vault Dedicated Plus"
+  hcp_starter: "$0.03/hour (~$22/month) — HCP Vault Dedicated Starter (dev/test)"
+  enterprise: "Custom — includes namespaces, replication, HSM support"
+free_tier:
+  availability: "Community edition — full Vault features, self-hosted"
+  limitation: "No Vault Enterprise features (namespaces, replication, Sentinel policies). BSL 1.1 license restricts competing managed services."
+
+capabilities:
+  - "Centralized secrets management with fine-grained ACL policies"
+  - "Dynamic secrets — auto-generated, auto-expiring credentials for databases, AWS, etc."
+  - "Secret rotation — automatic credential rotation with configurable TTLs"
+  - "Encryption as a Service (Transit engine) — encrypt/decrypt without exposing keys"
+  - "PKI engine — automated certificate authority for service-to-service TLS"
+  - "Identity-based access — map external identities to Vault policies"
+  - "Audit logging — every secret access is logged with request/response details"
+  - "15+ auth methods: AppRole, AWS IAM, Kubernetes, OIDC, LDAP, etc."
+  - "KV secrets engine v2 with versioning and soft-delete"
+
+limitations:
+  - "High operational complexity — requires dedicated infrastructure and expertise"
+  - "BSL 1.1 license (not OSI open source) — cannot build competing managed service"
+  - "HCP managed option is expensive ($1,137+/month for production)"
+  - "Unsealing process adds operational burden (Shamir's secret sharing or auto-unseal)"
+  - "Overkill for small teams with few API keys — simpler alternatives exist"
+  - "Steep learning curve — policies, auth methods, secret engines are complex"
+  - "Self-hosted requires HA setup (Consul/Raft) for production reliability"
+
+example_request:
+  description: "Store and retrieve an API key from Vault KV secrets engine"
+  python: |
+    import hvac
+
+    # Connect to Vault
+    client = hvac.Client(
+        url="http://127.0.0.1:8200",
+        token="$VAULT_TOKEN"
+    )
+
+    # Store a secret (KV v2)
+    client.secrets.kv.v2.create_or_update_secret(
+        path="palette/openrouter",
+        secret={"api_key": "sk-or-..."},
+        mount_point="secret"
+    )
+
+    # Retrieve the secret
+    secret = client.secrets.kv.v2.read_secret_version(
+        path="palette/openrouter",
+        mount_point="secret"
+    )
+    api_key = secret["data"]["data"]["api_key"]
+
+    # Dynamic secret example: generate ephemeral database credentials
+    db_creds = client.secrets.database.generate_credentials(
+        name="palette-postgres-role",
+        mount_point="database"
+    )
+    print(f"Username: {db_creds['data']['username']}")
+    print(f"Password: {db_creds['data']['password']}")
+    print(f"TTL: {db_creds['data']['ttl']}s")
+
+palette_agent: "Rex (Architect) — secrets infrastructure design; Para (Monitor) — credential rotation monitoring"
+palette_integration_plan:
+  phase_1: "Evaluate if Palette's credential count justifies Vault vs simpler alternatives (Doppler, AWS Secrets Manager)"
+  phase_2: "If justified: deploy Vault with AppRole auth for agent-to-service credential access"
+  phase_3: "Dynamic secrets for database connections — auto-rotating credentials per agent session"
+
+status: evaluate
+evaluation_verdict: "DEFER — high integration effort, operationally heavy. Palette currently has ~10 API credentials — Doppler or AWS Secrets Manager are simpler alternatives. Re-evaluate when Palette scales to multi-agent production with many rotating credentials. Vault becomes justified at 50+ secrets with rotation requirements."

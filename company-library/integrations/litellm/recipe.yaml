@@ -1,0 +1,107 @@
+# Palette Integration Recipe: LiteLLM
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-521 (LLM Model Version Management), RIU-522 (Token Budget Management), RIU-320 (Third-Party API Integration)
+# Priority: HIGH — core to SageMaker disruptor thesis, self-hosted alternative to OpenRouter
+
+service_name: "LiteLLM"
+company: "BerriAI"
+company_url: "https://litellm.ai"
+api_url: "http://localhost:4000 (self-hosted proxy) or Python SDK (direct)"
+api_docs: "https://docs.litellm.ai"
+
+auth_method:
+  type: "api_key"
+  header: "Authorization: Bearer $LITELLM_MASTER_KEY"
+  key_source: "Self-configured — set LITELLM_MASTER_KEY environment variable on proxy startup"
+  note: "Proxy generates virtual keys per team/user. Underlying provider keys stored in proxy config."
+
+rate_limits:
+  proxy: "Configurable per virtual key — requests/minute, tokens/minute, budget caps"
+  sdk: "No proxy rate limits — subject to underlying provider limits only"
+  note: "LiteLLM proxy adds configurable rate limiting, budgets, and spend tracking per key."
+
+cost_model: free
+cost_per_unit:
+  oss: "$0.00 — MIT licensed open source (SDK and proxy)"
+  enterprise: "$250/month — Prometheus metrics, guardrails, audit logs, SSO, priority support"
+  infrastructure: "Self-hosted compute: Docker container (~256MB RAM for proxy)"
+  note: "Underlying LLM provider costs pass through. LiteLLM adds zero markup."
+free_tier:
+  availability: "Fully free and open source — SDK and proxy server"
+  limitation: "Enterprise features (Prometheus, advanced guardrails, SSO) require paid tier"
+
+capabilities:
+  - "Unified API for 100+ LLM providers (OpenAI, Anthropic, Google, AWS Bedrock, Azure, Cohere, etc.)"
+  - "OpenAI-compatible API format — drop-in replacement, change base_url only"
+  - "LLM proxy server with virtual keys, team management, and spend tracking"
+  - "Automatic fallback and load balancing across providers"
+  - "Cost tracking per key, team, and model with budget enforcement"
+  - "Configurable rate limiting per virtual key (RPM, TPM, max budget)"
+  - "Streaming support across all providers"
+  - "Caching layer (Redis, in-memory, or S3) for response deduplication"
+  - "Guardrails integration (Lakera, Presidio, custom) via pre/post hooks"
+  - "Logging callbacks: Langfuse, Helicone, Datadog, custom webhooks"
+  - "3-5ms overhead vs OpenRouter's ~40ms — significantly lower latency"
+
+limitations:
+  - "Self-hosted — requires Docker deployment and operational maintenance"
+  - "Proxy requires Redis for production (rate limiting, caching, team management)"
+  - "No managed SaaS option — BerriAI offers Enterprise support, not hosted proxy"
+  - "Configuration via YAML/env — more complex initial setup than OpenRouter"
+  - "Community support only on free tier — Enterprise for priority support"
+  - "Smaller team than OpenRouter — bus factor risk"
+
+example_request:
+  description: "Use LiteLLM SDK for unified LLM access with automatic fallback"
+  python: |
+    import litellm
+    from litellm import completion
+
+    # Direct SDK usage — call any provider with unified API
+    response = completion(
+        model="anthropic/claude-sonnet-4-6",
+        messages=[{"role": "user", "content": "Analyze this company positioning..."}],
+        max_tokens=1000
+    )
+    print(response.choices[0].message.content)
+
+    # Fallback: try Claude, fall back to GPT-4o, then Gemini
+    response = completion(
+        model="anthropic/claude-sonnet-4-6",
+        messages=[{"role": "user", "content": "..."}],
+        fallbacks=["openai/gpt-4o", "gemini/gemini-2.0-pro"]
+    )
+
+    # Proxy usage — OpenAI-compatible endpoint
+    from openai import OpenAI
+
+    client = OpenAI(
+        base_url="http://localhost:4000",  # LiteLLM proxy
+        api_key="sk-litellm-palette-key"   # Virtual key with budget limits
+    )
+
+    response = client.chat.completions.create(
+        model="anthropic/claude-sonnet-4-6",
+        messages=[{"role": "user", "content": "..."}]
+    )
+
+    # Proxy config example (litellm_config.yaml):
+    # model_list:
+    #   - model_name: "claude-sonnet"
+    #     litellm_params:
+    #       model: "anthropic/claude-sonnet-4-6"
+    #       api_key: "sk-ant-..."
+    #   - model_name: "claude-sonnet"  # fallback
+    #     litellm_params:
+    #       model: "bedrock/anthropic.claude-sonnet-4-6"
+    #       aws_region_name: "us-east-1"
+
+palette_agent: "Rex (Architect) — model routing infrastructure; all agents benefit from unified LLM access"
+palette_integration_plan:
+  phase_1: "Evaluate LiteLLM SDK for direct multi-provider routing in agent code"
+  phase_2: "Deploy LiteLLM proxy with Redis for centralized cost tracking and budget enforcement"
+  phase_3: "Compare total cost: LiteLLM (free + hosting) vs OpenRouter (5% markup, zero ops)"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — strongest self-hosted LLM gateway. MIT licensed, 3-5ms overhead, zero markup on model costs. Key decision: OpenRouter (managed, 5% markup, zero ops) vs LiteLLM (self-hosted, free, more control). For Palette's current stage, OpenRouter is simpler. LiteLLM becomes the right choice when Palette's LLM spend exceeds ~$500/month (where 5% markup = $25/month > hosting cost)."

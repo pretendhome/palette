@@ -1,0 +1,123 @@
+# Palette Integration Recipe: Great Expectations
+# Generated: 2026-03-01
+# RIUs served: RIU-044 (Data Pipeline Architecture), RIU-524 (Quality Monitoring), RIU-082 (Guardrails)
+# Context: Data quality validation framework — define expectations on data, validate, and document results
+
+service_name: "Great Expectations"
+company: "Superconductive (Great Expectations)"
+company_url: "https://greatexpectations.io"
+api_url: null
+api_docs: "https://docs.greatexpectations.io/docs/"
+
+auth_method:
+  type: "none"
+  note: "Open-source Python library. No auth for core OSS. GX Cloud requires account and API token."
+  gx_cloud:
+    type: "api_token"
+    env_var: "GX_CLOUD_ACCESS_TOKEN"
+    key_source: "app.greatexpectations.io → Settings → Tokens"
+
+rate_limits:
+  note: "Open-source library has no rate limits. GX Cloud may have plan-based limits."
+
+cost_model: freemium
+cost_per_unit:
+  open_source: "$0.00 (GX OSS, Apache 2.0 license)"
+  gx_cloud_free: "$0.00 (TODO: verify current GX Cloud free tier)"
+  gx_cloud_pro: "TODO: verify current pricing"
+  enterprise: "Custom pricing"
+free_tier:
+  availability: "Open-source library is fully free. GX Cloud has a free tier for hosted validation results."
+  limitation: "Self-hosted requires managing metadata stores and documentation sites. GX Cloud free tier has limited validation history."
+
+capabilities:
+  - "Expectations: 300+ built-in data quality checks (expect_column_values_to_not_be_null, expect_column_values_to_be_between, etc.)"
+  - "Validation: run expectations against data batches and get pass/fail results"
+  - "Data Docs: auto-generated HTML documentation of data quality results"
+  - "Profiling: auto-generate expectations from existing data"
+  - "Checkpoints: orchestrate validation runs with actions (notify, store, update docs)"
+  - "Data sources: Pandas, Spark, SQL (Postgres, MySQL, BigQuery, Snowflake, Redshift, etc.)"
+  - "Custom expectations: define Python-based custom quality checks"
+  - "Data context: configuration management for expectations, data sources, and stores"
+  - "OpenLineage integration: emit lineage events from validation runs"
+  - "Slack/email/webhook notifications on validation results"
+  - "GX Cloud: hosted expectation management and validation results dashboard"
+  - "Fluent API (v1.0+): simplified Python API for defining and running expectations"
+
+limitations:
+  - "Learning curve: concepts (Data Context, Expectations, Checkpoints) take time to learn"
+  - "Configuration-heavy: significant YAML/JSON configuration for data contexts"
+  - "API underwent major redesign (v0.x → v1.0) — many tutorials are outdated"
+  - "Performance: validation on very large datasets can be slow without Spark backend"
+  - "Not real-time monitoring — batch validation (pair with Soda for continuous monitoring)"
+  - "LLM/AI-specific expectations are limited — designed for structured tabular data"
+  - "GX Cloud is relatively new compared to the OSS library"
+
+example_request:
+  description: "Validate Palette people library data quality"
+  python: |
+    import great_expectations as gx
+    import pandas as pd
+
+    # Initialize context
+    context = gx.get_context()
+
+    # Load people library data
+    people_data = pd.DataFrame({
+        "person_id": ["PERSON-001", "PERSON-002", "PERSON-003"],
+        "name": ["Ruben Hassid", "Anisha Jain", "Axelle Vanquaillie"],
+        "signal_strength": [5, 2, 4],
+        "status": ["active", "low", "active"],
+    })
+
+    # Create data source and asset
+    data_source = context.data_sources.add_pandas("palette_data")
+    data_asset = data_source.add_dataframe_asset("people_library")
+    batch_definition = data_asset.add_batch_definition_whole_dataframe("full_batch")
+    batch = batch_definition.get_batch(batch_parameters={"dataframe": people_data})
+
+    # Define expectations
+    expectation_suite = context.suites.add(
+        gx.ExpectationSuite(name="people_library_quality")
+    )
+    expectation_suite.add_expectation(
+        gx.expectations.ExpectColumnValuesToNotBeNull(column="person_id")
+    )
+    expectation_suite.add_expectation(
+        gx.expectations.ExpectColumnValuesToBeInSet(
+            column="status", value_set=["active", "low", "archived"]
+        )
+    )
+    expectation_suite.add_expectation(
+        gx.expectations.ExpectColumnValuesToBeBetween(
+            column="signal_strength", min_value=1, max_value=5
+        )
+    )
+
+    # Validate
+    validation_definition = context.validation_definitions.add(
+        gx.ValidationDefinition(
+            name="validate_people_library",
+            data=batch_definition,
+            suite=expectation_suite,
+        )
+    )
+    result = validation_definition.run()
+    print(f"Success: {result.success}")
+
+palette_agent: "Anky (Validator) — data quality gates for library data"
+palette_integration_plan:
+  phase_1: "Define expectations for people_library YAML structure (required fields, valid ranges)"
+  phase_2: "Validate service_routing entries (cost fields present, URLs valid)"
+  phase_3: "Add to enrichment pipeline — validate data quality before and after enrichment"
+  phase_4: "Generate Data Docs for library health dashboard"
+
+comparison_to_current:
+  vs_soda:
+    - "Great Expectations: Python-native, more expectations, better for developers."
+    - "Soda: SQL-first, better for data teams, simpler YAML checks."
+    - "Great Expectations: steeper learning curve. Soda: quicker to start."
+  verdict: "Great Expectations for Python-heavy validation pipelines. Soda for SQL-first data quality monitoring. Both are excellent — choose based on team preference."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — industry-standard data quality framework. Relevant for validating Palette library data (people, services, knowledge entries) and enrichment pipeline outputs. Open-source core is fully free. Start with simple expectations on library YAML data, expand to pipeline validation in Phase 3."

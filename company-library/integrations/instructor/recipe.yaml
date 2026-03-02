@@ -1,0 +1,97 @@
+# Palette Integration Recipe: Instructor
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-028 (Schema-Constrained Generation)
+# Priority: HIGH — reduces parse errors in agent outputs, Python-native
+
+service_name: "Instructor"
+company: "Jason Liu (Open Source)"
+company_url: "https://python.useinstructor.com"
+api_url: "N/A — Python library that patches LLM client libraries"
+api_docs: "https://python.useinstructor.com"
+
+auth_method:
+  type: "none"
+  note: "Python library. No API key. Uses underlying LLM provider credentials (OpenAI, Anthropic, etc.)."
+
+rate_limits:
+  note: "N/A — library wraps existing LLM calls. Subject to underlying provider rate limits."
+
+cost_model: free
+cost_per_unit:
+  library: "$0.00 — MIT licensed open source"
+  note: "Underlying LLM token costs apply. Instructor adds automatic retries on validation failure which may increase token usage."
+free_tier:
+  availability: "Fully free and open source"
+  limitation: "None — full functionality available"
+
+capabilities:
+  - "Structured LLM output using Pydantic models — type-safe, validated responses"
+  - "Automatic retry with re-asking when LLM output fails validation"
+  - "Works with OpenAI, Anthropic, Google, Cohere, LiteLLM, Ollama, and more"
+  - "Patches existing client libraries — minimal code changes (2-3 lines)"
+  - "Streaming support for partial structured objects"
+  - "Multimodal support — extract structured data from images"
+  - "Validation with Pydantic validators — custom business logic on LLM outputs"
+  - "Tenacity-based retry logic with configurable max retries"
+  - "Supports function calling (OpenAI), tool use (Anthropic), and JSON mode"
+  - "13,000+ GitHub stars — large, active community"
+
+limitations:
+  - "Python-only — no TypeScript version (use Zod + Vercel AI SDK for TypeScript)"
+  - "Retry mechanism increases token costs on validation failures"
+  - "Complex nested Pydantic models may confuse smaller LLMs"
+  - "Depends on LLM provider's structured output support (function calling, tool use, or JSON mode)"
+  - "Not a standalone service — requires integration into application code"
+  - "Partial streaming requires careful handling of incomplete objects"
+
+example_request:
+  description: "Extract structured company analysis from LLM using Pydantic model"
+  python: |
+    import instructor
+    from pydantic import BaseModel, Field
+    from openai import OpenAI
+    from typing import Literal
+
+    # Define structured output schema
+    class CompanyAnalysis(BaseModel):
+        company_name: str
+        category: str = Field(description="Primary product category")
+        maturity: Literal["early", "growth", "established"]
+        confidence: float = Field(ge=0, le=1, description="Classification confidence")
+        key_signals: list[str] = Field(description="Evidence supporting classification")
+        recommended_rius: list[str] = Field(description="Relevant Palette RIU IDs")
+
+    # Patch OpenAI client with Instructor
+    client = instructor.from_openai(OpenAI())
+
+    # Get structured output — automatic validation and retry
+    analysis = client.chat.completions.create(
+        model="gpt-4o",
+        response_model=CompanyAnalysis,
+        max_retries=3,
+        messages=[{
+            "role": "user",
+            "content": "Analyze Lovable: AI-powered web app builder, raised Series A, "
+                       "competes with v0.dev and Bolt.new"
+        }]
+    )
+
+    print(f"Company: {analysis.company_name}")
+    print(f"Category: {analysis.category}")
+    print(f"Maturity: {analysis.maturity} (confidence: {analysis.confidence})")
+    print(f"Signals: {analysis.key_signals}")
+    print(f"RIUs: {analysis.recommended_rius}")
+
+    # Works with Anthropic too:
+    # import anthropic
+    # client = instructor.from_anthropic(anthropic.Anthropic())
+
+palette_agent: "All agents — structured output from LLM calls; Rex (Architect) — output schema design"
+palette_integration_plan:
+  phase_1: "Add Instructor to Cory (intent resolver) for structured RIU classification output"
+  phase_2: "Extend to Argy (research) for structured company/signal analysis"
+  phase_3: "Define Pydantic models for all agent output types — enforce schema consistency across Palette"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — essential library for production agentic systems. Eliminates JSON parsing errors, adds automatic retry on malformed output, enforces type safety via Pydantic. Zero cost, Python-native, works with all major LLM providers. Should be among the first libraries integrated into Palette agent code."

@@ -1,0 +1,94 @@
+# Palette Integration Recipe: OpenAI API
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-252 (Model Selection), RIU-521 (LLM Routing), RIU-522 (Token Budget), RIU-502 (Audio Processing)
+# Priority: HIGH — alternative model provider, Whisper audio, DALL-E image gen
+
+service_name: "OpenAI API"
+company: "OpenAI"
+company_url: "https://openai.com"
+api_url: "https://api.openai.com/v1"
+api_docs: "https://platform.openai.com/docs/api-reference"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $OPENAI_API_KEY"
+  key_source: "https://platform.openai.com/api-keys"
+  organization_header: "OpenAI-Organization: $OPENAI_ORG_ID (optional)"
+
+rate_limits:
+  tier_1: "500 RPM, 200K TPM (after $5 payment)"
+  tier_2: "5,000 RPM, 2M TPM (after $50 spend)"
+  tier_3: "5,000 RPM, 10M TPM (after $100 spend)"
+  tier_4: "10,000 RPM, 30M TPM (after $250 spend)"
+  tier_5: "10,000 RPM, 150M TPM (after $1,000 spend)"
+  note: "Rate limits vary by model. GPT-4o has separate limits from o1/o3."
+
+cost_model: usage_based
+cost_per_unit:
+  gpt_4o: "$2.50/M input, $10/M output"
+  gpt_4o_mini: "$0.15/M input, $0.60/M output"
+  o3: "$10/M input, $40/M output"
+  o3_mini: "$1.10/M input, $4.40/M output"
+  o4_mini: "$1.10/M input, $4.40/M output"
+  gpt_4_1: "$2/M input, $8/M output"
+  gpt_4_1_mini: "$0.40/M input, $1.60/M output"
+  gpt_4_1_nano: "$0.10/M input, $0.40/M output"
+  whisper: "$0.006/minute of audio"
+  tts: "$15/M characters (standard), $30/M characters (HD)"
+  dall_e_3: "$0.040 per 1024x1024 image (standard), $0.080 (HD)"
+  embeddings_3_small: "$0.02/M tokens"
+  batch_api: "50% discount on all models"
+  note: "All prices per million tokens unless stated. Cached input tokens 50% off."
+free_tier:
+  availability: "No free API tier. ChatGPT free plan is separate."
+  limitation: "API requires prepaid credits."
+
+capabilities:
+  - "GPT-4o: multimodal (text, vision, audio) with 128K context"
+  - "o3/o4-mini: reasoning models with extended thinking"
+  - "GPT-4.1 series: optimized for agentic coding tasks, 1M context window"
+  - "Whisper: speech-to-text in 57 languages"
+  - "TTS: text-to-speech with 6 voice options"
+  - "DALL-E 3: text-to-image generation"
+  - "Embeddings (text-embedding-3-small/large) for vector search"
+  - "Function calling / structured outputs with JSON mode"
+  - "Batch API for 50% cost savings on async workloads"
+  - "Fine-tuning available for GPT-4o-mini and GPT-4o"
+  - "Assistants API with file search, code interpreter, and tool use"
+  - "Realtime API for voice-to-voice conversations"
+
+limitations:
+  - "No free API tier — all usage is paid"
+  - "GPT-4o quality varies by task — Claude outperforms on long-form analysis"
+  - "o3 reasoning models are expensive ($40/M output)"
+  - "Fine-tuning is costly and requires careful data preparation"
+  - "Rate limits on lower tiers can be restrictive"
+  - "Data retention policies differ by endpoint — check for compliance needs"
+  - "Realtime API is beta and pricing may change"
+
+example_request:
+  description: "Chat completion with GPT-4o via OpenAI API"
+  python: |
+    from openai import OpenAI
+
+    client = OpenAI()  # uses OPENAI_API_KEY env var
+
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": "You are a competitive analysis assistant."},
+            {"role": "user", "content": "Compare LLM evaluation platforms: Braintrust vs Langsmith vs Arize."}
+        ]
+    )
+    print(response.choices[0].message.content)
+
+palette_agent: "Rex (Architect) — model routing decisions; Argy (Researcher) — alternative to Claude for diversity"
+palette_integration_plan:
+  phase_1: "Access via OpenRouter for cost tracking — no direct OpenAI API keys needed"
+  phase_2: "Evaluate GPT-4.1 for agentic coding tasks against Claude Sonnet"
+  phase_3: "Whisper integration for voice input pipeline (already in Telegram bot)"
+  note: "Prefer OpenRouter routing over direct API for unified billing and fallback."
+
+status: available
+evaluation_verdict: "AVAILABLE — access via OpenRouter preferred over direct API for unified billing. GPT-4o-mini is cost-competitive for simple tasks. Whisper is the best speech-to-text API. DALL-E 3 for image generation if needed. GPT-4.1 series interesting for 1M context agentic workflows."

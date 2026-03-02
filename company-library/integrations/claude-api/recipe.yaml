@@ -1,0 +1,100 @@
+# Palette Integration Recipe: Claude API (Anthropic)
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-251 (Prompt Engineering), RIU-252 (Model Selection), RIU-521 (LLM Routing), RIU-522 (Token Budget)
+# Priority: CRITICAL — primary foundation model for all Palette agents
+
+service_name: "Claude API"
+company: "Anthropic"
+company_url: "https://www.anthropic.com"
+api_url: "https://api.anthropic.com/v1"
+api_docs: "https://docs.anthropic.com/en/docs"
+
+auth_method:
+  type: "api_key"
+  header: "x-api-key: $ANTHROPIC_API_KEY"
+  key_source: "https://console.anthropic.com/settings/keys"
+  additional_headers:
+    - "anthropic-version: 2023-06-01"
+    - "content-type: application/json"
+
+rate_limits:
+  tier_1: "50 RPM, 40K input TPM, 8K output TPM (first $5 spend)"
+  tier_2: "1,000 RPM, 80K input TPM, 16K output TPM ($40+ spend)"
+  tier_3: "2,000 RPM, 160K input TPM, 32K output TPM ($200+ spend)"
+  tier_4: "4,000 RPM, 400K input TPM, 80K output TPM ($400+ spend)"
+  note: "Tiers auto-upgrade based on cumulative spend. Enterprise custom limits available."
+
+cost_model: usage_based
+cost_per_unit:
+  claude_opus_4: "$15/M input, $75/M output"
+  claude_sonnet_4: "$3/M input, $15/M output"
+  claude_haiku_35: "$0.80/M input, $4/M output"
+  claude_opus_4_batch: "50% discount on batch API"
+  extended_thinking: "Extended thinking tokens billed at output rate"
+  prompt_caching: "90% discount on cached input tokens (write: 25% premium, 5-min TTL)"
+  note: "All prices per million tokens. Batch API 50% off, prompt caching 90% off reads."
+free_tier:
+  availability: "No free API tier. Claude.ai free plan offers limited usage."
+  limitation: "API requires payment method and prepaid credits or monthly billing."
+
+capabilities:
+  - "200K context window on all models (largest commercially available)"
+  - "Extended thinking (chain-of-thought) for complex reasoning tasks"
+  - "Computer use (beta) — agent can operate a virtual desktop"
+  - "Vision — image understanding and analysis natively in messages"
+  - "Tool use / function calling with structured JSON output"
+  - "Prompt caching — 90% cost reduction on repeated context"
+  - "Batch API — 50% cost reduction for async workloads"
+  - "System prompts with multi-turn conversation support"
+  - "MCP (Model Context Protocol) — standardized tool integration"
+  - "Claude Code CLI for agentic software engineering"
+  - "Constitutional AI safety — lowest hallucination rates in category"
+
+limitations:
+  - "No real-time web access — knowledge cutoff applies (May 2025 for Opus 4)"
+  - "No image generation — text and vision input only"
+  - "No fine-tuning publicly available (enterprise only)"
+  - "Rate limits on lower tiers are restrictive for production workloads"
+  - "Extended thinking adds latency (seconds to minutes for complex reasoning)"
+  - "Computer use is beta — not production-ready"
+  - "Higher per-token cost than open-source alternatives"
+
+example_request:
+  description: "Chat completion with tool use via Claude Messages API"
+  curl: |
+    curl https://api.anthropic.com/v1/messages \
+      -H "x-api-key: $ANTHROPIC_API_KEY" \
+      -H "anthropic-version: 2023-06-01" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "model": "claude-sonnet-4-20250514",
+        "max_tokens": 1024,
+        "messages": [
+          {"role": "user", "content": "Analyze the competitive landscape for LLM evaluation tools."}
+        ]
+      }'
+  python: |
+    import anthropic
+
+    client = anthropic.Anthropic()  # uses ANTHROPIC_API_KEY env var
+
+    response = client.messages.create(
+        model="claude-sonnet-4-20250514",
+        max_tokens=1024,
+        messages=[
+            {"role": "user", "content": "Analyze the competitive landscape for LLM evaluation tools."}
+        ]
+    )
+    print(response.content[0].text)
+
+palette_agent: "All agents — Claude is the foundation model powering every Palette agent"
+palette_integration_plan:
+  current: "Claude powers all agents via Claude.ai Max subscription (not API credits)"
+  phase_1: "Continue using Claude.ai subscription; avoid direct API spend"
+  phase_2: "If API needed, route through OpenRouter for cost tracking and fallback"
+  phase_3: "Evaluate prompt caching for repeated agent context (taxonomy, knowledge library)"
+  note: "CRITICAL — Palette uses Claude.ai Max subscription, NOT API credits. Do not use ANTHROPIC_API_KEY."
+
+status: available
+evaluation_verdict: "AVAILABLE — Claude is the core LLM for Palette. Currently accessed via Claude.ai Max subscription (no API credits). If direct API access is needed, route through OpenRouter for cost visibility. Opus 4 for complex reasoning, Sonnet 4 for balanced cost/quality, Haiku 3.5 for high-volume low-complexity."

@@ -1,0 +1,110 @@
+# Palette Integration Recipe: Honeycomb
+# Generated: 2026-03-01
+# RIUs served: RIU-524 (Quality Monitoring), RIU-523 (Latency Optimization)
+# Context: OpenTelemetry-native observability — strong for distributed tracing of agentic workflows
+
+service_name: "Honeycomb"
+company: "Honeycomb"
+company_url: "https://www.honeycomb.io"
+api_url: "https://api.honeycomb.io/1"
+api_docs: "https://docs.honeycomb.io/api/"
+
+auth_method:
+  type: "api_key"
+  header: "X-Honeycomb-Team: $HONEYCOMB_API_KEY"
+  key_source: "honeycomb.io → Team Settings → API Keys"
+
+rate_limits:
+  events_per_second: "No hard documented per-second limit on ingest"
+  query_api: "10 queries/second per team"
+  note: "Rate limits scale with plan tier. Free tier has lower ingest volume limits."
+
+cost_model: freemium
+cost_per_unit:
+  free: "$0.00 (20M events/month)"
+  pro: "TODO: verify current pricing — historically $0.20/million events"
+  enterprise: "Custom pricing"
+free_tier:
+  availability: "20 million events/month, 60-day retention"
+  limitation: "Limited to 20 columns per dataset. No SLOs on free tier."
+
+capabilities:
+  - "OpenTelemetry-native ingest: traces, metrics, logs via OTLP (gRPC and HTTP)"
+  - "BubbleUp: automated root cause analysis using heatmaps and group-by"
+  - "Query engine: high-cardinality GROUP BY on raw events (no pre-aggregation)"
+  - "Board/dashboard system for team-wide visibility"
+  - "SLOs: burn alerts on error budget (see honeycomb-slos recipe)"
+  - "Triggers: threshold-based alerts on query results"
+  - "Trace waterfall visualization for distributed spans"
+  - "Query Data API: programmatic access to run queries and retrieve results"
+  - "Marker API: annotate deploys and events on charts"
+  - "Native integrations: OpenTelemetry SDK, Kubernetes, AWS, Vercel"
+
+limitations:
+  - "No built-in metrics backend — must pair with Prometheus/Grafana for metric-heavy workloads"
+  - "No log aggregation in the traditional sense — designed for structured events"
+  - "Pro tier pricing can escalate quickly at high event volumes"
+  - "Query API is team-scoped, not dataset-scoped — requires careful key management"
+  - "Free tier limited to 20 columns per dataset — insufficient for rich LLM telemetry"
+
+example_request:
+  description: "Send a trace event for an LLM call via the Events API"
+  python: |
+    import requests
+    import time
+
+    headers = {
+        "X-Honeycomb-Team": "$HONEYCOMB_API_KEY",
+        "Content-Type": "application/json",
+    }
+
+    event = {
+        "service_name": "palette-argy",
+        "trace.trace_id": "abc123",
+        "trace.span_id": "span456",
+        "name": "llm.call",
+        "duration_ms": 1250,
+        "model": "claude-opus-4-6",
+        "tokens_in": 1500,
+        "tokens_out": 800,
+        "cost_usd": 0.045,
+        "status": "success",
+        "timestamp": int(time.time()),
+    }
+
+    resp = requests.post(
+        "https://api.honeycomb.io/1/events/palette-traces",
+        headers=headers,
+        json=event,
+    )
+    print(resp.status_code)  # 200 on success
+
+  description_otel: "Send spans via OpenTelemetry SDK (preferred method)"
+  python_otel: |
+    from opentelemetry import trace
+    from opentelemetry.sdk.trace import TracerProvider
+    from opentelemetry.sdk.trace.export import BatchSpanProcessor
+    from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+
+    exporter = OTLPSpanExporter(
+        endpoint="https://api.honeycomb.io",
+        headers={"x-honeycomb-team": "$HONEYCOMB_API_KEY"},
+    )
+    provider = TracerProvider()
+    provider.add_span_processor(BatchSpanProcessor(exporter))
+    trace.set_tracer_provider(provider)
+
+    tracer = trace.get_tracer("palette.argy")
+    with tracer.start_as_current_span("research-query") as span:
+        span.set_attribute("query", "competitive analysis")
+        span.set_attribute("model", "claude-opus-4-6")
+        # ... perform research ...
+
+palette_agent: "Para (Monitor) — distributed tracing for agentic pipeline observability"
+palette_integration_plan:
+  phase_1: "Instrument Argy and Cory with OpenTelemetry spans for LLM calls"
+  phase_2: "Build BubbleUp queries to identify slow agents and costly model calls"
+  phase_3: "Set SLOs on agent response time and error rates"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — strong OTel-native observability. Free tier (20M events) is generous for early-stage. Compare against New Relic (100GB free) and Grafana Cloud for best fit. Honeycomb excels at high-cardinality trace analysis which is ideal for debugging multi-agent pipelines."

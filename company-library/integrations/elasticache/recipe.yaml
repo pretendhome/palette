@@ -1,0 +1,96 @@
+# Palette Integration Recipe: Amazon ElastiCache
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-035 (Caching Strategy + Invalidation), RIU-523 (LLM Response Caching)
+# Priority: LOW — relevant only for production-scale Palette deployment on AWS
+
+service_name: "Amazon ElastiCache"
+company: "Amazon Web Services (AWS)"
+company_url: "https://aws.amazon.com/elasticache/"
+api_url: "N/A — managed Redis/Memcached endpoints accessed via standard client libraries"
+api_docs: "https://docs.aws.amazon.com/elasticache/"
+
+auth_method:
+  type: "none"
+  note: "ElastiCache nodes are accessed via VPC networking. Authentication via Redis AUTH token or IAM auth (ElastiCache Serverless). No HTTP API — uses Redis/Memcached protocol directly."
+  key_source: "AWS Console → ElastiCache → Cluster → AUTH token or IAM role"
+
+rate_limits:
+  note: "No API rate limits. Throughput depends on node type. cache.t3.micro: ~5,000 ops/sec. cache.r7g.xlarge: ~100,000+ ops/sec."
+
+cost_model: usage_based
+cost_per_unit:
+  serverless: "ElastiCache Serverless (Redis): $0.0034/ECPU-hour + $0.125/GB-hour storage"
+  node_based: "cache.t3.micro: ~$0.017/hour (~$12.41/month). cache.r7g.large: ~$0.252/hour (~$181/month)"
+  data_transfer: "Standard AWS data transfer rates apply"
+  note: "Serverless scales to zero but has higher per-unit cost. Node-based is cheaper at steady load."
+free_tier:
+  availability: "AWS Free Tier: 750 hours/month of cache.t3.micro for 12 months"
+  limitation: "Single AZ, single node, 12-month limit"
+
+capabilities:
+  - "Fully managed Redis 7.x or Memcached — no operational overhead"
+  - "ElastiCache Serverless — auto-scaling with pay-per-use pricing"
+  - "Sub-millisecond latency for read/write operations"
+  - "Multi-AZ replication with automatic failover (Redis)"
+  - "Redis data structures: strings, hashes, lists, sets, sorted sets, streams"
+  - "Redis Cluster mode for horizontal scaling (up to 500 nodes)"
+  - "Encryption at rest and in transit"
+  - "IAM authentication for ElastiCache Serverless"
+  - "Global Datastore for cross-region replication"
+
+limitations:
+  - "VPC-only — cannot access from outside AWS VPC without VPN/bastion"
+  - "Higher cost than self-managed Redis or Upstash for small workloads"
+  - "ElastiCache Serverless has cold-start latency (~100-200ms first request)"
+  - "Node-based pricing requires capacity planning — pay even when idle"
+  - "No built-in semantic caching — requires custom implementation"
+  - "Redis Cluster mode has cross-slot limitations for multi-key operations"
+  - "Vendor lock-in to AWS"
+
+example_request:
+  description: "Cache LLM responses with TTL to reduce token costs"
+  python: |
+    import redis
+    import hashlib
+    import json
+
+    # Connect to ElastiCache Redis endpoint
+    r = redis.Redis(
+        host="palette-cache.xxxxx.use1.cache.amazonaws.com",
+        port=6379,
+        ssl=True,
+        decode_responses=True
+    )
+
+    def get_cached_response(prompt: str, model: str, ttl: int = 3600):
+        """Check cache before calling LLM. TTL in seconds."""
+        cache_key = f"llm:{model}:{hashlib.sha256(prompt.encode()).hexdigest()}"
+
+        # Check cache
+        cached = r.get(cache_key)
+        if cached:
+            return json.loads(cached)
+
+        # Cache miss — call LLM (via OpenRouter or direct)
+        response = call_llm(prompt, model)
+
+        # Store in cache with TTL
+        r.setex(cache_key, ttl, json.dumps(response))
+        return response
+
+    # Example: cache Argy research responses for 1 hour
+    result = get_cached_response(
+        prompt="What is the current pricing for Pinecone?",
+        model="anthropic/claude-sonnet-4-6",
+        ttl=3600
+    )
+
+palette_agent: "Rex (Architect) — caching infrastructure design"
+palette_integration_plan:
+  phase_1: "Evaluate ElastiCache vs Upstash Redis — Upstash already has a recipe and serverless pricing"
+  phase_2: "If Palette deploys on AWS: use ElastiCache Serverless for LLM response caching"
+  phase_3: "Implement semantic caching layer on top of Redis for similar-query deduplication"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — AWS-native managed Redis. Best if Palette runs on AWS (pairs with Bedrock, SageMaker). For current Palette scale, Upstash Redis (already has recipe) is simpler and cheaper. ElastiCache becomes the right choice at production scale with VPC-deployed agents."

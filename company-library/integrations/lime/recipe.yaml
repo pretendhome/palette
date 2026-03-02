@@ -1,0 +1,131 @@
+# Palette Integration Recipe: LIME
+# Generated: 2026-03-01
+# RIUs served: RIU-082 (Guardrails), RIU-524 (Quality Monitoring)
+# Context: Local Interpretable Model-agnostic Explanations — explain any ML model's individual predictions
+
+service_name: "LIME"
+company: "LIME (open source, originally Marco Tulio Ribeiro et al.)"
+company_url: "https://github.com/marcotcr/lime"
+api_url: null
+api_docs: "https://lime-ml.readthedocs.io/en/latest/"
+
+auth_method:
+  type: "none"
+  note: "Open-source Python library. No auth required."
+
+rate_limits:
+  note: "No rate limits — runs locally. Computation time depends on model complexity and number of perturbations."
+
+cost_model: open_source
+cost_per_unit:
+  library: "$0.00 (BSD 2-Clause license)"
+  note: "Fully free. No external API calls for core functionality. LLM API costs apply only if explaining LLM-based classifiers."
+free_tier:
+  availability: "Fully free and open source."
+  limitation: "None — unrestricted use."
+
+capabilities:
+  - "Model-agnostic explanations: explain predictions from any black-box model (sklearn, XGBoost, neural nets, LLMs)"
+  - "Tabular data explanations: feature importance for individual predictions on structured data"
+  - "Text explanations: highlight words/phrases that contribute most to a text classification decision"
+  - "Image explanations: highlight superpixels that contribute most to an image classification"
+  - "Local fidelity: explanations are faithful in the neighborhood of the prediction being explained"
+  - "LimeTabularExplainer: explain tabular model predictions with feature weights"
+  - "LimeTextExplainer: explain text classifier decisions with word importance"
+  - "LimeImageExplainer: explain image classifier decisions with region importance"
+  - "Submodular pick (SP-LIME): select representative explanations for global understanding"
+  - "HTML visualization: interactive HTML output for explanation results"
+  - "Integration with scikit-learn pipelines"
+  - "Kernel LIME: weighted linear model fitted on perturbations around the instance"
+
+limitations:
+  - "Explanations are local — faithful near the instance, not globally representative"
+  - "Perturbation-based approach can be slow for complex models (many perturbations needed)"
+  - "Text explainer treats words independently — misses phrase-level or contextual interactions"
+  - "Not designed for generative LLM outputs — works for classification/regression predictions"
+  - "Instability: explanations can vary between runs due to random perturbation sampling"
+  - "Assumes feature independence in perturbations — can produce unrealistic data points"
+  - "Library maintenance is minimal — core research project, not actively developed product"
+  - "No real-time/production monitoring — explanation-time tool, not runtime tool"
+  - "SHAP (see existing shap recipe) is often preferred for tabular data — more theoretically grounded"
+
+example_request:
+  description: "Explain a text classification prediction (e.g., intent resolution)"
+  python: |
+    from lime.lime_text import LimeTextExplainer
+    import numpy as np
+
+    # Example: explain an intent classifier's prediction
+    class_names = ["research_query", "service_comparison", "integration_help", "general_question"]
+
+    def predict_proba(texts):
+        """Your model's predict_proba function.
+        Returns probability array for each class.
+        """
+        # Replace with actual model prediction
+        # This is a placeholder — in practice, call your classifier
+        results = []
+        for text in texts:
+            if "compare" in text.lower():
+                results.append([0.1, 0.7, 0.1, 0.1])
+            elif "integrate" in text.lower() or "api" in text.lower():
+                results.append([0.1, 0.1, 0.7, 0.1])
+            else:
+                results.append([0.5, 0.2, 0.1, 0.2])
+        return np.array(results)
+
+    explainer = LimeTextExplainer(class_names=class_names)
+
+    # Explain a single prediction
+    text = "Compare Honeycomb and New Relic for LLM observability"
+    explanation = explainer.explain_instance(
+        text,
+        predict_proba,
+        num_features=10,
+        num_samples=500,
+    )
+
+    # View explanation
+    print("Predicted class:", class_names[explanation.top_labels[0]])
+    print("Feature weights:")
+    for feature, weight in explanation.as_list(label=explanation.top_labels[0]):
+        print(f"  '{feature}': {weight:+.4f}")
+
+    # Save HTML visualization
+    explanation.save_to_file("intent_explanation.html")
+
+  description_tabular: "Explain a tabular model prediction"
+  python_tabular: |
+    from lime.lime_tabular import LimeTabularExplainer
+
+    explainer = LimeTabularExplainer(
+        training_data=X_train.values,
+        feature_names=["signal_strength", "post_frequency", "follower_count", "engagement_rate"],
+        class_names=["low_priority", "high_priority"],
+        mode="classification",
+    )
+
+    explanation = explainer.explain_instance(
+        X_test.iloc[0].values,
+        model.predict_proba,
+        num_features=4,
+    )
+    explanation.show_in_notebook()
+
+palette_agent: "Anky (Validator) — explainability for model decisions and agent routing"
+palette_integration_plan:
+  phase_1: "Use LIME to explain Cory's intent classification decisions for debugging"
+  phase_2: "Generate explanations for service routing recommendations"
+  phase_3: "Build explanation reports for key misclassifications"
+  phase_4: "Consider SP-LIME for global model understanding across query types"
+
+comparison_to_current:
+  vs_shap:
+    - "LIME: model-agnostic, perturbation-based, local explanations."
+    - "SHAP: theoretically grounded (Shapley values), global + local, more consistent."
+    - "LIME: simpler to understand and implement. SHAP: more rigorous."
+    - "SHAP already has a recipe in the integrations directory."
+  verdict: "SHAP is generally preferred for tabular data (theoretical guarantees). LIME is useful for text explanations where SHAP's text support is weaker. Use LIME for text classifier explanations, SHAP for tabular model explanations."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — foundational ML explainability tool. Most valuable for text classification explanations (Cory's intent resolver). For tabular data, SHAP (already integrated) is preferred. LIME text explainer fills a gap SHAP doesn't cover well. Low urgency — relevant when Palette has trained classifiers that need debugging. Library maintenance is minimal but the technique is well-established and stable."

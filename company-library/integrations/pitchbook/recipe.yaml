@@ -1,0 +1,100 @@
+# Palette Integration Recipe: PitchBook
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-106 (Comparable Org Research), RIU-201 (Competitive Research), RIU-107 (Market Sizing)
+# Priority: LOW — enterprise-only private market data, prohibitive cost for current stage
+
+service_name: "PitchBook"
+company: "PitchBook Data, Inc. (Morningstar subsidiary)"
+company_url: "https://pitchbook.com"
+api_url: "https://api.pitchbook.com (enterprise only)"
+api_docs: "https://pitchbook.com/data/api (requires enterprise license)"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $PITCHBOOK_API_TOKEN"
+  key_source: "PitchBook enterprise license — contact sales for API access"
+  note: "API is only available to enterprise subscribers. No self-service API key generation."
+
+rate_limits:
+  note: "Negotiated per enterprise contract. Not publicly documented."
+
+cost_model: enterprise
+cost_per_unit:
+  platform_license: "$20,000-$50,000+/year per seat (estimated — PitchBook does not publish pricing)"
+  api_access: "Additional cost on top of platform license — negotiated per contract"
+  data_feeds: "Bulk data feeds priced separately"
+  note: "PitchBook is enterprise-only. No self-service, no monthly plans. Minimum annual commitment. Pricing is opaque and negotiated."
+free_tier:
+  availability: "No free tier. No free trial without sales engagement."
+  limitation: "Entirely gated behind enterprise sales process."
+
+capabilities:
+  - "Most comprehensive private market data globally"
+  - "3.4M+ companies, 1.7M+ deals, 380K+ investors"
+  - "Detailed financial data: revenue estimates, valuations, cap tables"
+  - "Fund performance data and benchmarks"
+  - "Deal multiples and comparable transaction analysis"
+  - "LP/GP relationship mapping"
+  - "Market maps and industry verticals"
+  - "M&A comps, public market comps"
+  - "Custom screening and alerts"
+  - "Excel plugin and CRM integrations (Salesforce, etc.)"
+  - "RESTful API for programmatic access (enterprise only)"
+  - "Daily-updated with dedicated research analyst coverage"
+  - "Considered gold standard for VC/PE due diligence"
+
+limitations:
+  - "Prohibitively expensive — $20K-50K+/year per seat"
+  - "API requires enterprise license plus additional negotiation"
+  - "No self-service access — must go through sales"
+  - "No free trial without sales engagement"
+  - "Data exports may have contractual restrictions"
+  - "Overkill for current Palette stage — enterprise-grade tool for enterprise-grade budgets"
+  - "API documentation not publicly available"
+  - "Long sales cycle — weeks to months to get access"
+
+example_request:
+  description: "PitchBook API (enterprise access only — illustrative example)"
+  python: |
+    # PitchBook API requires enterprise license
+    # This is an illustrative example based on API documentation patterns
+    # Actual endpoints and schema require enterprise access to verify
+
+    import requests
+
+    headers = {
+        "Authorization": "Bearer $PITCHBOOK_API_TOKEN",
+        "Content-Type": "application/json"
+    }
+
+    # Search for a company (illustrative — actual endpoint may differ)
+    response = requests.get(
+        "https://api.pitchbook.com/v1/companies",
+        headers=headers,
+        params={
+            "name": "Lovable",
+            "fields": "companyName,foundedDate,totalRaised,lastRoundSize,lastRoundDate,primaryIndustry,employeeCount"
+        }
+    )
+    print(response.json())
+
+  note: "Cannot verify API schema without enterprise access. Example is illustrative only."
+
+  alternative: |
+    # For private market data without PitchBook's enterprise cost:
+    # 1. Crunchbase Pro API — $49/month, good coverage, accessible
+    # 2. Perplexity API — web research for funding/company data
+    # 3. CB Insights — alternative enterprise provider
+    # 4. Dealroom.co — European-focused, more accessible pricing
+    # 5. Tracxn — startup intelligence, lower cost than PitchBook
+
+palette_agent: "Argy (Researcher) — if budget allows, deepest private market intelligence"
+palette_integration_plan:
+  current: "Not accessible — cost prohibitive for current Palette stage"
+  alternative: "Use Crunchbase Pro ($49/month) + Perplexity API for company intelligence"
+  future: "Revisit when Palette reaches revenue stage where $20K+/year is justifiable"
+  note: "PitchBook is the gold standard but Crunchbase covers 80% of needs at 1% of cost."
+
+status: evaluate
+evaluation_verdict: "EVALUATE (DEFERRED) — PitchBook is the gold standard for private market data but at $20K-50K+/year it is not justified for current Palette stage. Use Crunchbase Pro ($49/month) as primary company intelligence source. Revisit PitchBook when Palette revenue justifies enterprise data spend. For now, Crunchbase + Perplexity covers the essential company enrichment needs."

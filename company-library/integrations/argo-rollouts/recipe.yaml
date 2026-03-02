@@ -1,0 +1,145 @@
+# Palette Integration Recipe: Argo Rollouts
+# Generated: 2026-03-01
+# RIUs served: RIU-063 (CI/CD Pipeline Design), RIU-524 (Quality Monitoring)
+# Context: Progressive delivery controller for Kubernetes — canary and blue/green deployments
+
+service_name: "Argo Rollouts"
+company: "Argo Project (CNCF)"
+company_url: "https://argoproj.github.io/rollouts/"
+api_url: null
+api_docs: "https://argo-rollouts.readthedocs.io/en/stable/"
+
+auth_method:
+  type: "none"
+  note: "Kubernetes-native controller. Auth is via Kubernetes RBAC (kubectl/kubeconfig). No separate API key required."
+
+rate_limits:
+  note: "No external rate limits. Runs as a Kubernetes controller. Performance limited by cluster resources."
+
+cost_model: open_source
+cost_per_unit:
+  self_hosted: "$0.00 (fully open source, Apache 2.0 license, CNCF project)"
+  note: "Infrastructure costs only — Kubernetes cluster required."
+free_tier:
+  availability: "Fully free and open source. CNCF graduated project."
+  limitation: "Requires Kubernetes cluster. No managed SaaS option."
+
+capabilities:
+  - "Canary deployments: gradual traffic shifting with configurable steps (e.g., 5% → 20% → 50% → 100%)"
+  - "Blue/green deployments: instant cutover with automated rollback"
+  - "Analysis runs: automated promotion/rollback based on metric thresholds"
+  - "Metric providers: Prometheus, Datadog, New Relic, Wavefront, Kayenta, CloudWatch, Graphite, InfluxDB, custom web analysis"
+  - "Traffic management: Istio, Nginx Ingress, ALB Ingress, SMI, Traefik, Ambassador, Apache APISIX"
+  - "Experiment CRD: run temporary ReplicaSets for A/B testing"
+  - "Notification engine: Slack, GitHub, email, webhook notifications on rollout events"
+  - "kubectl plugin: argo-rollouts kubectl plugin for CLI management"
+  - "Dashboard: web UI for visualizing rollout status and history"
+  - "Header-based routing: route traffic based on HTTP headers for testing"
+  - "Anti-affinity: prevent rollout steps on specific schedules (maintenance windows)"
+  - "Rollback: automated or manual rollback on analysis failure"
+
+limitations:
+  - "Kubernetes-only — not applicable to serverless or non-K8s deployments"
+  - "Requires understanding of Kubernetes CRDs and controllers"
+  - "Analysis runs require a metrics provider (Prometheus, Datadog, etc.) to be configured"
+  - "Traffic management requires a supported ingress controller or service mesh"
+  - "Not a CI/CD tool — handles deployment strategy only (pair with Argo CD, GitHub Actions, etc.)"
+  - "Replaces standard Kubernetes Deployment resource — migration effort required"
+
+example_request:
+  description: "Define a canary rollout with automated analysis"
+  yaml_manifest: |
+    # rollout.yaml
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+    metadata:
+      name: palette-api
+    spec:
+      replicas: 5
+      strategy:
+        canary:
+          steps:
+            - setWeight: 10
+            - pause: {duration: 5m}
+            - analysis:
+                templates:
+                  - templateName: success-rate
+            - setWeight: 50
+            - pause: {duration: 10m}
+            - analysis:
+                templates:
+                  - templateName: success-rate
+          canaryService: palette-api-canary
+          stableService: palette-api-stable
+      selector:
+        matchLabels:
+          app: palette-api
+      template:
+        metadata:
+          labels:
+            app: palette-api
+        spec:
+          containers:
+            - name: palette-api
+              image: palette/api:v2.0.0
+              ports:
+                - containerPort: 8000
+
+    ---
+    # analysis-template.yaml
+    apiVersion: argoproj.io/v1alpha1
+    kind: AnalysisTemplate
+    metadata:
+      name: success-rate
+    spec:
+      metrics:
+        - name: success-rate
+          interval: 60s
+          successCondition: result[0] >= 0.95
+          provider:
+            prometheus:
+              address: http://prometheus.monitoring:9090
+              query: |
+                sum(rate(http_requests_total{status=~"2.*", app="palette-api", rollout_type="canary"}[5m]))
+                /
+                sum(rate(http_requests_total{app="palette-api", rollout_type="canary"}[5m]))
+
+  shell: |
+    # Install Argo Rollouts controller
+    kubectl create namespace argo-rollouts
+    kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
+
+    # Install kubectl plugin
+    brew install argoproj/tap/kubectl-argo-rollouts  # macOS
+    # or: curl -LO https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-linux-amd64
+
+    # Apply rollout
+    kubectl apply -f rollout.yaml
+
+    # Monitor rollout status
+    kubectl argo rollouts get rollout palette-api --watch
+
+    # Promote canary manually
+    kubectl argo rollouts promote palette-api
+
+    # Abort/rollback
+    kubectl argo rollouts abort palette-api
+
+palette_agent: "Para (Monitor) + Rex (Architect) — safe deployment patterns for agent updates"
+palette_integration_plan:
+  phase_1: "Only relevant when Palette agents are deployed as Kubernetes services"
+  phase_2: "Define canary strategy: 10% → analysis → 50% → analysis → 100%"
+  phase_3: "Connect analysis to agent quality metrics (response accuracy, latency, error rate)"
+  phase_4: "Automated rollback if agent quality degrades during canary"
+
+comparison_to_current:
+  vs_launchdarkly:
+    - "Argo Rollouts: infrastructure-level traffic shifting. LaunchDarkly: application-level feature flags."
+    - "Argo Rollouts: Kubernetes-native. LaunchDarkly: works anywhere."
+    - "Argo Rollouts: free/open source. LaunchDarkly: paid SaaS."
+    - "Both serve progressive delivery — different layers. Often used together."
+  vs_flagger:
+    - "Argo Rollouts: more features (experiments, analysis templates). Flagger: simpler, Flux-native."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — industry-standard progressive delivery for Kubernetes. Only relevant when Palette deploys to K8s. The analysis run feature (automated promotion/rollback based on metrics) is uniquely valuable for ensuring agent quality during deployments. Not urgent until Palette has K8s-deployed agent services."

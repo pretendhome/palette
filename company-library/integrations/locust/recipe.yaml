@@ -1,0 +1,108 @@
+# Palette Integration Recipe: Locust
+# Generated: 2026-03-01
+# RIUs served: RIU-523 (Latency Optimization), RIU-524 (Quality Monitoring)
+# Context: Python-based load testing framework — define user behavior in Python code, not XML/JSON configs
+
+service_name: "Locust"
+company: "Locust (open source)"
+company_url: "https://locust.io"
+api_url: null
+api_docs: "https://docs.locust.io/en/stable/"
+
+auth_method:
+  type: "none"
+  note: "Open-source Python library. No auth required. Runs locally or on your own infrastructure."
+
+rate_limits:
+  note: "No rate limits — you control the load generation. Limited by your hardware and target service limits."
+
+cost_model: open_source
+cost_per_unit:
+  self_hosted: "$0.00 (fully open source, MIT license)"
+  note: "Infrastructure costs only — Locust itself is free."
+free_tier:
+  availability: "Fully free and open source. No usage limits."
+  limitation: "Self-hosted only. No managed cloud service (unlike k6 Cloud or Grafana Cloud k6)."
+
+capabilities:
+  - "Python-based test scripts: define user behavior as Python code (not XML/YAML)"
+  - "Web UI: real-time dashboard showing RPS, response times, failure rates"
+  - "Distributed load generation: master/worker architecture for scaling across machines"
+  - "HTTP/HTTPS client: built-in fast HTTP client optimized for load generation"
+  - "Custom protocols: extend to test any protocol (WebSocket, gRPC, MQTT, etc.)"
+  - "Events and hooks: lifecycle events for custom metrics and logging"
+  - "CSV/JSON export: download results for analysis"
+  - "Headless mode: run without UI for CI/CD integration"
+  - "User classes: model different user types with different behavior patterns"
+  - "Wait time strategies: constant, between, exponential — model realistic traffic patterns"
+  - "Tag and group requests for organized reporting"
+  - "Plugin ecosystem: locust-plugins for additional protocols and reporting"
+
+limitations:
+  - "Single-process per worker — Python GIL limits per-worker throughput"
+  - "No built-in cloud distributed execution (vs. k6 Cloud)"
+  - "No browser-based testing — HTTP-level only (no JavaScript rendering)"
+  - "Results visualization is basic compared to k6 or Gatling"
+  - "No built-in comparison between test runs (must export and compare externally)"
+  - "Less suitable for API contract testing — focused on load/performance only"
+  - "Requires Python expertise (pro and con — flexible but not accessible to non-Python users)"
+
+example_request:
+  description: "Load test an LLM API endpoint with Locust"
+  python: |
+    # locustfile.py
+    from locust import HttpUser, task, between
+
+    class PaletteAgentUser(HttpUser):
+        """Simulate users hitting the Palette agent API."""
+        wait_time = between(1, 5)  # 1-5 seconds between requests
+        host = "http://localhost:8000"
+
+        @task(3)
+        def research_query(self):
+            """Most common task: research queries."""
+            self.client.post("/api/v1/query", json={
+                "agent": "argy",
+                "query": "What is the latest funding round for Braintrust?",
+            })
+
+        @task(1)
+        def intent_resolution(self):
+            """Less common: intent resolution."""
+            self.client.post("/api/v1/intent", json={
+                "query": "I need to compare observability tools",
+            })
+
+  shell: |
+    # Install
+    pip install locust
+
+    # Run with web UI
+    locust -f locustfile.py --host http://localhost:8000
+
+    # Run headless (CI/CD mode)
+    locust -f locustfile.py --host http://localhost:8000 \
+      --headless -u 50 -r 10 --run-time 60s \
+      --csv results
+
+    # Distributed mode (start master + workers)
+    locust -f locustfile.py --master
+    locust -f locustfile.py --worker --master-host=192.168.1.100
+
+palette_agent: "Anky (Validator) — load testing for agent API endpoints"
+palette_integration_plan:
+  phase_1: "Write locustfile.py for Cory intent resolution endpoint"
+  phase_2: "Establish baseline latency and throughput metrics"
+  phase_3: "Add to CI/CD — run 60-second load test on each deploy, fail if p95 >5s"
+  phase_4: "Distributed testing to simulate production-scale traffic patterns"
+
+comparison_to_current:
+  vs_k6:
+    - "Locust: Python-native (Palette stack). k6: JavaScript/Go."
+    - "Locust: simpler for Python teams. k6: better performance (Go engine)."
+    - "Locust: no cloud service. k6: Grafana Cloud k6 for managed execution."
+    - "k6 already has a recipe in the integrations directory."
+  verdict: "Choose Locust if team prefers Python. Choose k6 if performance of the load generator itself matters or cloud execution is needed. Both are excellent open-source options."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — best Python-native load testing tool. Zero cost, flexible, intuitive for Python developers. However, k6 (already in integrations) may be more appropriate if load generator performance or cloud execution matters. Consider Locust for Python-centric teams, k6 for polyglot or high-throughput scenarios."

@@ -1,0 +1,82 @@
+# Palette Integration Recipe: Grok API (xAI)
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-252 (Model Selection), RIU-521 (LLM Routing), RIU-522 (Token Budget)
+# Priority: MEDIUM — alternative model provider, real-time X/Twitter data access
+
+service_name: "Grok API"
+company: "xAI"
+company_url: "https://x.ai"
+api_url: "https://api.x.ai/v1"
+api_docs: "https://docs.x.ai/docs"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $XAI_API_KEY"
+  key_source: "https://console.x.ai — requires xAI account"
+
+rate_limits:
+  free_tier: "Varies — limited requests per hour"
+  paid_tier: "Higher RPM based on spend tier"
+  note: "Rate limits are less documented than competitors. Check console for current limits."
+
+cost_model: usage_based
+cost_per_unit:
+  grok_3: "$3/M input, $15/M output"
+  grok_3_mini: "$0.30/M input, $0.50/M output"
+  grok_3_fast: "$5/M input, $25/M output"
+  grok_2_vision: "$2/M input, $10/M output"
+  grok_3_mini_fast: "$0.60/M input, $4/M output"
+  note: "Grok 3 Mini is very cost-competitive. Pricing comparable to Claude Sonnet for Grok 3."
+free_tier:
+  availability: "$25/month free API credits for new users"
+  limitation: "Free credits expire. Lower rate limits on free tier."
+
+capabilities:
+  - "Grok 3: frontier reasoning model competitive with Claude Opus and GPT-4o"
+  - "Grok 3 Mini: fast, cost-effective model for simpler tasks"
+  - "DeepSearch: multi-step web research with reasoning (similar to Perplexity)"
+  - "Real-time X/Twitter data access — unique among LLM providers"
+  - "Vision capabilities for image understanding (Grok 2 Vision, Grok 3)"
+  - "OpenAI-compatible API format — drop-in replacement"
+  - "Function calling / tool use support"
+  - "Streaming support"
+  - "128K context window"
+
+limitations:
+  - "Smaller model ecosystem than OpenAI or Anthropic"
+  - "API documentation less mature than competitors"
+  - "DeepSearch is rate-limited and can be slow (multi-step reasoning)"
+  - "No fine-tuning available"
+  - "No batch API for cost savings"
+  - "X/Twitter data access advantage is narrow — most tasks don't need it"
+  - "Enterprise features and SLAs less established"
+  - "Image generation (Aurora) available via API but quality trails DALL-E 3"
+
+example_request:
+  description: "Chat completion with Grok via xAI API (OpenAI-compatible format)"
+  python: |
+    from openai import OpenAI
+
+    client = OpenAI(
+        api_key="$XAI_API_KEY",
+        base_url="https://api.x.ai/v1"
+    )
+
+    response = client.chat.completions.create(
+        model="grok-3-mini",
+        messages=[
+            {"role": "user", "content": "What are the trending AI topics on X/Twitter this week?"}
+        ]
+    )
+    print(response.choices[0].message.content)
+
+palette_agent: "Argy (Researcher) — X/Twitter signal monitoring; Rex (Architect) — model diversity"
+palette_integration_plan:
+  phase_1: "Access via OpenRouter for unified billing and cost tracking"
+  phase_2: "Evaluate Grok 3 Mini as cost-effective alternative for classification tasks"
+  phase_3: "Test DeepSearch for real-time market signal detection via X/Twitter"
+  note: "OpenAI-compatible format means zero code changes via OpenRouter."
+
+status: available
+evaluation_verdict: "AVAILABLE — access via OpenRouter preferred. Grok 3 Mini at $0.30/$0.50 is cost-competitive. Unique X/Twitter data access could be valuable for people-library signal monitoring. DeepSearch interesting for real-time market intelligence. Lower priority than Claude/Gemini for core tasks."

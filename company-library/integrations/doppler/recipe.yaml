@@ -1,0 +1,82 @@
+# Palette Integration Recipe: Doppler
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-066 (Secrets Handling + Rotation)
+# Priority: MEDIUM — lightweight secrets management for early-stage Palette
+
+service_name: "Doppler"
+company: "Doppler"
+company_url: "https://www.doppler.com"
+api_url: "https://api.doppler.com/v3"
+api_docs: "https://docs.doppler.com/reference/api"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $DOPPLER_TOKEN"
+  key_source: "Doppler Dashboard → Access → Service Tokens (per-config) or Personal Tokens"
+
+rate_limits:
+  note: "Not publicly documented per tier. Enterprise has custom limits."
+
+cost_model: freemium
+cost_per_unit:
+  free: "$0.00 — up to 5 team members, unlimited projects/secrets"
+  team: "$6/user/month — RBAC, audit logs, integrations"
+  enterprise: "Custom — SSO/SAML, advanced audit, dedicated support"
+free_tier:
+  availability: "Free for up to 5 team members"
+  limitation: "Limited access controls, no audit logs, community support only"
+
+capabilities:
+  - "Centralized secrets management with project/environment hierarchy"
+  - "CLI tool (doppler run) injects secrets as environment variables at runtime"
+  - "Native integrations: Vercel, AWS, GCP, Azure, Docker, Kubernetes, GitHub Actions"
+  - "Secret referencing — reference secrets across projects without duplication"
+  - "Activity logs and audit trail for secret access/changes"
+  - "Automatic secret rotation support via webhooks"
+  - "Branch configs — inherit from staging/production with overrides"
+  - "REST API for programmatic secret management"
+  - "SDK support for Node.js, Python, Ruby, Go"
+
+limitations:
+  - "No dynamic secret generation (unlike Vault — no ephemeral database credentials)"
+  - "SaaS-only — no self-hosted option"
+  - "Free tier lacks RBAC and audit logs"
+  - "Secret rotation is webhook-based — requires custom implementation"
+  - "Vendor lock-in risk — secrets stored in Doppler's infrastructure"
+  - "No encryption-as-a-service (Transit engine equivalent)"
+
+example_request:
+  description: "Fetch secrets for a Palette project config via API"
+  python: |
+    import requests
+    import subprocess
+
+    # Option 1: CLI — inject secrets as env vars (recommended for local dev)
+    # doppler run --project palette --config production -- python agent.py
+
+    # Option 2: REST API — fetch secrets programmatically
+    response = requests.get(
+        "https://api.doppler.com/v3/configs/config/secrets",
+        headers={"Authorization": f"Bearer {DOPPLER_TOKEN}"},
+        params={
+            "project": "palette",
+            "config": "production"
+        }
+    )
+
+    secrets = response.json()["secrets"]
+    openrouter_key = secrets["OPENROUTER_API_KEY"]["computed"]
+    cohere_key = secrets["COHERE_API_KEY"]["computed"]
+
+    # Option 3: CLI download as .env
+    # doppler secrets download --project palette --config production --format env --no-file
+
+palette_agent: "Rex (Architect) — secrets infrastructure; Theri (Builder) — CI/CD integration"
+palette_integration_plan:
+  phase_1: "Migrate Palette API keys from manual env vars to Doppler project"
+  phase_2: "Use doppler run to inject secrets into agent processes at runtime"
+  phase_3: "Set up per-environment configs (dev, staging, production) for agent deployments"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — best fit for Palette's current scale. Free for 5 users, zero ops overhead, CLI-first workflow matches Palette's development style. Simpler than Vault, more structured than .env files. Start here, graduate to Vault only if dynamic secrets become necessary."

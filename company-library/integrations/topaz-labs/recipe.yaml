@@ -1,0 +1,86 @@
+# Palette Integration Recipe: Topaz Labs
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-501 (Image Processing), RIU-503 (Video Processing)
+# Priority: LOW — AI image/video enhancement, desktop-only, no API
+
+service_name: "Topaz Labs"
+company: "Topaz Labs"
+company_url: "https://www.topazlabs.com"
+api_url: "N/A — desktop applications only, no public API"
+api_docs: "N/A"
+
+auth_method:
+  type: "N/A"
+  note: "Desktop applications (macOS, Windows). No API, SDK, or cloud service. CLI available for batch processing."
+
+rate_limits:
+  note: "N/A — desktop app, runs locally. Limited only by hardware performance."
+
+cost_model: subscription
+cost_per_unit:
+  photo_ai: "$99/year or $199 lifetime — image enhancement (upscale, denoise, sharpen)"
+  video_ai: "$149/year or $299 lifetime — video enhancement (upscale, stabilize, interpolate)"
+  bundle: "$199/year or $399 lifetime — Photo AI + Video AI"
+  note: "One-time lifetime purchase available. Includes future updates for perpetual license."
+free_tier:
+  availability: "Free trial — unlimited processing with watermark"
+  limitation: "Watermarked output during trial. Full features available."
+
+capabilities:
+  - "Photo AI: AI upscaling (up to 6x), denoising, sharpening, face recovery"
+  - "Video AI: video upscaling (up to 4K/8K), frame interpolation, stabilization"
+  - "Batch processing via CLI (command line interface)"
+  - "Plugin integration for Lightroom, Photoshop, DaVinci Resolve"
+  - "Runs locally — no cloud dependency, data stays on machine"
+  - "Best-in-class image upscaling quality (consistently wins blind comparisons)"
+  - "Video frame interpolation — 24fps to 60fps conversion"
+  - "Face recovery AI — restore blurry/low-res faces"
+
+limitations:
+  - "NO cloud API — desktop only, cannot call programmatically from web services"
+  - "CLI available but requires local installation — not a REST API"
+  - "Requires powerful GPU — NVIDIA recommended, Apple Silicon supported"
+  - "No Linux support"
+  - "Video processing is very GPU-intensive and slow (minutes to hours per video)"
+  - "Cannot be integrated into Palette agent workflows over network"
+  - "Annual subscription for updates or one-time lifetime purchase"
+  - "File format support limited — no raw API for arbitrary image buffers"
+
+example_request:
+  description: "Topaz CLI batch processing (local only, not a cloud API)"
+  cli: |
+    # Topaz Photo AI CLI — local batch processing
+    # Must have Topaz Photo AI installed locally
+
+    # Upscale a single image
+    tpai --input /path/to/image.jpg --output /path/to/output/ --upscale 4x
+
+    # Batch process a directory
+    tpai --input /path/to/images/ --output /path/to/enhanced/ --upscale 2x --denoise
+
+    # Topaz Video AI CLI
+    tvai --input video.mp4 --output enhanced.mp4 --model prob-4 --scale 2
+
+  workaround: |
+    # For programmatic image enhancement in Palette workflows, consider:
+    # - Real-ESRGAN (open-source upscaler) — pip install realesrgan
+    # - Stability AI API — cloud-based image upscaling
+    # - Replicate.com — run upscaling models via API (Real-ESRGAN, SwinIR)
+
+    # Example: Real-ESRGAN via Replicate API
+    import replicate
+    output = replicate.run(
+        "nightmareai/real-esrgan:350d32041630ffbe63c8352783a26d94126de062",
+        input={"image": open("low_res.jpg", "rb"), "scale": 4}
+    )
+
+palette_agent: "N/A — cannot be integrated into agent workflows via API"
+palette_integration_plan:
+  current: "Personal tool for Palette operators needing image/video enhancement"
+  alternative: "Real-ESRGAN (open-source) or Replicate API for programmatic upscaling"
+  use_case: "Useful for enhancing screenshots, presentation visuals, demo videos"
+  note: "Best-in-class quality but desktop-only. For Palette integration, use open-source alternatives."
+
+status: no_api
+evaluation_verdict: "NO API — Topaz Labs is desktop software only. Best-in-class image/video enhancement quality. CLI available for local batch processing. For Palette agent integration, use Real-ESRGAN (open-source) via Replicate API or Stability AI API as cloud-accessible alternatives."

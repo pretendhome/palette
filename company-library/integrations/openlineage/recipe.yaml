@@ -1,0 +1,119 @@
+# Palette Integration Recipe: OpenLineage
+# Generated: 2026-03-01
+# RIUs served: RIU-524 (Quality Monitoring), RIU-044 (Data Pipeline Architecture)
+# Context: Open standard for data lineage — tracks how data flows through pipelines, transformations, and jobs
+
+service_name: "OpenLineage"
+company: "OpenLineage (Linux Foundation / LFAI&Data)"
+company_url: "https://openlineage.io"
+api_url: "https://openlineage.io/apidocs/"
+api_docs: "https://openlineage.io/docs/"
+
+auth_method:
+  type: "none"
+  note: "Open standard and open-source libraries. No auth for the spec itself. Backend implementations (Marquez, Atlan, DataHub) have their own auth. HTTP transport supports API key and basic auth."
+
+rate_limits:
+  note: "No rate limits on the standard. Backend-dependent."
+
+cost_model: open_source
+cost_per_unit:
+  spec_and_libraries: "$0.00 (open standard, Apache 2.0 license)"
+  marquez_backend: "$0.00 (open-source reference implementation)"
+  commercial_backends: "Atlan, DataHub Cloud, Collibra — commercial pricing varies"
+free_tier:
+  availability: "Fully open standard and open-source. Reference implementation (Marquez) is free."
+  limitation: "Self-hosted Marquez requires PostgreSQL and infrastructure management. Commercial backends cost money."
+
+capabilities:
+  - "Open standard: vendor-neutral data lineage specification (JSON events)"
+  - "Job lifecycle events: START, RUNNING, COMPLETE, ABORT, FAIL"
+  - "Dataset lineage: track input and output datasets for every job run"
+  - "Column-level lineage: trace individual column transformations (SchemaDatasetFacet)"
+  - "Facets: extensible metadata attachments (schema, data quality, SQL, source code, etc.)"
+  - "Native integrations: Apache Airflow, Apache Spark, dbt, Flink, Great Expectations, Dagster"
+  - "Transport layer: HTTP, Kafka, Console, File — configurable event emission"
+  - "Marquez: open-source lineage server with REST API and web UI"
+  - "Python client: openlineage-python SDK for custom job tracking"
+  - "Airflow integration: automatic lineage extraction from DAGs via OpenLineage provider"
+  - "dbt integration: automatic model lineage via dbt-openlineage"
+
+limitations:
+  - "Lineage only — no data quality, monitoring, or alerting (pair with other tools)"
+  - "Self-hosted Marquez requires infrastructure management"
+  - "Column-level lineage depends on integration maturity (Spark and Airflow best supported)"
+  - "Not all data tools have OpenLineage integrations yet"
+  - "Standard is still evolving — breaking changes possible between spec versions"
+  - "No built-in visualization beyond Marquez basic UI — commercial tools provide better UX"
+  - "Less relevant for LLM/AI agent pipelines — designed for data engineering workflows"
+
+example_request:
+  description: "Emit a lineage event for an agent data pipeline job"
+  python: |
+    from openlineage.client import OpenLineageClient
+    from openlineage.client.transport import HttpTransport
+    from openlineage.client.run import RunEvent, RunState, Run, Job, Dataset, InputDataset, OutputDataset
+    from openlineage.client.facet import SchemaDatasetFacet, SchemaField
+    import uuid
+    from datetime import datetime, timezone
+
+    # Connect to Marquez backend
+    client = OpenLineageClient(
+        transport=HttpTransport(url="http://localhost:5000", endpoint="api/v1/lineage")
+    )
+
+    # Define the job
+    job = Job(namespace="palette", name="argy-research-enrichment")
+    run = Run(runId=str(uuid.uuid4()))
+
+    # Emit START event
+    start_event = RunEvent(
+        eventType=RunState.START,
+        eventTime=datetime.now(timezone.utc).isoformat(),
+        run=run,
+        job=job,
+        inputs=[
+            InputDataset(
+                namespace="palette",
+                name="people_library_v1.1",
+                facets={
+                    "schema": SchemaDatasetFacet(
+                        fields=[
+                            SchemaField(name="person_id", type="STRING"),
+                            SchemaField(name="signal_strength", type="INTEGER"),
+                        ]
+                    )
+                },
+            )
+        ],
+        outputs=[
+            OutputDataset(
+                namespace="palette",
+                name="enriched_signals_v1",
+            )
+        ],
+    )
+    client.emit(start_event)
+
+    # ... run enrichment job ...
+
+    # Emit COMPLETE event
+    complete_event = RunEvent(
+        eventType=RunState.COMPLETE,
+        eventTime=datetime.now(timezone.utc).isoformat(),
+        run=run,
+        job=job,
+        inputs=[InputDataset(namespace="palette", name="people_library_v1.1")],
+        outputs=[OutputDataset(namespace="palette", name="enriched_signals_v1")],
+    )
+    client.emit(complete_event)
+
+palette_agent: "Para (Monitor) — data lineage tracking for enrichment pipeline"
+palette_integration_plan:
+  phase_1: "Only relevant when Palette has automated data pipelines (Phase 3+)"
+  phase_2: "Instrument enrichment pipeline to emit lineage events"
+  phase_3: "Deploy Marquez for lineage visualization — track how people_library data flows"
+  phase_4: "Connect to Great Expectations for data quality facets on lineage events"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — industry-standard data lineage spec. Not immediately relevant for Palette's current agent-based architecture, but becomes important in Phase 3 when automated enrichment pipelines are built. The Airflow and dbt integrations make it easy to add lineage to data workflows. Low urgency — revisit when enrichment pipeline work begins."

@@ -1,0 +1,111 @@
+# Palette Integration Recipe: pgvector
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-026 (Hybrid Similarity — Enums + Embeddings)
+# Priority: MEDIUM — vector search inside PostgreSQL, no separate vector DB needed
+
+service_name: "pgvector"
+company: "Open Source (Andrew Kane)"
+company_url: "https://github.com/pgvector/pgvector"
+api_url: "N/A — PostgreSQL extension, accessed via standard PostgreSQL clients"
+api_docs: "https://github.com/pgvector/pgvector#readme"
+
+auth_method:
+  type: "none"
+  note: "Uses standard PostgreSQL authentication. No separate API key. Access via psql, psycopg2, SQLAlchemy, etc."
+
+rate_limits:
+  note: "No external rate limits. Performance depends on PostgreSQL instance resources and index type."
+
+cost_model: free
+cost_per_unit:
+  extension: "$0.00 — open source (PostgreSQL license)"
+  infrastructure: "PostgreSQL hosting costs only. Free on Supabase (500MB), Neon (512MB), or self-hosted."
+  managed_options: "Supabase Free, Neon Free, AWS RDS ($15+/month), Render ($7+/month)"
+free_tier:
+  availability: "Fully free extension. Many managed PostgreSQL providers include pgvector on free tiers."
+  limitation: "Performance limited by PostgreSQL instance size. Large-scale vector search needs tuning."
+
+capabilities:
+  - "Vector similarity search inside PostgreSQL — no separate database needed"
+  - "Supports L2 distance, inner product, cosine distance, L1 distance, Hamming, Jaccard"
+  - "HNSW index for approximate nearest neighbor (fast, good recall)"
+  - "IVFFlat index for inverted file with flat quantization (lower memory)"
+  - "Up to 16,000 dimensions per vector"
+  - "Exact nearest neighbor search (no index) for small datasets"
+  - "Works with any PostgreSQL-compatible ORM: SQLAlchemy, Django, Prisma, etc."
+  - "Hybrid queries: combine vector similarity with SQL WHERE clauses in a single query"
+  - "Available on major managed PostgreSQL: Supabase, Neon, RDS, AlloyDB, Cloud SQL"
+  - "Half-precision (halfvec), binary, and sparse vector types for memory efficiency"
+
+limitations:
+  - "Performance ceiling lower than purpose-built vector databases at >10M vectors"
+  - "HNSW index build time can be slow on large datasets (millions of vectors)"
+  - "No built-in sharding — PostgreSQL partitioning is the scaling mechanism"
+  - "Requires PostgreSQL 12+ (15+ recommended for best performance)"
+  - "No native multi-tenancy isolation like Pinecone namespaces"
+  - "Index tuning (m, ef_construction, lists) requires experimentation"
+  - "No built-in vector versioning or collection management"
+
+example_request:
+  description: "Store and search knowledge library embeddings alongside metadata in PostgreSQL"
+  python: |
+    import psycopg2
+    from pgvector.psycopg2 import register_vector
+
+    conn = psycopg2.connect("postgresql://user:pass@localhost/palette")
+    register_vector(conn)
+
+    cur = conn.cursor()
+
+    # Enable pgvector extension
+    cur.execute("CREATE EXTENSION IF NOT EXISTS vector")
+
+    # Create table with vector column
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS knowledge_entries (
+            id SERIAL PRIMARY KEY,
+            lib_id TEXT UNIQUE,
+            title TEXT,
+            journey_stage TEXT,
+            embedding vector(1536)
+        )
+    """)
+
+    # Create HNSW index for fast similarity search
+    cur.execute("""
+        CREATE INDEX IF NOT EXISTS knowledge_embedding_idx
+        ON knowledge_entries
+        USING hnsw (embedding vector_cosine_ops)
+        WITH (m = 16, ef_construction = 64)
+    """)
+
+    # Insert knowledge entry with embedding
+    cur.execute("""
+        INSERT INTO knowledge_entries (lib_id, title, journey_stage, embedding)
+        VALUES (%s, %s, %s, %s)
+        ON CONFLICT (lib_id) DO UPDATE SET embedding = EXCLUDED.embedding
+    """, ("LIB-026", "Vector store selection criteria", "retrieval", embedding_vector))
+
+    # Hybrid search: vector similarity + metadata filter
+    cur.execute("""
+        SELECT lib_id, title, 1 - (embedding <=> %s::vector) AS similarity
+        FROM knowledge_entries
+        WHERE journey_stage = 'retrieval'
+        ORDER BY embedding <=> %s::vector
+        LIMIT 5
+    """, (query_embedding, query_embedding))
+
+    for row in cur.fetchall():
+        print(f"{row[0]}: {row[1]} (similarity: {row[2]:.3f})")
+
+    conn.commit()
+
+palette_agent: "Argy (Research) — knowledge retrieval; Rex (Architect) — data architecture"
+palette_integration_plan:
+  phase_1: "If Palette already uses PostgreSQL: add pgvector extension — zero additional infrastructure"
+  phase_2: "Benchmark pgvector vs Pinecone on knowledge library queries (101 entries — pgvector will be fine)"
+  phase_3: "Use pgvector for small-to-medium retrieval; graduate to Qdrant/Pinecone only at scale"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — simplest vector search option if Palette uses PostgreSQL. Zero cost, zero additional infrastructure, hybrid SQL+vector queries in one database. For Palette's 101-entry knowledge library, pgvector is more than sufficient. Only graduate to dedicated vector DB at 1M+ vectors."

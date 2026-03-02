@@ -1,0 +1,114 @@
+# Palette Integration Recipe: Nobl9
+# Generated: 2026-03-01
+# RIUs served: RIU-524 (Quality Monitoring), RIU-523 (Latency Optimization)
+# Context: SLO management platform — define, track, and alert on Service Level Objectives across data sources
+
+service_name: "Nobl9"
+company: "Nobl9, Inc."
+company_url: "https://www.nobl9.com"
+api_url: "https://app.nobl9.com/api"
+api_docs: "https://docs.nobl9.com/"
+
+auth_method:
+  type: "api_key"
+  header: "Authorization: Bearer $NOBL9_CLIENT_ID:$NOBL9_CLIENT_SECRET"
+  key_source: "app.nobl9.com → Settings → Access Keys"
+  note: "Uses OAuth2 client credentials flow. Also supports sloctl CLI with config file auth."
+
+rate_limits:
+  note: "Documented per-plan. Free tier has SLO count limits, not request-rate limits."
+
+cost_model: freemium
+cost_per_unit:
+  free: "$0.00 (TODO: verify current free tier limits — historically up to 20 SLOs)"
+  pro: "TODO: verify current pricing"
+  enterprise: "Custom pricing"
+free_tier:
+  availability: "Free tier available with limited SLOs and data sources. TODO: verify current limits."
+  limitation: "Limited number of SLOs, alerting channels, and data source integrations on free tier."
+
+capabilities:
+  - "SLO definition: declarative SLO configuration with SLI, target, and time window"
+  - "Multi-source SLIs: pull metrics from Prometheus, Datadog, New Relic, CloudWatch, Splunk, Dynatrace, BigQuery, and more"
+  - "Error budget tracking: real-time error budget burn rate and remaining budget"
+  - "Burn rate alerts: multi-window burn rate alerting (Google SRE book methodology)"
+  - "sloctl CLI: infrastructure-as-code SLO management (YAML definitions)"
+  - "Composite SLOs: combine multiple SLIs into a single SLO"
+  - "Reports: SLO compliance reports for stakeholders"
+  - "Annotations: mark events (deploys, incidents) on SLO burn charts"
+  - "Integrations: Slack, PagerDuty, Opsgenie, Jira, webhook for alert routing"
+  - "Agent-based data collection: Nobl9 agent runs in your infrastructure to pull metrics"
+  - "Direct data source connections: agentless mode for cloud-native metrics"
+  - "Terraform provider: manage SLOs as infrastructure-as-code"
+
+limitations:
+  - "Requires an existing metrics backend — Nobl9 does not collect metrics itself"
+  - "SLO-focused only — not a general observability tool"
+  - "Agent deployment adds operational overhead"
+  - "Pricing can be significant at scale (many SLOs)"
+  - "Less relevant for early-stage projects without established reliability targets"
+  - "Free tier SLO limits may be restrictive for comprehensive coverage"
+
+example_request:
+  description: "Define an SLO using sloctl CLI"
+  yaml_slo: |
+    # palette-api-latency-slo.yaml
+    apiVersion: n9/v1alpha
+    kind: SLO
+    metadata:
+      name: palette-api-latency
+      project: palette
+    spec:
+      description: "Agent API p95 latency SLO"
+      service: palette-api
+      budgetingMethod: Occurrences
+      objectives:
+        - displayName: "p95 latency < 5s"
+          target: 0.99  # 99% of requests under 5s
+          value: 5000
+          op: lte
+      indicator:
+        metricSource:
+          name: prometheus-source
+          kind: Agent
+        rawMetric:
+          query:
+            prometheus:
+              promql: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{service="palette-api"}[5m])) by (le))
+      timeWindows:
+        - unit: Day
+          count: 30
+          isRolling: true
+      alertPolicies:
+        - palette-api-burn-rate-alert
+
+  shell: |
+    # Install sloctl
+    curl -LO https://github.com/nobl9/sloctl/releases/latest/download/sloctl-linux-amd64
+    chmod +x sloctl-linux-amd64 && sudo mv sloctl-linux-amd64 /usr/local/bin/sloctl
+
+    # Configure
+    sloctl configure --client-id $NOBL9_CLIENT_ID --client-secret $NOBL9_CLIENT_SECRET
+
+    # Apply SLO definition
+    sloctl apply -f palette-api-latency-slo.yaml
+
+    # Get SLO status
+    sloctl get slo -p palette
+
+palette_agent: "Para (Monitor) — SLO management for agent reliability targets"
+palette_integration_plan:
+  phase_1: "Only relevant once Palette has production agent APIs with metrics collection"
+  phase_2: "Define SLOs: latency p95 <5s (99%), error rate <1% (99.9%), cost per query <$0.15 (95%)"
+  phase_3: "Connect to Prometheus/New Relic as metric source"
+  phase_4: "Burn rate alerts to Slack for Para to monitor"
+
+comparison_to_current:
+  vs_honeycomb_slos:
+    - "Nobl9: multi-source (Prometheus, Datadog, New Relic, etc.). Honeycomb SLOs: Honeycomb data only."
+    - "Nobl9: dedicated SLO platform, richer features. Honeycomb: SLOs as a feature within observability."
+    - "Nobl9: additional cost. Honeycomb: included in Honeycomb plan."
+  verdict: "Nobl9 for multi-source SLO management. Honeycomb SLOs if already committed to Honeycomb stack."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — mature SLO platform, but premature for current Palette stage. SLO management requires established metrics collection and reliability targets first. Revisit when Palette has production agent services with meaningful traffic. Consider Honeycomb SLOs as simpler alternative if using Honeycomb for observability."

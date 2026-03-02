@@ -1,0 +1,101 @@
+# Palette Integration Recipe: Outlines
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-028 (Schema-Constrained Generation)
+# Priority: MEDIUM — structured generation at the model level, complementary to Instructor
+
+service_name: "Outlines"
+company: ".txt (formerly Outlines-dev)"
+company_url: "https://dottxt.co"
+api_url: "N/A — Python library for local/self-hosted models. Also available as dottxt API."
+api_docs: "https://dottxt-ai.github.io/outlines/"
+
+auth_method:
+  type: "none"
+  note: "Python library for local models — no API key. dottxt cloud API requires API key."
+  dottxt_api_key: "https://dottxt.co — sign up for cloud API access"
+
+rate_limits:
+  note: "N/A for library usage. dottxt API rate limits depend on plan."
+
+cost_model: free
+cost_per_unit:
+  library: "$0.00 — Apache 2.0 licensed open source"
+  dottxt_api: "Usage-based pricing for cloud API (beta)"
+  note: "Library is free. dottxt cloud API is a separate paid service."
+free_tier:
+  availability: "Fully free and open source library"
+  limitation: "Requires local GPU for optimal performance with large models"
+
+capabilities:
+  - "Guaranteed structured output via constrained decoding — never produces invalid JSON"
+  - "JSON schema-constrained generation using Pydantic models"
+  - "Regex-constrained generation — output always matches a regex pattern"
+  - "Grammar-constrained generation (context-free grammars via Lark)"
+  - "Multiple choice — restrict output to specific options"
+  - "Works with transformers (HuggingFace), llama.cpp, vLLM, MLX, ExLlamaV2"
+  - "Token-level enforcement — constraints applied during generation, not post-hoc"
+  - "No retry needed — output is always valid by construction"
+  - "Batch generation support for throughput"
+  - "8,000+ GitHub stars — active development"
+
+limitations:
+  - "Designed for local/self-hosted models — does not work with API-based LLMs (OpenAI, Anthropic)"
+  - "Requires GPU for reasonable performance with large models"
+  - "Constrained decoding adds latency vs unconstrained generation"
+  - "Complex schemas may over-constrain generation and reduce output quality"
+  - "Not a replacement for Instructor when using API-based LLMs"
+  - "Grammar-based constraints have a learning curve"
+  - "Model support varies — best with transformers and vLLM"
+
+example_request:
+  description: "Generate guaranteed-valid structured output from a local model"
+  python: |
+    import outlines
+    from pydantic import BaseModel, Field
+    from typing import Literal
+
+    # Define output schema
+    class RIUClassification(BaseModel):
+        riu_id: str = Field(pattern=r"RIU-\d{3}")
+        riu_name: str
+        classification: Literal["internal_only", "both", "service_applicable"]
+        confidence: float = Field(ge=0, le=1)
+        reasoning: str
+
+    # Load local model
+    model = outlines.models.transformers("mistralai/Mistral-7B-Instruct-v0.3")
+
+    # Create structured generator — output is GUARANTEED to match schema
+    generator = outlines.generate.json(model, RIUClassification)
+
+    result = generator(
+        "Classify this RIU: RIU-521 LLM Model Version Management. "
+        "Is it internal_only (Palette handles entirely), both (Palette + external service), "
+        "or service_applicable (external service only)?"
+    )
+
+    print(f"RIU: {result.riu_id}")
+    print(f"Classification: {result.classification}")
+    print(f"Confidence: {result.confidence}")
+
+    # Regex-constrained generation
+    phone_generator = outlines.generate.regex(
+        model,
+        r"\(\d{3}\) \d{3}-\d{4}"
+    )
+
+    # Multiple choice
+    choice_generator = outlines.generate.choice(
+        model,
+        ["foundation", "retrieval", "orchestration", "specialization"]
+    )
+
+palette_agent: "Rex (Architect) — structured generation design; Theri (Builder) — local model integration"
+palette_integration_plan:
+  phase_1: "Evaluate Outlines only if Palette self-hosts LLMs (Mistral, Llama via vLLM)"
+  phase_2: "If self-hosting: use Outlines for guaranteed structured output, eliminating retry costs"
+  phase_3: "Compare approach: Instructor (API retry-based) vs Outlines (constrained decoding) for accuracy and cost"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — fundamentally different approach from Instructor. Outlines guarantees valid output by constraining token generation, while Instructor validates and retries. Outlines is for self-hosted models; Instructor is for API-based LLMs. They are complementary, not competing. Relevant when Palette self-hosts models via vLLM."

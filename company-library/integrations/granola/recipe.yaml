@@ -1,0 +1,77 @@
+# Palette Integration Recipe: Granola
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-502 (Audio Processing), RIU-108 (Decision Documentation)
+# Priority: LOW — AI meeting notes tool, no API, personal productivity
+
+service_name: "Granola"
+company: "Granola"
+company_url: "https://granola.ai"
+api_url: "N/A — no public API"
+api_docs: "N/A"
+
+auth_method:
+  type: "N/A"
+  note: "Desktop app (macOS, Windows). No API, SDK, or programmatic access."
+
+rate_limits:
+  note: "N/A — desktop app, not an API service"
+
+cost_model: freemium
+cost_per_unit:
+  free: "25 AI notes, basic templates"
+  pro: "$18/month ($12/month annual) — unlimited AI notes, custom templates, CRM sync"
+  business: "$27/month ($18/month annual) — team features, admin controls, SSO"
+  enterprise: "Custom pricing — advanced security, compliance, dedicated support"
+  note: "Per-user pricing. No usage-based component."
+free_tier:
+  availability: "25 AI-generated meeting notes"
+  limitation: "Limited notes. No CRM integration. No custom templates."
+
+capabilities:
+  - "AI meeting notes — listens to meetings and generates structured notes"
+  - "Works across all meeting platforms (Zoom, Meet, Teams, etc.) without bot joining the call"
+  - "Template system — customize note format per meeting type (1:1, standup, sales call)"
+  - "CRM integration — auto-sync notes to Salesforce, HubSpot"
+  - "Meeting search — find past discussions by topic"
+  - "Action item extraction and tracking"
+  - "Multiplatform — macOS, Windows, iOS"
+  - "Privacy-focused — processes audio locally, no bot in meeting"
+  - "Backed by $43M Series B (2025)"
+
+limitations:
+  - "NO API — desktop/mobile app only, no programmatic access"
+  - "No Linux support"
+  - "No webhook or integration API for custom workflows"
+  - "Cannot be integrated into Palette agent workflows"
+  - "Meeting recording quality depends on microphone"
+  - "AI note quality varies by meeting complexity and jargon"
+  - "No speaker diarization in all cases"
+  - "Requires app to be running during the meeting"
+
+example_request:
+  description: "N/A — no API available"
+  workaround: |
+    # Granola has no API. It's a desktop app for meeting notes.
+    # Workflow:
+    # 1. Install Granola on macOS/Windows
+    # 2. Open Granola before your meeting
+    # 3. Granola listens to system audio during the meeting
+    # 4. After the meeting, AI generates structured notes
+    # 5. Review, edit, and share notes
+
+    # For programmatic meeting transcription, consider:
+    # - Whisper (self-hosted) — transcribe meeting recordings
+    # - Otter.ai — has API for meeting transcription
+    # - AssemblyAI — full-featured transcription API
+    # - Rev.ai — speech-to-text API
+
+palette_agent: "N/A — cannot be integrated into any agent workflow"
+palette_integration_plan:
+  current: "Personal productivity tool for Palette operators during meetings"
+  alternative: "Whisper (self-hosted) for programmatic meeting transcription"
+  watch_for: "Granola API or webhook announcement"
+  note: "Granola is excellent for personal meeting notes but cannot feed into Palette intelligence system."
+
+status: no_api
+evaluation_verdict: "NO API — Granola is a desktop meeting notes app. Useful as a personal productivity tool for Palette operators but cannot be integrated programmatically. For meeting transcription in Palette workflows, use Whisper (self-hosted) or AssemblyAI API."

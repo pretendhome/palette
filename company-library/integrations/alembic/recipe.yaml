@@ -1,0 +1,90 @@
+# Palette Integration Recipe: Alembic
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-067 (Database Migration Safety Wrapper)
+# Priority: LOW — relevant when Palette has a persistent database layer
+
+service_name: "Alembic"
+company: "SQLAlchemy Project (Mike Bayer)"
+company_url: "https://alembic.sqlalchemy.org"
+api_url: "N/A — CLI tool and Python library, not an API service"
+api_docs: "https://alembic.sqlalchemy.org/en/latest/"
+
+auth_method:
+  type: "none"
+  note: "Python library. No API key. Uses SQLAlchemy database connection strings."
+
+rate_limits:
+  note: "N/A — local CLI tool, no external service calls."
+
+cost_model: free
+cost_per_unit:
+  library: "$0.00 — MIT licensed open source"
+free_tier:
+  availability: "Fully free and open source"
+  limitation: "None — full functionality available"
+
+capabilities:
+  - "Database schema migration with version control (revision history)"
+  - "Auto-generation of migration scripts from SQLAlchemy model changes"
+  - "Upgrade and downgrade (rollback) support with revision chains"
+  - "Branch and merge support for parallel migration development"
+  - "Offline mode — generate SQL scripts without executing"
+  - "Batch operations for SQLite (which lacks ALTER TABLE)"
+  - "Stamp command to mark database at a specific revision without running migrations"
+  - "Integrates natively with SQLAlchemy ORM models"
+  - "Custom migration operations via Python scripting"
+
+limitations:
+  - "SQLAlchemy-only — does not work with other ORMs (Django ORM, Peewee, etc.)"
+  - "Auto-generation misses some changes: table renames, column type changes, constraint names"
+  - "No built-in dry-run/preview for complex migrations (use --sql offline mode)"
+  - "No GUI — CLI and configuration files only"
+  - "Migration conflicts require manual resolution when branches diverge"
+  - "No built-in CI/CD integration — must be scripted into deployment pipeline"
+
+example_request:
+  description: "Initialize Alembic, auto-generate migration, and apply it"
+  python: |
+    # Step 1: Initialize Alembic in project
+    # $ alembic init alembic
+
+    # Step 2: Configure alembic.ini with database URL
+    # sqlalchemy.url = postgresql://user:pass@localhost/palette
+
+    # Step 3: Set target_metadata in alembic/env.py
+    # from palette.models import Base
+    # target_metadata = Base.metadata
+
+    # Step 4: Auto-generate migration from model changes
+    # $ alembic revision --autogenerate -m "add knowledge_entries table"
+
+    # Step 5: Apply migration
+    # $ alembic upgrade head
+
+    # Step 6: Rollback if needed
+    # $ alembic downgrade -1
+
+    # Programmatic usage:
+    from alembic.config import Config
+    from alembic import command
+
+    alembic_cfg = Config("alembic.ini")
+
+    # Run upgrade programmatically
+    command.upgrade(alembic_cfg, "head")
+
+    # Check current revision
+    command.current(alembic_cfg)
+
+    # Generate SQL without executing (dry run)
+    command.upgrade(alembic_cfg, "head", sql=True)
+
+palette_agent: "Theri (Builder) — database schema management"
+palette_integration_plan:
+  phase_1: "When Palette adds a persistent database: initialize Alembic with SQLAlchemy models"
+  phase_2: "Auto-generate migrations for schema changes, commit revision files to git"
+  phase_3: "Integrate alembic upgrade head into deployment pipeline"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — standard Python database migration tool. Natural choice if Palette uses SQLAlchemy (Python-native). Zero cost, well-documented, battle-tested. Only relevant when Palette adds a persistent relational database layer. No urgency — Palette currently uses YAML files for state."

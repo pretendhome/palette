@@ -1,0 +1,77 @@
+# Palette Integration Recipe: NotebookLM (Google)
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-201 (Competitive Research), RIU-108 (Decision Documentation)
+# Priority: LOW — research/synthesis tool, no API, personal productivity
+
+service_name: "NotebookLM"
+company: "Google"
+company_url: "https://notebooklm.google.com"
+api_url: "N/A — no public API"
+api_docs: "N/A"
+
+auth_method:
+  type: "N/A"
+  note: "Web application. No API, SDK, or programmatic access. Requires Google account."
+
+rate_limits:
+  note: "N/A — web application, not an API service"
+
+cost_model: freemium
+cost_per_unit:
+  free: "Free with Google account — core features, limited sources per notebook"
+  notebooklm_plus: "$20/month (Google One AI Premium) — 5x usage limits, team sharing, enterprise features"
+  note: "NotebookLM Plus is bundled with Google One AI Premium which also includes Gemini Advanced."
+free_tier:
+  availability: "Free with any Google account"
+  features: "Upload sources, AI chat, Audio Overview (podcast), citations"
+  limitation: "Limited sources per notebook (up to 50). Smaller usage quotas."
+
+capabilities:
+  - "Upload sources (PDF, Google Docs, Slides, web URLs, YouTube, text) and chat with AI about them"
+  - "Audio Overview — generates a podcast-style audio discussion of your sources"
+  - "Grounded responses — every AI answer cites specific source passages"
+  - "Multi-source synthesis — connects information across all uploaded documents"
+  - "Study guides, FAQs, timelines, and briefing documents auto-generated"
+  - "Inline citations with direct links to source passages"
+  - "Collaborative notebooks for team research"
+  - "Built on Gemini — benefits from Google's latest model capabilities"
+  - "No training on your data — enterprise privacy guarantees"
+
+limitations:
+  - "NO API — web application only, no programmatic access"
+  - "Cannot be integrated into Palette agent workflows"
+  - "Maximum 50 sources per notebook"
+  - "Source types limited — no Excel/CSV, no raw data files"
+  - "Audio Overview generation can take several minutes"
+  - "Cannot export AI-generated content in structured formats (JSON, YAML)"
+  - "No webhook or automation capabilities"
+  - "Google account required — no SSO integration for non-Google enterprises"
+  - "Audio Overview voices are not customizable"
+
+example_request:
+  description: "N/A — no API available"
+  workaround: |
+    # NotebookLM has no API. It's a web application at notebooklm.google.com
+    # Workflow:
+    # 1. Go to notebooklm.google.com
+    # 2. Create a new notebook
+    # 3. Upload sources (PDFs, Google Docs, URLs)
+    # 4. Chat with AI about your sources — all answers cite specific passages
+    # 5. Generate Audio Overview for podcast-style summary
+
+    # For programmatic source-grounded AI research, consider:
+    # - Gemini API with document upload and grounding
+    # - Perplexity API for web-grounded research
+    # - Claude API with PDF/document analysis (200K context)
+    # - LlamaIndex / LangChain RAG pipeline for custom implementation
+
+palette_agent: "N/A — cannot be integrated into any agent workflow"
+palette_integration_plan:
+  current: "Personal research tool for Palette operators"
+  alternative: "Use Gemini API or Claude API for programmatic source-grounded research"
+  use_case: "NotebookLM is excellent for manual deep research — uploading Palette architecture docs and exploring connections"
+  watch_for: "Google NotebookLM API announcement — would align with Gemini API ecosystem"
+
+status: no_api
+evaluation_verdict: "NO API — NotebookLM is a web-based research tool. Exceptional for manual source-grounded research with citations. Audio Overview is unique. Cannot be integrated into Palette agent workflows. For programmatic alternatives, use Gemini API with document upload or Claude API with 200K context."

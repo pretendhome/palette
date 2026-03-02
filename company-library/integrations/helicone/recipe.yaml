@@ -1,0 +1,109 @@
+# Palette Integration Recipe: Helicone
+# Generated: 2026-03-01
+# RIUs served: RIU-524 (Quality Monitoring), RIU-521 (LLM Routing), RIU-523 (Latency Optimization)
+# Context: LLM-specific observability proxy — logs every LLM call with zero-code instrumentation
+
+service_name: "Helicone"
+company: "Helicone, Inc."
+company_url: "https://helicone.ai"
+api_url: "https://oai.helicone.ai/v1"
+api_docs: "https://docs.helicone.ai"
+
+auth_method:
+  type: "api_key"
+  header: "Helicone-Auth: Bearer $HELICONE_API_KEY"
+  key_source: "helicone.ai → Dashboard → Settings → API Keys"
+  note: "Helicone works as a proxy. Replace your LLM provider's base URL with Helicone's proxy URL and add the Helicone-Auth header. Your original API key (e.g., OpenAI key) is passed through."
+
+rate_limits:
+  free: "100,000 requests/month"
+  pro: "Unlimited requests"
+  note: "Proxy adds ~50ms latency per request."
+
+cost_model: freemium
+cost_per_unit:
+  free: "$0.00 (100,000 requests/month)"
+  pro: "$20/month per seat (unlimited requests, advanced analytics)"
+  team: "$50/month per seat (TODO: verify — SSO, roles, audit logs)"
+  enterprise: "Custom pricing"
+free_tier:
+  availability: "100,000 logged requests/month. Full dashboard access. 30-day log retention."
+  limitation: "1 seat on free tier. No custom properties in dashboard filters. Limited export."
+
+capabilities:
+  - "LLM proxy: intercepts LLM API calls for logging with 1-line integration (swap base URL)"
+  - "Request logging: full prompt/completion capture with latency, tokens, cost"
+  - "Cost tracking: automatic cost calculation per request, per model, per user"
+  - "Caching: response caching to reduce duplicate LLM calls (Helicone-Cache-Enabled header)"
+  - "Rate limiting: per-user rate limiting via Helicone-RateLimit headers"
+  - "Retries: automatic retry with backoff via Helicone-Retry-Enabled header"
+  - "Custom properties: tag requests with arbitrary metadata for filtering/grouping"
+  - "User tracking: associate requests with end-users for per-user analytics"
+  - "Prompt templates: version and track prompt changes"
+  - "Alerts: webhook-based alerts on cost, latency, or error thresholds"
+  - "Supported providers: OpenAI, Anthropic, Azure OpenAI, Google AI, Groq, Together AI, OpenRouter"
+  - "GraphQL API for programmatic access to logged data"
+  - "Gateway features: key management, model fallback"
+
+limitations:
+  - "Proxy architecture adds latency (~50ms per request)"
+  - "All LLM traffic routes through Helicone servers — data residency concern"
+  - "Limited to LLM API calls — no infrastructure or application-level observability"
+  - "Free tier limited to 1 seat and 100K requests"
+  - "Prompt template feature is basic compared to dedicated prompt management tools"
+  - "No built-in evaluation/scoring — observation only, not eval (use Braintrust/LangSmith for evals)"
+
+example_request:
+  description: "Use Helicone as a proxy for OpenAI calls with cost tracking"
+  python: |
+    import openai
+
+    # Just swap the base URL and add Helicone auth header
+    client = openai.OpenAI(
+        api_key="$OPENAI_API_KEY",
+        base_url="https://oai.helicone.ai/v1",
+        default_headers={
+            "Helicone-Auth": "Bearer $HELICONE_API_KEY",
+            "Helicone-Property-Agent": "argy",
+            "Helicone-Property-Task": "research",
+            "Helicone-Cache-Enabled": "true",
+        },
+    )
+
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": "Analyze competitive landscape for LLM observability tools"}],
+    )
+    print(response.choices[0].message.content)
+    # Request automatically logged in Helicone dashboard with cost, latency, tokens
+
+  description_anthropic: "Proxy Anthropic API calls through Helicone"
+  python_anthropic: |
+    import anthropic
+
+    client = anthropic.Anthropic(
+        api_key="$ANTHROPIC_API_KEY",
+        base_url="https://anthropic.helicone.ai/v1",
+        default_headers={
+            "Helicone-Auth": "Bearer $HELICONE_API_KEY",
+        },
+    )
+
+palette_agent: "Para (Monitor) — LLM-specific observability with zero-code instrumentation"
+palette_integration_plan:
+  phase_1: "Route OpenRouter calls through Helicone proxy for automatic cost/latency logging"
+  phase_2: "Tag requests with agent name (Argy, Cory, etc.) via custom properties"
+  phase_3: "Enable caching for repeated research queries to reduce costs"
+  phase_4: "Build per-agent cost dashboards and set budget alerts"
+
+comparison_to_current:
+  vs_langsmith:
+    - "Helicone: easier setup (1-line proxy). LangSmith: deeper eval + tracing."
+    - "Helicone: provider-agnostic proxy. LangSmith: LangChain-native (works without LangChain but best with it)."
+  vs_new_relic:
+    - "Helicone: LLM-specific, cheaper, simpler. New Relic: full-stack, broader."
+    - "Helicone: free 100K requests. New Relic: free 100GB (more generous at volume)."
+  verdict: "Best zero-effort LLM observability. Recommended for quick wins on cost tracking. Pair with New Relic/Grafana for infrastructure monitoring."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — lowest-effort LLM observability integration (1-line proxy swap). Free tier (100K requests/month) is generous. Especially useful for cost tracking across multiple models via OpenRouter. Consider pairing with a general observability tool (New Relic, Grafana) for full-stack coverage."

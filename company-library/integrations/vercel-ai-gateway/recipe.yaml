@@ -1,0 +1,101 @@
+# Palette Integration Recipe: Vercel AI Gateway
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-521 (LLM Model Version Management), RIU-522 (Token Budget Management)
+# Priority: MEDIUM — best for web-native Palette deployments; Guillermo Rauch signal
+
+service_name: "Vercel AI Gateway"
+company: "Vercel"
+company_url: "https://vercel.com"
+api_url: "https://gateway.ai.vercel.sh/v1 (Gateway) or via @ai-sdk/openai, @ai-sdk/anthropic (SDK)"
+api_docs: "https://sdk.vercel.ai/docs"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $VERCEL_AI_GATEWAY_KEY"
+  key_source: "Vercel Dashboard → AI → Gateway → API Keys"
+  note: "AI SDK is client-side — uses underlying provider keys directly. Gateway adds Vercel-managed routing."
+
+rate_limits:
+  note: "Vercel AI Gateway inherits Vercel platform rate limits. AI SDK has no rate limits (direct provider calls)."
+
+cost_model: freemium
+cost_per_unit:
+  ai_sdk: "$0.00 — open-source SDK (Apache 2.0), no markup"
+  ai_gateway: "Included with Vercel Pro ($20/user/month) and Enterprise plans"
+  provider_costs: "Pass-through to underlying LLM providers (no Vercel markup on tokens)"
+  note: "AI SDK is free. AI Gateway requires Vercel Pro subscription."
+free_tier:
+  availability: "AI SDK is fully free and open source. AI Gateway has limited free tier on Hobby plan."
+  limitation: "Hobby plan: limited gateway requests. Full gateway features require Pro ($20/month)."
+
+capabilities:
+  - "Vercel AI SDK: unified TypeScript SDK for OpenAI, Anthropic, Google, Mistral, Cohere, etc."
+  - "AI Gateway: managed proxy with caching, rate limiting, fallbacks, and cost controls"
+  - "Streaming support with React Server Components and Edge Runtime"
+  - "Structured output via generateObject() with Zod schema validation"
+  - "Tool calling with automatic parameter validation"
+  - "Image generation via generateImage() (DALL-E, Stability AI, etc.)"
+  - "Video generation via generateVideo() (experimental)"
+  - "Edge-optimized — low latency when deployed on Vercel"
+  - "Budget controls and spend alerts via Gateway"
+  - "Load balancing and automatic fallback between providers"
+  - "Native integration with Next.js, SvelteKit, Nuxt"
+
+limitations:
+  - "TypeScript/JavaScript-first — Python support is limited (no official Python SDK)"
+  - "AI Gateway requires Vercel Pro subscription ($20/month minimum)"
+  - "Best experience requires Vercel deployment — less value outside Vercel ecosystem"
+  - "Newer product than OpenRouter/LiteLLM — smaller community, less battle-tested"
+  - "Gateway analytics are Vercel-dashboard-only — no Prometheus/Datadog export"
+  - "Vendor lock-in to Vercel platform for full gateway features"
+
+example_request:
+  description: "Use Vercel AI SDK for structured LLM output with streaming"
+  python: |
+    # Vercel AI SDK is TypeScript — Python equivalent shown for comparison
+
+    # TypeScript (native):
+    # import { generateText, generateObject } from 'ai'
+    # import { anthropic } from '@ai-sdk/anthropic'
+    # import { z } from 'zod'
+    #
+    # // Simple text generation
+    # const { text } = await generateText({
+    #   model: anthropic('claude-sonnet-4-6'),
+    #   prompt: 'Analyze this company positioning...'
+    # })
+    #
+    # // Structured output with schema validation
+    # const { object } = await generateObject({
+    #   model: anthropic('claude-sonnet-4-6'),
+    #   schema: z.object({
+    #     company: z.string(),
+    #     category: z.string(),
+    #     confidence: z.number().min(0).max(1),
+    #     reasoning: z.string()
+    #   }),
+    #   prompt: 'Classify this company: Lovable — AI app builder'
+    # })
+
+    # Python equivalent using OpenAI SDK with AI Gateway:
+    from openai import OpenAI
+
+    client = OpenAI(
+        base_url="https://gateway.ai.vercel.sh/v1",
+        api_key="$VERCEL_AI_GATEWAY_KEY"
+    )
+
+    response = client.chat.completions.create(
+        model="anthropic/claude-sonnet-4-6",
+        messages=[{"role": "user", "content": "Analyze this company positioning..."}]
+    )
+
+palette_agent: "Rex (Architect) — web deployment routing; Theri (Builder) — frontend integration"
+palette_integration_plan:
+  phase_1: "Evaluate only if Palette builds a web UI on Next.js/Vercel"
+  phase_2: "If web UI: use Vercel AI SDK for streaming chat interface with structured outputs"
+  phase_3: "AI Gateway for production cost controls and provider fallback on Vercel deployment"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — best-in-class for web-native AI applications. Guillermo Rauch (PERSON-006) signal. Not a fit for Palette's current Python CLI architecture. Becomes the natural choice if Palette builds a Next.js web interface. Keep on radar — the AI SDK's structured output (generateObject with Zod) is the cleanest DX in the TypeScript ecosystem."

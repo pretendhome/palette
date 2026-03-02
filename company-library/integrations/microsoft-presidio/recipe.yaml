@@ -1,0 +1,78 @@
+# Palette Integration Recipe: Microsoft Presidio
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-012 (PII/Compliance Triage), RIU-088 (Privacy Redaction Pipeline), RIU-082 (LLM Safety Guardrails)
+# Priority: HIGH — critical for PII detection in agentic pipelines
+
+service_name: "Microsoft Presidio"
+company: "Microsoft"
+company_url: "https://microsoft.github.io/presidio/"
+api_url: "N/A — Python library; optional REST API via Docker container"
+api_docs: "https://microsoft.github.io/presidio/api-docs/"
+
+auth_method:
+  type: "none"
+  note: "Open-source library. No API key required. Self-hosted."
+
+rate_limits:
+  note: "Self-hosted — no external rate limits. Throughput depends on deployment resources."
+
+cost_model: free
+cost_per_unit:
+  library: "$0.00 — MIT licensed open source"
+  infrastructure: "Self-hosted compute costs only (CPU-based, no GPU required)"
+free_tier:
+  availability: "Fully free and open source"
+  limitation: "None — full functionality available"
+
+capabilities:
+  - "PII detection across 30+ entity types (names, emails, phone numbers, SSNs, credit cards, etc.)"
+  - "PII anonymization with multiple strategies: redact, replace, hash, mask, encrypt"
+  - "Customizable recognizers — add domain-specific PII patterns via regex or NLP"
+  - "Presidio Analyzer: NLP-based PII detection using spaCy, Stanza, or transformers"
+  - "Presidio Anonymizer: applies de-identification operators to detected PII"
+  - "Presidio Image Redactor: redacts PII from images (OCR + detection)"
+  - "Multi-language support via configurable NLP engines"
+  - "REST API available via pre-built Docker containers for microservice deployment"
+  - "Integrates with Azure AI Language for enhanced NER accuracy"
+
+limitations:
+  - "Requires self-hosting — no managed SaaS option"
+  - "Default NLP models (spaCy en_core_web_lg) have lower recall than cloud NER services"
+  - "Image redaction requires Tesseract OCR — adds dependency complexity"
+  - "No built-in audit logging — must implement separately"
+  - "Performance degrades on very long documents without chunking"
+  - "Context-aware detection (e.g., 'John' as name vs product) requires custom logic"
+
+example_request:
+  description: "Detect and anonymize PII in text before sending to LLM"
+  python: |
+    from presidio_analyzer import AnalyzerEngine
+    from presidio_anonymizer import AnonymizerEngine
+
+    # Initialize engines
+    analyzer = AnalyzerEngine()
+    anonymizer = AnonymizerEngine()
+
+    text = "John Smith's email is john@example.com and his SSN is 123-45-6789."
+
+    # Detect PII
+    results = analyzer.analyze(
+        text=text,
+        entities=["PERSON", "EMAIL_ADDRESS", "US_SSN"],
+        language="en"
+    )
+
+    # Anonymize detected PII
+    anonymized = anonymizer.anonymize(text=text, analyzer_results=results)
+    print(anonymized.text)
+    # Output: "<PERSON>'s email is <EMAIL_ADDRESS> and his SSN is <US_SSN>."
+
+palette_agent: "Anky (Validator) — pre-flight PII scrubbing; Rex (Architect) — privacy pipeline design"
+palette_integration_plan:
+  phase_1: "Add Presidio as pre-processing step before any user data hits external LLMs"
+  phase_2: "Custom recognizers for Palette-specific entities (company names, RIU IDs, internal codes)"
+  phase_3: "Benchmark Presidio vs AWS Comprehend PII for accuracy and latency on Palette data"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — strong open-source PII toolkit from Microsoft. Zero cost, self-hosted, MIT licensed. Ideal for pre-LLM PII scrubbing in Palette pipelines. Complements Bedrock Guardrails (which offers free PII filters but requires Bedrock). Presidio gives Palette provider-agnostic PII protection."

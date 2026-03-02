@@ -1,0 +1,108 @@
+# Palette Integration Recipe: Qdrant
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-026 (Hybrid Similarity — Enums + Embeddings)
+# Priority: MEDIUM — vector database alternative to Pinecone
+
+service_name: "Qdrant"
+company: "Qdrant"
+company_url: "https://qdrant.tech"
+api_url: "https://{cluster-id}.{region}.aws.cloud.qdrant.io:6333 (Cloud) or http://localhost:6333 (self-hosted)"
+api_docs: "https://qdrant.tech/documentation/"
+
+auth_method:
+  type: "api_key"
+  header: "api-key: $QDRANT_API_KEY"
+  key_source: "Qdrant Cloud Dashboard → Cluster → API Keys"
+  note: "Self-hosted: no auth by default. Enable API key auth via config."
+
+rate_limits:
+  note: "Self-hosted: no limits. Cloud: depends on cluster tier. No published rate limits — throughput scales with cluster size."
+
+cost_model: freemium
+cost_per_unit:
+  free_cloud: "$0.00 — 1GB cluster, 1M vectors (768d), single node"
+  hybrid_cloud: "From $0.073/hour (~$53/month) — 4GB RAM, 2 vCPU"
+  dedicated_cloud: "From $0.078/hour (~$56/month) — managed multi-node clusters"
+  self_hosted: "$0.00 — Apache 2.0 licensed, fully open source"
+  note: "Pricing scales with RAM and storage. Vector storage is ~4x cheaper than Pinecone at scale."
+free_tier:
+  availability: "Free Cloud tier: 1GB cluster, forever free. Self-hosted: fully free."
+  limitation: "Free Cloud: single node, no HA, limited storage. Sufficient for evaluation and small workloads."
+
+capabilities:
+  - "High-performance vector similarity search with HNSW indexing"
+  - "Hybrid search: combine vector similarity with payload filtering (structured metadata)"
+  - "Sparse vectors support — BM25-style keyword search alongside dense embeddings"
+  - "Multi-vector support — store multiple vectors per point (e.g., title + body embeddings)"
+  - "Quantization: scalar, product, and binary quantization for memory reduction (up to 64x)"
+  - "Fully open source (Apache 2.0) — no license restrictions"
+  - "gRPC and REST APIs with Python, TypeScript, Go, Rust, Java clients"
+  - "On-disk storage with memory-mapped files — handle datasets larger than RAM"
+  - "Snapshot and backup support for disaster recovery"
+  - "Write-ahead log (WAL) for crash recovery"
+
+limitations:
+  - "Smaller ecosystem than Pinecone — fewer managed integrations"
+  - "Self-hosted requires operational expertise for production HA"
+  - "No built-in reranking — pair with Cohere Rerank or Jina Reranker"
+  - "Cloud pricing can exceed Pinecone Serverless for very small workloads"
+  - "No native LangChain integration as polished as Pinecone's (though supported)"
+  - "Horizontal sharding requires manual configuration on self-hosted"
+
+example_request:
+  description: "Store and search knowledge library embeddings"
+  python: |
+    from qdrant_client import QdrantClient
+    from qdrant_client.models import Distance, VectorParams, PointStruct, Filter, FieldCondition, MatchValue
+
+    # Connect to Qdrant Cloud (or localhost:6333 for self-hosted)
+    client = QdrantClient(
+        url="https://xxx.aws.cloud.qdrant.io:6333",
+        api_key="$QDRANT_API_KEY"
+    )
+
+    # Create collection for knowledge library
+    client.create_collection(
+        collection_name="knowledge_library",
+        vectors_config=VectorParams(size=1536, distance=Distance.COSINE)
+    )
+
+    # Upsert knowledge entries with metadata
+    client.upsert(
+        collection_name="knowledge_library",
+        points=[
+            PointStruct(
+                id=1,
+                vector=[0.1, 0.2, ...],  # 1536-dim embedding from OpenAI/Cohere
+                payload={
+                    "lib_id": "LIB-026",
+                    "title": "Vector store selection criteria",
+                    "journey_stage": "retrieval",
+                    "tier": 1
+                }
+            )
+        ]
+    )
+
+    # Search with metadata filter
+    results = client.query_points(
+        collection_name="knowledge_library",
+        query=[0.15, 0.25, ...],  # query embedding
+        query_filter=Filter(
+            must=[FieldCondition(key="journey_stage", match=MatchValue(value="retrieval"))]
+        ),
+        limit=5
+    )
+
+    for point in results.points:
+        print(f"{point.payload['lib_id']}: {point.payload['title']} (score: {point.score:.3f})")
+
+palette_agent: "Argy (Research) — knowledge retrieval; Rex (Architect) — vector infrastructure"
+palette_integration_plan:
+  phase_1: "Benchmark Qdrant vs Pinecone on Palette knowledge library (101 entries): latency, recall, cost"
+  phase_2: "Evaluate hybrid search (sparse + dense) for improved retrieval without separate reranker"
+  phase_3: "If self-hosting: deploy Qdrant on Docker — saves Pinecone subscription cost entirely"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — strongest open-source vector database. Apache 2.0 license, self-hostable, competitive performance. Free Cloud tier sufficient for Palette's current 101-entry knowledge library. Key advantage over Pinecone: self-hosted option eliminates vendor lock-in and recurring costs. Key disadvantage: operational burden if self-hosting."

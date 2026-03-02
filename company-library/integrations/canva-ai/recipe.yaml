@@ -1,0 +1,96 @@
+# Palette Integration Recipe: Canva AI (Magic Media)
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-501 (Image Processing), RIU-413 (Demo Creation)
+# Priority: LOW — no public API for AI features, web-based design tool
+
+service_name: "Canva AI (Magic Media)"
+company: "Canva"
+company_url: "https://www.canva.com"
+api_url: "https://api.canva.com/rest/v1 (Connect API — design management only, NOT AI features)"
+api_docs: "https://www.canva.dev/docs/connect/"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $CANVA_ACCESS_TOKEN"
+  key_source: "Canva Developers portal → Create an app → OAuth 2.0"
+  note: "Connect API exists for design CRUD operations. AI/Magic features (Magic Media, Magic Write) are NOT available via API."
+
+rate_limits:
+  connect_api: "Varies by endpoint — see Canva developer docs"
+  note: "Connect API only — no rate limits documented for AI features (because AI features have no API)."
+
+cost_model: freemium
+cost_per_unit:
+  free: "Free — basic design tools, limited AI credits (50 Magic Media uses)"
+  pro: "$15/month ($120/year) — unlimited premium templates, 500 AI credits/month"
+  teams: "$10/person/month (min 3) — brand kit, team management, 500 AI credits/person"
+  enterprise: "Custom pricing — SSO, advanced admin, unlimited AI credits"
+  note: "AI credits (Magic Media, Magic Write) are capped per month. Design features are unlimited on paid plans."
+free_tier:
+  availability: "Free plan with 50 one-time AI credits and basic design features"
+  limitation: "Limited AI credits. Canva branding on some exports. No brand kit."
+
+capabilities:
+  - "Magic Media — AI image generation from text prompts (powered by Stable Diffusion / proprietary)"
+  - "Magic Write — AI text generation for copy, headlines, social posts"
+  - "Magic Eraser — AI object removal from images"
+  - "Magic Edit — AI-powered image editing with text instructions"
+  - "Background Remover — AI background removal"
+  - "Magic Animate — add animations to designs"
+  - "1B+ users, $26B valuation — ubiquitous design tool"
+  - "Massive template library (250M+) for presentations, social, print, video"
+  - "Connect API for programmatic design creation/management (NOT AI features)"
+  - "Canva Apps SDK for building extensions within Canva"
+  - "Real-time collaboration"
+
+limitations:
+  - "AI features (Magic Media, Magic Write, etc.) have NO public API"
+  - "Connect API is limited to design CRUD — create, read, list, export designs"
+  - "Cannot programmatically trigger AI generation, AI editing, or Magic features"
+  - "AI credits are capped monthly — heavy use requires enterprise plan"
+  - "Apps SDK runs inside Canva — not a standalone API"
+  - "No webhook support for design events"
+  - "Export quality limited to PNG, JPG, PDF — no SVG export on free tier"
+  - "Brand consistency requires paid plans with Brand Kit"
+
+example_request:
+  description: "Canva Connect API — design export (NOT AI features)"
+  python: |
+    import requests
+
+    headers = {
+        "Authorization": "Bearer $CANVA_ACCESS_TOKEN",
+        "Content-Type": "application/json"
+    }
+
+    # List user's designs (Connect API — NOT AI features)
+    response = requests.get(
+        "https://api.canva.com/rest/v1/designs",
+        headers=headers,
+        params={"query": "palette presentation"}
+    )
+    designs = response.json()
+
+    # Export a design to PDF
+    export_response = requests.post(
+        "https://api.canva.com/rest/v1/exports",
+        headers=headers,
+        json={
+            "design_id": designs["items"][0]["id"],
+            "format": {"type": "pdf"}
+        }
+    )
+    print(export_response.json())
+
+  note: "This only covers design management. AI features (Magic Media, Magic Write) cannot be called via API."
+
+palette_agent: "Yuty (GTM/Narrative) — visual design for presentations and marketing materials (manual use only)"
+palette_integration_plan:
+  current: "Manual use by Palette operators for design tasks"
+  connect_api: "Connect API could automate design export — but AI generation must still be done manually"
+  alternative: "Use Gamma API for AI presentation generation (has full API)"
+  note: "Canva is the industry standard for design but its AI features lack programmatic access. Gamma API is better for Palette's automated presentation needs."
+
+status: no_api
+evaluation_verdict: "NO API for AI features — Canva Connect API exists for design CRUD but Magic Media, Magic Write, and other AI features cannot be called programmatically. For automated AI design generation, use Gamma API instead. Canva remains useful as a manual design tool for Palette operators."

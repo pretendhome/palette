@@ -1,0 +1,127 @@
+# Palette Integration Recipe: Soda
+# Generated: 2026-03-01
+# RIUs served: RIU-044 (Data Pipeline Architecture), RIU-524 (Quality Monitoring)
+# Context: Data quality monitoring — SQL-first checks with YAML configuration, continuous monitoring
+
+service_name: "Soda"
+company: "Soda Data NV"
+company_url: "https://www.soda.io"
+api_url: "https://cloud.soda.io/api"
+api_docs: "https://docs.soda.io/"
+
+auth_method:
+  type: "api_key"
+  env_vars:
+    - "SODA_CLOUD_API_KEY_ID: API key ID"
+    - "SODA_CLOUD_API_KEY_SECRET: API key secret"
+  key_source: "cloud.soda.io → Profile → API Keys"
+  note: "Soda Library (open source) works locally without Soda Cloud auth. Soda Cloud requires API keys for push."
+
+rate_limits:
+  note: "Open-source library has no rate limits. Soda Cloud has plan-based scan limits."
+
+cost_model: freemium
+cost_per_unit:
+  soda_library: "$0.00 (open-source, Apache 2.0 license)"
+  cloud_developer: "$0.00 (TODO: verify current free tier — historically limited scans)"
+  cloud_pro: "TODO: verify current pricing"
+  enterprise: "Custom pricing"
+free_tier:
+  availability: "Soda Library (OSS) is fully free. Soda Cloud has a free developer tier."
+  limitation: "Free cloud tier has limited scan count, single data source, basic alerting."
+
+capabilities:
+  - "SodaCL (Soda Checks Language): YAML-based data quality checks"
+  - "SQL-first: checks are expressed in SQL-like syntax — accessible to data teams"
+  - "Freshness checks: detect stale data (e.g., no new rows in 24 hours)"
+  - "Volume checks: detect unexpected row count changes"
+  - "Schema checks: detect column additions, removals, or type changes"
+  - "Missing/invalid value checks: null counts, format validation"
+  - "Reference checks: cross-table referential integrity"
+  - "Custom SQL metrics: arbitrary SQL queries as quality checks"
+  - "Anomaly detection: automatic anomaly detection on metric time series"
+  - "Data source support: PostgreSQL, MySQL, BigQuery, Snowflake, Redshift, Databricks, Spark, DuckDB, Pandas, and more"
+  - "Soda Cloud: hosted dashboard for monitoring, alerting, and incident management"
+  - "CI/CD integration: run checks in GitHub Actions, fail pipelines on quality violations"
+  - "dbt integration: run Soda checks as dbt tests"
+  - "Airflow integration: SodaScanOperator for orchestrated quality checks"
+
+limitations:
+  - "SodaCL is powerful but has its own syntax to learn"
+  - "Advanced features (anomaly detection, profiling) require Soda Cloud"
+  - "Cloud pricing can be significant for many data sources/scans"
+  - "Less Python-native than Great Expectations — YAML/SQL-driven"
+  - "Not designed for ML/LLM-specific monitoring (use Evidently for that)"
+  - "Real-time monitoring requires Soda Cloud (not available in OSS alone)"
+
+example_request:
+  description: "Run data quality checks on Palette library data"
+  yaml_checks: |
+    # checks.yaml (SodaCL)
+    checks for people_library:
+      - row_count > 0
+      - missing_count(person_id) = 0
+      - missing_count(name) = 0
+      - invalid_count(signal_strength) = 0:
+          valid min: 1
+          valid max: 5
+      - invalid_count(status) = 0:
+          valid values: ["active", "low", "archived"]
+      - duplicate_count(person_id) = 0
+      - freshness(updated_at) < 30d
+
+    checks for service_routing:
+      - row_count >= 20
+      - missing_count(riu_id) = 0
+      - missing_count(service_name) = 0
+
+  python: |
+    from soda.scan import Scan
+
+    scan = Scan()
+    scan.set_data_source_name("palette_db")
+    scan.add_sodacl_yaml_file("checks.yaml")
+
+    # For Pandas DataFrames (using Soda Library with duckdb)
+    scan.add_configuration_yaml_str("""
+    data_source palette_db:
+      type: duckdb
+      path: ":memory:"
+    """)
+
+    scan.execute()
+
+    # Check results
+    print(scan.get_logs_text())
+    if scan.has_check_fails():
+        print("Data quality issues detected!")
+        for check in scan.get_checks_fail():
+            print(f"  FAIL: {check.name} — {check.outcome}")
+
+  shell: |
+    # Install
+    pip install soda-core-duckdb  # or soda-core-postgres, soda-core-bigquery, etc.
+
+    # Run scan
+    soda scan -d palette_db -c configuration.yaml checks.yaml
+
+    # Run in CI/CD — exit code 1 on failure
+    soda scan -d palette_db -c configuration.yaml checks.yaml || exit 1
+
+palette_agent: "Anky (Validator) — data quality monitoring for libraries and pipelines"
+palette_integration_plan:
+  phase_1: "Define SodaCL checks for people_library and service_routing data"
+  phase_2: "Run checks after each library update to catch regressions"
+  phase_3: "Integrate with enrichment pipeline — validate before and after data transforms"
+  phase_4: "Connect to Soda Cloud for continuous monitoring dashboard"
+
+comparison_to_current:
+  vs_great_expectations:
+    - "Soda: SQL-first, YAML-driven, simpler for data teams. GX: Python-native, more flexible."
+    - "Soda: quicker to start (write YAML checks). GX: steeper learning curve."
+    - "Soda: better for continuous monitoring (Cloud). GX: better for batch validation pipelines."
+    - "Soda: SodaCL is intuitive. GX: 300+ built-in expectations."
+  verdict: "Soda for quick SQL-based data quality checks. Great Expectations for comprehensive Python-based validation. Can use both — Soda for monitoring, GX for pipeline validation."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — excellent SQL-first data quality tool. SodaCL syntax is more accessible than Great Expectations for defining checks. Good for quick validation of Palette library data. Consider alongside Great Expectations — they serve slightly different niches (Soda: monitoring, GX: pipeline validation)."

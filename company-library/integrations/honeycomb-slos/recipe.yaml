@@ -1,0 +1,118 @@
+# Palette Integration Recipe: Honeycomb SLOs
+# Generated: 2026-03-01
+# RIUs served: RIU-524 (Quality Monitoring), RIU-523 (Latency Optimization)
+# Context: SLO feature within Honeycomb — define SLOs on Honeycomb datasets with burn alerts
+
+service_name: "Honeycomb SLOs"
+company: "Honeycomb"
+company_url: "https://www.honeycomb.io"
+api_url: "https://api.honeycomb.io/1/slos"
+api_docs: "https://docs.honeycomb.io/working-with-your-data/slos/"
+
+auth_method:
+  type: "api_key"
+  header: "X-Honeycomb-Team: $HONEYCOMB_API_KEY"
+  key_source: "honeycomb.io → Team Settings → API Keys"
+  note: "Uses the same Honeycomb API key as the main Honeycomb integration. SLOs require Pro or Enterprise plan."
+
+rate_limits:
+  note: "Same as Honeycomb API — 10 queries/second per team."
+
+cost_model: paid_feature
+cost_per_unit:
+  free: "Not available on free tier"
+  pro: "Included in Honeycomb Pro plan (TODO: verify current Pro pricing)"
+  enterprise: "Included in Enterprise plan"
+free_tier:
+  availability: "SLOs are NOT available on the Honeycomb free tier."
+  limitation: "Requires Honeycomb Pro or Enterprise plan."
+
+capabilities:
+  - "SLO definition: define SLOs on any Honeycomb dataset with SLI queries"
+  - "Error budget tracking: visual burn-down chart showing remaining error budget"
+  - "Burn alerts: configurable alerts when error budget burn rate exceeds threshold"
+  - "Multi-window burn rate: short and long window burn rate calculation (Google SRE methodology)"
+  - "BubbleUp on SLO violations: automatically surface what changed when SLO is burning"
+  - "SLO API: CRUD operations on SLOs via REST API"
+  - "Time windows: 7, 14, 30-day rolling windows"
+  - "Alert integrations: Slack, PagerDuty, webhook for burn alerts"
+  - "Board integration: add SLO widgets to Honeycomb dashboards"
+  - "Tight integration with Honeycomb trace data — drill from SLO violation to specific traces"
+
+limitations:
+  - "Honeycomb data only — cannot pull metrics from Prometheus, Datadog, etc."
+  - "Requires Honeycomb Pro plan (not free)"
+  - "SLO count may be limited by plan tier"
+  - "Less feature-rich than dedicated SLO platforms (Nobl9) — no composite SLOs"
+  - "Dependent on Honeycomb as primary observability platform"
+  - "No infrastructure-as-code management (vs. Nobl9 sloctl/Terraform)"
+
+example_request:
+  description: "Create an SLO via the Honeycomb API"
+  python: |
+    import requests
+
+    headers = {
+        "X-Honeycomb-Team": "$HONEYCOMB_API_KEY",
+        "Content-Type": "application/json",
+    }
+
+    slo_definition = {
+        "name": "Palette Agent Latency",
+        "description": "99% of agent responses should complete in under 5 seconds",
+        "sli": {
+            "alias": "agent_latency_good",
+            "dataset": "palette-traces",
+            "query": {
+                "time_range": 2592000,  # 30 days in seconds
+                "calculations": [
+                    {"op": "COUNT"}
+                ],
+                "filters": [
+                    {"column": "duration_ms", "op": "<", "value": 5000}
+                ],
+            },
+        },
+        "target_percentage": 99.0,
+        "time_period_days": 30,
+    }
+
+    resp = requests.post(
+        "https://api.honeycomb.io/1/slos/palette-traces",
+        headers=headers,
+        json=slo_definition,
+    )
+    print(resp.json())
+
+  description_burn_alert: "Create a burn alert on the SLO"
+  python_burn_alert: |
+    burn_alert = {
+        "alert_type": "exhaustion_time",
+        "exhaustion_minutes": 4320,  # Alert if budget will exhaust in <3 days
+        "recipients": [
+            {"type": "slack", "target": "#palette-alerts"},
+        ],
+    }
+
+    resp = requests.post(
+        f"https://api.honeycomb.io/1/burn_alerts/{slo_id}",
+        headers=headers,
+        json=burn_alert,
+    )
+
+palette_agent: "Para (Monitor) — SLO tracking within Honeycomb observability stack"
+palette_integration_plan:
+  phase_1: "Only relevant if Honeycomb is selected as primary observability platform"
+  phase_2: "Define SLOs: agent latency <5s (99%), error rate <1% (99.5%)"
+  phase_3: "Set burn alerts to Slack with 3-day exhaustion warning"
+  phase_4: "Use BubbleUp to auto-diagnose SLO violations"
+
+comparison_to_current:
+  vs_nobl9:
+    - "Honeycomb SLOs: simpler, integrated with Honeycomb data. Nobl9: multi-source, more features."
+    - "Honeycomb SLOs: included in Pro plan. Nobl9: additional cost."
+    - "Honeycomb SLOs: BubbleUp integration is unique — automated root cause on SLO burn."
+  verdict: "If using Honeycomb as primary observability tool, use Honeycomb SLOs. If using multiple metric sources, use Nobl9."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — natural choice if Honeycomb is selected for observability. BubbleUp integration for automated root cause analysis on SLO violations is a unique differentiator. However, requires Honeycomb Pro plan (not free) and is Honeycomb-locked. Not urgent — SLOs are Phase 4+ concern."

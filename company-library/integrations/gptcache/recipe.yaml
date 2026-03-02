@@ -1,0 +1,131 @@
+# Palette Integration Recipe: GPTCache
+# Generated: 2026-03-01
+# RIUs served: RIU-523 (Latency Optimization), RIU-521 (LLM Routing)
+# Context: Semantic caching for LLM responses — cache similar queries to reduce latency and cost
+
+service_name: "GPTCache"
+company: "Zilliz (open source)"
+company_url: "https://github.com/zilliztech/GPTCache"
+api_url: null
+api_docs: "https://gptcache.readthedocs.io/en/latest/"
+
+auth_method:
+  type: "none"
+  note: "Open-source Python library. No auth required for core functionality. Underlying vector stores (Milvus, Pinecone, etc.) have their own auth."
+
+rate_limits:
+  note: "No rate limits — runs locally. Performance limited by embedding model and vector store."
+
+cost_model: open_source
+cost_per_unit:
+  library: "$0.00 (open source, MIT license)"
+  note: "Costs are from underlying components: embedding model, vector store, and eviction storage."
+  embedding_cost: "Free with local models (ONNX). Paid if using OpenAI embeddings."
+  vector_store_cost: "Free with local FAISS/SQLite. Paid if using Milvus Cloud/Pinecone."
+free_tier:
+  availability: "Fully free and open source. Local-only setup has zero ongoing cost."
+  limitation: "Performance depends on embedding quality. Semantic similarity threshold requires tuning."
+
+capabilities:
+  - "Semantic caching: match new queries to cached responses based on meaning, not exact string match"
+  - "Embedding adapters: OpenAI, HuggingFace, ONNX, Cohere, SentenceTransformers for query embedding"
+  - "Vector store backends: FAISS (local), Milvus, Pinecone, ChromaDB, Qdrant for similarity search"
+  - "Eviction policies: LRU, FIFO, time-based cache eviction"
+  - "Similarity evaluation: distance threshold, ONNX model, exact match — configurable similarity"
+  - "OpenAI adapter: drop-in replacement for openai.ChatCompletion.create()"
+  - "LangChain integration: use as LangChain cache backend"
+  - "Data manager: pluggable storage for cache data (SQLite, MySQL, PostgreSQL)"
+  - "Pre/post processing: transform queries before caching, format responses after retrieval"
+  - "Multi-turn conversation caching: cache based on conversation context, not just last message"
+  - "Session-based caching: per-user or per-session cache isolation"
+  - "Temperature awareness: different cache behavior based on temperature parameter"
+
+limitations:
+  - "Semantic similarity is imperfect — false positives (wrong cache hits) are a real risk"
+  - "Requires careful threshold tuning — too aggressive caching returns wrong answers"
+  - "Not suitable for queries requiring real-time data (research, current events)"
+  - "Embedding computation adds latency on cache misses (though less than full LLM call)"
+  - "Cache invalidation is hard — stale responses if underlying knowledge changes"
+  - "Library maintenance has slowed — check GitHub activity for current status"
+  - "Not suitable for creative/varied outputs — caching assumes deterministic-ish responses"
+  - "Memory/storage requirements grow with cache size"
+
+example_request:
+  description: "Set up semantic caching for LLM calls with local FAISS backend"
+  python: |
+    from gptcache import cache
+    from gptcache.adapter import openai
+    from gptcache.embedding import ONNX
+    from gptcache.manager import CacheBase, VectorBase, get_data_manager
+    from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+
+    # Initialize embedding model (local ONNX — free, no API calls)
+    onnx = ONNX()
+
+    # Set up local storage
+    cache_base = CacheBase("sqlite")
+    vector_base = VectorBase("faiss", dimension=onnx.dimension)
+    data_manager = get_data_manager(cache_base, vector_base)
+
+    # Initialize cache
+    cache.init(
+        embedding_func=onnx.to_embeddings,
+        data_manager=data_manager,
+        similarity_evaluation=SearchDistanceEvaluation(),
+    )
+    cache.set_openai_key()
+
+    # First call — cache miss, calls LLM
+    response = openai.ChatCompletion.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": "What are the key features of Honeycomb observability?"}],
+    )
+    print(response["choices"][0]["message"]["content"])
+
+    # Similar query — cache HIT (semantic match), instant response
+    response = openai.ChatCompletion.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": "Tell me about Honeycomb's main capabilities"}],
+    )
+    print(response["choices"][0]["message"]["content"])
+    # Returns cached response — no LLM API call, near-zero latency
+
+  description_langchain: "Use GPTCache as LangChain cache"
+  python_langchain: |
+    from langchain.cache import GPTCache
+    from langchain.globals import set_llm_cache
+
+    def init_gptcache(cache_obj, llm_string):
+        from gptcache.embedding import ONNX
+        from gptcache.manager import get_data_manager, CacheBase, VectorBase
+        from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+
+        onnx = ONNX()
+        cache_obj.init(
+            embedding_func=onnx.to_embeddings,
+            data_manager=get_data_manager(CacheBase("sqlite"), VectorBase("faiss", dimension=onnx.dimension)),
+            similarity_evaluation=SearchDistanceEvaluation(),
+        )
+
+    set_llm_cache(GPTCache(init_gptcache))
+
+palette_agent: "Argy (Researcher) — reduce cost and latency for repeated similar queries"
+palette_integration_plan:
+  phase_1: "Evaluate cache hit rate on typical Argy research queries"
+  phase_2: "Implement with FAISS + ONNX (zero external dependencies)"
+  phase_3: "Tune similarity threshold — conservative start (high similarity required)"
+  phase_4: "Add cache invalidation strategy for time-sensitive research queries"
+  phase_5: "Measure cost savings: track cache hit rate and estimated API cost avoided"
+
+comparison_to_current:
+  vs_helicone_cache:
+    - "GPTCache: semantic matching (similar queries hit cache). Helicone: exact match caching."
+    - "GPTCache: open source, self-hosted. Helicone: managed service."
+    - "GPTCache: more powerful but riskier (false positive cache hits). Helicone: safer but less useful."
+  vs_upstash_redis:
+    - "GPTCache: semantic caching (meaning-based). Upstash Redis: exact key-value caching."
+    - "GPTCache: specifically designed for LLM caching. Redis: general-purpose."
+  verdict: "GPTCache for semantic deduplication of similar LLM queries. Use with caution — false positive cache hits can return incorrect answers. Best for stable, factual queries, not real-time research."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — promising cost optimization for repeated similar queries. The semantic matching approach is powerful but risky (wrong cache hits). Best suited for stable, factual queries (taxonomy lookups, service comparisons) rather than time-sensitive research. Library maintenance activity should be verified before adopting. Start with conservative similarity thresholds."

@@ -1,0 +1,120 @@
+# Palette Integration Recipe: NannyML
+# Generated: 2026-03-01
+# RIUs served: RIU-524 (Quality Monitoring), RIU-082 (Guardrails)
+# Context: ML monitoring focused on performance estimation without ground truth — detects model degradation before labels arrive
+
+service_name: "NannyML"
+company: "NannyML"
+company_url: "https://www.nannyml.com"
+api_url: null
+api_docs: "https://nannyml.readthedocs.io/en/stable/"
+
+auth_method:
+  type: "none"
+  note: "Open-source Python library. No auth for OSS. NannyML Cloud requires account."
+  nannyml_cloud:
+    type: "api_key"
+    key_source: "app.nannyml.com → Settings → API Keys (TODO: verify)"
+
+rate_limits:
+  note: "Open-source library has no rate limits. Cloud has plan-based limits."
+
+cost_model: freemium
+cost_per_unit:
+  open_source: "$0.00 (nannyml library, Apache 2.0 license)"
+  cloud_free: "TODO: verify current NannyML Cloud free tier"
+  cloud_pro: "TODO: verify current pricing"
+  enterprise: "Custom pricing"
+free_tier:
+  availability: "Open-source library is fully free with no limits."
+  limitation: "Self-hosted requires own infrastructure. Cloud may have model/data volume limits on free tier."
+
+capabilities:
+  - "CBPE (Confidence-Based Performance Estimation): estimate model accuracy without ground truth labels"
+  - "DLE (Direct Loss Estimation): estimate regression model loss without ground truth"
+  - "Realized performance: calculate actual performance when ground truth becomes available"
+  - "Univariate drift detection: KS test, chi-squared, Jensen-Shannon, Wasserstein, Hellinger"
+  - "Multivariate drift detection: PCA-based data reconstruction error"
+  - "Concept drift detection: detect changes in the relationship between features and target"
+  - "Data quality: missing values, unseen categories tracking over time"
+  - "Thresholds: constant and standard deviation-based alerting thresholds"
+  - "Chunking: time-based or size-based data chunking for monitoring windows"
+  - "Plotting: built-in matplotlib/plotly visualizations for all metrics"
+  - "NannyML Cloud: hosted dashboard for team monitoring (TODO: verify current status)"
+
+limitations:
+  - "CBPE requires well-calibrated model probabilities — less effective for poorly calibrated models"
+  - "Designed for classification and regression — limited LLM/NLP-specific features"
+  - "Performance estimation is approximate — not a substitute for ground truth evaluation"
+  - "Smaller community than Evidently AI — less ecosystem support"
+  - "Cloud product maturity uncertain — OSS library is the primary offering"
+  - "Not suitable for raw text/LLM output monitoring — focused on tabular predictions"
+  - "Requires reference dataset (training data) for baseline calibration"
+
+example_request:
+  description: "Estimate model performance without ground truth using CBPE"
+  python: |
+    import nannyml as nml
+    import pandas as pd
+
+    # Reference data (with ground truth — from training/validation)
+    reference_df = pd.DataFrame({
+        "predicted_class": ["relevant", "irrelevant", "relevant", "relevant"],
+        "predicted_proba_relevant": [0.92, 0.15, 0.88, 0.75],
+        "actual_class": ["relevant", "irrelevant", "relevant", "irrelevant"],
+        "timestamp": pd.date_range("2026-01-01", periods=4, freq="D"),
+    })
+
+    # Analysis data (production — NO ground truth yet)
+    analysis_df = pd.DataFrame({
+        "predicted_class": ["relevant", "relevant", "irrelevant", "relevant"],
+        "predicted_proba_relevant": [0.65, 0.55, 0.30, 0.50],
+        "timestamp": pd.date_range("2026-02-01", periods=4, freq="D"),
+    })
+
+    # Estimate performance without ground truth
+    estimator = nml.CBPE(
+        y_pred_proba="predicted_proba_relevant",
+        y_pred="predicted_class",
+        y_true="actual_class",
+        problem_type="classification_binary",
+        metrics=["roc_auc", "f1"],
+        timestamp_column_name="timestamp",
+    )
+
+    estimator.fit(reference_df)
+    results = estimator.estimate(analysis_df)
+
+    # Check for performance degradation
+    print(results.to_df())
+    figure = results.plot()
+    figure.write_html("performance_estimation.html")
+
+  description_drift: "Detect data drift in production"
+  python_drift: |
+    # Univariate drift detection
+    drift_calculator = nml.UnivariateDriftCalculator(
+        column_names=["predicted_proba_relevant"],
+        timestamp_column_name="timestamp",
+        continuous_methods=["kolmogorov_smirnov"],
+    )
+    drift_calculator.fit(reference_df)
+    drift_results = drift_calculator.calculate(analysis_df)
+    print(drift_results.to_df())
+
+palette_agent: "Para (Monitor) — detect model degradation before ground truth available"
+palette_integration_plan:
+  phase_1: "Relevant when Palette has classification models (e.g., intent resolution confidence scoring)"
+  phase_2: "Use CBPE to estimate Cory's intent classification accuracy in production"
+  phase_3: "Set up drift detection on feature distributions"
+  phase_4: "Alert on estimated performance drops before actual quality impact"
+
+comparison_to_current:
+  vs_evidently:
+    - "NannyML: unique CBPE capability (no ground truth needed). Evidently: broader feature set."
+    - "NannyML: focused on ML classification/regression. Evidently: includes LLM evaluation."
+    - "NannyML: smaller community. Evidently: larger ecosystem, more integrations."
+  verdict: "NannyML for the unique CBPE capability when ground truth is delayed. Evidently for broader ML/LLM monitoring. Not mutually exclusive."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — unique value proposition with CBPE (performance estimation without ground truth). Niche but powerful for monitoring model degradation in production before feedback labels arrive. Less relevant for LLM-specific use cases (Evidently is better there). Consider for Cory's intent classification monitoring if confidence scores are well-calibrated."

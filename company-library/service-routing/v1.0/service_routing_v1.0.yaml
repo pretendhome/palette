@@ -1290,9 +1290,17 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "AWS Comprehend"
+        quality_tier: "tier_1"
+        cost_model: "usage_based"
+        cost_estimate: "PII detection: $0.0001/unit (100 chars). Entity extraction: $0.0001/unit. NER: $0.0001/unit. Free tier: 50k units/month for 12 months."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Microsoft Presidio"
+        quality_tier: "tier_1"
+        cost_model: "free"
+        cost_estimate: "$0.00 (open source, MIT license). Self-hosted only."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1303,9 +1311,17 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "dbt"
+        quality_tier: "tier_1"
+        cost_model: "freemium"
+        cost_estimate: "Core (CLI): $0.00 (Apache 2.0). Cloud Developer: $100/seat/month. Cloud Team: $100/seat/month + $50/account/month."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "OpenLineage"
+        quality_tier: "tier_2"
+        cost_model: "free"
+        cost_estimate: "$0.00 (open standard, Apache 2.0). Marquez reference server: self-hosted."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1316,12 +1332,24 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "Pinecone"
+        quality_tier: "tier_1"
+        cost_model: "freemium"
+        cost_estimate: "Free: 2GB storage. Standard: $0.00096/hr/pod. Enterprise: custom."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Qdrant"
+        quality_tier: "tier_1"
+        cost_model: "freemium"
+        cost_estimate: "Free: 1GB, 1 cluster. Hybrid Cloud: $0.023/vCPU-hour. Self-hosted: $0.00 (Apache 2.0)."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "pgvector (PostgreSQL)"
+        quality_tier: "tier_2"
+        cost_model: "free"
+        cost_estimate: "$0.00 (PostgreSQL extension). Cost = PostgreSQL hosting only."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1332,9 +1360,17 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "Cohere Rerank"
+        quality_tier: "tier_1"
+        cost_model: "usage_based"
+        cost_estimate: "Rerank-English-v3: $2/1k searches. Free trial: 1k API calls/month."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Jina Reranker"
+        quality_tier: "tier_1"
+        cost_model: "usage_based"
+        cost_estimate: "Reranker: ~$0.02/1k query-doc pairs. Free trial: 1M tokens."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1345,12 +1381,24 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "Instructor"
+        quality_tier: "tier_1"
+        cost_model: "free"
+        cost_estimate: "$0.00 (MIT license). Uses underlying LLM API costs only."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Outlines"
+        quality_tier: "tier_1"
+        cost_model: "free"
+        cost_estimate: "$0.00 (Apache 2.0). For local models: no API cost. For API models: LLM cost only."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Guardrails AI"
+        quality_tier: "tier_2"
+        cost_model: "freemium"
+        cost_estimate: "OSS: $0.00. Guardrails Pro: ~$50/month. Enterprise: custom."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1361,9 +1409,17 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "Upstash Redis"
+        quality_tier: "tier_1"
+        cost_model: "usage_based"
+        cost_estimate: "Free: 10k commands/day. Pay-as-you-go: $0.2/100k commands. Pro: $280/month (unlimited)."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "ElastiCache (AWS)"
+        quality_tier: "tier_1"
+        cost_model: "usage_based"
+        cost_estimate: "cache.t3.micro: ~$0.017/hour (~$12.50/month). cache.r6g.large: ~$0.137/hour (~$100/month). Serverless: $0.0034/ECU-hour."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1374,9 +1430,17 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "k6"
+        quality_tier: "tier_1"
+        cost_model: "freemium"
+        cost_estimate: "OSS: $0.00. Cloud free: 50 VUh/month. Cloud Team: $0.60/VUh. Cloud Pro: custom."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Locust"
+        quality_tier: "tier_1"
+        cost_model: "free"
+        cost_estimate: "$0.00 (MIT license). Self-hosted Python tool."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1387,12 +1451,24 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "LaunchDarkly"
+        quality_tier: "tier_1"
+        cost_model: "subscription"
+        cost_estimate: "Foundation: $8.33/seat/month (annual). Enterprise: custom (~$20+/seat/month)."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Statsig"
+        quality_tier: "tier_1"
+        cost_model: "freemium"
+        cost_estimate: "Free: 1M events/month. Pro: $150/month. Enterprise: custom."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Unleash"
+        quality_tier: "tier_2"
+        cost_model: "freemium"
+        cost_estimate: "OSS: $0.00 (Apache 2.0). Pro: $80/month (5 environments). Enterprise: custom."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1403,12 +1479,24 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "HashiCorp Vault"
+        quality_tier: "tier_1"
+        cost_model: "freemium"
+        cost_estimate: "Community (BSL 1.1): $0.00 self-hosted. HCP Vault Dedicated: ~$1.58/hour (~$360/month). Enterprise: custom."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "AWS Secrets Manager"
+        quality_tier: "tier_1"
+        cost_model: "usage_based"
+        cost_estimate: "$0.40/secret/month + $0.05/10k API calls. ~$5/month for 10 secrets."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Doppler"
+        quality_tier: "tier_1"
+        cost_model: "freemium"
+        cost_estimate: "Free: 5 team members, unlimited projects/secrets. Team: $12/user/month. Enterprise: custom."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1419,12 +1507,24 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "Flyway"
+        quality_tier: "tier_1"
+        cost_model: "freemium"
+        cost_estimate: "Community: $0.00 (Apache 2.0). Teams: $495/year per schema. Enterprise: $1,850/year per schema."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Alembic"
+        quality_tier: "tier_1"
+        cost_model: "free"
+        cost_estimate: "$0.00 (MIT license). Python library, pip install."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Prisma Migrate"
+        quality_tier: "tier_1"
+        cost_model: "free"
+        cost_estimate: "$0.00 (Apache 2.0). Node.js ORM with built-in migrations."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1435,9 +1535,17 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "Statsig"
+        quality_tier: "tier_1"
+        cost_model: "freemium"
+        cost_estimate: "Free: 1M events/month. Pro: $150/month. Enterprise: custom."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Argo Rollouts"
+        quality_tier: "tier_1"
+        cost_model: "free"
+        cost_estimate: "$0.00 (Apache 2.0). Kubernetes CRD, self-hosted. Requires K8s cluster."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1448,12 +1556,24 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "Datadog SLOs"
+        quality_tier: "tier_1"
+        cost_model: "usage_based"
+        cost_estimate: "Included with Datadog infrastructure ($15/host/month) or APM ($31/host/month)."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Honeycomb SLOs"
+        quality_tier: "tier_1"
+        cost_model: "usage_based"
+        cost_estimate: "Included with Honeycomb Pro ($100/month). SLO feature available on Pro+ plans."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Nobl9"
+        quality_tier: "tier_2"
+        cost_model: "freemium"
+        cost_estimate: "Free: up to 20 SLOs. Pro: contact for pricing (~$500+/month estimated). Enterprise: custom."
+        integration_status: "evaluate"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1464,9 +1584,17 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "Garak"
+        quality_tier: "tier_1"
+        cost_model: "free"
+        cost_estimate: "$0.00 (Apache 2.0). Python tool. Uses LLM API costs for target model calls only."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Promptfoo"
+        quality_tier: "tier_1"
+        cost_model: "free"
+        cost_estimate: "$0.00 (MIT license). CLI tool, npm install. Uses LLM API costs only."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1477,12 +1605,24 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "Great Expectations"
+        quality_tier: "tier_1"
+        cost_model: "freemium"
+        cost_estimate: "OSS: $0.00 (Apache 2.0). GX Cloud: Free tier available. Team: contact for pricing."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Soda"
+        quality_tier: "tier_2"
+        cost_model: "freemium"
+        cost_estimate: "Soda Core (OSS): $0.00 (Apache 2.0). Soda Cloud: Free for 1 dataset. Pro: $400/month."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Evidently AI"
+        quality_tier: "tier_2"
+        cost_model: "freemium"
+        cost_estimate: "OSS: $0.00 (Apache 2.0). Cloud Pro: $50/month. Enterprise: custom."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1493,9 +1633,17 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "Microsoft Presidio"
+        quality_tier: "tier_1"
+        cost_model: "free"
+        cost_estimate: "$0.00 (open source, MIT license). Self-hosted only."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "AWS Comprehend PII"
+        quality_tier: "tier_1"
+        cost_model: "usage_based"
+        cost_estimate: "PII detection: $0.0001/unit (100 chars). Free tier: 50k units/month for 12 months."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1506,9 +1654,17 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "GPTCache"
+        quality_tier: "tier_2"
+        cost_model: "free"
+        cost_estimate: "$0.00 (MIT license). Self-hosted, requires embedding model + cache backend."
+        integration_status: "evaluate"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Redis (semantic layer)"
+        quality_tier: "tier_1"
+        cost_model: "freemium"
+        cost_estimate: "Self-hosted: $0.00 (BSD license). Redis Cloud: Free 30MB. Essentials: $5/month. Pro: $148+/month."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1519,9 +1675,17 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "Fairlearn (Microsoft)"
+        quality_tier: "tier_1"
+        cost_model: "free"
+        cost_estimate: "$0.00 (MIT license). Python library."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Evidently AI"
+        quality_tier: "tier_2"
+        cost_model: "freemium"
+        cost_estimate: "OSS: $0.00 (Apache 2.0). Cloud Pro: $50/month. Enterprise: custom."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1532,9 +1696,17 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "SHAP"
+        quality_tier: "tier_1"
+        cost_model: "free"
+        cost_estimate: "$0.00 (MIT license). Python library."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "LIME"
+        quality_tier: "tier_1"
+        cost_model: "free"
+        cost_estimate: "$0.00 (BSD license). Python library."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1545,12 +1717,24 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "Arize AI"
+        quality_tier: "tier_1"
+        cost_model: "freemium"
+        cost_estimate: "Phoenix OSS: $0.00. AX Free: 25k spans/month. AX Pro: $50/month."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Evidently AI"
+        quality_tier: "tier_2"
+        cost_model: "freemium"
+        cost_estimate: "OSS: $0.00 (Apache 2.0). Cloud Pro: $50/month. Enterprise: custom."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "NannyML"
+        quality_tier: "tier_2"
+        cost_model: "freemium"
+        cost_estimate: "OSS: $0.00 (Apache 2.0). Cloud: Free tier available. Pro: contact for pricing."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 
@@ -1561,9 +1745,17 @@ routing_entries:
     enrichment_status: "stub — cost data not validated"
     services:
       - name: "AWS Bedrock Guardrails"
+        quality_tier: "tier_1"
+        cost_model: "usage_based"
+        cost_estimate: "Content filters: $0.15/1K text units. PII: FREE. Word filters: FREE. (Post Dec 2024 80-85% price reduction)."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
       - name: "Lakera Guard"
+        quality_tier: "tier_1"
+        cost_model: "freemium"
+        cost_estimate: "Community: free (10k req/month). Pro: $99/month. Enterprise: custom."
+        integration_status: "available"
         signal_source: market_data
         build_vs_buy: evaluate
 

@@ -1,0 +1,111 @@
+# Palette Integration Recipe: Grafana Cloud
+# Generated: 2026-03-01
+# RIUs served: RIU-524 (Quality Monitoring), RIU-523 (Latency Optimization), RIU-082 (Guardrails)
+# Context: Full observability stack — Prometheus metrics, Loki logs, Tempo traces, Grafana dashboards
+
+service_name: "Grafana Cloud"
+company: "Grafana Labs"
+company_url: "https://grafana.com"
+api_url: "https://grafana.com/api"
+api_docs: "https://grafana.com/docs/grafana-cloud/developer-resources/api-reference/"
+
+auth_method:
+  type: "api_key"
+  header: "Authorization: Bearer $GRAFANA_CLOUD_API_KEY"
+  key_source: "grafana.com → My Account → API Keys (or Service Accounts for org-scoped)"
+  note: "Stack-specific endpoints use different auth (Prometheus remote_write uses basic auth with instance ID + API key)"
+
+rate_limits:
+  prometheus_remote_write: "Depends on plan — free tier allows up to 10,000 active series"
+  loki_ingest: "Free tier: 50GB logs/month"
+  tempo_ingest: "Free tier: 50GB traces/month"
+  note: "Rate limits are volume-based, not request-rate-based."
+
+cost_model: freemium
+cost_per_unit:
+  free: "$0.00 (10K Prometheus series, 50GB logs, 50GB traces, 14-day retention)"
+  pro: "$0.00 base + usage-based overages"
+  prometheus_overage: "$8.00 per 1,000 active series/month"
+  loki_overage: "$0.50 per GB ingested"
+  tempo_overage: "$0.50 per GB ingested"
+  advanced: "Custom pricing with longer retention, SLAs"
+free_tier:
+  availability: "10,000 Prometheus active series, 50GB logs, 50GB traces, 500 VUh k6 load testing, 3 users, 14-day retention"
+  limitation: "No alerting on free tier for Loki/Tempo. Dashboard limits. Prometheus retention 13 months on free tier."
+
+capabilities:
+  - "Grafana dashboards: world-class visualization and alerting"
+  - "Prometheus (Mimir): metrics storage with PromQL — industry standard for infrastructure metrics"
+  - "Loki: log aggregation with LogQL — label-indexed, low-cost alternative to Elasticsearch"
+  - "Tempo: distributed tracing with TraceQL — OpenTelemetry-native"
+  - "Grafana Alerting: unified alert rules across all data sources"
+  - "k6 Cloud: integrated load testing (see separate k6 recipe if needed)"
+  - "Synthetic monitoring: uptime checks from global probes"
+  - "Grafana OnCall: incident management and escalation"
+  - "Pyroscope: continuous profiling"
+  - "Alloy: OpenTelemetry collector distribution by Grafana"
+  - "Plugin ecosystem: 200+ data source plugins"
+  - "Terraform provider for infrastructure-as-code dashboard management"
+
+limitations:
+  - "Complexity: many components to configure (Prometheus + Loki + Tempo + Grafana)"
+  - "No built-in LLM-specific observability — must instrument manually or use OpenTelemetry"
+  - "Dashboard creation requires PromQL/LogQL expertise"
+  - "Free tier alerting limited to Prometheus only (Loki/Tempo alerts require Pro)"
+  - "Usage-based pricing can be unpredictable without careful series cardinality management"
+  - "Self-hosted Grafana is free/open-source but Grafana Cloud managed service has costs"
+
+example_request:
+  description: "Send a metric to Grafana Cloud Prometheus via remote_write"
+  python: |
+    import requests
+    from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
+
+    # Option 1: Push via Prometheus push gateway
+    # Grafana Cloud Prometheus remote_write endpoint:
+    # https://<your-stack>.grafana.net/api/prom/push
+
+    # Option 2: Direct API query for dashboard data
+    headers = {
+        "Authorization": "Bearer $GRAFANA_CLOUD_API_KEY",
+        "Content-Type": "application/json",
+    }
+
+    # Query Prometheus metrics via Grafana API
+    resp = requests.get(
+        "https://<your-stack>.grafana.net/api/datasources/proxy/1/api/v1/query",
+        headers=headers,
+        params={"query": "sum(rate(llm_requests_total[5m]))"},
+    )
+    print(resp.json())
+
+  description_loki: "Push logs to Grafana Cloud Loki"
+  shell: |
+    # Push a log entry to Loki
+    curl -X POST "https://<your-stack>.grafana.net/loki/api/v1/push" \
+      -H "Content-Type: application/json" \
+      -u "<instance_id>:$GRAFANA_CLOUD_API_KEY" \
+      -d '{
+        "streams": [{
+          "stream": {"agent": "argy", "level": "info"},
+          "values": [["'$(date +%s)000000000'", "Research query completed in 1250ms"]]
+        }]
+      }'
+
+palette_agent: "Para (Monitor) — unified observability dashboards for all agents"
+palette_integration_plan:
+  phase_1: "Deploy Grafana Alloy as OTel collector for agent telemetry"
+  phase_2: "Build Palette agent dashboard: latency, cost, error rates per agent"
+  phase_3: "Add Loki log aggregation for agent conversation traces"
+  phase_4: "Alert rules for SLO violations (latency >5s, error rate >1%)"
+
+comparison_to_current:
+  vs_honeycomb:
+    - "Grafana: broader stack (metrics + logs + traces). Honeycomb: deeper trace analysis."
+    - "Grafana: more DIY setup. Honeycomb: better out-of-box UX for tracing."
+  vs_new_relic:
+    - "Grafana: open-source core, portable. New Relic: proprietary but simpler."
+    - "Grafana: usage-based pricing. New Relic: 100GB/month free then per-seat."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — industry-standard observability stack. Free tier is generous (50GB logs + traces). Best choice if Palette needs metrics + logs + traces in one place. Steeper learning curve than Honeycomb or New Relic but maximum flexibility and no vendor lock-in due to open-source foundations (Prometheus, Loki, Tempo)."

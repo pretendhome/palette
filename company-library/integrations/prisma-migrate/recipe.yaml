@@ -1,0 +1,95 @@
+# Palette Integration Recipe: Prisma Migrate
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-067 (Database Migration Safety Wrapper)
+# Priority: LOW — relevant if Palette adopts TypeScript/Node.js data layer
+
+service_name: "Prisma Migrate"
+company: "Prisma"
+company_url: "https://www.prisma.io"
+api_url: "N/A — CLI tool, part of Prisma ORM"
+api_docs: "https://www.prisma.io/docs/orm/prisma-migrate"
+
+auth_method:
+  type: "none"
+  note: "CLI tool. No API key. Uses database connection string in schema.prisma."
+
+rate_limits:
+  note: "N/A — local CLI tool, no external service calls."
+
+cost_model: free
+cost_per_unit:
+  oss: "$0.00 — Apache 2.0 licensed open source"
+  prisma_accelerate: "$0.00 free tier (query caching); $49+/month for production"
+  prisma_pulse: "$0.00 free tier (real-time events); $49+/month for production"
+  note: "Prisma Migrate itself is free. Prisma Accelerate/Pulse are optional paid add-ons."
+free_tier:
+  availability: "Fully free and open source"
+  limitation: "None for Prisma Migrate itself"
+
+capabilities:
+  - "Declarative schema migrations from Prisma schema file (schema.prisma)"
+  - "Auto-generated SQL migration files from schema diff"
+  - "Type-safe database client (Prisma Client) auto-generated from schema"
+  - "Supports PostgreSQL, MySQL, SQLite, SQL Server, CockroachDB, MongoDB"
+  - "Migration history tracking with _prisma_migrations table"
+  - "Shadow database for migration validation before applying"
+  - "prisma db push for rapid prototyping (no migration files)"
+  - "Seeding support via prisma db seed"
+  - "Prisma Studio — GUI for database browsing and editing"
+  - "Baselining existing databases with prisma migrate resolve"
+
+limitations:
+  - "TypeScript/JavaScript ecosystem — not native Python (Prisma Client Python exists but is community-maintained)"
+  - "Shadow database required for prisma migrate dev — needs CREATE DATABASE permission"
+  - "No built-in rollback/downgrade — must create a new migration to reverse changes"
+  - "Prisma schema DSL has learning curve separate from SQL"
+  - "MongoDB support is in preview — relational databases are the primary focus"
+  - "Large schemas (500+ models) can have slow client generation"
+
+example_request:
+  description: "Define schema, generate migration, and query with Prisma Client"
+  python: |
+    # schema.prisma:
+    # datasource db {
+    #   provider = "postgresql"
+    #   url      = env("DATABASE_URL")
+    # }
+    #
+    # generator client {
+    #   provider = "prisma-client-js"
+    # }
+    #
+    # model KnowledgeEntry {
+    #   id           Int      @id @default(autoincrement())
+    #   libId        String   @unique @map("lib_id")
+    #   title        String
+    #   journeyStage String   @map("journey_stage")
+    #   embedding    Unsupported("vector(1536)")?
+    #   createdAt    DateTime @default(now()) @map("created_at")
+    #
+    #   @@map("knowledge_entries")
+    # }
+
+    # CLI commands:
+    # $ npx prisma migrate dev --name add_knowledge_entries
+    # $ npx prisma generate
+    # $ npx prisma db seed
+
+    # TypeScript usage (Prisma Client):
+    # import { PrismaClient } from '@prisma/client'
+    # const prisma = new PrismaClient()
+    #
+    # const entries = await prisma.knowledgeEntry.findMany({
+    #   where: { journeyStage: 'retrieval' },
+    #   orderBy: { createdAt: 'desc' }
+    # })
+
+palette_agent: "Theri (Builder) — database schema management"
+palette_integration_plan:
+  phase_1: "Evaluate only if Palette adopts TypeScript/Node.js for any data service layer"
+  phase_2: "If TypeScript: use Prisma ORM for type-safe database access with auto-migrations"
+  phase_3: "Pair with pgvector via Unsupported type for vector columns"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — best-in-class TypeScript ORM with excellent DX. Not a natural fit for Palette's Python-first architecture — Alembic/SQLAlchemy is the Python equivalent. Only relevant if Palette builds TypeScript services (e.g., web UI on Next.js/Vercel). Keep on radar given Guillermo Rauch (Vercel) signal."

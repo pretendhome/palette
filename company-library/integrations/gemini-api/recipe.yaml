@@ -1,0 +1,92 @@
+# Palette Integration Recipe: Gemini API (Google DeepMind)
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-252 (Model Selection), RIU-521 (LLM Routing), RIU-522 (Token Budget), RIU-501 (Image Processing)
+# Priority: HIGH — strong multimodal model, generous free tier, cost-competitive
+
+service_name: "Gemini API"
+company: "Google DeepMind"
+company_url: "https://deepmind.google"
+api_url: "https://generativelanguage.googleapis.com/v1beta"
+api_docs: "https://ai.google.dev/gemini-api/docs"
+
+auth_method:
+  type: "api_key"
+  header: "x-goog-api-key: $GOOGLE_API_KEY"
+  key_source: "https://aistudio.google.com/apikey"
+  alternative: "OAuth 2.0 via Google Cloud Vertex AI for enterprise deployments"
+
+rate_limits:
+  gemini_2_flash_free: "15 RPM, 1M TPM, 1,500 requests/day"
+  gemini_2_pro_free: "2 RPM, 32K TPM, 50 requests/day"
+  gemini_2_flash_paid: "2,000 RPM, 4M TPM"
+  gemini_2_pro_paid: "1,000 RPM, 4M TPM"
+  note: "Free tier has generous but meaningful rate limits. Paid tier limits are high."
+
+cost_model: freemium
+cost_per_unit:
+  gemini_2_flash: "$0.10/M input, $0.40/M output (128K context); $0.025/M input cached"
+  gemini_2_flash_lite: "$0.025/M input, $0.10/M output"
+  gemini_2_pro: "$1.25/M input, $5/M output (under 200K); $2.50/M input, $10/M output (over 200K)"
+  gemini_2_flash_thinking: "$0.10/M input, $0.40/M output (thinking tokens free)"
+  imagen_3: "$0.03/image (standard), $0.06/image (HD)"
+  note: "Gemini 2.0 Flash is one of cheapest frontier models. Thinking tokens are NOT billed."
+free_tier:
+  availability: "Generous free tier for all models via Google AI Studio"
+  gemini_2_flash: "15 RPM, 1M TPM, 1,500 req/day — FREE"
+  gemini_2_pro: "2 RPM, 32K TPM, 50 req/day — FREE"
+  limitation: "Free tier data may be used for model improvement. No SLA."
+
+capabilities:
+  - "Gemini 2.0 Flash: fastest frontier model, 1M context window, multimodal"
+  - "Gemini 2.0 Pro: highest quality Google model, 2M context window"
+  - "Gemini 2.0 Flash Thinking: reasoning model with free thinking tokens"
+  - "Native multimodal: text, image, audio, video, PDF input"
+  - "Grounding with Google Search — real-time web data in responses"
+  - "Code execution — model can run Python code and return results"
+  - "Structured output with JSON schema enforcement"
+  - "Function calling / tool use"
+  - "Context caching for cost reduction on repeated context"
+  - "Imagen 3 for image generation"
+  - "1M–2M token context windows — largest in industry"
+
+limitations:
+  - "Free tier data may be used for training — not suitable for sensitive data"
+  - "Gemini 2.0 Pro is still in preview/experimental for some features"
+  - "Google AI Studio API vs Vertex AI API have different endpoints and auth"
+  - "Grounding with Google Search adds cost ($35/1K grounded requests)"
+  - "Image generation has content policy restrictions"
+  - "Context caching minimum is 32K tokens"
+  - "Model versioning can cause breaking changes — pin model versions"
+
+example_request:
+  description: "Chat completion with Gemini 2.0 Flash via Google AI SDK"
+  python: |
+    from google import genai
+
+    client = genai.Client(api_key="$GOOGLE_API_KEY")
+
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents="Compare the cost efficiency of Gemini Flash vs Claude Haiku for high-volume classification tasks."
+    )
+    print(response.text)
+
+  curl: |
+    curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$GOOGLE_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "contents": [{
+          "parts": [{"text": "Compare Gemini Flash vs Claude Haiku for classification tasks."}]
+        }]
+      }'
+
+palette_agent: "Rex (Architect) — model routing decisions; Argy (Researcher) — multimodal research with large context"
+palette_integration_plan:
+  phase_1: "Access via OpenRouter for unified billing; use free tier for prototyping"
+  phase_2: "Evaluate Gemini 2.0 Flash for high-volume tasks where Claude Haiku is used"
+  phase_3: "Leverage 1M+ context window for full-codebase analysis and document processing"
+  note: "Free tier is genuinely useful for development. Flash Thinking gives free reasoning tokens."
+
+status: available
+evaluation_verdict: "AVAILABLE — best free tier of any frontier model. Gemini 2.0 Flash at $0.10/$0.40 per M tokens is 8x cheaper than Claude Sonnet for comparable quality on simple tasks. Access via OpenRouter for unified billing. Free thinking tokens on Flash Thinking model are unique cost advantage."

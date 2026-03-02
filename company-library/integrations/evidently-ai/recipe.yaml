@@ -1,0 +1,117 @@
+# Palette Integration Recipe: Evidently AI
+# Generated: 2026-03-01
+# RIUs served: RIU-524 (Quality Monitoring), RIU-082 (Guardrails), RIU-523 (Latency Optimization)
+# Context: ML/LLM monitoring and evaluation — open-source core with cloud dashboard. Noted in Phase 2 as WhyLabs replacement.
+
+service_name: "Evidently AI"
+company: "Evidently AI"
+company_url: "https://www.evidentlyai.com"
+api_url: "https://app.evidently.cloud/api"
+api_docs: "https://docs.evidentlyai.com/"
+
+auth_method:
+  type: "api_token"
+  header: "Authorization: Bearer $EVIDENTLY_TOKEN"
+  key_source: "app.evidently.cloud → Settings → API Token"
+  note: "Open-source library (evidently) works locally without auth. Cloud dashboard requires token."
+
+rate_limits:
+  note: "Open-source library has no rate limits. Cloud tier limits based on plan."
+
+cost_model: freemium
+cost_per_unit:
+  open_source: "$0.00 (full library, self-hosted, unlimited)"
+  cloud_free: "$0.00 (TODO: verify current cloud free tier limits)"
+  cloud_pro: "TODO: verify current pricing — usage-based"
+  enterprise: "Custom pricing"
+free_tier:
+  availability: "Open-source Python library is fully free with no limits. Evidently Cloud has a free tier for dashboards and monitoring."
+  limitation: "Cloud free tier has limited data retention and evaluation runs. Self-hosted requires own infrastructure."
+
+capabilities:
+  - "Data drift detection: statistical tests for feature and prediction drift (PSI, KS, Wasserstein)"
+  - "LLM evaluation: text quality metrics (sentiment, toxicity, readability, semantic similarity)"
+  - "LLM tracing: trace and evaluate LLM inputs/outputs in production"
+  - "Test suites: define pass/fail conditions on data quality and model performance"
+  - "Reports: interactive HTML reports with visualizations"
+  - "Monitoring dashboard: Evidently Cloud provides real-time monitoring UI"
+  - "Presets: pre-built metric collections (DataDriftPreset, TextEvals, etc.)"
+  - "Custom metrics: define any Python-based metric for evaluation"
+  - "Regression/classification monitoring: standard ML performance tracking"
+  - "Integration with Pandas DataFrames — works with any data pipeline"
+  - "Collector service: lightweight daemon for continuous monitoring"
+  - "OpenAI/Anthropic LLM-as-judge integration for custom evaluation criteria"
+
+limitations:
+  - "Open-source library generates static reports — no real-time dashboards without Cloud"
+  - "Cloud product is newer and less mature than competitors (Arize, Datadog ML Monitoring)"
+  - "LLM evaluation features are newer — less battle-tested than Braintrust or LangSmith"
+  - "Self-hosted monitoring requires infrastructure management"
+  - "No APM or infrastructure monitoring — ML/LLM data quality only"
+  - "Large evaluation runs on DataFrames can be memory-intensive"
+
+example_request:
+  description: "Evaluate LLM response quality with Evidently"
+  python: |
+    import pandas as pd
+    from evidently.report import Report
+    from evidently.metric_preset import TextEvals
+    from evidently.descriptors import TextLength, Sentiment, OOVWordsPercentage
+
+    # Prepare data as DataFrame
+    data = pd.DataFrame({
+        "question": [
+            "What is Braintrust?",
+            "Compare Honeycomb vs New Relic",
+        ],
+        "response": [
+            "Braintrust is an LLM evaluation platform that raised $80M Series B in Feb 2026.",
+            "Honeycomb excels at distributed tracing with BubbleUp. New Relic has a 100GB free tier.",
+        ],
+    })
+
+    # Run text evaluation report
+    report = Report(metrics=[
+        TextEvals(column_name="response", descriptors=[
+            TextLength(),
+            Sentiment(),
+            OOVWordsPercentage(),
+        ]),
+    ])
+    report.run(reference_data=None, current_data=data)
+    report.save_html("llm_quality_report.html")
+    print("Report saved to llm_quality_report.html")
+
+  description_drift: "Monitor data drift between reference and production data"
+  python_drift: |
+    from evidently.report import Report
+    from evidently.metric_preset import DataDriftPreset
+
+    report = Report(metrics=[DataDriftPreset()])
+    report.run(reference_data=reference_df, current_data=production_df)
+
+    # Check for drift programmatically
+    result = report.as_dict()
+    drift_detected = result["metrics"][0]["result"]["dataset_drift"]
+    print(f"Drift detected: {drift_detected}")
+
+palette_agent: "Anky (Validator) + Para (Monitor) — quality validation and continuous monitoring"
+palette_integration_plan:
+  phase_1: "Use open-source library to evaluate Argy research output quality (sentiment, completeness)"
+  phase_2: "Set up drift detection on agent input patterns (query types changing over time)"
+  phase_3: "Deploy Evidently Cloud dashboard for continuous LLM quality monitoring"
+  phase_4: "Build test suites as quality gates before agent responses are served"
+
+comparison_to_current:
+  vs_braintrust:
+    - "Evidently: open-source, self-hostable. Braintrust: cloud SaaS only."
+    - "Evidently: broader ML monitoring (drift, data quality). Braintrust: deeper LLM eval."
+    - "Evidently: free unlimited local usage. Braintrust: free tier has limits."
+  vs_nannyml:
+    - "Evidently: broader scope (drift + quality + LLM). NannyML: focused on performance estimation without ground truth."
+    - "Evidently: more mature, larger community."
+  vs_whylabs:
+    - "WhyLabs discontinued (acquired by Apple). Evidently is recommended replacement."
+
+status: evaluate
+evaluation_verdict: "EVALUATE — recommended WhyLabs replacement (per Phase 2 findings). Open-source core means zero cost for evaluation. LLM evaluation features are rapidly maturing. Start with local library for Anky's validation workflow, then consider Cloud for Para's monitoring dashboard."

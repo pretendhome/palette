@@ -1,0 +1,88 @@
+# Palette Integration Recipe: Jina Reranker
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-027 (Reranking Layer — Post-Retrieval)
+# Priority: MEDIUM — alternative to Cohere Rerank with competitive pricing
+
+service_name: "Jina Reranker"
+company: "Jina AI"
+company_url: "https://jina.ai"
+api_url: "https://api.jina.ai/v1/rerank"
+api_docs: "https://jina.ai/reranker/"
+
+auth_method:
+  type: "bearer_token"
+  header: "Authorization: Bearer $JINA_API_KEY"
+  key_source: "Jina AI Dashboard → API Keys (https://jina.ai/api-dashboard)"
+
+rate_limits:
+  free: "Generous free tier — rate limits not strictly published"
+  note: "Rate limits scale with plan. Contact for enterprise limits."
+
+cost_model: usage_based
+cost_per_unit:
+  rerank: "$0.018 per 1M tokens (jina-reranker-v2-base-multilingual)"
+  note: "Token-based pricing, not per-search like Cohere. More predictable for variable document lengths."
+free_tier:
+  availability: "1M free tokens on signup"
+  limitation: "Expires after trial period. Usage-based billing after."
+
+capabilities:
+  - "Neural reranking with jina-reranker-v2-base-multilingual (top-tier MTEB scores)"
+  - "Multilingual support — 100+ languages in a single model"
+  - "Token-based pricing — more granular and predictable than per-search billing"
+  - "8,192 token context window per document"
+  - "Returns relevance scores for each query-document pair"
+  - "Simple REST API — pass query + documents, get ranked results"
+  - "Cross-encoder architecture for high-accuracy relevance scoring"
+  - "Batch reranking support"
+  - "OpenAPI spec available for client generation"
+
+limitations:
+  - "Smaller ecosystem than Cohere — fewer framework integrations"
+  - "No self-hosted option — API-only"
+  - "8K token limit per document — long documents need chunking"
+  - "Newer entrant — less production track record than Cohere Rerank"
+  - "No fine-tuning available for reranker models"
+  - "Adds latency to retrieval pipeline (~50-150ms per rerank call)"
+
+example_request:
+  description: "Rerank retrieved knowledge library entries for improved RAG accuracy"
+  python: |
+    import requests
+
+    response = requests.post(
+        "https://api.jina.ai/v1/rerank",
+        headers={
+            "Authorization": f"Bearer {JINA_API_KEY}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "model": "jina-reranker-v2-base-multilingual",
+            "query": "How to improve RAG retrieval accuracy",
+            "documents": [
+                "LIB-026: Vector store selection criteria — dimensions, latency, cost...",
+                "LIB-027: Retrieval quality tuning — chunk size, overlap, reranking...",
+                "LIB-045: Embedding model comparison — OpenAI, Cohere, BGE...",
+            ],
+            "top_n": 3
+        }
+    )
+
+    results = response.json()["results"]
+    for r in results:
+        print(f"Index {r['index']}: score={r['relevance_score']:.3f} — {r['document']['text'][:60]}")
+
+    # Or using Jina Python client:
+    # pip install jina
+    # from jina import Client
+    # client = Client(host="https://api.jina.ai")
+
+palette_agent: "Argy (Research) — retrieval quality improvement; Rex (Architect) — RAG pipeline design"
+palette_integration_plan:
+  phase_1: "Benchmark Jina Reranker vs Cohere Rerank on Palette knowledge library queries"
+  phase_2: "Compare token-based pricing (Jina) vs per-search pricing (Cohere) on actual workloads"
+  phase_3: "Select winner based on accuracy, latency, and cost for Palette's query patterns"
+
+status: evaluate
+evaluation_verdict: "EVALUATE — competitive alternative to Cohere Rerank. Token-based pricing ($0.018/1M tokens) can be cheaper than Cohere ($1/1K searches) for short-document workloads. Benchmark both on Palette's knowledge library to determine winner. Jina also offers embeddings (jina-embeddings-v3) which could reduce vendor count."

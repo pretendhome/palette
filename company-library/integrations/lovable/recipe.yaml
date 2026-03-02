@@ -1,0 +1,84 @@
+# Palette Integration Recipe: Lovable
+# Generated: 2026-03-01
+# Agent: Theri (Builder) — integration specification
+# RIUs served: RIU-310 (Frontend Architecture), RIU-320 (API Integration), RIU-414 (Prototype Generation)
+# Priority: MEDIUM — AI web app builder, strong people-library signal cluster
+# Note: GAP-001 — no RIU for no-code AI app generation (Lovable, v0.dev). Propose RIU-550.
+
+service_name: "Lovable"
+company: "Lovable (formerly GPT Engineer)"
+company_url: "https://lovable.dev"
+api_url: "N/A — no public REST API. Web-based AI app builder with chat interface."
+api_docs: "https://docs.lovable.dev"
+
+auth_method:
+  type: "N/A"
+  note: "No programmatic API. Lovable is a web-based app builder operated through its chat UI. GitHub integration for code export."
+
+rate_limits:
+  note: "Credit-based system. Each AI generation consumes message credits."
+  free: "5 messages/day (limited)"
+  starter: "100 messages/month"
+  launch: "500 messages/month (most popular)"
+  scale: "Unlimited messages"
+
+cost_model: freemium
+cost_per_unit:
+  free: "5 messages/day, 1 project, Lovable branding"
+  starter: "$20/month — 100 messages/month, 3 projects"
+  launch: "$50/month — 500 messages/month, unlimited projects, custom domains"
+  scale: "$200/month — unlimited messages, priority support, team features"
+  note: "Each prompt/iteration consumes one message credit."
+free_tier:
+  availability: "5 messages/day, 1 project"
+  limitation: "Very limited for real development. Lovable branding on output. No custom domains."
+
+capabilities:
+  - "Natural language to full-stack web application (React + Vite + Tailwind + Supabase)"
+  - "Iterative development — describe changes in chat, AI modifies the codebase"
+  - "Built-in Supabase integration for backend/database/auth"
+  - "One-click deployment to lovable.dev subdomain or custom domains"
+  - "GitHub sync — code is real, exportable, and editable outside Lovable"
+  - "Visual editor alongside AI chat for direct manipulation"
+  - "Stripe integration for payments"
+  - "Image-to-code — upload a design, get working code"
+  - "Multi-file awareness — understands full project context"
+  - "2M+ users, $500M valuation (early 2026), fastest-growing AI app builder"
+
+limitations:
+  - "NO programmatic API — web chat interface only"
+  - "Credits are consumed per prompt — complex apps can burn through credits quickly"
+  - "Limited to React/Vite/Tailwind stack — cannot use other frameworks"
+  - "Backend limited to Supabase — no arbitrary backend support"
+  - "Generated code quality degrades on complex business logic"
+  - "No CI/CD pipeline integration"
+  - "Cannot import existing codebases (start from scratch or from template)"
+  - "AI can lose context on large projects — requires careful prompt engineering"
+
+example_request:
+  description: "N/A — no API. Lovable is operated via web chat interface."
+  workaround: |
+    # Lovable has no API. It's a web-based tool at https://lovable.dev
+    # Workflow:
+    # 1. Go to lovable.dev, create a new project
+    # 2. Describe your app in the chat: "Build a dashboard that shows..."
+    # 3. Lovable generates full React app with preview
+    # 4. Iterate via chat: "Add a sidebar with navigation"
+    # 5. Connect GitHub to export code
+    # 6. Deploy to custom domain
+
+    # For programmatic web app generation, consider:
+    # - v0.dev (Vercel) — similar capability, also no API
+    # - bolt.new (StackBlitz) — browser-based, no API
+    # - Claude Code / Cursor — AI coding with full control
+
+palette_agent: "Theri (Builder) — rapid prototyping; Rex (Architect) — evaluating no-code generation quality"
+palette_integration_plan:
+  current: "Used manually by Palette operators for rapid prototyping"
+  phase_1: "Evaluate output quality for Palette dashboard prototyping"
+  phase_2: "Monitor for API release — would enable programmatic app generation"
+  phase_3: "Compare against Claude Code for Palette's own development needs"
+  note: "Strong people-library cluster: Anton Osika (008), Felix Haas (009), Oskar Elvhage (010), Joel Nordström (011). GAP-001 — propose RIU-550 for no-code AI app generation."
+
+status: no_api
+evaluation_verdict: "NO API — Lovable is a web-based AI app builder with no programmatic access. Excellent for manual rapid prototyping. Strong people-library signal cluster (4 profiles). Monitor for API release. For programmatic needs, use Claude Code or Cursor. Relevant to GAP-001 (propose RIU-550)."
