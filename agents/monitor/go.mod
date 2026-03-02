@@ -1,4 +1,4 @@
-module github.com/pretendhome/palette/agents/parasaurolophus
+module github.com/pretendhome/palette/agents/monitor
 
 go 1.22
 

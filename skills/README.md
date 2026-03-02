@@ -10,7 +10,7 @@ Each skill pack is a markdown file at `palette/skills/<domain>/<skill-name>.md` 
 - **id**: Skill identifier (e.g., `SKILL-001`)
 - **name**: Human-readable name
 - **domain**: Knowledge domain
-- **for_agents**: Which Palette archetypes can use this skill (e.g., ["Theri", "Rex"])
+- **for_agents**: Which Palette archetypes can use this skill (e.g., ["Builder", "Architect"])
 - **triggers**: When this skill should be loaded (mapped to RIUs)
 - **impressions**: Current impression count (follows Palette impressions system)
 - **status**: UNVALIDATED / WORKING / PRODUCTION
