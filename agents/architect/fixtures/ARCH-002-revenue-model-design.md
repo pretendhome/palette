@@ -1,7 +1,7 @@
 # Fixture: Revenue Model Design (Business Plan)
 
 **Fixture ID**: REX-002
-**Agent**: Rex v1.0
+**Agent**: Architect v1.0
 **Scenario**: Design a revenue model for a small business using comparable organization data and market research
 
 ---
@@ -77,7 +77,7 @@
 
 ## Rossi Mission Reference
 
-In the validated Rossi engagement, Rex:
+In the validated Rossi engagement, Architect:
 - Revised revenue mix from 64% retail → 45% retail, 26% grants
 - Detected Month 17 cash crisis through monthly cash flow modeling
 - Increased funding ask from $150K → $185-200K (added 3-month reserve)
@@ -87,7 +87,7 @@ In the validated Rossi engagement, Rex:
 
 ## Notes
 
-This fixture tests Rex's core behavior in a business plan context:
+This fixture tests Architect's core behavior in a business plan context:
 - 3-stage reasoning (gradient descent → game theory → integration)
 - Challenging assumptions with evidence (customer's 64% retail assumption)
 - Monthly cash flow modeling (not just annual)

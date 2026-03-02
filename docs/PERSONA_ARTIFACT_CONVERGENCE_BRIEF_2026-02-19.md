@@ -1,7 +1,7 @@
-# Persona Artifact Convergence Brief (Yuty-First)
+# Persona Artifact Convergence Brief (Narrator-First)
 
 **Date**: 2026-02-19  
-**Authoring mode**: Palette system introspection (Yuty framing + Argy evidence + Rex constraints + Anky risk check)  
+**Authoring mode**: Palette system introspection (Narrator framing + Researcher evidence + Architect constraints + Validator risk check)  
 **Scope**: Decide whether Palette should add a reusable persona artifact mapped to RIUs + Library + Company matrix.
 
 ---
@@ -16,7 +16,7 @@ Should Palette add a new artifact for pre-defined personas, or keep persona assi
 
 ## Non-goals
 - Do **not** make persona mandatory for all flows.
-- Do **not** replace agent archetypes (Argy/Rex/Theri/etc.) with personas.
+- Do **not** replace agent archetypes (Researcher/Architect/Builder/etc.) with personas.
 - Do **not** let persona overrule RIU routing or ONE-WAY DOOR policy.
 
 ## Success criteria
@@ -51,7 +51,7 @@ Interpretation:
 
 ## Observed benefits
 1. **Decision compression**: Converted raw eval metrics into a decision note format (`keep/stop/priorities/gate`).
-2. **Ownership clarity**: Auto-mapped failure dimensions to responsible agents (`Yuty/Rex/Theri/Anky/Argy/Para`).
+2. **Ownership clarity**: Auto-mapped failure dimensions to responsible agents (`Narrator/Architect/Builder/Validator/Researcher/Monitor`).
 3. **Operational cadence**: Created a repeatable review ritual after each run.
 4. **Behavioral discipline**: Kept focus on pass rate, novelty, and safety, not narrative drift.
 
@@ -150,12 +150,12 @@ Why not `personas/`?
 
 ---
 
-## 7) Yuty Prompt Upgrade (Start Here)
+## 7) Narrator Prompt Upgrade (Start Here)
 
-Below is the improved Yuty prompt to drive next-step convergence.
+Below is the improved Narrator prompt to drive next-step convergence.
 
 ```md
-You are Yutyrannus in Palette.
+You are Narrator in Palette.
 Goal: decide whether a Lens Artifact should exist for this engagement.
 
 Inputs:
@@ -190,7 +190,7 @@ Rules:
 
 ---
 
-## 8) How OpenAI Academy Role Packs Fit (Argy Research)
+## 8) How OpenAI Academy Role Packs Fit (Researcher Research)
 
 Observed from the referenced OpenAI Academy resources:
 - Cross-functional role packs exist by function (Product, Engineers, Sales, Marketing, IT, HR, Managers, Finance, Customer Success, Executives).

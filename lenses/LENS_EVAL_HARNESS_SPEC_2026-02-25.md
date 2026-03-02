@@ -8,7 +8,7 @@
 
 ## 1) Purpose
 
-Palette now has 11 role-oriented lenses. Before integrating them deeper (Telegram `/lens`, Cory suggestions, orchestrator injection), we need to verify they produce measurable improvements.
+Palette now has 11 role-oriented lenses. Before integrating them deeper (Telegram `/lens`, Resolver suggestions, orchestrator injection), we need to verify they produce measurable improvements.
 
 This harness defines:
 - what to test
@@ -265,7 +265,7 @@ If:
 - Telegram `/lens` command uses validated lens set only
 
 ### v1
-- Cory suggests lens candidates for specific task signals
+- Resolver suggests lens candidates for specific task signals
 - human confirms activation
 
 ### v2

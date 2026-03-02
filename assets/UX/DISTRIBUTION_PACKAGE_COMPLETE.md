@@ -29,7 +29,7 @@
 
 ### Three-Tier System (3 files)
 - ✅ tier1/TIER1_palette_core.md (13,086 bytes)
-- ✅ tier2/TIER2_assumptions.md (13,238 bytes, includes Yuty + Anky role expansions)
+- ✅ tier2/TIER2_assumptions.md (13,238 bytes, includes Narrator + Validator role expansions)
 - ✅ tier3/TIER3_decisions_prompt.md (17,495 bytes, includes Step 6)
 
 ### Three Artifacts (3 files)
@@ -105,8 +105,8 @@
 - ✅ Step 6: Cross-domain synthesis (optional)
 - ✅ LIB-087: Agent workflow visualization
 - ✅ LIB-088: Convergence brief structure
-- ✅ Yuty: System Coherence Guardian role
-- ✅ Anky: Cross-Domain Pattern Validator role
+- ✅ Narrator: System Coherence Guardian role
+- ✅ Validator: Cross-Domain Pattern Validator role
 - ✅ RIU-001: Enhanced with LIB-088 routing
 
 **Evidence**: All v1.2 changes validated in UX engagement (2026-02-01)

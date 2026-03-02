@@ -72,7 +72,7 @@ That is a stronger and more defensible product than "another AI assistant."
 ## Problem 1: No Traversal Orchestrator (Core Product Gap)
 
 ### Problem statement
-Palette can resolve intent (`Cory`) and perform research (`Argy`), but no agent/function currently performs the full middle traversal:
+Palette can resolve intent (`Resolver`) and perform research (`Researcher`), but no agent/function currently performs the full middle traversal:
 
 - `RIU -> service routing -> best option -> integration recipe -> people signal validation`
 
@@ -86,7 +86,7 @@ Build a **Minimal Traversal Orchestrator v0** (deterministic first).
 
 ### Proposed implementation
 - Input: `task text` or `RIU ID`
-- Step 1: If task text, call Cory (or deterministic RIU resolver) -> `RIU + confidence`
+- Step 1: If task text, call Resolver (or deterministic RIU resolver) -> `RIU + confidence`
 - Step 2: Pull matching routing entry
 - Step 3: Pull matching integration recipe(s)
 - Step 4: Pull people-signal validation for candidate tools
@@ -133,7 +133,7 @@ result:
 ## Problem 2: No Shared Agent State / Handoff Coordination
 
 ### Problem statement
-Agents operate mostly as isolated scripts. Cory may resolve an RIU, Argy may research a topic, but there is no enforced shared state that reliably preserves:
+Agents operate mostly as isolated scripts. Resolver may resolve an RIU, Researcher may research a topic, but there is no enforced shared state that reliably preserves:
 
 - prior resolution
 - prior findings
@@ -151,8 +151,8 @@ Implement a **task-scoped shared handoff state** (HandoffPacket v2), not full me
 Use a persistent artifact (JSON/YAML/MD+frontmatter) per task with:
 - `task_id`
 - original query
-- Cory output (`riu`, confidence, alternatives)
-- Argy output summary + source refs
+- Resolver output (`riu`, confidence, alternatives)
+- Researcher output summary + source refs
 - Orchestrator traversal output
 - gaps/missing-data flags
 - final recommendation
@@ -167,7 +167,7 @@ Use a persistent artifact (JSON/YAML/MD+frontmatter) per task with:
 ### Success criteria
 - Every traversal task produces one HandoffPacket
 - Failed traversals can be replayed/debugged from packet state
-- Cory/Argy/orchestrator stop redoing work in the same task
+- Resolver/Researcher/orchestrator stop redoing work in the same task
 
 ### Priority
 **P0**
@@ -559,13 +559,13 @@ This is the shortest path from "excellent data foundation" to "working product."
 ## Phase 2 — Make the Agents Coordinate (P0/P1 boundary)
 
 ### 6. HandoffPacket v2 / Shared Task State
-- Persist Cory -> Argy -> Orchestrator handoffs
+- Persist Resolver -> Researcher -> Orchestrator handoffs
 - Add replay/debug path
 
-### 7. Connect Cory -> Traversal (and optional Argy fallback)
-- Cory resolves RIU
+### 7. Connect Resolver -> Traversal (and optional Researcher fallback)
+- Resolver resolves RIU
 - Orchestrator traverses layers
-- Argy used only when a layer is missing or stale
+- Researcher used only when a layer is missing or stale
 
 ---
 

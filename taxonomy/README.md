@@ -45,7 +45,7 @@ RIUs reference Knowledge Library entries with validated solutions.
   name: "Architecture Decision"
   category: "Architecture and Design"
   description: "System design requiring ONE-WAY DOOR awareness"
-  typical_agents: ["Argentavis", "Tyrannosaurus"]
+  typical_agents: ["Researcher", "Architect"]
   library_entries: ["LIB-015", "LIB-023"]
 ```
 

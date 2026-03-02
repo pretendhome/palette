@@ -1,10 +1,10 @@
-# Yutyrannus Deliverables
-**Agent**: Yutyrannus (Narrative + Visual Identity)  
+# Narrator Deliverables
+**Agent**: Narrator (Narrative + Visual Identity)  
 **Date**: 2026-02-01  
 **Duration**: 45 minutes  
 **Status**: COMPLETE
 
-**Input**: Argy's research + Rex's architecture + Theri's structure  
+**Input**: Researcher's research + Architect's architecture + Builder's structure  
 **Output**: Visual identity + communication strategy + narrative validation
 
 ---
@@ -60,13 +60,13 @@
 
 | Agent | Hex Code | RGB | Semantic Meaning | Element |
 |-------|----------|-----|------------------|---------|
-| **Argentavis (Argy)** | `#3B82F6` | rgb(59, 130, 246) | Research, trust, depth | Water |
-| **Therizinosaurus (Theri)** | `#F97316` | rgb(249, 115, 22) | Build, action, energy | Fire |
-| **Velociraptor (Raptor)** | `#EF4444` | rgb(239, 68, 68) | Debug, alert, critical | Blood |
-| **Tyrannosaurus (Rex)** | `#A855F7` | rgb(168, 85, 247) | Design, vision, innovation | Aether |
-| **Yutyrannus (Yuty)** | `#10B981` | rgb(16, 185, 129) | Narrative, growth, success | Growth |
-| **Ankylosaurus (Anky)** | `#6B7280` | rgb(107, 114, 128) | Validate, stability, foundation | Stone |
-| **Parasaurolophus (Para)** | `#FBBF24` | rgb(251, 191, 36) | Signal, attention, monitoring | Light |
+| **Researcher** | `#3B82F6` | rgb(59, 130, 246) | Research, trust, depth | Water |
+| **Builder** | `#F97316` | rgb(249, 115, 22) | Build, action, energy | Fire |
+| **Debugger** | `#EF4444` | rgb(239, 68, 68) | Debug, alert, critical | Blood |
+| **Architect** | `#A855F7` | rgb(168, 85, 247) | Design, vision, innovation | Aether |
+| **Narrator** | `#10B981` | rgb(16, 185, 129) | Narrative, growth, success | Growth |
+| **Validator** | `#6B7280` | rgb(107, 114, 128) | Validate, stability, foundation | Stone |
+| **Monitor** | `#FBBF24` | rgb(251, 191, 36) | Signal, attention, monitoring | Light |
 | **Orchestrator (Orch)** | `#F3F4F6` | rgb(243, 244, 246) | Coordinate, neutral, clarity | Air |
 
 **Accessibility Validation**:
@@ -76,9 +76,9 @@
 - ✅ Distinguishable in grayscale
 
 **Usage Guidelines**:
-- **Documentation**: Use agent color for section headers (e.g., Argy sections use blue)
+- **Documentation**: Use agent color for section headers (e.g., Researcher sections use blue)
 - **Code examples**: Syntax highlighting should not conflict with agent colors
-- **Diagrams**: Use agent colors to show workflow (Argy → Rex → Theri)
+- **Diagrams**: Use agent colors to show workflow (Researcher → Architect → Builder)
 - **Status indicators**: Use colors for agent state (green = success, red = failure)
 
 ---
@@ -135,24 +135,24 @@
 **Examples**:
 
 ```
-🚨 ONE-WAY DOOR DETECTED (Rex)
+🚨 ONE-WAY DOOR DETECTED (Architect)
 Decision: Delete production database
 Impact: Irreversible data loss
 Action Required: Confirm explicitly before proceeding
 ```
 
 ```
-⚠️ KNOWLEDGE GAP DETECTED (Argy)
+⚠️ KNOWLEDGE GAP DETECTED (Researcher)
 RIU: RIU-042 (Architecture Decision)
 Missing: Internal security requirements
 Action: Provide internal docs or approve web research
 ```
 
 ```
-❌ CONSTRAINT VIOLATION (Theri)
+❌ CONSTRAINT VIOLATION (Builder)
 Attempted: Architecture decision
-Constraint: Theri builds within scope only
-Routing: Send to Rex for architecture decisions
+Constraint: Builder builds within scope only
+Routing: Send to Architect for architecture decisions
 ```
 
 ---
@@ -171,14 +171,14 @@ Next: Route to appropriate agent
 ```
 
 ```
-✅ AGENT EXECUTION COMPLETE (Theri)
+✅ AGENT EXECUTION COMPLETE (Builder)
 Artifacts: 3 files created
 Validation: All tests passing
 Next: Review artifacts or proceed to deployment
 ```
 
 ```
-✅ AGENT PROMOTED (Argy)
+✅ AGENT PROMOTED (Researcher)
 Status: UNVALIDATED → WORKING
 Impressions: 10 consecutive successes
 Next: Autonomous execution with review
@@ -271,23 +271,23 @@ Not autonomous AI hype. A three-tier system that:
 
 ## Part D: Evidence Base
 
-All claims backed by Argy's research:
+All claims backed by Researcher's research:
 
 ### Visual Identity
-- **Semantic color coding**: Argy Finding 3 (developer tool patterns)
+- **Semantic color coding**: Researcher Finding 3 (developer tool patterns)
 - **8-color palette**: Maps to agent archetypes (natural fit)
-- **Accessibility**: WCAG AA standards (Argy Finding 3)
-- **Minimalist aesthetic**: Developer-friendly (Argy Finding 3)
+- **Accessibility**: WCAG AA standards (Researcher Finding 3)
+- **Minimalist aesthetic**: Developer-friendly (Researcher Finding 3)
 
 ### Communication Strategy
 - **Error messages**: Clear causality (glass-box principle from Tier 1)
-- **Success confirmations**: Feedback loops (Argy Finding 2 - onboarding patterns)
-- **Contribution acknowledgments**: Recognition drives engagement (Argy Finding 4 - OSS patterns)
+- **Success confirmations**: Feedback loops (Researcher Finding 2 - onboarding patterns)
+- **Contribution acknowledgments**: Recognition drives engagement (Researcher Finding 4 - OSS patterns)
 
 ### Narrative
-- **5-minute rule**: Time to first value (Argy Finding 2)
-- **Hook → Explain → Get Started**: Standard onboarding pattern (Argy Finding 2)
-- **Battle-tested framing**: Credibility through validation (Argy Finding 5 - adoption patterns)
+- **5-minute rule**: Time to first value (Researcher Finding 2)
+- **Hook → Explain → Get Started**: Standard onboarding pattern (Researcher Finding 2)
+- **Battle-tested framing**: Credibility through validation (Researcher Finding 5 - adoption patterns)
 
 ---
 
@@ -311,7 +311,7 @@ All claims backed by Argy's research:
 - `palette-glyph-64.png` (64x64, favicon)
 
 ### 3. Color Palette Swatch (`assets/palette-colors.md`)
-Already created by Theri, contains hex codes.
+Already created by Builder, contains hex codes.
 
 ### 4. Brand Guidelines (`assets/brand-guidelines.md`)
 To be created with:
@@ -323,9 +323,9 @@ To be created with:
 
 ---
 
-## Part F: Routing to Para
+## Part F: Routing to Monitor
 
-**Next Agent**: Parasaurolophus (Para) - Integration
+**Next Agent**: Monitor - Integration
 
 **Handoff Context**:
 - Visual identity specifications complete
@@ -333,16 +333,16 @@ To be created with:
 - Narrative validated (5-minute test passed)
 - Assets ready for production (specs provided)
 
-**Para's Task**: Verify integration of Argy/Rex/Theri/Yuty outputs, signal any conflicts
+**Monitor's Task**: Verify integration of Researcher/Architect/Builder/Narrator outputs, signal any conflicts
 
 **Note**: Actual glyph creation (SVG/PNG) requires design tool or designer. Specifications are production-ready.
 
 ---
 
-## Yuty's Self-Assessment
+## Narrator's Self-Assessment
 
 ### Evidence-Based? ✅
-- All visual choices backed by Argy's research
+- All visual choices backed by Researcher's research
 - Color psychology cited from sources
 - Accessibility validated against WCAG standards
 
@@ -363,6 +363,6 @@ To be created with:
 
 ---
 
-**Agent Status**: Yutyrannus (Yuty) - Narrative + Visual phase complete  
+**Agent Status**: Narrator - Narrative + Visual phase complete  
 **Impressions**: success=1, fail=0, fail_gap=1, status=UNVALIDATED  
-**Next**: Human review before proceeding to Para
+**Next**: Human review before proceeding to Monitor

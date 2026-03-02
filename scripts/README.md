@@ -35,7 +35,7 @@ git commit -m "sync: Update agent maturity from project impressions"
 
 2. **Extracts** agent impressions:
    - Looks for `**Impressions**: X success, Y fail` format
-   - Matches to agent names (Argentavis, Tyrannosaurus, etc.)
+   - Matches to agent names (Researcher, Architect, etc.)
 
 3. **Aggregates** across projects:
    - Sums success/fail counts per agent
@@ -78,10 +78,10 @@ Scanning project decision logs...
   Parsing implementations/talent/talent-gap-interview/execution_summary.md...
 
 Found impressions for 4 agents:
-  Yutyrannus: 10 success, 0 fail
-  Argentavis: 6 success, 0 fail
-  Tyrannosaurus: 1 success, 0 fail
-  Ankylosaurus: 1 success, 0 fail
+  Narrator: 10 success, 0 fail
+  Researcher: 6 success, 0 fail
+  Architect: 1 success, 0 fail
+  Validator: 1 success, 0 fail
 
 Generating status table...
 

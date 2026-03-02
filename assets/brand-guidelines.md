@@ -30,13 +30,13 @@
 ### Agent Colors (Semantic)
 
 ```
-Argy (Research):     #3B82F6  Blue
-Theri (Build):       #F97316  Orange
-Raptor (Debug):      #EF4444  Red
-Rex (Architecture):  #A855F7  Purple
-Yuty (Narrative):    #10B981  Green
-Anky (Validate):     #6B7280  Gray
-Para (Monitor):      #FBBF24  Yellow
+Researcher (Research):     #3B82F6  Blue
+Builder (Build):       #F97316  Orange
+Debugger (Debug):      #EF4444  Red
+Architect (Architecture):  #A855F7  Purple
+Narrator (Narrative):    #10B981  Green
+Validator (Validate):     #6B7280  Gray
+Monitor (Monitor):      #FBBF24  Yellow
 Orch (Coordinate):   #F3F4F6  Light Gray
 ```
 

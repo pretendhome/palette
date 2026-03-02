@@ -1,7 +1,7 @@
 # Fixture: Business Plan Quality Validation
 
 **Fixture ID**: ANKY-001
-**Agent**: Ankylosaurus v1.0
+**Agent**: Validator v1.0
 **Scenario**: Validate a completed business plan draft against quality standards
 
 ---
@@ -10,7 +10,7 @@
 
 **Initial Request**: "Validate this business plan draft for quality. Must score 75+ to proceed to customer review. Check completeness, evidence quality, financial rigor, and actionability."
 
-**Artifact Provided**: business_plan_draft.md (25-50 page business plan from Yuty)
+**Artifact Provided**: business_plan_draft.md (25-50 page business plan from Narrator)
 
 ---
 
@@ -93,7 +93,7 @@ Score each dimension 0-10:
 
 ## Notes
 
-This fixture tests Anky's core behavior:
+This fixture tests Validator's core behavior:
 - Rigorous, honest assessment (no grade inflation)
 - Systematic quality scoring (all 10 dimensions)
 - Clear GO/NO-GO/CONDITIONAL decision

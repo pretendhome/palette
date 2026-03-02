@@ -27,7 +27,7 @@ This directory contains validated use cases organized by Palette's prompt matrix
 - Database schema decisions
 - Technology selection
 
-**Agents typically used**: Argentavis (research), Tyrannosaurus (architecture)
+**Agents typically used**: Researcher (research), Architect (architecture)
 
 ---
 
@@ -40,7 +40,7 @@ This directory contains validated use cases organized by Palette's prompt matrix
 - Script/tool creation
 - Configuration management
 
-**Agents typically used**: Therizinosaurus (build), Velociraptor (debug if needed)
+**Agents typically used**: Builder (build), Debugger (debug if needed)
 
 ---
 
@@ -53,7 +53,7 @@ This directory contains validated use cases organized by Palette's prompt matrix
 - Security assessment
 - Readiness validation
 
-**Agents typically used**: Ankylosaurus (validate), Velociraptor (fix issues)
+**Agents typically used**: Validator (validate), Debugger (fix issues)
 
 ---
 
@@ -66,7 +66,7 @@ This directory contains validated use cases organized by Palette's prompt matrix
 - Incident response
 - Performance optimization
 
-**Agents typically used**: Parasaurolophus (monitor), Velociraptor (debug), Therizinosaurus (implement fixes)
+**Agents typically used**: Monitor (monitor), Debugger (debug), Builder (implement fixes)
 
 ---
 
@@ -79,7 +79,7 @@ This directory contains validated use cases organized by Palette's prompt matrix
 - Tool adoption
 - Documentation creation
 
-**Agents typically used**: Yutyrannus (narrative), Ankylosaurus (validate readiness)
+**Agents typically used**: Narrator (narrative), Validator (validate readiness)
 
 ---
 

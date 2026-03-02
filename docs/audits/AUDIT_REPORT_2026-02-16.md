@@ -1,7 +1,7 @@
 # Palette System Audit Report
 
 **Date**: 2026-02-16 10:14  
-**Auditor**: Para (Monitor) + Anky (Validate)  
+**Auditor**: Monitor (Monitor) + Validator (Validate)  
 **Commit**: e242b2c "chore: unify garbage-collection and align palette v1.3 structure"
 
 ---
@@ -125,9 +125,9 @@ implementations/{name}/fde/
 
 **Added fixtures for**:
 - Orchestrator (3 fixtures)
-- Parasaurolophus/Para (2 fixtures)
-- Therizinosaurus/Theri (2 fixtures)
-- Velociraptor/Raptor (2 fixtures)
+- Monitor (2 fixtures)
+- Builder/Builder (2 fixtures)
+- Debugger/Debugger (2 fixtures)
 
 **Assessment**: ✅ Excellent - Fixtures enable validation and promotion
 
@@ -156,7 +156,7 @@ implementations/{name}/fde/
 
 ---
 
-## Anky Validation Findings
+## Validator Validation Findings
 
 ### ✅ Strengths
 

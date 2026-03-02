@@ -29,8 +29,8 @@ Critical question:
 - Are we producing decision-ready outputs (explicit decision, reversibility, owner, metric), not just good diagnostics?
 
 Findings:
-1. Strong: Para contract now has explicit decision states and reversibility-aware routing.
-2. Gap: Para contract is not yet auto-emitted by the default audit run (`audit_system` remains separate from `para_decision`).
+1. Strong: Monitor contract now has explicit decision states and reversibility-aware routing.
+2. Gap: Monitor contract is not yet auto-emitted by the default audit run (`audit_system` remains separate from `para_decision`).
 3. Gap: Medium signals coverage finding (28 RIUs) is non-blocking technically but still a product trust tax.
 4. Gap: High terminology drift clusters can create "looks inconsistent" perception even when mappings work.
 5. Gap: Competing traversal surfaces (`traverse.py` path vs `query_engine.py` path) can cause stakeholder confusion if not clearly framed as separate tools.
@@ -39,18 +39,18 @@ Product verdict:
 - Operationally shippable.
 - Decision hygiene improved but not yet "single-pane" for PM workflows.
 
-## Iteration 2 (Principal Engineering Lens: LENS-ENG-001 + Rex/Theri constraints)
+## Iteration 2 (Principal Engineering Lens: LENS-ENG-001 + Architect/Builder constraints)
 
-Rex framing used:
+Architect framing used:
 - Require explicit tradeoff clarity, reversibility classification, and integration reasoning.
 
-Theri framing used:
+Builder framing used:
 - Keep scope bounded, avoid architecture drift during implementation, keep validation executable.
 
 Findings:
 1. Strong: Hard gates and tests are currently stable (all green except one medium finding).
 2. Strong: Deprecated duplicate (`scripts/palette_intelligence_system/handoff.py`) is now explicitly labeled as compatibility shim.
-3. Strong: Raptor CLI unsafe help path fixed; no accidental ledger writes on `--help`.
+3. Strong: Debugger CLI unsafe help path fixed; no accidental ledger writes on `--help`.
 4. Gap: There is no single one-command "governance bundle" that always runs integrity + audit + regression + drift + para decision in one artifact.
 5. Gap: Drift remains outside blocking gates by policy; this is acceptable now but should be explicitly intentional.
 
@@ -84,16 +84,16 @@ Resolution:
 - Keep experimentation as first-class behavior.
 - Preserve hard-stop protections for irreversible or uncertain-high-blast decisions.
 - Route block causes explicitly:
-  - self-inflicted bug -> Raptor
-  - architecture gap -> Rex
-  - research gap -> Argy
+  - self-inflicted bug -> Debugger
+  - architecture gap -> Architect
+  - research gap -> Researcher
 
 ## Tightness Assessment (Loose bolts check)
 
 Closed in this cycle:
 1. Stale query-engine tests realigned to current data reality.
 2. Stale RIU-502 fixture corrected (now full coverage path).
-3. Raptor CLI help behavior hardened.
+3. Debugger CLI help behavior hardened.
 4. Legacy handoff module clarified as deprecated.
 
 Still intentionally open:

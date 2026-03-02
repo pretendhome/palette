@@ -1,4 +1,4 @@
-# Para Decision Contract (v1)
+# Monitor Decision Contract (v1)
 
 ## Decision States
 
@@ -12,7 +12,7 @@ Policy mode:
 
 ## Block Routing
 
-When decision is `block`, Para routes by cause:
+When decision is `block`, Monitor routes by cause:
 
 - `self_inflicted_bug` -> `Debugger`
 - `architecture_gap` -> `Architect`
@@ -40,7 +40,7 @@ When decision is `block`, Para routes by cause:
 
 ## Minimal Block Note
 
-Para emits a short note:
+Monitor emits a short note:
 
 `X has been blocked for Y risk.`
 

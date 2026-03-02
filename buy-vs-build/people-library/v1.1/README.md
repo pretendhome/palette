@@ -3,7 +3,7 @@
 **Version**: 1.1
 **Date**: 2026-02-24
 **Status**: CURRENT — supersedes v1.0
-**Agent**: Yuty (enrichment) + Argy (web research)
+**Agent**: Narrator (enrichment) + Researcher (web research)
 **Source**: v1.0 + Phase 1 web enrichment pass
 
 ---

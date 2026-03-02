@@ -1,6 +1,6 @@
-# Rex Architecture: Business Plan Creation Agent
+# Architect Architecture: Business Plan Creation Agent
 
-**Agent**: Tyrannosaurus (Architecture)  
+**Agent**: Architect  
 **Date**: 2026-02-10  
 **Purpose**: Design formal process architecture for reusable Business Plan Creation Agent
 
@@ -78,7 +78,7 @@
 ---
 
 ### Phase 2: Comparable Organization Research
-**Agent**: Argentavis (Argy)  
+**Agent**: Researcher  
 **Duration**: 1-2 hours  
 **Outputs**: comparable_organizations.md
 
@@ -108,7 +108,7 @@
 ---
 
 ### Phase 3: Market & Competitive Research
-**Agent**: Argentavis (Argy)  
+**Agent**: Researcher  
 **Duration**: 1-2 hours  
 **Outputs**: market_research.md
 
@@ -145,7 +145,7 @@
 ---
 
 ### Phase 4: Strategic Framework Development
-**Agent**: Tyrannosaurus (Rex)  
+**Agent**: Architect  
 **Duration**: 2-3 hours  
 **Outputs**: strategic_framework.md
 
@@ -189,7 +189,7 @@
 ---
 
 ### Phase 5: Product/Service Strategy
-**Agent**: Rex + Yuty collaboration  
+**Agent**: Architect + Narrator collaboration  
 **Duration**: 1-2 hours  
 **Outputs**: product_strategy.md
 
@@ -215,7 +215,7 @@
    - Medium-term measures (3-6 months)
    - Long-term goals (6+ months)
 
-**Quality Gate**: Yuty validates narrative clarity (can explain in 5 min?)
+**Quality Gate**: Narrator validates narrative clarity (can explain in 5 min?)
 
 **Rossi Example**:
 - 3-pillar model: Events, workshops, residencies
@@ -225,7 +225,7 @@
 ---
 
 ### Phase 6: Document Assembly
-**Agent**: Yutyrannus (Yuty)  
+**Agent**: Narrator  
 **Duration**: 2-3 hours  
 **Outputs**: business_plan_draft.md or .docx
 
@@ -265,7 +265,7 @@
 ---
 
 ### Phase 7: Quality Validation
-**Agent**: Ankylosaurus (Anky)  
+**Agent**: Validator  
 **Duration**: 1-2 hours  
 **Outputs**: validation_report.md
 
@@ -322,7 +322,7 @@
 
 3. Iteration (if needed)
    - Agents update based on feedback
-   - Re-validate with Anky
+   - Re-validate with Validator
    - Customer re-reviews
 
 4. Final approval
@@ -523,7 +523,7 @@
 - **Pass/Fail**: Must pass to proceed
 
 **Gate 5: Narrative Clear** (Phase 5)
-- Yuty can explain strategy in 5 min
+- Narrator can explain strategy in 5 min
 - Non-technical language (no jargon)
 - **Pass/Fail**: Must pass to proceed
 
@@ -533,7 +533,7 @@
 - **Pass/Fail**: Must pass to proceed
 
 **Gate 7: Quality Score 75+** (Phase 7)
-- Anky validation score 75+ (conditional pass)
+- Validator validation score 75+ (conditional pass)
 - Gaps identified and documented
 - **Pass/Fail**: Must pass to proceed (or iterate)
 
@@ -616,23 +616,23 @@ Customer Interview (Human)
     ↓
 Convergence Brief (Orchestrator) → 🚨 ONE-WAY DOOR (Scope/Timeline)
     ↓
-Comparable Research (Argy) → comparable_organizations.md
+Comparable Research (Researcher) → comparable_organizations.md
     ↓
-Market Research (Argy) → market_research.md
+Market Research (Researcher) → market_research.md
     ↓
-Strategic Framework (Rex) → 🚨 ONE-WAY DOOR (Revenue Model)
+Strategic Framework (Architect) → 🚨 ONE-WAY DOOR (Revenue Model)
     ↓
-Financial Modeling (Rex) → 🚨 ONE-WAY DOOR (Funding Ask)
+Financial Modeling (Architect) → 🚨 ONE-WAY DOOR (Funding Ask)
     ↓
-Product Strategy (Rex + Yuty) → product_strategy.md
+Product Strategy (Architect + Narrator) → product_strategy.md
     ↓
-Document Assembly (Yuty) → business_plan_draft.md
+Document Assembly (Narrator) → business_plan_draft.md
     ↓
-Quality Validation (Anky) → validation_report.md (Score 75+)
+Quality Validation (Validator) → validation_report.md (Score 75+)
     ↓
 Customer Review (Human) → feedback.md
     ↓
-Iteration (if needed) → Re-validate with Anky
+Iteration (if needed) → Re-validate with Validator
     ↓
 Final Approval (Human) → 🚨 ONE-WAY DOOR (Document Live)
     ↓
@@ -645,7 +645,7 @@ Delivery
 
 ### For Agent Performance
 - **Time to completion**: 8-14 agent hours (target)
-- **Quality score**: 75+ (Anky validation)
+- **Quality score**: 75+ (Validator validation)
 - **Customer satisfaction**: "Well-received" (qualitative)
 - **Execution rate**: Customer actually uses plan (follow-up)
 
@@ -654,7 +654,7 @@ Delivery
 - **Evidence quality**: All claims sourced (no unsourced assertions)
 - **Comparable validity**: Credible comparable found (financial data)
 - **Financial rigor**: Cash crises identified (monthly cash flow)
-- **Narrative clarity**: Can explain in 5 min (Yuty validation)
+- **Narrative clarity**: Can explain in 5 min (Narrator validation)
 - **Actionability**: Customer can execute (6-week plan)
 
 ---
@@ -665,23 +665,23 @@ Delivery
 **Symptom**: Plan reads like template, not specific to customer  
 **Root Cause**: Insufficient customer context or weak comparables  
 **Mitigation**:
-- Argy must find customer-specific comparables (not generic)
-- Anky checks for customization (score penalty for generic language)
+- Researcher must find customer-specific comparables (not generic)
+- Validator checks for customization (score penalty for generic language)
 - Customer review catches generic sections
 
 ### Failure Mode 2: Unrealistic Projections
 **Symptom**: Revenue projections not achievable  
 **Root Cause**: Not benchmarked against comparables  
 **Mitigation**:
-- Rex must benchmark all projections against comparables
-- Anky checks for "venture-scale growth" in non-venture businesses
+- Architect must benchmark all projections against comparables
+- Validator checks for "venture-scale growth" in non-venture businesses
 - Customer review validates assumptions
 
 ### Failure Mode 3: Unclear Narrative
 **Symptom**: Customer can't explain plan to stakeholders  
 **Root Cause**: Jargon, complexity, poor structure  
 **Mitigation**:
-- Yuty semantic validation (5-min pitch test)
+- Narrator semantic validation (5-min pitch test)
 - Non-technical language requirement
 - Customer review catches confusion
 
@@ -697,7 +697,7 @@ Delivery
 **Symptom**: Customer runs out of money unexpectedly  
 **Root Cause**: No monthly cash flow modeling  
 **Mitigation**:
-- Rex must model monthly cash flow for Year 1
+- Architect must model monthly cash flow for Year 1
 - Quality gate requires all negative months identified
 - Funding ask must include 3-month reserve
 
@@ -716,10 +716,10 @@ Delivery
 - LIB-091: Business Plan Document Structure
 
 **Step 3: Create Agent Prompt Templates**
-- Argy: Comparable organization search
-- Rex: Revenue model design
-- Yuty: Document assembly
-- Anky: Quality validation
+- Researcher: Comparable organization search
+- Architect: Revenue model design
+- Narrator: Document assembly
+- Validator: Quality validation
 
 **Step 4: Create Convergence Brief Template**
 - Standardize customer intake questions
@@ -738,6 +738,6 @@ Delivery
 
 ---
 
-**Status**: Architecture complete, ready for Theri implementation
+**Status**: Architecture complete, ready for Builder implementation
 
-**Next Agent**: Therizinosaurus (Theri) to build agent files (RIU, library, templates)
+**Next Agent**: Builder to build agent files (RIU, library, templates)

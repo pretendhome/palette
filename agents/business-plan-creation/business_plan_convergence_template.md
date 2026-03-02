@@ -54,7 +54,7 @@ Create a comprehensive business plan for [Business name] that:
 - [ ] Funding requirements (with 3-month reserve buffer)
 - [ ] Product/service strategy (offerings, pricing, go-to-market)
 - [ ] Implementation plan (6-week action plan with checkboxes)
-- [ ] Quality validation (Anky score 75+, gap identification)
+- [ ] Quality validation (Validator score 75+, gap identification)
 - [ ] [Other elements]
 
 ### Out of Scope
@@ -78,13 +78,13 @@ Create a comprehensive business plan for [Business name] that:
 - [ ] Approve final document (🚨 ONE-WAY DOOR)
 
 ### Agents Will
-- [ ] Conduct comparable organization research (Argy) - 1-2 hours
-- [ ] Conduct market and competitive research (Argy) - 1-2 hours
-- [ ] Develop strategic frameworks (Rex) - 2-3 hours
-- [ ] Model financials and identify cash crises (Rex) - 1 hour
-- [ ] Create product/service strategy (Rex + Yuty) - 1-2 hours
-- [ ] Assemble final document (Yuty) - 2-3 hours
-- [ ] Validate quality and identify gaps (Anky) - 1-2 hours
+- [ ] Conduct comparable organization research (Researcher) - 1-2 hours
+- [ ] Conduct market and competitive research (Researcher) - 1-2 hours
+- [ ] Develop strategic frameworks (Architect) - 2-3 hours
+- [ ] Model financials and identify cash crises (Architect) - 1 hour
+- [ ] Create product/service strategy (Architect + Narrator) - 1-2 hours
+- [ ] Assemble final document (Narrator) - 2-3 hours
+- [ ] Validate quality and identify gaps (Validator) - 1-2 hours
 
 ---
 
@@ -94,13 +94,13 @@ Create a comprehensive business plan for [Business name] that:
 
 **Milestones**:
 - Week 1, Day 1: Convergence brief approved (this document)
-- Week 1, Day 2-3: Comparable research complete (Argy)
-- Week 1, Day 3-4: Market research complete (Argy)
-- Week 1, Day 4-5: Strategic framework developed (Rex) → 🚨 ONE-WAY DOOR (Revenue model)
-- Week 2, Day 1: Financial modeling complete (Rex) → 🚨 ONE-WAY DOOR (Funding ask)
-- Week 2, Day 2: Product strategy complete (Rex + Yuty)
-- Week 2, Day 3-4: Draft document ready (Yuty)
-- Week 2, Day 5: Quality validation complete (Anky)
+- Week 1, Day 2-3: Comparable research complete (Researcher)
+- Week 1, Day 3-4: Market research complete (Researcher)
+- Week 1, Day 4-5: Strategic framework developed (Architect) → 🚨 ONE-WAY DOOR (Revenue model)
+- Week 2, Day 1: Financial modeling complete (Architect) → 🚨 ONE-WAY DOOR (Funding ask)
+- Week 2, Day 2: Product strategy complete (Architect + Narrator)
+- Week 2, Day 3-4: Draft document ready (Narrator)
+- Week 2, Day 5: Quality validation complete (Validator)
 - Week 3: Customer review and iteration
 - Week 3, End: Final approval and delivery → 🚨 ONE-WAY DOOR
 
@@ -122,10 +122,10 @@ Create a comprehensive business plan for [Business name] that:
 - [ ] Evidence-based (all claims have [Research: ...] or [Case Study: ...] citations)
 - [ ] Comparable-anchored (1-3 credible organizations with financial data)
 - [ ] Financially rigorous (monthly cash flow Year 1, crises identified)
-- [ ] Clear (Yuty semantic validation passes - can explain in 5 min)
+- [ ] Clear (Narrator semantic validation passes - can explain in 5 min)
 - [ ] Actionable (6-week implementation plan with checkboxes)
 - [ ] Professional (ready to share with stakeholders: investors, banks, partners)
-- [ ] Quality score 75+ (Anky validation)
+- [ ] Quality score 75+ (Validator validation)
 
 ### Customer Satisfaction
 - [ ] Well-received (customer finds it valuable)
@@ -219,7 +219,7 @@ What we're explicitly NOT doing:
 **Gate 4**: Cash crises identified (monthly cash flow) - Must pass to proceed  
 **Gate 5**: Narrative clear (5-min pitch test) - Must pass to proceed  
 **Gate 6**: Evidence markers present - Must pass to proceed  
-**Gate 7**: Quality score 75+ (Anky validation) - Must pass to proceed  
+**Gate 7**: Quality score 75+ (Validator validation) - Must pass to proceed  
 **Gate 8**: Customer approval - Must pass to deliver
 
 ---
@@ -227,7 +227,7 @@ What we're explicitly NOT doing:
 ## Next Steps
 
 1. [ ] Customer approves this convergence brief
-2. [ ] Argy starts comparable organization research
+2. [ ] Researcher starts comparable organization research
 3. [ ] Weekly check-ins scheduled (if needed)
 4. [ ] Final review meeting scheduled (Week 3)
 
@@ -249,4 +249,4 @@ What we're explicitly NOT doing:
 ---
 
 **Status**: Awaiting customer approval  
-**Next Agent**: Argentavis (Argy) - Comparable organization research
+**Next Agent**: Researcher - Comparable organization research

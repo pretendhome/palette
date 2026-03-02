@@ -59,7 +59,7 @@ Creates comprehensive business plans for small businesses through an 8-phase pro
 
 **Outcome**: "Very well received"
 - 25-page main report + 80 pages supporting docs
-- Anky validation score: 82/100 (conditional pass)
+- Validator validation score: 82/100 (conditional pass)
 - Funding probability: ~30% → ~75%
 - 3 ONE-WAY DOORS identified: Revenue model, funding ask, governance
 - Month 17 cash crisis detected through modeling
@@ -87,34 +87,34 @@ Use the convergence brief template:
 
 ### Step 2: Execute Agent Sequence
 
-**Phase 2: Argy - Comparable Research** (1-2 hours)
+**Phase 2: Researcher - Comparable Research** (1-2 hours)
 - Prompt: See `business_plan_agent_prompts.md` → Phase 2
 - Output: comparable_organizations.md
 - Quality Gate: Must find 1+ credible comparable with financial data
 
-**Phase 3: Argy - Market Research** (1-2 hours)
+**Phase 3: Researcher - Market Research** (1-2 hours)
 - Prompt: See `business_plan_agent_prompts.md` → Phase 3
 - Output: market_research.md
 - Quality Gate: All claims must have [Research: ...] citations
 
-**Phase 4: Rex - Strategic Framework** (2-3 hours)
+**Phase 4: Architect - Strategic Framework** (2-3 hours)
 - Prompt: See `business_plan_agent_prompts.md` → Phase 4
 - Output: strategic_framework.md
 - Quality Gate: Must identify all cash crises (monthly cash flow)
 - 🚨 ONE-WAY DOOR: Revenue model selection (customer approval required)
 - 🚨 ONE-WAY DOOR: Funding ask amount (customer approval required)
 
-**Phase 5: Rex + Yuty - Product Strategy** (1-2 hours)
+**Phase 5: Architect + Narrator - Product Strategy** (1-2 hours)
 - Develop product/service strategy
 - Output: product_strategy.md
-- Quality Gate: Yuty validates narrative clarity (5-min pitch test)
+- Quality Gate: Narrator validates narrative clarity (5-min pitch test)
 
-**Phase 6: Yuty - Document Assembly** (2-3 hours)
+**Phase 6: Narrator - Document Assembly** (2-3 hours)
 - Prompt: See `business_plan_agent_prompts.md` → Phase 6
 - Output: business_plan_draft.md
 - Quality Gate: All claims have evidence markers [Research: ...] [Case Study: ...]
 
-**Phase 7: Anky - Quality Validation** (1-2 hours)
+**Phase 7: Validator - Quality Validation** (1-2 hours)
 - Prompt: See `business_plan_agent_prompts.md` → Phase 7
 - Output: validation_report.md
 - Quality Gate: Score must be 75+ to proceed
@@ -219,7 +219,7 @@ Use the convergence brief template:
 ### RIU-105: Business Plan Creation
 **Trigger Signals**: business plan, strategic plan, product strategy, go-to-market plan, market analysis, competitive analysis, business model, revenue model, funding requirements
 
-**Agent Sequence**: Orchestrator → Argy (comparable + market) → Rex (strategy + financials) → Yuty (assembly) → Anky (validation) → Human (review)
+**Agent Sequence**: Orchestrator → Researcher (comparable + market) → Architect (strategy + financials) → Narrator (assembly) → Validator (validation) → Human (review)
 
 **Success Criteria**: Comprehensive, evidence-based, comparable-anchored, financially rigorous, clear, actionable, quality score 75+
 
@@ -230,7 +230,7 @@ Use the convergence brief template:
 ### RIU-106: Comparable Organization Research
 **Trigger Signals**: comparable organizations, case studies, who else does this, market validation, proven models
 
-**Agent**: Argentavis (Argy)
+**Agent**: Researcher
 
 **Success Criteria**: Find 1-3 credible comparables with financial data, benchmark key metrics, validate customer's model
 
@@ -243,7 +243,7 @@ Use the convergence brief template:
 ### RIU-107: Financial Crisis Detection
 **Trigger Signals**: cash flow, runway, funding requirements, when do we run out of money, burn rate
 
-**Agent**: Tyrannosaurus (Rex)
+**Agent**: Architect
 
 **Success Criteria**: Monthly cash flow Year 1, identify all negative months, calculate 3-month reserve
 
@@ -295,7 +295,7 @@ Use the convergence brief template:
 
 ### Narrative Clarity
 - Non-technical language (no jargon)
-- Can explain plan in 5 minutes (Yuty validation)
+- Can explain plan in 5 minutes (Narrator validation)
 - Clear structure with logical flow
 - Professional quality (ready to share with stakeholders)
 
@@ -311,7 +311,7 @@ Use the convergence brief template:
 
 ### Agent Performance
 - Time to completion: 9-16 hours (target)
-- Quality score: 75+ (Anky validation)
+- Quality score: 75+ (Validator validation)
 - Customer satisfaction: "Well-received" (qualitative)
 - Execution rate: Customer actually uses plan (follow-up)
 

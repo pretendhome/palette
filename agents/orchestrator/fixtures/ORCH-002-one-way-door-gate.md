@@ -6,7 +6,7 @@
 
 ## Input
 - Convergence brief present
-- Rex identifies architecture decision as ONE-WAY DOOR
+- Architect identifies architecture decision as ONE-WAY DOOR
 
 ## Expected Output
 - Orch halts progression

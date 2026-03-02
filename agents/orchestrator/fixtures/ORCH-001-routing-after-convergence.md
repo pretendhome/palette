@@ -11,7 +11,7 @@
 ## Expected Output
 - Orch verifies convergence completeness
 - Orch proposes RIU candidates and selects 1-5
-- Orch routes bounded tasks to Argy, Rex, Anky in sequence
+- Orch routes bounded tasks to Researcher, Architect, Validator in sequence
 - Orch does not execute any specialist task
 
 ## Pass Criteria

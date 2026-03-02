@@ -308,7 +308,7 @@ End of decisions.md integration prompt
 - **Capabilities** (agents/tools needed): Text editor; markdown validation; Kiro steering file loading.
 - **Constraints** (binding requirements): Keep changes minimal; maintain append-only `decisions.md`; do not introduce persistent state beyond documented policy; preserve glass-box operation.
 - **Non-goals** (explicitly out of scope): Implementing agents; validating RIU effectiveness; building fixtures; conducting production deployments.
-- **What changed since last update**: Initial bootstrap - established three-tier system (palette-core.md, assumptions.md, decisions.md); documented 8 agent archetypes (Argy, Theri, Raptor, Rex, Yuty, Anky, Para, Orch); referenced taxonomy v1.2 (104 RIUs).
+- **What changed since last update**: Initial bootstrap - established three-tier system (palette-core.md, assumptions.md, decisions.md); documented 8 agent archetypes (Researcher, Builder, Debugger, Architect, Narrator, Validator, Para, Orch); referenced taxonomy v1.2 (104 RIUs).
 
 #### Candidate RIUs (Broad, 8-15 unless already converged)
 **Observed Trigger Signals (from engagement input)**:
@@ -458,8 +458,8 @@ Recommendation: [Update Library/Taxonomy/Prompts]
 - Prompts: [Coordination updates]
 
 **Validation Results**:
-- Yuty Semantic Check: [PASS/FAIL]
-- Anky Quality Check: [PASS/FAIL]
+- Narrator Semantic Check: [PASS/FAIL]
+- Validator Quality Check: [PASS/FAIL]
 - Cross-domain patterns: [High/Medium/Low quality]
 
 **Time Invested**: [Minutes]
@@ -491,4 +491,4 @@ Recommendation: [Update Library/Taxonomy/Prompts]
 - 3 cross-domain patterns identified
 - 6 system improvements recommended
 - 30 minutes invested, high ROI demonstrated
-- Yuty + Anky pairing proved effective
+- Narrator + Validator pairing proved effective

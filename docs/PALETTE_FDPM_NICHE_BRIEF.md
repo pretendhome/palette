@@ -72,7 +72,7 @@ Yes:
 ## Workflow Recommendation (run this through Palette/ORCH)
 Use your own platform in 4 loops.
 
-### Loop 1: Landscape Sensing (Argy-led)
+### Loop 1: Landscape Sensing (Researcher-led)
 Input:
 - AI company matrix (providers, vertical players, orchestration products, infra vendors)
 - Hiring signal scrape (FDPM/FDE/Solutions/Applied AI roles)
@@ -83,9 +83,9 @@ Output artifacts:
 - `focus_vs_whitespace_matrix_v1.md`
 
 Gate:
-- Anky validates source quality and inference confidence.
+- Validator validates source quality and inference confidence.
 
-### Loop 2: Niche Selection (Rex-led)
+### Loop 2: Niche Selection (Architect-led)
 Input:
 - Loop 1 artifacts
 
@@ -97,7 +97,7 @@ Output artifacts:
 Gate:
 - One-way-door checkpoint: choose one wedge only.
 
-### Loop 3: Offer Design (Theri + Yuty)
+### Loop 3: Offer Design (Builder + Narrator)
 Input:
 - Selected niche
 
@@ -109,7 +109,7 @@ Output artifacts:
 Gate:
 - Validate each offer includes measurable 30/60/90 day outcomes.
 
-### Loop 4: GTM Execution Plan (Para + Anky)
+### Loop 4: GTM Execution Plan (Monitor + Validator)
 Input:
 - Offer artifacts
 

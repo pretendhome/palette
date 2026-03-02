@@ -156,19 +156,19 @@ Logging validation:
 Scenario A: "I need a business plan for my store"
 Expected:
 - RIU: planning/positioning candidate set
-- Agent: Rex + Yuty
+- Agent: Architect + Narrator
 - Artifact: Operating plan v1
 
 Scenario B: "Find grants and draft applications"
 Expected:
 - RIU: funding/grants path
-- Agent: Argy + Theri
+- Agent: Researcher + Builder
 - Artifact: funding matrix + draft submission package
 
 Scenario C: "My workflow is broken after recent changes"
 Expected:
 - RIU: debug/recovery path
-- Agent: Raptor
+- Agent: Debugger
 - Artifact: root-cause + minimal fix plan
 
 Scenario D: "Deploy directly to production now"

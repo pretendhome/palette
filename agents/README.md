@@ -68,13 +68,13 @@ Rebuild protocol: `agents/REBUILD_CYCLE_V1_3.md`
 
 | Agent | Status | Impressions | Next Tier | Projects |
 |-------|--------|-------------|-----------|----------|
-| **Argentavis** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
-| **Tyrannosaurus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
-| **Therizinosaurus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
-| **Velociraptor** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
-| **Yutyrannus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
-| **Ankylosaurus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
-| **Parasaurolophus** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Researcher** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Architect** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Builder** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Debugger** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Narrator** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Validator** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
+| **Monitor** | UNVALIDATED | 0 impressions | WORKING (10 more) | - |
 | **Orchestrator** | DESIGN ONLY | - | - | - |
 
 See individual agent directories for implementation details.

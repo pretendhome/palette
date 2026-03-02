@@ -1,7 +1,7 @@
 # Fixture: Business Plan Document Assembly
 
 **Fixture ID**: YUTY-001
-**Agent**: Yutyrannus v1.0
+**Agent**: Narrator v1.0
 **Scenario**: Assemble research and strategy artifacts into a professional business plan document
 
 ---
@@ -11,10 +11,10 @@
 **Initial Request**: "Assemble a business plan from the following artifacts: comparable_organizations.md, market_research.md, strategic_framework.md, product_strategy.md. Target: 25-50 pages, professional quality, ready for stakeholders."
 
 **Artifacts Provided**:
-- Comparable research (Argy output): 2-3 organizations with financial data
-- Market research (Argy output): TAM/SAM/SOM, segments, competition
-- Strategic framework (Rex output): Revenue model, financial projections, org structure
-- Product strategy (Rex + Yuty output): Offerings, pricing, go-to-market
+- Comparable research (Researcher output): 2-3 organizations with financial data
+- Market research (Researcher output): TAM/SAM/SOM, segments, competition
+- Strategic framework (Architect output): Revenue model, financial projections, org structure
+- Product strategy (Architect + Narrator output): Offerings, pricing, go-to-market
 
 ---
 
@@ -73,7 +73,7 @@
 
 ## Notes
 
-This fixture tests Yuty's core behavior:
+This fixture tests Narrator's core behavior:
 - Evidence-obsessed narrative (every claim cited)
 - Translating technical to business value
 - Honesty about limitations

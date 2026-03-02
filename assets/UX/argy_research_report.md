@@ -1,5 +1,5 @@
-# Argy Research Report
-**Agent**: Argentavis (Research)  
+# Researcher Research Report
+**Agent**: Researcher  
 **Date**: 2026-02-01  
 **Duration**: 15 minutes  
 **Status**: COMPLETE
@@ -24,7 +24,7 @@
 
 **Applicability to Palette**:
 Palette currently has `/agents/`, `/taxonomy/`, `/library/` structure. Research suggests adding:
-- `/examples/` for validated use cases (Anky will generate 6-30 of these)
+- `/examples/` for validated use cases (Validator will generate 6-30 of these)
 - `/docs/` for consolidated documentation (currently scattered)
 - `/tools/` for automation scripts (if any exist)
 - Clear separation between "what it is" (tier system) and "how to use it" (examples)
@@ -91,13 +91,13 @@ Current onboarding (ONBOARDING.md with "type start" trigger) is good foundation.
 
 **Applicability to Palette**:
 Palette's 8-agent system maps naturally to semantic color coding:
-- **Argentavis (Argy)**: Blue (research/trust/water)
-- **Therizinosaurus (Theri)**: Orange (build/action/fire)
-- **Velociraptor (Raptor)**: Red (debug/alert/critical)
-- **Tyrannosaurus (Rex)**: Purple (design/vision/architecture)
-- **Yutyrannus (Yuty)**: Green (narrative/growth/GTM)
-- **Ankylosaurus (Anky)**: Gray (validate/stability/stone)
-- **Parasaurolophus (Para)**: Yellow (signal/monitor/light)
+- **Researcher**: Blue (research/trust/water)
+- **Builder**: Orange (build/action/fire)
+- **Debugger**: Red (debug/alert/critical)
+- **Architect**: Purple (design/vision/architecture)
+- **Narrator**: Green (narrative/growth/GTM)
+- **Validator**: Gray (validate/stability/stone)
+- **Monitor**: Yellow (signal/monitor/light)
 - **Orchestrator (Orch)**: White (coordinate/neutral/air)
 
 **Visual Identity Recommendation**: Programmer/builder figure holding painter's palette with 8 colored spots representing agents. SVG format for scalability, professional aesthetic.
@@ -127,7 +127,7 @@ Discover issue → Understand requirements → Submit PR → Review → Merge �
 
 **Applicability to Palette**:
 Palette is a toolkit, not a product, so self-improvement means:
-- **Users contribute validated use cases** (Anky validates → adds to examples)
+- **Users contribute validated use cases** (Validator validates → adds to examples)
 - **Users contribute Library entries** (validated solutions to RIUs)
 - **Users contribute Taxonomy refinements** (better RIU routing)
 - **Users report agent failures** (post-mortems improve agent quality)
@@ -182,7 +182,7 @@ Palette shares characteristics with these toolkits:
 - **Modular architecture**: 8 agents, use what you need (not all agents required for every task)
 - **Strong documentation**: Three-tier system (Tier 1/2/3), Taxonomy, Library
 - **Ecosystem potential**: Works with Kiro, Claude, Copilot, Cursor (toolkit-agnostic)
-- **Production examples needed**: Currently has demo guide, needs real FDE use cases (Anky will generate)
+- **Production examples needed**: Currently has demo guide, needs real FDE use cases (Validator will generate)
 
 **Adoption Barrier to Address**:
 - **Complexity perception**: Three-tier system + 8 agents + Taxonomy + Library = high cognitive load
@@ -222,9 +222,9 @@ Palette shares characteristics with these toolkits:
 
 ---
 
-## Routing to Rex
+## Routing to Architect
 
-**Next Agent**: Tyrannosaurus (Rex) - Architecture
+**Next Agent**: Architect - Architecture
 
 **Handoff Context**:
 - Research complete, 5 findings documented
@@ -232,10 +232,10 @@ Palette shares characteristics with these toolkits:
 - Evidence-based recommendations ready for architectural decisions
 - ONE-WAY DOOR decisions pending: repository structure, visual identity
 
-**Rex's Task**: Design information architecture and governance model based on these findings.
+**Architect's Task**: Design information architecture and governance model based on these findings.
 
 ---
 
-**Agent Status**: Argentavis (Argy) - Research phase complete  
+**Agent Status**: Researcher - Research phase complete  
 **Impressions**: success=1, fail=0, fail_gap=1, status=UNVALIDATED  
-**Next**: Human review before proceeding to Rex
+**Next**: Human review before proceeding to Architect

@@ -1,7 +1,7 @@
 # Fixture: RAPTOR-001 Root Cause + Minimal Fix
 
 **Fixture ID**: RAPTOR-001  
-**Agent**: Velociraptor v1.0  
+**Agent**: Debugger v1.0  
 **Scenario**: Reproducible failure in a single module
 
 ## Input

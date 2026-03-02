@@ -1,7 +1,7 @@
 # Fixture: Multiplayer Networking Research
 
 **Fixture ID**: ARG-001  
-**Agent**: Argentavis v1.0  
+**Agent**: Researcher v1.0  
 **Scenario**: Product owner needs to decide between client-server and P2P networking
 
 ---
@@ -50,7 +50,7 @@
 
 ## Notes
 
-This fixture tests Argy's core behavior:
+This fixture tests Researcher's core behavior:
 - Clarification before search
 - Focused research
 - Structured synthesis

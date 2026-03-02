@@ -3,7 +3,7 @@
 **Version**: 1.4
 **Date**: 2026-02-24
 **Status**: CURRENT — supersedes v1.2
-**Agent**: Yuty (refresh) + Argy (source validation)
+**Agent**: Narrator (refresh) + Researcher (source validation)
 **Source**: Refreshed from v1.2 with journey framework, evaluation discipline, and Tier 1/2/3 source enrichment
 
 ---
@@ -100,16 +100,16 @@ All 7 original problem types retained:
 
 ---
 
-## How Argy Uses This Library
+## How Researcher Uses This Library
 
-Argy checks this library as Step 1 before any external search:
+Researcher checks this library as Step 1 before any external search:
 
 ```
 Checking knowledge library for: [topic]
 Search: /home/mical/fde/palette/knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 ```
 
-If a `journey_stage` match is available, Argy surfaces it alongside the answer:
+If a `journey_stage` match is available, Researcher surfaces it alongside the answer:
 ```
 ✓ Found: LIB-113 (journey_stage: evaluation)
   "How do I evaluate a RAG pipeline end-to-end?"
@@ -134,7 +134,7 @@ If a `journey_stage` match is available, Argy surfaces it alongside the answer:
    - Identified gaps: journey framework, evaluation discipline, LLM-as-judge, RAG compound patterns
    - Palette leads on: agent architecture, service routing, practitioner signals, business RIUs
 
-2. **Yuty refresh prompt** (structured, problem_type-by-problem_type, with user confirmation between each)
+2. **Narrator refresh prompt** (structured, problem_type-by-problem_type, with user confirmation between each)
 
 3. **Palette knowledge standard**: Tier 1/2/3 sources only. Existing entries triple-validated — only add when clearly better.
 

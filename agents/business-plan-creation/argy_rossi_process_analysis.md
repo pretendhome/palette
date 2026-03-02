@@ -1,6 +1,6 @@
-# Argy Research Report: Rossi Business Plan Process Analysis
+# Researcher Research Report: Rossi Business Plan Process Analysis
 
-**Agent**: Argentavis (Research - Read-only)  
+**Agent**: Researcher (Read-only)  
 **Date**: 2026-02-10  
 **Purpose**: Reverse-engineer the Rossi Mission business plan process to create reusable agent
 
@@ -133,7 +133,7 @@
 **Evidence Markers Throughout**:
 - [Research: ...] for external data
 - [Case Study Pattern: ...] for proven models
-- [Anky Validation: ...] for quality checks
+- [Validator Validation: ...] for quality checks
 
 **Implementation Plan with Checkboxes**:
 - 6-week action plan
@@ -208,16 +208,16 @@
 
 **Key Elements**:
 - Goal: Research-backed business plan for informed decisions
-- Roles: Argy (research), Rex (architecture), Yuty (presentation), Anky (validation)
+- Roles: Researcher (research), Architect (architecture), Narrator (presentation), Validator (validation)
 - Constraints: 50/50 split, network model, scarcity, founder dependency
 - Success criteria: Informed decisions, evidence-backed, actionable, clear
 
 ### Step 2: Market & Competitive Research
-**What happened**: Argy researched comparables, market data, grant landscape
+**What happened**: Researcher researched comparables, market data, grant landscape
 **Inputs**: Convergence brief, customer context
 **Outputs**: VALIDATED_COMPARABLES_RESEARCH.md (12 pages)
 **Time**: ~2 hours
-**Agent**: Argentavis (Argy)
+**Agent**: Researcher
 
 **Key Breakthrough**: Creative Growth Form 990 discovery
 - $3.26M revenue, 140 artists, 50/50 split, 50 years
@@ -225,11 +225,11 @@
 - Replaces streetwear analogies with credible nonprofit comparable
 
 ### Step 3: Strategic Framework Development
-**What happened**: Rex designed revenue model, organizational structure, expansion plan
-**Inputs**: Argy research, convergence brief
+**What happened**: Architect designed revenue model, organizational structure, expansion plan
+**Inputs**: Researcher research, convergence brief
 **Outputs**: REX-TASK-REVENUE-MODEL-REVISION.md (example)
 **Time**: ~2 hours
-**Agent**: Tyrannosaurus (Rex)
+**Agent**: Architect
 
 **Key Decisions**:
 - Revenue model revision: 64% retail → 45% retail, 26% grants
@@ -243,21 +243,21 @@
 
 ### Step 4: Financial Modeling & Analysis
 **What happened**: Cash flow analysis, 3-year projections, funding requirements
-**Inputs**: Rex strategy, Argy research
+**Inputs**: Architect strategy, Researcher research
 **Outputs**: Financial sections in UNDERWRITER_READY_REPORT.md
 **Time**: ~1 hour
-**Agent**: Rex (with financial modeling)
+**Agent**: Architect (with financial modeling)
 
 **Key Finding**: Month 17 cash crisis without reserve
 - Identified through cash flow modeling
 - Led to funding ask increase ($150K → $185-200K)
 
 ### Step 5: Document Assembly
-**What happened**: Yuty assembled final report with narrative flow
-**Inputs**: Argy research, Rex strategy, financial models
+**What happened**: Narrator assembled final report with narrative flow
+**Inputs**: Researcher research, Architect strategy, financial models
 **Outputs**: UNDERWRITER_READY_REPORT.md (25 pages)
 **Time**: ~2 hours
-**Agent**: Yutyrannus (Yuty)
+**Agent**: Narrator
 
 **Structure**:
 - Executive Summary (decision-focused)
@@ -267,11 +267,11 @@
 - Research Appendix (Creative Growth data)
 
 ### Step 6: Quality Validation
-**What happened**: Anky audited assumptions, identified gaps, scored quality
+**What happened**: Validator audited assumptions, identified gaps, scored quality
 **Inputs**: Complete draft report
 **Outputs**: UNDERWRITER_AUDIT_FINAL.md (82/100 score)
 **Time**: ~1 hour
-**Agent**: Ankylosaurus (Anky)
+**Agent**: Validator
 
 **Key Findings**:
 - Score: 82/100 (conditional pass)
@@ -346,25 +346,25 @@
 - Comparable organization search (Perplexity, web search)
 - Form 990 data extraction (IRS database)
 - Market sizing (industry reports, government data)
-- **How agent does it**: Argy with Perplexity API
+- **How agent does it**: Researcher with Perplexity API
 
 **Financial Modeling**:
 - Revenue projections (based on comparable data)
 - Cash flow analysis (spreadsheet formulas)
 - Funding requirements calculation
-- **How agent does it**: Rex with financial templates
+- **How agent does it**: Architect with financial templates
 
 **Document Assembly**:
 - Combine research + strategy into narrative
 - Apply evidence markers [Research: ...] [Case Study: ...]
 - Format with consistent structure
-- **How agent does it**: Yuty with templates
+- **How agent does it**: Narrator with templates
 
 **Quality Validation**:
 - Check for unsourced claims
 - Identify missing data
 - Score completeness
-- **How agent does it**: Anky with validation checklist
+- **How agent does it**: Validator with validation checklist
 
 ### What Requires Human Input
 
@@ -423,7 +423,7 @@
 **Outputs**: convergence_brief.md
 
 ### Phase 2: Research (2-4 hours)
-**Agent**: Argentavis (Argy)
+**Agent**: Researcher
 
 **Steps**:
 1. Comparable organization search
@@ -446,7 +446,7 @@
 **Outputs**: research_report.md with [Research: ...] citations
 
 ### Phase 3: Strategy Development (2-3 hours)
-**Agent**: Tyrannosaurus (Rex)
+**Agent**: Architect
 
 **Steps**:
 1. Revenue model design
@@ -474,7 +474,7 @@
 **Outputs**: strategic_framework.md with 🚨 ONE-WAY DOORS flagged
 
 ### Phase 4: Document Assembly (2-3 hours)
-**Agent**: Yutyrannus (Yuty)
+**Agent**: Narrator
 
 **Steps**:
 1. Executive summary (2 pages)
@@ -504,7 +504,7 @@
 **Outputs**: business_plan_draft.docx or .md
 
 ### Phase 5: Quality Validation (1-2 hours)
-**Agent**: Ankylosaurus (Anky)
+**Agent**: Validator
 
 **Steps**:
 1. Completeness check
@@ -548,7 +548,7 @@
 
 3. Iteration (if needed)
    - Agents update based on feedback
-   - Re-validate with Anky
+   - Re-validate with Validator
    - Customer re-reviews
 
 4. Final approval (🚨 ONE-WAY DOOR)
@@ -561,7 +561,7 @@
 
 ## 8. Agent Assignment Recommendations
 
-### Argy (Research) - Phases 2
+### Researcher (Research) - Phases 2
 **Responsibilities**:
 - Comparable organization search (Perplexity, web search)
 - Market research (industry reports, government data)
@@ -575,7 +575,7 @@
 
 **Time**: 2-4 hours
 
-### Rex (Architecture) - Phase 3
+### Architect (Architecture) - Phase 3
 **Responsibilities**:
 - Revenue model design (7 streams, 3-year projections)
 - Organizational structure (legal, governance, team)
@@ -590,7 +590,7 @@
 
 **Time**: 2-3 hours
 
-### Yuty (Narrative) - Phase 4
+### Narrator (Narrative) - Phase 4
 **Responsibilities**:
 - Document assembly (combine research + strategy)
 - Executive summary (2 pages, decision-focused)
@@ -605,7 +605,7 @@
 
 **Time**: 2-3 hours
 
-### Anky (Validation) - Phase 5
+### Validator (Validation) - Phase 5
 **Responsibilities**:
 - Completeness check (all sections present?)
 - Quality scoring (0-100 scale)
@@ -743,10 +743,10 @@
 - LIB-091: Business Plan Document Structure (executive summary, market analysis, financials)
 
 **Step 3: Create Agent Prompt Templates**
-- Argy: Comparable organization search prompt
-- Rex: Revenue model design prompt
-- Yuty: Document assembly prompt
-- Anky: Quality validation prompt
+- Researcher: Comparable organization search prompt
+- Architect: Revenue model design prompt
+- Narrator: Document assembly prompt
+- Validator: Quality validation prompt
 
 **Step 4: Create Convergence Brief Template**
 - Standardize customer intake questions
@@ -788,7 +788,7 @@
 - Non-obvious without modeling
 
 ### 5. Quality Validation
-- Anky audit (82/100 score) provided independent assessment
+- Validator audit (82/100 score) provided independent assessment
 - Identified gaps honestly (baseline data, artist case studies)
 - Increased funding probability (~30% → ~75%)
 
@@ -799,6 +799,6 @@
 
 ---
 
-**Status**: Process reverse-engineered, ready for Rex architecture design
+**Status**: Process reverse-engineered, ready for Architect architecture design
 
-**Next Agent**: Tyrannosaurus (Rex) to design formal process architecture
+**Next Agent**: Architect to design formal process architecture

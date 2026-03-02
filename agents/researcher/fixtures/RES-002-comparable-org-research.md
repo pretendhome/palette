@@ -1,7 +1,7 @@
 # Fixture: Comparable Organization Research (Business Plan)
 
 **Fixture ID**: ARG-002
-**Agent**: Argentavis v1.0
+**Agent**: Researcher v1.0
 **Scenario**: Customer needs comparable organizations with financial data to anchor a business plan
 
 ---
@@ -22,7 +22,7 @@
 2. Know about Supreme and Stussy as analogies, but they're not real comparables (different model)
 3. 1-3 organizations with actual financial data (Form 990, public filings) — similar model, not just similar vibes
 4. Need within 2 hours — feeding into strategic framework phase
-5. Rex will use comparables to design revenue model and financial projections
+5. Architect will use comparables to design revenue model and financial projections
 
 ---
 
@@ -58,7 +58,7 @@
 
 ## Rossi Mission Reference
 
-In the validated Rossi engagement, Argy found **Creative Growth Art Center** (Oakland):
+In the validated Rossi engagement, Researcher found **Creative Growth Art Center** (Oakland):
 - Revenue: $3.26M (Form 990)
 - Artists: 140
 - Split: 50/50 (matches Rossi model)
@@ -70,7 +70,7 @@ This replaced weak analogies (Supreme, Stussy) with a credible nonprofit compara
 
 ## Notes
 
-This fixture tests Argy's core behavior in a business plan context:
+This fixture tests Researcher's core behavior in a business plan context:
 - Distinguishing real comparables from aspirational analogies
 - Finding verifiable financial data (not just brand mentions)
 - Honest assessment of relevance and gaps

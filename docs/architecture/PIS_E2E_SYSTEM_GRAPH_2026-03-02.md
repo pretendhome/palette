@@ -29,7 +29,7 @@ flowchart LR
   I --> G[Regression/SLO]
   I --> DR[Drift Detection]
 
-  A --> P[Para Decision Contract]
+  A --> P[Monitor Decision Contract]
   G --> P
   DR --> P
 
@@ -91,7 +91,7 @@ sequenceDiagram
   end
 ```
 
-## 3) Para Decision-State Machine
+## 3) Monitor Decision-State Machine
 
 ```mermaid
 stateDiagram-v2
@@ -118,7 +118,7 @@ Convergence is maintained by four cooperating controls:
 3. Backslide protection: `regression.py`
 4. Semantic consistency pressure: `drift.py`
 
-Para sits above those controls and translates evidence into controlled action:
+Monitor sits above those controls and translates evidence into controlled action:
 - Experiment quickly when reversible.
 - Force convergence when options are unresolved.
 - Block and route when risk is irreversible or failing hard gates.

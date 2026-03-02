@@ -1,7 +1,7 @@
 # Fixture: THERI-001 Bounded Implementation
 
 **Fixture ID**: THERI-001  
-**Agent**: Therizinosaurus v1.0  
+**Agent**: Builder v1.0  
 **Scenario**: Implement a clearly specified artifact
 
 ## Input

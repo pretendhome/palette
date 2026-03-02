@@ -1,7 +1,7 @@
 # Fixture: PARA-001 Threshold Signal Emission
 
 **Fixture ID**: PARA-001  
-**Agent**: Parasaurolophus v1.0  
+**Agent**: Monitor v1.0  
 **Scenario**: Metric crosses configured threshold
 
 ## Input

@@ -38,10 +38,10 @@
 - Part 1: Opening Hook (2 min)
 - Part 2: Architecture (1.5 min)
 - **Part 3: Live Agent Switching (10 min)** ⭐ SHOWSTOPPER
-  - Demo 1: Argy refuses architecture
-  - Demo 2: Theri requires spec
-  - Demo 3: Rex flags ONE-WAY DOOR
-  - Demo 4: Anky blocks without fixing
+  - Demo 1: Researcher refuses architecture
+  - Demo 2: Builder requires spec
+  - Demo 3: Architect flags ONE-WAY DOOR
+  - Demo 4: Validator blocks without fixing
 - Part 4: Meta-Demo (8 min)
 - Part 5: Vision (5 min)
 - Part 6: Q&A (10 min)
@@ -102,7 +102,7 @@ UX Engagement: ✅ Referenced
 wc -l: 657 lines
 Parts: 7 (complete structure)
 Live Agent Switching: ✅ Present (Part 3)
-Agent Prompts: ✅ 4 demos (Argy, Theri, Rex, Anky)
+Agent Prompts: ✅ 4 demos (Researcher, Builder, Architect, Validator)
 ```
 
 ### Archive

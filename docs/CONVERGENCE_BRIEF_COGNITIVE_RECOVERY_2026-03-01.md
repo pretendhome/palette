@@ -124,12 +124,12 @@ Map evidence level for each in context of hypoxic brain injury recovery:
 - [ ] Coordinate with medical team on any interventions
 
 ### Agents Will
-- [ ] Research evidence base for each therapeutic modality in Track 3 (Argy) — peer-reviewed sources only
-- [ ] Map San Francisco Bay Area providers and programs for each track (Argy)
-- [ ] Structure recovery timeline and milestone framework (Rex)
-- [ ] Identify measurable progress indicators per track (Rex + Anky)
-- [ ] Compile findings into clear, actionable recovery plan document (Yuty)
-- [ ] Validate all claims against evidence standards (Anky) — no unsupported claims
+- [ ] Research evidence base for each therapeutic modality in Track 3 (Researcher) — peer-reviewed sources only
+- [ ] Map San Francisco Bay Area providers and programs for each track (Researcher)
+- [ ] Structure recovery timeline and milestone framework (Architect)
+- [ ] Identify measurable progress indicators per track (Architect + Validator)
+- [ ] Compile findings into clear, actionable recovery plan document (Narrator)
+- [ ] Validate all claims against evidence standards (Validator) — no unsupported claims
 
 ---
 
@@ -198,7 +198,7 @@ To make this brief actionable, the following context would help:
 1. [ ] Natasha reviews this convergence brief
 2. [ ] Natasha provides additional context (Information Needed section above)
 3. [ ] Natasha confirms scope and track priorities (🚨 Decision 1)
-4. [ ] Argy begins evidence research on confirmed tracks
+4. [ ] Researcher begins evidence research on confirmed tracks
 5. [ ] First findings review within 1 week
 
 ---
@@ -213,4 +213,4 @@ To make this brief actionable, the following context would help:
 ---
 
 **Status**: Awaiting customer review and additional context
-**Next Agent**: Argentavis (Argy) — evidence research on therapeutic modalities and cognitive rehabilitation
+**Next Agent**: Researcher — evidence research on therapeutic modalities and cognitive rehabilitation

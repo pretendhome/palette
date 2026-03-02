@@ -56,7 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Orchestrator routing rules**: Added `intent/clarify` rule (conversational inputs → Resolver) and Resolver fallback in `routeByCapability` when no candidates match.
 
-- **`core/packet.go`**: Added `AgentCory AgentID = "resolver"` constant.
+- **`core/packet.go`**: Added `AgentResolver AgentID = "resolver"` constant.
 
 ---
 

@@ -31,23 +31,23 @@ cat business_plan_convergence_template.md
 
 **2. Execute Agents** (9-16 hours)
 ```bash
-# Phase 2: Argy - Comparable Research (1-2 hours)
+# Phase 2: Researcher - Comparable Research (1-2 hours)
 # Use: business_plan_agent_prompts.md → Phase 2
 
-# Phase 3: Argy - Market Research (1-2 hours)  
+# Phase 3: Researcher - Market Research (1-2 hours)  
 # Use: business_plan_agent_prompts.md → Phase 3
 
-# Phase 4: Rex - Strategic Framework (2-3 hours)
+# Phase 4: Architect - Strategic Framework (2-3 hours)
 # Use: business_plan_agent_prompts.md → Phase 4
 # 🚨 ONE-WAY DOOR: Revenue model (customer approval)
 # 🚨 ONE-WAY DOOR: Funding ask (customer approval)
 
-# Phase 5: Rex + Yuty - Product Strategy (1-2 hours)
+# Phase 5: Architect + Narrator - Product Strategy (1-2 hours)
 
-# Phase 6: Yuty - Document Assembly (2-3 hours)
+# Phase 6: Narrator - Document Assembly (2-3 hours)
 # Use: business_plan_agent_prompts.md → Phase 6
 
-# Phase 7: Anky - Quality Validation (1-2 hours)
+# Phase 7: Validator - Quality Validation (1-2 hours)
 # Use: business_plan_agent_prompts.md → Phase 7
 # Must score 75+ to proceed
 

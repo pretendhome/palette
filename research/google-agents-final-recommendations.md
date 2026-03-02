@@ -3,7 +3,7 @@
 **Source**: Google "Intro to Agents" (Nov 2025) + User Feedback  
 **Date**: 2026-02-05  
 **Status**: Final recommendations, ready to implement  
-**Argy Research**: Completed validation of Tier 1 immutability principle
+**Researcher Research**: Completed validation of Tier 1 immutability principle
 
 ---
 
@@ -74,14 +74,14 @@ When building or deploying agents:
 
 ### Agent Role Constraints (Security Perspective)
 
-- **Argy (Research)**: Read-only access, cannot execute actions
-- **Rex (Architecture)**: Designs security posture, flags ONE-WAY DOOR security decisions
-- **Theri (Build)**: Write access scoped to specific paths/resources
-- **Raptor (Debug)**: Read access to logs/state, limited write for fixes
-- **Anky (Validate)**: Read-only, validates security implementation
-- **Yuty (Narrative)**: No direct system access, communication only
-- **Para (Monitor)**: Read-only, signals anomalies
-- **Orch (Coordinate)**: Delegates but does not execute directly
+- **Researcher (Research)**: Read-only access, cannot execute actions
+- **Architect (Architecture)**: Designs security posture, flags ONE-WAY DOOR security decisions
+- **Builder (Build)**: Write access scoped to specific paths/resources
+- **Debugger (Debug)**: Read access to logs/state, limited write for fixes
+- **Validator (Validate)**: Read-only, validates security implementation
+- **Narrator (Narrative)**: No direct system access, communication only
+- **Monitor (Monitor)**: Read-only, signals anomalies
+- **Orchestrator (Coordinate)**: Delegates but does not execute directly
 
 ### Routes to Library
 
@@ -131,8 +131,8 @@ Security considerations route to:
   dependencies:
     - RIU-001 (Convergence Brief - must define security requirements)
   agent_types:
-    - Rex (designs security posture)
-    - Anky (validates security implementation)
+    - Architect (designs security posture)
+    - Validator (validates security implementation)
   routes_to_library:
     - LIB-089
     - LIB-090
@@ -166,9 +166,9 @@ Security considerations route to:
     - Implement "before_tool" callbacks to validate parameters
     - Require explicit approval for elevated permissions
     
-    Example: Research agent (Argy) gets read-only database access. 
-    Build agent (Theri) gets write access only to /src directory.
-    Architecture agent (Rex) designs security posture but cannot execute.
+    Example: Research agent (Researcher) gets read-only database access. 
+    Build agent (Builder) gets write access only to /src directory.
+    Architecture agent (Architect) designs security posture but cannot execute.
     
     Blast radius containment:
     If one agent is compromised, damage is limited to its permission scope.
@@ -224,10 +224,10 @@ Security considerations route to:
     4. If any check fails: Block action, log attempt, alert human
     
     Integration with Palette:
-    - Rex designs guardrail architecture (what to constrain)
-    - Theri implements guardrails (code + configuration)
-    - Anky validates guardrails work as intended
-    - Para monitors for guardrail violations in production
+    - Architect designs guardrail architecture (what to constrain)
+    - Builder implements guardrails (code + configuration)
+    - Validator validates guardrails work as intended
+    - Monitor monitors for guardrail violations in production
     
   sources:
     - "Google 'Introduction to Agents' (Nov 2025) - Security section"
@@ -284,10 +284,10 @@ Security considerations route to:
     If SalesAgent is compromised, HR data remains protected.
     
     Palette integration:
-    - Each agent archetype (Argy, Rex, Theri, etc.) has default permission profile
+    - Each agent archetype (Researcher, Architect, Builder, etc.) has default permission profile
     - Instances inherit profile but can be further restricted
-    - Rex designs identity architecture for multi-agent systems
-    - Anky validates identity implementation meets security requirements
+    - Architect designs identity architecture for multi-agent systems
+    - Validator validates identity implementation meets security requirements
     
   sources:
     - "Google 'Introduction to Agents' (Nov 2025) - Agent Identity section"
@@ -310,7 +310,7 @@ Security considerations route to:
 
 ✅ **Respects Tier 1 immutability**: Security goes in Tier 2, not Tier 1  
 ✅ **Follows ONE-WAY DOOR principle**: Security decisions are irreversible (RIU-105 marked as ONE-WAY DOOR)  
-✅ **Maintains agent boundaries**: Rex designs, Theri implements, Anky validates  
+✅ **Maintains agent boundaries**: Architect designs, Builder implements, Validator validates  
 ✅ **Enterprise-ready**: Addresses identity, policy, guardrails comprehensively  
 
 ### Estimated Effort
@@ -334,7 +334,7 @@ ONE-WAY DOOR / TWO-WAY DOOR is Palette's unique differentiator, but it only exis
 - Can be referenced by other RIUs
 - Elevates our unique value
 
-**Feedback incorporated**: Clearly state who performs classification (usually Rex, but any agent must flag and stop if they detect ONE-WAY DOOR).
+**Feedback incorporated**: Clearly state who performs classification (usually Architect, but any agent must flag and stop if they detect ONE-WAY DOOR).
 
 ### What to Change
 
@@ -375,9 +375,9 @@ ONE-WAY DOOR / TWO-WAY DOOR is Palette's unique differentiator, but it only exis
       but short enough to keep them from running into traffic"
     
     Who performs classification:
-    - Primary: Rex (Architecture agent) - designs systems, identifies ONE-WAY DOORs
+    - Primary: Architect (Architecture agent) - designs systems, identifies ONE-WAY DOORs
     - Secondary: Any agent that detects a ONE-WAY DOOR must flag and stop
-    - Validation: Anky reviews classification during quality checks
+    - Validation: Validator reviews classification during quality checks
     - Override: Human can reclassify if agent gets it wrong
     
     Decision process:
@@ -420,7 +420,7 @@ ONE-WAY DOOR / TWO-WAY DOOR is Palette's unique differentiator, but it only exis
   maps_to_rius:
     - RIU-001 (Convergence Brief)
     - RIU-105 (Security)
-    - All architecture RIUs (Rex's domain)
+    - All architecture RIUs (Architect's domain)
   metadata:
     date_added: "2026-02-05"
     version: "1.0"
@@ -429,7 +429,7 @@ ONE-WAY DOOR / TWO-WAY DOOR is Palette's unique differentiator, but it only exis
 ### Why This Approach
 
 ✅ **Quick win**: Single Library entry, high impact  
-✅ **Clarifies responsibility**: Rex primary, any agent can flag  
+✅ **Clarifies responsibility**: Architect primary, any agent can flag  
 ✅ **Provides examples**: Concrete guidance on classification  
 ✅ **Maintains Tier 1 integrity**: Principle stays in Tier 1, implementation in Library  
 
@@ -446,20 +446,20 @@ ONE-WAY DOOR / TWO-WAY DOOR is Palette's unique differentiator, but it only exis
 
 ### Why This Change
 
-Google emphasizes "LM as Judge" for quality evaluation. Palette has Anky (validation agent) but doesn't formalize evaluation methods. This makes our maturity model more rigorous.
+Google emphasizes "LM as Judge" for quality evaluation. Palette has Validator (validation agent) but doesn't formalize evaluation methods. This makes our maturity model more rigorous.
 
 **Feedback incorporated**: Keep "artifact-only validation" principle intact. LM-as-Judge produces an artifact (scored rubric), not a black-box opinion. Deterministic checks come first.
 
 ### What to Change
 
-#### A) Update Tier 2 (Anky's Role)
+#### A) Update Tier 2 (Validator's Role)
 
 **Location**: `/home/mical/palette/.kiro/steering/assumptions.md`
 
-**Find Ankylosaurus section, add validation methods**:
+**Find Validator section, add validation methods**:
 
 ```markdown
-### Ankylosaurus (Anky) — Validation + Cross-Domain Patterns ⚪
+### Validator — Validation + Cross-Domain Patterns ⚪
 
 **Role**: Quality validation, cross-domain pattern identification
 
@@ -495,7 +495,7 @@ Google emphasizes "LM as Judge" for quality evaluation. Palette has Anky (valida
 - Read-only (cannot modify code/systems)
 - Produces evaluation artifacts, not opinions
 - Deterministic checks before LM-as-Judge
-- Routes fixes to Raptor (debug) or Theri (implementation)
+- Routes fixes to Debugger (debug) or Builder (implementation)
 
 **Routes to**: LIB-093 (Agent Quality Evaluation Methods)
 ```
@@ -558,7 +558,7 @@ Google emphasizes "LM as Judge" for quality evaluation. Palette has Anky (valida
     - Store as artifacts (JSON, YAML, CSV)
     
     Palette Integration:
-    - Ankylosaurus (Anky) performs validation using these methods
+    - Validator performs validation using these methods
     - Deterministic checks first, LM-as-Judge second
     - All evaluations produce artifacts (JSON rubrics, test reports)
     - Agent impressions track success/fail over time
@@ -566,13 +566,13 @@ Google emphasizes "LM as Judge" for quality evaluation. Palette has Anky (valida
       based on measured performance (not opinions)
     
     Example validation workflow:
-    1. Theri builds feature
-    2. Anky runs deterministic checks (fixtures pass?)
-    3. Anky runs LM-as-Judge (rubric scores >= threshold?)
-    4. Anky produces evaluation artifact (JSON report)
+    1. Builder builds feature
+    2. Validator runs deterministic checks (fixtures pass?)
+    3. Validator runs LM-as-Judge (rubric scores >= threshold?)
+    4. Validator produces evaluation artifact (JSON report)
     5. Human reviews artifact, approves or requests changes
     6. If approved: increment agent success impressions
-    7. If failed: increment fail, reset fail_gap, route to Raptor
+    7. If failed: increment fail, reset fail_gap, route to Debugger
     
     Anti-pattern: Don't use LM-as-Judge as a black box.
     Always produce scored rubrics as artifacts for human review.
@@ -600,12 +600,12 @@ Google emphasizes "LM as Judge" for quality evaluation. Palette has Anky (valida
 
 ✅ **Artifact-focused**: LM-as-Judge produces JSON rubrics, not opinions  
 ✅ **Deterministic first**: Fixtures and unit tests before AI evaluation  
-✅ **Maintains boundaries**: Anky validates, doesn't fix  
+✅ **Maintains boundaries**: Validator validates, doesn't fix  
 ✅ **Supports maturity model**: Provides concrete methods for impression tracking  
 
 ### Estimated Effort
 
-- Tier 2 update (Anky section): 15 minutes
+- Tier 2 update (Validator section): 15 minutes
 - Library entry creation: 30 minutes
 - Testing/validation: 15 minutes
 
@@ -619,7 +619,7 @@ Google emphasizes "LM as Judge" for quality evaluation. Palette has Anky (valida
 
 **Why**: Our role-based taxonomy (8 archetypes) is more intuitive than their capability-based levels.
 
-**Keep**: Argy, Rex, Theri, Raptor, Yuty, Anky, Para, Orch
+**Keep**: Researcher, Architect, Builder, Debugger, Narrator, Validator, Monitor, Orchestrator
 
 ### ❌ Don't Rename Agents
 
@@ -629,7 +629,7 @@ Google emphasizes "LM as Judge" for quality evaluation. Palette has Anky (valida
 
 ### ❌ Don't Implement Orchestrator Yet
 
-**Why**: Implementing Orch early creates "god-agent syndrome" and violates our own gating rules.
+**Why**: Implementing Orchestrator early creates "god-agent syndrome" and violates our own gating rules.
 
 **Keep**: Orchestrator as design-only (Tier 2) until validated need emerges
 
@@ -651,18 +651,18 @@ Google emphasizes "LM as Judge" for quality evaluation. Palette has Anky (valida
 - [ ] Add LIB-090 (Guardrails) to library YAML
 - [ ] Add LIB-091 (Agent Identity) to library YAML
 - [ ] Test: Load taxonomy + library, verify no YAML errors
-- [ ] Validate: Rex can route to security RIU, Anky can validate
+- [ ] Validate: Architect can route to security RIU, Validator can validate
 
 ### Phase 2: Decision Classification (45 minutes)
 - [ ] Add LIB-092 (Decision Classification) to library YAML
 - [ ] Test: Load library, verify no YAML errors
-- [ ] Validate: Rex can reference LIB-092 when flagging ONE-WAY DOOR
+- [ ] Validate: Architect can reference LIB-092 when flagging ONE-WAY DOOR
 
 ### Phase 3: Validation Methods (1 hour)
-- [ ] Update Tier 2 (assumptions.md) - expand Anky section
+- [ ] Update Tier 2 (assumptions.md) - expand Validator section
 - [ ] Add LIB-093 (Quality Evaluation) to library YAML
 - [ ] Test: Load library, verify no YAML errors
-- [ ] Validate: Anky can produce evaluation artifacts (JSON rubrics)
+- [ ] Validate: Validator can produce evaluation artifacts (JSON rubrics)
 
 ### Phase 4: Documentation (15 minutes)
 - [ ] Update CHANGELOG.md (v1.2 → v1.3)
@@ -697,13 +697,13 @@ Google emphasizes "LM as Judge" for quality evaluation. Palette has Anky (valida
   - Formalizes ONE-WAY DOOR / TWO-WAY DOOR as reusable pattern
 
 - **Validation methods** (Tier 2 + Library)
-  - Expanded Anky role: multi-layered evaluation, LM-as-Judge
+  - Expanded Validator role: multi-layered evaluation, LM-as-Judge
   - LIB-093: Agent Quality Evaluation Methods
   - Artifact-focused validation (JSON rubrics, not opinions)
 
 ### Changed
 - Tier 2 section numbering (Agent Communication Protocol now Section 7)
-- Ankylosaurus description (added validation methods)
+- Validator description (added validation methods)
 
 ### Rationale
 - Addresses enterprise security requirements (Google "Intro to Agents" research)
@@ -729,9 +729,9 @@ Consolidating would create a 3000+ word entry that's hard to use.
 
 **A**: Use LIB-092. Library numbering doesn't need to be sequential. Keep it simple.
 
-### Q3: Should Anky's role expand or create separate "Quality" agent?
+### Q3: Should Validator's role expand or create separate "Quality" agent?
 
-**A**: Expand Anky. Creating a new agent violates our "8 archetypes" constraint. Anky already does validation; adding evaluation methods is natural extension.
+**A**: Expand Validator. Creating a new agent violates our "8 archetypes" constraint. Validator already does validation; adding evaluation methods is natural extension.
 
 ### Q4: Should we implement Orchestrator now?
 
@@ -743,11 +743,11 @@ Consolidating would create a 3000+ word entry that's hard to use.
 
 ---
 
-## Final Validation (Argy Research Findings)
+## Final Validation (Researcher Research Findings)
 
 ### Research Question: Is Tier 1 truly immutable in Palette's design?
 
-**Argy's findings**:
+**Researcher's findings**:
 
 ✅ **Tier 1 is explicitly immutable** (palette-core.md header: "Type: Global Steering File, immutable rules")
 
@@ -766,7 +766,7 @@ Consolidating would create a 3000+ word entry that's hard to use.
 **What we're changing**:
 1. Add security to Tier 2 (not Tier 1) + RIU-105 + 3 Library entries
 2. Formalize decision classification as LIB-092
-3. Strengthen validation with LIB-093 + Anky role expansion
+3. Strengthen validation with LIB-093 + Validator role expansion
 
 **What we're NOT changing**:
 1. Tier 1 (remains immutable)

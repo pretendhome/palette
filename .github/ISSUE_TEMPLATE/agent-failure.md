@@ -7,7 +7,7 @@ assignees: ''
 ---
 
 ## Agent Information
-- **Agent Name**: (e.g., Argentavis, Tyrannosaurus, etc.)
+- **Agent Name**: (e.g., Researcher, Architect, etc.)
 - **Agent Version**: (e.g., v1.0)
 - **Agent Status**: (UNVALIDATED / WORKING / PRODUCTION)
 - **Date**: YYYY-MM-DD

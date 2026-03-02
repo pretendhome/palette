@@ -19,7 +19,7 @@ Workflow files are YAML with the following structure:
   - **quality_gate**: Validation criteria checked before proceeding
   - **decisions**: ONE-WAY DOOR or TWO-WAY DOOR decisions expected in this phase
   - **memory_updates**: What canonical facts this phase is expected to establish or modify
-  - **approval**: `auto` (Anky validates) or `human` (human must approve)
+  - **approval**: `auto` (Validator validates) or `human` (human must approve)
 
 ## Rules
 
@@ -27,4 +27,4 @@ Workflow files are YAML with the following structure:
 2. No phase may begin until the previous phase's quality gate passes.
 3. ONE-WAY DOOR decisions MUST have `approval: human`.
 4. Every phase that produces quantitative output MUST include a `memory_updates` field.
-5. Anky spot-checks between phases (not just at the end).
+5. Validator spot-checks between phases (not just at the end).

@@ -9,7 +9,7 @@
 
 ## Expected Output
 - Orch refuses direct execution
-- Orch routes to Raptor or Theri based on context
+- Orch routes to Debugger or Builder based on context
 - Orch includes bounded task + constraints in handoff
 
 ## Pass Criteria

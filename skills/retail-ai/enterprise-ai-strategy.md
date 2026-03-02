@@ -2,7 +2,7 @@
 id: SKILL-001
 name: Enterprise AI Strategy for Retail
 domain: Retail AI
-for_agents: [Rex, Yuty, Argy]
+for_agents: [Architect, Narrator, Researcher]
 triggers: [RIU-600, RIU-601, RIU-602, RIU-604]
 impressions: 1
 status: WORKING

@@ -17,13 +17,13 @@ Assets and brand guidelines for Palette toolkit.
 ## 8-Agent Color Palette
 
 ```
-Argentavis (Argy):       #3B82F6  (Blue - research/trust/water)
-Therizinosaurus (Theri): #F97316  (Orange - build/action/fire)
-Velociraptor (Raptor):   #EF4444  (Red - debug/alert/critical)
-Tyrannosaurus (Rex):     #A855F7  (Purple - design/vision/architecture)
-Yutyrannus (Yuty):       #10B981  (Green - narrative/growth/GTM)
-Ankylosaurus (Anky):     #6B7280  (Gray - validate/stability/stone)
-Parasaurolophus (Para):  #FBBF24  (Yellow - signal/monitor/light)
+Researcher:       #3B82F6  (Blue - research/trust/water)
+Builder: #F97316  (Orange - build/action/fire)
+Debugger:   #EF4444  (Red - debug/alert/critical)
+Architect:     #A855F7  (Purple - design/vision/architecture)
+Narrator:       #10B981  (Green - narrative/growth/GTM)
+Validator:     #6B7280  (Gray - validate/stability/stone)
+Monitor:  #FBBF24  (Yellow - signal/monitor/light)
 Orchestrator (Orch):     #F3F4F6  (White/Light Gray - coordinate/neutral/air)
 ```
 

@@ -1,7 +1,7 @@
 # Fixture: Multiplayer Architecture Decision
 
 **Fixture ID**: REX-001  
-**Agent**: Rex v1.0  
+**Agent**: Architect v1.0  
 **Scenario**: Product owner needs to choose between client-server and P2P networking
 
 ---
@@ -51,7 +51,7 @@
 
 ## Success Criteria
 
-✅ Rex asked all 5 clarifying questions  
+✅ Architect asked all 5 clarifying questions  
 ✅ Flagged as 🚨 ONE-WAY DOOR  
 ✅ Presented 2+ options with tradeoffs  
 ✅ Recommendation tied to constraints  
@@ -62,7 +62,7 @@
 
 ## Notes
 
-This fixture tests Rex's core behavior:
+This fixture tests Architect's core behavior:
 - Clarification before design
 - ONE-WAY DOOR detection
 - Multi-option tradeoff analysis
