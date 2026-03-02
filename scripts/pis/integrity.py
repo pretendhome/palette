@@ -159,9 +159,49 @@ def _load_people(root: str) -> list[dict]:
     return profiles
 
 
+# Override registry (loaded once, cached)
+_override_cache: dict[str, str] | None = None
+
+
+def _load_overrides() -> dict[str, str]:
+    """Load explicit service→recipe overrides from YAML registry."""
+    global _override_cache
+    if _override_cache is not None:
+        return _override_cache
+
+    override_path = os.path.join(
+        _palette_root(), "company-library", "service-routing", "v1.0",
+        "service_recipe_overrides.yaml",
+    )
+    _override_cache = {}
+    if os.path.exists(override_path):
+        with open(override_path, "r") as f:
+            data = yaml.safe_load(f) or {}
+        for entry in data.get("overrides", []):
+            svc = entry.get("service_name", "")
+            rkey = entry.get("recipe_key", "")
+            if svc and rkey:
+                _override_cache[svc.lower()] = rkey.lower()
+    return _override_cache
+
+
 def _find_recipe_for_service(recipes: dict[str, dict], service_name: str) -> str | None:
-    """Match a service name to a recipe key using normalised matching."""
+    """Match a service name to a recipe key using overrides then normalised matching."""
     import re
+
+    # Strategy 0: explicit override registry (highest confidence)
+    overrides = _load_overrides()
+    override_key = overrides.get(service_name.lower())
+    if override_key:
+        # Check if the override key exists in recipes
+        if override_key in recipes:
+            return override_key
+        # Also check normalised form
+        norm_override = re.sub(r"[^a-z0-9]", "", override_key)
+        for rkey in recipes:
+            if re.sub(r"[^a-z0-9]", "", rkey) == norm_override:
+                return rkey
+
     norm = re.sub(r"[^a-z0-9]", "", service_name.lower())
 
     # Strategy 1: exact normalised match
@@ -177,7 +217,6 @@ def _find_recipe_for_service(recipes: dict[str, dict], service_name: str) -> str
             return rkey
 
     # Strategy 3: word overlap
-    name_words = {w for w in norm if len(w) > 2}  # single chars after norm — use split instead
     name_words = {w for w in service_name.lower().split() if len(w) > 2}
     for rkey in recipes:
         rkey_words = {w for w in rkey.split() if len(w) > 2}

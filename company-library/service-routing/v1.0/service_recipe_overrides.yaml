@@ -1,0 +1,115 @@
+# Service → Recipe Override Registry
+# Version: 1.0
+# Purpose: Explicit mappings that bypass fuzzy matching in integrity engine.
+# When a service name doesn't naturally match its recipe directory name,
+# add an override here. Checked FIRST before fuzzy matching falls through.
+#
+# Format:
+#   - service_name: exact name from routing YAML
+#     recipe_key: exact key the recipe is loaded under (service_name.lower() from recipe.yaml)
+#     confidence: 1.0 (explicit override = full confidence)
+#     note: why this override exists
+
+overrides:
+  # Honeycomb SLOs is a feature within Honeycomb, shares the recipe
+  - service_name: "Honeycomb SLOs"
+    recipe_key: "honeycomb"
+    confidence: 1.0
+    note: "SLO feature within Honeycomb platform — same integration"
+
+  # LiteLLM variants both use the same recipe
+  - service_name: "LiteLLM (self-hosted)"
+    recipe_key: "litellm"
+    confidence: 1.0
+    note: "Self-hosted variant of LiteLLM"
+
+  - service_name: "LiteLLM (built-in)"
+    recipe_key: "litellm"
+    confidence: 1.0
+    note: "Built-in LiteLLM proxy mode"
+
+  # Whisper self-hosted uses the whisper recipe
+  - service_name: "Whisper (OpenAI) — self-hosted"
+    recipe_key: "whisper"
+    confidence: 1.0
+    note: "Self-hosted Whisper model — no API call, local inference"
+
+  # pgvector is an extension, not a standalone service
+  - service_name: "pgvector (PostgreSQL)"
+    recipe_key: "pgvector"
+    confidence: 1.0
+    note: "PostgreSQL extension for vector similarity search"
+
+  # Canva AI has no API — recipe documents this limitation
+  - service_name: "Canva AI (Magic Media)"
+    recipe_key: "canva-ai"
+    confidence: 1.0
+    note: "No public API — recipe documents manual workflow only"
+
+  # Evidently AI appears across multiple RIUs
+  - service_name: "Evidently AI"
+    recipe_key: "evidently-ai"
+    confidence: 1.0
+    note: "Used for monitoring, evaluation, and drift detection across multiple RIUs"
+
+  # Seedance and Kling via Higgsfield
+  - service_name: "Seedance Pro (via Higgsfield AI)"
+    recipe_key: "seedance-pro"
+    confidence: 1.0
+    note: "ByteDance video model accessed via Higgsfield AI"
+
+  - service_name: "Kling 2.1/3.0 (via Higgsfield AI)"
+    recipe_key: "kling"
+    confidence: 1.0
+    note: "Kuaishou video model accessed via Higgsfield AI"
+
+  # NotebookLM variants
+  - service_name: "NotebookLM (Google)"
+    recipe_key: "notebooklm"
+    confidence: 1.0
+    note: "Google's AI notebook tool"
+
+  # ElastiCache
+  - service_name: "ElastiCache (AWS)"
+    recipe_key: "elasticache"
+    confidence: 1.0
+    note: "AWS managed Redis/Memcached"
+
+  # Runway with model name
+  - service_name: "Runway (Aleph model)"
+    recipe_key: "runway"
+    confidence: 1.0
+    note: "Runway video generation — Aleph model variant"
+
+  # Claude/OpenAI/Gemini with parenthetical company names
+  - service_name: "Claude (Anthropic)"
+    recipe_key: "claude"
+    confidence: 1.0
+    note: "Anthropic Claude API"
+
+  - service_name: "OpenAI (GPT-4/o series)"
+    recipe_key: "openai"
+    confidence: 1.0
+    note: "OpenAI API — GPT-4, GPT-4o, o1, o3 series"
+
+  - service_name: "Gemini (Google DeepMind)"
+    recipe_key: "gemini"
+    confidence: 1.0
+    note: "Google Gemini API"
+
+  - service_name: "Grok (xAI)"
+    recipe_key: "grok"
+    confidence: 1.0
+    note: "xAI Grok API"
+
+  # Fairlearn with parenthetical
+  - service_name: "Fairlearn (Microsoft)"
+    recipe_key: "fairlearn (microsoft)"
+    confidence: 1.0
+    note: "Already matched but ensuring explicit override"
+
+  # Microsoft Presidio
+  - service_name: "Microsoft Presidio"
+    recipe_key: "microsoft-presidio"
+    confidence: 1.0
+    note: "PII detection/anonymization library"
