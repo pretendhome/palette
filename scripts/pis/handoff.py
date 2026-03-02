@@ -1,4 +1,11 @@
-"""HandoffPacket v2 — Shared state for multi-agent coordination."""
+"""DEPRECATED: legacy HandoffPacket model.
+
+Active coordination state and replay semantics now live in:
+  scripts/pis/coordination.py
+
+This module remains only as a compatibility shim for older references and
+should not be used for new code.
+"""
 
 import json
 from datetime import datetime, timezone

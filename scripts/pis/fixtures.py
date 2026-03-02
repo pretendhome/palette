@@ -61,13 +61,14 @@ def fix_t4_convergence_brief(data: PISData) -> None:
 
 
 def fix_t5_audio_stub(data: PISData) -> None:
-    """RIU-502 (Audio Processing) — stub routing (Wispr = no_api), expect degraded."""
+    """RIU-502 (Audio Processing) — currently full coverage with integrated Whisper."""
     r = traverse(data, riu_id="RIU-502")
     _assert(r.completeness is not None, "completeness missing")
-    # Wispr has no_api but Whisper is integrated, so primary may not be a stub.
-    # The key check: completeness reflects the data state accurately.
-    _assert(len(r.gaps) > 0, "gaps should flag issues for RIU-502")
+    _assert(r.completeness.total >= 85, f"expected completeness >= 85, got {r.completeness.total}")
+    _assert(r.completeness.label in ("partial", "full"), f"unexpected label: {r.completeness.label}")
+    _assert(len(r.gaps) == 0, f"expected no gaps for RIU-502, got {r.gaps}")
     _assert(r.recommendation is not None, "expected recommendation (Whisper is integrated)")
+    _assert("Whisper" in r.recommendation.service_name, f"unexpected primary recommendation: {r.recommendation.service_name}")
 
 
 FIXTURES = [

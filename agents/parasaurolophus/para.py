@@ -322,6 +322,19 @@ Routing recommendation:
 3. Other agent acts → Analyzes, fixes, or recommends
 4. Para continues monitoring → Verifies resolution
 
+**Para block routing contract**:
+- `ship`: two-way door, clear positive impact
+- `ship_with_risks`: two-way door with clear benefit, but debug likely later
+- `ship_with_convergence`: multiple valid options need convergence loop
+- `block`: hard gate fail or unsafe one-way-door path
+
+- Self-inflicted bug → Raptor
+- Architecture gap → Rex
+- Research gap → Argy
+
+Minimal block note:
+`X has been blocked for Y risk.`
+
 **Example Flow**:
 ```
 Para: "⚠️ Fixture pass rate dropped from 95% to 70%"

@@ -17,6 +17,12 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+USAGE = """Usage:
+  python raptor.py '<failure description>'
+  python raptor.py             # interactive mode (TTY only)
+  python raptor.py -h|--help
+"""
+
 
 class Velociraptor:
     """Debugger Agent - Failure Isolation and Root Cause Analysis"""
@@ -348,19 +354,21 @@ Potential impacts:
 
 def main():
     """Entry point for Raptor agent"""
-    if len(sys.argv) < 2:
-        print("Usage: python raptor.py '<failure description>'")
-        print("Example: python raptor.py 'API returns 500 error'")
-        print("\nOr run in interactive mode:")
-        print("  python raptor.py")
-        sys.exit(1)
-    
+    if len(sys.argv) == 2 and sys.argv[1] in ("-h", "--help"):
+        print(USAGE)
+        sys.exit(0)
+
     if len(sys.argv) == 1:
-        # Interactive mode
+        if not sys.stdin.isatty():
+            print(USAGE)
+            sys.exit(1)
         print("Velociraptor (Raptor) - Interactive Mode")
         request = input("Failure description: ").strip()
     else:
-        request = " ".join(sys.argv[1:])
+        request = " ".join(sys.argv[1:]).strip()
+        if not request:
+            print(USAGE)
+            sys.exit(1)
     
     agent = Velociraptor()
     agent.run(request)
