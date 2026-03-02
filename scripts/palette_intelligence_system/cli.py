@@ -1,13 +1,13 @@
 """CLI entry point for PIS traversal.
 
 Usage:
-  python3 -m scripts.pis.cli --riu RIU-082
-  python3 -m scripts.pis.cli --lib LIB-042
-  python3 -m scripts.pis.cli --query "add guardrails to my LLM app"
-  python3 -m scripts.pis.cli --riu RIU-082 --json
-  python3 -m scripts.pis.cli --fixtures
-  python3 -m scripts.pis.cli --health
-  echo '{"from":"corythosaurus","riu_ids":["LIB-042"]}' | python3 -m scripts.pis.cli
+  python3 -m scripts.palette_intelligence_system.cli --riu RIU-082
+  python3 -m scripts.palette_intelligence_system.cli --lib LIB-042
+  python3 -m scripts.palette_intelligence_system.cli --query "add guardrails to my LLM app"
+  python3 -m scripts.palette_intelligence_system.cli --riu RIU-082 --json
+  python3 -m scripts.palette_intelligence_system.cli --fixtures
+  python3 -m scripts.palette_intelligence_system.cli --health
+  echo '{"from":"corythosaurus","riu_ids":["LIB-042"]}' | python3 -m scripts.palette_intelligence_system.cli
 """
 
 from __future__ import annotations

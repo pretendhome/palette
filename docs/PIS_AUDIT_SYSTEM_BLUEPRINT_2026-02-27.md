@@ -74,7 +74,7 @@ Minimum merge gates for PIS data or engine changes:
 
 ## Immediate Baseline Tooling
 
-Use `scripts/pis/audit_system.py` as the fast baseline auditor:
+Use `scripts/palette_intelligence_system/audit_system.py` as the fast baseline auditor:
 
 - Produces severity-ranked findings.
 - Produces top remediation actions by weighted impact.

@@ -53,7 +53,7 @@ Plus:
 
 ```bash
 cd /home/mical/fde/palette
-python3 -m scripts.pis.para_decision \
+python3 -m scripts.palette_intelligence_system.para_decision \
   --reach-convergence-first \
   --two-way-door \
   --clear-benefit \

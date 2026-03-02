@@ -9,7 +9,7 @@ Method: Product lens + Principal Engineering lens + game-theory reconciliation
 - Audit findings: 1 medium (`LINK_MISSING_PEOPLE_SIGNALS`)
 - Regression SLOs: 7/7 pass, 0 regressions
 - Drift clusters: 15 (3 high, 9 medium, 3 low)
-- Tests: `60 passed` (`uv run pytest -q scripts/pis/test_*.py`)
+- Tests: `60 passed` (`uv run pytest -q scripts/palette_intelligence_system/test_*.py`)
 
 ## Tool/Language Selection for Diagram
 
@@ -49,7 +49,7 @@ Theri framing used:
 
 Findings:
 1. Strong: Hard gates and tests are currently stable (all green except one medium finding).
-2. Strong: Deprecated duplicate (`scripts/pis/handoff.py`) is now explicitly labeled as compatibility shim.
+2. Strong: Deprecated duplicate (`scripts/palette_intelligence_system/handoff.py`) is now explicitly labeled as compatibility shim.
 3. Strong: Raptor CLI unsafe help path fixed; no accidental ledger writes on `--help`.
 4. Gap: There is no single one-command "governance bundle" that always runs integrity + audit + regression + drift + para decision in one artifact.
 5. Gap: Drift remains outside blocking gates by policy; this is acceptable now but should be explicitly intentional.

@@ -22,8 +22,8 @@
 
 ### 3. Engine Improvements ✅
 - **Override registry** implemented (service_recipe_overrides.yaml)
-- **Terminology drift detection** module (scripts/pis/drift.py)
-- **Regression fixtures + SLO system** (scripts/pis/regression.py)
+- **Terminology drift detection** module (scripts/palette_intelligence_system/drift.py)
+- **Regression fixtures + SLO system** (scripts/palette_intelligence_system/regression.py)
 
 ### 4. Fixes Applied ✅
 - Fixed Kling AI recipe mapping (kling → kling ai)
@@ -140,19 +140,19 @@ From the original blueprint, these remain unbuilt:
 
 ```bash
 # Run integrity engine
-cd ~/fde/palette && python3 -m scripts.pis.integrity --checks-only
+cd ~/fde/palette && python3 -m scripts.palette_intelligence_system.integrity --checks-only
 
 # Run audit system
-python3 -m scripts.pis.audit_system
+python3 -m scripts.palette_intelligence_system.audit_system
 
 # Check regression vs baseline
-python3 -m scripts.pis.regression --check
+python3 -m scripts.palette_intelligence_system.regression --check
 
 # Detect terminology drift
-python3 -m scripts.pis.drift
+python3 -m scripts.palette_intelligence_system.drift
 
 # Continuous audit loop (if needed)
-./scripts/pis/run_forever.sh
+./scripts/palette_intelligence_system/run_forever.sh
 ```
 
 ---

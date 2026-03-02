@@ -17,7 +17,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PALETTE_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
 cd "${PALETTE_DIR}"
-python3 -m scripts.pis.run_audit_batch \
+python3 -m scripts.palette_intelligence_system.run_audit_batch \
   --infinite \
   --interval "${INTERVAL}" \
   --backlog-path "${BACKLOG_PATH}" \

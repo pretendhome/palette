@@ -6,8 +6,8 @@ __pycache__/
 agents/orchestrator/orch
 .DS_Store
 .venv/
-scripts/pis/traversal_health.jsonl
-scripts/pis/state/
-scripts/pis/pis_query_log.jsonl
+scripts/palette_intelligence_system/traversal_health.jsonl
+scripts/palette_intelligence_system/state/
+scripts/palette_intelligence_system/pis_query_log.jsonl
 agents/corythosaurus/history.jsonl
 scripts/enrichment/enrichment_log.jsonl

@@ -123,8 +123,8 @@ The traverse engine is the read path of the system. Query any RIU and get a stru
 
 ```
 $ python3 -c "
-from scripts.pis.loader import load_all
-from scripts.pis.traverse import traverse
+from scripts.palette_intelligence_system.loader import load_all
+from scripts.palette_intelligence_system.traverse import traverse
 r = traverse(load_all(), riu_id='RIU-082')
 "
 
@@ -151,19 +151,19 @@ The integrity engine is the write path — structural proof that the system is h
 
 ```bash
 # Consistency checks
-python3 -m scripts.pis.integrity --checks-only
+python3 -m scripts.palette_intelligence_system.integrity --checks-only
 
 # Audit with severity ranking
-python3 -m scripts.pis.audit_system
+python3 -m scripts.palette_intelligence_system.audit_system
 
 # Regression check against baseline
-python3 -m scripts.pis.regression --check
+python3 -m scripts.palette_intelligence_system.regression --check
 
 # Terminology drift detection
-python3 -m scripts.pis.drift
+python3 -m scripts.palette_intelligence_system.drift
 
 # Governance decision
-python3 -m scripts.pis.para_decision
+python3 -m scripts.palette_intelligence_system.para_decision
 ```
 
 The Para decision engine chains all four checks and outputs a governed decision:
@@ -205,38 +205,42 @@ Required actions:
 
 ```
 palette/
-├── taxonomy/releases/v1.3/          # 117 RIUs (problem-solution pairs)
-├── knowledge-library/v1.4/          # 498 entries with source citations
+├── core/                               # Governance tiers (visible on GitHub)
+│   ├── palette-core.md                 # Tier 1 — Immutable rules
+│   ├── assumptions.md                  # Tier 2 — Experimental assumptions
+│   └── decisions-prompt.md             # Tier 3 — Decision log policy
+├── taxonomy/releases/v1.3/             # 117 RIUs (problem-solution pairs)
+├── knowledge-library/v1.4/             # 498 entries with source citations
 ├── company-library/
-│   ├── integrations/                # 69 integration recipes
-│   ├── service-routing/v1.0/        # 106 services, 40 routing profiles
-│   ├── people-library/v1.1/         # 21 profiles, 33 tools tracked
+│   ├── integrations/                   # 69 integration recipes
+│   ├── service-routing/v1.0/           # 106 services, 40 routing profiles
+│   ├── people-library/v1.1/            # 21 profiles, 33 tools tracked
 │   └── PALETTE_INTELLIGENCE_SYSTEM_v1.0.md
 ├── agents/
-│   ├── argentavis/                  # Argy — Research
-│   ├── rex/                         # Rex — Architecture
-│   ├── therizinosaurus/             # Theri — Build
-│   ├── velociraptor/                # Raptor — Debug
-│   ├── yutyrannus/                  # Yuty — Narrative
-│   ├── ankylosaurus/                # Anky — Validation
-│   └── parasaurolophus/             # Para — Monitoring
-├── scripts/pis/
-│   ├── integrity.py                 # 8 consistency checks across 6 layers
-│   ├── audit_system.py              # Severity-ranked findings
-│   ├── regression.py                # Baseline snapshots + 7 SLOs
-│   ├── drift.py                     # Terminology inconsistency detection
-│   ├── para_decision.py             # Governance decision engine
-│   ├── traverse.py                  # Structured decision packets
-│   └── test_*.py                    # 60 tests, all passing
+│   ├── argentavis/                     # Argy — Research
+│   ├── rex/                            # Rex — Architecture
+│   ├── therizinosaurus/                # Theri — Build
+│   ├── velociraptor/                   # Raptor — Debug
+│   ├── yutyrannus/                     # Yuty — Narrative
+│   ├── ankylosaurus/                   # Anky — Validation
+│   └── parasaurolophus/                # Para — Monitoring
+├── scripts/palette_intelligence_system/
+│   ├── integrity.py                    # 8 consistency checks across 6 layers
+│   ├── audit_system.py                 # Severity-ranked findings
+│   ├── regression.py                   # Baseline snapshots + 7 SLOs
+│   ├── drift.py                        # Terminology inconsistency detection
+│   ├── para_decision.py                # Governance decision engine
+│   ├── traverse.py                     # Structured decision packets
+│   └── test_*.py                       # 60 tests, all passing
 ├── docs/
-│   ├── architecture/                # E2E system diagrams (Mermaid)
-│   ├── audits/                      # Hardening reviews
-│   └── PARA_DECISION_CONTRACT.md    # Governance spec
-└── implementations/                 # Live projects using the toolkit
-    ├── retail/                      # Small business (Rossi Store)
-    ├── talent/                      # Interview prep (Glean, Gap)
-    ├── education/                   # Resume optimization (Lenovo EKM)
-    └── ...                          # 9 active projects
+│   ├── architecture/                   # E2E system diagrams (Mermaid)
+│   ├── audits/                         # Hardening reviews
+│   └── PARA_DECISION_CONTRACT.md       # Governance spec
+└── implementations/                    # Live projects using the toolkit
+    ├── retail/                         # Small business (Rossi Store)
+    ├── talent/                         # Interview prep (Glean, Gap)
+    ├── education/                      # Resume optimization (Lenovo EKM)
+    └── ...                             # 9 active projects
 ```
 
 ---
@@ -245,25 +249,25 @@ palette/
 
 ```bash
 # Clone
-git clone https://github.com/pretendhome/pretendhome.git
-cd pretendhome/palette
+git clone https://github.com/pretendhome/palette.git
+cd palette
 
 # Run integrity checks
-python3 -m scripts.pis.integrity --checks-only
+python3 -m scripts.palette_intelligence_system.integrity --checks-only
 
 # Run full audit
-python3 -m scripts.pis.audit_system
+python3 -m scripts.palette_intelligence_system.audit_system
 
 # Check regression status
-python3 -m scripts.pis.regression --check
+python3 -m scripts.palette_intelligence_system.regression --check
 
 # Run governance decision
-python3 -m scripts.pis.para_decision
+python3 -m scripts.palette_intelligence_system.para_decision
 
 # Traverse a specific RIU
 python3 -c "
-from scripts.pis.loader import load_all
-from scripts.pis.traverse import traverse
+from scripts.palette_intelligence_system.loader import load_all
+from scripts.palette_intelligence_system.traverse import traverse
 r = traverse(load_all(), riu_id='RIU-521')
 print(f'{r.query_riu} — {r.query_riu_name}')
 print(f'Recommendation: {r.recommendation.service_name}')

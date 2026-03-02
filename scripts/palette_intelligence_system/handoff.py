@@ -1,7 +1,7 @@
 """DEPRECATED: legacy HandoffPacket model.
 
 Active coordination state and replay semantics now live in:
-  scripts/pis/coordination.py
+  scripts/palette_intelligence_system/coordination.py
 
 This module remains only as a compatibility shim for older references and
 should not be used for new code.

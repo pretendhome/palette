@@ -207,19 +207,19 @@ The PIS integrity system has been fully validated through an end-to-end iteratio
 
 ```bash
 # Daily integrity check
-cd ~/fde/palette && python3 -m scripts.pis.integrity --checks-only
+cd ~/fde/palette && python3 -m scripts.palette_intelligence_system.integrity --checks-only
 
 # Weekly audit
-python3 -m scripts.pis.audit_system
+python3 -m scripts.palette_intelligence_system.audit_system
 
 # Regression check (after data changes)
-python3 -m scripts.pis.regression --check
+python3 -m scripts.palette_intelligence_system.regression --check
 
 # Terminology drift scan (monthly)
-python3 -m scripts.pis.drift
+python3 -m scripts.palette_intelligence_system.drift
 
 # Continuous monitoring (if needed)
-./scripts/pis/run_forever.sh
+./scripts/palette_intelligence_system/run_forever.sh
 ```
 
 ---

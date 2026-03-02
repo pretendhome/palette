@@ -11,7 +11,7 @@ dependencies = [
 ]
 
 [project.scripts]
-pis = "scripts.pis.cli:main"
+pis = "scripts.palette_intelligence_system.cli:main"
 
 [dependency-groups]
 dev = [

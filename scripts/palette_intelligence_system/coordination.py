@@ -8,10 +8,10 @@ Runs a 4-step coordination pipeline:
   final      → aggregate results, set overall task status
 
 Usage:
-  python -m scripts.pis.coordination run "add guardrails to my llm app"
-  python -m scripts.pis.coordination show <task_id>
-  python -m scripts.pis.coordination replay <task_id>
-  python -m scripts.pis.coordination list
+  python -m scripts.palette_intelligence_system.coordination run "add guardrails to my llm app"
+  python -m scripts.palette_intelligence_system.coordination show <task_id>
+  python -m scripts.palette_intelligence_system.coordination replay <task_id>
+  python -m scripts.palette_intelligence_system.coordination list
 
 Replay Semantics:
   `replay` finds the first step with status 'failed', preserves all upstream
@@ -134,10 +134,10 @@ def _new_packet(user_query: str) -> Dict[str, Any]:
         "gaps": [],
         "errors": [],
         "provenance": {
-            "tool": "scripts.pis.coordination",
+            "tool": "scripts.palette_intelligence_system.coordination",
             "version": "v2",
-            "traversal_module": "scripts.pis.traverse",
-            "resolver_module": "scripts.pis.cli.keyword_resolve",
+            "traversal_module": "scripts.palette_intelligence_system.traverse",
+            "resolver_module": "scripts.palette_intelligence_system.cli.keyword_resolve",
         },
     }
 

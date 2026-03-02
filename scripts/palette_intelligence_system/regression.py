@@ -5,10 +5,10 @@ runs against it. Detects behavioral drift (RIU score changes, new/lost gaps,
 consistency check regressions) and enforces SLOs.
 
 Usage:
-  python3 -m scripts.pis.regression --capture     # save current state as baseline
-  python3 -m scripts.pis.regression --check        # compare current state vs baseline
-  python3 -m scripts.pis.regression --check --json # JSON diff output
-  python3 -m scripts.pis.regression --slo-only     # just check SLOs
+  python3 -m scripts.palette_intelligence_system.regression --capture     # save current state as baseline
+  python3 -m scripts.palette_intelligence_system.regression --check        # compare current state vs baseline
+  python3 -m scripts.palette_intelligence_system.regression --check --json # JSON diff output
+  python3 -m scripts.palette_intelligence_system.regression --slo-only     # just check SLOs
 """
 
 from __future__ import annotations

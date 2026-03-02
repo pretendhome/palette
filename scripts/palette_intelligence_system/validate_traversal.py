@@ -63,7 +63,7 @@ def parse_manual_results() -> Dict[str, Dict[str, str]]:
 def run_traverse(riu_id: str) -> str:
     """Run query_engine traverse and capture stdout."""
     result = subprocess.run(
-        [sys.executable, "-m", "scripts.pis.query_engine", "traverse", riu_id],
+        [sys.executable, "-m", "scripts.palette_intelligence_system.query_engine", "traverse", riu_id],
         cwd=REPO_ROOT / "palette",
         capture_output=True,
         text=True,

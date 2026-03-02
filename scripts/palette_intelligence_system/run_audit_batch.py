@@ -2,9 +2,9 @@
 """Run PIS audit_system repeatedly.
 
 Examples:
-  python3 -m scripts.pis.run_audit_batch --count 20
-  python3 -m scripts.pis.run_audit_batch --count 50 --interval 1
-  python3 -m scripts.pis.run_audit_batch --infinite --interval 2
+  python3 -m scripts.palette_intelligence_system.run_audit_batch --count 20
+  python3 -m scripts.palette_intelligence_system.run_audit_batch --count 50 --interval 1
+  python3 -m scripts.palette_intelligence_system.run_audit_batch --infinite --interval 2
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ def main() -> int:
     parser.add_argument(
         "--workdir",
         default=str(Path.home() / "fde" / "palette"),
-        help="Directory where scripts.pis.audit_system is available",
+        help="Directory where scripts.palette_intelligence_system.audit_system is available",
     )
     parser.add_argument(
         "--backlog-path",
@@ -65,7 +65,7 @@ def main() -> int:
             cmd = [
                 sys.executable,
                 "-m",
-                "scripts.pis.audit_system",
+                "scripts.palette_intelligence_system.audit_system",
                 "--strict",
                 "--emit-backlog-json",
                 args.backlog_path,

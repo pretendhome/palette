@@ -5,8 +5,8 @@ from __future__ import annotations
 import unittest
 from types import SimpleNamespace
 
-from scripts.pis.audit_system import AuditReport, AuditSummary, Finding
-from scripts.pis.para_decision import decide
+from scripts.palette_intelligence_system.audit_system import AuditReport, AuditSummary, Finding
+from scripts.palette_intelligence_system.para_decision import decide
 
 
 def _mk_reports(findings: list[Finding], failed_checks: int = 0, failing_slos: int = 0):

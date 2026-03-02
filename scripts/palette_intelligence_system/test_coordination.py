@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Unit tests for scripts.pis.coordination — HandoffPacket v2 + replay.
+"""Unit tests for scripts.palette_intelligence_system.coordination — HandoffPacket v2 + replay.
 
 Run with:
-  python -m unittest scripts.pis.test_coordination
+  python -m unittest scripts.palette_intelligence_system.test_coordination
 (from palette/)
 
 All tests use real PIS data. Cory step uses keyword_resolve (no LLM).
@@ -17,7 +17,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.pis import coordination
+from scripts.palette_intelligence_system import coordination
 
 
 class CoordinationBase(unittest.TestCase):

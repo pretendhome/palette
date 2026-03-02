@@ -2,7 +2,7 @@
 """Unit tests for query_engine.py — PIS Query Engine.
 
 Run with:
-  python -m unittest scripts.pis.test_query_engine
+  python -m unittest scripts.palette_intelligence_system.test_query_engine
   (from the palette/ directory)
 
 All tests use real PIS data. No mock YAML files.
@@ -13,7 +13,7 @@ import unittest
 from io import StringIO
 from pathlib import Path
 
-from scripts.pis.query_engine import (
+from scripts.palette_intelligence_system.query_engine import (
     PISData,
     cmd_check,
     cmd_cost,

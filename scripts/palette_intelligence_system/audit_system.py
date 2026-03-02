@@ -8,11 +8,11 @@ This script audits the existing integrity engine and underlying PIS data for:
 4) Operational quality gaps (cost/provenance/recommender metadata)
 
 Usage:
-  python3 -m scripts.pis.audit_system
-  python3 -m scripts.pis.audit_system --json
-  python3 -m scripts.pis.audit_system --strict
-  python3 -m scripts.pis.audit_system --emit-backlog-json /tmp/pis_backlog.json
-  python3 -m scripts.pis.audit_system --max-findings 40
+  python3 -m scripts.palette_intelligence_system.audit_system
+  python3 -m scripts.palette_intelligence_system.audit_system --json
+  python3 -m scripts.palette_intelligence_system.audit_system --strict
+  python3 -m scripts.palette_intelligence_system.audit_system --emit-backlog-json /tmp/pis_backlog.json
+  python3 -m scripts.palette_intelligence_system.audit_system --max-findings 40
 """
 
 from __future__ import annotations
@@ -238,7 +238,7 @@ def _check_service_recipe_ambiguity(data: IntegrityData) -> list[Finding]:
                     candidates.append(key)
             if len(set(candidates)) > 1:
                 # Check if an override exists for this service
-                from scripts.pis.integrity import _load_overrides
+                from scripts.palette_intelligence_system.integrity import _load_overrides
                 overrides = _load_overrides()
                 if name.lower() not in overrides:
                     ambiguous.append((riu_id, name, sorted(set(candidates))))

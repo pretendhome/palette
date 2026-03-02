@@ -5,12 +5,12 @@ Traverses all four PIS data layers (taxonomy, classification, service routing,
 integration recipes) and answers structured queries.
 
 Usage:
-  python -m scripts.pis.query_engine traverse RIU-082
-  python -m scripts.pis.query_engine coverage
-  python -m scripts.pis.query_engine cost RIU-061 RIU-082 RIU-521 RIU-524
-  python -m scripts.pis.query_engine gaps
-  python -m scripts.pis.query_engine stack "observability"
-  python -m scripts.pis.query_engine check
+  python -m scripts.palette_intelligence_system.query_engine traverse RIU-082
+  python -m scripts.palette_intelligence_system.query_engine coverage
+  python -m scripts.palette_intelligence_system.query_engine cost RIU-061 RIU-082 RIU-521 RIU-524
+  python -m scripts.palette_intelligence_system.query_engine gaps
+  python -m scripts.palette_intelligence_system.query_engine stack "observability"
+  python -m scripts.palette_intelligence_system.query_engine check
 
 Recipe Matching Heuristic:
   Service names in routing (e.g., "AWS Bedrock Guardrails") don't match recipe

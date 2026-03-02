@@ -5,8 +5,8 @@ naming of the same service, tool, or concept. Produces a report of drift
 clusters where the same entity appears under different names.
 
 Usage:
-  python3 -m scripts.pis.drift              # human-readable report
-  python3 -m scripts.pis.drift --json       # JSON output
+  python3 -m scripts.palette_intelligence_system.drift              # human-readable report
+  python3 -m scripts.palette_intelligence_system.drift --json       # JSON output
 """
 
 from __future__ import annotations

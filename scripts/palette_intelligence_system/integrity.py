@@ -6,14 +6,14 @@ per-RIU integrity cards with completeness scores, runs 8 structural consistency
 checks, and outputs a prioritised action list.
 
 Usage:
-  python3 -m scripts.pis.integrity              # full human-readable report
-  python3 -m scripts.pis.integrity --json        # JSON output
-  python3 -m scripts.pis.integrity --riu RIU-082 # single RIU deep dive
-  python3 -m scripts.pis.integrity --gaps-only   # only actionable gaps
-  python3 -m scripts.pis.integrity --checks-only # consistency checks only
-  python3 -m scripts.pis.integrity --both-only   # filter to "both" RIUs
-  python3 -m scripts.pis.integrity --internal-only
-  python3 -m scripts.pis.integrity --weak        # weak + bare completeness
+  python3 -m scripts.palette_intelligence_system.integrity              # full human-readable report
+  python3 -m scripts.palette_intelligence_system.integrity --json        # JSON output
+  python3 -m scripts.palette_intelligence_system.integrity --riu RIU-082 # single RIU deep dive
+  python3 -m scripts.palette_intelligence_system.integrity --gaps-only   # only actionable gaps
+  python3 -m scripts.palette_intelligence_system.integrity --checks-only # consistency checks only
+  python3 -m scripts.palette_intelligence_system.integrity --both-only   # filter to "both" RIUs
+  python3 -m scripts.palette_intelligence_system.integrity --internal-only
+  python3 -m scripts.palette_intelligence_system.integrity --weak        # weak + bare completeness
 """
 
 from __future__ import annotations
