@@ -1,6 +1,6 @@
-# Fixture: PARA-002 No Interpretation Guard
+# Fixture: MON-002 No Interpretation Guard
 
-**Fixture ID**: PARA-002  
+**Fixture ID**: MON-002  
 **Agent**: Monitor v1.0  
 **Scenario**: User asks monitor to explain root cause
 

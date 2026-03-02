@@ -3,8 +3,8 @@
 ### Agent Execution: Researcher
 
 **Timestamp**: 2026-02-18T18:44:58.908362
-**Trace**: tr-cory-design
-**Packet**: pkt-cory-001
+**Trace**: tr-resolver-design
+**Packet**: pkt-resolver-001
 **Agent**: researcher v2.0
 **Status**: WORKING
 **Request**: Research NLU intent-resolution and slot-filling patterns used in production systems: how do voice assistants and multi-a

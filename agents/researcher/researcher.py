@@ -236,7 +236,7 @@ def classify_query(task: str, hint: Optional[str] = None) -> QueryType:
 def progress(msg: str) -> None:
     """Write human-readable progress to stderr (never pollutes stdout/JSON)."""
     ts = datetime.datetime.now(datetime.timezone.utc).strftime("%H:%M:%S")
-    print(f"[argy {ts}] {msg}", file=sys.stderr, flush=True)
+    print(f"[researcher {ts}] {msg}", file=sys.stderr, flush=True)
 
 
 def _parse_json(text: str) -> dict:
@@ -727,9 +727,9 @@ def main() -> int:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "Examples:\n"
-            "  argy.py --task 'compare Redis vs DynamoDB' --context 'choosing session store'\n"
-            "  echo '{...HandoffPacket JSON...}' | argy.py\n"
-            "  argy.py --task 'latest Go concurrency patterns' --depth deep --dry-run\n"
+            "  researcher.py --task 'compare Redis vs DynamoDB' --context 'choosing session store'\n"
+            "  echo '{...HandoffPacket JSON...}' | researcher.py\n"
+            "  researcher.py --task 'latest Go concurrency patterns' --depth deep --dry-run\n"
         ),
     )
     parser.add_argument("--task",    help="Research task description (CLI mode)")

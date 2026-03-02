@@ -29,7 +29,7 @@ palette/
 │
 ├── agents/                            # 8 agent implementations
 │   ├── researcher/                    # Researcher (research)
-│   ├── tyrannosaurus/                 # Architect (architecture)
+│   ├── architect/                     # Architect (architecture)
 │   ├── builder/               # Builder (build)
 │   ├── debugger/                  # Debugger (debug)
 │   ├── narrator/                    # Narrator (narrative)

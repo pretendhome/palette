@@ -190,7 +190,7 @@ def save_history(riu_id: str, raw_input: str, refined_task: str) -> None:
 
 def progress(msg: str) -> None:
     ts = datetime.datetime.now(datetime.timezone.utc).strftime("%H:%M:%S")
-    print(f"[cory {ts}] {msg}", file=sys.stderr, flush=True)
+    print(f"[resolver {ts}] {msg}", file=sys.stderr, flush=True)
 
 
 def _now() -> str:
@@ -480,7 +480,7 @@ def build_complete(
     clarification_history: list[dict],
 ) -> dict:
     refined_packet = {
-        "id":       f"cory-{packet_id}",
+        "id":       f"resolver-{packet_id}",
         "trace_id": trace_id,
         "from":     "resolver",
         "to":       "orchestrator",
@@ -492,7 +492,7 @@ def build_complete(
             "riu_id":                riu_id,
             "suggested_agent":       refined.get("suggested_agent", ""),
             "clarification_history": clarification_history,
-            "cory_confidence":       confidence,
+            "resolver_confidence":   confidence,
         },
         "artifacts":   [],
         "constraints": [],

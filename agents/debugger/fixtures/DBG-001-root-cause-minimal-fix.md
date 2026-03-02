@@ -1,6 +1,6 @@
-# Fixture: RAPTOR-001 Root Cause + Minimal Fix
+# Fixture: DBG-001 Root Cause + Minimal Fix
 
-**Fixture ID**: RAPTOR-001  
+**Fixture ID**: DBG-001  
 **Agent**: Debugger v1.0  
 **Scenario**: Reproducible failure in a single module
 

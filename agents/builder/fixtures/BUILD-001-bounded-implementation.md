@@ -1,6 +1,6 @@
-# Fixture: THERI-001 Bounded Implementation
+# Fixture: BUILD-001 Bounded Implementation
 
-**Fixture ID**: THERI-001  
+**Fixture ID**: BUILD-001  
 **Agent**: Builder v1.0  
 **Scenario**: Implement a clearly specified artifact
 

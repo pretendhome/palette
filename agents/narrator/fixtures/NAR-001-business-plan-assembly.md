@@ -1,6 +1,6 @@
 # Fixture: Business Plan Document Assembly
 
-**Fixture ID**: YUTY-001
+**Fixture ID**: NAR-001
 **Agent**: Narrator v1.0
 **Scenario**: Assemble research and strategy artifacts into a professional business plan document
 

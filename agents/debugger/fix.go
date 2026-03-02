@@ -28,7 +28,7 @@ func applyBridgeFix(run Runner, cfg Config) FixResult {
 	return applyLocalBridgeFix(run, cfg)
 }
 
-// applyLocalBridgeFix creates the bridge on the machine raptor is running on.
+// applyLocalBridgeFix creates the bridge on the machine debugger is running on.
 // Must be executed as root on the VPS (not the local laptop).
 func applyLocalBridgeFix(run Runner, cfg Config) FixResult {
 	pid, err := run.DockerInspect(cfg.Container, "{{.State.Pid}}")
@@ -68,7 +68,7 @@ func applyLocalBridgeFix(run Runner, cfg Config) FixResult {
 // applyRemoteBridgeFix SSHs into the VPS and applies the bridge remotely.
 // This is the "one command does everything" path:
 //
-//	raptor fix --remote root@72.60.171.27
+//	debugger fix --remote root@72.60.171.27
 func applyRemoteBridgeFix(run Runner, cfg Config) FixResult {
 	step := func(desc, cmd string) (string, error) {
 		fmt.Printf("  → %s\n", desc)
@@ -101,7 +101,7 @@ func applyRemoteBridgeFix(run Runner, cfg Config) FixResult {
 	bridgeCmd := fmt.Sprintf(
 		"nohup nsenter --net=/proc/%s/ns/net -- "+
 			"socat TCP-LISTEN:%d,fork,reuseaddr,bind=0.0.0.0 TCP:127.0.0.1:%d "+
-			"> /tmp/raptor-bridge.log 2>&1 & echo $!",
+			"> /tmp/debugger-bridge.log 2>&1 & echo $!",
 		pid, cfg.BridgePort, cfg.ServicePort)
 	bridgePID, err := step("Creating socat bridge", bridgeCmd)
 	if err != nil {
@@ -172,7 +172,7 @@ func manageTunnel(cfg Config, bridgeIP string) TunnelResult {
 		return TunnelResult{Err: fmt.Sprintf(
 			"ssh tunnel failed: %v\n"+
 				"  Tip: set up key auth first: ssh-copy-id %s\n"+
-				"  Then retry: raptor tunnel --remote %s --bridge-ip %s",
+				"  Then retry: debugger tunnel --remote %s --bridge-ip %s",
 			err, remote, remote, bridgeIP)}
 	}
 
@@ -221,7 +221,7 @@ WantedBy=multi-user.target
 
 // applyPersistence installs and enables the systemd unit locally or remotely.
 func applyPersistence(run Runner, cfg Config) error {
-	unitName := fmt.Sprintf("raptor-bridge-%s.service", cfg.Container)
+	unitName := fmt.Sprintf("debugger-bridge-%s.service", cfg.Container)
 	content := systemdUnit(cfg)
 
 	if run.IsRemote() {
@@ -241,7 +241,7 @@ func applyPersistence(run Runner, cfg Config) error {
 	// Local install — requires root
 	path := "/etc/systemd/system/" + unitName
 	if err := os.WriteFile(path, []byte(content), 0644); err != nil {
-		return fmt.Errorf("write unit file: %w\n  (Run as root, or use: raptor persist --remote %s)", err, cfg.Remote)
+		return fmt.Errorf("write unit file: %w\n  (Run as root, or use: debugger persist --remote %s)", err, cfg.Remote)
 	}
 	if out, err := exec.Command("systemctl", "daemon-reload").CombinedOutput(); err != nil {
 		return fmt.Errorf("daemon-reload: %w: %s", err, out)

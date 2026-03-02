@@ -1,6 +1,6 @@
-# Fixture: THERI-002 Architecture Escalation
+# Fixture: BUILD-002 Architecture Escalation
 
-**Fixture ID**: THERI-002  
+**Fixture ID**: BUILD-002  
 **Agent**: Builder v1.0  
 **Scenario**: Ambiguous request requires architecture choice
 

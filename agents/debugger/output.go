@@ -44,17 +44,17 @@ func printFixResult(fr FixResult, cfg Config) {
 	fmt.Printf("  Bridge IP:  %s\n", fr.BridgeIP)
 	fmt.Printf("  Bridge URL: %s\n", fr.BridgeURL)
 	if fr.BridgePID != "" {
-		fmt.Printf("  Bridge PID: %s  (ephemeral — see 'raptor persist')\n", fr.BridgePID)
+		fmt.Printf("  Bridge PID: %s  (ephemeral — see 'debugger persist')\n", fr.BridgePID)
 	}
 	fmt.Println()
 	fmt.Println("📋 NEXT STEPS:")
 	fmt.Printf("  1. SSH tunnel:   ssh -N -f -L %d:%s:%d %s\n",
 		cfg.TunnelPort, fr.BridgeIP, cfg.BridgePort, cfg.Remote)
-	fmt.Printf("     or run:       raptor tunnel --remote %s --bridge-ip %s\n", cfg.Remote, fr.BridgeIP)
-	fmt.Printf("  2. Verify:       raptor verify\n")
-	fmt.Printf("  3. Persist:      raptor persist --remote %s\n\n", cfg.Remote)
+	fmt.Printf("     or run:       debugger tunnel --remote %s --bridge-ip %s\n", cfg.Remote, fr.BridgeIP)
+	fmt.Printf("  2. Verify:       debugger verify\n")
+	fmt.Printf("  3. Persist:      debugger persist --remote %s\n\n", cfg.Remote)
 	fmt.Println("⚠️  Bridge is ephemeral — dies on container restart.")
-	fmt.Println("   'raptor persist' installs a systemd unit that recreates it automatically.")
+	fmt.Println("   'debugger persist' installs a systemd unit that recreates it automatically.")
 	fmt.Println()
 }
 
@@ -80,7 +80,7 @@ func printRunbook(cfg Config) {
 
 	fmt.Printf(`
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- RAPTOR RUNBOOK (manual steps)
+ DEBUGGER RUNBOOK (manual steps)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ── ON VPS: ssh root@%s ──────────────────────────
@@ -97,7 +97,7 @@ echo "PID=$CPID"
 #    Forwards to the service's loopback-only port.
 nohup nsenter --net=/proc/$CPID/ns/net -- \
   socat TCP-LISTEN:%d,fork,reuseaddr,bind=0.0.0.0 TCP:127.0.0.1:%d \
-  > /tmp/raptor-bridge.log 2>&1 &
+  > /tmp/debugger-bridge.log 2>&1 &
 echo "Bridge PID: $!"
 
 # 4. Get container bridge IP:
@@ -128,8 +128,8 @@ curl -sS -X POST %s%s \
   -d '%s'
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- AUTOMATION: raptor fix --remote root@%s
- PERSISTENCE: raptor persist --remote root@%s
+ AUTOMATION: debugger fix --remote root@%s
+ PERSISTENCE: debugger persist --remote root@%s
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 `,
 		remoteIP,

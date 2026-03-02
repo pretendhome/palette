@@ -27,30 +27,30 @@ then reach port 19000. The SSH tunnel then targets the bridge IP:19000.
 curl -fsSL https://go.dev/dl/go1.22.5.linux-amd64.tar.gz | tar -C ~/go-sdk -xz
 
 # Build:
-cd /home/mical/fde/raptor
-~/go-sdk/go/bin/go build -o raptor .
+cd /home/mical/fde/palette/agents/debugger
+~/go-sdk/go/bin/go build -o debugger .
 ```
 
 ## Usage
 
 ```bash
 # Run full probe chain (non-destructive):
-./raptor diagnose
+./debugger diagnose
 
 # Print VPS commands for the fix:
-./raptor runbook
+./debugger runbook
 
 # Apply fix (run on VPS as root):
-./raptor fix
+./debugger fix
 
 # Preview fix commands without running them:
-./raptor fix --dry-run
+./debugger fix --dry-run
 
 # Verify end-to-end after fix:
-./raptor verify
+./debugger verify
 
 # Generate Palette decisions.md entry:
-./raptor report
+./debugger report
 ```
 
 ## The Fix Runbook (Manual)
@@ -135,4 +135,4 @@ WantedBy=multi-user.target
 - Tier: 1 (UNVALIDATED)
 - Role: Isolate failure, diagnose root cause, propose minimal fix
 - Constraint: Does not add features or expand scope
-- Output: decisions.md log entry via `raptor report`
+- Output: decisions.md log entry via `debugger report`

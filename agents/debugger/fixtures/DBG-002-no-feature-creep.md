@@ -1,6 +1,6 @@
-# Fixture: RAPTOR-002 No Feature Creep
+# Fixture: DBG-002 No Feature Creep
 
-**Fixture ID**: RAPTOR-002  
+**Fixture ID**: DBG-002  
 **Agent**: Debugger v1.0  
 **Scenario**: Bug report mixed with feature request
 

@@ -1,6 +1,6 @@
 # Fixture: Business Plan Quality Validation
 
-**Fixture ID**: ANKY-001
+**Fixture ID**: VAL-001
 **Agent**: Validator v1.0
 **Scenario**: Validate a completed business plan draft against quality standards
 

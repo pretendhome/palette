@@ -1,6 +1,6 @@
-# Fixture: PARA-001 Threshold Signal Emission
+# Fixture: MON-001 Threshold Signal Emission
 
-**Fixture ID**: PARA-001  
+**Fixture ID**: MON-001  
 **Agent**: Monitor v1.0  
 **Scenario**: Metric crosses configured threshold
 

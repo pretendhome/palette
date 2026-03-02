@@ -61,9 +61,9 @@ class HandoffPacket:
         self.status = "pending"  # pending|running|success|failed
         self.resolved_rius: List[Dict[str, Any]] = []
         self.steps: Dict[str, StepRecord] = {
-            "cory": StepRecord("cory"),
+            "resolver": StepRecord("resolver"),
             "traversal": StepRecord("traversal"),
-            "argy": StepRecord("argy"),
+            "researcher": StepRecord("researcher"),
             "final": StepRecord("final")
         }
         self.outputs: Dict[str, Any] = {}
@@ -120,7 +120,7 @@ class HandoffPacket:
     
     def get_first_failed_step(self) -> Optional[str]:
         """Return name of first failed step, or None if all succeeded."""
-        step_order = ["cory", "traversal", "argy", "final"]
+        step_order = ["resolver", "traversal", "researcher", "final"]
         for step_name in step_order:
             step = self.steps.get(step_name)
             if step and step.status == "failed":
@@ -133,7 +133,7 @@ class HandoffPacket:
         If from_step is provided, replay from that step onwards.
         Otherwise, replay from first failed step onwards.
         """
-        step_order = ["cory", "traversal", "argy", "final"]
+        step_order = ["resolver", "traversal", "researcher", "final"]
         
         if from_step:
             start_idx = step_order.index(from_step)

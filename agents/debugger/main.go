@@ -19,7 +19,7 @@ DEBUGGER v%s — Palette Debug Agent ()
 Auto-recursive connectivity diagnosis for containerized AI services.
 
 USAGE:
-  raptor <subcommand> [flags]
+  debugger <subcommand> [flags]
 
 SUBCOMMANDS:
   diagnose   Non-destructive probe of all connectivity layers
@@ -45,12 +45,12 @@ KEY FLAGS:
   --verbose            Show SSH commands as they run
 
 EXAMPLES:
-  raptor fix --remote root@72.60.171.27   # full automated fix
-  raptor diagnose --remote root@72.60.171.27
-  raptor tunnel --remote root@72.60.171.27 --bridge-ip 172.18.0.2
-  raptor persist --remote root@72.60.171.27
-  raptor verify
-  raptor runbook --remote root@72.60.171.27
+  debugger fix --remote root@72.60.171.27   # full automated fix
+  debugger diagnose --remote root@72.60.171.27
+  debugger tunnel --remote root@72.60.171.27 --bridge-ip 172.18.0.2
+  debugger persist --remote root@72.60.171.27
+  debugger verify
+  debugger runbook --remote root@72.60.171.27
 
 `, version)
 }
@@ -121,7 +121,7 @@ func main() {
 				"{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}")
 			if err != nil || ip == "" {
 				fmt.Printf("✗ Cannot get bridge IP: %v\n", err)
-				fmt.Println("  Provide it with: raptor tunnel --bridge-ip 172.18.0.2")
+				fmt.Println("  Provide it with: debugger tunnel --bridge-ip 172.18.0.2")
 				os.Exit(1)
 			}
 			fmt.Printf("  Bridge IP: %s\n\n", ip)
@@ -164,7 +164,7 @@ func main() {
 		ts := time.Now().Format(time.RFC3339)
 		fmt.Printf("---\n### Agent Execution: Debugger\n\n")
 		fmt.Printf("**Timestamp**: %s\n", ts)
-		fmt.Printf("**Agent**: raptor v%s\n", version)
+		fmt.Printf("**Agent**: debugger v%s\n", version)
 		fmt.Printf("**Target**: %s\n", run.Target())
 		fmt.Printf("**Container**: %s / port %d\n\n", cfg.Container, cfg.ServicePort)
 		fmt.Printf("**Root Cause**: %s\n", d.RootCause)
