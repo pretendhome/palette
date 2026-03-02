@@ -18,7 +18,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-class Ankylosaurus:
+class Validator:
     """Validator Agent - Risk Assessment and Gap Analysis"""
     
     def __init__(self):
@@ -31,7 +31,7 @@ class Ankylosaurus:
         
     def gather_validation_context(self, initial_request):
         """Collect information about what needs validation"""
-        print("\n🦖 Ankylosaurus (Anky) - Validator Mode")
+        print("\n✅ Validator Mode")
         print("=" * 60)
         print(f"\nValidation request: {initial_request}")
         print("\nBefore I validate, I need context:\n")
@@ -116,9 +116,9 @@ class Ankylosaurus:
         """Generate structured validation request for Kiro"""
         
         request = f"""
-# Anky Validation Request
+# Validator Request
 
-**Agent**: Ankylosaurus v{self.version}
+**Agent**: Validator v{self.version}
 **Status**: {self.status}
 **Timestamp**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 **Validation Type**: {validation_type.upper()}
@@ -212,7 +212,7 @@ Go/no-go decision:
 
 **Artifact**: {plan['artifact']}
 **Validation Date**: {datetime.now().strftime("%Y-%m-%d")}
-**Validator**: Ankylosaurus v{self.version}
+**Validator**: Validator v{self.version}
 
 ---
 
@@ -268,13 +268,13 @@ Rationale: [explanation]
 
 ## Constraint Enforcement
 
-**Anky does NOT**:
+**Validator does NOT**:
 - Fix identified issues (that's remediation)
 - Implement recommendations (that's execution)
 - Make decisions on behalf of others (that's authority)
 - Proceed past assessment phase
 
-**Anky ONLY**:
+**Validator ONLY**:
 - Identifies risks and gaps
 - Assesses readiness
 - Provides recommendations
@@ -285,8 +285,8 @@ Rationale: [explanation]
 
 ---
 
-**This request should be executed by Kiro in Anky mode.**
-**Anky will assess and report, not remediate.**
+**This request should be executed by Kiro in Validator mode.**
+**Validator will assess and report, not remediate.**
 """
         
         return request
@@ -297,7 +297,7 @@ Rationale: [explanation]
         
         log_entry = f"""
 ---
-### Agent Execution: Ankylosaurus
+### Agent Execution: Validator
 
 **Timestamp**: {timestamp}
 **Agent**: validator v{self.version}
@@ -365,12 +365,12 @@ Rationale: [explanation]
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python anky.py '<validation request>'")
-        print("Example: python anky.py 'Validate demo plan for technical audience'")
+        print("Usage: python validator.py '<validation request>'")
+        print("Example: python validator.py 'Validate demo plan for technical audience'")
         sys.exit(1)
     
     request = " ".join(sys.argv[1:])
-    agent = Ankylosaurus()
+    agent = Validator()
     agent.run(request)
 
 

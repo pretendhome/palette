@@ -19,7 +19,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-class Therizinosaurus:
+class Builder:
     """Builder Agent - Implement Within Bounded Scope"""
     
     def __init__(self):
@@ -32,7 +32,7 @@ class Therizinosaurus:
         
     def validate_spec(self, initial_request):
         """Ensure spec is clear before building"""
-        print("\n🦖 Therizinosaurus (Theri) - Builder Mode")
+        print("\n🔨 Builder Mode")
         print("=" * 60)
         print(f"\nBuild request: {initial_request}")
         print("\nBefore I build, I need a clear spec:\n")
@@ -102,9 +102,9 @@ class Therizinosaurus:
                 "5. Verify against acceptance criteria"
             ],
             "out_of_scope": [
-                "Architecture decisions (route to Rex)",
-                "Research (route to Argy)",
-                "Debugging existing code (route to Raptor)",
+                "Architecture decisions (route to Architect)",
+                "Research (route to Researcher)",
+                "Debugging existing code (route to Debugger)",
                 "Scope expansion beyond spec"
             ]
         }
@@ -121,9 +121,9 @@ class Therizinosaurus:
         """Generate structured build request for Kiro to execute"""
         
         request = f"""
-# Theri Build Request
+# Builder Request
 
-**Agent**: Therizinosaurus v{self.version}
+**Agent**: Builder v{self.version}
 **Status**: {self.status}
 **Timestamp**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
@@ -143,7 +143,7 @@ class Therizinosaurus:
 {spec.get('spec_4', 'None specified')}
 
 **If Architecture Decision Needed**:
-{spec.get('spec_5', 'Pause and route to Rex')}
+{spec.get('spec_5', 'Pause and route to Architect')}
 
 ---
 
@@ -175,19 +175,19 @@ class Therizinosaurus:
 
 ### When to Pause
 Pause and request guidance if:
-- Architecture decision needed (route to Rex)
+- Architecture decision needed (route to Architect)
 - Spec is ambiguous (clarify with human)
 - Scope expansion requested (confirm with human)
-- External research needed (route to Argy)
+- External research needed (route to Researcher)
 
 ### Constraint Enforcement
-**Theri does NOT**:
+**Builder does NOT**:
 - Make architecture decisions
 - Expand scope beyond spec
 - Research options or approaches
-- Debug existing code (that's Raptor)
+- Debug existing code (that's the Debugger)
 
-**Theri ONLY**:
+**Builder ONLY**:
 - Implements within bounded scope
 - Creates specified artifacts
 - Tests against acceptance criteria
@@ -225,17 +225,17 @@ List all files/directories created:
 ## Constraint Reminder
 
 **If you encounter**:
-- "Should we use X or Y?" → STOP, route to Rex
-- "What's the best way to..." → STOP, route to Rex
-- "I need to research..." → STOP, route to Argy
-- "This isn't working..." → STOP, route to Raptor
+- "Should we use X or Y?" → STOP, route to Architect
+- "What's the best way to..." → STOP, route to Architect
+- "I need to research..." → STOP, route to Researcher
+- "This isn't working..." → STOP, route to Debugger
 
-**Theri builds. Theri doesn't design, research, or debug.**
+**Builder builds. Builder doesn't design, research, or debug.**
 
 ---
 
-**This request should be executed by Kiro in Theri mode.**
-**Theri will implement within spec and report completion.**
+**This request should be executed by Kiro in Builder mode.**
+**Builder will implement within spec and report completion.**
 """
         
         return request
@@ -246,7 +246,7 @@ List all files/directories created:
         
         log_entry = f"""
 ---
-### Agent Execution: Therizinosaurus
+### Agent Execution: Builder
 
 **Timestamp**: {timestamp}
 **Agent**: builder v{self.version}
@@ -284,9 +284,9 @@ List all files/directories created:
             needs_architecture = self.check_for_architecture_decisions(spec)
             if needs_architecture:
                 print("\n⚠️  ROUTING REQUIRED")
-                print("This request needs Rex (Architect) before Theri can build")
+                print("This request needs Architect before Builder can build")
                 self.log_execution(spec, False, 
-                                 notes="Blocked: Architecture decision required, route to Rex")
+                                 notes="Blocked: Architecture decision required, route to Architect")
                 return False
             
             # Step 3: Plan implementation
@@ -330,22 +330,22 @@ List all files/directories created:
 
 
 def main():
-    """Entry point for Theri agent"""
+    """Entry point for Builder agent"""
     if len(sys.argv) < 2:
-        print("Usage: python theri.py '<build request>'")
-        print("Example: python theri.py 'implement user authentication'")
+        print("Usage: python builder.py '<build request>'")
+        print("Example: python builder.py 'implement user authentication'")
         print("\nOr run in interactive mode:")
-        print("  python theri.py")
+        print("  python builder.py")
         sys.exit(1)
     
     if len(sys.argv) == 1:
         # Interactive mode
-        print("Therizinosaurus (Theri) - Interactive Mode")
+        print("Builder - Interactive Mode")
         request = input("Build request: ").strip()
     else:
         request = " ".join(sys.argv[1:])
     
-    agent = Therizinosaurus()
+    agent = Builder()
     agent.run(request)
 
 

@@ -95,9 +95,9 @@ example_request:
     drift_detected = result["metrics"][0]["result"]["dataset_drift"]
     print(f"Drift detected: {drift_detected}")
 
-palette_agent: "Anky (Validator) + Para (Monitor) — quality validation and continuous monitoring"
+palette_agent: "Validator + Monitor — quality validation and continuous monitoring"
 palette_integration_plan:
-  phase_1: "Use open-source library to evaluate Argy research output quality (sentiment, completeness)"
+  phase_1: "Use open-source library to evaluate Researcher output quality (sentiment, completeness)"
   phase_2: "Set up drift detection on agent input patterns (query types changing over time)"
   phase_3: "Deploy Evidently Cloud dashboard for continuous LLM quality monitoring"
   phase_4: "Build test suites as quality gates before agent responses are served"
@@ -114,4 +114,4 @@ comparison_to_current:
     - "WhyLabs discontinued (acquired by Apple). Evidently is recommended replacement."
 
 status: evaluate
-evaluation_verdict: "EVALUATE — recommended WhyLabs replacement (per Phase 2 findings). Open-source core means zero cost for evaluation. LLM evaluation features are rapidly maturing. Start with local library for Anky's validation workflow, then consider Cloud for Para's monitoring dashboard."
+evaluation_verdict: "EVALUATE — recommended WhyLabs replacement (per Phase 2 findings). Open-source core means zero cost for evaluation. LLM evaluation features are rapidly maturing. Start with local library for Validator's validation workflow, then consider Cloud for Para's monitoring dashboard."

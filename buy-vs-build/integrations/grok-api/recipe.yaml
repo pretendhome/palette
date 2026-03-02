@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Grok API (xAI)
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-252 (Model Selection), RIU-521 (LLM Routing), RIU-522 (Token Budget)
 # Priority: MEDIUM — alternative model provider, real-time X/Twitter data access
 
@@ -71,7 +71,7 @@ example_request:
     )
     print(response.choices[0].message.content)
 
-palette_agent: "Argy (Researcher) — X/Twitter signal monitoring; Rex (Architect) — model diversity"
+palette_agent: "Researcher — X/Twitter signal monitoring; Architect — model diversity"
 palette_integration_plan:
   phase_1: "Access via OpenRouter for unified billing and cost tracking"
   phase_2: "Evaluate Grok 3 Mini as cost-effective alternative for classification tasks"

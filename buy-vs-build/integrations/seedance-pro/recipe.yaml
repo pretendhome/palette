@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Seedance Pro (via Higgsfield AI)
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-501 (Image Processing), RIU-503 (Video Processing), RIU-413 (Demo Creation)
 # Priority: MEDIUM — AI video generation, accessible via Higgsfield API
 # Note: GAP-002 — No RIU for AI video generation model selection. Propose RIU-504.
@@ -77,10 +77,10 @@ example_request:
     )
     print(output)
 
-palette_agent: "Yuty (GTM/Narrative) — video content for demos and marketing"
+palette_agent: "Narrator (GTM/Narrative) — video content for demos and marketing"
 palette_integration_plan:
   phase_1: "Evaluate Seedance vs Kling vs Runway for Palette demo video generation"
-  phase_2: "Integrate via Replicate API for programmatic video generation in Yuty pipeline"
+  phase_2: "Integrate via Replicate API for programmatic video generation in Narrator pipeline"
   phase_3: "Build demo video automation — screenshot → Seedance animate → narration overlay"
   note: "GAP-002 — propose RIU-504 for AI video generation model selection. Seedance excels at human motion."
 

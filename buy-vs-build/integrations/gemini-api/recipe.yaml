@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Gemini API (Google DeepMind)
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-252 (Model Selection), RIU-521 (LLM Routing), RIU-522 (Token Budget), RIU-501 (Image Processing)
 # Priority: HIGH — strong multimodal model, generous free tier, cost-competitive
 
@@ -81,7 +81,7 @@ example_request:
         }]
       }'
 
-palette_agent: "Rex (Architect) — model routing decisions; Argy (Researcher) — multimodal research with large context"
+palette_agent: "Architect — model routing decisions; Researcher — multimodal research with large context"
 palette_integration_plan:
   phase_1: "Access via OpenRouter for unified billing; use free tier for prototyping"
   phase_2: "Evaluate Gemini 2.0 Flash for high-volume tasks where Claude Haiku is used"

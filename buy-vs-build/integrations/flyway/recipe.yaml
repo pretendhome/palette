@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Flyway
 # Generated: 2026-02-25
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-067 (Schema Migration Strategy)
 # Priority: LOW — database migration tooling when Palette needs persistent storage
 
@@ -67,7 +67,7 @@ example_request:
     ], capture_output=True, text=True)
     print(result.stdout)
 
-palette_agent: "Theri (Builder) — schema migration execution; Rex (Architect) — migration strategy"
+palette_agent: "Builder — schema migration execution; Architect — migration strategy"
 palette_integration_plan:
   phase_1: "Use Community edition for local development schema management"
   phase_2: "Integrate Flyway into CI/CD pipeline for automated migration validation"

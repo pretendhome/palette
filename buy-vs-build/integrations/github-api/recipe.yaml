@@ -54,11 +54,11 @@ example_request:
     for repo in resp.json():
         print(f"  {repo['name']}: {repo['stargazers_count']} stars")
 
-palette_agent: "Argy (Research) → Enrichment Pipeline"
+palette_agent: "Researcher → Enrichment Pipeline"
 palette_integration_plan:
   phase_3a: "Automated people-library enrichment — GitHub profile, repos, activity, orgs"
   phase_3b: "Price oracle — fetch repo metadata for service-routing cost validation"
-  phase_4: "PIS query agent — live GitHub data in Argy research responses"
+  phase_4: "PIS query agent — live GitHub data in Researcher research responses"
 
 status: available
 evaluation_verdict: "INTEGRATE — free, authenticated, 5,000 req/hr. First enrichment source for Phase 3."

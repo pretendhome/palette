@@ -218,7 +218,7 @@ palette/
 │   └── PALETTE_INTELLIGENCE_SYSTEM_v1.0.md
 ├── agents/
 │   ├── researcher/                     # Researcher — Research
-│   ├── rex/                            # Architect — Architecture
+│   ├── architect/                      # Architect — Architecture
 │   ├── builder/                # Builder — Build
 │   ├── debugger/                   # Debugger — Debug
 │   ├── narrator/                     # Narrator — Narrative

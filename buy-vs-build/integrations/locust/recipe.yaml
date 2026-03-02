@@ -89,9 +89,9 @@ example_request:
     locust -f locustfile.py --master
     locust -f locustfile.py --worker --master-host=192.168.1.100
 
-palette_agent: "Anky (Validator) — load testing for agent API endpoints"
+palette_agent: "Validator — load testing for agent API endpoints"
 palette_integration_plan:
-  phase_1: "Write locustfile.py for Cory intent resolution endpoint"
+  phase_1: "Write locustfile.py for Resolver intent resolution endpoint"
   phase_2: "Establish baseline latency and throughput metrics"
   phase_3: "Add to CI/CD — run 60-second load test on each deploy, fail if p95 >5s"
   phase_4: "Distributed testing to simulate production-scale traffic patterns"

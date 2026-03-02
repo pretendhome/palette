@@ -18,13 +18,13 @@ from datetime import datetime
 from pathlib import Path
 
 USAGE = """Usage:
-  python raptor.py '<failure description>'
-  python raptor.py             # interactive mode (TTY only)
-  python raptor.py -h|--help
+  python debugger.py '<failure description>'
+  python debugger.py             # interactive mode (TTY only)
+  python debugger.py -h|--help
 """
 
 
-class Velociraptor:
+class Debugger:
     """Debugger Agent - Failure Isolation and Root Cause Analysis"""
     
     def __init__(self):
@@ -37,7 +37,7 @@ class Velociraptor:
         
     def gather_failure_context(self, initial_request):
         """Collect information about the failure"""
-        print("\n🦖 Velociraptor (Raptor) - Debugger Mode")
+        print("\n🔍 Debugger Mode")
         print("=" * 60)
         print(f"\nFailure report: {initial_request}")
         print("\nBefore I debug, I need context:\n")
@@ -106,8 +106,8 @@ class Velociraptor:
                 "5. Propose minimal fix"
             ],
             "out_of_scope": [
-                "Feature additions (route to Theri)",
-                "Architecture changes (route to Rex)",
+                "Feature additions (route to Builder)",
+                "Architecture changes (route to Architect)",
                 "Performance optimization (unless that's the bug)",
                 "Scope expansion beyond fixing the bug"
             ]
@@ -126,9 +126,9 @@ class Velociraptor:
         """Generate structured debug request for Kiro"""
         
         request = f"""
-# Raptor Debug Request
+# Debugger Request
 
-**Agent**: Velociraptor v{self.version}
+**Agent**: Debugger v{self.version}
 **Status**: {self.status}
 **Timestamp**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 **Failure Type**: {failure_type.upper()}
@@ -186,18 +186,18 @@ Smallest change that fixes the bug:
 ### When to Pause
 Pause if:
 - Cannot reproduce failure (need more context)
-- Fix requires architecture change (route to Rex)
-- Fix requires new feature (route to Theri + human approval)
+- Fix requires architecture change (route to Architect)
+- Fix requires new feature (route to Builder + human approval)
 - Root cause is external (API down, network issue)
 
 ### Constraint Enforcement
-**Raptor does NOT**:
+**Debugger does NOT**:
 - Add features while fixing bugs
 - Refactor unrelated code
 - Optimize performance (unless that's the bug)
 - Expand scope beyond the fix
 
-**Raptor ONLY**:
+**Debugger ONLY**:
 - Diagnoses failures
 - Proposes minimal fixes
 - Verifies fixes work
@@ -256,16 +256,16 @@ Potential impacts:
 
 **If you encounter**:
 - "While fixing this, I should also..." → STOP, scope expansion
-- "This needs architecture change..." → STOP, route to Rex
-- "This requires new feature..." → STOP, route to Theri + human
+- "This needs architecture change..." → STOP, route to Architect
+- "This requires new feature..." → STOP, route to Builder + human
 - "The bug is in external system..." → STOP, report unfixable
 
-**Raptor fixes bugs. Raptor doesn't add features, refactor, or redesign.**
+**Debugger fixes bugs. Debugger doesn't add features, refactor, or redesign.**
 
 ---
 
-**This request should be executed by Kiro in Raptor mode.**
-**Raptor will diagnose and propose minimal fix.**
+**This request should be executed by Kiro in Debugger mode.**
+**Debugger will diagnose and propose minimal fix.**
 """
         
         return request
@@ -276,7 +276,7 @@ Potential impacts:
         
         log_entry = f"""
 ---
-### Agent Execution: Velociraptor
+### Agent Execution: Debugger
 
 **Timestamp**: {timestamp}
 **Agent**: debugger v{self.version}
@@ -353,7 +353,7 @@ Potential impacts:
 
 
 def main():
-    """Entry point for Raptor agent"""
+    """Entry point for Debugger agent"""
     if len(sys.argv) == 2 and sys.argv[1] in ("-h", "--help"):
         print(USAGE)
         sys.exit(0)
@@ -362,7 +362,7 @@ def main():
         if not sys.stdin.isatty():
             print(USAGE)
             sys.exit(1)
-        print("Velociraptor (Raptor) - Interactive Mode")
+        print("Debugger - Interactive Mode")
         request = input("Failure description: ").strip()
     else:
         request = " ".join(sys.argv[1:]).strip()
@@ -370,7 +370,7 @@ def main():
             print(USAGE)
             sys.exit(1)
     
-    agent = Velociraptor()
+    agent = Debugger()
     agent.run(request)
 
 

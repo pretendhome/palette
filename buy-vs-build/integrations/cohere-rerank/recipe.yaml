@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Cohere Rerank
 # Generated: 2026-02-25
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-027 (Retrieval Quality Tuning)
 # Priority: HIGH — critical for RAG accuracy improvement
 
@@ -68,9 +68,9 @@ example_request:
     for r in results.results:
         print(f"Rank {r.index}: score={r.relevance_score:.3f} — {docs[r.index][:60]}")
 
-palette_agent: "Argy (Research) — retrieval quality improvement; Rex (Architect) — RAG pipeline design"
+palette_agent: "Researcher — retrieval quality improvement; Architect — RAG pipeline design"
 palette_integration_plan:
-  phase_1: "Add Cohere Rerank as post-retrieval step in Argy's knowledge lookup"
+  phase_1: "Add Cohere Rerank as post-retrieval step in Researcher's knowledge lookup"
   phase_2: "Benchmark reranked vs raw vector results on golden set queries"
   phase_3: "Evaluate cost/benefit — rerank only when initial retrieval confidence is low"
 

@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Instructor
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-028 (Schema-Constrained Generation)
 # Priority: HIGH — reduces parse errors in agent outputs, Python-native
 
@@ -87,10 +87,10 @@ example_request:
     # import anthropic
     # client = instructor.from_anthropic(anthropic.Anthropic())
 
-palette_agent: "All agents — structured output from LLM calls; Rex (Architect) — output schema design"
+palette_agent: "All agents — structured output from LLM calls; Architect — output schema design"
 palette_integration_plan:
-  phase_1: "Add Instructor to Cory (intent resolver) for structured RIU classification output"
-  phase_2: "Extend to Argy (research) for structured company/signal analysis"
+  phase_1: "Add Instructor to Resolver (intent resolver) for structured RIU classification output"
+  phase_2: "Extend to Researcher (research) for structured company/signal analysis"
   phase_3: "Define Pydantic models for all agent output types — enforce schema consistency across Palette"
 
 status: evaluate

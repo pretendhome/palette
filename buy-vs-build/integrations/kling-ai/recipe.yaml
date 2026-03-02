@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Kling AI (Kuaishou)
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-501 (Image Processing), RIU-503 (Video Processing), RIU-413 (Demo Creation)
 # Priority: MEDIUM — AI video generation, accessible via multiple platforms
 # Note: GAP-002 — No RIU for AI video generation model selection. Propose RIU-504.
@@ -113,7 +113,7 @@ example_request:
         headers=headers
     )
 
-palette_agent: "Yuty (GTM/Narrative) — video content for demos and marketing"
+palette_agent: "Narrator (GTM/Narrative) — video content for demos and marketing"
 palette_integration_plan:
   phase_1: "Evaluate Kling 2.1 vs Seedance vs Runway quality and cost for Palette demo videos"
   phase_2: "Integrate via Replicate API for easiest developer experience"

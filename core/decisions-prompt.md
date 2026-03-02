@@ -94,7 +94,7 @@ You have access to: **palette_taxonomy_v1.3.yaml** (current canonical release sn
 - If no match: Proceed with normal RIU selection
 - Log library usage in Engagement Update (hits/misses)
 
-**This is mandatory for Argentavis, recommended for Rex, optional for others.**
+**This is mandatory for Researcher, recommended for Architect, optional for others.**
 
 ### 1. Read latest engagement input (notes, requirements, constraints, changes)
 
@@ -148,15 +148,15 @@ When recommending agents for selected RIUs:
    - WORKING → Autonomous with review
    - PRODUCTION → Fully autonomous
    - **If an agent is referenced in RIU agent_types but has no maturity entry in decisions.md, treat it as UNVALIDATED**
-3. Match ARK type to task:
-   - Search/retrieval → Argentavis (Argy)
-   - Code/artifact creation → Therizinosaurus (Theri)
-   - Bug fixing → Velociraptor (Raptor)
-   - Architecture/design → Tyrannosaurus Rex (Rex)
-   - Customer comms → Yutyrannus (Yuty)
-   - Quality/compliance → Ankylosaurus (Anky)
-   - Monitoring/observability → Parasaurolophus (Para)
-   - Workflow routing → Orchestrator (Orch) (placeholder until implemented)
+3. Match agent type to task:
+   - Search/retrieval → Researcher
+   - Code/artifact creation → Builder
+   - Bug fixing → Debugger
+   - Architecture/design → Architect
+   - Customer comms → Narrator
+   - Quality/compliance → Validator
+   - Monitoring/observability → Monitor
+   - Workflow routing → Orchestrator
 4. Flag if agent doesn't exist → Note in "Open Questions"
 
 **Important**: Do NOT re-score, reinterpret, or change agent maturity status. Only read it to determine required human involvement level.
@@ -369,8 +369,8 @@ End of decisions.md
 
 **Process** (30 minutes):
 
-### Step 6.1: Yuty Semantic Validation
-**Agent**: Yutyrannus (System Coherence Guardian)
+### Step 6.1: Narrator Semantic Validation
+**Agent**: Narrator (System Coherence Guardian)
 
 **Questions**:
 - Can I explain this solution clearly? (5-minute pitch test)
@@ -381,8 +381,8 @@ End of decisions.md
 
 ---
 
-### Step 6.2: Anky Quality Validation
-**Agent**: Ankylosaurus (Cross-Domain Pattern Validator)
+### Step 6.2: Validator Quality Validation
+**Agent**: Validator (Cross-Domain Pattern Validator)
 
 **Questions**:
 - Did this solution work? (success criteria met)
@@ -394,7 +394,7 @@ End of decisions.md
 ---
 
 ### Step 6.3: Joint Cross-Domain Pattern Detection
-**Agents**: Yuty + Anky (paired)
+**Agents**: Narrator + Validator (paired)
 
 **Core Question**:
 > "As we solved Problem A, does this reveal patterns applicable to Problems B, C, D?"
@@ -474,7 +474,7 @@ Recommendation: [Update Library/Taxonomy/Prompts]
 **Execution**:
 - ✅ Patterns identified: 1-3 per engagement
 - ✅ System improvements recommended
-- ✅ Validation completed (Yuty + Anky)
+- ✅ Validation completed (Narrator + Validator)
 
 **Outcome**:
 - ✅ Library grows with validated solutions

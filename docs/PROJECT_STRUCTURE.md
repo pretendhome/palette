@@ -29,12 +29,12 @@
 ├── README.md                    # Project overview
 │
 ├── artifacts/                   # Agent outputs by phase (required)
-│   ├── research/                # Argy outputs
-│   ├── architecture/            # Rex outputs
-│   ├── implementation/          # Theri outputs
-│   ├── validation/              # Anky outputs
-│   ├── narrative/               # Yuty outputs
-│   └── monitoring/              # Para outputs
+│   ├── research/                # Researcher outputs
+│   ├── architecture/            # Architect outputs
+│   ├── implementation/          # Builder outputs
+│   ├── validation/              # Validator outputs
+│   ├── narrative/               # Narrator outputs
+│   └── monitoring/              # Monitor outputs
 │
 └── [project-specific]           # Project code/docs
     ├── src/
@@ -48,13 +48,13 @@
 
 | Agent | Directory | Purpose |
 |-------|-----------|---------|
-| Argy (Argentavis) | `artifacts/research/` | Market research, competitive analysis, context gathering |
-| Rex (Tyrannosaurus) | `artifacts/architecture/` | System design, architecture proposals, tradeoff analysis |
-| Theri (Therizinosaurus) | `artifacts/implementation/` | Code, configs, build artifacts |
-| Raptor (Velociraptor) | `artifacts/implementation/` | Debug reports, root cause analysis |
-| Anky (Ankylosaurus) | `artifacts/validation/` | Quality reports, compliance checks, validation |
-| Yuty (Yutyrannus) | `artifacts/narrative/` | Demos, docs, customer communication |
-| Para (Parasaurolophus) | `artifacts/monitoring/` | Monitoring configs, alerts, health checks |
+| Researcher | `artifacts/research/` | Market research, competitive analysis, context gathering |
+| Architect | `artifacts/architecture/` | System design, architecture proposals, tradeoff analysis |
+| Builder | `artifacts/implementation/` | Code, configs, build artifacts |
+| Debugger | `artifacts/implementation/` | Debug reports, root cause analysis |
+| Validator | `artifacts/validation/` | Quality reports, compliance checks, validation |
+| Narrator | `artifacts/narrative/` | Demos, docs, customer communication |
+| Monitor | `artifacts/monitoring/` | Monitoring configs, alerts, health checks |
 
 ---
 

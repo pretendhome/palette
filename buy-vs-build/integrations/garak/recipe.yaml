@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Garak
 # Generated: 2026-02-25
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-083 (Adversarial Testing)
 # Priority: MEDIUM — LLM security and red-teaming
 
@@ -65,7 +65,7 @@ example_request:
     # python -m garak --model_type openai --model_name gpt-4 \
     #   --probes encoding --detectors always.Pass
 
-palette_agent: "Anky (Validator) — security validation; Rex (Architect) — guardrail design"
+palette_agent: "Validator — security validation; Architect — guardrail design"
 palette_integration_plan:
   phase_1: "Run baseline vulnerability scan against Palette's prompt templates"
   phase_2: "Integrate Garak into CI/CD for regression testing on prompt changes"

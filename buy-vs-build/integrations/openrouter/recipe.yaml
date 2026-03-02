@@ -1,6 +1,6 @@
 # Palette Integration Recipe: OpenRouter
 # Generated: 2026-02-24
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-252 (Model Selection), RIU-521 (Model Version Mgmt), RIU-522 (Token Budget), RIU-320 (API Integration)
 # Priority: CRITICAL — core to SageMaker disruptor thesis
 
@@ -83,10 +83,10 @@ routing_examples:
   fastest: "model: 'anthropic/claude-sonnet-4-6:nitro'"
   fallback: "Set fallback models via transforms or client-side retry"
 
-palette_agent: "Rex (Architect) — model routing decisions; all agents benefit from cost tracking"
+palette_agent: "Architect — model routing decisions; all agents benefit from cost tracking"
 palette_integration_plan:
   phase_1: "Replace direct Claude API calls with OpenRouter for cost tracking and fallback"
-  phase_2: "Add :floor routing for non-critical tasks (Argy enrichment, batch processing)"
+  phase_2: "Add :floor routing for non-critical tasks (Researcher enrichment, batch processing)"
   phase_3: "A/B test model quality for specific RIUs (Claude vs Gemini for multimodal)"
 
 status: available

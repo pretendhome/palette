@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Unleash
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-064 (Feature Flags + Kill Switch Integration)
 # Priority: LOW — relevant for safe agent rollouts and A/B testing
 
@@ -61,7 +61,7 @@ example_request:
     )
     client.initialize_client()
 
-    # Check if new Argy v2 research pipeline is enabled
+    # Check if new Researcher v2 research pipeline is enabled
     context = {"userId": "operator-1", "environment": "production"}
 
     if client.is_enabled("argy-v2-research-pipeline", context):
@@ -80,7 +80,7 @@ example_request:
     else:
         model = "anthropic/claude-sonnet-4-6"  # default
 
-palette_agent: "Rex (Architect) — rollout strategy; Para (Monitor) — flag state monitoring"
+palette_agent: "Architect — rollout strategy; Monitor — flag state monitoring"
 palette_integration_plan:
   phase_1: "Deploy self-hosted Unleash when Palette has multiple agent versions to manage"
   phase_2: "Use kill switches for instant disable of agent capabilities that misbehave"

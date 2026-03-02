@@ -1,6 +1,6 @@
 # Palette Integration Recipe: AWS Bedrock Guardrails
 # Generated: 2026-02-25
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-082 (LLM Safety), RIU-108 (Agent Security), RIU-606 (Brand Safety)
 # Priority: HIGH — safety-critical infrastructure
 
@@ -70,7 +70,7 @@ example_request:
         # Content passed — proceed with LLM call
         llm_response = call_llm(user_input)
 
-palette_agent: "Anky (Validator) — guardrail enforcement; Rex (Architect) — guardrail policy design"
+palette_agent: "Validator — guardrail enforcement; Architect — guardrail policy design"
 palette_integration_plan:
   phase_1: "Configure PII + word filters (free) for all agent outputs"
   phase_2: "Add content filters and denied topics for customer-facing outputs"

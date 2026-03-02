@@ -19,7 +19,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-class TyrannosaurusRex:
+class Architect:
     """Architect Agent - Options, Tradeoffs, Recommendations"""
     
     def __init__(self):
@@ -32,7 +32,7 @@ class TyrannosaurusRex:
         
     def clarify_constraints(self, initial_request):
         """Understand problem and constraints before designing"""
-        print("\n🦖 Tyrannosaurus Rex (Rex) - Architect Mode")
+        print("\n🏗️  Architect Mode")
         print("=" * 60)
         print(f"\nArchitecture request: {initial_request}")
         print("\nBefore I design, let me understand the constraints:\n")
@@ -102,7 +102,7 @@ class TyrannosaurusRex:
                 "reversibility": "Easy | Moderate | Hard",
                 "examples": ["Real-world example 1", "Real-world example 2"]
             },
-            "note": "Rex needs Argy research or knowledge base to populate real options"
+            "note": "Architect needs Researcher output or knowledge base to populate real options"
         }
         
         return options_template
@@ -111,9 +111,9 @@ class TyrannosaurusRex:
         """Generate structured architecture request for Kiro to execute"""
         
         request = f"""
-# Rex Architecture Request
+# Architect Request
 
-**Agent**: Tyrannosaurus Rex v{self.version}
+**Agent**: Architect v{self.version}
 **Status**: {self.status}
 **Timestamp**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 **Decision Type**: {decision_type}
@@ -253,13 +253,13 @@ Before proceeding with implementation, human must explicitly confirm:
 
 ## Constraint Reminder
 
-**Rex does NOT**:
-- Implement solutions (that's Theri's job)
-- Research options (that's Argy's job)
+**Architect does NOT**:
+- Implement solutions (that's the Builder's job)
+- Research options (that's the Researcher's job)
 - Make final decisions (human confirms)
 - Present only one option (always show alternatives)
 
-**Rex ONLY**:
+**Architect ONLY**:
 - Evaluates options
 - Surfaces tradeoffs
 - Recommends with reasoning
@@ -267,8 +267,8 @@ Before proceeding with implementation, human must explicitly confirm:
 
 ---
 
-**This request should be executed by Kiro in Rex mode.**
-**Rex will review and refine architecture once analysis completes.**
+**This request should be executed by Kiro in Architect mode.**
+**Architect will review and refine architecture once analysis completes.**
 """
         
         return request
@@ -279,7 +279,7 @@ Before proceeding with implementation, human must explicitly confirm:
         
         log_entry = f"""
 ---
-### Agent Execution: Tyrannosaurus Rex
+### Agent Execution: Architect
 
 **Timestamp**: {timestamp}
 **Agent**: architect v{self.version}
@@ -359,20 +359,20 @@ Before proceeding with implementation, human must explicitly confirm:
 def main():
     """Entry point for Rex agent"""
     if len(sys.argv) < 2:
-        print("Usage: python rex.py '<architecture request>'")
-        print("Example: python rex.py 'multiplayer networking architecture'")
+        print("Usage: python architect.py '<architecture request>'")
+        print("Example: python architect.py 'multiplayer networking architecture'")
         print("\nOr run in interactive mode:")
-        print("  python rex.py")
+        print("  python architect.py")
         sys.exit(1)
     
     if len(sys.argv) == 1:
         # Interactive mode
-        print("Tyrannosaurus Rex (Rex) - Interactive Mode")
+        print("Architect - Interactive Mode")
         request = input("Architecture request: ").strip()
     else:
         request = " ".join(sys.argv[1:])
     
-    agent = TyrannosaurusRex()
+    agent = Architect()
     agent.run(request)
 
 

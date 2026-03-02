@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Statsig
 # Generated: 2026-02-25
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-068 (A/B Testing & Experimentation)
 # Priority: MEDIUM — experimentation platform with strong free tier
 
@@ -66,7 +66,7 @@ example_request:
 
     statsig.shutdown()
 
-palette_agent: "Rex (Architect) — experiment design; Anky (Validator) — statistical significance review"
+palette_agent: "Architect — experiment design; Validator — statistical significance review"
 palette_integration_plan:
   phase_1: "Use free tier for feature flags and model A/B tests"
   phase_2: "Implement Autotune for automatic prompt optimization per RIU"

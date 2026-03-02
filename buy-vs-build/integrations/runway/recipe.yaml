@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Runway (Aleph Model)
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-501 (Image Processing), RIU-503 (Video Processing), RIU-413 (Demo Creation)
 # Priority: MEDIUM — premium AI video generation, API available
 # Note: GAP-002 — No RIU for AI video generation model selection. Propose RIU-504.
@@ -98,10 +98,10 @@ example_request:
             print("Generation failed:", result.json())
             break
 
-palette_agent: "Yuty (GTM/Narrative) — premium video content for client deliverables and demos"
+palette_agent: "Narrator (GTM/Narrative) — premium video content for client deliverables and demos"
 palette_integration_plan:
   phase_1: "Evaluate Runway vs Seedance vs Kling for Palette demo video generation"
-  phase_2: "If Runway wins quality evaluation, integrate API for Yuty video pipeline"
+  phase_2: "If Runway wins quality evaluation, integrate API for Narrator video pipeline"
   phase_3: "Build template-based video generation for recurring deliverable types"
   note: "GAP-002 — propose RIU-504. Runway is premium tier — use only when quality justifies cost premium over Kling/Seedance."
 

@@ -56,7 +56,7 @@ example_request:
     result = subprocess.run(["k6", "run", "script.js"], capture_output=True, text=True)
     print(result.stdout)
 
-palette_agent: "Anky (Validator) — performance gate enforcement"
+palette_agent: "Validator — performance gate enforcement"
 palette_integration_plan:
   phase_1: "Write k6 scripts for critical Palette API endpoints"
   phase_2: "Integrate into CI/CD with pass/fail thresholds"

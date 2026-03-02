@@ -1,8 +1,8 @@
 # Palette Integration Recipe: Gamma Generate API
 # Generated: 2026-02-24
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-413 (Demo Creation), RIU-109 (Business Plan Creation)
-# Priority: HIGH — Yuty agent output layer
+# Priority: HIGH — Narrator agent output layer
 
 service_name: "Gamma"
 company: "Gamma"
@@ -75,11 +75,11 @@ example_request:
       -H "Authorization: Bearer $GAMMA_API_KEY"
   note: "API endpoints are illustrative — check developers.gamma.app for exact schema"
 
-palette_agent: "Yuty (GTM/Narrative) — narrative → presentation pipeline"
+palette_agent: "Narrator (GTM/Narrative) — narrative → presentation pipeline"
 palette_integration_plan:
-  phase_1: "Yuty generates narrative markdown → Gamma API converts to polished presentation"
+  phase_1: "Narrator generates narrative markdown → Gamma API converts to polished presentation"
   phase_2: "Template library for recurring deliverable types (competitive scan, business plan, exec update)"
   phase_3: "Custom-branded Palette deliverables via Gamma custom domains"
 
 status: available
-evaluation_verdict: "INTEGRATE — Generate API is GA (Jan 2026). Pro plan at $15/month unlocks API. Natural output layer for Yuty agent. Grant Lee (CEO, PERSON-016) insider signal."
+evaluation_verdict: "INTEGRATE — Generate API is GA (Jan 2026). Pro plan at $15/month unlocks API. Natural output layer for Narrator agent. Grant Lee (CEO, PERSON-016) insider signal."

@@ -56,7 +56,7 @@
       - Comparable found with financial data
       - All claims sourced [Research: ...] [Case Study: ...]
       - Cash crises identified (monthly cash flow)
-      - Quality score 75+ (Anky validation)
+      - Quality score 75+ (Validator validation)
       - Customer approves final document
     outcome: |
       - Customer finds plan valuable ("well-received")

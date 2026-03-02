@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Doppler
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-066 (Secrets Handling + Rotation)
 # Priority: MEDIUM — lightweight secrets management for early-stage Palette
 
@@ -72,7 +72,7 @@ example_request:
     # Option 3: CLI download as .env
     # doppler secrets download --project palette --config production --format env --no-file
 
-palette_agent: "Rex (Architect) — secrets infrastructure; Theri (Builder) — CI/CD integration"
+palette_agent: "Architect — secrets infrastructure; Builder — CI/CD integration"
 palette_integration_plan:
   phase_1: "Migrate Palette API keys from manual env vars to Doppler project"
   phase_2: "Use doppler run to inject secrets into agent processes at runtime"

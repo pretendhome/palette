@@ -7,7 +7,7 @@ The front door of Palette. Maps raw user input to the right RIU from the
 111-entry knowledge library, asks ONE clarifying question when ambiguous,
 and hands a clean, refined HandoffPacket to the Orchestrator.
 
-Cory never executes. Cory never decides. Cory listens until it understands,
+Resolver never executes. Resolver never decides. Resolver listens until it understands,
 then passes the baton with full context attached.
 
 ────────────────────────────────────────────────────────────────────────────
@@ -344,7 +344,7 @@ def generate_question(
     )
     brevity = " Keep it brief — we've already asked once." if turn > 0 else ""
     prompt = (
-        f"You are Cory, a friendly and patient intent resolver. You need one more piece of information.\n\n"
+        f"You are the Resolver, a friendly and patient intent resolver. You need one more piece of information.\n\n"
         f'The user said: "{raw_input}"\n\n'
         f"You're deciding between:\n"
         f"  Option A: {riu_a.question}\n"
@@ -539,13 +539,13 @@ def build_out_of_scope(packet_id: str, reason: str) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Cory — Corythosaurus Intent Resolver",
+        description="Resolver — Palette Intent Resolver",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "Examples:\n"
-            "  cory.py --input 'I need help aligning my team'\n"
-            "  cory.py --input 'our API integration is failing' --dry-run\n"
-            "  echo '{...HandoffPacket...}' | cory.py\n"
+            "  resolver.py --input 'I need help aligning my team'\n"
+            "  resolver.py --input 'our API integration is failing' --dry-run\n"
+            "  echo '{...HandoffPacket...}' | resolver.py\n"
         ),
     )
     parser.add_argument("--input",     help="Raw user input (CLI mode)")
@@ -599,7 +599,7 @@ def main() -> int:
             "status":    "error",
             "output":    {},
             "blockers":  [
-                "ANTHROPIC_API_KEY not set — Cory requires Claude for intent resolution"
+                "ANTHROPIC_API_KEY not set — Resolver requires Claude for intent resolution"
             ],
             "timestamp": _now(),
         }

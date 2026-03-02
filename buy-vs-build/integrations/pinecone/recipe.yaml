@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Pinecone
 # Generated: 2026-02-25
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-026 (Vector Store Selection)
 # Priority: HIGH — core vector database for RAG pipelines
 
@@ -72,7 +72,7 @@ example_request:
         include_metadata=True
     )
 
-palette_agent: "Argy (Research) — knowledge retrieval; Rex (Architect) — vector store design"
+palette_agent: "Researcher — knowledge retrieval; Architect — vector store design"
 palette_integration_plan:
   phase_1: "Use free tier to index Palette knowledge library for semantic search"
   phase_2: "Hybrid search with metadata filtering for RIU-scoped retrieval"

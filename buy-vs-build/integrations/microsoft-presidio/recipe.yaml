@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Microsoft Presidio
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-012 (PII/Compliance Triage), RIU-088 (Privacy Redaction Pipeline), RIU-082 (LLM Safety Guardrails)
 # Priority: HIGH — critical for PII detection in agentic pipelines
 
@@ -68,7 +68,7 @@ example_request:
     print(anonymized.text)
     # Output: "<PERSON>'s email is <EMAIL_ADDRESS> and his SSN is <US_SSN>."
 
-palette_agent: "Anky (Validator) — pre-flight PII scrubbing; Rex (Architect) — privacy pipeline design"
+palette_agent: "Validator — pre-flight PII scrubbing; Architect — privacy pipeline design"
 palette_integration_plan:
   phase_1: "Add Presidio as pre-processing step before any user data hits external LLMs"
   phase_2: "Custom recognizers for Palette-specific entities (company names, RIU IDs, internal codes)"

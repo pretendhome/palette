@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Crunchbase
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-106 (Comparable Org Research), RIU-201 (Competitive Research), RIU-107 (Market Sizing)
 # Priority: HIGH — company/startup intelligence, critical for people-library enrichment
 
@@ -95,7 +95,7 @@ example_request:
     )
     print(funding_response.json())
 
-palette_agent: "Argy (Researcher) — company enrichment and competitive intelligence"
+palette_agent: "Researcher — company enrichment and competitive intelligence"
 palette_integration_plan:
   phase_1: "Evaluate Crunchbase Pro API for automated people-library company enrichment"
   phase_2: "Build enrichment pipeline: company name → Crunchbase → funding, team, category data"

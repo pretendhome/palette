@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Whisper (Self-Hosted)
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-502 (Audio Processing)
 # Priority: HIGH — voice input modality, already deployed in Palette Telegram bot
 
@@ -80,12 +80,12 @@ example_request:
       -F "task=transcribe" \
       -F "language=en"
 
-palette_agent: "Cory (Intent Resolver) — voice input processing; all agents benefit from voice-to-text pipeline"
+palette_agent: "Resolver — voice input processing; all agents benefit from voice-to-text pipeline"
 palette_integration_plan:
   current: "Already deployed in Palette Telegram bot for voice message transcription"
   phase_1: "Standardize on faster-whisper large-v3 for best speed/quality balance"
   phase_2: "Add speaker diarization via pyannote.audio for multi-speaker meetings"
-  phase_3: "Build voice-first Palette interface — speak command, Whisper transcribes, Cory routes"
+  phase_3: "Build voice-first Palette interface — speak command, Whisper transcribes, Resolver routes"
   note: "Self-hosted Whisper is the programmatic alternative to Wispr Flow (which has no API)."
 
 status: integrated

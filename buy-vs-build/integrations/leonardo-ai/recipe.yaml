@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Leonardo AI
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-501 (Image Processing), RIU-413 (Demo Creation)
 # Priority: MEDIUM — AI image generation with API access
 
@@ -92,10 +92,10 @@ example_request:
     images = result.json()["generations_by_pk"]["generated_images"]
     print(images[0]["url"])
 
-palette_agent: "Yuty (GTM/Narrative) — visual assets for presentations and marketing materials"
+palette_agent: "Narrator (GTM/Narrative) — visual assets for presentations and marketing materials"
 palette_integration_plan:
   phase_1: "Evaluate image quality vs DALL-E 3 and Imagen 3 for Palette visual needs"
-  phase_2: "Use API for automated visual asset generation in Yuty pipeline"
+  phase_2: "Use API for automated visual asset generation in Narrator pipeline"
   phase_3: "Fine-tune model on Palette brand assets for consistent visual identity"
   note: "API available — can integrate. Compete against DALL-E 3 (OpenAI) and Imagen 3 (Google) on quality/cost."
 

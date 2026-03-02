@@ -15,15 +15,15 @@ Built and deployed 4 operational agents + 2 compiled Go binaries in a single wee
 
 | Component | Language | Role |
 |-----------|----------|------|
-| **Cory** (Corythosaurus) | Python | Intent resolver — the "front door." Takes natural language, maps it to a specific RIU (Responsibility/Integration Unit) in the taxonomy, asks clarifying questions when ambiguous. |
-| **Argy** (Argentavis) | Python | Research agent — checks internal knowledge libraries first, then falls back to Perplexity MCP for external research. Designed for automation compatibility (JSON in, JSON out). |
+| **Resolver** | Python | Intent resolver — the "front door." Takes natural language, maps it to a specific RIU (Responsibility/Integration Unit) in the taxonomy, asks clarifying questions when ambiguous. |
+| **Researcher** | Python | Research agent — checks internal knowledge libraries first, then falls back to Perplexity MCP for external research. Designed for automation compatibility (JSON in, JSON out). |
 | **Orch** (Orchestrator) | Go | Workflow router — receives HandoffPackets from agents and routes them to the next agent in the chain. Compiled binary for performance. |
-| **Para** (Parasaurolophus) | Go | Signal monitor — watches for drift, staleness, and health degradation across the data layers. |
+| **Monitor** | Go | Signal monitor — watches for drift, staleness, and health degradation across the data layers. |
 
 **Key design decision**: Agents communicate via a `HandoffPacket` JSON protocol on stdin/stdout. This means any agent can pipe to any other agent without coupling. The orchestrator binary doesn't need to know what Python agents do — it just routes packets.
 
 ### Explanation
-This is the classic "make it work, then make it right" progression. The agent definitions existed in markdown specs. The engineering work was making them real — handling malformed Claude API responses (the JSON parsing fix in `71f518e`), building the stdin/stdout protocol, and compiling the router as a Go binary so the orchestration layer adds near-zero latency. The Go choice for Orch and Para was deliberate: these are hot-path components that should never be the bottleneck.
+This is the classic "make it work, then make it right" progression. The agent definitions existed in markdown specs. The engineering work was making them real — handling malformed Claude API responses (the JSON parsing fix in `71f518e`), building the stdin/stdout protocol, and compiling the router as a Go binary so the orchestration layer adds near-zero latency. The Go choice for Orch and Monitor was deliberate: these are hot-path components that should never be the bottleneck.
 
 ---
 

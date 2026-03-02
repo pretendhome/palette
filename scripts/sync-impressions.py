@@ -52,7 +52,7 @@ def parse_impressions(file_path):
                 # Look backwards for agent name (### AgentName or **Agent**: name)
                 agent = None
                 for j in range(i-1, max(0, i-20), -1):
-                    # Check for ### Argentavis (Argy) or ### Tyrannosaurus Rex (Rex) format
+                    # Check for ### Researcher or ### Architect format
                     header_match = re.search(r'###\s+(\w+)(?:\s+\w+)?\s*\(', lines[j])
                     if header_match:
                         agent_key = header_match.group(1).lower()
@@ -132,8 +132,8 @@ def generate_table(totals):
         )
     
     # Add agents with no impressions
-    all_agents = ["Argentavis", "Tyrannosaurus", "Therizinosaurus", "Velociraptor", 
-                  "Yutyrannus", "Ankylosaurus", "Parasaurolophus", "Orchestrator"]
+    all_agents = ["Researcher", "Architect", "Builder", "Debugger",
+                  "Narrator", "Validator", "Monitor", "Orchestrator"]
     for agent in all_agents:
         if agent not in totals:
             if agent == "Orchestrator":

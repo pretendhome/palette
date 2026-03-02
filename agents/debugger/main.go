@@ -15,7 +15,7 @@ const version = "2.1.0"
 
 func usage() {
 	fmt.Fprintf(os.Stderr, `
-RAPTOR v%s — Palette Debug Agent (Velociraptor)
+DEBUGGER v%s — Palette Debug Agent ()
 Auto-recursive connectivity diagnosis for containerized AI services.
 
 USAGE:
@@ -69,7 +69,7 @@ func main() {
 
 	run := newRunner(cfg)
 
-	fmt.Printf("\nRAPTOR v%s — Palette Debug Agent (Velociraptor)\n", version)
+	fmt.Printf("\nDEBUGGER v%s — Palette Debug Agent ()\n", version)
 	fmt.Printf("Target: %s\n\n", run.Target())
 
 	switch sub {
@@ -162,7 +162,7 @@ func main() {
 	case "report", "r":
 		d := diagnose(run, cfg)
 		ts := time.Now().Format(time.RFC3339)
-		fmt.Printf("---\n### Agent Execution: Velociraptor\n\n")
+		fmt.Printf("---\n### Agent Execution: Debugger\n\n")
 		fmt.Printf("**Timestamp**: %s\n", ts)
 		fmt.Printf("**Agent**: raptor v%s\n", version)
 		fmt.Printf("**Target**: %s\n", run.Target())

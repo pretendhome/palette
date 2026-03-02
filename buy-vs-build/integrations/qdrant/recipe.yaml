@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Qdrant
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-026 (Hybrid Similarity — Enums + Embeddings)
 # Priority: MEDIUM — vector database alternative to Pinecone
 
@@ -98,7 +98,7 @@ example_request:
     for point in results.points:
         print(f"{point.payload['lib_id']}: {point.payload['title']} (score: {point.score:.3f})")
 
-palette_agent: "Argy (Research) — knowledge retrieval; Rex (Architect) — vector infrastructure"
+palette_agent: "Researcher — knowledge retrieval; Architect — vector infrastructure"
 palette_integration_plan:
   phase_1: "Benchmark Qdrant vs Pinecone on Palette knowledge library (101 entries): latency, recall, cost"
   phase_2: "Evaluate hybrid search (sparse + dense) for improved retrieval without separate reranker"

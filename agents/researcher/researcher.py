@@ -666,7 +666,7 @@ def log_execution(
 
     entry = (
         f"\n---\n"
-        f"### Agent Execution: Argentavis\n\n"
+        f"### Agent Execution: Researcher\n\n"
         f"**Timestamp**: {ts}\n"
         f"**Trace**: {trace_id}\n"
         f"**Packet**: {packet_id}\n"
@@ -723,7 +723,7 @@ def build_handoff_result(
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Argy — Argentavis Research Agent",
+        description="Researcher — Palette Research Agent",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "Examples:\n"

@@ -52,7 +52,7 @@ example_request:
     shap_values = explainer.shap_values(X_test[:10])
     shap.force_plot(explainer.expected_value, shap_values[0], X_test.iloc[0])
 
-palette_agent: "Anky (Validator) — model explainability for stakeholder trust"
+palette_agent: "Validator — model explainability for stakeholder trust"
 palette_integration_plan:
   phase_1: "Use SHAP to explain Palette's routing decisions to Claudia-type users"
   phase_2: "Integrate SHAP visualizations into evaluation reports"

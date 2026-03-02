@@ -14,10 +14,10 @@ Policy mode:
 
 When decision is `block`, Para routes by cause:
 
-- `self_inflicted_bug` -> `Raptor`
-- `architecture_gap` -> `Rex`
-- `research_gap` -> `Argy`
-- `unknown` -> `Rex, Argy`
+- `self_inflicted_bug` -> `Debugger`
+- `architecture_gap` -> `Architect`
+- `research_gap` -> `Researcher`
+- `unknown` -> `Architect, Researcher`
 
 ## Experimentation Rules
 

@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Lovable
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-310 (Frontend Architecture), RIU-320 (API Integration), RIU-414 (Prototype Generation)
 # Priority: MEDIUM — AI web app builder, strong people-library signal cluster
 # Note: GAP-001 — no RIU for no-code AI app generation (Lovable, v0.dev). Propose RIU-550.
@@ -72,7 +72,7 @@ example_request:
     # - bolt.new (StackBlitz) — browser-based, no API
     # - Claude Code / Cursor — AI coding with full control
 
-palette_agent: "Theri (Builder) — rapid prototyping; Rex (Architect) — evaluating no-code generation quality"
+palette_agent: "Builder — rapid prototyping; Architect — evaluating no-code generation quality"
 palette_integration_plan:
   current: "Used manually by Palette operators for rapid prototyping"
   phase_1: "Evaluate output quality for Palette dashboard prototyping"

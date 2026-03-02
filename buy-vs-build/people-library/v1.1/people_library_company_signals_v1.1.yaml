@@ -137,7 +137,7 @@ signals:
   riu_secondary: ["RIU-032", "RIU-033", "RIU-200", "RIU-201"]
   company_library_status: needs_entry
   palette_action: integrate
-  palette_note: "Palette's primary LLM. Already integrated. People-library confirms Claude as non-technical educators' go-to. Claude Opus extended thinking specifically surfaced for competitive intelligence (Anisha's use case maps to Argy)."
+  palette_note: "Palette's primary LLM. Already integrated. People-library confirms Claude as non-technical educators' go-to. Claude Opus extended thinking specifically surfaced for competitive intelligence (Anisha's use case maps to Researcher)."
   taxonomy_gap: false
 
 - tool: "Wispr Flow"
@@ -191,7 +191,7 @@ signals:
   riu_secondary: ["RIU-290"]
   company_library_status: needs_entry
   palette_action: integrate
-  palette_note: "Gamma is a natural output tool for Palette narrative work (Yuty agent). Gamma API or embedding could become a Palette deliverable format. Also integrated in Superhuman Go — multi-platform signal."
+  palette_note: "Gamma is a natural output tool for Palette narrative work (Narrator agent). Gamma API or embedding could become a Palette deliverable format. Also integrated in Superhuman Go — multi-platform signal."
   taxonomy_gap: false
 
 - tool: "Lovable"
@@ -220,7 +220,7 @@ signals:
   riu_secondary: ["RIU-510"]
   company_library_status: needs_entry
   palette_action: evaluate
-  palette_note: "Lovable is the strongest no-code signal in the network. Evaluate for rapid Palette prototype delivery — instead of Theri building from scratch, could Lovable accelerate Phase 0 demos?"
+  palette_note: "Lovable is the strongest no-code signal in the network. Evaluate for rapid Palette prototype delivery — instead of Builder building from scratch, could Lovable accelerate Phase 0 demos?"
   taxonomy_gap: true
   taxonomy_gap_note: "No RIU specifically covers 'no-code AI app generation / vibe-coding'. RIU-413 (Demo Creation) is the closest but imperfect. Consider RIU-550 proposal."
 
@@ -244,7 +244,7 @@ signals:
   riu_secondary: ["RIU-231", "RIU-201"]
   company_library_status: needs_entry
   palette_action: evaluate
-  palette_note: "NotebookLM could be an alternative to Argy for document synthesis tasks. Evaluate for Argy's knowledge library search step — especially for large document sets where NotebookLM's audio summary feature adds value."
+  palette_note: "NotebookLM could be an alternative to Researcher for document synthesis tasks. Evaluate for Researcher's knowledge library search step — especially for large document sets where NotebookLM's audio summary feature adds value."
   taxonomy_gap: false
 
 - tool: "Cursor"
@@ -737,7 +737,7 @@ signals:
   riu_name: "Comparable Organization Research"
   company_library_status: needs_entry
   palette_action: evaluate
-  palette_note: "AI people search could enhance Argy's research capabilities for people-library enrichment. Single recommender but a16z partner daily-driver signal is strong."
+  palette_note: "AI people search could enhance Researcher's research capabilities for people-library enrichment. Single recommender but a16z partner daily-driver signal is strong."
   taxonomy_gap: false
 
 - tool: "Willow"

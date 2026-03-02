@@ -1,6 +1,6 @@
 # Palette Integration Recipe: LiteLLM
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-521 (LLM Model Version Management), RIU-522 (Token Budget Management), RIU-320 (Third-Party API Integration)
 # Priority: HIGH — core to SageMaker disruptor thesis, self-hosted alternative to OpenRouter
 
@@ -97,7 +97,7 @@ example_request:
     #       model: "bedrock/anthropic.claude-sonnet-4-6"
     #       aws_region_name: "us-east-1"
 
-palette_agent: "Rex (Architect) — model routing infrastructure; all agents benefit from unified LLM access"
+palette_agent: "Architect — model routing infrastructure; all agents benefit from unified LLM access"
 palette_integration_plan:
   phase_1: "Evaluate LiteLLM SDK for direct multi-provider routing in agent code"
   phase_2: "Deploy LiteLLM proxy with Redis for centralized cost tracking and budget enforcement"

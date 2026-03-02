@@ -77,9 +77,9 @@ example_request:
         print(f"  {result['content'][:200]}")
         print()
 
-palette_agent: "Argy (Researcher) — alternative search primitive to Perplexity MCP"
+palette_agent: "Researcher — alternative search primitive to Perplexity MCP"
 palette_integration_plan:
-  phase_1: "Evaluate free tier (1,000 credits/month) for Argy's research workflow"
+  phase_1: "Evaluate free tier (1,000 credits/month) for Researcher's research workflow"
   phase_2: "Compare result quality vs. Perplexity on 10 standardized research queries"
   phase_3: "If superior for structured data extraction, use Tavily for enrichment pipeline + Perplexity for synthesis"
 
@@ -89,12 +89,12 @@ comparison_to_current:
     - "Pre-synthesized answers save agent reasoning tokens"
     - "Better for end-user-facing research summaries"
   tavily_advantage:
-    - "Raw structured results give Argy more control over reasoning"
+    - "Raw structured results give the Researcher more control over reasoning"
     - "Cheaper at scale ($0.005–0.008/search vs. Perplexity's per-token model)"
     - "Extract + Crawl APIs useful for enrichment pipeline (Phase 3)"
     - "Free tier (1,000/month) is more generous than Perplexity's API access"
     - "SOC 2 + zero data retention for sensitive queries"
-  verdict: "Not a replacement for Perplexity MCP — a complement. Perplexity synthesizes (good for Argy's current workflow). Tavily returns raw data (good for batch enrichment and structured extraction). Evaluate when enrichment pipeline begins."
+  verdict: "Not a replacement for Perplexity MCP — a complement. Perplexity synthesizes (good for Researcher's current workflow). Tavily returns raw data (good for batch enrichment and structured extraction). Evaluate when enrichment pipeline begins."
 
 status: evaluate
-evaluation_verdict: "EVALUATE — strong agentic search API with generous free tier. Not urgent because Perplexity MCP already works for Argy. Becomes relevant when enrichment pipeline (Phase 3) needs structured extraction at scale. Compare on 10 queries before committing."
+evaluation_verdict: "EVALUATE — strong agentic search API with generous free tier. Not urgent because Perplexity MCP already works for Researcher. Becomes relevant when enrichment pipeline (Phase 3) needs structured extraction at scale. Compare on 10 queries before committing."

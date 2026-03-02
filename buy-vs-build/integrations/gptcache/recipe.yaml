@@ -109,9 +109,9 @@ example_request:
 
     set_llm_cache(GPTCache(init_gptcache))
 
-palette_agent: "Argy (Researcher) — reduce cost and latency for repeated similar queries"
+palette_agent: "Researcher — reduce cost and latency for repeated similar queries"
 palette_integration_plan:
-  phase_1: "Evaluate cache hit rate on typical Argy research queries"
+  phase_1: "Evaluate cache hit rate on typical Researcher queries"
   phase_2: "Implement with FAISS + ONNX (zero external dependencies)"
   phase_3: "Tune similarity threshold — conservative start (high similarity required)"
   phase_4: "Add cache invalidation strategy for time-sensitive research queries"

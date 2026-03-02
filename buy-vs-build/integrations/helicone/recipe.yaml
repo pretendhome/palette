@@ -89,10 +89,10 @@ example_request:
         },
     )
 
-palette_agent: "Para (Monitor) — LLM-specific observability with zero-code instrumentation"
+palette_agent: "Monitor — LLM-specific observability with zero-code instrumentation"
 palette_integration_plan:
   phase_1: "Route OpenRouter calls through Helicone proxy for automatic cost/latency logging"
-  phase_2: "Tag requests with agent name (Argy, Cory, etc.) via custom properties"
+  phase_2: "Tag requests with agent name (Researcher, Resolver, etc.) via custom properties"
   phase_3: "Enable caching for repeated research queries to reduce costs"
   phase_4: "Build per-agent cost dashboards and set budget alerts"
 

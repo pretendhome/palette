@@ -53,7 +53,7 @@ example_request:
   yaml_config: |
     # promptfooconfig.yaml
     prompts:
-      - "You are Argy, a research agent. Answer this question: {{question}}"
+      - "You are the Researcher, a research agent. Answer this question: {{question}}"
       - "Research the following topic thoroughly: {{question}}"
 
     providers:
@@ -101,10 +101,10 @@ example_request:
     # Run red team evaluation
     promptfoo redteam eval
 
-palette_agent: "Anky (Validator) — prompt quality evaluation and red teaming"
+palette_agent: "Validator — prompt quality evaluation and red teaming"
 palette_integration_plan:
-  phase_1: "Create promptfooconfig.yaml for Cory intent resolution accuracy testing"
-  phase_2: "Add LLM-as-judge assertions for Argy research quality"
+  phase_1: "Create promptfooconfig.yaml for Resolver intent resolution accuracy testing"
+  phase_2: "Add LLM-as-judge assertions for Researcher quality quality"
   phase_3: "Run red team testing on all agent system prompts"
   phase_4: "Integrate into CI/CD — fail builds if agent quality regresses"
   phase_5: "Use multi-model comparison to optimize model selection per agent (cost vs. quality)"
@@ -120,4 +120,4 @@ comparison_to_current:
   verdict: "Best open-source option for prompt evaluation and red teaming. Complementary to Braintrust (Promptfoo for dev/CI, Braintrust for production monitoring)."
 
 status: evaluate
-evaluation_verdict: "EVALUATE — top open-source LLM evaluation tool. Zero cost, YAML-driven, CI/CD-friendly. Red teaming feature is a unique differentiator. Highly recommended for Anky's validation workflow. Start with prompt quality assertions, then add red teaming for security validation."
+evaluation_verdict: "EVALUATE — top open-source LLM evaluation tool. Zero cost, YAML-driven, CI/CD-friendly. Red teaming feature is a unique differentiator. Highly recommended for Validator's validation workflow. Start with prompt quality assertions, then add red teaming for security validation."

@@ -85,7 +85,7 @@ func buildFlags(cfg *Config) *flag.FlagSet {
 
 func usage() {
 	fmt.Fprintf(os.Stderr, `
-PARA v%s — Palette Signal Monitor (Parasaurolophus)
+MONITOR v%s — Palette Signal Monitor
 Continuous metric monitoring for containerized AI services.
 Emits signals only — never diagnoses, never fixes.
 

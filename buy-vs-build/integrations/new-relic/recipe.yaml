@@ -101,7 +101,7 @@ example_request:
       }
     }
 
-palette_agent: "Para (Monitor) — full-stack observability with generous free tier"
+palette_agent: "Monitor — full-stack observability with generous free tier"
 palette_integration_plan:
   phase_1: "Enable AI Monitoring for LLM call tracing (built-in, no custom instrumentation needed)"
   phase_2: "Build NRQL dashboards for agent cost and latency tracking"

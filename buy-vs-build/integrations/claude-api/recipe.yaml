@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Claude API (Anthropic)
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-251 (Prompt Engineering), RIU-252 (Model Selection), RIU-521 (LLM Routing), RIU-522 (Token Budget)
 # Priority: CRITICAL — primary foundation model for all Palette agents
 

@@ -108,7 +108,7 @@ example_request:
     )
     client.emit(complete_event)
 
-palette_agent: "Para (Monitor) — data lineage tracking for enrichment pipeline"
+palette_agent: "Monitor — data lineage tracking for enrichment pipeline"
 palette_integration_plan:
   phase_1: "Only relevant when Palette has automated data pipelines (Phase 3+)"
   phase_2: "Instrument enrichment pipeline to emit lineage events"

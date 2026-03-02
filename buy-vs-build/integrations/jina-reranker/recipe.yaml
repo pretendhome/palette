@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Jina Reranker
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-027 (Reranking Layer — Post-Retrieval)
 # Priority: MEDIUM — alternative to Cohere Rerank with competitive pricing
 
@@ -78,7 +78,7 @@ example_request:
     # from jina import Client
     # client = Client(host="https://api.jina.ai")
 
-palette_agent: "Argy (Research) — retrieval quality improvement; Rex (Architect) — RAG pipeline design"
+palette_agent: "Researcher — retrieval quality improvement; Architect — RAG pipeline design"
 palette_integration_plan:
   phase_1: "Benchmark Jina Reranker vs Cohere Rerank on Palette knowledge library queries"
   phase_2: "Compare token-based pricing (Jina) vs per-search pricing (Cohere) on actual workloads"

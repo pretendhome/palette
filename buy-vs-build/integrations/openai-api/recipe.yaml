@@ -1,6 +1,6 @@
 # Palette Integration Recipe: OpenAI API
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-252 (Model Selection), RIU-521 (LLM Routing), RIU-522 (Token Budget), RIU-502 (Audio Processing)
 # Priority: HIGH — alternative model provider, Whisper audio, DALL-E image gen
 
@@ -83,7 +83,7 @@ example_request:
     )
     print(response.choices[0].message.content)
 
-palette_agent: "Rex (Architect) — model routing decisions; Argy (Researcher) — alternative to Claude for diversity"
+palette_agent: "Architect — model routing decisions; Researcher — alternative to Claude for diversity"
 palette_integration_plan:
   phase_1: "Access via OpenRouter for cost tracking — no direct OpenAI API keys needed"
   phase_2: "Evaluate GPT-4.1 for agentic coding tasks against Claude Sonnet"

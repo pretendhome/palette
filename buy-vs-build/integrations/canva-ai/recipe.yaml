@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Canva AI (Magic Media)
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-501 (Image Processing), RIU-413 (Demo Creation)
 # Priority: LOW — no public API for AI features, web-based design tool
 
@@ -85,7 +85,7 @@ example_request:
 
   note: "This only covers design management. AI features (Magic Media, Magic Write) cannot be called via API."
 
-palette_agent: "Yuty (GTM/Narrative) — visual design for presentations and marketing materials (manual use only)"
+palette_agent: "Narrator (GTM/Narrative) — visual design for presentations and marketing materials (manual use only)"
 palette_integration_plan:
   current: "Manual use by Palette operators for design tasks"
   connect_api: "Connect API could automate design export — but AI generation must still be done manually"

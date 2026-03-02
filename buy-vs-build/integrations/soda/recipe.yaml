@@ -108,7 +108,7 @@ example_request:
     # Run in CI/CD — exit code 1 on failure
     soda scan -d palette_db -c configuration.yaml checks.yaml || exit 1
 
-palette_agent: "Anky (Validator) — data quality monitoring for libraries and pipelines"
+palette_agent: "Validator — data quality monitoring for libraries and pipelines"
 palette_integration_plan:
   phase_1: "Define SodaCL checks for people_library and service_routing data"
   phase_2: "Run checks after each library update to catch regressions"

@@ -1,6 +1,6 @@
 # Palette Integration Recipe: dbt
 # Generated: 2026-02-25
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-019 (Data Pipeline Design)
 # Priority: MEDIUM — analytics engineering foundation
 
@@ -60,7 +60,7 @@ example_request:
     run = response.json()["data"]
     print(f"Run {run['id']} status: {run['status_humanized']}")
 
-palette_agent: "Rex (Architect) — data pipeline design and lineage decisions"
+palette_agent: "Architect — data pipeline design and lineage decisions"
 palette_integration_plan:
   phase_1: "Use dbt Core for local SQL transformations and lineage tracking"
   phase_2: "Evaluate dbt Cloud for scheduled runs and CI integration"

@@ -70,7 +70,7 @@ quality_checks:
   - "Each task has a clear done condition."
   - "At least one explicit validation command/check is present."
   - "Risky tasks include rollback or containment strategy."
-  - "Debug context is preserved for downstream Raptor/Para use."
+  - "Debug context is preserved for downstream Debugger/Monitor use."
   - "Verification steps are concrete and runnable where possible."
   - "Code tasks do not hide architecture changes without calling them out."
 

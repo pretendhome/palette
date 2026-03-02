@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Lakera Guard
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-082 (LLM Safety Guardrails), RIU-108 (Agent Security & Access Control), RIU-606 (Brand Safety)
 # Priority: HIGH — prompt injection defense for agentic pipelines
 
@@ -78,9 +78,9 @@ example_request:
     # result.categories includes: prompt_injection, jailbreak, pii,
     # relevant_language, toxicity, unknown_links
 
-palette_agent: "Anky (Validator) — input/output guardrails; Rex (Architect) — security layer design"
+palette_agent: "Validator — input/output guardrails; Architect — security layer design"
 palette_integration_plan:
-  phase_1: "Add Lakera Guard as pre-flight check on all external user inputs to Cory"
+  phase_1: "Add Lakera Guard as pre-flight check on all external user inputs to Resolver"
   phase_2: "Extend to indirect injection defense — scan tool outputs before agent consumption"
   phase_3: "Benchmark Lakera vs Bedrock Guardrails for prompt injection recall/precision"
 

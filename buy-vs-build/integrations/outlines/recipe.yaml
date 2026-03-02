@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Outlines
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-028 (Schema-Constrained Generation)
 # Priority: MEDIUM — structured generation at the model level, complementary to Instructor
 
@@ -91,7 +91,7 @@ example_request:
         ["foundation", "retrieval", "orchestration", "specialization"]
     )
 
-palette_agent: "Rex (Architect) — structured generation design; Theri (Builder) — local model integration"
+palette_agent: "Architect — structured generation design; Builder — local model integration"
 palette_integration_plan:
   phase_1: "Evaluate Outlines only if Palette self-hosts LLMs (Mistral, Llama via vLLM)"
   phase_2: "If self-hosting: use Outlines for guaranteed structured output, eliminating retry costs"

@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Upstash Redis
 # Generated: 2026-02-25
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-035 (Caching Strategy), RIU-523 (Rate Limiting)
 # Priority: MEDIUM — serverless caching for agentic workflows
 
@@ -64,7 +64,7 @@ example_request:
     # Retrieve cached response
     cached = redis.get("palette:llm:cache:prompt_hash_abc123")
 
-palette_agent: "Rex (Architect) — caching strategy; Para (Monitor) — rate limiting enforcement"
+palette_agent: "Architect — caching strategy; Monitor — rate limiting enforcement"
 palette_integration_plan:
   phase_1: "Use free tier for LLM response caching on high-frequency prompts"
   phase_2: "Implement @upstash/ratelimit for agent API call throttling"

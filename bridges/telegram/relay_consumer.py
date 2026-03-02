@@ -261,7 +261,7 @@ def build_stub_response(intent: str, user_request: str) -> str:
     if intent == "triage_request":
         return (
             "Accepted relay `triage_request`.\n\n"
-            "V1 consumer recorded the request. A future worker can classify and route it to Orch/Argy/Rex/Theri."
+            "V1 consumer recorded the request. A future worker can classify and route it to Orchestrator/Researcher/Architect/Builder."
         )
     return (
         f"Accepted relay request for `{intent}`, but no handler exists in v1 consumer. "

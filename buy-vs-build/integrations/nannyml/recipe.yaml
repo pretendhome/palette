@@ -102,10 +102,10 @@ example_request:
     drift_results = drift_calculator.calculate(analysis_df)
     print(drift_results.to_df())
 
-palette_agent: "Para (Monitor) — detect model degradation before ground truth available"
+palette_agent: "Monitor — detect model degradation before ground truth available"
 palette_integration_plan:
   phase_1: "Relevant when Palette has classification models (e.g., intent resolution confidence scoring)"
-  phase_2: "Use CBPE to estimate Cory's intent classification accuracy in production"
+  phase_2: "Use CBPE to estimate Resolver's intent classification accuracy in production"
   phase_3: "Set up drift detection on feature distributions"
   phase_4: "Alert on estimated performance drops before actual quality impact"
 
@@ -117,4 +117,4 @@ comparison_to_current:
   verdict: "NannyML for the unique CBPE capability when ground truth is delayed. Evidently for broader ML/LLM monitoring. Not mutually exclusive."
 
 status: evaluate
-evaluation_verdict: "EVALUATE — unique value proposition with CBPE (performance estimation without ground truth). Niche but powerful for monitoring model degradation in production before feedback labels arrive. Less relevant for LLM-specific use cases (Evidently is better there). Consider for Cory's intent classification monitoring if confidence scores are well-calibrated."
+evaluation_verdict: "EVALUATE — unique value proposition with CBPE (performance estimation without ground truth). Niche but powerful for monitoring model degradation in production before feedback labels arrive. Less relevant for LLM-specific use cases (Evidently is better there). Consider for Resolver's intent classification monitoring if confidence scores are well-calibrated."

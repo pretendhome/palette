@@ -96,7 +96,7 @@ example_request:
     # Get SLO status
     sloctl get slo -p palette
 
-palette_agent: "Para (Monitor) — SLO management for agent reliability targets"
+palette_agent: "Monitor — SLO management for agent reliability targets"
 palette_integration_plan:
   phase_1: "Only relevant once Palette has production agent APIs with metrics collection"
   phase_2: "Define SLOs: latency p95 <5s (99%), error rate <1% (99.9%), cost per query <$0.15 (95%)"

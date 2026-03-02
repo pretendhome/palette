@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Amazon ElastiCache
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-035 (Caching Strategy + Invalidation), RIU-523 (LLM Response Caching)
 # Priority: LOW — relevant only for production-scale Palette deployment on AWS
 
@@ -79,14 +79,14 @@ example_request:
         r.setex(cache_key, ttl, json.dumps(response))
         return response
 
-    # Example: cache Argy research responses for 1 hour
+    # Example: cache Researcher responses for 1 hour
     result = get_cached_response(
         prompt="What is the current pricing for Pinecone?",
         model="anthropic/claude-sonnet-4-6",
         ttl=3600
     )
 
-palette_agent: "Rex (Architect) — caching infrastructure design"
+palette_agent: "Architect — caching infrastructure design"
 palette_integration_plan:
   phase_1: "Evaluate ElastiCache vs Upstash Redis — Upstash already has a recipe and serverless pricing"
   phase_2: "If Palette deploys on AWS: use ElastiCache Serverless for LLM response caching"

@@ -15,7 +15,7 @@ changelog:
     - Total RIUs: 104 (v1.1's 94 + 10 essential patterns)
   v1.1:
     - Refined from v1.0 (115 RIUs) to remove structural overlap (research-backed reduction)
-    - Added 8 agent archetypes (including Ankylosaurus/Validator and Parasaurolophus/Monitor)
+    - Added 8 agent archetypes (including Validator and Monitor)
     - Added RIU-500 series (Multimodal AI Workflows - 4 RIUs)
     - Added RIU-510 series (Advanced Agentic Systems - 5 RIUs)
     - Added RIU-520 series (Modern LLMOps - 5 RIUs)
@@ -45,7 +45,7 @@ workstreams:
 
 agent_archetypes:
   - id: Researcher
-    code: Argy
+    code: Researcher
     role: Resource Gatherer
     description: Search, retrieval, research, context gathering (read-only)
     disallowed:
@@ -61,7 +61,7 @@ agent_archetypes:
 
 
   - id: Builder
-    code: Theri
+    code: Builder
     role: Builder
     description: Implementation within bounded scope
     disallowed:
@@ -75,7 +75,7 @@ agent_archetypes:
 
 
   - id: Debugger
-    code: Raptor
+    code: Debugger
     role: Debugger
     description: Failure isolation, root cause analysis, repair
     disallowed:
@@ -103,7 +103,7 @@ agent_archetypes:
 
 
   - id: Narrator
-    code: Yuty
+    code: Narrator
     role: GTM / Narrative
     description: Customer-facing explanations, demos, documentation, enablement
     constraints:
@@ -117,7 +117,7 @@ agent_archetypes:
 
 
   - id: Validator
-    code: Anky
+    code: Validator
     role: Validator
     description: Quality assurance, compliance checking, verification, auditing
     disallowed:
@@ -4848,7 +4848,7 @@ rius:
         - Comparable found with financial data
         - All claims sourced [Research: ...] [Case Study: ...]
         - Cash crises identified (monthly cash flow)
-        - Quality score 75+ (Anky validation)
+        - Quality score 75+ (Validator validation)
         - Customer approves final document
       outcome: |
         - Customer finds plan valuable ("well-received")
@@ -5364,7 +5364,7 @@ rius:
       - Architect
       - Researcher
       - Human:Delivery
-    notes: 'Added v1.4: Gap project — three-bucket ROI from Argy research'
+    notes: 'Added v1.4: Gap project — three-bucket ROI from Researcher research'
     tags:
       - roi
       - business-case
@@ -5485,9 +5485,9 @@ rius:
     name: Context Compaction for Long Engagements
     domain: Engagement Operations
     description: Protocol for preserving engagement state when approaching context window limits. Ensures continuity across sessions through structured memory flush, daily logging, and continuation notes.
-    primary_agent: Yuty
+    primary_agent: Narrator
     supporting_agents:
-      - Anky
+      - Validator
     triggers:
       - Context window approaching limit
       - Session break in multi-phase engagement
@@ -5496,7 +5496,7 @@ rius:
       - Updated MEMORY.md
       - Daily log entry with continuation note
       - Updated decisions.md
-    quality_gate: Anky confirms MEMORY.md is current and continuation note is actionable
+    quality_gate: Validator confirms MEMORY.md is current and continuation note is actionable
     impressions: 0
     status: UNVALIDATED
     reversibility: two_way
@@ -5524,13 +5524,13 @@ rius:
     description: Typed workflow format (YAML) defining phases, agent assignments, quality gates, decision checkpoints, and memory update expectations for multi-agent engagements. Makes implicit workflows explicit and auditable.
     primary_agent: Orchestrator
     supporting_agents:
-      - Anky
+      - Validator
     triggers:
       - New engagement with 3+ planned phases
       - Existing engagement needs structure formalization
     artifacts:
       - workflow.yaml
-    quality_gate: Anky validates workflow completeness and gate definitions
+    quality_gate: Validator validates workflow completeness and gate definitions
     impressions: 1
     status: WORKING
     reversibility: two_way

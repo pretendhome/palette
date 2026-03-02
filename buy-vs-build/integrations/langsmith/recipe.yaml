@@ -108,9 +108,9 @@ example_request:
 
     evaluate(predict, data="palette-research-quality", evaluators=[correctness])
 
-palette_agent: "Para (Monitor) + Anky (Validator) — tracing for debugging, evaluation for quality"
+palette_agent: "Monitor + Validator — tracing for debugging, evaluation for quality"
 palette_integration_plan:
-  phase_1: "Instrument Cory and Argy with @traceable decorator for pipeline visibility"
+  phase_1: "Instrument Resolver and Researcher with @traceable decorator for pipeline visibility"
   phase_2: "Build evaluation datasets from real queries for regression testing"
   phase_3: "Set up LLM-as-judge online evaluation for production quality scoring"
   phase_4: "Use Prompt Hub for agent system prompt version control"

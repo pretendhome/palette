@@ -127,7 +127,7 @@ routing_entries:
   - riu_id: "RIU-201"
     riu_name: "Competitive/Alternatives Research"
     routing_intent: "Find and evaluate competitors, alternatives, and market landscape for a given topic"
-    palette_current_approach: "Argy agent → Perplexity MCP → web_search fallback"
+    palette_current_approach: "Researcher agent → Perplexity MCP → web_search fallback"
     signal_strength: high
 
     services:
@@ -138,7 +138,7 @@ routing_entries:
         cost_model: usage_based
         cost_estimate: "API: ~$0.0002/request (unvalidated); MCP: free via existing key"
         integration_status: integrated
-        palette_integration_status: "INTEGRATED — Perplexity MCP configured for Argy; all 18 people-library profiles have queries ready"
+        palette_integration_status: "INTEGRATED — Perplexity MCP configured for Researcher; all 18 people-library profiles have queries ready"
         signal_source: people_library
         signal_strength: high
         best_for:
@@ -234,7 +234,7 @@ routing_entries:
   - riu_id: "RIU-413"
     riu_name: "Customer Value Demo Creation"
     routing_intent: "Create a demo, presentation, or visual narrative for stakeholder communication"
-    palette_current_approach: "Yuty agent generates narrative; output is markdown/text; no visual layer"
+    palette_current_approach: "Narrator agent generates narrative; output is markdown/text; no visual layer"
     signal_strength: high
 
     services:
@@ -245,7 +245,7 @@ routing_entries:
         cost_model: freemium
         cost_estimate: "Free tier available; Pro: $10/month (unvalidated)"
         integration_status: recipe_needed
-        palette_integration_status: "Not integrated; high priority for Yuty agent output layer"
+        palette_integration_status: "Not integrated; high priority for Narrator agent output layer"
         signal_source: people_library
         signal_strength: high
         best_for:
@@ -254,7 +254,7 @@ routing_entries:
           - "One-page documents and landing pages"
           - "Embedded AI agent (Superhuman Go integration)"
         build_vs_buy: integrate
-        notes: "Grant Lee (CEO) validates the tool from inside. 70M users, $2B valuation. Gamma API would let Yuty's narrative output go directly into a polished presentation format."
+        notes: "Grant Lee (CEO) validates the tool from inside. 70M users, $2B valuation. Gamma API would let Narrator's narrative output go directly into a polished presentation format."
 
       - name: "Lovable"
         company_url: "https://lovable.dev"
@@ -403,7 +403,7 @@ routing_entries:
   - riu_id: "RIU-200"
     riu_name: "Customer Problem Narrative (JTBD + Constraints)"
     routing_intent: "Capture and synthesize customer voice into structured narratives"
-    palette_current_approach: "Argy research + manual synthesis by Yuty"
+    palette_current_approach: "Researcher + manual synthesis by Narrator"
     signal_strength: medium
 
     services:
@@ -969,7 +969,7 @@ routing_entries:
   - riu_id: "RIU-106"
     riu_name: "Comparable Organization Research"
     routing_intent: "Find comparable organizations with financial data, team size, and market positioning"
-    palette_current_approach: "Argy agent → Perplexity MCP for web research"
+    palette_current_approach: "Researcher agent → Perplexity MCP for web research"
     signal_strength: high
 
     services:
@@ -980,7 +980,7 @@ routing_entries:
         cost_model: usage_based
         cost_estimate: "Search API: $5/1K requests. Sonar: $1/M input + $1/M output tokens. Sonar Pro: $3/M input + $15/M output tokens."
         integration_status: integrated
-        palette_integration_status: "INTEGRATED — Perplexity MCP in Argy agent"
+        palette_integration_status: "INTEGRATED — Perplexity MCP in Researcher agent"
         signal_source: people_library
         signal_strength: high
         best_for:
@@ -1032,7 +1032,7 @@ routing_entries:
   - riu_id: "RIU-109"
     riu_name: "Business Plan Creation"
     routing_intent: "Create business plans combining deep research, financial modeling, and presentation output"
-    palette_current_approach: "Argy (research) → Yuty (narrative) → markdown output"
+    palette_current_approach: "Researcher → Narrator → markdown output"
     signal_strength: medium
 
     services:
@@ -1068,7 +1068,7 @@ routing_entries:
           - "Export to PDF, PPTX, Google Slides"
           - "Custom branding on Pro+"
         build_vs_buy: integrate
-        notes: "Gamma Generate API is GA since Jan 2026. Pro tier ($15/month) unlocks API. Natural output layer for Yuty → Gamma pipeline."
+        notes: "Gamma Generate API is GA since Jan 2026. Pro tier ($15/month) unlocks API. Natural output layer for Narrator → Gamma pipeline."
 
       - name: "NotebookLM (Google)"
         company_url: "https://notebooklm.google.com"
@@ -1095,7 +1095,7 @@ routing_entries:
   - riu_id: "RIU-140"
     riu_name: "Competitive/Alternatives Scan (Landscape)"
     routing_intent: "Scan and map competitive landscape for a specific market or category"
-    palette_current_approach: "Argy agent → Perplexity MCP (already integrated)"
+    palette_current_approach: "Researcher agent → Perplexity MCP (already integrated)"
     signal_strength: high
 
     services:

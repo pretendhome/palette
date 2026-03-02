@@ -112,9 +112,9 @@ example_request:
     )
     explanation.show_in_notebook()
 
-palette_agent: "Anky (Validator) — explainability for model decisions and agent routing"
+palette_agent: "Validator — explainability for model decisions and agent routing"
 palette_integration_plan:
-  phase_1: "Use LIME to explain Cory's intent classification decisions for debugging"
+  phase_1: "Use LIME to explain Resolver's intent classification decisions for debugging"
   phase_2: "Generate explanations for service routing recommendations"
   phase_3: "Build explanation reports for key misclassifications"
   phase_4: "Consider SP-LIME for global model understanding across query types"
@@ -128,4 +128,4 @@ comparison_to_current:
   verdict: "SHAP is generally preferred for tabular data (theoretical guarantees). LIME is useful for text explanations where SHAP's text support is weaker. Use LIME for text classifier explanations, SHAP for tabular model explanations."
 
 status: evaluate
-evaluation_verdict: "EVALUATE — foundational ML explainability tool. Most valuable for text classification explanations (Cory's intent resolver). For tabular data, SHAP (already integrated) is preferred. LIME text explainer fills a gap SHAP doesn't cover well. Low urgency — relevant when Palette has trained classifiers that need debugging. Library maintenance is minimal but the technique is well-established and stable."
+evaluation_verdict: "EVALUATE — foundational ML explainability tool. Most valuable for text classification explanations (Resolver's intent resolver). For tabular data, SHAP (already integrated) is preferred. LIME text explainer fills a gap SHAP doesn't cover well. Low urgency — relevant when Palette has trained classifiers that need debugging. Library maintenance is minimal but the technique is well-established and stable."

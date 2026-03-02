@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Prisma Migrate
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-067 (Database Migration Safety Wrapper)
 # Priority: LOW — relevant if Palette adopts TypeScript/Node.js data layer
 
@@ -85,7 +85,7 @@ example_request:
     #   orderBy: { createdAt: 'desc' }
     # })
 
-palette_agent: "Theri (Builder) — database schema management"
+palette_agent: "Builder — database schema management"
 palette_integration_plan:
   phase_1: "Evaluate only if Palette adopts TypeScript/Node.js for any data service layer"
   phase_2: "If TypeScript: use Prisma ORM for type-safe database access with auto-migrations"

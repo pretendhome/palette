@@ -105,7 +105,7 @@ example_request:
     result = validation_definition.run()
     print(f"Success: {result.success}")
 
-palette_agent: "Anky (Validator) — data quality gates for library data"
+palette_agent: "Validator — data quality gates for library data"
 palette_integration_plan:
   phase_1: "Define expectations for people_library YAML structure (required fields, valid ranges)"
   phase_2: "Validate service_routing entries (cost fields present, URLs valid)"

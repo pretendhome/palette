@@ -1,6 +1,6 @@
 # Palette People & Influencer Library v1.1
 # Generated: 2026-02-24
-# Agent: Yuty (GTM/Narrative) — evidence-based only, all claims sourced
+# Agent: Narrator (GTM/Narrative) — evidence-based only, all claims sourced
 # Source: people_library_v1.0.yaml + Phase 1 web enrichment pass
 # Status: CURRENT — supersedes v1.0
 #
@@ -2126,7 +2126,7 @@ intelligence_flags:
     action: "Track as leading indicator for Claude adoption"
   - flag: "Granola (AI meetings)"
     detail: "New tool not in buy-vs-build — recommended by both Ruben Hassid and Olivia Moore"
-    action: "Add to buy-vs-build; evaluate for Argy"
+    action: "Add to buy-vs-build; evaluate for Researcher"
   - flag: "Julius AI"
     detail: "Data analysis tool recommended by a16z partner — not in buy-vs-build"
     action: "Add to buy-vs-build"

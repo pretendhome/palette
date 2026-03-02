@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Datadog
 # Generated: 2026-02-25
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-061 (Observability Baseline), RIU-542 (Observability Stack Design)
 # Priority: MEDIUM — evaluate vs New Relic free tier
 
@@ -64,7 +64,7 @@ example_request:
             }]
         })
 
-palette_agent: "Para (Monitor) — production observability; Anky (Validator) — SLO enforcement"
+palette_agent: "Monitor — production observability; Validator — SLO enforcement"
 palette_integration_plan:
   phase_1: "Evaluate Datadog vs New Relic free tier for Palette's monitoring needs"
   phase_2: "Deploy LLM Observability for agent tracing and token tracking"

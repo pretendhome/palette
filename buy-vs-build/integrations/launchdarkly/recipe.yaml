@@ -1,6 +1,6 @@
 # Palette Integration Recipe: LaunchDarkly
 # Generated: 2026-02-25
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-064 (Feature Flag Strategy)
 # Priority: MEDIUM — feature flag management for progressive rollouts
 
@@ -61,7 +61,7 @@ example_request:
     else:
         response = call_llm(model="claude-sonnet-4-6")
 
-palette_agent: "Rex (Architect) — rollout strategy; Para (Monitor) — flag state tracking"
+palette_agent: "Architect — rollout strategy; Monitor — flag state tracking"
 palette_integration_plan:
   phase_1: "Evaluate LaunchDarkly vs Statsig for Palette's flag needs"
   phase_2: "Implement model version flags for progressive LLM rollouts"

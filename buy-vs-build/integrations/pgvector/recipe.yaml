@@ -1,6 +1,6 @@
 # Palette Integration Recipe: pgvector
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-026 (Hybrid Similarity — Enums + Embeddings)
 # Priority: MEDIUM — vector search inside PostgreSQL, no separate vector DB needed
 
@@ -101,7 +101,7 @@ example_request:
 
     conn.commit()
 
-palette_agent: "Argy (Research) — knowledge retrieval; Rex (Architect) — data architecture"
+palette_agent: "Researcher — knowledge retrieval; Architect — data architecture"
 palette_integration_plan:
   phase_1: "If Palette already uses PostgreSQL: add pgvector extension — zero additional infrastructure"
   phase_2: "Benchmark pgvector vs Pinecone on knowledge library queries (101 entries — pgvector will be fine)"

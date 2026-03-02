@@ -6882,7 +6882,7 @@ library_questions:
   answer: Use Perplexity API or MCP integration for comparable organization research. Structure
     queries as specific comparisons rather than broad searches — ask for companies with similar
     tech stack, funding stage, team size, and target market. Perplexity returns sourced, cited
-    answers which makes it superior to raw web search for Argy's research workflow. Cross-reference
+    answers which makes it superior to raw web search for Researcher's research workflow. Cross-reference
     Perplexity results with Crunchbase for funding validation and LinkedIn for team composition.
     For competitive landscape scans, use Perplexity's recency advantage — it indexes recent
     funding rounds, product launches, and hiring patterns that static databases miss. Always
@@ -6940,13 +6940,13 @@ library_questions:
 - id: LIB-125
   question: How do I create a business plan using AI research and presentation tools?
   answer: Combine AI research (Perplexity for market data, competitive landscape, and TAM/SAM/SOM
-    estimates) with AI presentation tools (Gamma for polished decks). Palette's Yuty agent produces
+    estimates) with AI presentation tools (Gamma for polished decks). Palette's Narrator agent produces
     the narrative and evidence base; Gamma's API converts that into investor-ready presentations.
     Structure — executive summary, problem statement, market analysis (Perplexity-sourced with
     citations), solution, business model, competitive positioning, financial projections, and
     team. Key decision — use Perplexity for ALL market claims so every number has a source URL.
     Use Gamma for the visual layer so non-designers can produce professional output. The business
-    plan is a Palette deliverable that routes through Yuty to Gamma pipeline.
+    plan is a Palette deliverable that routes through Narrator to Gamma pipeline.
   problem_type: Intake_and_Convergence
   related_rius:
   - RIU-109
@@ -7005,7 +7005,7 @@ library_questions:
     the demo needs to be interactive, not just slides. Decision — if the deliverable is a deck
     or carousel (investor pitch, status update, LinkedIn content), use Gamma. If the deliverable
     is an interactive prototype (product demo, proof of concept), evaluate Lovable. Palette's
-    Yuty agent produces the narrative content; these tools provide the visual delivery layer.
+    Narrator agent produces the narrative content; these tools provide the visual delivery layer.
   problem_type: Operationalization_and_Scaling
   related_rius:
   - RIU-413
@@ -8776,7 +8776,7 @@ library_questions:
     and after each decision checkpoint). The workflow is a living document — update it when
     the engagement pivots. The anti-pattern is defining a rigid workflow that blocks necessary
     pivots. Build in explicit "reassess workflow" checkpoints every 2-3 phases. Validate the
-    workflow with Anky before the engagement begins.'
+    workflow with Validator before the engagement begins.'
   problem_type: Operationalization_and_Scaling
   related_rius:
   - RIU-608
@@ -9416,9 +9416,9 @@ context_specific_questions:
 
     **From Palette experience**:
 
-    - RES-001 validates Argy''s clarification-before-search behavior
+    - RES-001 validates Researcher''s clarification-before-search behavior
 
-    - ARCH-001 validates Rex''s multi-option tradeoff analysis
+    - ARCH-001 validates Architect''s multi-option tradeoff analysis
 
     - Both test agent stays within role boundaries
 
@@ -9465,7 +9465,7 @@ context_specific_questions:
     \ impressions + fail_gap\n\n**Key Insight**: Maturity is about measured trust, not function.\
     \ A simple agent at PRODUCTION is more valuable than a complex agent at UNVALIDATED.\n\n\
     **Current Palette status** (as of implementation):\n- Researcher: 1 success, 0 failures,\
-    \ UNVALIDATED (needs 9 more successes)\n- Rex: 0 executions, UNVALIDATED (awaiting first\
+    \ UNVALIDATED (needs 9 more successes)\n- Architect: 0 executions, UNVALIDATED (awaiting first\
     \ use)\n"
   problem_type: Reliability_and_Failure_Handling
   related_rius:
@@ -9567,7 +9567,7 @@ context_specific_questions:
 
     - Fixture format was ONE-WAY DOOR (establishes validation pattern)
 
-    - Argy''s clarification protocol was TWO-WAY DOOR (can iterate on questions)
+    - Researcher''s clarification protocol was TWO-WAY DOOR (can iterate on questions)
 
     '
   problem_type: Intake_and_Convergence
@@ -9620,13 +9620,13 @@ context_specific_questions:
 
     **3. Capabilities** (What tools/agents are needed):
 
-    - Required agents: Argy for research, Architect for architecture, Theri for building
+    - Required agents: Researcher for research, Architect for architecture, Builder for building
 
     - Required tools: web_search, fs_write, execute_bash, use_aws
 
     - Required infrastructure: Cloud services, databases, APIs, frameworks
 
-    - Examples: "Need Argy (research), Architect (architecture), AWS CDK, PostgreSQL", "Need web_search,
+    - Examples: "Need Researcher (research), Architect (architecture), AWS CDK, PostgreSQL", "Need web_search,
     SageMaker, Lambda, DynamoDB"
 
 
@@ -9835,14 +9835,14 @@ context_specific_questions:
 
     '
   answer: "Use semantic color coding to visualize agent handoffs and coordination.\n\nPalette's\
-    \ 8 agents have semantic colors:\n- Researcher (Argy): Blue \U0001F535 - Research/trust/water\n\
-    - Builder (Theri): Orange \U0001F7E0 - Build/action/fire\n- Debugger (Raptor):\
-    \ Red \U0001F534 - Debug/alert/critical\n- Tyrannosaurus (Rex): Purple \U0001F7E3 - Design/vision/architecture\n\
-    - Narrator (Yuty): Green \U0001F7E2 - Narrative/growth/GTM\n- Validator (Anky): Gray\
-    \ ⚪ - Validate/stability/foundation\n- Monitor (Para): Yellow \U0001F7E1 - Signal/monitor/light\n\
-    - Orchestrator (Orch): White ⚫ - Coordinate/neutral/air\n\nIn decisions.md, use colors/emojis\
-    \ to show workflow:\n\"Argy (\U0001F535) researched → Architect (\U0001F7E3) designed → Theri\
-    \ (\U0001F7E0) built → \n Anky (⚪) validated → Para (\U0001F7E1) monitored\"\n\nThis improves\
+    \ 8 agents have semantic colors:\n- Researcher: Blue \U0001F535 - Research/trust/water\n\
+    - Builder: Orange \U0001F7E0 - Build/action/fire\n- Debugger:\
+    \ Red \U0001F534 - Debug/alert/critical\n- Architect: Purple \U0001F7E3 - Design/vision/architecture\n\
+    - Narrator: Green \U0001F7E2 - Narrative/growth/GTM\n- Validator: Gray\
+    \ ⚪ - Validate/stability/foundation\n- Monitor: Yellow \U0001F7E1 - Signal/monitor/light\n\
+    - Orchestrator: White ⚫ - Coordinate/neutral/air\n\nIn decisions.md, use colors/emojis\
+    \ to show workflow:\n\"Researcher (\U0001F535) researched → Architect (\U0001F7E3) designed → Builder\
+    \ (\U0001F7E0) built → \n Validator (⚪) validated → Monitor (\U0001F7E1) monitored\"\n\nThis improves\
     \ readability by:\n- Making agent roles visually distinct\n- Showing handoff points clearly\n\
     - Enabling quick workflow scanning\n- Reducing cognitive load when reading logs\n\nUse when:\
     \ Multi-agent engagements (3+ agents)\nSkip when: Single-agent executions (unnecessary overhead)\n"
@@ -9906,8 +9906,8 @@ context_specific_questions:
     - Define agent roles with explicit permission boundaries\n- Use policy engines to enforce\
     \ constraints outside model reasoning\n- Implement \"before_tool\" callbacks to validate\
     \ parameters\n- Require explicit approval for elevated permissions\n\nExample: Research\
-    \ agent (Argy) gets read-only database access. \nBuild agent (Theri) gets write access only\
-    \ to /src directory.\nArchitecture agent (Rex) designs security posture but cannot execute.\n\
+    \ agent (Researcher) gets read-only database access. \nBuild agent (Builder) gets write access only\
+    \ to /src directory.\nArchitecture agent (Architect) designs security posture but cannot execute.\n\
     \nBlast radius containment:\nIf one agent is compromised, damage is limited to its permission\
     \ scope.\n"
   problem_type: Trust_Governance_and_Adoption
@@ -9943,8 +9943,8 @@ context_specific_questions:
     \ Does content violate tone policy? (LM judge)\n3. Check: Does email contain PII without\
     \ consent? (deterministic + LM)\n4. If any check fails: Block action, log attempt, alert\
     \ human\n\nIntegration with Palette:\n- Architect designs guardrail architecture (what to constrain)\n\
-    - Theri implements guardrails (code + configuration)\n- Anky validates guardrails work as\
-    \ intended\n- Para monitors for guardrail violations in production\n"
+    - Builder implements guardrails (code + configuration)\n- Validator validates guardrails work as\
+    \ intended\n- Monitor monitors for guardrail violations in production\n"
   problem_type: Trust_Governance_and_Adoption
   related_rius:
   - RIU-105
@@ -10022,13 +10022,13 @@ context_specific_questions:
 
     Palette integration:
 
-    - Each agent archetype (Argy, Rex, Theri, etc.) has default permission profile
+    - Each agent archetype (Researcher, Architect, Builder, etc.) has default permission profile
 
     - Instances inherit profile but can be further restricted
 
     - Architect designs identity architecture for multi-agent systems
 
-    - Anky validates identity implementation meets security requirements
+    - Validator validates identity implementation meets security requirements
 
     '
   problem_type: Trust_Governance_and_Adoption
@@ -10063,7 +10063,7 @@ context_specific_questions:
     \ manages this trade-off\n- Give agents \"a leash long enough to do their job, \n  but short\
     \ enough to keep them from running into traffic\"\n\nWho performs classification:\n- Primary:\
     \ Architect (Architecture agent) - designs systems, identifies ONE-WAY DOORs\n- Secondary: Any\
-    \ agent that detects a ONE-WAY DOOR must flag and stop\n- Validation: Anky reviews classification\
+    \ agent that detects a ONE-WAY DOOR must flag and stop\n- Validation: Validator reviews classification\
     \ during quality checks\n- Override: Human can reclassify if agent gets it wrong\n\nDecision\
     \ process:\n1. Agent identifies decision point\n2. Classifies as TWO-WAY or ONE-WAY DOOR\n\
     3. If ONE-WAY: Emit \"\U0001F6A8 ONE-WAY DOOR — confirmation required\"\n4. Pause execution,\
@@ -10118,15 +10118,15 @@ context_specific_questions:
     \ for gradual rollout\n\nCreating Golden Datasets:\n- Sample scenarios from production interactions\n\
     - Cover full breadth of use cases + edge cases\n- Include ideal responses (validated by\
     \ domain experts)\n- Maintain and expand dataset over time\n- Store as artifacts (JSON,\
-    \ YAML, CSV)\n\nPalette Integration:\n- Validator (Anky) performs validation using these\
+    \ YAML, CSV)\n\nPalette Integration:\n- Validator performs validation using these\
     \ methods\n- Deterministic checks first, LM-as-Judge second\n- All evaluations produce artifacts\
     \ (JSON rubrics, test reports)\n- Agent impressions track success/fail over time\n- Maturity\
     \ model (UNVALIDATED → WORKING → PRODUCTION) \n  based on measured performance (not opinions)\n\
-    \nExample validation workflow:\n1. Theri builds feature\n2. Anky runs deterministic checks\
-    \ (fixtures pass?)\n3. Anky runs LM-as-Judge (rubric scores >= threshold?)\n4. Anky produces\
+    \nExample validation workflow:\n1. Builder builds feature\n2. Validator runs deterministic checks\
+    \ (fixtures pass?)\n3. Validator runs LM-as-Judge (rubric scores >= threshold?)\n4. Validator produces\
     \ evaluation artifact (JSON report)\n5. Human reviews artifact, approves or requests changes\n\
     6. If approved: increment agent success impressions\n7. If failed: increment fail, reset\
-    \ fail_gap, route to Raptor\n\nAnti-pattern: Don't use LM-as-Judge as a black box.\nAlways\
+    \ fail_gap, route to Debugger\n\nAnti-pattern: Don't use LM-as-Judge as a black box.\nAlways\
     \ produce scored rubrics as artifacts for human review.\n"
   problem_type: Reliability_and_Failure_Handling
   related_rius:
@@ -10473,7 +10473,7 @@ context_specific_questions:
 
     - 6-week implementation plan with checkboxes
 
-    - Anky validation score: 82/100 (conditional pass)
+    - Validator validation score: 82/100 (conditional pass)
 
     '
   problem_type: Ops_and_Delivery

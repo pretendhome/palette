@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Braintrust
 # Generated: 2026-02-25
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-021 (Golden Set Eval), RIU-524 (Quality Monitoring), RIU-520 (Prompt Version Control)
 # Priority: HIGH — core eval platform for Palette quality gates
 
@@ -63,7 +63,7 @@ example_request:
 
     experiment.summarize()
 
-palette_agent: "Anky (Validator) — evaluation gate enforcement; Rex (Architect) — prompt version decisions"
+palette_agent: "Validator — evaluation gate enforcement; Architect — prompt version decisions"
 palette_integration_plan:
   phase_1: "Use free tier for golden set eval on priority RIUs"
   phase_2: "Integrate eval runs into CI/CD for prompt regression testing"

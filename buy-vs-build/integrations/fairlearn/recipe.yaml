@@ -51,7 +51,7 @@ example_request:
     print(metric_frame.by_group)
     print(f"Disparity: {metric_frame.difference()}")
 
-palette_agent: "Anky (Validator) — bias detection in AI outputs"
+palette_agent: "Validator — bias detection in AI outputs"
 palette_integration_plan:
   phase_1: "Evaluate Fairlearn for classification bias in Palette's routing decisions"
   phase_2: "Build bias dashboard for production model outputs"

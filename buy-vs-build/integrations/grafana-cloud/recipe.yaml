@@ -92,7 +92,7 @@ example_request:
         }]
       }'
 
-palette_agent: "Para (Monitor) — unified observability dashboards for all agents"
+palette_agent: "Monitor — unified observability dashboards for all agents"
 palette_integration_plan:
   phase_1: "Deploy Grafana Alloy as OTel collector for agent telemetry"
   phase_2: "Build Palette agent dashboard: latency, cost, error rates per agent"

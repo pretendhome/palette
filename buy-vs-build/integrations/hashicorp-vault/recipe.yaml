@@ -1,6 +1,6 @@
 # Palette Integration Recipe: HashiCorp Vault
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-066 (Secrets Handling + Rotation), RIU-108 (Agent Security & Access Control)
 # Priority: MEDIUM — important for production credential management, but high integration effort
 
@@ -83,7 +83,7 @@ example_request:
     print(f"Password: {db_creds['data']['password']}")
     print(f"TTL: {db_creds['data']['ttl']}s")
 
-palette_agent: "Rex (Architect) — secrets infrastructure design; Para (Monitor) — credential rotation monitoring"
+palette_agent: "Architect — secrets infrastructure design; Monitor — credential rotation monitoring"
 palette_integration_plan:
   phase_1: "Evaluate if Palette's credential count justifies Vault vs simpler alternatives (Doppler, AWS Secrets Manager)"
   phase_2: "If justified: deploy Vault with AppRole auth for agent-to-service credential access"

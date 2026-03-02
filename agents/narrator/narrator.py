@@ -18,7 +18,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-class Yutyrannus:
+class Narrator:
     """GTM/Narrative Agent - Customer-Facing Communication"""
     
     def __init__(self):
@@ -31,7 +31,7 @@ class Yutyrannus:
         
     def gather_narrative_context(self, initial_request):
         """Collect information about narrative needs"""
-        print("\n🦖 Yutyrannus (Yuty) - GTM/Narrative Mode")
+        print("\n📝 Narrator - GTM/Narrative Mode")
         print("=" * 60)
         print(f"\nNarrative request: {initial_request}")
         print("\nBefore I create narrative, I need context:\n")
@@ -117,9 +117,9 @@ class Yutyrannus:
         """Generate structured narrative request for Kiro"""
         
         request = f"""
-# Yuty Narrative Request
+# Narrator Request
 
-**Agent**: Yutyrannus v{self.version}
+**Agent**: Narrator v{self.version}
 **Status**: {self.status}
 **Timestamp**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 **Evidence Level**: {evidence_level.upper()}
@@ -194,13 +194,13 @@ What happens next:
 
 ## Constraint Enforcement
 
-**Yuty does NOT**:
+**Narrator does NOT**:
 - Promise future features
 - Claim unvalidated capabilities
 - Use marketing language over technical accuracy
 - Hide limitations
 
-**Yuty ONLY**:
+**Narrator ONLY**:
 - Explains what exists now
 - Cites evidence for claims
 - Acknowledges gaps explicitly
@@ -274,12 +274,12 @@ List all claims and their evidence:
 - "Industry-leading..." → STOP, marketing language without proof
 - "Unlimited..." → STOP, acknowledge real constraints
 
-**Yuty explains what exists. Yuty doesn't promise what doesn't.**
+**Narrator explains what exists. Narrator doesn't promise what doesn't.**
 
 ---
 
-**This request should be executed by Kiro in Yuty mode.**
-**Yuty will create evidence-based narrative.**
+**This request should be executed by Kiro in Narrator mode.**
+**Narrator will create evidence-based narrative.**
 """
         
         return request
@@ -290,7 +290,7 @@ List all claims and their evidence:
         
         log_entry = f"""
 ---
-### Agent Execution: Yutyrannus
+### Agent Execution: Narrator
 
 **Timestamp**: {timestamp}
 **Agent**: narrator v{self.version}
@@ -359,12 +359,12 @@ List all claims and their evidence:
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python yuty.py '<narrative request>'")
-        print("Example: python yuty.py 'Create demo script for technical audience'")
+        print("Usage: python narrator.py '<narrative request>'")
+        print("Example: python narrator.py 'Create demo script for technical audience'")
         sys.exit(1)
     
     request = " ".join(sys.argv[1:])
-    agent = Yutyrannus()
+    agent = Narrator()
     agent.run(request)
 
 

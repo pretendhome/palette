@@ -61,7 +61,7 @@ example_request:
         features=feature_dict,
     )
 
-palette_agent: "Para (Monitor) — drift detection and model health; Anky (Validator) — quality gate enforcement"
+palette_agent: "Monitor — drift detection and model health; Validator — quality gate enforcement"
 palette_integration_plan:
   phase_1: "Evaluate community tier for Palette routing model drift"
   phase_2: "Monitor embedding drift in knowledge library search"

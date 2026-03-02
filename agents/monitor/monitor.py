@@ -18,7 +18,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-class Parasaurolophus:
+class Monitor:
     """Signal Monitor Agent - Observation and Anomaly Detection"""
     
     def __init__(self):
@@ -31,7 +31,7 @@ class Parasaurolophus:
         
     def gather_monitoring_context(self, initial_request):
         """Collect information about what needs monitoring"""
-        print("\n📊 Parasaurolophus (Para) - Signal Monitor Mode")
+        print("\n📊 Monitor - Signal Monitor Mode")
         print("=" * 60)
         print(f"\nMonitoring request: {initial_request}")
         print("\nBefore I set up monitoring, I need context:\n")
@@ -108,9 +108,9 @@ class Parasaurolophus:
         """Generate structured monitoring request for Kiro"""
         
         request = f"""
-# Para Signal Monitoring Request
+# Monitor Signal Request
 
-**Agent**: Parasaurolophus v{self.version}
+**Agent**: Monitor v{self.version}
 **Status**: {self.status}
 **Timestamp**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 **Signal Type**: {signal_type.upper()}
@@ -129,13 +129,13 @@ class Parasaurolophus:
 
 ## Para's Core Constraint: SIGNALS ONLY
 
-**Para emits raw signals. Para does NOT**:
+**Monitor emits raw signals. Monitor does NOT**:
 - ❌ Interpret why anomaly occurred
 - ❌ Diagnose root cause
 - ❌ Recommend fixes
 - ❌ Implement changes
 
-**Para ONLY**:
+**Monitor ONLY**:
 - ✅ Observes metrics
 - ✅ Detects deviations from baseline
 - ✅ Emits signals when thresholds crossed
@@ -192,10 +192,10 @@ Status: ANOMALY
 
 ### 6. Routing Recommendation
 Direct to appropriate agent:
-- Performance issues → Raptor (diagnosis)
-- Implementation needed → Theri (build)
-- Architecture review → Rex (design)
-- Validation needed → Anky (assess)
+- Performance issues → Debugger (diagnosis)
+- Implementation needed → Builder (build)
+- Architecture review → Architect (design)
+- Validation needed → Validator (assess)
 
 **Output**: Routing recommendation (NO interpretation)
 
@@ -244,7 +244,7 @@ Metric: Agent success rate (researcher)
 Baseline: 95% (14-day average)
 Threshold: Alert if <85%
 Frequency: Check after each execution
-Route to: Raptor (for diagnosis)
+Route to: Debugger (for diagnosis)
 ```
 
 **Normal Signal**:
@@ -274,12 +274,12 @@ Status: ANOMALY
 Routing recommendation:
 - For diagnosis → Debugger
 
-Para does NOT say:
-❌ "Argentavis is failing because taxonomy is incomplete"
+Monitor does NOT say:
+❌ "Researcher is failing because taxonomy is incomplete"
 ❌ "Add more RIUs to fix this"
 ❌ "This is probably a knowledge gap issue"
 
-Para ONLY signals the deviation and routes.
+Monitor ONLY signals the deviation and routes.
 ```
 
 ---
@@ -315,22 +315,22 @@ Routing recommendation:
 **Typical Pattern**:
 1. Para detects signal → "Anomaly in metric X"
 2. Routes to appropriate agent:
-   - Diagnosis needed? → Raptor
-   - Fix needed? → Theri
-   - Design issue? → Rex
-   - Validation needed? → Anky
+   - Diagnosis needed? → Debugger
+   - Fix needed? → Builder
+   - Design issue? → Architect
+   - Validation needed? → Validator
 3. Other agent acts → Analyzes, fixes, or recommends
 4. Para continues monitoring → Verifies resolution
 
-**Para block routing contract**:
+**Monitor block routing contract**:
 - `ship`: two-way door, clear positive impact
 - `ship_with_risks`: two-way door with clear benefit, but debug likely later
 - `ship_with_convergence`: multiple valid options need convergence loop
 - `block`: hard gate fail or unsafe one-way-door path
 
-- Self-inflicted bug → Raptor
-- Architecture gap → Rex
-- Research gap → Argy
+- Self-inflicted bug → Debugger
+- Architecture gap → Architect
+- Research gap → Researcher
 
 Minimal block note:
 `X has been blocked for Y risk.`
@@ -338,15 +338,15 @@ Minimal block note:
 **Example Flow**:
 ```
 Para: "⚠️ Fixture pass rate dropped from 95% to 70%"
-Route to: Raptor (diagnosis)
+Route to: Debugger (diagnosis)
 
-Raptor: "Root cause: 3 fixtures using outdated RIU format"
-Route to: Theri (fix)
+Debugger: "Root cause: 3 fixtures using outdated RIU format"
+Route to: Builder (fix)
 
 Builder: "Updated fixture format in riu-RIU-042/Researcher/"
-Route to: Anky (validation)
+Route to: Validator (validation)
 
-Anky: "Fixture validation PASS — 95% pass rate restored"
+Validator: "Fixture validation PASS — 95% pass rate restored"
 Route back to: Para (resume monitoring)
 
 Para: "✅ Metric normalized — fixture pass rate 94%"
@@ -365,13 +365,13 @@ Para: "✅ Metric normalized — fixture pass rate 94%"
 
 **Status**: ACTIVE
 
-Para will:
+Monitor will:
 1. Observe {plan['metric']}
 2. Compare to baseline {plan['baseline']}
 3. Signal if threshold {plan['threshold']} crossed
 4. Route to {plan['routing']} for action
 
-Para will NOT:
+Monitor will NOT:
 - Interpret why deviations occur
 - Diagnose root causes
 - Recommend fixes
@@ -379,8 +379,8 @@ Para will NOT:
 
 ---
 
-**This request should be executed by Kiro in Para mode.**
-**Para signals. Para does not interpret.**
+**This request should be executed by Kiro in Monitor mode.**
+**Monitor signals. Monitor does not interpret.**
 """
         
         return request
@@ -391,7 +391,7 @@ Para will NOT:
         
         log_entry = f"""
 ---
-### Agent Execution: Parasaurolophus
+### Agent Execution: Monitor
 
 **Timestamp**: {timestamp}
 **Agent**: monitor v{self.version}
@@ -459,12 +459,12 @@ Para will NOT:
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python para.py '<monitoring request>'")
-        print("Example: python para.py 'Monitor agent success rates'")
+        print("Usage: python monitor.py '<monitoring request>'")
+        print("Example: python monitor.py 'Monitor agent success rates'")
         sys.exit(1)
     
     request = " ".join(sys.argv[1:])
-    agent = Parasaurolophus()
+    agent = Monitor()
     agent.run(request)
 
 

@@ -7,7 +7,7 @@ Reason: portable in-repo, no external renderer dependency required
 
 ```mermaid
 flowchart LR
-  U[User Request] --> C[Cory/Resolver]
+  U[User Request] --> C[Resolver]
   C --> CO[Coordination Pipeline]
   CO --> T[Traverse Engine]
   T --> O[Recommendation + Gaps]
@@ -39,9 +39,9 @@ flowchart LR
   P -->|block| BL[Blocked Path]
 
   CV --> D1
-  BL --> RP[Raptor]
-  BL --> RX[Rex]
-  BL --> AR[Argy]
+  BL --> RP[Debugger]
+  BL --> RX[Architect]
+  BL --> AR[Researcher]
   RP --> D1
   RX --> D1
   AR --> D1
@@ -52,7 +52,7 @@ flowchart LR
 ```mermaid
 sequenceDiagram
   participant User
-  participant Cory
+  participant Resolver
   participant Coord as Coordination
   participant Trav as Traverse
   participant Data as PIS Data Layers
@@ -60,11 +60,11 @@ sequenceDiagram
   participant Aud as Audit
   participant Reg as Regression
   participant Drift as Drift
-  participant Para
-  participant Agents as Raptor/Rex/Argy
+  participant Monitor
+  participant Agents as Debugger/Architect/Researcher
 
-  User->>Cory: Complex project request
-  Cory->>Coord: Resolved RIU(s)
+  User->>Resolver: Complex project request
+  Resolver->>Coord: Resolved RIU(s)
   Coord->>Trav: Traverse selected RIU
   Trav->>Data: Read classification/routing/recipes/knowledge/signals
   Trav-->>Coord: Recommendation + alternatives + gaps
@@ -75,19 +75,19 @@ sequenceDiagram
   Int-->>Reg: Snapshot metrics
   Int-->>Drift: Terminology inputs
 
-  Aud-->>Para: Severity findings/backlog
-  Reg-->>Para: SLO pass/fail + regressions
-  Drift-->>Para: Drift clusters
+  Aud-->>Monitor: Severity findings/backlog
+  Reg-->>Monitor: SLO pass/fail + regressions
+  Drift-->>Monitor: Drift clusters
 
-  Para-->>User: ship / ship_with_risks / ship_with_convergence / block
+  Monitor-->>User: ship / ship_with_risks / ship_with_convergence / block
   alt block
-    Para->>Agents: Route by cause (bug->Raptor, arch->Rex, research->Argy)
+    Monitor->>Agents: Route by cause (bug->Debugger, arch->Architect, research->Researcher)
     Agents->>Data: Targeted remediations
   else ship_with_convergence
-    Para->>Agents: Comparative option loop
+    Monitor->>Agents: Comparative option loop
     Agents->>Data: Evidence updates
   else ship or ship_with_risks
-    Para-->>User: Proceed with monitoring
+    Monitor-->>User: Proceed with monitoring
   end
 ```
 
@@ -101,7 +101,7 @@ stateDiagram-v2
   Evaluate --> ShipWithRisks: Two-way door + clear benefit + likely debug later
   Evaluate --> ShipWithConvergence: Multiple valid options require convergence loop
 
-  Block --> RoutedFix: Route to Raptor/Rex/Argy
+  Block --> RoutedFix: Route to Debugger/Architect/Researcher
   RoutedFix --> Evaluate
 
   ShipWithConvergence --> Evaluate: Comparative evidence updated

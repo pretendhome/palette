@@ -100,9 +100,9 @@ example_request:
         span.set_attribute("model", "claude-opus-4-6")
         # ... perform research ...
 
-palette_agent: "Para (Monitor) — distributed tracing for agentic pipeline observability"
+palette_agent: "Monitor — distributed tracing for agentic pipeline observability"
 palette_integration_plan:
-  phase_1: "Instrument Argy and Cory with OpenTelemetry spans for LLM calls"
+  phase_1: "Instrument Researcher and Resolver with OpenTelemetry spans for LLM calls"
   phase_2: "Build BubbleUp queries to identify slow agents and costly model calls"
   phase_3: "Set SLOs on agent response time and error rates"
 

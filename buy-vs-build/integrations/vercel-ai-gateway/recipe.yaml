@@ -1,6 +1,6 @@
 # Palette Integration Recipe: Vercel AI Gateway
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-521 (LLM Model Version Management), RIU-522 (Token Budget Management)
 # Priority: MEDIUM — best for web-native Palette deployments; Guillermo Rauch signal
 
@@ -91,7 +91,7 @@ example_request:
         messages=[{"role": "user", "content": "Analyze this company positioning..."}]
     )
 
-palette_agent: "Rex (Architect) — web deployment routing; Theri (Builder) — frontend integration"
+palette_agent: "Architect — web deployment routing; Builder — frontend integration"
 palette_integration_plan:
   phase_1: "Evaluate only if Palette builds a web UI on Next.js/Vercel"
   phase_2: "If web UI: use Vercel AI SDK for streaming chat interface with structured outputs"

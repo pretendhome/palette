@@ -59,7 +59,7 @@ rius:
   - riu_id: RIU-004
     name: Problem → Workstream Decomposition
     classification: internal_only
-    rationale: Task decomposition is a Rex/Argy function. No service replaces structured decomposition.
+    rationale: Task decomposition is a Architect/Researcher function. No service replaces structured decomposition.
 
   - riu_id: RIU-005
     name: Scope Freeze + Phased Delivery Contract
@@ -132,7 +132,7 @@ rius:
   - riu_id: RIU-016
     name: API Contract Review + Versioning Plan
     classification: internal_only
-    rationale: Contract review and versioning strategy is Anky/Rex judgment work.
+    rationale: Contract review and versioning strategy is Validator/Architect judgment work.
 
   - riu_id: RIU-017
     name: Connector Spec (Source/Target)
@@ -380,7 +380,7 @@ rius:
   - riu_id: RIU-069
     name: Runbook (Day-2 Operations)
     classification: internal_only
-    rationale: Runbook writing is Yuty/Theri work. No service materially generates better runbooks.
+    rationale: Runbook writing is Narrator/Builder work. No service materially generates better runbooks.
 
   - riu_id: RIU-070
     name: SLO/SLI Definition + Alert Thresholds
@@ -408,7 +408,7 @@ rius:
   - riu_id: RIU-081
     name: End-to-End Smoke Tests (Critical Path)
     classification: internal_only
-    rationale: Smoke test writing and runbook creation is Theri/Anky work. No external service required.
+    rationale: Smoke test writing and runbook creation is Builder/Validator work. No external service required.
 
   - riu_id: RIU-082
     name: LLM Safety Guardrails (Content + Tool Use)
@@ -458,7 +458,7 @@ rius:
   - riu_id: RIU-086
     name: Regression Suite (Golden + Metamorphic)
     classification: internal_only
-    rationale: Regression test design and invariant definition is Anky/Rex work. Execution is standard CI.
+    rationale: Regression test design and invariant definition is Validator/Architect work. Execution is standard CI.
 
   - riu_id: RIU-087
     name: Human Review Gate (One-Way Doors)
@@ -486,22 +486,22 @@ rius:
   - riu_id: RIU-100
     name: Capability Statement (What/Why/How)
     classification: internal_only
-    rationale: Capability statement writing is Yuty's core function.
+    rationale: Capability statement writing is Narrator's core function.
 
   - riu_id: RIU-101
     name: Customer Workshop Design (Discovery/Alignment)
     classification: internal_only
-    rationale: Workshop design and facilitation is Human/Yuty work. No service materially helps.
+    rationale: Workshop design and facilitation is Human/Narrator work. No service materially helps.
 
   - riu_id: RIU-102
     name: Enablement Pack (Docs/Examples/How-To)
     classification: internal_only
-    rationale: Enablement documentation is Yuty/Theri work.
+    rationale: Enablement documentation is Narrator/Builder work.
 
   - riu_id: RIU-103
     name: Training Session Design + Delivery
     classification: internal_only
-    rationale: Training design is Human/Yuty work. No AI service materially improves training delivery.
+    rationale: Training design is Human/Narrator work. No AI service materially improves training delivery.
 
   - riu_id: RIU-104
     name: Handoff Bundle (Restartability)
@@ -511,7 +511,7 @@ rius:
   - riu_id: RIU-105
     name: Executive Update (Status/Risks/Decisions)
     classification: internal_only
-    rationale: Executive update writing is Yuty's function.
+    rationale: Executive update writing is Narrator's function.
 
   - riu_id: RIU-108
     name: Agent Security & Access Control
@@ -547,7 +547,7 @@ rius:
     name: Comparable Organization Research
     classification: both
     rationale: |
-      Palette's Argy does this research, but Perplexity MCP materially accelerates
+      Palette's Researcher does this research, but Perplexity MCP materially accelerates
       finding obscure comparables with financial data (Form 990, public filings).
     candidate_services:
       - Perplexity (already integrated, highest signal for research)
@@ -580,7 +580,7 @@ rius:
     name: Competitive/Alternatives Scan (Landscape)
     classification: both
     rationale: |
-      Argy does competitive scans, but Perplexity materially accelerates breadth
+      Researcher does competitive scans, but Perplexity materially accelerates breadth
       and recency of competitive intelligence vs web search alone.
     candidate_services:
       - Perplexity (already integrated, best for current competitive landscape)
@@ -594,13 +594,13 @@ rius:
   - riu_id: RIU-200
     name: Customer Problem Narrative (JTBD + Constraints)
     classification: internal_only
-    rationale: JTBD narrative synthesis is Argy + Yuty's work from customer interviews. No service replaces this.
+    rationale: JTBD narrative synthesis is Researcher + Narrator's work from customer interviews. No service replaces this.
 
   - riu_id: RIU-201
     name: Competitive/Alternatives Research
     classification: both
     rationale: |
-      Argy conducts this research, but Perplexity MCP materially improves depth
+      Researcher conducts this research, but Perplexity MCP materially improves depth
       and recency with sourced, synthesized competitive intelligence.
     candidate_services:
       - Perplexity (already integrated, highest signal)
@@ -621,7 +621,7 @@ rius:
   - riu_id: RIU-250
     name: Security Review Packet
     classification: internal_only
-    rationale: Security review packet compilation is Anky/Rex documentation work.
+    rationale: Security review packet compilation is Validator/Architect documentation work.
 
   - riu_id: RIU-252
     name: Model Evaluation & Selection
@@ -639,12 +639,12 @@ rius:
   - riu_id: RIU-290
     name: Internal Demo Narrative (Problem→Value→Limits)
     classification: internal_only
-    rationale: Demo narrative writing is Yuty's function.
+    rationale: Demo narrative writing is Narrator's function.
 
   - riu_id: RIU-320
     name: Third-Party API Integration Pattern
     classification: internal_only
-    rationale: Circuit breaker and resilience pattern design is Rex/Theri work. Standard libraries (tenacity, etc.) for implementation.
+    rationale: Circuit breaker and resilience pattern design is Architect/Builder work. Standard libraries (tenacity, etc.) for implementation.
 
   - riu_id: RIU-321
     name: Database Migration Strategy
@@ -654,7 +654,7 @@ rius:
   - riu_id: RIU-322
     name: Authentication/Authorization Integration
     classification: internal_only
-    rationale: Auth integration design is Rex/Theri work. Implementation uses standard OAuth/SAML libraries.
+    rationale: Auth integration design is Architect/Builder work. Implementation uses standard OAuth/SAML libraries.
 
   - riu_id: RIU-323
     name: Message Queue Integration Pattern
@@ -669,22 +669,22 @@ rius:
   - riu_id: RIU-326
     name: Threat Model + Attack Surface Map
     classification: internal_only
-    rationale: Threat modeling is Rex/Anky judgment work. No service replaces contextual threat identification.
+    rationale: Threat modeling is Architect/Validator judgment work. No service replaces contextual threat identification.
 
   - riu_id: RIU-327
     name: AuthN/AuthZ Integration
     classification: internal_only
-    rationale: Auth design is Rex/Theri work. Implementation uses standard libraries (Auth0, Cognito, etc. are customer choices).
+    rationale: Auth design is Architect/Builder work. Implementation uses standard libraries (Auth0, Cognito, etc. are customer choices).
 
   - riu_id: RIU-330
     name: Error Messaging Standards
     classification: internal_only
-    rationale: Error message standards definition is Yuty/Theri work.
+    rationale: Error message standards definition is Narrator/Builder work.
 
   - riu_id: RIU-400
     name: KB Content Audit (Coverage + Gaps)
     classification: internal_only
-    rationale: KB auditing is Argy/Anky analysis work. No external service replaces structured audit methodology.
+    rationale: KB auditing is Researcher/Validator analysis work. No external service replaces structured audit methodology.
 
   - riu_id: RIU-413
     name: Customer Value Demo Creation
@@ -771,7 +771,7 @@ rius:
   - riu_id: RIU-514
     name: Agent Capability Boundary Enforcement
     classification: internal_only
-    rationale: Boundary enforcement design is Rex/Anky work. Policy enforcement is internal. See RIU-082 for LLM guardrails.
+    rationale: Boundary enforcement design is Architect/Validator work. Policy enforcement is internal. See RIU-082 for LLM guardrails.
 
   # ==========================================================================
   # MODERN LLMOPS (RIU-520 to RIU-524)
@@ -894,7 +894,7 @@ rius:
   - riu_id: RIU-535
     name: AI System Documentation Package
     classification: internal_only
-    rationale: Documentation compilation is Yuty/Theri work. No service materially improves package quality.
+    rationale: Documentation compilation is Narrator/Builder work. No service materially improves package quality.
 
   # ==========================================================================
   # AGENT-SPECIFIC PATTERNS (RIU-540 to RIU-543)
@@ -904,12 +904,12 @@ rius:
   - riu_id: RIU-540
     name: Validation Gate Design
     classification: internal_only
-    rationale: Gate criteria design is Anky/Rex work. No service replaces contextual gate definition.
+    rationale: Gate criteria design is Validator/Architect work. No service replaces contextual gate definition.
 
   - riu_id: RIU-541
     name: Compliance Audit Preparation
     classification: internal_only
-    rationale: Evidence gathering and gap analysis is Anky/Argy work. No service replaces structured audit prep.
+    rationale: Evidence gathering and gap analysis is Validator/Researcher work. No service replaces structured audit prep.
 
   - riu_id: RIU-542
     name: Observability Stack Design
@@ -961,7 +961,7 @@ rius:
   - riu_id: RIU-603
     name: Employee AI Adoption Program
     classification: internal_only
-    rationale: Adoption program design is Yuty/Human work focused on behavior change methodology.
+    rationale: Adoption program design is Narrator/Human work focused on behavior change methodology.
 
   - riu_id: RIU-604
     name: AI ROI Quantification Framework
@@ -971,7 +971,7 @@ rius:
   - riu_id: RIU-605
     name: Cross-Brand Knowledge Transfer
     classification: internal_only
-    rationale: Knowledge transfer system design is Argy/Yuty work. Pattern library is Palette's internal artifact.
+    rationale: Knowledge transfer system design is Researcher/Narrator work. Pattern library is Palette's internal artifact.
 
   - riu_id: RIU-606
     name: Brand Safety for AI-Generated Content
@@ -989,7 +989,7 @@ rius:
   - riu_id: RIU-607
     name: Context Compaction for Long Engagements
     classification: internal_only
-    rationale: Context compaction is a Palette-native protocol (Yuty + Anky pattern).
+    rationale: Context compaction is a Palette-native protocol (Narrator + Validator pattern).
 
   - riu_id: RIU-608
     name: Workflow Definition for Multi-Agent Engagements

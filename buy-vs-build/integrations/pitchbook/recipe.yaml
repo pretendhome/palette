@@ -1,6 +1,6 @@
 # Palette Integration Recipe: PitchBook
 # Generated: 2026-03-01
-# Agent: Theri (Builder) — integration specification
+# Agent: Builder — integration specification
 # RIUs served: RIU-106 (Comparable Org Research), RIU-201 (Competitive Research), RIU-107 (Market Sizing)
 # Priority: LOW — enterprise-only private market data, prohibitive cost for current stage
 
@@ -89,7 +89,7 @@ example_request:
     # 4. Dealroom.co — European-focused, more accessible pricing
     # 5. Tracxn — startup intelligence, lower cost than PitchBook
 
-palette_agent: "Argy (Researcher) — if budget allows, deepest private market intelligence"
+palette_agent: "Researcher — if budget allows, deepest private market intelligence"
 palette_integration_plan:
   current: "Not accessible — cost prohibitive for current Palette stage"
   alternative: "Use Crunchbase Pro ($49/month) + Perplexity API for company intelligence"

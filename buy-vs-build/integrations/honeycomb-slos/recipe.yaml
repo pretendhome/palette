@@ -100,7 +100,7 @@ example_request:
         json=burn_alert,
     )
 
-palette_agent: "Para (Monitor) — SLO tracking within Honeycomb observability stack"
+palette_agent: "Monitor — SLO tracking within Honeycomb observability stack"
 palette_integration_plan:
   phase_1: "Only relevant if Honeycomb is selected as primary observability platform"
   phase_2: "Define SLOs: agent latency <5s (99%), error rate <1% (99.5%)"
