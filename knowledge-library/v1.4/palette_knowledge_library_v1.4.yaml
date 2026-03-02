@@ -6694,11 +6694,11 @@ library_questions:
   - compliance
   - dbt
   journey_stage: orchestration
-  sources: &id001
-  - title: Palette internal knowledge base
-    url: https://github.com/pretendhome/pretendhome
-  - title: FDE field experience
-    url: internal
+  sources:
+  - title: OpenLineage - Open Platform for Data Lineage
+    url: https://openlineage.io/
+  - title: 'Atlan: Complete Guide to Data Lineage Tracking for 2026'
+    url: https://atlan.com/know/data-lineage-tracking/
 - id: LIB-117
   question: How do I enforce structured output schemas from LLMs without manual parsing?
   answer: Use a schema-constrained generation library that validates LLM output against Pydantic
@@ -6722,7 +6722,11 @@ library_questions:
   - pydantic
   - instructor
   journey_stage: orchestration
-  sources: *id001
+  sources:
+  - title: 'Instructor: Validation in Instructor'
+    url: https://python.useinstructor.com/concepts/validation/
+  - title: 'Pydantic: How to Use Pydantic for LLMs'
+    url: https://pydantic.dev/articles/llm-intro
 - id: LIB-118
   question: When should I add a caching layer to my LLM pipeline and what strategy should I
     use?
@@ -6748,7 +6752,11 @@ library_questions:
   - cost-optimization
   - redis
   journey_stage: orchestration
-  sources: *id001
+  sources:
+  - title: 'Redis: What is Semantic Caching? Complete Guide'
+    url: https://redis.io/blog/what-is-semantic-caching/
+  - title: 'arXiv: Reducing LLM Costs via Semantic Embedding Caching'
+    url: https://arxiv.org/html/2411.05276v2
 - id: LIB-119
   question: How do I implement feature flags and kill switches for AI model rollouts?
   answer: Feature flags gate model versions, prompt variants, and pipeline configurations behind
@@ -6773,7 +6781,11 @@ library_questions:
   - kill-switch
   - experimentation
   journey_stage: orchestration
-  sources: *id001
+  sources:
+  - title: 'LaunchDarkly: Feature Flags and Feature Management'
+    url: https://launchdarkly.com/
+  - title: 'Fast.io: AI Agent Secrets Management Best Practices'
+    url: https://fast.io/resources/ai-agent-secrets-management/
 - id: LIB-120
   question: How do I manage secrets and API keys securely for AI agent workflows?
   answer: Never store secrets in code, environment variables, or config files. Use a secrets
@@ -6799,7 +6811,11 @@ library_questions:
   - api-keys
   - credentials
   journey_stage: orchestration
-  sources: *id001
+  sources:
+  - title: 'Fast.io: AI Agent Secrets Management Best Practices for 2026'
+    url: https://fast.io/resources/ai-agent-secrets-management/
+  - title: 'GitGuardian: Top Secrets Management Tools for 2026'
+    url: https://blog.gitguardian.com/top-secrets-management-tools-for-2024/
 - id: LIB-121
   question: How do I safely run database migrations in AI systems without downtime or data loss?
   answer: Use a versioned migration tool (Flyway for JVM/SQL, Alembic for Python/SQLAlchemy)
@@ -6822,7 +6838,11 @@ library_questions:
   - rollback
   - flyway
   journey_stage: orchestration
-  sources: *id001
+  sources:
+  - title: 'Debugg.ai: Best Schema Migration Tools for 2024'
+    url: https://debugg.ai/resources/best-schema-migration-tools-2024
+  - title: 'Bytebase: Top Database Schema Migration Tools 2026'
+    url: https://www.bytebase.com/blog/top-database-schema-change-tool-evolution/
 - id: LIB-122
   question: How do I build a PII redaction pipeline for AI training data and inference inputs?
   answer: Use a dedicated PII detection library — Microsoft Presidio (open-source, supports
@@ -6852,7 +6872,11 @@ library_questions:
   evaluation_signal: PII recall below 95% on your test set means the pipeline is not production-ready.
     Measure false negative rate specifically — missed PII is a compliance violation, while false
     positives are merely inconvenient.
-  sources: *id001
+  sources:
+  - title: 'Fast.io: AI Agent Secrets Management Best Practices'
+    url: https://fast.io/resources/ai-agent-secrets-management/
+  - title: Palette internal knowledge base
+    url: https://github.com/pretendhome/pretendhome
 - id: LIB-123
   question: How do I use Perplexity to research comparable organizations for strategic positioning?
   answer: Use Perplexity API or MCP integration for comparable organization research. Structure
@@ -6877,7 +6901,11 @@ library_questions:
   - market-analysis
   - comparable-organizations
   journey_stage: foundation
-  sources: *id001
+  sources:
+  - title: Palette internal knowledge base
+    url: https://github.com/pretendhome/pretendhome
+  - title: FDE field experience
+    url: internal
 - id: LIB-124
   question: How do I secure AI agent access to tools, APIs, and sensitive data?
   answer: Agent security requires identity-based access control at the tool level — each agent
@@ -6904,7 +6932,11 @@ library_questions:
   - guardrails
   - iam
   journey_stage: orchestration
-  sources: *id001
+  sources:
+  - title: 'Fast.io: AI Agent Secrets Management Best Practices for 2026'
+    url: https://fast.io/resources/ai-agent-secrets-management/
+  - title: 'Auxiliobits: Secure Secret Management in Agentic AI Stacks'
+    url: https://www.auxiliobits.com/blog/secure-credentials-in-agent-stacks-secret%E2%80%91management-in-aws-azure-gpu-inference-layers/
 - id: LIB-125
   question: How do I create a business plan using AI research and presentation tools?
   answer: Combine AI research (Perplexity for market data, competitive landscape, and TAM/SAM/SOM
@@ -6929,7 +6961,11 @@ library_questions:
   - market-research
   - gamma
   journey_stage: foundation
-  sources: *id001
+  sources:
+  - title: Palette internal knowledge base
+    url: https://github.com/pretendhome/pretendhome
+  - title: FDE field experience
+    url: internal
 - id: LIB-126
   question: How do I research competitors and alternatives systematically for AI product decisions?
   answer: Use Perplexity MCP for depth-first competitive research with automatic citations.
@@ -6955,7 +6991,11 @@ library_questions:
   - perplexity
   - market-research
   journey_stage: foundation
-  sources: *id001
+  sources:
+  - title: Palette internal knowledge base
+    url: https://github.com/pretendhome/pretendhome
+  - title: FDE field experience
+    url: internal
 - id: LIB-127
   question: How do I create customer-facing demos and presentations using AI tools?
   answer: Use Gamma for AI-generated presentations (slides, carousels, one-pagers) and Lovable
@@ -6980,7 +7020,11 @@ library_questions:
   - lovable
   - no-code
   journey_stage: foundation
-  sources: *id001
+  sources:
+  - title: Palette internal knowledge base
+    url: https://github.com/pretendhome/pretendhome
+  - title: FDE field experience
+    url: internal
 - id: LIB-128
   question: How do I set up multi-model LLM routing with automatic fallback and cost tracking?
   answer: Use OpenRouter as the routing layer — single OpenAI-compatible API that routes to
@@ -7007,7 +7051,11 @@ library_questions:
   - cost-optimization
   - fallback
   journey_stage: orchestration
-  sources: *id001
+  sources:
+  - title: 'Redis: Machine Learning Inference Cost Optimization'
+    url: https://redis.io/blog/machine-learning-inference-cost/
+  - title: Palette internal knowledge base
+    url: https://github.com/pretendhome/pretendhome
 - id: LIB-129
   question: How do I design an observability stack for AI/ML systems in production?
   answer: AI observability requires three layers — infrastructure metrics (CPU, memory, latency),
@@ -7036,7 +7084,11 @@ library_questions:
   evaluation_signal: If your observability stack cannot answer the question why did this prediction
     fail within 5 minutes of an alert firing, the stack is insufficient. Measure mean-time-to-diagnosis
     as the primary observability quality metric.
-  sources: *id001
+  sources:
+  - title: Palette internal knowledge base
+    url: https://github.com/pretendhome/pretendhome
+  - title: FDE field experience
+    url: internal
 - id: LIB-130
   question: How do I detect data drift and model drift in production AI systems?
   answer: Use a dedicated drift detection platform — Arize AI (managed, production-grade, supports
@@ -7064,7 +7116,11 @@ library_questions:
   evaluation_signal: Drift alerts that do not correlate with measured quality degradation are
     false alarms. Track the ratio of drift alerts to actual model quality incidents — if below
     30 percent correlation, recalibrate thresholds.
-  sources: *id001
+  sources:
+  - title: Palette internal knowledge base
+    url: https://github.com/pretendhome/pretendhome
+  - title: FDE field experience
+    url: internal
 - id: LIB-131
   question: How do I ensure AI-generated content is brand-safe before publishing?
   answer: Use AWS Bedrock Guardrails for automated brand safety enforcement — denied topic detection,
@@ -7089,7 +7145,11 @@ library_questions:
   - guardrails
   - trust
   journey_stage: specialization
-  sources: *id001
+  sources:
+  - title: Palette internal knowledge base
+    url: https://github.com/pretendhome/pretendhome
+  - title: FDE field experience
+    url: internal
 - id: LIB-132
   question: How do I create an access and permissions readiness checklist that prevents delivery
     delays from missing credentials or network access?
@@ -8770,11 +8830,11 @@ gap_additions:
   - multimodal
   - data_pipeline
   - orchestration
-  sources: &id002
+  sources:
+  - title: 'Atlan: Data Lineage Tracking Complete Guide'
+    url: https://atlan.com/know/data-lineage-tracking/
   - title: Palette internal knowledge base
     url: https://github.com/pretendhome/pretendhome
-  - title: FDE field experience
-    url: internal
 - id: LIB-077
   question: How do I implement advanced agent reasoning frameworks for production deployment?
   rationale: Addresses advanced agentic systems gap identified in RIU-510 series analysis
@@ -8805,7 +8865,11 @@ gap_additions:
   - agentic_ai
   - reasoning
   - production_deployment
-  sources: *id002
+  sources:
+  - title: Palette internal knowledge base
+    url: https://github.com/pretendhome/pretendhome
+  - title: FDE field experience
+    url: internal
 - id: LIB-078
   question: How do I optimize costs for high-volume LLM deployments while maintaining performance?
   rationale: Addresses modern LLMOps cost optimization gap identified in RIU-520 series analysis
@@ -8835,7 +8899,11 @@ gap_additions:
   - llmops
   - performance
   - scaling
-  sources: *id002
+  sources:
+  - title: 'Redis: Machine Learning Inference Cost Optimization'
+    url: https://redis.io/blog/machine-learning-inference-cost/
+  - title: 'arXiv: Reducing LLM Costs via Semantic Caching'
+    url: https://arxiv.org/html/2411.05276v2
 - id: LIB-079
   question: How do I implement multi-jurisdictional AI compliance across expanding state regulations?
   rationale: Addresses regulatory compliance gap for 20+ state privacy laws effective by January
@@ -8868,7 +8936,11 @@ gap_additions:
   - compliance
   - state_regulations
   - governance
-  sources: *id002
+  sources:
+  - title: Palette internal knowledge base
+    url: https://github.com/pretendhome/pretendhome
+  - title: FDE field experience
+    url: internal
 - id: LIB-080
   question: How do I design organizational AI adoption frameworks that overcome resistance to
     automation?
@@ -8898,7 +8970,11 @@ gap_additions:
   - change_management
   - training
   - transparency
-  sources: *id002
+  sources:
+  - title: Palette internal knowledge base
+    url: https://github.com/pretendhome/pretendhome
+  - title: FDE field experience
+    url: internal
 usage_instructions:
   for_argentavis:
     description: Resource Gatherer agent should check this library before web search
