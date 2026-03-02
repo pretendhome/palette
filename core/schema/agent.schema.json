@@ -5,7 +5,7 @@
   "description": "Schema for agent.json — the machine-readable manifest that every Palette agent must provide. The Orchestrator uses manifests to discover agents, build the routing table, and enforce maturity constraints.",
   "type": "object",
   "required": [
-    "name", "version", "ark_type", "code", "role", "description",
+    "name", "version", "agent_type", "code", "role", "description",
     "status", "maturity", "runtime", "capabilities", "constraints",
     "accepts_from", "routes_to", "invocation", "logging"
   ],
@@ -16,13 +16,13 @@
       "description": "Canonical agent identifier. Must match the agents/ subdirectory name."
     },
     "version": { "type": "string" },
-    "ark_type": {
+    "agent_type": {
       "type": "string",
-      "description": "ARK archetype label (e.g. ARK:Velociraptor)"
+      "description": "Agent role type (e.g. Debugger)"
     },
     "code": {
       "type": "string",
-      "description": "Short callsign used in logs and handoff packets (e.g. Raptor)"
+      "description": "Short callsign used in logs and handoff packets (e.g. Debugger)"
     },
     "role": {
       "type": "string",
@@ -92,7 +92,7 @@
       "properties": {
         "command": {
           "type": "string",
-          "description": "Primary invocation command (e.g. /argy or raptor)"
+          "description": "Primary invocation command (e.g. /researcher or debugger)"
         },
         "aliases": {
           "type": "array",
@@ -119,13 +119,14 @@
       "type": "string",
       "enum": [
         "orchestrator",
-        "rex",
-        "argentavis",
-        "therizinosaurus",
-        "ankylosaurus",
-        "parasaurolophus",
-        "velociraptor",
-        "yutyrannus",
+        "resolver",
+        "architect",
+        "researcher",
+        "builder",
+        "validator",
+        "monitor",
+        "debugger",
+        "narrator",
         "human"
       ]
     }

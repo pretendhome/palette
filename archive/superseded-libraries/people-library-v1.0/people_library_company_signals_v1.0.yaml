@@ -188,13 +188,13 @@ signals:
         name: "Grant Lee (Gamma CEO)"
         reason: "Coding efficiency for 28-person engineering team at Gamma"
     riu_primary: "RIU-040"
-    riu_name: "Code Generation Workflow (company-library internal reference)"
+    riu_name: "Code Generation Workflow (buy-vs-build internal reference)"
     riu_secondary: []
     company_library_status: in_company_library
     palette_action: integrate
-    palette_note: "Already in company-library. People-library adds: Grant Lee validates Cursor for small teams; Felix Haas positions it as an 'approval interface' design case study alongside Lovable."
+    palette_note: "Already in buy-vs-build. People-library adds: Grant Lee validates Cursor for small teams; Felix Haas positions it as an 'approval interface' design case study alongside Lovable."
     taxonomy_gap: false
-    note_on_riu: "RIU-040 exists in company-library but not in taxonomy v1.3. Company-library uses different RIU numbering."
+    note_on_riu: "RIU-040 exists in buy-vs-build but not in taxonomy v1.3. Company-library uses different RIU numbering."
 
   - tool: "Seedance (ByteDance)"
     company: "ByteDance (Seedance)"

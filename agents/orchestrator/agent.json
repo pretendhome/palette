@@ -1,8 +1,8 @@
 {
   "name": "orchestrator",
   "version": "0.1",
-  "ark_type": "ARK:Orchestrator",
-  "code": "Orch",
+  "agent_type": "Orchestrator",
+  "code": "Orchestrator",
   "role": "Workflow Router",
   "description": "Multi-agent workflow coordination and routing after convergence; reads convergence brief, dispatches HandoffPackets, gates on ONE-WAY DOORS",
   "status": "UNVALIDATED",
@@ -32,14 +32,14 @@
   },
   "accepts_from": ["human"],
   "routes_to": [
-    "corythosaurus",
-    "rex",
-    "argentavis",
-    "therizinosaurus",
-    "ankylosaurus",
-    "parasaurolophus",
-    "velociraptor",
-    "yutyrannus"
+    "resolver",
+    "architect",
+    "researcher",
+    "builder",
+    "validator",
+    "monitor",
+    "debugger",
+    "narrator"
   ],
   "invocation": {
     "command": "/orch",

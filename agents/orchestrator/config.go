@@ -22,7 +22,7 @@ type Config struct {
 	BridgePort  int
 	ServicePort int
 
-	// Orch behaviour
+	// Orchestrator behaviour
 	DryRun      bool   // build plan, never execute
 	AutoConfirm bool   // skip maturity and ONE-WAY DOOR gates (use carefully)
 	JSONOut     bool   // emit HandoffPackets as NDJSON on stderr

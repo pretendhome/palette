@@ -8766,7 +8766,7 @@ library_questions:
     if they have no dependencies. Section 2 — Agent Assignments: for each agent, document: role
     in this engagement, phases they participate in, tools they are authorized to use (cross-reference
     RIU-029), and handoff protocol (how they pass work to the next agent). Section 3 — Quality
-    Gates: define checkpoints between phases where an Ankylosaurus (validator) agent reviews
+    Gates: define checkpoints between phases where an Validator (validator) agent reviews
     the work product. Each gate has: what is being validated, acceptance criteria, and what
     happens if validation fails (rework, escalate, or skip with documented risk acceptance).
     Section 4 — Decision Checkpoints: points where a human must make a decision before the workflow
@@ -8976,7 +8976,7 @@ gap_additions:
   - title: FDE field experience
     url: internal
 usage_instructions:
-  for_argentavis:
+  for_researcher:
     description: Resource Gatherer agent should check this library before web search
     workflow:
     - Parse user question for key concepts and problem type
@@ -9071,9 +9071,9 @@ integration:
     retrieval_strategy: Hybrid (semantic + keyword)
     reranking: Bedrock Rerank API
   agent_integration:
-    argentavis: Check library before web_search tool invocation
-    rex: Reference library in architecture decision frameworks
-    theri: Use library for implementation patterns
+    researcher: Check library before web_search tool invocation
+    architect: Reference library in architecture decision frameworks
+    builder: Use library for implementation patterns
     raptor: Reference library for debugging strategies
   monitoring:
     track_library_hits: Log in decisions.md
@@ -9324,7 +9324,7 @@ context_specific_questions:
   journey_stage: all
 - id: LIB-091
   question: How do I design effective agent fixtures for validation?
-  answer: 'Based on Palette agent implementation experience (Argentavis ARG-001, Rex REX-001):
+  answer: 'Based on Palette agent implementation experience (Researcher RES-001, Architect ARCH-001):
 
 
     **Fixture Structure**:
@@ -9372,7 +9372,7 @@ context_specific_questions:
 
     1. **Test ONE behavior per fixture** - Don''t combine multiple scenarios
 
-    2. **Use real examples** - ARG-001 tests "multiplayer networking research" (actual Mythfall
+    2. **Use real examples** - RES-001 tests "multiplayer networking research" (actual Mythfall
     need)
 
     3. **Make success criteria binary** - "Agent asked all 5 questions" not "Agent asked good
@@ -9387,7 +9387,7 @@ context_specific_questions:
 
     - Format: `[ARK-CODE]-###-[descriptive-name].md`
 
-    - Examples: `ARG-001-multiplayer-networking.md`, `REX-001-multiplayer-architecture.md`
+    - Examples: `RES-001-multiplayer-networking.md`, `ARCH-001-multiplayer-architecture.md`
 
     - Store in: `fde/agents/[agent-name]/fixtures/`
 
@@ -9416,9 +9416,9 @@ context_specific_questions:
 
     **From Palette experience**:
 
-    - ARG-001 validates Argy''s clarification-before-search behavior
+    - RES-001 validates Argy''s clarification-before-search behavior
 
-    - REX-001 validates Rex''s multi-option tradeoff analysis
+    - ARCH-001 validates Rex''s multi-option tradeoff analysis
 
     - Both test agent stays within role boundaries
 
@@ -9438,10 +9438,10 @@ context_specific_questions:
   - fixtures
   - palette-meta
   sources:
-  - title: Argentavis Fixture ARG-001
-    url: file:///home/mical/Myth-Fall-Game/fde/agents/argentavis/fixtures/ARG-001-multiplayer-networking.md
-  - title: Rex Fixture REX-001
-    url: file:///home/mical/Myth-Fall-Game/fde/agents/rex/fixtures/REX-001-multiplayer-architecture.md
+  - title: Researcher Fixture RES-001
+    url: file:///home/mical/Myth-Fall-Game/fde/agents/researcher/fixtures/RES-001-multiplayer-networking.md
+  - title: Architect Fixture ARCH-001
+    url: file:///home/mical/Myth-Fall-Game/fde/agents/architect/fixtures/ARCH-001-multiplayer-architecture.md
   journey_stage: orchestration
 - id: LIB-092
   question: How does agent maturity progression work in Palette?
@@ -9455,7 +9455,7 @@ context_specific_questions:
     \ 3: PRODUCTION**\n- **Status**: Fully trusted, autonomous\n- **Behavior**: Fully autonomous\
     \ until failure\n- **Demotion**: Two failures within any 10 impressions (fail_gap ≤ 9) →\
     \ demote to Tier 2\n- **Use when**: Agent has proven reliability over time\n\n**Tracking\
-    \ Format** (in decisions.md):\n```\nagent: argentavis\nark_type: ARK:Argentavis\nversion:\
+    \ Format** (in decisions.md):\n```\nagent: researcher\nark_type: Researcher\nversion:\
     \ 1.0\nstatus: UNVALIDATED\nimpressions:\n  success: 0\n  fail: 0\n  fail_gap: 0\nnotes:\
     \ First agent implementation\n```\n\n**On Success**:\n- Increment `success` count\n- Increment\
     \ `fail_gap` (runs since last failure)\n- Check promotion criteria\n\n**On Failure**:\n\
@@ -9464,7 +9464,7 @@ context_specific_questions:
     \ Resets impressions + fail_gap, back to UNVALIDATED\n- **Minor bump** (V1.0 → V1.1): Preserves\
     \ impressions + fail_gap\n\n**Key Insight**: Maturity is about measured trust, not function.\
     \ A simple agent at PRODUCTION is more valuable than a complex agent at UNVALIDATED.\n\n\
-    **Current Palette status** (as of implementation):\n- Argentavis: 1 success, 0 failures,\
+    **Current Palette status** (as of implementation):\n- Researcher: 1 success, 0 failures,\
     \ UNVALIDATED (needs 9 more successes)\n- Rex: 0 executions, UNVALIDATED (awaiting first\
     \ use)\n"
   problem_type: Reliability_and_Failure_Handling
@@ -9620,13 +9620,13 @@ context_specific_questions:
 
     **3. Capabilities** (What tools/agents are needed):
 
-    - Required agents: Argy for research, Rex for architecture, Theri for building
+    - Required agents: Argy for research, Architect for architecture, Theri for building
 
     - Required tools: web_search, fs_write, execute_bash, use_aws
 
     - Required infrastructure: Cloud services, databases, APIs, frameworks
 
-    - Examples: "Need Argy (research), Rex (architecture), AWS CDK, PostgreSQL", "Need web_search,
+    - Examples: "Need Argy (research), Architect (architecture), AWS CDK, PostgreSQL", "Need web_search,
     SageMaker, Lambda, DynamoDB"
 
 
@@ -9807,8 +9807,8 @@ context_specific_questions:
     \ block]\n\n#### Next Checks\n[What's next]\n\n---\n```\n\n**Purpose**: Enable restartability\
     \ from scratch using existing documentation. Someone should be able to read decisions.md\
     \ and understand what was built, why, and what's next.\n\n**From Palette experience**:\n\
-    - Bootstrap entry documents initial toolkit setup\n- Argentavis implementation logged with\
-    \ RIU selection and artifacts\n- Rex implementation logged with maturity tracking\n"
+    - Bootstrap entry documents initial toolkit setup\n- Researcher implementation logged with\
+    \ RIU selection and artifacts\n- Architect implementation logged with maturity tracking\n"
   problem_type: Trust_Governance_and_Adoption
   related_rius:
   - RIU-003
@@ -9835,13 +9835,13 @@ context_specific_questions:
 
     '
   answer: "Use semantic color coding to visualize agent handoffs and coordination.\n\nPalette's\
-    \ 8 agents have semantic colors:\n- Argentavis (Argy): Blue \U0001F535 - Research/trust/water\n\
-    - Therizinosaurus (Theri): Orange \U0001F7E0 - Build/action/fire\n- Velociraptor (Raptor):\
+    \ 8 agents have semantic colors:\n- Researcher (Argy): Blue \U0001F535 - Research/trust/water\n\
+    - Builder (Theri): Orange \U0001F7E0 - Build/action/fire\n- Debugger (Raptor):\
     \ Red \U0001F534 - Debug/alert/critical\n- Tyrannosaurus (Rex): Purple \U0001F7E3 - Design/vision/architecture\n\
-    - Yutyrannus (Yuty): Green \U0001F7E2 - Narrative/growth/GTM\n- Ankylosaurus (Anky): Gray\
-    \ ⚪ - Validate/stability/foundation\n- Parasaurolophus (Para): Yellow \U0001F7E1 - Signal/monitor/light\n\
+    - Narrator (Yuty): Green \U0001F7E2 - Narrative/growth/GTM\n- Validator (Anky): Gray\
+    \ ⚪ - Validate/stability/foundation\n- Monitor (Para): Yellow \U0001F7E1 - Signal/monitor/light\n\
     - Orchestrator (Orch): White ⚫ - Coordinate/neutral/air\n\nIn decisions.md, use colors/emojis\
-    \ to show workflow:\n\"Argy (\U0001F535) researched → Rex (\U0001F7E3) designed → Theri\
+    \ to show workflow:\n\"Argy (\U0001F535) researched → Architect (\U0001F7E3) designed → Theri\
     \ (\U0001F7E0) built → \n Anky (⚪) validated → Para (\U0001F7E1) monitored\"\n\nThis improves\
     \ readability by:\n- Making agent roles visually distinct\n- Showing handoff points clearly\n\
     - Enabling quick workflow scanning\n- Reducing cognitive load when reading logs\n\nUse when:\
@@ -9942,7 +9942,7 @@ context_specific_questions:
     \ agent sends email:\n1. Check: Is recipient on approved list? (deterministic)\n2. Check:\
     \ Does content violate tone policy? (LM judge)\n3. Check: Does email contain PII without\
     \ consent? (deterministic + LM)\n4. If any check fails: Block action, log attempt, alert\
-    \ human\n\nIntegration with Palette:\n- Rex designs guardrail architecture (what to constrain)\n\
+    \ human\n\nIntegration with Palette:\n- Architect designs guardrail architecture (what to constrain)\n\
     - Theri implements guardrails (code + configuration)\n- Anky validates guardrails work as\
     \ intended\n- Para monitors for guardrail violations in production\n"
   problem_type: Trust_Governance_and_Adoption
@@ -10026,7 +10026,7 @@ context_specific_questions:
 
     - Instances inherit profile but can be further restricted
 
-    - Rex designs identity architecture for multi-agent systems
+    - Architect designs identity architecture for multi-agent systems
 
     - Anky validates identity implementation meets security requirements
 
@@ -10062,7 +10062,7 @@ context_specific_questions:
     \ tools, access)\n- Every ounce of power introduces risk\n- ONE-WAY DOOR classification\
     \ manages this trade-off\n- Give agents \"a leash long enough to do their job, \n  but short\
     \ enough to keep them from running into traffic\"\n\nWho performs classification:\n- Primary:\
-    \ Rex (Architecture agent) - designs systems, identifies ONE-WAY DOORs\n- Secondary: Any\
+    \ Architect (Architecture agent) - designs systems, identifies ONE-WAY DOORs\n- Secondary: Any\
     \ agent that detects a ONE-WAY DOOR must flag and stop\n- Validation: Anky reviews classification\
     \ during quality checks\n- Override: Human can reclassify if agent gets it wrong\n\nDecision\
     \ process:\n1. Agent identifies decision point\n2. Classifies as TWO-WAY or ONE-WAY DOOR\n\
@@ -10118,7 +10118,7 @@ context_specific_questions:
     \ for gradual rollout\n\nCreating Golden Datasets:\n- Sample scenarios from production interactions\n\
     - Cover full breadth of use cases + edge cases\n- Include ideal responses (validated by\
     \ domain experts)\n- Maintain and expand dataset over time\n- Store as artifacts (JSON,\
-    \ YAML, CSV)\n\nPalette Integration:\n- Ankylosaurus (Anky) performs validation using these\
+    \ YAML, CSV)\n\nPalette Integration:\n- Validator (Anky) performs validation using these\
     \ methods\n- Deterministic checks first, LM-as-Judge second\n- All evaluations produce artifacts\
     \ (JSON rubrics, test reports)\n- Agent impressions track success/fail over time\n- Maturity\
     \ model (UNVALIDATED → WORKING → PRODUCTION) \n  based on measured performance (not opinions)\n\

@@ -13,7 +13,7 @@ The feedback is directionally correct, and the local files confirm it with tight
 - `knowledge-library v1.4`: **101 entries**, but only **66 unique RIUs referenced** out of **117 taxonomy RIUs**.
 - `service-routing v1.0`: **40 routing entries**, with an exact **20 full / 20 stubs** split.
 - `people-library v1.1`: **21 profiles** (all active in file status values; metadata notes 1 archived).
-- `people signals crossref v1.1`: **43 tools tracked**, but **42/43 are still `needs_entry`** in company-library.
+- `people signals crossref v1.1`: **43 tools tracked**, but **42/43 are still `needs_entry`** in buy-vs-build.
 - `taxonomy v1.3`: **117 RIUs**, and all three identified taxonomy gaps are still absent:
   - `RIU-504` (AI video generation)
   - `RIU-505` (voice input modality)
@@ -29,7 +29,7 @@ The strongest issue is no longer "reference quality." It is **execution hydratio
 This is solvable without redesigning the system. The system needs:
 
 - a **metadata graph/query layer** (even lightweight) for traversal
-- a **hydration pipeline** for company-library entries from crossref
+- a **hydration pipeline** for buy-vs-build entries from crossref
 - a **coverage policy** for `both` RIUs in knowledge-library
 - a **routing outcome feedback loop** using telemetry standards (OpenTelemetry + GenAI conventions)
 
@@ -55,7 +55,7 @@ Validated from `knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml`:
 
 ### 2.2 Service Routing (v1.0)
 
-Validated from `company-library/service-routing/v1.0/service_routing_v1.0.yaml`:
+Validated from `buy-vs-build/service-routing/v1.0/service_routing_v1.0.yaml`:
 
 - Routing entries: **40**
 - Metadata confirms:
@@ -92,7 +92,7 @@ Crossref/company signals:
   - (difference is because action summary is a curated summary, not exhaustive per-row count)
 - **Company library hydration gap**:
   - `company_library_status: needs_entry` on **42/43** signals
-  - only **1** signal mapped as already in company-library
+  - only **1** signal mapped as already in buy-vs-build
 
 ### 2.4 Taxonomy + Classification (v1.3 + service classification)
 
@@ -359,18 +359,18 @@ Create `PIS-QUERY-AGENT v0` with strict deterministic first pass:
 
 ---
 
-## Problem F — Crossref is strong, but company-library hydration is critically behind (42/43 `needs_entry`)
+## Problem F — Crossref is strong, but buy-vs-build hydration is critically behind (42/43 `needs_entry`)
 
 ### Why this matters
 This is the biggest hidden issue found in the audit.
 
-The people→tool→RIU signal graph exists, but the company-library layer is mostly not materialized. That means:
+The people→tool→RIU signal graph exists, but the buy-vs-build layer is mostly not materialized. That means:
 - market intelligence is not durable
 - duplicate enrichment effort is likely
 - routing decisions cannot cite standardized company records
 
 ### Solution pattern (recommended)
-Create a **hydration pipeline** from `people_library_company_signals_v1.1.yaml` -> `company-library/v1.x`.
+Create a **hydration pipeline** from `people_library_company_signals_v1.1.yaml` -> `buy-vs-build/v1.x`.
 
 #### Hydration workflow
 For each signal with `company_library_status: needs_entry`:
@@ -506,7 +506,7 @@ Add explicit machine contracts:
 |---|---|---|
 | 20 routing stubs | Validation pipeline (`seed -> pricing_validated -> api_validated`) + fallback semantics | Preserves current YAML structure while improving decision reliability |
 | 17 uncovered `both` RIUs in knowledge | Coverage gates keyed to classification | Focuses effort where routing + integration judgment matters most |
-| 42/43 crossref tools not hydrated into company-library | Automated hydration pipeline from crossref | Converts signals into durable market intelligence |
+| 42/43 crossref tools not hydrated into buy-vs-build | Automated hydration pipeline from crossref | Converts signals into durable market intelligence |
 | PIS still manual traversal | Deterministic query agent + normalized index | Delivers value before full graph DB investment |
 | Taxonomy gaps 504/505/550 | Add RIUs with explicit eval dimensions | Unblocks routing and categorization for active signal clusters |
 | Static routing weights | OTel/OpenInference-compatible outcome logging | Enables feedback loop without overcommitting to a vendor |
@@ -538,7 +538,7 @@ Add explicit machine contracts:
 
 ## 7) Recommended Immediate Deliverables (Next Three Files to Build)
 
-1. `fde/palette/company-library/v1.1/palette_company_riu_mapping_v1.1.yaml`
+1. `fde/palette/buy-vs-build/v1.1/palette_company_riu_mapping_v1.1.yaml`
    - hydrated from crossref top-priority tools
 
 2. `fde/palette/docs/PIS_QUERY_AGENT_V0_SPEC.md`
@@ -557,12 +557,12 @@ Add explicit machine contracts:
 
 ### Local Palette artifacts (audited)
 - `fde/palette/knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml`
-- `fde/palette/company-library/service-routing/v1.0/service_routing_v1.0.yaml`
-- `fde/palette/company-library/service-routing/v1.0/riu_classification_v1.0.yaml`
-- `fde/palette/company-library/people-library/v1.1/people_library_v1.1.yaml`
-- `fde/palette/company-library/people-library/v1.1/people_library_company_signals_v1.1.yaml`
+- `fde/palette/buy-vs-build/service-routing/v1.0/service_routing_v1.0.yaml`
+- `fde/palette/buy-vs-build/service-routing/v1.0/riu_classification_v1.0.yaml`
+- `fde/palette/buy-vs-build/people-library/v1.1/people_library_v1.1.yaml`
+- `fde/palette/buy-vs-build/people-library/v1.1/people_library_company_signals_v1.1.yaml`
 - `fde/palette/taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml`
-- `fde/palette/company-library/PALETTE_INTELLIGENCE_SYSTEM_v1.0.md`
+- `fde/palette/buy-vs-build/PALETTE_INTELLIGENCE_SYSTEM_v1.0.md`
 
 ### External sources (official/primary where possible)
 - Vercel AI Gateway docs (models/providers, provider routing, model fallbacks)  

@@ -2,9 +2,9 @@
 
 **Date**: 2026-02-19  
 **Scope**: `/home/mical/fde/palette` system audit + lens-by-lens evaluation design  
-**Method**: Yuty prompt shaping, Rex architecture read, Argy internal evidence scan, Para change/complexity signal scan
+**Method**: Narrator prompt shaping, Architect architecture read, Researcher internal evidence scan, Monitor change/complexity signal scan
 
-## 0) Yuty Rewrite First: Rollout Prompt (Clean + Operational)
+## 0) Narrator Rewrite First: Rollout Prompt (Clean + Operational)
 
 Use this prompt for the rollout execution:
 
@@ -13,10 +13,10 @@ Run a full Palette system audit using the current lens framework.
 
 Order of operations:
 1. Review the entire Palette system first (core, assumptions, decisions, agents, runtime path).
-2. Use Yuty to tighten this audit prompt into clear operator language before analysis.
-3. Use Rex to explain architecture and major decision gates.
-4. Use Argy to run internal evidence collection across docs/code/contracts.
-5. Use Para to monitor change trajectory and unnecessary complexity signals.
+2. Use Narrator to tighten this audit prompt into clear operator language before analysis.
+3. Use Architect to explain architecture and major decision gates.
+4. Use Researcher to run internal evidence collection across docs/code/contracts.
+5. Use Monitor to monitor change trajectory and unnecessary complexity signals.
 6. Evaluate each lens one-by-one (PM, ENG, DEV).
 
 For each lens:
@@ -34,7 +34,7 @@ Final output requirements:
   - Recommended next validation sequence for lenses
 ```
 
-## 1) System Review (Rex + Argy + Para Synthesis)
+## 1) System Review (Architect + Researcher + Monitor Synthesis)
 
 ### What Palette currently is
 - A **three-tier operating system** for FDE work: immutable core rules, experimental assumptions, and decision logging.
@@ -43,11 +43,11 @@ Final output requirements:
 
 ### Architecture truth (current state)
 - Core protocol exists (`core/packet.go`) with structured handoff contracts.
-- Cory is implemented as intent front door with clarification loop.
+- Resolver is implemented as intent front door with clarification loop.
 - Orchestrator has executable code, but docs still carry design-only language in places.
 - Lenses are defined well as contracts (`lenses/releases/v0/*.yaml`) but not yet integrated into runtime control path.
 
-### Para-style system signals
+### Monitor-style system signals
 - Velocity is high (`git log` shows rapid feature progression into v2 runtime).
 - File density is agent-heavy (`agents/` is the largest subsystem by far).
 - Lens integration is documented but not wired (no runtime references beyond docs).
@@ -73,16 +73,16 @@ Final output requirements:
 
 ## 3) Who Understands What (and Why)
 
-- **Yuty** understands **stakeholder-fit and narrative integrity** best, because it enforces evidence-backed explanation.
-- **Rex** understands **architectural tradeoffs and irreversible constraints** best, due to explicit OWD and option-competition protocol.
-- **Argy** understands **evidence surface area and unknowns** best, because it is read-only and source-first.
-- **Para** understands **system drift and complexity signal movement** best, because it is threshold/signal oriented.
+- **Narrator** understands **stakeholder-fit and narrative integrity** best, because it enforces evidence-backed explanation.
+- **Architect** understands **architectural tradeoffs and irreversible constraints** best, due to explicit OWD and option-competition protocol.
+- **Researcher** understands **evidence surface area and unknowns** best, because it is read-only and source-first.
+- **Monitor** understands **system drift and complexity signal movement** best, because it is threshold/signal oriented.
 
 Combined use gives full stack clarity:
-- Yuty = communicability
-- Rex = structural correctness
-- Argy = factual grounding
-- Para = operational drift detection
+- Narrator = communicability
+- Architect = structural correctness
+- Researcher = factual grounding
+- Monitor = operational drift detection
 
 ## 4) Lens-by-Lens Evaluation Plan
 
@@ -90,8 +90,8 @@ Combined use gives full stack clarity:
 **Palette explained in PM language**: Palette is a decision acceleration system that turns ambiguous problem statements into owner-backed, metric-backed, reversible/irreversible product calls.
 
 **Best supporting agents**:
-- Primary: `yutyrannus`, `rex`, `ankylosaurus`
-- Support: `argentavis`, `therizinosaurus`
+- Primary: `narrator`, `rex`, `validator`
+- Support: `researcher`, `builder`
 
 **Assigned deep-dive task**:
 - Task: Audit one roadmap/go-no-go scenario and force explicit Decision/Owner/Metric/OWD classification.
@@ -107,8 +107,8 @@ Combined use gives full stack clarity:
 **Palette explained in ENG language**: Palette is an execution planner that turns architecture intent into ordered, testable slices with dependencies, rollback paths, and operational gates.
 
 **Best supporting agents**:
-- Primary: `therizinosaurus`, `velociraptor`, `rex`
-- Support: `ankylosaurus`, `parasaurolophus`, `argentavis`
+- Primary: `builder`, `debugger`, `rex`
+- Support: `validator`, `monitor`, `researcher`
 
 **Assigned deep-dive task**:
 - Task: Build a release-readiness plan for a risky integration with explicit rollback + verification checkpoints.
@@ -124,8 +124,8 @@ Combined use gives full stack clarity:
 **Palette explained in DEV language**: Palette is a developer handoff contract that converts architecture into mergeable tasks with test strategy, acceptance checks, and debug-ready context.
 
 **Best supporting agents**:
-- Primary: `therizinosaurus`, `velociraptor`, `ankylosaurus`
-- Support: `rex`, `parasaurolophus`, `argentavis`
+- Primary: `builder`, `debugger`, `validator`
+- Support: `rex`, `monitor`, `researcher`
 
 **Assigned deep-dive task**:
 - Task: Take one bug-to-fix workflow and produce scoped code tasks + validation commands + rollback notes.
@@ -155,7 +155,7 @@ Combined use gives full stack clarity:
 - Gains: Strong restartability, explicit decision lineage, reusable artifact patterns.
 - Risk: Complexity tax from layered governance + evolving runtime can slow urgent execution.
 
-## 6) Complexity and Simplification Moves (Para-driven)
+## 6) Complexity and Simplification Moves (Monitor-driven)
 
 1. **Unify status source of truth**
 - Pick one canonical status table (agent maturity, runtime readiness) and auto-generate all other surfaces.
@@ -188,16 +188,16 @@ Combined use gives full stack clarity:
 - `/home/mical/fde/palette/.kiro/steering/assumptions.md`
 - `/home/mical/fde/palette/decisions.md`
 - `/home/mical/fde/palette/agents/README.md`
-- `/home/mical/fde/palette/agents/yutyrannus/yutyrannus.md`
-- `/home/mical/fde/palette/agents/rex/rex.md`
-- `/home/mical/fde/palette/agents/argentavis/argentavis.md`
-- `/home/mical/fde/palette/agents/parasaurolophus/parasaurolophus.md`
-- `/home/mical/fde/palette/agents/yutyrannus/agent.json`
-- `/home/mical/fde/palette/agents/rex/agent.json`
-- `/home/mical/fde/palette/agents/argentavis/agent.json`
-- `/home/mical/fde/palette/agents/parasaurolophus/agent.json`
+- `/home/mical/fde/palette/agents/narrator/narrator.md`
+- `/home/mical/fde/palette/agents/architect/architect.md`
+- `/home/mical/fde/palette/agents/researcher/researcher.md`
+- `/home/mical/fde/palette/agents/monitor/monitor.md`
+- `/home/mical/fde/palette/agents/narrator/agent.json`
+- `/home/mical/fde/palette/agents/architect/agent.json`
+- `/home/mical/fde/palette/agents/researcher/agent.json`
+- `/home/mical/fde/palette/agents/monitor/agent.json`
 - `/home/mical/fde/palette/agents/orchestrator/orchestrator.md`
-- `/home/mical/fde/palette/agents/corythosaurus/cory.py`
+- `/home/mical/fde/palette/agents/resolver/resolver.py`
 - `/home/mical/fde/palette/core/packet.go`
 - `/home/mical/fde/palette/lenses/README.md`
 - `/home/mical/fde/palette/lenses/INTEGRATION_PLAN.md`
@@ -244,7 +244,7 @@ Feedback after understanding:
 3. ENG lens should include protocol-compatibility checks (`core/packet.go` vs agent expectations) in every risky integration review.
 
 Assigned ENG deep-dive task:
-- Build a release-readiness checklist for Orch+Cory+Telegram path with explicit preflight, rollback, and post-deploy signal checks.
+- Build a release-readiness checklist for Orchestrator+Resolver+Telegram path with explicit preflight, rollback, and post-deploy signal checks.
 
 ### LENS-DEV-001 comprehension check
 
@@ -256,7 +256,7 @@ What DEV lens now understands about this project:
 Feedback after understanding:
 1. DEV lens should enforce smaller executable slices tied to one acceptance command each.
 2. DEV lens should require explicit “non-goal guardrails” inside build tasks to prevent hidden architecture drift.
-3. DEV lens should add a first-class “debug handoff packet” format for Raptor/Para continuity.
+3. DEV lens should add a first-class “debug handoff packet” format for Debugger/Monitor continuity.
 
 Assigned DEV deep-dive task:
 - Create a mergeability rubric for agent/runtime changes: minimal task size, acceptance check, rollback note, and observability hook.

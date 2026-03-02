@@ -22,11 +22,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Corythosaurus (Cory) — Intent Resolver**: New agent (`agents/corythosaurus/`) that acts as the front door of Palette. Maps raw user input to 111 RIUs via two-phase resolution (cluster classification → RIU matching). Single-question disambiguation, stateless per invocation, multi-turn state via HandoffPacket payload. Named for the hollow-crested hadrosaur evolved for two-way communication.
+- **Resolver — Intent Resolver**: New agent (`agents/resolver/`) that acts as the front door of Palette. Maps raw user input to 111 RIUs via two-phase resolution (cluster classification → RIU matching). Single-question disambiguation, stateless per invocation, multi-turn state via HandoffPacket payload. Named for the hollow-crested hadrosaur evolved for two-way communication.
 
-- **Orchestrator binary (Orch)**: Promoted from design-only placeholder to a running Go binary (`agents/orchestrator/orch`). Full agent roster management, capability-scored routing, keyword-rule routing table, Cory fallback for ambiguous inputs. Commands: `orch status`, `orch route`, `orch run`.
+- **Orchestrator binary (Orchestrator)**: Promoted from design-only placeholder to a running Go binary (`agents/orchestrator/orch`). Full agent roster management, capability-scored routing, keyword-rule routing table, Resolver fallback for ambiguous inputs. Commands: `orch status`, `orch route`, `orch run`.
 
-- **Argentavis (Argy) v2.0**: Complete rewrite of the research agent. HandoffPacket stdin → HandoffResult stdout protocol. Real API calls to Perplexity, Tavily, Exa with Claude synthesis layer. Query classification (factual/synthesis/academic/current_events). `_parse_json()` helper for Claude markdown-wrapped JSON responses. `decision_context` gate.
+- **Researcher v2.0**: Complete rewrite of the research agent. HandoffPacket stdin → HandoffResult stdout protocol. Real API calls to Perplexity, Tavily, Exa with Claude synthesis layer. Query classification (factual/synthesis/academic/current_events). `_parse_json()` helper for Claude markdown-wrapped JSON responses. `decision_context` gate.
 
 - **Telegram Bridge** (`bridges/telegram/`): Live phone interface to Palette via `@palette_ai_bot`. Long-polling bot with per-chat state, text and voice input (OpenAI Whisper transcription). Interview simulation modes: Josh Rutberg (VP Customer Outcomes, Bain background) and Avril (AI Outcomes Specialist, Singapore). Commands: `/interview josh`, `/interview avril`, `/feedback`, `/reset`.
 
@@ -42,9 +42,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **server.mjs null response bug**: When `OPENCLAW_BASE_URL` is empty, `proxyToOpenClaw()` returns `null` instead of throwing, causing the server to send literal `"null"` as the response body. Fixed with null-coalescing fallback to `localRouteResponse()` in both the route handler and the stream handler.
 
-- **`_parse_json()` robustness**: Added to both Cory and Argy to handle Claude returning markdown-wrapped JSON (both leading backtick and trailing text variants).
+- **`_parse_json()` robustness**: Added to both Resolver and Researcher to handle Claude returning markdown-wrapped JSON (both leading backtick and trailing text variants).
 
-- **`datetime.utcnow()` deprecation**: Updated to `datetime.datetime.now(datetime.timezone.utc)` in Argy and Cory.
+- **`datetime.utcnow()` deprecation**: Updated to `datetime.datetime.now(datetime.timezone.utc)` in Researcher and Resolver.
 
 - **ANTHROPIC_API_KEY environment loading**: Documented and fixed `.bash_profile` vs `.bashrc` issue for non-interactive shell subprocesses.
 
@@ -52,11 +52,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **pm2 process management**: MissionCanvas server now runs under pm2 (`pm2 start`), auto-restarts on crash, persists across sessions. `pm2 save` configured.
 
-- **`agent.json` constraints typing**: Fixed `constraints` field to `map[string]bool` (numeric values caused silent Orch roster exclusion).
+- **`agent.json` constraints typing**: Fixed `constraints` field to `map[string]bool` (numeric values caused silent Orchestrator roster exclusion).
 
-- **Orch routing rules**: Added `intent/clarify` rule (conversational inputs → Cory) and Cory fallback in `routeByCapability` when no candidates match.
+- **Orchestrator routing rules**: Added `intent/clarify` rule (conversational inputs → Resolver) and Resolver fallback in `routeByCapability` when no candidates match.
 
-- **`core/packet.go`**: Added `AgentCory AgentID = "corythosaurus"` constant.
+- **`core/packet.go`**: Added `AgentCory AgentID = "resolver"` constant.
 
 ---
 
@@ -73,7 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Company-RIU Mapping Library v1.0**: 127 funded AI companies mapped to Palette RIUs across 12 use cases
-- **Business Plan Composite Agent**: Multi-agent workflow (Argy → Rex → Yuty → Anky) validated on Rossi project
+- **Business Plan Composite Agent**: Multi-agent workflow (Researcher → Architect → Narrator → Validator) validated on Rossi project
 - **Impression Sync Script**: `scripts/sync-impressions.py` aggregates agent performance from project logs
 - **Git Hook Automation**: Post-commit hook auto-syncs impressions and pushes to GitHub
 - **Windows Quick Start Guide**: Platform-agnostic setup instructions addressing Windows confusion
@@ -81,7 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Operational learnings integration**: Continued v1.3 hardening toward a reproducible framework handoff model per implementation
 
 ### Changed
-- **Yutyrannus promoted to WORKING tier**: First agent to reach Tier 2 (10 consecutive successes on rossi-mission)
+- **Narrator promoted to WORKING tier**: First agent to reach Tier 2 (10 consecutive successes on rossi-mission)
 - **Updated palette.zip**: Now 462KB, includes v1.3.1 features, Windows-friendly with clear setup guide
 - **Agents README**: Shows real-time impression counts, maturity status, and projects contributing
 
@@ -106,13 +106,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Formalizes ONE-WAY DOOR / TWO-WAY DOOR as reusable pattern
 
 - **Validation methods** (Tier 2 + Library)
-  - Expanded Anky role: multi-layered evaluation, LM-as-Judge
+  - Expanded Validator role: multi-layered evaluation, LM-as-Judge
   - LIB-093: Agent Quality Evaluation Methods
   - Artifact-focused validation (JSON rubrics, not opinions)
 
 ### Changed
 - Tier 2 section numbering (Agent Communication Protocol now Section 7)
-- Ankylosaurus description (added validation methods)
+- Validator description (added validation methods)
 - Taxonomy: 104 → 105 RIUs
 - Library: 76 → 81 questions
 
@@ -129,7 +129,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release of Palette toolkit
 - Three-tier system (Tier 1: palette-core.md, Tier 2: assumptions.md, Tier 3: decisions template)
-- 7 agent implementations (Argy, Rex, Theri, Raptor, Yuty, Anky, Para)
+- 7 agent implementations (Researcher, Architect, Builder, Debugger, Narrator, Validator, Monitor)
 - Taxonomy v1.2 (104 RIUs)
 - Knowledge Library v1.2 (86 questions)
 - Interactive onboarding (type "start")

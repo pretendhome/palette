@@ -60,7 +60,7 @@ Palette is an applied intelligence toolkit that turns natural language problems 
 ┌─────────────────────────────────────────────────────────────┐
 │                     Natural Language In                       │
 ├─────────────────────────────────────────────────────────────┤
-│  Cory (Resolver)  →  Coordination Pipeline  →  Traverse     │
+│  Resolver  →  Coordination Pipeline  →  Traverse     │
 │                                                              │
 │  ┌─────────────────────────────────────────────────────┐    │
 │  │  6 Data Layers                                       │    │
@@ -76,7 +76,7 @@ Palette is an applied intelligence toolkit that turns natural language problems 
 │                                                              │
 │  ┌─────────────────────────────────────────────────────┐    │
 │  │  Integrity Layer                                     │    │
-│  │  Integrity → Audit → Regression → Drift → Para      │    │
+│  │  Integrity → Audit → Regression → Drift → Monitor      │    │
 │  │  8/8 checks   1 finding  7/7 SLOs   15 clusters     │    │
 │  └─────────────────────────────────────────────────────┘    │
 ├─────────────────────────────────────────────────────────────┤
@@ -166,7 +166,7 @@ python3 -m scripts.palette_intelligence_system.drift
 python3 -m scripts.palette_intelligence_system.para_decision
 ```
 
-The Para decision engine chains all four checks and outputs a governed decision:
+The Monitor decision engine chains all four checks and outputs a governed decision:
 
 ```
 Decision: ship_with_risks
@@ -182,22 +182,22 @@ Required actions:
 
 | Agent | Role | Specialty |
 |:--|:--|:--|
-| **Argentavis** (Argy) | Research | Check internal libraries first, then external sources |
-| **Tyrannosaurus** (Rex) | Architecture | Design with explicit tradeoff clarity |
-| **Therizinosaurus** (Theri) | Build | Scope-bounded implementation |
-| **Velociraptor** (Raptor) | Debug | Root cause analysis, fix verification |
-| **Yutyrannus** (Yuty) | Narrative | Evidence-based GTM, no speculation |
-| **Ankylosaurus** (Anky) | Validation | Quality gates, test coverage |
-| **Parasaurolophus** (Para) | Monitoring | Governance decisions, block routing |
+| **Researcher** (Researcher) | Research | Check internal libraries first, then external sources |
+| **Architect** (Architect) | Architecture | Design with explicit tradeoff clarity |
+| **Builder** (Builder) | Build | Scope-bounded implementation |
+| **Debugger** (Debugger) | Debug | Root cause analysis, fix verification |
+| **Narrator** (Narrator) | Narrative | Evidence-based GTM, no speculation |
+| **Validator** (Validator) | Validation | Quality gates, test coverage |
+| **Monitor** (Monitor) | Monitoring | Governance decisions, block routing |
 
 **Maturity Model**: Agents earn trust through performance.
 - **UNVALIDATED** → 10 successes → **WORKING** → 50 runs <5% fail → **PRODUCTION**
 - 2 failures in 10 runs → automatic demotion
 
-**Block Routing**: When Para blocks a decision, it routes to the right agent:
-- Self-inflicted bug → Raptor
-- Architecture gap → Rex
-- Research gap → Argy
+**Block Routing**: When Monitor blocks a decision, it routes to the right agent:
+- Self-inflicted bug → Debugger
+- Architecture gap → Architect
+- Research gap → Researcher
 
 ---
 
@@ -211,19 +211,19 @@ palette/
 │   └── decisions-prompt.md             # Tier 3 — Decision log policy
 ├── taxonomy/releases/v1.3/             # 117 RIUs (problem-solution pairs)
 ├── knowledge-library/v1.4/             # 498 entries with source citations
-├── company-library/
+├── buy-vs-build/
 │   ├── integrations/                   # 69 integration recipes
 │   ├── service-routing/v1.0/           # 106 services, 40 routing profiles
 │   ├── people-library/v1.1/            # 21 profiles, 33 tools tracked
 │   └── PALETTE_INTELLIGENCE_SYSTEM_v1.0.md
 ├── agents/
-│   ├── argentavis/                     # Argy — Research
-│   ├── rex/                            # Rex — Architecture
-│   ├── therizinosaurus/                # Theri — Build
-│   ├── velociraptor/                   # Raptor — Debug
-│   ├── yutyrannus/                     # Yuty — Narrative
-│   ├── ankylosaurus/                   # Anky — Validation
-│   └── parasaurolophus/                # Para — Monitoring
+│   ├── researcher/                     # Researcher — Research
+│   ├── rex/                            # Architect — Architecture
+│   ├── builder/                # Builder — Build
+│   ├── debugger/                   # Debugger — Debug
+│   ├── narrator/                     # Narrator — Narrative
+│   ├── validator/                   # Validator — Validation
+│   └── monitor/                # Monitor — Monitoring
 ├── scripts/palette_intelligence_system/
 │   ├── integrity.py                    # 8 consistency checks across 6 layers
 │   ├── audit_system.py                 # Severity-ranked findings
@@ -284,7 +284,7 @@ print(f'Completeness: {r.completeness.total}/100')
 | Phase 0 | Done | Taxonomy v1.3 (117 RIUs), knowledge library, company mapping |
 | Phase 1 | Done | People library (21 profiles), service routing (40 entries), 3 recipes |
 | Phase 2 | Done | RIU classification, cost enrichment, repo cleanup |
-| Phase 3 | Done | Integrity engine, audit system, regression/SLO, drift detection, 49 recipes, 116 knowledge entries, override registry, Para decision contract |
+| Phase 3 | Done | Integrity engine, audit system, regression/SLO, drift detection, 49 recipes, 116 knowledge entries, override registry, Monitor decision contract |
 | Phase 4 | Next | Decision quality audit, operational monitoring, contradiction ledger |
 
 ---

@@ -39,12 +39,12 @@ palette_fit:
   supporting_rius:
     - RIU-039
   primary_agents:
-    - yutyrannus
+    - narrator
     - rex
-    - ankylosaurus
+    - validator
   supporting_agents:
-    - argentavis
-    - therizinosaurus
+    - researcher
+    - builder
   library_links:
     - "Use LIB entries tied to decision frameworks, risk framing, and launch operations."
   company_matrix_use:

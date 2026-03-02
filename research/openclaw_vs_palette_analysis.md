@@ -52,7 +52,7 @@ Palette is a **three-tier decision framework for human-AI collaboration** design
 | **Skills/Tools** | SKILL.md files, hot-reloadable, ClawHub registry | RIUs (inert execution materials, no runtime) |
 | **Channels** | 12+ messaging platforms, voice, browser, canvas | Human-in-the-loop via conversation |
 | **Deployment** | npm install, Docker, Nix, VPS | Prompt files loaded into AI session |
-| **Eval/Quality** | No formal evaluation framework visible | Anky validator, fixtures, LM-as-Judge rubrics |
+| **Eval/Quality** | No formal evaluation framework visible | Validator validator, fixtures, LM-as-Judge rubrics |
 | **State** | JSONL session files, SQLite memory index | Append-only decisions.md |
 
 ---
@@ -79,7 +79,7 @@ Palette is a **three-tier decision framework for human-AI collaboration** design
 
 **OpenClaw**: One agent "brain" per person, with sub-agents for parallel background work. The agent is a generalist that uses skills/tools to specialize.
 
-**Palette**: Multiple specialist agents per engagement. Argy researches, Rex architects, Theri builds, Anky validates. Each has bounded permissions and disallowed actions.
+**Palette**: Multiple specialist agents per engagement. Researcher researches, Architect architects, Builder builds, Validator validates. Each has bounded permissions and disallowed actions.
 
 **Learning**: OpenClaw's model scales to personal use. Palette's model scales to enterprise engagements. But OpenClaw's sub-agent pattern (spawn background workers with restricted tools) is directly applicable to how Palette could implement the Orchestrator archetype.
 
@@ -126,7 +126,7 @@ Palette is a **three-tier decision framework for human-AI collaboration** design
 
 **Recommendation**:
 - Define a compaction protocol for Palette engagements: what to summarize, what to preserve, what to write to artifacts before compaction
-- Add a "COMPACT" step to Yuty's responsibilities — Yuty already does narrative coherence
+- Add a "COMPACT" step to Narrator's responsibilities — Narrator already does narrative coherence
 - Document the pattern in an RIU (e.g., "Context Compaction for Long Engagements")
 
 ### 5.3 Lobster-Style Workflow DSL (MEDIUM PRIORITY)
@@ -142,7 +142,7 @@ Palette is a **three-tier decision framework for human-AI collaboration** design
 - Manual phase gates documented in decisions.md
 - ONE-WAY DOOR decisions require human confirmation (conceptually similar to approval gates)
 - No formal workflow definition language
-- Multi-agent sequences are described in prose (e.g., "Argy → Rex → Theri → Yuty → Anky")
+- Multi-agent sequences are described in prose (e.g., "Researcher → Architect → Builder → Narrator → Validator")
 
 **Gap**: Palette's workflows are implicit — they exist in the operator's head and in prose descriptions. Lobster shows that making workflows explicit as data enables determinism, auditability, and resumability.
 
@@ -167,7 +167,7 @@ Palette is a **three-tier decision framework for human-AI collaboration** design
 - Agent archetypes define WHO does what
 - No equivalent of "loadable skill packs" that modify agent behavior at runtime
 
-**Gap**: Palette's RIUs are taxonomic (routing) while OpenClaw's skills are behavioral (runtime). When Palette's Theri agent builds a Shopify page, there's no "Shopify skill" that gives Theri specific Shopify knowledge — it relies on the underlying LLM's training data.
+**Gap**: Palette's RIUs are taxonomic (routing) while OpenClaw's skills are behavioral (runtime). When Palette's Builder agent builds a Shopify page, there's no "Shopify skill" that gives Builder specific Shopify knowledge — it relies on the underlying LLM's training data.
 
 **Recommendation**:
 - Consider a "skill pack" layer that sits between RIUs and agent execution
@@ -198,7 +198,7 @@ Palette is a **three-tier decision framework for human-AI collaboration** design
 **Recommendation**:
 - Consider splitting Palette's agent loading into:
   - CORE.md (palette-core.md — immutable)
-  - AGENT.md (archetype definition — e.g., argentavis.md)
+  - AGENT.md (archetype definition — e.g., researcher.md)
   - ENGAGEMENT.md (convergence brief + decisions — engagement-specific)
   - USER.md (user preferences and profile)
 - This makes agent loading more composable and engagement switching cleaner
@@ -218,7 +218,7 @@ Palette is a **three-tier decision framework for human-AI collaboration** design
 - Multi-agent workflows are sequential, not parallel
 - No formal sub-agent spawning mechanism
 
-**Gap**: Palette's Argy research tasks are prime candidates for parallel sub-agent execution (e.g., the 6 research documents for the MQ drop ran sequentially when they could have been parallel).
+**Gap**: Palette's Researcher research tasks are prime candidates for parallel sub-agent execution (e.g., the 6 research documents for the MQ drop ran sequentially when they could have been parallel).
 
 **Recommendation**:
 - When implementing the Orchestrator, use OpenClaw's sub-agent pattern:
@@ -267,10 +267,10 @@ OpenClaw has no equivalent of ONE-WAY DOOR / TWO-WAY DOOR. It uses sandbox/tool-
 OpenClaw grants full trust immediately (constrained by sandboxing). Palette requires agents to earn trust through measured performance. This is more appropriate for enterprise contexts where reliability matters more than speed.
 
 ### 6.3 Agent Specialization with Boundaries
-OpenClaw agents are generalists that use skills to specialize. Palette agents have hard boundaries — Argy CANNOT make decisions, Anky CANNOT implement fixes. This prevents role confusion and scope creep in complex engagements.
+OpenClaw agents are generalists that use skills to specialize. Palette agents have hard boundaries — Researcher CANNOT make decisions, Validator CANNOT implement fixes. This prevents role confusion and scope creep in complex engagements.
 
 ### 6.4 Formal Evaluation
-Palette has Anky (multi-layered validation: deterministic → LM-as-Judge → human feedback), fixtures for agent testing, and structured quality gates. OpenClaw has no visible formal evaluation framework.
+Palette has Validator (multi-layered validation: deterministic → LM-as-Judge → human feedback), fixtures for agent testing, and structured quality gates. OpenClaw has no visible formal evaluation framework.
 
 ### 6.5 Knowledge Taxonomy
 Palette's RIU taxonomy is a unique asset — 115 validated execution patterns that route problems to solutions. OpenClaw has nothing comparable. Skills teach tool usage; RIUs teach problem-solving.
@@ -324,7 +324,7 @@ The most powerful system would combine:
 1. OpenClaw's runtime layer (Gateway, sessions, memory, channels)
 2. Palette's decision framework (convergence, ONE-WAY DOORS, glass-box)
 3. OpenClaw's workflow engine (Lobster DSL with approval gates)
-4. Palette's quality system (Anky validation, impressions, fixtures)
+4. Palette's quality system (Validator validation, impressions, fixtures)
 5. OpenClaw's skill loading (hot-reload, gated, registry)
 6. Palette's knowledge taxonomy (RIUs as routing table for skills)
 

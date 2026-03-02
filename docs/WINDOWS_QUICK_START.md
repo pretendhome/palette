@@ -84,18 +84,18 @@ palette/
 │   └── v1.2/
 │       └── palette_knowledge_library_v1.2.yaml
 │
-├── company-library/         # 127 companies → RIUs
+├── buy-vs-build/            # 127 companies → RIUs
 │   └── v1.0/
 │       └── palette_company_riu_mapping_v1.0.yaml
 │
 ├── agents/                  # 8 agent implementations
-│   ├── argentavis/          # Research
+│   ├── researcher/          # Research
 │   ├── rex/                 # Architecture
-│   ├── therizinosaurus/     # Build
-│   ├── velociraptor/        # Debug
-│   ├── yutyrannus/          # Narrative
-│   ├── ankylosaurus/        # Validate
-│   ├── parasaurolophus/     # Monitor
+│   ├── builder/     # Build
+│   ├── debugger/        # Debug
+│   ├── narrator/          # Narrative
+│   ├── validator/        # Validate
+│   ├── monitor/     # Monitor
 │   └── business-plan-creation/  # Composite agent
 │
 ├── GETTING_STARTED.md       # Full guide
@@ -137,7 +137,7 @@ Help me converge on the problem first.
 **Step 2**: Claude will:
 1. Force convergence (Semantic Blueprint)
 2. Match to RIU (probably RIU-031: Customer Support Automation)
-3. Route to agents (Argy researches, Rex designs, Theri builds)
+3. Route to agents (Researcher researches, Architect designs, Builder builds)
 4. Log decisions (you track in decisions.md)
 
 **Step 3**: You get:

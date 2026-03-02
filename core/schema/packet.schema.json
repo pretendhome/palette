@@ -70,13 +70,14 @@
       "type": "string",
       "enum": [
         "orchestrator",
-        "rex",
-        "argentavis",
-        "therizinosaurus",
-        "ankylosaurus",
-        "parasaurolophus",
-        "velociraptor",
-        "yutyrannus",
+        "resolver",
+        "architect",
+        "researcher",
+        "builder",
+        "validator",
+        "monitor",
+        "debugger",
+        "narrator",
         "human"
       ]
     }

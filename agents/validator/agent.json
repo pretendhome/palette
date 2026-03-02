@@ -1,0 +1,42 @@
+{
+  "name": "validator",
+  "version": "1.0",
+  "agent_type": "Validator",
+  "code": "Validator",
+  "role": "Validator",
+  "description": "Plan, spec, and implementation assessment specialist; produces GO/NO-GO verdicts but never fixes what it finds",
+  "status": "UNVALIDATED",
+  "maturity": {
+    "tier": 1,
+    "successes": 2,
+    "failures": 0,
+    "promotes_at": 10
+  },
+  "entry_point": "validator.py",
+  "runtime": "python",
+  "capabilities": [
+    "plan_validation",
+    "spec_assessment",
+    "feasibility_evaluation",
+    "risk_identification",
+    "dependency_mapping",
+    "go_no_go_decision"
+  ],
+  "constraints": {
+    "assessment_only": true,
+    "no_implementation": true,
+    "no_decisions_beyond_go_no_go": true,
+    "no_fixes": true,
+    "must_produce_risk_list": true
+  },
+  "accepts_from": ["orchestrator", "builder", "architect", "human"],
+  "routes_to": ["orchestrator", "builder", "architect", "human"],
+  "invocation": {
+    "command": "/validator",
+    "aliases": ["validate", "review"]
+  },
+  "logging": {
+    "ledger": "palette/decisions.md",
+    "track_maturity": true
+  }
+}

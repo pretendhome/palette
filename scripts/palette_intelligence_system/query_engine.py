@@ -53,9 +53,9 @@ def _find_repo_root() -> Path:
 
 REPO_ROOT = _find_repo_root()
 TAXONOMY_PATH = REPO_ROOT / "palette" / "taxonomy" / "releases" / "v1.3" / "palette_taxonomy_v1.3.yaml"
-CLASSIFICATION_PATH = REPO_ROOT / "palette" / "company-library" / "service-routing" / "v1.0" / "riu_classification_v1.0.yaml"
-ROUTING_PATH = REPO_ROOT / "palette" / "company-library" / "service-routing" / "v1.0" / "service_routing_v1.0.yaml"
-INTEGRATIONS_DIR = REPO_ROOT / "palette" / "company-library" / "integrations"
+CLASSIFICATION_PATH = REPO_ROOT / "palette" / "buy-vs-build" / "service-routing" / "v1.0" / "riu_classification_v1.0.yaml"
+ROUTING_PATH = REPO_ROOT / "palette" / "buy-vs-build" / "service-routing" / "v1.0" / "service_routing_v1.0.yaml"
+INTEGRATIONS_DIR = REPO_ROOT / "palette" / "buy-vs-build" / "integrations"
 
 
 # ── Normalization ──────────────────────────────────────────────────
@@ -495,9 +495,9 @@ def cmd_check(pis: PISData) -> int:
 
     # Check 5: Agent names in taxonomy match known agent list
     known_agents = {
-        "ARK:Argentavis", "ARK:Yutyrannus", "ARK:Tyrannosaurus",
-        "ARK:Therizinosaurus", "ARK:Ankylosaurus", "ARK:Velociraptor",
-        "ARK:Parasaurolophus", "ARK:Corythosaurus", "ARK:Orchestrator",
+        "Researcher", "Narrator", "Architect",
+        "Builder", "Validator", "Debugger",
+        "Monitor", "Resolver", "Orchestrator",
         "Human:Delivery",
     }
     unknown = set()

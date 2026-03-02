@@ -114,9 +114,9 @@ def main() -> int:
     expect_file(PALETTE / ".kiro/steering/assumptions.md")
     expect_file(PALETTE / "taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml")
     expect_file(PALETTE / "knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml")
-    expect_file(PALETTE / "company-library/service-routing/v1.0/service_routing_v1.0.yaml")
-    expect_file(PALETTE / "company-library/people-library/v1.1/people_library_v1.1.yaml")
-    expect_file(PALETTE / "company-library/people-library/v1.1/people_library_company_signals_v1.1.yaml")
+    expect_file(PALETTE / "buy-vs-build/service-routing/v1.0/service_routing_v1.0.yaml")
+    expect_file(PALETTE / "buy-vs-build/people-library/v1.1/people_library_v1.1.yaml")
+    expect_file(PALETTE / "buy-vs-build/people-library/v1.1/people_library_company_signals_v1.1.yaml")
 
     check_outdated_paths()
     check_taxonomy_counts()

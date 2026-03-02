@@ -17,7 +17,7 @@ import (
 type InvokeResult struct {
 	AgentID  core.AgentID
 	Output   string             // stdout
-	Stderr   string             // stderr (Para emits NDJSON HandoffPackets here)
+	Stderr   string             // stderr (Monitor emits NDJSON HandoffPackets here)
 	ExitCode int
 	Result   core.HandoffResult // best-effort parsed or inferred
 }
@@ -27,7 +27,7 @@ type InvokeResult struct {
 // AgentRunner abstracts how the Orchestrator invokes an agent.
 // SubprocessRunner runs real binaries/scripts.
 // DryRunner prints what would happen without executing.
-// This is the same Runner pattern Raptor and Para use — applied to agent invocation.
+// This is the same Runner pattern Debugger and Monitor use — applied to agent invocation.
 type AgentRunner interface {
 	Invoke(pkt core.HandoffPacket, manifest core.AgentManifest, agentsDir string) InvokeResult
 	IsDry() bool
@@ -121,7 +121,7 @@ func (r SubprocessRunner) Invoke(
 func buildGoArgs(pkt core.HandoffPacket, manifest core.AgentManifest, cfg Config) []string {
 	switch manifest.Name {
 
-	case "velociraptor":
+	case "debugger":
 		args := []string{"diagnose"}
 		if remote, _ := pkt.Payload["remote"].(string); remote != "" {
 			args = append(args, "--remote", remote)
@@ -138,7 +138,7 @@ func buildGoArgs(pkt core.HandoffPacket, manifest core.AgentManifest, cfg Config
 		}
 		return args
 
-	case "parasaurolophus":
+	case "monitor":
 		args := []string{"check"}
 		if remote, _ := pkt.Payload["remote"].(string); remote != "" {
 			args = append(args, "--remote", remote)

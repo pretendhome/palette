@@ -103,7 +103,7 @@ This layer:
 **Storage format**:
 
     agent: <agent-name>
-    ark_type: <cognitive-label>
+    agent_type: <cognitive-label>
     version: <major.minor>
     status: UNVALIDATED | WORKING | PRODUCTION
     impressions:
@@ -132,32 +132,32 @@ These are cognitive shorthand only:
 - Do not imply trust tier
 - Exist to stabilize intent and reduce misuse
 
-### Argentavis (Argy) — Resource Gatherer
+### Researcher — Resource Gatherer
 
 - **Role**: Search, retrieval, research, context gathering (read-only)
 - **Disallowed**: Decision-making, execution, commits, irreversible recommendations (ONE-WAY DOOR calls)
 - **Route when**: Need to find information, gather context, research options, competitive analysis
 
-### Therizinosaurus (Theri) — Builder
+### Builder — Builder
 
 - **Role**: Implementation within bounded scope
 - **Disallowed**: Architecture commitments, scope expansion, design decisions
 - **Route when**: Clear spec exists, need artifact created, implementation task
 
-### Velociraptor (Raptor) — Debugger
+### Debugger — Debugger
 
 - **Role**: Failure isolation, root cause analysis, repair
 - **Disallowed**: Feature expansion, architecture changes, scope creep
 - **Route when**: Something is broken, need diagnosis, error investigation
 
-### Tyrannosaurus Rex (Rex) — Architect
+### Architect — Architect
 
 - **Role**: Design, tradeoffs, system decisions, technology selection
 - **Constraint**: Must flag 🚨 ONE-WAY DOOR for irreversible decisions
 - **Authority**: Proposes designs; does not commit silently
 - **Route when**: Architecture decisions, technology selection, system design, tradeoff analysis
 
-### Yutyrannus (Yuty) — GTM / Narrative + System Coherence Guardian
+### Narrator — GTM / Narrative + System Coherence Guardian
 
 **Primary Role**: Customer-facing explanations, demos, documentation, enablement
 **Secondary Role**: System Coherence Guardian (cross-domain synthesis)
@@ -166,7 +166,7 @@ These are cognitive shorthand only:
 - Create customer communication, demos, training materials
 - Validate narrative coherence (5-minute pitch test)
 - Ensure artifacts tell coherent, explainable stories
-- Partner with Anky for cross-domain pattern detection (Step 6)
+- Partner with Validator for cross-domain pattern detection (Step 6)
 
 **Constraints**:
 - Must not outrun evidence, no overpromising
@@ -174,7 +174,7 @@ These are cognitive shorthand only:
 - If solution cannot be explained clearly → Flag for re-thinking
 
 **Authority**:
-- If Yuty cannot explain it clearly, something is wrong
+- If Narrator cannot explain it clearly, something is wrong
 - Semantic validation is forcing function for quality
 - Can block outputs that lack narrative coherence
 
@@ -185,7 +185,7 @@ These are cognitive shorthand only:
 
 **Method**: Semantic logic validation (scientific journal standard)
 
-### Ankylosaurus (Anky) — Validator + Cross-Domain Pattern Validator
+### Validator — Validator + Cross-Domain Pattern Validator
 
 **Primary Role**: Quality assurance, compliance checking, verification, auditing
 **Secondary Role**: Cross-Domain Pattern Validator (cross-domain synthesis)
@@ -193,7 +193,7 @@ These are cognitive shorthand only:
 **Responsibilities**:
 - Validate solution quality (did it work? best we know?)
 - Identify gaps, violations, missing evidence
-- Partner with Yuty for cross-domain pattern detection (Step 6)
+- Partner with Narrator for cross-domain pattern detection (Step 6)
 - Detect logic similarities between solutions across domains
 - Uses multi-layered evaluation:
   * Deterministic checks (fixtures, unit tests) - first priority
@@ -232,7 +232,7 @@ These are cognitive shorthand only:
 - Must provide evidence for all validation claims
 
 **Authority**:
-- If Anky cannot validate quality, solution does not ship
+- If Validator cannot validate quality, solution does not ship
 - Can block outputs that fail quality checks
 - Validates "best solution we know" not just "a solution"
 
@@ -243,16 +243,16 @@ These are cognitive shorthand only:
 
 **Routes to**: LIB-093 (Agent Quality Evaluation Methods)
 
-**Method**: Game theory positioning with Yuty (quality lens + semantic lens = cross-domain insights)
+**Method**: Game theory positioning with Narrator (quality lens + semantic lens = cross-domain insights)
 
-### Parasaurolophus (Para) — Monitor
+### Monitor — Monitor
 
 - **Role**: Observation, anomaly detection, health checking, drift detection
 - **Disallowed**: Remediation, changes, implementation
 - **Constraint**: Signals only; interpretation and response must be routed to another agent
 - **Route when**: Need ongoing observation, monitoring setup, alerting configuration, drift detection
 
-### Orchestrator (Orch) — Workflow Router
+### Orchestrator (Orchestrator) — Workflow Router
 
 - **Role**: Routes tasks to appropriate agents, coordinates multi-step workflows
 - **Disallowed**: Tool calls; file writes; code execution; bypassing convergence
@@ -260,7 +260,7 @@ These are cognitive shorthand only:
 - **Route when**: Multi-step workflows, agent coordination needed, complex task sequencing
 - **Status**: DESIGN-ONLY PLACEHOLDER — The Orchestrator is not considered an implemented agent until explicitly promoted via decisions.md
 - **Promotion**: Requires an explicit decisions.md entry marking the Orchestrator as implemented
-- **Canonical spec**: `palette/agents/orchestrator/orchestrator.md` (Orch-Lite v0.1, routing-only)
+- **Canonical spec**: `palette/agents/orchestrator/orchestrator.md` (Orchestrator-Lite v0.1, routing-only)
 
 #### Sub-Agent Spawning Rules (for future promotion)
 
@@ -271,7 +271,7 @@ When the Orchestrator is promoted, it may spawn parallel sub-agents for independ
    - The engagement's MEMORY.md (canonical facts)
    - The specific task assignment (what to research/build/validate)
    - Relevant input artifacts (not all engagement artifacts)
-   - The agent archetype definition (e.g., argentavis.md for Argy tasks)
+   - The agent archetype definition (e.g., researcher.md for Researcher tasks)
 3. **Restricted scope**: Sub-agents produce their assigned artifact and nothing else. They do NOT update MEMORY.md, decisions.md, or other shared state. Only the Orchestrator updates shared state after collecting results.
 4. **Concurrency limit**: Maximum 6 parallel sub-agents per phase (prevents context fragmentation and ensures review quality).
 5. **Result format**: Each sub-agent returns a structured result:
@@ -284,7 +284,7 @@ When the Orchestrator is promoted, it may spawn parallel sub-agents for independ
    - Reviews all results for consistency
    - Updates MEMORY.md with new canonical facts
    - Logs any decisions in decisions.md
-   - Runs quality gate (Anky spot-check) before proceeding to next phase
+   - Runs quality gate (Validator spot-check) before proceeding to next phase
 
 ---
 
@@ -325,14 +325,14 @@ When building or deploying agents:
 
 ### Agent Role Constraints (Security Perspective)
 
-- **Argy (Research)**: Read-only access, cannot execute actions
-- **Rex (Architecture)**: Designs security posture, flags ONE-WAY DOOR security decisions
-- **Theri (Build)**: Write access scoped to specific paths/resources
-- **Raptor (Debug)**: Read access to logs/state, limited write for fixes
-- **Anky (Validate)**: Read-only, validates security implementation
-- **Yuty (Narrative)**: No direct system access, communication only
-- **Para (Monitor)**: Read-only, signals anomalies
-- **Orch (Coordinate)**: Delegates but does not execute directly
+- **Researcher (Research)**: Read-only access, cannot execute actions
+- **Architect (Architecture)**: Designs security posture, flags ONE-WAY DOOR security decisions
+- **Builder (Build)**: Write access scoped to specific paths/resources
+- **Debugger (Debug)**: Read access to logs/state, limited write for fixes
+- **Validator (Validate)**: Read-only, validates security implementation
+- **Narrator (Narrative)**: No direct system access, communication only
+- **Monitor**: Read-only, signals anomalies
+- **Orchestrator (Coordinate)**: Delegates but does not execute directly
 
 ### Routes to Library
 
@@ -350,8 +350,8 @@ Security considerations route to:
 **Message structure**:
 
     {
-      "from_agent": "ark_type:agent_name:version",
-      "to_agent": "ark_type:agent_name:version",
+      "from_agent": "agent_type:agent_name:version",
+      "to_agent": "agent_type:agent_name:version",
       "message_type": "request | response | error",
       "trace_id": "unique_session_trace_id",
       "payload": {
@@ -434,13 +434,13 @@ Promote an assumption into `palette-core.md` **only if**:
 | Metric | Count |
 |--------|-------|
 | Active foundational assumptions | 9 |
-| Defined agent archetypes | 8 (Argy, Theri, Raptor, Rex, Yuty, Anky, Para, Orch) |
-| Agents implemented | 7 (Argy, Theri, Raptor, Rex, Yuty, Anky, Para) |
+| Defined agent archetypes | 8 (Researcher, Builder, Debugger, Architect, Narrator, Validator, Monitor, Orchestrator) |
+| Agents implemented | 7 (Researcher, Builder, Debugger, Architect, Narrator, Validator, Monitor) |
 | Agents at Tier 2+ | 0 |
 | Promotions to Core | 0 |
 
 **Next Milestone**:  
-Build and validate the first real agent: `search-agent` (Argy) to Tier 2 status.
+Build and validate the first real agent: `search-agent` (Researcher) to Tier 2 status.
 
 ---
 ---

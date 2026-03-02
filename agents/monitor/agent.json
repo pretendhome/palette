@@ -1,0 +1,43 @@
+{
+  "name": "monitor",
+  "version": "1.0",
+  "agent_type": "Monitor",
+  "code": "Monitor",
+  "role": "Signal Monitor",
+  "description": "Continuous metric monitoring and anomaly detection agent; emits signals only — never interprets, diagnoses, or fixes",
+  "status": "UNVALIDATED",
+  "maturity": {
+    "tier": 1,
+    "successes": 0,
+    "failures": 0,
+    "promotes_at": 10
+  },
+  "entry_point": "monitor.py",
+  "runtime": "python",
+  "capabilities": [
+    "metric_monitoring",
+    "threshold_alerting",
+    "anomaly_detection",
+    "baseline_tracking",
+    "signal_routing",
+    "drift_detection"
+  ],
+  "constraints": {
+    "signals_only": true,
+    "no_interpretation": true,
+    "no_diagnosis": true,
+    "no_fixes": true,
+    "no_implementation": true,
+    "emit_and_route_only": true
+  },
+  "accepts_from": ["orchestrator", "human"],
+  "routes_to": ["orchestrator", "debugger", "builder", "architect", "validator", "human"],
+  "invocation": {
+    "command": "/monitor",
+    "aliases": ["monitor", "watch"]
+  },
+  "logging": {
+    "ledger": "palette/decisions.md",
+    "track_maturity": true
+  }
+}

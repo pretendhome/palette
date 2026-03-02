@@ -17,7 +17,7 @@ Optional context overlays that shape output framing — activated when the right
 ### LENS-PM-001 (Product Decision)
 
 **Activate when:**
-- Yutyrannus is the primary routed agent
+- Narrator is the primary routed agent
 - Task signals: "should we", "roadmap", "prioritize", "launch", "go/no-go", "scope trade-off", "OKR"
 - Output expected: a decision with an owner, not a summary
 
@@ -36,7 +36,7 @@ Optional context overlays that shape output framing — activated when the right
 ### LENS-ENG-001 (Engineering Execution)
 
 **Activate when:**
-- Therizinosaurus + Velociraptor are primary
+- Builder + Debugger are primary
 - Task involves: implementation sequencing, integration handoff, release readiness, incident follow-through
 - Output expected: ordered task slices with test and rollback plans
 
@@ -55,7 +55,7 @@ Optional context overlays that shape output framing — activated when the right
 ### LENS-DEV-001 (Developer Delivery)
 
 **Activate when:**
-- Therizinosaurus is primary and the output is runnable code or a test plan
+- Builder is primary and the output is runnable code or a test plan
 - Task signals: "implement", "write the code", "fix this bug", "refactor", "add tests"
 - Output expected: scoped tasks with explicit acceptance checks and a test strategy
 
@@ -66,23 +66,23 @@ Optional context overlays that shape output framing — activated when the right
 
 **Example tasks that fit:**
 - "Implement the eval loop for lens runs"
-- "Fix the JSON parsing in Argy"
+- "Fix the JSON parsing in Researcher"
 - "Add tests for the cheatsheet update path in the Telegram bridge"
 
 ---
 
 ## Integration points in the system
 
-### 1. Corythosaurus (Cory) — intent resolver [v1 target]
+### 1. Resolver — intent resolver [v1 target]
 
-Cory is the front door for all input. In v1, when Cory classifies a task, it should also emit a `suggested_lens` field in its output packet if task signals match a lens trigger pattern. The user confirms or overrides before execution.
+Resolver is the front door for all input. In v1, when Resolver classifies a task, it should also emit a `suggested_lens` field in its output packet if task signals match a lens trigger pattern. The user confirms or overrides before execution.
 
-Integration location: `palette/agents/corythosaurus/`
-Required: Add lens signal patterns to Cory's slot-filling logic.
+Integration location: `palette/agents/resolver/`
+Required: Add lens signal patterns to Resolver's slot-filling logic.
 
 ### 2. Orchestrator [v1 target]
 
-The orchestrator routes tasks to agents. After routing is resolved, it should check if the active lens is compatible with the routed agent set. If Cory has suggested a lens and the agent set matches `palette_fit.primary_agents`, the orchestrator passes the lens context into the agent handoff packet.
+The orchestrator routes tasks to agents. After routing is resolved, it should check if the active lens is compatible with the routed agent set. If Resolver has suggested a lens and the agent set matches `palette_fit.primary_agents`, the orchestrator passes the lens context into the agent handoff packet.
 
 Integration location: `palette/agents/orchestrator/`
 Required: Accept optional `lens_id` field in the handoff packet; inject lens `output_contract` into the agent system prompt.
@@ -132,7 +132,7 @@ v0.5 (Telegram bridge)
   Quick feedback loop via live sessions.
 
 v1 (after 20+ eval runs)
-  Cory emits suggested_lens in handoff packets.
+  Resolver emits suggested_lens in handoff packets.
   Orchestrator injects lens output_contract into agent prompts.
   Lens activation is suggested, not automatic — human confirms.
 

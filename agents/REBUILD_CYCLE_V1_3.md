@@ -6,10 +6,10 @@ Standardize the rebuild path for all implemented agents using the system itself.
 
 ## Cycle
 
-1. **Rex** defines agent contract updates and scope boundaries.
-2. **Theri** rebuilds/updates agent spec + helper code within scope.
-3. **Anky** validates against fixtures (deterministic first).
-4. **Para** monitors fixture pass/fail trend and anomaly signals.
+1. **Architect** defines agent contract updates and scope boundaries.
+2. **Builder** rebuilds/updates agent spec + helper code within scope.
+3. **Validator** validates against fixtures (deterministic first).
+4. **Monitor** monitors fixture pass/fail trend and anomaly signals.
 5. **Human** approves promotion/demotion decisions in decisions logs.
 
 ## Required Artifacts Per Agent

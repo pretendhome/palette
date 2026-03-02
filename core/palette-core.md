@@ -526,7 +526,7 @@ When an engagement session approaches context limits (operator judgment or syste
 
 ### Compaction Ownership
 
-Yuty (narrative coherence agent) owns the COMPACT protocol. When another agent is active and compaction is needed, Yuty runs compaction before handing back to the active agent.
+Narrator (narrative coherence agent) owns the COMPACT protocol. When another agent is active and compaction is needed, Narrator runs compaction before handing back to the active agent.
 
 ### Prevention
 
@@ -545,7 +545,7 @@ This reduces context consumption by avoiding re-reading completed artifacts that
 When loading a Palette agent into a session, context is assembled from 4 layers (in order):
 
 1. **CORE** — `palette-core.md` (immutable Palette physics — never changes between engagements)
-2. **AGENT** — Agent archetype definition (e.g., `agents/argentavis/argentavis.md` — defines who this agent is, what it can/cannot do)
+2. **AGENT** — Agent archetype definition (e.g., `agents/researcher/researcher.md` — defines who this agent is, what it can/cannot do)
 3. **ENGAGEMENT** — Engagement-specific context:
    - `MEMORY.md` (canonical facts)
    - `decisions.md` (decision history)

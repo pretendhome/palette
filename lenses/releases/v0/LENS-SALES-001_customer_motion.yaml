@@ -46,13 +46,13 @@ palette_fit:
     - RIU-039
     - RIU-073
   primary_agents:
-    - yutyrannus
+    - narrator
     - rex
-    - ankylosaurus
+    - validator
   supporting_agents:
-    - argentavis
-    - parasaurolophus
-    - therizinosaurus
+    - researcher
+    - monitor
+    - builder
   library_links:
     - "Prefer LIB entries on stakeholder mapping, risk framing, metrics, trust/adoption, and execution planning."
   company_matrix_use:

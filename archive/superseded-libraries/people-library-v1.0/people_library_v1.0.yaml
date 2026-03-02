@@ -5,7 +5,7 @@
 # Status: BASELINE — PERPLEXITY ENRICHMENT PENDING
 #
 # Purpose:
-#   1. Signal source: track what tools/companies influencers recommend → feeds company-library
+#   1. Signal source: track what tools/companies influencers recommend → feeds buy-vs-build
 #   2. Lens substrate: each profile is a Perplexity search target for deep enrichment
 #   3. Network map: shows clusters (Lovable orbit, Ruben network, a16z lens, etc.)
 #   4. Palette intelligence: what these people build/use informs Palette's service routing
@@ -330,7 +330,7 @@ profiles:
       search_cadence: "weekly"
 
     palette_relevance:
-      why_follow: "Best signal for AI video/image model releases. Axelle tests new models immediately and posts comparisons (Seedance vs Kling vs Veo). Feeds company-library video generation category."
+      why_follow: "Best signal for AI video/image model releases. Axelle tests new models immediately and posts comparisons (Seedance vs Kling vs Veo). Feeds buy-vs-build video generation category."
       company_signals:
         - Seedance
         - Kling
@@ -495,7 +495,7 @@ profiles:
       search_cadence: "monthly"
 
     palette_relevance:
-      why_follow: "Best source for actual usage data (not funding hype) on consumer AI. Her top-100 lists show which products have real users. Directly feeds company-library market validation."
+      why_follow: "Best source for actual usage data (not funding hype) on consumer AI. Her top-100 lists show which products have real users. Directly feeds buy-vs-build market validation."
       investment_signals:
         - Tradepost
       market_signals:
@@ -1080,7 +1080,7 @@ profiles:
       search_cadence: "biweekly"
 
     palette_relevance:
-      why_follow: "Best technical signal for AI video/image generation tools in production. Alex runs real film pipelines (not demos) and publishes honest comparisons. Feeds company-library video AI category."
+      why_follow: "Best technical signal for AI video/image generation tools in production. Alex runs real film pipelines (not demos) and publishes honest comparisons. Feeds buy-vs-build video AI category."
       company_signals:
         - Higgsfield AI
         - Seedance

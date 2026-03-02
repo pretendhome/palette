@@ -35,7 +35,7 @@ cd palette/
 **Claude Desktop / Claude Code**
 - Open the `palette/` folder in Claude
 - Reference tier files: `.kiro/steering/palette-core.md`
-- Load agent files: `agents/argentavis/argentavis.md`
+- Load agent files: `agents/researcher/researcher.md`
 
 **Cursor / VS Code + Copilot**
 - Open `palette/` as workspace
@@ -63,8 +63,8 @@ I'm setting up Palette. Help me name my 8-agent team based on what they do:
 7. Monitor agent (anomaly detection)
 8. Coordinate agent (multi-agent workflows)
 
-Default names: Argentavis, Tyrannosaurus, Therizinosaurus, Velociraptor, 
-Ankylosaurus, Yutyrannus, Parasaurolophus, Orchestrator
+Default names: Researcher, Architect, Builder, Debugger, 
+Validator, Narrator, Monitor, Orchestrator
 
 Suggest 3 alternative names for each role, then I'll choose.
 ```
@@ -133,13 +133,13 @@ make architecture decisions. Route to Architecture agent.
 - Highly dynamic (solutions evolve rapidly)
 
 **Agent Manual** (`agent_implementation_manual.md`) - **8 Archetypes**
-- Argentavis (Research) 🔵
-- Therizinosaurus (Build) 🟠
-- Velociraptor (Debug) 🔴
-- Tyrannosaurus (Architecture) 🟣
-- Yutyrannus (Narrative + System Coherence) 🟢
-- Ankylosaurus (Validation + Cross-Domain Patterns) ⚪
-- Parasaurolophus (Monitor) 🟡
+- Researcher (Research) 🔵
+- Builder (Build) 🟠
+- Debugger (Debug) 🔴
+- Architect (Architecture) 🟣
+- Narrator (Narrative + System Coherence) 🟢
+- Validator (Validation + Cross-Domain Patterns) ⚪
+- Monitor 🟡
 - Orchestrator (Coordinate - design only) ⚫
 
 ---
@@ -175,7 +175,7 @@ Create self-improving UX for Palette (GitHub repo, onboarding, visual identity)
 
 ## Roles
 - Human: Approves ONE-WAY DOOR decisions
-- Agents: 7 agents, one round each (Argy → Rex → Theri → Yuty → Para → Raptor → Anky)
+- Agents: 7 agents, one round each (Researcher → Architect → Builder → Narrator → Monitor → Debugger → Validator)
 
 ## Constraints
 - One round only per agent (discipline test)
@@ -205,7 +205,7 @@ Create self-improving UX for Palette (GitHub repo, onboarding, visual identity)
 Palette matched trigger signals to RIUs:
 
 **Primary RIU**: RIU-042 (Demo/Narrative Design)
-- Yuty's specialty (narrative + visual identity)
+- Narrator's specialty (narrative + visual identity)
 - Routes to Library entries on UX patterns
 - Success criteria: Can explain clearly in <5 min
 
@@ -223,12 +223,12 @@ Palette matched trigger signals to RIUs:
 
 Each agent got **one round only** (discipline test):
 
-#### Round 1: Argentavis (Research) - 15 min 🔵
+#### Round 1: Researcher (Research) - 15 min 🔵
 **Task**: Research UX patterns for developer toolkits
 **Output**: 5 findings (repo structure, onboarding, visual identity, self-improvement, adoption)
 **File**: `examples/ux-engagement-2026-02-01/argy_research_report.md`
 
-#### Round 2: Tyrannosaurus (Architecture) - 20 min 🟣
+#### Round 2: Architect (Architecture) - 20 min 🟣
 **Task**: Design repo structure and governance model
 **Output**: Architecture proposal + **2 ONE-WAY DOOR decisions** flagged
 **ONE-WAY DOORS**:
@@ -236,15 +236,15 @@ Each agent got **one round only** (discipline test):
 - 🚨 Visual glyph (brand consistency)
 **File**: `examples/ux-engagement-2026-02-01/rex_architecture_proposal.md`
 
-**What happened here**: Rex **paused** and flagged irreversible decisions. Human approved before Theri could build.
+**What happened here**: Architect **paused** and flagged irreversible decisions. Human approved before Builder could build.
 
-#### Round 3: Therizinosaurus (Build) - 30 min 🟠
+#### Round 3: Builder (Build) - 30 min 🟠
 **Task**: Implement repo structure, templates, contribution guidelines
 **Output**: 11/12 files created (92% complete, missed LICENSE)
 **File**: `examples/ux-engagement-2026-02-01/theri_build_report.md`
 
-#### Round 4: Yutyrannus (Narrative + Visual) - 45 min 🟢
-**PRIMARY OWNER** - Yuty's bread and butter
+#### Round 4: Narrator (Narrative + Visual) - 45 min 🟢
+**PRIMARY OWNER** - Narrator's bread and butter
 
 **Task**: Create onboarding narrative + visual identity
 **Output**:
@@ -253,23 +253,23 @@ Each agent got **one round only** (discipline test):
 - Glyph concept (programmer with painter's palette)
 - Communication strategy (errors, success, contributions)
 
-**Yuty's Validation**: "Can I explain this clearly?" → **YES**
+**Narrator's Validation**: "Can I explain this clearly?" → **YES**
 
 **File**: `examples/ux-engagement-2026-02-01/yuty_narrative_and_visual.md`
 
-#### Round 5: Parasaurolophus (Integration) - 20 min 🟡
+#### Round 5: Monitor (Integration) - 20 min 🟡
 **Task**: Verify integration, signal anomalies
 **Output**: 11/12 files verified, 1 anomaly detected (missing LICENSE)
-**Routed to**: Raptor for fix
+**Routed to**: Debugger for fix
 
 **File**: `examples/ux-engagement-2026-02-01/para_integration_report.md`
 
-#### Round 6: Velociraptor (Debug) - 15 min 🔴
+#### Round 6: Debugger (Debug) - 15 min 🔴
 **Task**: Fix anomaly (missing LICENSE)
 **Output**: LICENSE created (MIT), 100% structure complete
 **File**: `examples/ux-engagement-2026-02-01/raptor_debug_report.md`
 
-#### Round 7: Ankylosaurus (Validation) - 30 min ⚪
+#### Round 7: Validator (Validation) - 30 min ⚪
 **Task**: Validate quality + **run Step 6 (cross-domain synthesis)**
 **Output**:
 - Solution quality: ✅ EXCELLENT
@@ -283,7 +283,7 @@ Each agent got **one round only** (discipline test):
 
 ### Step 5: Cross-Domain Synthesis (NEW - Step 6)
 
-This engagement **tested** a new validation protocol: Yuty + Anky pairing to identify patterns that transfer across domains.
+This engagement **tested** a new validation protocol: Narrator + Validator pairing to identify patterns that transfer across domains.
 
 **Patterns Found**:
 
@@ -317,7 +317,7 @@ Based on patterns identified, Palette **improved itself**:
 - RIU-001 now routes to LIB-088 for convergence template
 
 **Tier Updates**:
-- Tier 2: Yuty = "System Coherence Guardian", Anky = "Cross-Domain Pattern Validator"
+- Tier 2: Narrator = "System Coherence Guardian", Validator = "Cross-Domain Pattern Validator"
 - Tier 3: Step 6 formalized as optional cross-domain synthesis
 
 **The Meta-Achievement**: Palette used itself to improve itself. The system is self-improving.
@@ -340,7 +340,7 @@ Based on patterns identified, Palette **improved itself**:
 
 ### 2. ONE-WAY DOOR Decisions
 
-**What happened**: Rex flagged 2 irreversible decisions (repo structure, visual glyph) and **paused** for approval.
+**What happened**: Architect flagged 2 irreversible decisions (repo structure, visual glyph) and **paused** for approval.
 
 **Why it matters**: Prevents "we deployed" or "we committed architecture" without human sign-off.
 
@@ -351,10 +351,10 @@ Based on patterns identified, Palette **improved itself**:
 ### 3. Agent Boundaries
 
 **What happened**: 
-- Argy researched but didn't recommend (read-only)
-- Rex designed but didn't build (architecture only)
-- Theri built but didn't design (implementation only)
-- Anky validated but didn't fix (assessment only)
+- Researcher researched but didn't recommend (read-only)
+- Architect designed but didn't build (architecture only)
+- Builder built but didn't design (implementation only)
+- Validator validated but didn't fix (assessment only)
 
 **Why it matters**: Separation of concerns prevents "agent creep" where everyone tries to do everything.
 
@@ -427,7 +427,7 @@ Use the UX engagement as a template:
    - Understand: Convergence, ONE-WAY DOOR, Glass-box
 
 2. Pick **1 agent** from manual - 5 min
-   - Start with Argy (research) or Yuty (narrative)
+   - Start with Researcher (research) or Narrator (narrative)
 
 3. Run **1 RIU** - 15 min
    - Try RIU-001 (Convergence Brief)
@@ -504,7 +504,7 @@ palette-framework/
    - `examples/ux-engagement-2026-02-01/FINAL_SUMMARY.md`
    - See the complete outcome
 
-4. **Anky's validation report (Part B + Part F)** - 10 min
+4. **Validator's validation report (Part B + Part F)** - 10 min
    - `examples/ux-engagement-2026-02-01/anky_validation_report.md`
    - See cross-domain synthesis in action
 
@@ -598,7 +598,7 @@ After reading this guide + UX example, you should be able to:
 ✅ **Explain Palette** in <5 minutes (three tiers, three artifacts, self-improving)  
 ✅ **Understand convergence** (human-AI alignment before execution)  
 ✅ **Recognize ONE-WAY DOOR** (irreversible decisions require approval)  
-✅ **Know agent boundaries** (Argy researches, Rex designs, Theri builds, etc.)  
+✅ **Know agent boundaries** (Researcher researches, Architect designs, Builder builds, etc.)  
 ✅ **See the flywheel** (engagement → patterns → improvements → better system)
 
 **If yes**: You're ready to use Palette.  
@@ -613,7 +613,7 @@ After reading this guide + UX example, you should be able to:
 **Suggested first problem**: "Create a README for [your project]"
 
 **Why this works**:
-- Single agent (Yuty - narrative)
+- Single agent (Narrator - narrative)
 - Clear success criteria (README exists and is clear)
 - Fast feedback (can you explain your project clearly?)
 - Low stakes (can redo easily)
@@ -621,7 +621,7 @@ After reading this guide + UX example, you should be able to:
 **Process**:
 1. Create convergence brief (what makes a good README?)
 2. Match to RIU-042 (narrative design)
-3. Route Yuty with LIB-088 structure
+3. Route Narrator with LIB-088 structure
 4. Validate with 5-minute pitch test
 5. Log in decisions.md
 
@@ -635,11 +635,11 @@ After reading this guide + UX example, you should be able to:
 After 3-4 engagements, try running Step 6:
 
 **When**: Multi-agent engagement, novel problem, potential learnings  
-**Process**: Yuty + Anky pairing (30 min)  
+**Process**: Narrator + Validator pairing (30 min)  
 **Output**: 1-3 patterns + system improvements  
 **Value**: System gets smarter
 
-**Example**: If you built a dashboard (Argy → Rex → Theri → Anky), ask: "Does this dashboard pattern apply to other visualization needs?" If yes, add to Library.
+**Example**: If you built a dashboard (Researcher → Architect → Builder → Validator), ask: "Does this dashboard pattern apply to other visualization needs?" If yes, add to Library.
 
 ---
 
@@ -665,7 +665,7 @@ This guide was created **using Palette** (UX engagement).
 1. Problem: "Make Palette easier to understand"
 2. Convergence: "5-minute onboarding, clear walkthrough, real example"
 3. Execution: 7 agents, one round each
-4. Validation: Yuty validated "Can I explain this clearly?" → YES
+4. Validation: Narrator validated "Can I explain this clearly?" → YES
 5. Cross-domain synthesis: Found patterns, improved system
 6. Result: You're reading the output
 

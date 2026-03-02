@@ -6,8 +6,8 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SRC = ROOT / "company-library/v1.0/palette_company_riu_mapping_v1.0.yaml"
-OUT = ROOT / "company-library/v1.0/company_intel_report.md"
+SRC = ROOT / "buy-vs-build/v1.0/palette_company_riu_mapping_v1.0.yaml"
+OUT = ROOT / "buy-vs-build/v1.0/company_intel_report.md"
 
 
 def parse_blocks(text: str):

@@ -49,8 +49,8 @@ var routeRules = []struct {
 			"connectivity", "not working", "issue", "problem", "bridge",
 			"tunnel", "connection", "not reachable", "empty reply",
 		},
-		Agent:  core.AgentRaptor,
-		Reason: "failure/connectivity keywords → Raptor (root-cause specialist)",
+		Agent:  core.AgentDebugger,
+		Reason: "failure/connectivity keywords → Debugger (root-cause specialist)",
 	},
 	{
 		Name: "monitor/signal/watch",
@@ -58,8 +58,8 @@ var routeRules = []struct {
 			"monitor", "watch", "alert", "metric", "signal",
 			"latency", "uptime", "status check", "health check",
 		},
-		Agent:  core.AgentPara,
-		Reason: "monitoring keywords → Para (signal monitor)",
+		Agent:  core.AgentMonitor,
+		Reason: "monitoring keywords → Monitor (signal monitor)",
 	},
 	{
 		Name: "research/investigate",
@@ -67,8 +67,8 @@ var routeRules = []struct {
 			"research", "investigate", "look up", "what is", "how does",
 			"compare", "find out", "search for", "learn about", "explore",
 		},
-		Agent:  core.AgentArgy,
-		Reason: "research keywords → Argy (resource gatherer)",
+		Agent:  core.AgentResearcher,
+		Reason: "research keywords → Researcher (resource gatherer)",
 	},
 	{
 		Name: "architecture/design",
@@ -77,8 +77,8 @@ var routeRules = []struct {
 			"pattern", "options for", "how should we", "what approach",
 			"evaluate", "choose between",
 		},
-		Agent:  core.AgentRex,
-		Reason: "design/tradeoff keywords → Rex (architect)",
+		Agent:  core.AgentArchitect,
+		Reason: "design/tradeoff keywords → Architect",
 	},
 	{
 		Name: "build/implement",
@@ -86,8 +86,8 @@ var routeRules = []struct {
 			"build", "implement", "create", "write code", "develop",
 			"make", "add feature", "code this", "scaffold", "generate",
 		},
-		Agent:  core.AgentTheri,
-		Reason: "build keywords → Theri (builder)",
+		Agent:  core.AgentBuilder,
+		Reason: "build keywords → Builder",
 	},
 	{
 		Name: "validate/review",
@@ -95,8 +95,8 @@ var routeRules = []struct {
 			"validate", "review", "assess", "audit", "go/no-go",
 			"check this", "is this ready", "verify this", "approve",
 		},
-		Agent:  core.AgentAnky,
-		Reason: "validation keywords → Anky (validator)",
+		Agent:  core.AgentValidator,
+		Reason: "validation keywords → Validator",
 	},
 	{
 		Name: "pitch/narrate/GTM",
@@ -105,13 +105,13 @@ var routeRules = []struct {
 			"explain to", "business value", "talking points", "gtm",
 			"sell", "narrative", "story",
 		},
-		Agent:  core.AgentYuty,
-		Reason: "narrative/GTM keywords → Yuty (narrator)",
+		Agent:  core.AgentNarrator,
+		Reason: "narrative/GTM keywords → Narrator",
 	},
 	{
-		// Cory catches conversational, exploratory, or vague inputs that don't
-		// map cleanly to a specialist. She resolves intent first, then hands
-		// a refined packet back to Orch for final routing.
+		// Resolver catches conversational, exploratory, or vague inputs that don't
+		// map cleanly to a specialist. It resolves intent first, then hands
+		// a refined packet back to Orchestrator for final routing.
 		Name: "intent/clarify",
 		Keywords: []string{
 			"help me", "i need", "i want", "i have a", "how do i",
@@ -119,14 +119,14 @@ var routeRules = []struct {
 			"we need to", "we should", "looking for", "wondering if",
 			"any advice", "where do i start", "not sure where",
 		},
-		Agent:  core.AgentCory,
-		Reason: "conversational/ambiguous input → Cory (intent resolver)",
+		Agent:  core.AgentResolver,
+		Reason: "conversational/ambiguous input → Resolver (intent resolver)",
 	},
 }
 
 // ── ONE-WAY DOOR detection ────────────────────────────────────────────────────
 // Any task matching these keywords is flagged as irreversible and requires
-// explicit human confirmation before Orch will execute it.
+// explicit human confirmation before the Orchestrator will execute it.
 
 var oneWayDoorKeywords = []string{
 	"delete", "drop database", "drop table", "destroy", "remove all",
@@ -148,7 +148,7 @@ func detectOneWayDoor(desc string) bool {
 
 // ── Multi-step parsing ────────────────────────────────────────────────────────
 // Detects conjunction keywords in the user input and splits into subtasks.
-// "research X then design Y" → two Tasks routed to Argy then Rex.
+// "research X then design Y" → two Tasks routed to Researcher then Architect.
 
 var conjunctions = []string{
 	" then ", " and then ", " after that ", " followed by ", " next, ",
@@ -235,11 +235,11 @@ func routeByCapability(task Task, roster Roster) RouteDecision {
 	}
 
 	if len(candidates) == 0 {
-		// Before giving up, try Cory — she can resolve intent from any input
-		if cory, ok := roster[core.AgentCory]; ok && isDispatchable(cory) {
+		// Before giving up, try Resolver — it can resolve intent from any input
+		if resolver, ok := roster[core.AgentResolver]; ok && isDispatchable(resolver) {
 			return RouteDecision{
-				Agents:     []core.AgentID{core.AgentCory},
-				Reason:     "no routing rule and no capability overlap → Cory (intent resolver)",
+				Agents:     []core.AgentID{core.AgentResolver},
+				Reason:     "no routing rule and no capability overlap → Resolver (intent resolver)",
 				Confidence: 40,
 			}
 		}

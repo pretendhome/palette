@@ -18,20 +18,15 @@ AGENTS_README = PALETTE_ROOT / "agents" / "README.md"
 
 # Agent name mappings
 AGENT_NAMES = {
-    "argentavis": "Argentavis",
-    "argy": "Argentavis",
-    "tyrannosaurus": "Tyrannosaurus",
-    "rex": "Tyrannosaurus",
-    "therizinosaurus": "Therizinosaurus",
-    "theri": "Therizinosaurus",
-    "velociraptor": "Velociraptor",
-    "raptor": "Velociraptor",
-    "yutyrannus": "Yutyrannus",
-    "yuty": "Yutyrannus",
-    "ankylosaurus": "Ankylosaurus",
-    "anky": "Ankylosaurus",
-    "parasaurolophus": "Parasaurolophus",
-    "para": "Parasaurolophus",
+    "researcher": "Researcher",
+    "architect": "Architect",
+    "builder": "Builder",
+    "debugger": "Debugger",
+    "narrator": "Narrator",
+    "validator": "Validator",
+    "monitor": "Monitor",
+    "resolver": "Resolver",
+    "orchestrator": "Orchestrator",
 }
 
 def parse_impressions(file_path):

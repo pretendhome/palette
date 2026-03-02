@@ -78,8 +78,8 @@ Reduces cognitive load, avoids coupling between “ship code” and “knowledge
 
 ### Observation
 There is contract drift between schema and runtime reality:
-- `corythosaurus` appears in manifests/runtime, but core JSON schema AgentID enums do not include it.
-- Cory returns statuses like `clarify`, `out-of-scope`, `error`, while result schema allows only `complete|blocked|escalate|one_way_door`.
+- `resolver` appears in manifests/runtime, but core JSON schema AgentID enums do not include it.
+- Resolver returns statuses like `clarify`, `out-of-scope`, `error`, while result schema allows only `complete|blocked|escalate|one_way_door`.
 
 ### Suggestion
 Create a **contract authority model**:
@@ -133,7 +133,7 @@ Orchestrator routing is currently keyword-first with capability fallback. This w
 ### Suggestion
 Use layered routing:
 1. deterministic guardrails (safety/domain boundaries),
-2. intent resolver output (Cory),
+2. intent resolver output (Resolver),
 3. confidence scoring with tie-break policy,
 4. human handoff thresholds.
 

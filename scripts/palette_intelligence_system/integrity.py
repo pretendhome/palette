@@ -147,7 +147,7 @@ def _load_taxonomy(root: str) -> dict[str, dict]:
 def _load_people(root: str) -> list[dict]:
     """Load people profiles from v1.1 YAML."""
     path = os.path.join(
-        root, "company-library", "people-library", "v1.1",
+        root, "buy-vs-build", "people-library", "v1.1",
         "people_library_v1.1.yaml",
     )
     docs = _load_yaml_docs(path)
@@ -170,7 +170,7 @@ def _load_overrides() -> dict[str, str]:
         return _override_cache
 
     override_path = os.path.join(
-        _palette_root(), "company-library", "service-routing", "v1.0",
+        _palette_root(), "buy-vs-build", "service-routing", "v1.0",
         "service_recipe_overrides.yaml",
     )
     _override_cache = {}

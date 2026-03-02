@@ -59,7 +59,7 @@ class TestParaDecision(unittest.TestCase):
             one_way_door=True,
         )
         self.assertEqual(out.decision, "block")
-        self.assertEqual(out.route_to, ["Raptor"])
+        self.assertEqual(out.route_to, ["Debugger"])
 
     def test_block_routes_to_rex_for_architecture_gap(self):
         findings = []
@@ -77,7 +77,7 @@ class TestParaDecision(unittest.TestCase):
             one_way_door=True,
         )
         self.assertEqual(out.decision, "block")
-        self.assertEqual(out.route_to, ["Rex"])
+        self.assertEqual(out.route_to, ["Architect"])
 
     def test_block_routes_to_argy_for_research_gap(self):
         findings = []
@@ -95,7 +95,7 @@ class TestParaDecision(unittest.TestCase):
             one_way_door=True,
         )
         self.assertEqual(out.decision, "block")
-        self.assertEqual(out.route_to, ["Argy"])
+        self.assertEqual(out.route_to, ["Researcher"])
 
     def test_ship_with_risks_when_only_medium_low(self):
         findings = [

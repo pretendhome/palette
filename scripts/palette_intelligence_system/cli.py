@@ -7,7 +7,7 @@ Usage:
   python3 -m scripts.palette_intelligence_system.cli --riu RIU-082 --json
   python3 -m scripts.palette_intelligence_system.cli --fixtures
   python3 -m scripts.palette_intelligence_system.cli --health
-  echo '{"from":"corythosaurus","riu_ids":["LIB-042"]}' | python3 -m scripts.palette_intelligence_system.cli
+  echo '{"from":"resolver","riu_ids":["LIB-042"]}' | python3 -m scripts.palette_intelligence_system.cli
 """
 
 from __future__ import annotations
@@ -234,7 +234,7 @@ def main() -> None:
     query = args.query
 
     if packet:
-        # HandoffPacket from Cory or another agent
+        # HandoffPacket from Resolver or another agent
         riu_ids = packet.get("riu_ids", [])
         payload = packet.get("payload", {})
         if riu_ids:
@@ -260,7 +260,7 @@ def main() -> None:
             lib_id = matched_lib
         else:
             print(f"  No confident match (best confidence: {confidence:.0f}%)")
-            print("  Use Cory for intent resolution. Top candidates:")
+            print("  Use Resolver for intent resolution. Top candidates:")
             for cand_id, cand_score in top_3:
                 entry = data.knowledge.get(cand_id, {})
                 q = entry.get("question", "")[:80]

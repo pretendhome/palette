@@ -1,0 +1,937 @@
+metadata:
+  version: "1.1"
+  generated_date: "2026-02-24"
+  source_people_library: "people_library_v1.1.yaml"
+  source_company_library: "../../../v1.0/palette_company_riu_mapping_v1.0.yaml"
+  taxonomy_ref: "../../../../taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml"
+  total_tools_tracked: 43
+  tier_1_tools: 8
+  tier_2_tools: 16
+  tier_3_tools: 19
+  taxonomy_gaps_identified: 3
+  new_in_v1_1:
+  - "Julius AI"
+  - "Happenstance"
+  - "Willow"
+  - "Overlap"
+  - "Krea"
+  - "HappyRobot"
+  - "nano-banana (Freepik)"
+  - "Sora (OpenAI)"
+  - "Genre.ai"
+
+taxonomy_gaps:
+
+- gap_id: "GAP-001"
+  title: "No-Code AI App Generation / Vibe-Coding"
+  affected_tools: ["Lovable", "v0.dev (Vercel)", "Replit"]
+  closest_existing_riu: "RIU-413 (Customer Value Demo Creation)"
+  proposed_riu: "RIU-550"
+  proposed_name: "No-Code AI App Generation (Vibe-Coding)"
+  signal_strength_for_proposal: high
+
+- gap_id: "GAP-002"
+  title: "AI Video Generation Model Selection"
+  affected_tools: ["Seedance", "Kling", "Veo", "Runway Aleph", "Higgsfield AI", "Sora"]
+  closest_existing_riu: "RIU-500 (Multimodal Data Pipeline Design)"
+  proposed_riu: "RIU-504"
+  proposed_name: "AI Video Generation (Text/Image to Video)"
+  signal_strength_for_proposal: high
+
+- gap_id: "GAP-003"
+  title: "AI Voice Dictation (Consumer Layer)"
+  affected_tools: ["Wispr Flow", "Willow"]
+  closest_existing_riu: "RIU-502 (Audio Processing Integration)"
+  proposed_riu: "RIU-505"
+  proposed_name: "Voice Input Modality Integration"
+  signal_strength_for_proposal: medium
+
+# ══════════════════════════════════════════════════════════════════
+# PALETTE ACTIONS SUMMARY
+# ══════════════════════════════════════════════════════════════════
+
+actions_summary:
+  integrate:
+    count: 3
+    tools: ["Claude (Anthropic)", "Gamma", "Perplexity"]
+    note: "Already integrated (Claude, Perplexity) or immediate integration value (Gamma)"
+
+  evaluate:
+    count: 7
+    tools: ["Wispr Flow", "Lovable", "NotebookLM", "Granola", "Vercel AI Gateway", "Krea", "Julius AI"]
+    note: "Run evaluation experiments; decide integrate vs. skip. Krea and Julius AI are new in v1.1."
+
+  monitor:
+    count: 15
+    tools:
+    - "Seedance (ByteDance)"
+    - "Higgsfield AI"
+    - "Gemini (Google)"
+    - "Runway Aleph"
+    - "Kling"
+    - "Grok"
+    - "Topaz Labs"
+    - "Leonardo AI"
+    - "Superhuman Go"
+    - "Veo"
+    - "HappyRobot"
+    - "Sora (OpenAI)"
+    - "Willow"
+    - "Overlap"
+    - "nano-banana (Freepik)"
+    - "Genre.ai"
+    note: "Track developments; no Palette action needed now"
+
+  skip:
+    count: 4
+    tools: ["Canva AI", "Easygen", "CapCut", "Epidemic Sound"]
+    note: "No clear Palette integration use case in current roadmap"
+
+  perplexity_enrichment_needed:
+    count: 11
+    tools:
+    - "Wispr Flow (funding)"
+    - "Granola (funding, team)"
+    - "Higgsfield AI (funding, traction)"
+    - "Kling (via Higgsfield direct API)"
+    - "Seedance (standalone vs ByteDance)"
+    - "Runway Aleph (model details)"
+    - "Gamma (funding validation)"
+    - "Topaz Labs (bootstrapped confirmation)"
+    - "Leonardo AI (funding)"
+    - "Superhuman Go (traction)"
+    - "Grok (valuation)"
+
+---
+
+signals:
+
+  # ══════════════════════════════════════════════════════════════════
+  # TIER 1 — HIGH SIGNAL
+  # Multi-recommender consensus OR founder/insider signal
+  # ══════════════════════════════════════════════════════════════════
+
+- tool: "Claude (Anthropic)"
+  company: "Anthropic"
+  company_url: "https://claude.ai"
+  founded: 2021
+  funding_stage: "Series E"
+  funding_amount: "$7.3B+ total"
+  signal_tier: 1
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-001"
+    name: "Ruben Hassid"
+    reason: "Follows instructions, retains context, sounds like you — not AI"
+  - id: "PERSON-002"
+    name: "Anisha Jain"
+    reason: "Extended thinking for competitive intelligence — 60 job listings + 200-page SEC filing"
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "Writing assistant for final post polish"
+  - id: "PERSON-016"
+    name: "Grant Lee (Gamma CEO)"
+    reason: "Data analysis at Gamma — internal tool for a $2B company"
+  riu_primary: "RIU-252"
+  riu_name: "Model Evaluation & Selection"
+  riu_secondary: ["RIU-032", "RIU-033", "RIU-200", "RIU-201"]
+  company_library_status: needs_entry
+  palette_action: integrate
+  palette_note: "Palette's primary LLM. Already integrated. People-library confirms Claude as non-technical educators' go-to. Claude Opus extended thinking specifically surfaced for competitive intelligence (Anisha's use case maps to Argy)."
+  taxonomy_gap: false
+
+- tool: "Wispr Flow"
+  company: "Wispr Flow"
+  company_url: "https://wispr.ai"
+  founded: 2022
+  funding_stage: "unvalidated — Perplexity enrichment needed"
+  funding_amount: "unvalidated"
+  signal_tier: 1
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-001"
+    name: "Ruben Hassid"
+    reason: "Voice-to-text for faster replies and content — partners with them"
+  - id: "PERSON-002"
+    name: "Anisha Jain"
+    reason: "143 WPM vs 40 WPM typing; wrote 200+ LinkedIn posts via voice"
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "Voice-to-text workflow for LinkedIn posts"
+  - id: "PERSON-012"
+    name: "Tanay Kothari"
+    note: "Founder/CEO — insider signal; #1 voice dictation claim, 95% Fortune 500 adoption"
+  riu_primary: "RIU-502"
+  riu_name: "Audio Processing Integration"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  palette_note: "Palette already uses Whisper (OpenAI) in Telegram bot. Evaluate Wispr Flow API vs raw Whisper. Decision: does Wispr Flow's consumer layer add value over raw Whisper API?"
+  taxonomy_gap: false
+
+- tool: "Gamma"
+  company: "Gamma"
+  company_url: "https://gamma.app"
+  founded: 2020
+  funding_stage: "unvalidated — ~$2B valuation (from Grant Lee profile)"
+  funding_amount: "$2B valuation; $10M Afore x Gamma Ideas to Reality Fund"
+  signal_tier: 1
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-001"
+    name: "Ruben Hassid"
+    reason: "Claude meets PowerPoint — AI-powered presentations"
+  - id: "PERSON-002"
+    name: "Anisha Jain"
+    reason: "Carousel creation from Gemini extractions"
+  - id: "PERSON-016"
+    name: "Grant Lee"
+    note: "Founder/CEO — insider signal; 70M users, 28 employees, profitable 15+ months"
+  riu_primary: "RIU-413"
+  riu_name: "Customer Value Demo Creation"
+  riu_secondary: ["RIU-290"]
+  company_library_status: needs_entry
+  palette_action: integrate
+  palette_note: "Gamma is a natural output tool for Palette narrative work (Yuty agent). Gamma API or embedding could become a Palette deliverable format. Also integrated in Superhuman Go — multi-platform signal."
+  taxonomy_gap: false
+
+- tool: "Lovable"
+  company: "Lovable"
+  company_url: "https://lovable.dev"
+  founded: 2023
+  funding_stage: "Growth"
+  funding_amount: "$6.6B valuation (from Anton Osika profile — unvalidated externally)"
+  signal_tier: 1
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-001"
+    name: "Ruben Hassid"
+    reason: "Build apps without coding"
+  - id: "PERSON-008"
+    name: "Anton Osika"
+    note: "Founder/CEO — insider signal; $200M ARR in 12 months, 2.3M+ builders"
+  - id: "PERSON-009"
+    name: "Felix Haas"
+    note: "Head of Design — insider; Lovable as primary approval-interface example"
+  - id: "PERSON-010"
+    name: "Oskar Elvhage"
+    reason: "Builds entire company (agentmama.ai) on Lovable — website, decks, demos, prototypes"
+  riu_primary: "RIU-413"
+  riu_name: "Customer Value Demo Creation"
+  riu_secondary: ["RIU-510"]
+  company_library_status: needs_entry
+  palette_action: evaluate
+  palette_note: "Lovable is the strongest no-code signal in the network. Evaluate for rapid Palette prototype delivery — instead of Theri building from scratch, could Lovable accelerate Phase 0 demos?"
+  taxonomy_gap: true
+  taxonomy_gap_note: "No RIU specifically covers 'no-code AI app generation / vibe-coding'. RIU-413 (Demo Creation) is the closest but imperfect. Consider RIU-550 proposal."
+
+- tool: "NotebookLM"
+  company: "Google (NotebookLM)"
+  company_url: "https://notebooklm.google.com"
+  founded: 2023
+  funding_stage: "N/A — Google product"
+  funding_amount: "N/A"
+  signal_tier: 1
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-001"
+    name: "Ruben Hassid"
+    reason: "Upload anything, let AI teach it back to you"
+  - id: "PERSON-016"
+    name: "Grant Lee (Gamma CEO)"
+    reason: "Customer research synthesis at Gamma"
+  riu_primary: "RIU-400"
+  riu_name: "KB Content Audit (Coverage + Gaps)"
+  riu_secondary: ["RIU-231", "RIU-201"]
+  company_library_status: needs_entry
+  palette_action: evaluate
+  palette_note: "NotebookLM could be an alternative to Argy for document synthesis tasks. Evaluate for Argy's knowledge library search step — especially for large document sets where NotebookLM's audio summary feature adds value."
+  taxonomy_gap: false
+
+- tool: "Cursor"
+  company: "Cursor (Anysphere Inc.)"
+  company_url: "https://cursor.sh"
+  founded: 2022
+  funding_stage: "Series B"
+  funding_amount: "$900M valuation"
+  signal_tier: 1
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-009"
+    name: "Felix Haas"
+    reason: "Primary approval-interface design example alongside Lovable"
+  - id: "PERSON-016"
+    name: "Grant Lee (Gamma CEO)"
+    reason: "Coding efficiency for 28-person engineering team at Gamma"
+  riu_primary: "RIU-413"
+  riu_name: "Customer Value Demo Creation"
+  riu_secondary: []
+  company_library_status: in_company_library
+  palette_action: integrate
+  palette_note: "Already in buy-vs-build. People-library adds: Grant Lee validates Cursor for small teams; Felix Haas positions it as an 'approval interface' design case study alongside Lovable."
+  taxonomy_gap: false
+
+- tool: "Seedance (ByteDance)"
+  company: "ByteDance (Seedance)"
+  company_url: "via Higgsfield AI platform"
+  founded: 2023
+  funding_stage: "N/A — ByteDance product"
+  funding_amount: "N/A"
+  signal_tier: 1
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "Seedance 2.0 — realistic physics and motion; top performer in Veo/Kling comparisons"
+  - id: "PERSON-014"
+    name: "Alex Patrascu"
+    reason: "Seedance Pro via Higgsfield AI — primary video AI tool for MASSIVE Studios production work"
+  riu_primary: "RIU-500"
+  riu_name: "Multimodal Data Pipeline Design"
+  riu_secondary: []
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "No direct Palette integration use case yet. Track for future Palette video output capability. Best-in-class signal for AI video generation (2026-02)."
+  taxonomy_gap: true
+  taxonomy_gap_note: "RIU-500 (Multimodal Pipeline) is an architectural RIU. No RIU specifically for 'AI video generation model selection'. This is a genuine gap in the taxonomy."
+
+- tool: "Higgsfield AI"
+  company: "Higgsfield AI"
+  company_url: "https://higgsfield.ai"
+  founded: 2024
+  funding_stage: "unvalidated — Perplexity enrichment needed"
+  funding_amount: "unvalidated"
+  signal_tier: 1
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-014"
+    name: "Alex Patrascu"
+    reason: "Primary platform for all video AI experiments — hosts Seedance Pro and Kling 2.1"
+    note: "Alex Patrascu is a client/partner; MASSIVE Studios runs all production video through Higgsfield"
+  riu_primary: "RIU-500"
+  riu_name: "Multimodal Data Pipeline Design"
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "Platform-level signal: Higgsfield aggregates multiple video AI models. Evaluate as a single integration point for video generation vs. integrating Seedance/Kling directly."
+  taxonomy_gap: true
+  taxonomy_gap_note: "Same gap as Seedance — no 'AI video generation service selection' RIU."
+
+  # ══════════════════════════════════════════════════════════════════
+  # TIER 2 — MEDIUM SIGNAL
+  # Single strong recommender or category-validated signal
+  # ══════════════════════════════════════════════════════════════════
+
+- tool: "Gemini (Google)"
+  company: "Google DeepMind (Gemini)"
+  company_url: "https://gemini.google.com"
+  founded: 2015
+  funding_stage: "N/A — Alphabet subsidiary"
+  funding_amount: "N/A"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-002"
+    name: "Anisha Jain"
+    reason: "YouTube video to carousel pipeline; music generation"
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "Music generation feature"
+  riu_primary: "RIU-252"
+  riu_name: "Model Evaluation & Selection"
+  riu_secondary: ["RIU-500"]
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "Gemini fills specific niches not covered by Claude: YouTube/video ingestion, music generation, Google Workspace integration. Track as a complementary model to Claude, not a replacement."
+  taxonomy_gap: false
+
+- tool: "Runway (Aleph)"
+  company: "Runway AI"
+  company_url: "https://runwayml.com"
+  founded: 2018
+  funding_stage: "Series C"
+  funding_amount: "$237M"
+  signal_tier: 2
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-014"
+    name: "Alex Patrascu"
+    reason: "Runway Aleph — reimagines existing footage; 'Photoshop for motion pictures'"
+    note: "Specifically the Aleph model — transforms source footage rather than generating from scratch"
+  riu_primary: "RIU-500"
+  riu_name: "Multimodal Data Pipeline Design"
+  riu_secondary: ["RIU-501"]
+  company_library_status: needs_entry
+  palette_action: monitor
+  taxonomy_gap: true
+
+- tool: "Kling (Kuaishou)"
+  company: "Kuaishou (Kling)"
+  company_url: "via Higgsfield AI platform"
+  founded: 2021
+  funding_stage: "N/A — Kuaishou subsidiary"
+  funding_amount: "N/A"
+  signal_tier: 2
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "Kling 3.0 — realistic physics; compared vs Seedance and Veo"
+  - id: "PERSON-014"
+    name: "Alex Patrascu"
+    reason: "Kling 2.1 for cinematic work via Higgsfield AI"
+  riu_primary: "RIU-500"
+  riu_name: "Multimodal Data Pipeline Design"
+  company_library_status: needs_entry
+  palette_action: monitor
+  taxonomy_gap: true
+
+- tool: "Perplexity"
+  company: "Perplexity AI"
+  company_url: "https://www.perplexity.ai"
+  founded: 2022
+  funding_stage: "Series E+"
+  funding_amount: "$500M+ total (unvalidated externally)"
+  signal_tier: 2
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-005"
+    name: "Olivia Moore (a16z)"
+    reason: "Broke into top 3 consumer AI web apps — actual usage data, not hype"
+    note: "This is a market validation signal from a16z data, not a tool recommendation"
+  riu_primary: "RIU-201"
+  riu_name: "Competitive/Alternatives Research"
+  riu_secondary: ["RIU-140"]
+  company_library_status: needs_entry
+  palette_action: integrate
+  palette_note: "Already integrated in Palette via Perplexity MCP. All 21 people-library profiles have Perplexity queries written and waiting to run. This is the primary enrichment tool."
+  taxonomy_gap: false
+
+- tool: "Granola"
+  company: "Granola"
+  company_url: "https://granola.ai"
+  founded: 2023
+  funding_stage: "unvalidated — Perplexity enrichment needed"
+  funding_amount: "unvalidated"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-001"
+    name: "Ruben Hassid"
+    reason: "AI note-taker that does not join your calls — key differentiator vs Otter.ai, Fireflies"
+  - id: "PERSON-005"
+    name: "Olivia Moore (a16z)"
+    reason: "In personal AI stack — daily driver"
+  riu_primary: "RIU-200"
+  riu_name: "Customer Problem Narrative (JTBD + Constraints)"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  taxonomy_gap: false
+
+- tool: "Vercel (AI Gateway + v0.dev)"
+  company: "Vercel"
+  company_url: "https://vercel.com"
+  founded: 2015
+  funding_stage: "Series E"
+  funding_amount: "$250M"
+  signal_tier: 2
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-006"
+    name: "Guillermo Rauch"
+    note: "Founder/CEO — insider signal; AI Gateway supports 500+ models, generateVideo API"
+  riu_primary: "RIU-320"
+  riu_name: "Third-Party API Integration Pattern"
+  riu_secondary: ["RIU-413"]
+  company_library_status: needs_entry
+  palette_action: evaluate
+  taxonomy_gap: false
+
+- tool: "Grok (xAI)"
+  company: "xAI (Grok)"
+  company_url: "https://grok.com"
+  founded: 2023
+  funding_stage: "unvalidated"
+  funding_amount: "unvalidated"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-001"
+    name: "Ruben Hassid"
+    reason: "Only AI with real-time Twitter/news access"
+  riu_primary: "RIU-201"
+  riu_name: "Competitive/Alternatives Research"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  taxonomy_gap: false
+
+- tool: "Topaz Labs"
+  company: "Topaz Labs"
+  company_url: "https://www.topazlabs.com"
+  founded: 2015
+  funding_stage: "unvalidated — bootstrapped/profitable"
+  funding_amount: "unvalidated"
+  signal_tier: 2
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-014"
+    name: "Alex Patrascu"
+    note: "Alex is Head of Creative Partnerships at Topaz Labs — direct insider signal"
+  riu_primary: "RIU-501"
+  riu_name: "Image/Vision Processing Integration"
+  company_library_status: needs_entry
+  palette_action: monitor
+  taxonomy_gap: false
+
+- tool: "Leonardo AI"
+  company: "Leonardo AI"
+  company_url: "https://app.leonardo.ai"
+  founded: 2022
+  funding_stage: "unvalidated"
+  funding_amount: "unvalidated"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-014"
+    name: "Alex Patrascu"
+    note: "Client relationship — MASSIVE Studios is a client/partner of Leonardo AI"
+  riu_primary: "RIU-501"
+  riu_name: "Image/Vision Processing Integration"
+  company_library_status: needs_entry
+  palette_action: monitor
+  taxonomy_gap: false
+
+- tool: "Superhuman Go"
+  company: "Superhuman"
+  company_url: "https://superhuman.com"
+  founded: 2014
+  funding_stage: "Series B+"
+  funding_amount: "unvalidated"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-016"
+    name: "Grant Lee (Gamma CEO)"
+    reason: "Gamma is now embedded as an agent inside Superhuman Go"
+  riu_primary: "RIU-320"
+  riu_name: "Third-Party API Integration Pattern"
+  company_library_status: needs_entry
+  palette_action: monitor
+  taxonomy_gap: false
+
+  # ── NEW IN v1.1 — TIER 2 ──────────────────────────────────────────
+
+- tool: "Krea"
+  company: "Krea"
+  company_url: "https://krea.ai"
+  founded: 2023
+  funding_stage: "unvalidated — Creandum-backed"
+  funding_amount: "unvalidated"
+  signal_tier: 2
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-005"
+    name: "Olivia Moore (a16z)"
+    reason: "In personal AI stack — AI creative tool"
+  - id: "PERSON-007"
+    name: "Filip Mark (Creandum)"
+    reason: "Portfolio company — Creandum investor"
+  riu_primary: "RIU-501"
+  riu_name: "Image/Vision Processing Integration"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  palette_note: "Double signal: a16z partner uses it personally AND Creandum invested. Strongest new image generation signal in v1.1."
+  taxonomy_gap: false
+  cross_reference: "Krea.ai appears in both Olivia Moore's personal AI stack AND Creandum's portfolio (Filip Mark) — double signal"
+
+- tool: "Julius AI"
+  company: "Julius AI"
+  company_url: "https://julius.ai"
+  founded: 2023
+  funding_stage: "unvalidated"
+  funding_amount: "unvalidated"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-005"
+    name: "Olivia Moore (a16z)"
+    reason: "Data analyst, replacing ChatGPT for Excel; notebook feature for templated daily analyses"
+  riu_primary: "RIU-252"
+  riu_name: "Model Evaluation & Selection"
+  riu_secondary: ["RIU-084"]
+  company_library_status: needs_entry
+  palette_action: evaluate
+  palette_note: "Data analysis tool in a16z partner's daily stack. Could be relevant for Palette's data analysis workflows — evaluate whether it offers capabilities beyond Claude's data analysis."
+  taxonomy_gap: false
+
+- tool: "HappyRobot"
+  company: "HappyRobot"
+  company_url: "https://happyrobot.ai"
+  founded: 2023
+  funding_stage: "Series B"
+  funding_amount: "$44M (Sept 2025, led by Base10, ~$500M valuation); Series A $15.6M (a16z)"
+  signal_tier: 2
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-017"
+    name: "Pablo Palafox"
+    note: "Co-founder & CEO — insider signal; AI voice agents for logistics/freight"
+  riu_primary: "RIU-502"
+  riu_name: "Audio Processing Integration"
+  riu_secondary: ["RIU-108"]
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "Enterprise AI voice agents for logistics — 'Titanium Economy' thesis (AI transforming real-economy sectors). a16z connection (Olivia Moore led Series A). New RIU candidate for voice agent workflows."
+  taxonomy_gap: true
+  taxonomy_gap_note: "No RIU for 'enterprise voice agent workflows'. RIU-502 (Audio Processing) is closest but imperfect — HappyRobot is a vertical AI agent, not just audio processing."
+
+- tool: "Sora (OpenAI)"
+  company: "OpenAI"
+  company_url: "https://sora.com"
+  founded: 2024
+  funding_stage: "N/A — OpenAI product"
+  funding_amount: "N/A"
+  signal_tier: 2
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-022"
+    name: "PJ Accetturo"
+    reason: "Primary video AI tool for Genre.ai advertising production"
+    note: "PJ rates Sora highest among video models for advertising use cases"
+  riu_primary: "RIU-500"
+  riu_name: "Multimodal Data Pipeline Design"
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "OpenAI's video generation entry. PJ Accetturo validates for advertising/commercial production — different use case than Seedance/Kling cinematic work."
+  taxonomy_gap: true
+
+  # ══════════════════════════════════════════════════════════════════
+  # TIER 3 — LOW SIGNAL
+  # Single recommender, low signal strength, or affiliate/peripheral signal
+  # ══════════════════════════════════════════════════════════════════
+
+- tool: "Veo 3.1 (Google DeepMind)"
+  company: "Google DeepMind (Veo)"
+  company_url: "https://deepmind.google/technologies/veo/"
+  founded: 2024
+  funding_stage: "N/A — Google product"
+  funding_amount: "N/A"
+  signal_tier: 3
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "Google video AI — included in Seedance/Kling/Veo comparisons; not ranked #1"
+  riu_primary: "RIU-500"
+  riu_name: "Multimodal Data Pipeline Design"
+  company_library_status: needs_entry
+  palette_action: monitor
+  taxonomy_gap: true
+
+- tool: "Canva AI"
+  company: "Canva"
+  company_url: "https://canva.com/ai-image-generator/"
+  founded: 2013
+  funding_stage: "Late Stage"
+  funding_amount: "$26B+ valuation (company total)"
+  signal_tier: 3
+  aggregate_signal_strength: low
+  recommenders:
+  - id: "PERSON-001"
+    name: "Ruben Hassid"
+    reason: "Visuals without design skills"
+  riu_primary: "RIU-501"
+  riu_name: "Image/Vision Processing Integration"
+  company_library_status: needs_entry
+  palette_action: skip
+  taxonomy_gap: false
+
+- tool: "Opus Clip"
+  company: "Opus Clip"
+  company_url: "https://opusclip.pro"
+  founded: 2023
+  funding_stage: "unvalidated"
+  funding_amount: "unvalidated"
+  signal_tier: 3
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-001"
+    name: "Ruben Hassid"
+    reason: "Long video to viral shorts automatically"
+  riu_primary: "RIU-500"
+  riu_name: "Multimodal Data Pipeline Design"
+  company_library_status: needs_entry
+  palette_action: monitor
+  taxonomy_gap: false
+
+- tool: "Easygen"
+  company: "Easygen"
+  company_url: "https://easygen.io"
+  founded: 2022
+  funding_stage: "unvalidated"
+  funding_amount: "unvalidated"
+  signal_tier: 3
+  aggregate_signal_strength: low
+  recommenders:
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "LinkedIn post creation — affiliate partner"
+    note: "Affiliate relationship reduces signal quality"
+  riu_primary: "RIU-102"
+  riu_name: "Enablement Pack (Docs/Examples/How-To)"
+  company_library_status: needs_entry
+  palette_action: skip
+  taxonomy_gap: false
+
+- tool: "CapCut (ByteDance)"
+  company: "ByteDance (CapCut)"
+  company_url: "https://www.capcut.com"
+  founded: 2019
+  funding_stage: "N/A — ByteDance product"
+  funding_amount: "N/A"
+  signal_tier: 3
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-014"
+    name: "Alex Patrascu"
+    reason: "Video editing layer on top of AI-generated footage"
+    note: "Used as post-processing tool, not for AI generation"
+  riu_primary: "RIU-500"
+  riu_name: "Multimodal Data Pipeline Design"
+  company_library_status: needs_entry
+  palette_action: skip
+  taxonomy_gap: false
+
+- tool: "Epidemic Sound"
+  company: "Epidemic Sound"
+  company_url: "https://www.epidemicsound.com"
+  founded: 2009
+  funding_stage: "Late Stage"
+  funding_amount: "unvalidated"
+  signal_tier: 3
+  aggregate_signal_strength: low
+  recommenders:
+  - id: "PERSON-014"
+    name: "Alex Patrascu"
+    reason: "Music for AI films"
+    note: "Not an AI tool — music licensing service used in AI film pipeline"
+  riu_primary: "RIU-502"
+  riu_name: "Audio Processing Integration"
+  company_library_status: needs_entry
+  palette_action: skip
+  taxonomy_gap: false
+
+  # ── NEW IN v1.1 — TIER 3 ──────────────────────────────────────────
+
+- tool: "Happenstance"
+  company: "Happenstance"
+  company_url: "https://happenstance.com"
+  founded: 2024
+  funding_stage: "unvalidated"
+  funding_amount: "unvalidated"
+  signal_tier: 3
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-005"
+    name: "Olivia Moore (a16z)"
+    reason: "AI people/network search (LinkedIn + Gmail + Twitter); investor sourcing"
+  riu_primary: "RIU-106"
+  riu_name: "Comparable Organization Research"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  palette_note: "AI people search could enhance Argy's research capabilities for people-library enrichment. Single recommender but a16z partner daily-driver signal is strong."
+  taxonomy_gap: false
+
+- tool: "Willow"
+  company: "Willow"
+  company_url: "https://willow.ai"
+  founded: 2024
+  funding_stage: "unvalidated"
+  funding_amount: "unvalidated"
+  signal_tier: 3
+  aggregate_signal_strength: low
+  recommenders:
+  - id: "PERSON-005"
+    name: "Olivia Moore (a16z)"
+    reason: "AI voice dictation"
+  riu_primary: "RIU-502"
+  riu_name: "Audio Processing Integration"
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "Another voice dictation entry. Wispr Flow already has multi-recommender signal in this space — Willow is a monitor-only."
+  taxonomy_gap: false
+
+- tool: "Overlap (YC S24)"
+  company: "Overlap"
+  company_url: "https://overlap.video"
+  founded: 2024
+  funding_stage: "YC S24"
+  funding_amount: "unvalidated"
+  signal_tier: 3
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-005"
+    name: "Olivia Moore (a16z)"
+    reason: "AI clip editing for video highlights"
+  riu_primary: "RIU-500"
+  riu_name: "Multimodal Data Pipeline Design"
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "AI video clip editing — similar category to Opus Clip. YC-backed. Single recommender."
+  taxonomy_gap: false
+
+- tool: "nano-banana (Freepik)"
+  company: "Freepik"
+  company_url: "https://freepik.com"
+  founded: 2010
+  funding_stage: "Established"
+  funding_amount: "unvalidated"
+  signal_tier: 3
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "PERSON-014"
+    name: "Alex Patrascu"
+    reason: "Image generation for cinematic shots — Central Park romance scene"
+  - id: "PERSON-022"
+    name: "PJ Accetturo"
+    reason: "Freepik AI for advertising creative"
+  riu_primary: "RIU-501"
+  riu_name: "Image/Vision Processing Integration"
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "Freepik's nano-banana model used by two production practitioners. Dual signal elevates above typical tier 3."
+  taxonomy_gap: false
+
+- tool: "Genre.ai"
+  company: "Genre.ai"
+  company_url: "https://genre.ai"
+  founded: 2024
+  funding_stage: "unvalidated"
+  funding_amount: "unvalidated"
+  signal_tier: 3
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-022"
+    name: "PJ Accetturo"
+    note: "Founder/CEO — insider signal; AI-native advertising agency"
+  riu_primary: "RIU-413"
+  riu_name: "Customer Value Demo Creation"
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "AI-native advertising agency — interesting model for how AI agents deliver creative work at scale. Watch for Palette parallels in agentic service delivery."
+  taxonomy_gap: false
+
+# ══════════════════════════════════════════════════════════════════
+# TAXONOMY GAPS (unchanged from v1.0)
+# ══════════════════════════════════════════════════════════════════
+
+- tool: "Claude"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-001"
+    name: "Ruben Hassid"
+    reason: "The single most important AI tool for knowledge work — dedicated full newsletter issue"
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "Writing assistant for final post polish"
+  - id: "PERSON-009"
+    name: "Felix Haas"
+    reason: "Reader-recommended desk partner for design workflows"
+  - id: "PERSON-016"
+    name: "Grant Lee"
+    reason: "Data analysis at Gamma"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  taxonomy_gap: false
+- tool: "Grok"
+  signal_tier: 3
+  aggregate_signal_strength: low
+  recommenders:
+  - id: "PERSON-001"
+    name: "Ruben Hassid"
+    reason: "Go-to all-rounder, currently rates above ChatGPT"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  taxonomy_gap: false
+- tool: "ChatGPT"
+  signal_tier: 3
+  aggregate_signal_strength: low
+  recommenders:
+  - id: "PERSON-001"
+    name: "Ruben Hassid"
+    reason: "Actively telling readers to kill old ChatGPT habits — shifting away"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  taxonomy_gap: false
+- tool: "Claude Opus 4.6"
+  signal_tier: 3
+  aggregate_signal_strength: low
+  recommenders:
+  - id: "PERSON-002"
+    name: "Anisha Jain"
+    reason: "Extended thinking for competitive intelligence — reads 60 job listings + 200-page SEC filing simultaneously"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  taxonomy_gap: false
+- tool: "Gemini"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "PERSON-002"
+    name: "Anisha Jain"
+    reason: "YouTube video to carousel pipeline; music generation"
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "Music generation feature"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  taxonomy_gap: false
+- tool: "Kling AI"
+  signal_tier: 3
+  aggregate_signal_strength: low
+  recommenders:
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "Multiple posts including 'Kling AI is disrupting an entire industry' — strong signal"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  taxonomy_gap: false
+- tool: "Seedance 2.0"
+  signal_tier: 3
+  aggregate_signal_strength: low
+  recommenders:
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "Video AI — realistic physics and motion, compared vs Veo 3.1 and Kling 3.0"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  taxonomy_gap: false
+- tool: "Kling 3.0"
+  signal_tier: 3
+  aggregate_signal_strength: low
+  recommenders:
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "Video AI — realistic physics, compared vs Seedance and Veo"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  taxonomy_gap: false
+- tool: "Suno AI"
+  signal_tier: 3
+  aggregate_signal_strength: low
+  recommenders:
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "AI music generation — covered in content"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  taxonomy_gap: false
+- tool: "Veo 3.1"
+  signal_tier: 3
+  aggregate_signal_strength: low
+  recommenders:
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    reason: "Google video AI — compared vs Seedance and Kling"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  taxonomy_gap: false

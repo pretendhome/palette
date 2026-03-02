@@ -47,13 +47,13 @@ palette_fit:
     - RIU-039
     - RIU-002
   primary_agents:
-    - yutyrannus
+    - narrator
     - rex
-    - ankylosaurus
+    - validator
   supporting_agents:
-    - argentavis
-    - parasaurolophus
-    - therizinosaurus
+    - researcher
+    - monitor
+    - builder
   library_links:
     - "Prefer LIB entries on experimentation, evaluation, messaging reliability, and operational rollout."
   company_matrix_use:

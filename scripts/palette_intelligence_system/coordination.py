@@ -2,9 +2,9 @@
 """Multi-agent coordination CLI — HandoffPacket v2 + deterministic replay.
 
 Runs a 4-step coordination pipeline:
-  cory       → resolve user query to RIU(s) via keyword matching
+  resolver   → resolve user query to RIU(s) via keyword matching
   traversal  → run real PIS traversal for the selected RIU
-  argy       → add research notes / gap annotations (stubbed)
+  researcher → add research notes / gap annotations (stubbed)
   final      → aggregate results, set overall task status
 
 Usage:
@@ -51,7 +51,7 @@ from .traverse import traverse
 # ── Constants ──────────────────────────────────────────────────────
 
 SCHEMA_VERSION = "handoffpacket.v2"
-STEP_ORDER = ("cory", "traversal", "argy", "final")
+STEP_ORDER = ("resolver", "traversal", "researcher", "final")
 
 
 # ── Paths ──────────────────────────────────────────────────────────
@@ -169,10 +169,10 @@ def _mark_failed(packet: Dict[str, Any], step_name: str, error: str) -> None:
 
 # ── Step Implementations ──────────────────────────────────────────
 
-def _step_cory(packet: Dict[str, Any], data: PISData, fail_step: Optional[str]) -> None:
+def _step_resolver(packet: Dict[str, Any], data: PISData, fail_step: Optional[str]) -> None:
     """Resolve user query → RIU(s) using keyword_resolve from cli.py."""
-    if fail_step == "cory":
-        raise RuntimeError("Injected failure at cory step")
+    if fail_step == "resolver":
+        raise RuntimeError("Injected failure at resolver step")
 
     lib_id, confidence, top_3 = keyword_resolve(data, packet["user_query"])
 
@@ -214,7 +214,7 @@ def _step_cory(packet: Dict[str, Any], data: PISData, fail_step: Optional[str]) 
     else:
         packet["gaps"].append("No RIU candidates resolved from query")
 
-    packet["outputs"]["cory"] = {
+    packet["outputs"]["resolver"] = {
         "resolved_count": len(packet["resolved_rius"]),
         "selected_riu": selected["riu_id"] if selected else None,
         "candidates": candidates,
@@ -260,10 +260,10 @@ def _step_traversal(packet: Dict[str, Any], data: PISData, fail_step: Optional[s
             packet["gaps"].append(gap)
 
 
-def _step_argy(packet: Dict[str, Any], data: PISData, fail_step: Optional[str]) -> None:
-    """Argy step: add research notes and gap annotations (stubbed/deterministic)."""
-    if fail_step == "argy":
-        raise RuntimeError("Injected failure at argy step")
+def _step_researcher(packet: Dict[str, Any], data: PISData, fail_step: Optional[str]) -> None:
+    """Researcher step: add research notes and gap annotations (stubbed/deterministic)."""
+    if fail_step == "researcher":
+        raise RuntimeError("Injected failure at researcher step")
 
     trav = packet.get("outputs", {}).get("traversal", {})
     notes: List[str] = []
@@ -293,13 +293,13 @@ def _step_argy(packet: Dict[str, Any], data: PISData, fail_step: Optional[str]) 
         research_gaps.append("No people-library signal validation — check for expert endorsements")
 
     if not notes:
-        notes.append("No additional Argy notes (stubbed deterministic path)")
+        notes.append("No additional Researcher notes (stubbed deterministic path)")
 
     for rg in research_gaps:
         if rg not in packet["gaps"]:
             packet["gaps"].append(rg)
 
-    packet["outputs"]["argy"] = {
+    packet["outputs"]["researcher"] = {
         "notes": notes,
         "research_gaps": research_gaps,
         "mode": "stubbed-deterministic",
@@ -319,7 +319,7 @@ def _step_final(packet: Dict[str, Any], data: PISData, fail_step: Optional[str])
 
     packet["outputs"]["final"] = {
         "selected_riu": selected,
-        "summary": f"Coordinated cory → traversal → argy for {selected or 'no RIU'}",
+        "summary": f"Coordinated resolver → traversal → researcher for {selected or 'no RIU'}",
         "total_gaps": len(packet["gaps"]),
         "failed_steps": failed_steps,
         "next_action": (
@@ -333,9 +333,9 @@ def _step_final(packet: Dict[str, Any], data: PISData, fail_step: Optional[str])
 # ── Step Dispatch ──────────────────────────────────────────────────
 
 _STEP_RUNNERS = {
-    "cory": _step_cory,
+    "resolver": _step_resolver,
     "traversal": _step_traversal,
-    "argy": _step_argy,
+    "researcher": _step_researcher,
     "final": _step_final,
 }
 
@@ -404,7 +404,7 @@ def cmd_run(user_query: str, fail_step: Optional[str] = None) -> int:
     _save_packet(packet)
 
     data = load_all()
-    _run_steps(packet, data, start_step="cory", fail_step=fail_step)
+    _run_steps(packet, data, start_step="resolver", fail_step=fail_step)
 
     final = _load_packet(packet["task_id"])
     print(final["task_id"])
@@ -467,7 +467,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_run = sub.add_parser("run", help="Run a new coordination task")
     p_run.add_argument("user_query")
-    p_run.add_argument("--fail-step", choices=["cory", "traversal", "argy"],
+    p_run.add_argument("--fail-step", choices=["resolver", "traversal", "researcher"],
                        help="Inject failure at this step (for testing)")
 
     p_show = sub.add_parser("show", help="Show task packet (JSON)")
@@ -475,7 +475,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_replay = sub.add_parser("replay", help="Replay from first failed step")
     p_replay.add_argument("task_id")
-    p_replay.add_argument("--fail-step", choices=["cory", "traversal", "argy"],
+    p_replay.add_argument("--fail-step", choices=["resolver", "traversal", "researcher"],
                           help="Inject failure at this step during replay")
 
     sub.add_parser("list", help="List all task packets")

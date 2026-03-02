@@ -11,7 +11,7 @@
 
 A structured registry of AI influencers, founders, investors, and builders that Palette tracks for intelligence. Each profile is both a reference document and a Perplexity search target.
 
-Not a directory of famous people. A **signal network** — people whose actions and recommendations feed directly into Palette's company-library, service routing decisions, and integration roadmap.
+Not a directory of famous people. A **signal network** — people whose actions and recommendations feed directly into Palette's buy-vs-build, service routing decisions, and integration roadmap.
 
 ---
 
@@ -100,23 +100,23 @@ Priority candidates:
 2. **Enrich stubs** — Pablo Palafox, Lazar Jovanovic (4 stubs total)
 3. **Promote watch list** — Run Perplexity on 11 watch list candidates, add top 5 as full profiles
 4. **Build v1.1** — Merge Perplexity results, update signal_quality from `unvalidated` to real rating
-5. **Connect to company-library** — Cross-reference `notable_recommendations.tools` with company-library entries
+5. **Connect to buy-vs-build** — Cross-reference `notable_recommendations.tools` with buy-vs-build entries
 6. **Wire into Argy** — Add people-library as a search target in Argy's priority search chain
 
 ---
 
 ## Relationship to Company Library
 
-The people-library feeds the company-library in one direction:
+The people-library feeds the buy-vs-build in one direction:
 
 ```
-Person recommends tool → tool gets added to company-library → company gets mapped to RIUs
+Person recommends tool → tool gets added to buy-vs-build → company gets mapped to RIUs
 ```
 
 Example:
 ```
 Ruben Hassid recommends Wispr Flow
-  → Wispr Flow added to company-library (voice AI / RIU-050 / RIU-040)
+  → Wispr Flow added to buy-vs-build (voice AI / RIU-050 / RIU-040)
   → Integration recipe created for Palette
   → Routing candidate for voice input tasks
 ```

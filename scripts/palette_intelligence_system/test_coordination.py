@@ -5,7 +5,7 @@ Run with:
   python -m unittest scripts.palette_intelligence_system.test_coordination
 (from palette/)
 
-All tests use real PIS data. Cory step uses keyword_resolve (no LLM).
+All tests use real PIS data. Resolver step uses keyword_resolve (no LLM).
 Each test uses its own temp directory for state isolation.
 """
 
@@ -71,7 +71,7 @@ class TestPacketCreation(CoordinationBase):
     def test_packet_has_all_steps(self):
         coordination.main(["run", "add guardrails to my llm app"])
         packet = self._load_only_packet()
-        for step_name in ("cory", "traversal", "argy", "final"):
+        for step_name in ("resolver", "traversal", "researcher", "final"):
             self.assertIn(step_name, packet["steps"])
             step = packet["steps"][step_name]
             self.assertIn("status", step)
@@ -88,15 +88,15 @@ class TestRunShowReplayFlow(CoordinationBase):
         packet = self._load_only_packet()
 
         # All steps succeeded
-        for step_name in ("cory", "traversal", "argy", "final"):
+        for step_name in ("resolver", "traversal", "researcher", "final"):
             self.assertEqual(packet["steps"][step_name]["status"], "success",
                              f"Step {step_name} not success")
             self.assertGreaterEqual(packet["steps"][step_name]["attempt"], 1)
 
         # Outputs present
-        self.assertIn("cory", packet["outputs"])
+        self.assertIn("resolver", packet["outputs"])
         self.assertIn("traversal", packet["outputs"])
-        self.assertIn("argy", packet["outputs"])
+        self.assertIn("researcher", packet["outputs"])
         self.assertIn("final", packet["outputs"])
 
         # Resolved RIUs present
@@ -155,55 +155,55 @@ class TestTraversalOutput(CoordinationBase):
 
 class TestFailureAndReplay(CoordinationBase):
 
-    def test_cory_failure_records_error(self):
-        rc = coordination.main(["run", "add guardrails", "--fail-step", "cory"])
+    def test_resolver_failure_records_error(self):
+        rc = coordination.main(["run", "add guardrails", "--fail-step", "resolver"])
         self.assertEqual(rc, 1)
         packet = self._load_only_packet()
         self.assertEqual(packet["status"], "failed")
-        self.assertEqual(packet["steps"]["cory"]["status"], "failed")
-        self.assertIn("Injected failure", packet["steps"]["cory"]["error"])
+        self.assertEqual(packet["steps"]["resolver"]["status"], "failed")
+        self.assertIn("Injected failure", packet["steps"]["resolver"]["error"])
 
-    def test_traversal_failure_preserves_cory(self):
+    def test_traversal_failure_preserves_resolver(self):
         rc = coordination.main(["run", "add guardrails", "--fail-step", "traversal"])
         self.assertEqual(rc, 1)
         packet = self._load_only_packet()
-        self.assertEqual(packet["steps"]["cory"]["status"], "success")
+        self.assertEqual(packet["steps"]["resolver"]["status"], "success")
         self.assertEqual(packet["steps"]["traversal"]["status"], "failed")
-        self.assertIn("cory", packet["outputs"])
+        self.assertIn("resolver", packet["outputs"])
         self.assertNotIn("traversal", packet["outputs"])
 
-    def test_argy_failure_preserves_cory_and_traversal(self):
-        rc = coordination.main(["run", "add guardrails", "--fail-step", "argy"])
+    def test_researcher_failure_preserves_resolver_and_traversal(self):
+        rc = coordination.main(["run", "add guardrails", "--fail-step", "researcher"])
         self.assertEqual(rc, 1)
         packet = self._load_only_packet()
-        self.assertEqual(packet["steps"]["cory"]["status"], "success")
+        self.assertEqual(packet["steps"]["resolver"]["status"], "success")
         self.assertEqual(packet["steps"]["traversal"]["status"], "success")
-        self.assertEqual(packet["steps"]["argy"]["status"], "failed")
-        self.assertIn("cory", packet["outputs"])
+        self.assertEqual(packet["steps"]["researcher"]["status"], "failed")
+        self.assertIn("resolver", packet["outputs"])
         self.assertIn("traversal", packet["outputs"])
-        self.assertNotIn("argy", packet["outputs"])
+        self.assertNotIn("researcher", packet["outputs"])
 
     def test_replay_reruns_only_failed_and_downstream(self):
         coordination.main(["run", "add guardrails", "--fail-step", "traversal"])
         packet = self._load_only_packet()
         task_id = packet["task_id"]
-        cory_attempt = packet["steps"]["cory"]["attempt"]
-        cory_output = json.dumps(packet["outputs"]["cory"], sort_keys=True)
+        resolver_attempt = packet["steps"]["resolver"]["attempt"]
+        resolver_output = json.dumps(packet["outputs"]["resolver"], sort_keys=True)
 
         # Replay without failure injection
         rc = coordination.main(["replay", task_id])
         self.assertEqual(rc, 0)
         packet = self._load_only_packet()
 
-        # Cory should NOT be re-executed
-        self.assertEqual(packet["steps"]["cory"]["attempt"], cory_attempt,
-                         "Cory should not be re-executed on replay")
-        self.assertEqual(json.dumps(packet["outputs"]["cory"], sort_keys=True), cory_output,
-                         "Cory output should be preserved on replay")
+        # Resolver should NOT be re-executed
+        self.assertEqual(packet["steps"]["resolver"]["attempt"], resolver_attempt,
+                         "Resolver should not be re-executed on replay")
+        self.assertEqual(json.dumps(packet["outputs"]["resolver"], sort_keys=True), resolver_output,
+                         "Resolver output should be preserved on replay")
 
         # Traversal and downstream should be re-executed
         self.assertEqual(packet["steps"]["traversal"]["status"], "success")
-        self.assertEqual(packet["steps"]["argy"]["status"], "success")
+        self.assertEqual(packet["steps"]["researcher"]["status"], "success")
         self.assertEqual(packet["steps"]["final"]["status"], "success")
         self.assertEqual(packet["status"], "completed")
 
@@ -238,7 +238,7 @@ class TestFileIntegrity(CoordinationBase):
             self.assertIn("task_id", data)
 
     def test_packet_remains_valid_after_replay(self):
-        coordination.main(["run", "add guardrails", "--fail-step", "argy"])
+        coordination.main(["run", "add guardrails", "--fail-step", "researcher"])
         packet = self._load_only_packet()
         task_id = packet["task_id"]
 

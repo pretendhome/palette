@@ -44,7 +44,7 @@ workstreams:
 
 
 agent_archetypes:
-  - id: ARK:Argentavis
+  - id: Researcher
     code: Argy
     role: Resource Gatherer
     description: Search, retrieval, research, context gathering (read-only)
@@ -60,7 +60,7 @@ agent_archetypes:
       - Competitive analysis
 
 
-  - id: ARK:Therizinosaurus
+  - id: Builder
     code: Theri
     role: Builder
     description: Implementation within bounded scope
@@ -74,7 +74,7 @@ agent_archetypes:
       - Implementation task
 
 
-  - id: ARK:Velociraptor
+  - id: Debugger
     code: Raptor
     role: Debugger
     description: Failure isolation, root cause analysis, repair
@@ -88,7 +88,7 @@ agent_archetypes:
       - Error investigation
 
 
-  - id: ARK:Tyrannosaurus
+  - id: Architect
     code: Rex
     role: Architect
     description: Design, tradeoffs, system decisions, technology selection
@@ -102,7 +102,7 @@ agent_archetypes:
       - Tradeoff analysis
 
 
-  - id: ARK:Yutyrannus
+  - id: Narrator
     code: Yuty
     role: GTM / Narrative
     description: Customer-facing explanations, demos, documentation, enablement
@@ -116,7 +116,7 @@ agent_archetypes:
       - Enablement content
 
 
-  - id: ARK:Ankylosaurus
+  - id: Validator
     code: Anky
     role: Validator
     description: Quality assurance, compliance checking, verification, auditing
@@ -132,7 +132,7 @@ agent_archetypes:
       - Testing validation
 
 
-  - id: ARK:Parasaurolophus
+  - id: Monitor
     code: Para
     role: Monitor
     description: Observation, anomaly detection, health checking, drift detection
@@ -147,7 +147,7 @@ agent_archetypes:
       - Drift detection
 
 
-  - id: ARK:Orchestrator
+  - id: Orchestrator
     code: Orch
     role: Workflow Router
     description: Routes tasks to appropriate agents, coordinates multi-step workflows
@@ -212,8 +212,8 @@ rius:
     dependencies: []
     agent_types:
       - Human:Delivery
-      - ARK:Tyrannosaurus
-      - ARK:Argentavis
+      - Architect
+      - Researcher
     notes: ''
     tags:
       - scoping
@@ -255,7 +255,7 @@ rius:
     dependencies: []
     agent_types:
       - Human:Delivery
-      - ARK:Argentavis
+      - Researcher
     notes: ''
     tags:
       - scoping
@@ -295,7 +295,7 @@ rius:
     dependencies: []
     agent_types:
       - Human:Delivery
-      - ARK:Tyrannosaurus
+      - Architect
     notes: ''
     tags:
       - scoping
@@ -333,8 +333,8 @@ rius:
         - novel domains
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Argentavis
+      - Architect
+      - Researcher
     notes: ''
     tags:
       - scoping
@@ -375,7 +375,7 @@ rius:
     dependencies: []
     agent_types:
       - Human:Delivery
-      - ARK:Tyrannosaurus
+      - Architect
     notes: ''
     tags:
       - scoping
@@ -414,8 +414,8 @@ rius:
     dependencies: []
     agent_types:
       - Human:Delivery
-      - ARK:Tyrannosaurus
-      - ARK:Argentavis
+      - Architect
+      - Researcher
     notes: ''
     tags:
       - scoping
@@ -454,7 +454,7 @@ rius:
     dependencies: []
     agent_types:
       - Human:Delivery
-      - ARK:Tyrannosaurus
+      - Architect
     notes: ''
     tags:
       - scoping
@@ -495,7 +495,7 @@ rius:
     dependencies: []
     agent_types:
       - Human:Delivery
-      - ARK:Tyrannosaurus
+      - Architect
     notes: ''
     tags:
       - scoping
@@ -534,7 +534,7 @@ rius:
     dependencies: []
     agent_types:
       - Human:Delivery
-      - ARK:Tyrannosaurus
+      - Architect
     notes: ''
     tags:
       - scoping
@@ -581,7 +581,7 @@ rius:
     dependencies: []
     agent_types:
       - Human:Delivery
-      - ARK:Therizinosaurus
+      - Builder
     notes: ''
     tags:
       - testing
@@ -620,8 +620,8 @@ rius:
         - multi-source joins
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - schema
@@ -662,9 +662,9 @@ rius:
         - HIPAA/PCI/GDPR customers
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
+      - Architect
       - Human:Delivery
-      - ARK:Ankylosaurus
+      - Validator
     notes: ''
     tags:
       - quality
@@ -704,7 +704,7 @@ rius:
     dependencies: []
     agent_types:
       - Human:Delivery
-      - ARK:Argentavis
+      - Researcher
     notes: ''
     tags:
       - scoping
@@ -745,8 +745,8 @@ rius:
         - internationalization/multilingual
     dependencies: []
     agent_types:
-      - ARK:Therizinosaurus
-      - ARK:Ankylosaurus
+      - Builder
+      - Validator
     notes: ''
     tags:
       - testing
@@ -787,8 +787,8 @@ rius:
         - multiple downstream consumers
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - schema
@@ -829,8 +829,8 @@ rius:
     dependencies:
       - RIU-015
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Validator
     notes: ''
     tags:
       - quality
@@ -874,8 +874,8 @@ rius:
       - RIU-010
       - RIU-011
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - integration
@@ -917,8 +917,8 @@ rius:
     dependencies:
       - RIU-011
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - schema
@@ -959,8 +959,8 @@ rius:
     dependencies:
       - RIU-013
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Argentavis
+      - Architect
+      - Researcher
     notes: ''
     tags:
       - scoping
@@ -1005,8 +1005,8 @@ rius:
         - multi-tenant systems
     dependencies: []
     agent_types:
-      - ARK:Argentavis
-      - ARK:Ankylosaurus
+      - Researcher
+      - Validator
     notes: ''
     tags:
       - testing
@@ -1047,8 +1047,8 @@ rius:
         - subjective outputs
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Validator
     notes: ''
     tags:
       - evaluation
@@ -1090,8 +1090,8 @@ rius:
         - long-context prompts
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - schema
@@ -1133,8 +1133,8 @@ rius:
         - edge-case inputs
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - quality
@@ -1176,8 +1176,8 @@ rius:
         - multiple doc sources
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - schema
@@ -1218,8 +1218,8 @@ rius:
         - bursty sync schedules
     dependencies: []
     agent_types:
-      - ARK:Therizinosaurus
-      - ARK:Tyrannosaurus
+      - Builder
+      - Architect
     notes: ''
     tags:
       - testing
@@ -1260,8 +1260,8 @@ rius:
         - multilingual corpora
     dependencies: []
     agent_types:
-      - ARK:Therizinosaurus
-      - ARK:Tyrannosaurus
+      - Builder
+      - Architect
     notes: ''
     tags:
       - retrieval
@@ -1303,8 +1303,8 @@ rius:
         - long-tail queries
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - retrieval
@@ -1346,8 +1346,8 @@ rius:
         - nested objects
     dependencies: []
     agent_types:
-      - ARK:Therizinosaurus
-      - ARK:Ankylosaurus
+      - Builder
+      - Validator
     notes: ''
     tags:
       - quality
@@ -1389,9 +1389,9 @@ rius:
         - high concurrency
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Builder
+      - Validator
     notes: ''
     tags:
       - agent
@@ -1435,8 +1435,8 @@ rius:
       - RIU-028
       - RIU-021
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - schema
@@ -1477,8 +1477,8 @@ rius:
     dependencies:
       - RIU-021
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - schema
@@ -1519,8 +1519,8 @@ rius:
     dependencies:
       - RIU-027
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - quality
@@ -1561,9 +1561,9 @@ rius:
         - bursty queries
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
-      - ARK:Parasaurolophus
+      - Architect
+      - Builder
+      - Monitor
     notes: ''
     tags:
       - schema
@@ -1611,8 +1611,8 @@ rius:
     dependencies: []
     agent_types:
       - Human:Delivery
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - deployment
@@ -1655,9 +1655,9 @@ rius:
         - spiky traffic patterns
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
-      - ARK:Parasaurolophus
+      - Architect
+      - Builder
+      - Monitor
     notes: ''
     tags:
       - observability
@@ -1701,8 +1701,8 @@ rius:
     dependencies: []
     agent_types:
       - Human:Delivery
-      - ARK:Tyrannosaurus
-      - ARK:Velociraptor
+      - Architect
+      - Debugger
     notes: ''
     tags:
       - change-mgmt
@@ -1744,9 +1744,9 @@ rius:
         - cold starts/cache warmups
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
-      - ARK:Parasaurolophus
+      - Architect
+      - Builder
+      - Monitor
     notes: ''
     tags:
       - testing
@@ -1788,8 +1788,8 @@ rius:
         - multi-service systems
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - quality
@@ -1829,7 +1829,7 @@ rius:
         - multiple tenants
     dependencies: []
     agent_types:
-      - ARK:Therizinosaurus
+      - Builder
     notes: ''
     tags:
       - deployment
@@ -1871,9 +1871,9 @@ rius:
         - shared credentials
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Builder
+      - Validator
     notes: ''
     tags:
       - testing
@@ -1915,8 +1915,8 @@ rius:
         - large tables
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - quality
@@ -1957,9 +1957,9 @@ rius:
         - traffic skew by region
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
-      - ARK:Parasaurolophus
+      - Architect
+      - Builder
+      - Monitor
     notes: ''
     tags:
       - quality
@@ -2003,8 +2003,8 @@ rius:
       - RIU-062
     agent_types:
       - Human:Delivery
-      - ARK:Therizinosaurus
-      - ARK:Yutyrannus
+      - Builder
+      - Narrator
     notes: ''
     tags:
       - change-mgmt
@@ -2047,8 +2047,8 @@ rius:
       - RIU-061
       - RIU-068
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Parasaurolophus
+      - Architect
+      - Monitor
     notes: ''
     tags:
       - quality
@@ -2094,8 +2094,8 @@ rius:
         - optional fields
     dependencies: []
     agent_types:
-      - ARK:Therizinosaurus
-      - ARK:Ankylosaurus
+      - Builder
+      - Validator
     notes: ''
     tags:
       - testing
@@ -2136,9 +2136,9 @@ rius:
         - async pipelines
     dependencies: []
     agent_types:
-      - ARK:Therizinosaurus
+      - Builder
       - Human:Delivery
-      - ARK:Ankylosaurus
+      - Validator
     notes: ''
     tags:
       - testing
@@ -2180,9 +2180,9 @@ rius:
         - prompt injection
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Builder
+      - Validator
     notes: ''
     tags:
       - agent
@@ -2221,8 +2221,8 @@ rius:
         - adversarial prompts
     dependencies: []
     agent_types:
-      - ARK:Ankylosaurus
-      - ARK:Tyrannosaurus
+      - Validator
+      - Architect
     notes: ''
     tags:
       - quality
@@ -2263,8 +2263,8 @@ rius:
         - seasonal changes
     dependencies: []
     agent_types:
-      - ARK:Therizinosaurus
-      - ARK:Ankylosaurus
+      - Builder
+      - Validator
     notes: ''
     tags:
       - quality
@@ -2306,9 +2306,9 @@ rius:
         - burst traffic
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
-      - ARK:Parasaurolophus
+      - Architect
+      - Builder
+      - Monitor
     notes: ''
     tags:
       - quality
@@ -2347,8 +2347,8 @@ rius:
     dependencies:
       - RIU-021
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Validator
     notes: ''
     tags:
       - testing
@@ -2389,8 +2389,8 @@ rius:
       - RIU-003
     agent_types:
       - Human:Delivery
-      - ARK:Tyrannosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Validator
     notes: ''
     tags:
       - scoping
@@ -2433,9 +2433,9 @@ rius:
     dependencies:
       - RIU-012
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Builder
+      - Validator
     notes: ''
     tags:
       - testing
@@ -2476,7 +2476,7 @@ rius:
         - multi-audience messaging
     dependencies: []
     agent_types:
-      - ARK:Yutyrannus
+      - Narrator
       - Human:Delivery
     notes: ''
     tags:
@@ -2519,8 +2519,8 @@ rius:
     dependencies:
       - RIU-002
     agent_types:
-      - ARK:Yutyrannus
-      - ARK:Tyrannosaurus
+      - Narrator
+      - Architect
     notes: ''
     tags:
       - change-mgmt
@@ -2559,8 +2559,8 @@ rius:
         - diverse user skill levels
     dependencies: []
     agent_types:
-      - ARK:Yutyrannus
-      - ARK:Therizinosaurus
+      - Narrator
+      - Builder
     notes: ''
     tags:
       - change-mgmt
@@ -2600,7 +2600,7 @@ rius:
     dependencies:
       - RIU-102
     agent_types:
-      - ARK:Yutyrannus
+      - Narrator
       - Human:Delivery
     notes: ''
     tags:
@@ -2643,8 +2643,8 @@ rius:
         - complex multi-phase engagements
     dependencies: []
     agent_types:
-      - ARK:Yutyrannus
-      - ARK:Therizinosaurus
+      - Narrator
+      - Builder
     notes: ''
     tags:
       - change-mgmt
@@ -2680,7 +2680,7 @@ rius:
         - cross-functional projects
     dependencies: []
     agent_types:
-      - ARK:Yutyrannus
+      - Narrator
       - Human:Delivery
     notes: ''
     tags:
@@ -2725,7 +2725,7 @@ rius:
         - hybrid requirements
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
+      - Architect
     notes: ''
     tags:
       - integration
@@ -2764,8 +2764,8 @@ rius:
         - rapidly evolving markets
     dependencies: []
     agent_types:
-      - ARK:Argentavis
-      - ARK:Yutyrannus
+      - Researcher
+      - Narrator
     notes: ''
     tags:
       - research
@@ -2804,7 +2804,7 @@ rius:
         - fragmented markets
     dependencies: []
     agent_types:
-      - ARK:Argentavis
+      - Researcher
     notes: ''
     tags:
       - research
@@ -2843,8 +2843,8 @@ rius:
         - diverse document types
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: ''
     tags:
       - documents
@@ -2884,8 +2884,8 @@ rius:
         - near-duplicates
     dependencies: []
     agent_types:
-      - ARK:Therizinosaurus
-      - ARK:Ankylosaurus
+      - Builder
+      - Validator
     notes: ''
     tags:
       - data
@@ -2926,8 +2926,8 @@ rius:
         - regulated industries
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Validator
     notes: ''
     tags:
       - security
@@ -2967,8 +2967,8 @@ rius:
     dependencies:
       - RIU-085
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Argentavis
+      - Architect
+      - Researcher
     notes: ''
     tags:
       - evaluation
@@ -3007,8 +3007,8 @@ rius:
         - complex distributed systems
     dependencies: []
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Validator
     notes: ''
     tags:
       - security
@@ -3050,9 +3050,9 @@ rius:
     dependencies:
       - RIU-066
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Builder
+      - Validator
     notes: ''
     tags:
       - security
@@ -3091,8 +3091,8 @@ rius:
         - complex error scenarios
     dependencies: []
     agent_types:
-      - ARK:Yutyrannus
-      - ARK:Therizinosaurus
+      - Narrator
+      - Builder
     notes: ''
     tags:
       - ux
@@ -3131,8 +3131,8 @@ rius:
         - diverse stakeholder audiences
     dependencies: []
     agent_types:
-      - ARK:Yutyrannus
-      - ARK:Therizinosaurus
+      - Narrator
+      - Builder
     notes: ''
     tags:
       - demo
@@ -3181,8 +3181,8 @@ rius:
     dependencies:
       - RIU-011
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: 'Theme: Multimodal AI'
     tags:
       - multimodal
@@ -3227,8 +3227,8 @@ rius:
     dependencies:
       - RIU-500
     agent_types:
-      - ARK:Therizinosaurus
-      - ARK:Ankylosaurus
+      - Builder
+      - Validator
     notes: 'Theme: Multimodal AI'
     tags:
       - multimodal
@@ -3273,8 +3273,8 @@ rius:
     dependencies:
       - RIU-500
     agent_types:
-      - ARK:Therizinosaurus
-      - ARK:Parasaurolophus
+      - Builder
+      - Monitor
     notes: 'Theme: Multimodal AI'
     tags:
       - multimodal
@@ -3318,8 +3318,8 @@ rius:
       - RIU-500
       - RIU-021
     agent_types:
-      - ARK:Ankylosaurus
-      - ARK:Velociraptor
+      - Validator
+      - Debugger
     notes: 'Theme: Multimodal AI'
     tags:
       - multimodal
@@ -3369,8 +3369,8 @@ rius:
     dependencies:
       - RIU-001
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Orchestrator
+      - Architect
+      - Orchestrator
     notes: 'Theme: Agentic Systems'
     tags:
       - agentic
@@ -3415,8 +3415,8 @@ rius:
     dependencies:
       - RIU-510
     agent_types:
-      - ARK:Therizinosaurus
-      - ARK:Parasaurolophus
+      - Builder
+      - Monitor
     notes: 'Theme: Agentic Systems'
     tags:
       - agentic
@@ -3462,9 +3462,9 @@ rius:
       - RIU-510
       - RIU-062
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Velociraptor
-      - ARK:Orchestrator
+      - Architect
+      - Debugger
+      - Orchestrator
     notes: 'Theme: Agentic Systems'
     tags:
       - agentic
@@ -3509,8 +3509,8 @@ rius:
       - RIU-510
       - RIU-011
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: 'Theme: Agentic Systems'
     tags:
       - agentic
@@ -3556,8 +3556,8 @@ rius:
       - RIU-029
       - RIU-510
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Validator
     notes: 'Theme: Agentic Systems'
     tags:
       - agentic
@@ -3607,8 +3607,8 @@ rius:
     dependencies:
       - RIU-022
     agent_types:
-      - ARK:Therizinosaurus
-      - ARK:Tyrannosaurus
+      - Builder
+      - Architect
     notes: 'Theme: LLMOps'
     tags:
       - llmops
@@ -3653,8 +3653,8 @@ rius:
     dependencies:
       - RIU-252
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Parasaurolophus
+      - Architect
+      - Monitor
     notes: 'Theme: LLMOps'
     tags:
       - llmops
@@ -3699,8 +3699,8 @@ rius:
     dependencies:
       - RIU-085
     agent_types:
-      - ARK:Parasaurolophus
-      - ARK:Ankylosaurus
+      - Monitor
+      - Validator
     notes: 'Theme: LLMOps'
     tags:
       - llmops
@@ -3745,8 +3745,8 @@ rius:
     dependencies:
       - RIU-035
     agent_types:
-      - ARK:Therizinosaurus
-      - ARK:Parasaurolophus
+      - Builder
+      - Monitor
     notes: 'Theme: LLMOps'
     tags:
       - llmops
@@ -3792,8 +3792,8 @@ rius:
       - RIU-021
       - RIU-061
     agent_types:
-      - ARK:Parasaurolophus
-      - ARK:Ankylosaurus
+      - Monitor
+      - Validator
     notes: 'Theme: LLMOps'
     tags:
       - llmops
@@ -3842,8 +3842,8 @@ rius:
     dependencies:
       - RIU-012
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Validator
       - Human:Delivery
     notes: 'Theme: AI Governance'
     tags:
@@ -3889,8 +3889,8 @@ rius:
       - RIU-021
       - RIU-530
     agent_types:
-      - ARK:Ankylosaurus
-      - ARK:Velociraptor
+      - Validator
+      - Debugger
     notes: 'Theme: AI Governance'
     tags:
       - governance
@@ -3936,8 +3936,8 @@ rius:
       - RIU-034
       - RIU-530
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Yutyrannus
+      - Architect
+      - Narrator
     notes: 'Theme: AI Governance'
     tags:
       - governance
@@ -3983,8 +3983,8 @@ rius:
       - RIU-530
       - RIU-012
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Validator
       - Human:Delivery
     notes: 'Theme: AI Governance'
     tags:
@@ -4031,8 +4031,8 @@ rius:
       - RIU-012
       - RIU-061
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Validator
     notes: 'Theme: AI Governance'
     tags:
       - governance
@@ -4079,8 +4079,8 @@ rius:
       - RIU-530
       - RIU-102
     agent_types:
-      - ARK:Therizinosaurus
-      - ARK:Yutyrannus
+      - Builder
+      - Narrator
     notes: 'Theme: AI Governance'
     tags:
       - governance
@@ -4128,7 +4128,7 @@ rius:
         - time pressure overrides
     dependencies: []
     agent_types:
-      - ARK:Ankylosaurus
+      - Validator
       - Human:Delivery
     notes: 'Theme: Validation'
     tags:
@@ -4174,8 +4174,8 @@ rius:
     dependencies:
       - RIU-534
     agent_types:
-      - ARK:Ankylosaurus
-      - ARK:Argentavis
+      - Validator
+      - Researcher
     notes: 'Theme: Validation'
     tags:
       - validation
@@ -4222,8 +4222,8 @@ rius:
     dependencies:
       - RIU-061
     agent_types:
-      - ARK:Parasaurolophus
-      - ARK:Tyrannosaurus
+      - Monitor
+      - Architect
     notes: 'Theme: Monitoring'
     tags:
       - monitoring
@@ -4269,8 +4269,8 @@ rius:
       - RIU-542
       - RIU-524
     agent_types:
-      - ARK:Parasaurolophus
-      - ARK:Velociraptor
+      - Monitor
+      - Debugger
     notes: 'Theme: Monitoring'
     tags:
       - monitoring
@@ -4319,9 +4319,9 @@ rius:
     dependencies:
       - RIU-015
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
-      - ARK:Velociraptor
+      - Architect
+      - Builder
+      - Debugger
     notes: 'Essential FDE pattern: webhook reliability'
     tags:
       - webhooks
@@ -4364,8 +4364,8 @@ rius:
     dependencies:
       - RIU-015
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: 'Essential FDE pattern: batch safety'
     tags:
       - batch
@@ -4408,8 +4408,8 @@ rius:
       - RIU-001
       - RIU-002
     agent_types:
-      - ARK:Argentavis
-      - ARK:Yutyrannus
+      - Researcher
+      - Narrator
     notes: 'Essential FDE pattern: customer problem understanding'
     tags:
       - customer
@@ -4452,7 +4452,7 @@ rius:
     dependencies:
       - RIU-001
     agent_types:
-      - ARK:Yutyrannus
+      - Narrator
     notes: 'Essential FDE pattern: demo enablement'
     tags:
       - demo
@@ -4496,8 +4496,8 @@ rius:
     dependencies:
       - RIU-015
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: 'Essential FDE pattern: API integration'
     tags:
       - integration
@@ -4541,9 +4541,9 @@ rius:
     dependencies:
       - RIU-015
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
-      - ARK:Velociraptor
+      - Architect
+      - Builder
+      - Debugger
     notes: 'Essential FDE pattern: database migration'
     tags:
       - database
@@ -4588,9 +4588,9 @@ rius:
     dependencies:
       - RIU-015
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Builder
+      - Validator
     notes: 'Essential FDE pattern: auth integration'
     tags:
       - authentication
@@ -4635,8 +4635,8 @@ rius:
     dependencies:
       - RIU-015
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: 'Essential FDE pattern: message queue'
     tags:
       - queue
@@ -4681,8 +4681,8 @@ rius:
     dependencies:
       - RIU-015
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Therizinosaurus
+      - Architect
+      - Builder
     notes: 'Essential FDE pattern: caching'
     tags:
       - caching
@@ -4728,8 +4728,8 @@ rius:
     dependencies:
       - RIU-001
     agent_types:
-      - ARK:Argentavis
-      - ARK:Ankylosaurus
+      - Researcher
+      - Validator
     notes: 'Essential FDE pattern: knowledge management'
     tags:
       - knowledge-base
@@ -4779,8 +4779,8 @@ rius:
     dependencies:
       - RIU-001
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Validator
     routes_to_library:
       - LIB-089
       - LIB-090
@@ -4882,11 +4882,11 @@ rius:
 
     agent_types:
       - Human:Delivery
-      - ARK:Orchestrator
-      - ARK:Argentavis
-      - ARK:Tyrannosaurus
-      - ARK:Yutyrannus
-      - ARK:Ankylosaurus
+      - Orchestrator
+      - Researcher
+      - Architect
+      - Narrator
+      - Validator
 
     notes: |
       Time budget: 9-16 agent hours, 2.5-4.5 customer hours, 1-2 weeks elapsed
@@ -4976,7 +4976,7 @@ rius:
     dependencies: []
 
     agent_types:
-      - ARK:Argentavis
+      - Researcher
 
     notes: |
       Time budget: 1-2 hours
@@ -5061,7 +5061,7 @@ rius:
     dependencies: []
 
     agent_types:
-      - ARK:Tyrannosaurus
+      - Architect
 
     notes: |
       Time budget: 1 hour
@@ -5134,8 +5134,8 @@ rius:
       - RIU-001
       - RIU-002
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Argentavis
+      - Architect
+      - Researcher
       - Human:Delivery
     notes: 'Added v1.4: Gap project — LVMH maison autonomy pattern for multi-brand retail'
     tags:
@@ -5190,7 +5190,7 @@ rius:
       - RIU-002
       - RIU-600
     agent_types:
-      - ARK:Tyrannosaurus
+      - Architect
       - Human:Delivery
     notes: 'Added v1.4: Gap project — AI operating model design'
     tags:
@@ -5242,8 +5242,8 @@ rius:
       - RIU-001
       - RIU-004
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Argentavis
+      - Architect
+      - Researcher
       - Human:Delivery
     notes: 'Added v1.4: Gap project — WSJF + responsible AI assessment'
     tags:
@@ -5300,8 +5300,8 @@ rius:
       - RIU-001
       - RIU-200
     agent_types:
-      - ARK:Yutyrannus
-      - ARK:Argentavis
+      - Narrator
+      - Researcher
       - Human:Delivery
     notes: 'Added v1.4: Gap project — behavior change methodology from AWS proof point'
     tags:
@@ -5361,8 +5361,8 @@ rius:
       - RIU-006
       - RIU-020
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Argentavis
+      - Architect
+      - Researcher
       - Human:Delivery
     notes: 'Added v1.4: Gap project — three-bucket ROI from Argy research'
     tags:
@@ -5414,8 +5414,8 @@ rius:
     dependencies:
       - RIU-600
     agent_types:
-      - ARK:Argentavis
-      - ARK:Yutyrannus
+      - Researcher
+      - Narrator
       - Human:Delivery
     notes: 'Added v1.4: Gap project — cross-brand knowledge sharing'
     tags:
@@ -5471,8 +5471,8 @@ rius:
       - RIU-029
       - RIU-534
     agent_types:
-      - ARK:Tyrannosaurus
-      - ARK:Ankylosaurus
+      - Architect
+      - Validator
       - Human:Delivery
     notes: 'Added v1.4: Gap project — brand safety for multi-brand AI content'
     tags:
@@ -5509,8 +5509,8 @@ rius:
         - multiple sessions compact without consolidation
     dependencies: []
     agent_types:
-      - ARK:Yutyrannus
-      - ARK:Ankylosaurus
+      - Narrator
+      - Validator
     notes: 'Added v1.4: OpenClaw upgrade — context compaction protocol'
     tags:
       - engagement-operations
@@ -5543,8 +5543,8 @@ rius:
         - multiple workflows for same engagement type
     dependencies: []
     agent_types:
-      - ARK:Orchestrator
-      - ARK:Ankylosaurus
+      - Orchestrator
+      - Validator
     notes: 'Added v1.4: OpenClaw upgrade — workflow definition pattern, validated on Gap project'
     tags:
       - engagement-operations

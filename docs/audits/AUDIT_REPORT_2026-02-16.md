@@ -135,7 +135,7 @@ implementations/{name}/fde/
 
 ### 8. Company Intel Playbook
 
-**Location**: `palette/company-library/v1.0/COMPANY_INTEL_PLAYBOOK.md`
+**Location**: `palette/buy-vs-build/v1.0/COMPANY_INTEL_PLAYBOOK.md`
 
 **Purpose**: Standardized company research methodology
 

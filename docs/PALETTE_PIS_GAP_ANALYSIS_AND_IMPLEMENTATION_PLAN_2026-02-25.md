@@ -110,7 +110,7 @@ result:
     - lib_id: "LIB-..."
       reason: "..."
   recipe:
-    path: "palette/company-library/integrations/.../recipe.yaml"
+    path: "palette/buy-vs-build/integrations/.../recipe.yaml"
     status: "available"
   signal_validation:
     strength: "medium"
@@ -293,10 +293,10 @@ People signals crossref tracks 43 tools, but 42/43 still show `company_library_s
 ### Why it matters
 This blocks durable market intelligence and weakens routing provenance.
 
-The signal graph says what tools matter. The company-library is where that becomes normalized, queryable intelligence. Right now that bridge is mostly unbuilt.
+The signal graph says what tools matter. The buy-vs-build is where that becomes normalized, queryable intelligence. Right now that bridge is mostly unbuilt.
 
 ### Proposed solution
-Build a **crossref -> company-library hydration pipeline**.
+Build a **crossref -> buy-vs-build hydration pipeline**.
 
 ### Proposed implementation
 For each signal row with `needs_entry`:

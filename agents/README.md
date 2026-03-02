@@ -8,13 +8,13 @@ Eight specialized agents with bounded responsibilities and enforced constraints.
 
 | Agent | Archetype | Role | Constraint |
 |-------|-----------|------|------------|
-| **Argentavis** | Gatherer | Research & retrieval | Read-only, no synthesis-as-decision |
-| **Tyrannosaurus** | Architect | Design & tradeoffs | Flags 🚨 ONE-WAY DOORS, proposes (doesn't commit) |
-| **Therizinosaurus** | Builder | Implementation | Builds within scope, no architecture decisions |
-| **Velociraptor** | Debugger | Failure isolation & repair | Fix-only, no feature expansion |
-| **Yutyrannus** | Narrator | GTM & narrative | Evidence-based only, no overpromising |
-| **Ankylosaurus** | Validator | Assessment & validation | Assessment-only, no remediation |
-| **Parasaurolophus** | Monitor | Signal detection | Signals-only, no interpretation |
+| **Researcher** | Gatherer | Research & retrieval | Read-only, no synthesis-as-decision |
+| **Architect** | Architect | Design & tradeoffs | Flags 🚨 ONE-WAY DOORS, proposes (doesn't commit) |
+| **Builder** | Builder | Implementation | Builds within scope, no architecture decisions |
+| **Debugger** | Debugger | Failure isolation & repair | Fix-only, no feature expansion |
+| **Narrator** | Narrator | GTM & narrative | Evidence-based only, no overpromising |
+| **Validator** | Validator | Assessment & validation | Assessment-only, no remediation |
+| **Monitor** | Monitor | Signal detection | Signals-only, no interpretation |
 | **Orchestrator** | Router | Workflow coordination | Routes after convergence, doesn't execute |
 
 ---
@@ -23,15 +23,15 @@ Eight specialized agents with bounded responsibilities and enforced constraints.
 
 | Agent | Purpose | Agents Used | Status |
 |-------|---------|-------------|--------|
-| **Business Plan Creation** | End-to-end business plan (25-50 pages) | Argy, Rex, Yuty, Anky | WORKING (Rossi validated) |
+| **Business Plan Creation** | End-to-end business plan (25-50 pages) | Researcher, Architect, Narrator, Validator | WORKING (Rossi validated) |
 
 See `agents/business-plan-creation/` for details.
 
 ---
 
-## Orchestrator Spec (Orch-Lite)
+## Orchestrator Spec (Orchestrator-Lite)
 
-- `agents/orchestrator/orchestrator.md` defines Orch v0.1 as a routing-only design spec.
+- `agents/orchestrator/orchestrator.md` defines Orchestrator v0.1 as a routing-only design spec.
 - `agents/orchestrator/fixtures/` contains gate and routing fixtures.
 - Promotion from design-only requires explicit `decisions.md` entry and fixture evidence.
 
@@ -56,8 +56,8 @@ See `agents/business-plan-creation/` for details.
 
 ## Using Agents
 
-**Kiro CLI**: `#argentavis`  
-**Claude/Cursor**: Load `agents/argentavis/argentavis.md`  
+**Kiro CLI**: `#researcher`  
+**Claude/Cursor**: Load `agents/researcher/researcher.md`  
 **Any AI**: Copy/paste agent definition
 
 Rebuild protocol: `agents/REBUILD_CYCLE_V1_3.md`

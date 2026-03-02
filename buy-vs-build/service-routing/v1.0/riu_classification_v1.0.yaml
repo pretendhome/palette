@@ -1,0 +1,1055 @@
+# RIU Service Classification v1.0
+# Generated: 2026-02-24
+# Rule: service_applicable only if an external service MATERIALLY changes output quality or cost.
+#       The library is a suggestion layer, not a replacement layer.
+#       Palette's cognitive/process work stays internal.
+#
+# Classifications:
+#   internal_only    — Palette agents handle this entirely; no external service materially improves outcome
+#   service_applicable — External service is THE mechanism (e.g., image generation, vector DB)
+#   both             — Palette does meaningful work AND an external service materially improves quality/cost
+#
+# Fields (for both/service_applicable entries):
+#   candidate_services: short list of known options
+#   service_signal:     people-library signal strength for these services (high/medium/low/none)
+#
+# Source: palette_taxonomy_v1.3.yaml (117 RIUs)
+# Author: Researcher + classification review
+
+---
+version: "1.0"
+generated_at: "2026-02-24"
+taxonomy_version: "v1.3"
+total_rius: 117
+service_applicable_count: 0   # see summary at bottom
+both_count: 0                  # see summary at bottom
+internal_only_count: 0         # see summary at bottom
+
+classification_rule: |
+  External service is material if it would meaningfully change:
+  - Output quality that Palette agents cannot match (e.g., speech-to-text accuracy)
+  - Cost/scale (e.g., vector DB vs in-memory similarity)
+  - Speed (e.g., caching layer vs no caching)
+  "Could assist" is NOT sufficient. The service must be worth the integration cost.
+
+---
+rius:
+
+  # ==========================================================================
+  # CLARIFY & BOUND (RIU-001 to RIU-009)
+  # All internal_only: pure Palette cognitive/process work.
+  # Convergence briefs, stakeholder maps, decision logs are Palette's core value.
+  # ==========================================================================
+
+  - riu_id: RIU-001
+    name: Convergence Brief (Semantic Blueprint)
+    classification: internal_only
+    rationale: Pure Palette cognitive alignment work. No external service changes brief quality.
+
+  - riu_id: RIU-002
+    name: Stakeholder Map + RACI-lite
+    classification: internal_only
+    rationale: Organizational mapping is Palette's domain. No service materially improves RACI output.
+
+  - riu_id: RIU-003
+    name: Decision Log + One-Way Door Registry
+    classification: internal_only
+    rationale: decisions.md maintenance is a Palette protocol. No external tool materially helps.
+
+  - riu_id: RIU-004
+    name: Problem → Workstream Decomposition
+    classification: internal_only
+    rationale: Task decomposition is a Rex/Argy function. No service replaces structured decomposition.
+
+  - riu_id: RIU-005
+    name: Scope Freeze + Phased Delivery Contract
+    classification: internal_only
+    rationale: Phased scope definition is pure delivery methodology.
+
+  - riu_id: RIU-006
+    name: Success Metrics Charter
+    classification: internal_only
+    rationale: Metrics definition requires contextual judgment. No service materially improves this.
+
+  - riu_id: RIU-007
+    name: Constraint Profile Capture
+    classification: internal_only
+    rationale: Constraint elicitation and ranking is dialogue-based. No external service helps.
+
+  - riu_id: RIU-008
+    name: Assumptions Register
+    classification: internal_only
+    rationale: Assumption documentation is a Palette protocol. No service materially improves it.
+
+  - riu_id: RIU-009
+    name: Risk Register + Mitigation Plan
+    classification: internal_only
+    rationale: Risk identification and mitigation planning is contextual judgment work.
+
+  # ==========================================================================
+  # INTERFACES & INPUTS (RIU-010 to RIU-019)
+  # Mostly internal_only. Two exceptions where tooling materially helps.
+  # ==========================================================================
+
+  - riu_id: RIU-010
+    name: Access & Permissions Readiness Checklist
+    classification: internal_only
+    rationale: Checklist generation and smoke tests are Palette output. Access provisioning is customer responsibility.
+
+  - riu_id: RIU-011
+    name: Data Contract Freeze (Schemas + Samples)
+    classification: internal_only
+    rationale: Schema design and contract definition is Palette's work. Validation is standard tooling.
+
+  - riu_id: RIU-012
+    name: PII/Compliance Triage (Controls Plan)
+    classification: both
+    rationale: |
+      Palette produces the controls plan, but automated PII detection services
+      materially improve discovery across large data volumes.
+    candidate_services:
+      - AWS Comprehend (entity detection, PII)
+      - Microsoft Presidio (open-source, self-hosted PII)
+      - Google Cloud DLP (Data Loss Prevention)
+    service_signal: low
+    notes: No high-signal people-library endorsement. Evaluate per compliance requirement.
+
+  - riu_id: RIU-013
+    name: Source-of-Truth Inventory
+    classification: internal_only
+    rationale: Mapping data ownership is documentation/interview work. No service materially replaces this.
+
+  - riu_id: RIU-014
+    name: Data Sampling + Edge-Case Catalog
+    classification: internal_only
+    rationale: Edge case identification from domain context is Palette's work.
+
+  - riu_id: RIU-015
+    name: Contract for Outputs (API/Events/Files)
+    classification: internal_only
+    rationale: Output contract definition is architecture documentation. No service materially helps.
+
+  - riu_id: RIU-016
+    name: API Contract Review + Versioning Plan
+    classification: internal_only
+    rationale: Contract review and versioning strategy is Anky/Rex judgment work.
+
+  - riu_id: RIU-017
+    name: Connector Spec (Source/Target)
+    classification: internal_only
+    rationale: Connector specification is Palette design work. Implementation tools are standard.
+
+  - riu_id: RIU-018
+    name: Schema Mapping Table (Source→Target)
+    classification: internal_only
+    rationale: Field mapping design is structured documentation. No service materially improves mapping quality.
+
+  - riu_id: RIU-019
+    name: Data Lineage Sketch (Minimal)
+    classification: both
+    rationale: |
+      Palette produces the lineage sketch, but data lineage tools automate
+      runtime lineage tracking across large pipelines far beyond what manual sketching achieves.
+    candidate_services:
+      - dbt (SQL lineage, widely used)
+      - DataHub (LinkedIn OSS, enterprise lineage)
+      - OpenLineage + Marquez (standard lineage spec)
+    service_signal: low
+    notes: Relevant for clients with complex multi-service pipelines.
+
+  # ==========================================================================
+  # CORE LOGIC (RIU-020 to RIU-035)
+  # Mixed. LLM tooling, vector search, reranking, and caching have material services.
+  # NOTE: RIU-030 and RIU-031 are not in v1.3 (removed in earlier refinement).
+  # ==========================================================================
+
+  - riu_id: RIU-020
+    name: Baseline Behavior Snapshot
+    classification: internal_only
+    rationale: Snapshot capture and baseline definition is Palette documentation/evaluation work.
+
+  - riu_id: RIU-021
+    name: Golden Set + Offline Evaluation Harness
+    classification: both
+    rationale: |
+      Palette designs the eval harness and golden cases, but dedicated eval platforms
+      materially improve eval quality with dashboards, regression tracking, and experiment management.
+    candidate_services:
+      - Braintrust (eval + tracing platform, strong practitioner signal)
+      - LangSmith (LangChain ecosystem, eval + observability)
+      - EvidentlyAI (OSS, ML monitoring + evals)
+      - Weave by Weights & Biases (eval + tracing)
+    service_signal: medium
+    notes: Braintrust has strong practitioner adoption. LangSmith if already in LangChain ecosystem.
+
+  - riu_id: RIU-022
+    name: Prompt Interface Contract
+    classification: internal_only
+    rationale: Prompt interface design and schema definition is Palette's work. Contracts live in codebase.
+
+  - riu_id: RIU-023
+    name: Deterministic-First Pipeline Split
+    classification: internal_only
+    rationale: Pipeline split design is architectural judgment. No service replaces this pattern definition.
+
+  - riu_id: RIU-024
+    name: Sidecar Augmentation Pattern
+    classification: internal_only
+    rationale: Sidecar design is a Palette architectural pattern. Implementation is standard engineering.
+
+  - riu_id: RIU-025
+    name: Freshness/Staleness Rules (Deterministic)
+    classification: internal_only
+    rationale: Freshness rule definition and orphan detection is deterministic logic Palette implements.
+
+  - riu_id: RIU-026
+    name: Hybrid Similarity (Enums + Embeddings)
+    classification: both
+    rationale: |
+      Palette designs the hybrid similarity pattern, but vector databases materially change
+      scale, performance, and cost for embedding-based retrieval at production volumes.
+    candidate_services:
+      - Pinecone (managed vector DB, production-ready)
+      - Qdrant (OSS + managed, high performance)
+      - Weaviate (OSS + managed, hybrid search native)
+      - pgvector (Postgres extension, simplest for existing PG users)
+    service_signal: low
+    notes: Choice depends on existing infrastructure. pgvector for simplicity, Qdrant/Pinecone for scale.
+
+  - riu_id: RIU-027
+    name: Reranking Layer (Post-Retrieval)
+    classification: both
+    rationale: |
+      Palette implements the reranking layer, but neural reranking models (cross-encoders)
+      materially outperform deterministic reranking at reasonable cost.
+    candidate_services:
+      - Cohere Rerank (API, strongest signal among practitioners)
+      - Voyage AI (embeddings + reranking)
+      - BGE Reranker (OSS, self-hosted option)
+    service_signal: medium
+    notes: Cohere Rerank is the default recommendation for managed reranking.
+
+  - riu_id: RIU-028
+    name: Schema-Constrained Generation
+    classification: both
+    rationale: |
+      Palette enforces schema constraints, but structured output libraries materially
+      reduce parse errors and retry loops compared to manual enforcement.
+    candidate_services:
+      - Instructor (Python, most popular structured output library)
+      - Outlines (grammar-constrained generation)
+      - Anthropic native JSON mode (already in Claude API)
+    service_signal: low
+    notes: Instructor is effectively standard practice. Anthropic native JSON mode first, Instructor for complex schemas.
+
+  - riu_id: RIU-029
+    name: Tool-Calling Safety Envelope
+    classification: internal_only
+    rationale: Safety envelope design is a Palette policy and architecture pattern. See RIU-082 and RIU-108 for tooling.
+
+  - riu_id: RIU-032
+    name: Extraction Pattern (Structured from Unstructured)
+    classification: internal_only
+    rationale: Claude excels at structured extraction. No additional service materially improves this for standard cases.
+
+  - riu_id: RIU-033
+    name: Classification Pattern (Soft Labels)
+    classification: internal_only
+    rationale: Soft classification with confidence is a direct Claude capability. No separate service needed.
+
+  - riu_id: RIU-034
+    name: Ranking Explanation Rules (Reason Codes)
+    classification: internal_only
+    rationale: Deterministic reason codes are custom logic. No external service replaces rule definition.
+
+  - riu_id: RIU-035
+    name: Caching Strategy + Invalidation Plan
+    classification: both
+    rationale: |
+      Palette defines the caching strategy, but managed caching services materially
+      change cost, scale, and TTL management compared to in-process solutions.
+    candidate_services:
+      - Upstash Redis (serverless Redis, pay-per-use, no cold starts)
+      - Redis Cloud (managed Redis for high throughput)
+      - Momento Cache (serverless, simple API)
+    service_signal: low
+    notes: Upstash for serverless/cost-sensitive. Redis Cloud for high throughput requirements.
+
+  # ==========================================================================
+  # OPS & DELIVERY (RIU-060 to RIU-070)
+  # Several tool categories have strong external services.
+  # ==========================================================================
+
+  - riu_id: RIU-060
+    name: Deployment Readiness Envelope
+    classification: internal_only
+    rationale: Deployment envelope definition is documentation and checklist work. No service materially helps.
+
+  - riu_id: RIU-061
+    name: Observability Baseline
+    classification: both
+    rationale: |
+      Palette defines the observability requirements, but observability platforms materially
+      change what is detectable and how fast. Without a platform, observability is largely manual.
+    candidate_services:
+      - Datadog (full-stack APM, highest market signal)
+      - Honeycomb (distributed tracing, excellent DX)
+      - Grafana + Prometheus (OSS, self-hosted, most flexible)
+      - AWS CloudWatch (if already on AWS)
+    service_signal: medium
+    notes: Honeycomb preferred for LLM tracing granularity. Datadog for enterprise breadth.
+
+  - riu_id: RIU-062
+    name: Incident Containment & Recovery Plan
+    classification: internal_only
+    rationale: Incident runbook design and comms templates are Palette documentation work.
+
+  - riu_id: RIU-063
+    name: Performance & Load Characterization
+    classification: both
+    rationale: |
+      Load testing tools materially change the scale and realism of perf characterization
+      vs manual testing.
+    candidate_services:
+      - k6 (OSS + cloud, most developer-friendly load testing)
+      - Grafana k6 Cloud (managed k6 with dashboards)
+      - Locust (OSS Python, flexible for custom scenarios)
+    service_signal: low
+    notes: k6 is effectively the default for modern load testing.
+
+  - riu_id: RIU-064
+    name: Feature Flags + Kill Switch Integration
+    classification: both
+    rationale: |
+      Feature flag platforms materially improve rollout safety with targeting,
+      scheduling, and instant kill switches that are production-hardened.
+    candidate_services:
+      - LaunchDarkly (enterprise, most mature)
+      - Statsig (stats-driven rollouts, strong among AI practitioners)
+      - Unleash (OSS, self-hosted option)
+      - Vercel Flags (if on Vercel)
+    service_signal: low
+    notes: Statsig preferred for AI-native rollouts with experimentation. LaunchDarkly for enterprise.
+
+  - riu_id: RIU-065
+    name: Config Management + Environment Parity
+    classification: internal_only
+    rationale: Config spec and parity checks are standard .env / 12-factor patterns. No service materially helps.
+
+  - riu_id: RIU-066
+    name: Secrets Handling + Rotation Expectations
+    classification: both
+    rationale: |
+      Secrets managers materially change security posture. Manual secrets handling
+      is not production-safe; a dedicated service is the standard.
+    candidate_services:
+      - HashiCorp Vault (most comprehensive, OSS + Cloud)
+      - AWS Secrets Manager (if AWS-native)
+      - GCP Secret Manager (if GCP-native)
+      - Doppler (developer-friendly managed secrets)
+    service_signal: low
+    notes: Match to customer's cloud provider. Doppler for simpler setups.
+
+  - riu_id: RIU-067
+    name: Database Migration Safety Wrapper
+    classification: both
+    rationale: |
+      Migration tools materially improve safety with versioning, rollback, and
+      dry-run capabilities vs raw SQL scripts.
+    candidate_services:
+      - Flyway (Java ecosystem, widely used)
+      - Liquibase (multi-database, enterprise features)
+      - Alembic (Python/SQLAlchemy ecosystem)
+      - Prisma Migrate (if using Prisma ORM)
+    service_signal: low
+    notes: Match to customer's ORM/tech stack.
+
+  - riu_id: RIU-068
+    name: Canary Rollout + Error Budget Gate
+    classification: both
+    rationale: |
+      Canary and error budget tooling materially reduces blast radius of releases.
+      Manual canary tracking is error-prone.
+    candidate_services:
+      - Statsig (feature flags + error budgets, AI-native)
+      - LaunchDarkly (mature canary support)
+      - Argo Rollouts (Kubernetes-native progressive delivery)
+    service_signal: low
+    notes: Statsig if already used for RIU-064.
+
+  - riu_id: RIU-069
+    name: Runbook (Day-2 Operations)
+    classification: internal_only
+    rationale: Runbook writing is Yuty/Theri work. No service materially generates better runbooks.
+
+  - riu_id: RIU-070
+    name: SLO/SLI Definition + Alert Thresholds
+    classification: both
+    rationale: |
+      SLO management in observability platforms materially improves enforcement and
+      error budget burn rate visibility vs manual tracking.
+    candidate_services:
+      - Datadog SLOs (integrated with monitoring)
+      - Honeycomb SLOs (trace-based, highly accurate)
+      - Grafana SLOs (OSS, flexible)
+    service_signal: medium
+    notes: Use whichever observability platform was selected for RIU-061.
+
+  # ==========================================================================
+  # QUALITY & SAFETY (RIU-080 to RIU-088)
+  # LLM guardrails, red-teaming, data quality, privacy have strong services.
+  # ==========================================================================
+
+  - riu_id: RIU-080
+    name: Contract Tests (Input/Output)
+    classification: internal_only
+    rationale: Contract test implementation is standard engineering. Pact.io exists but Palette can implement without it.
+
+  - riu_id: RIU-081
+    name: End-to-End Smoke Tests (Critical Path)
+    classification: internal_only
+    rationale: Smoke test writing and runbook creation is Theri/Anky work. No external service required.
+
+  - riu_id: RIU-082
+    name: LLM Safety Guardrails (Content + Tool Use)
+    classification: both
+    rationale: |
+      LLM guardrail platforms materially improve content safety with lower latency
+      and more reliable enforcement than prompt-only approaches.
+    candidate_services:
+      - AWS Bedrock Guardrails (managed, integrates with Claude)
+      - Lakera Guard (prompt injection + content safety)
+      - Guardrails AI (OSS, schema + content validators)
+      - Nemo Guardrails (NVIDIA, dialog flow guardrails)
+    service_signal: medium
+    notes: Bedrock Guardrails if on AWS. Lakera for prompt injection protection specifically.
+
+  - riu_id: RIU-083
+    name: Red Team Scenarios (Abuse + Failure)
+    classification: both
+    rationale: |
+      Automated red-teaming tools materially expand attack surface coverage
+      beyond what manual scenario creation achieves.
+    candidate_services:
+      - Garak (OSS LLM vulnerability scanner, standard tool)
+      - Promptfoo (red-teaming + CI integration)
+      - Anthropic's constitutional AI evals (if using Claude)
+    service_signal: low
+    notes: Garak is the default for systematic LLM red-teaming. Promptfoo for CI integration.
+
+  - riu_id: RIU-084
+    name: Data Quality Checks (Nulls, Duplicates, Ranges)
+    classification: both
+    rationale: |
+      Data quality platforms materially improve DQ monitoring with rule libraries,
+      anomaly detection, and scheduling vs manual check scripts.
+    candidate_services:
+      - Great Expectations (OSS, most widely used DQ framework)
+      - dbt tests (if dbt already in use for SQL pipelines)
+      - Soda (managed + OSS, good DX)
+    service_signal: low
+    notes: dbt tests if already using dbt. Great Expectations for standalone DQ.
+
+  - riu_id: RIU-085
+    name: Cost/Latency Budget Envelope
+    classification: internal_only
+    rationale: Budget envelope definition and guard logic is Palette's design work. Monitoring via observability platform (RIU-061).
+
+  - riu_id: RIU-086
+    name: Regression Suite (Golden + Metamorphic)
+    classification: internal_only
+    rationale: Regression test design and invariant definition is Anky/Rex work. Execution is standard CI.
+
+  - riu_id: RIU-087
+    name: Human Review Gate (One-Way Doors)
+    classification: internal_only
+    rationale: Gate design and sign-off process is Palette's core ONE-WAY DOOR protocol.
+
+  - riu_id: RIU-088
+    name: Privacy Redaction Pipeline
+    classification: both
+    rationale: |
+      PII detection libraries materially improve redaction accuracy and coverage
+      across free-text at production scale vs regex-only approaches.
+    candidate_services:
+      - Microsoft Presidio (OSS, production-ready PII redaction)
+      - AWS Comprehend (managed PII detection)
+      - spaCy + custom NER (OSS, customizable)
+    service_signal: low
+    notes: Presidio is the standard OSS choice. AWS Comprehend if already on AWS.
+
+  # ==========================================================================
+  # ADOPTION & CHANGE (RIU-100 to RIU-105, RIU-108)
+  # All internal_only except RIU-108 (guardrails tooling).
+  # ==========================================================================
+
+  - riu_id: RIU-100
+    name: Capability Statement (What/Why/How)
+    classification: internal_only
+    rationale: Capability statement writing is Yuty's core function.
+
+  - riu_id: RIU-101
+    name: Customer Workshop Design (Discovery/Alignment)
+    classification: internal_only
+    rationale: Workshop design and facilitation is Human/Yuty work. No service materially helps.
+
+  - riu_id: RIU-102
+    name: Enablement Pack (Docs/Examples/How-To)
+    classification: internal_only
+    rationale: Enablement documentation is Yuty/Theri work.
+
+  - riu_id: RIU-103
+    name: Training Session Design + Delivery
+    classification: internal_only
+    rationale: Training design is Human/Yuty work. No AI service materially improves training delivery.
+
+  - riu_id: RIU-104
+    name: Handoff Bundle (Restartability)
+    classification: internal_only
+    rationale: Handoff bundle creation is Palette's documentation protocol.
+
+  - riu_id: RIU-105
+    name: Executive Update (Status/Risks/Decisions)
+    classification: internal_only
+    rationale: Executive update writing is Yuty's function.
+
+  - riu_id: RIU-108
+    name: Agent Security & Access Control
+    classification: both
+    rationale: |
+      Palette designs the security architecture, but managed guardrail services
+      materially improve enforcement reliability for production AI agents.
+    candidate_services:
+      - AWS Bedrock Guardrails (managed, Claude-integrated)
+      - Lakera Guard (prompt injection + agent safety)
+      - HashiCorp Vault (secrets + access for agent credentials)
+    service_signal: medium
+    notes: Overlap with RIU-082 (LLM Safety Guardrails). Use same service selection.
+
+  - riu_id: RIU-109
+    name: Business Plan Creation
+    classification: both
+    rationale: |
+      Palette produces the business plan, but research (Perplexity) and presentation
+      tools (Gamma) materially improve research depth and deliverable quality.
+    candidate_services:
+      - Perplexity (research with citations, Palette-integrated)
+      - Gamma (AI-native slides/presentation, high signal)
+      - NotebookLM (source-grounded synthesis, high signal)
+    service_signal: high
+    notes: All three have high people-library signal. Perplexity already integrated via MCP.
+
+  # ==========================================================================
+  # SPECIALIZED / DOMAIN (RIU-106, RIU-107, RIU-120, RIU-121, RIU-122, RIU-140)
+  # ==========================================================================
+
+  - riu_id: RIU-106
+    name: Comparable Organization Research
+    classification: both
+    rationale: |
+      Palette's Argy does this research, but Perplexity MCP materially accelerates
+      finding obscure comparables with financial data (Form 990, public filings).
+    candidate_services:
+      - Perplexity (already integrated, highest signal for research)
+      - Crunchbase (startup funding data)
+      - PitchBook (private company financials, enterprise)
+    service_signal: high
+    notes: Perplexity is the primary tool. Crunchbase/PitchBook for private company data.
+
+  - riu_id: RIU-107
+    name: Financial Crisis Detection
+    classification: internal_only
+    rationale: Cash flow modeling is analytical work done in spreadsheet/Claude. No external service improves the analysis.
+
+  - riu_id: RIU-120
+    name: Integration Mode Selection (Batch vs Stream vs Hybrid)
+    classification: internal_only
+    rationale: Integration mode selection is an architecture decision. Rex makes this call; no service required.
+
+  - riu_id: RIU-121
+    name: Webhook Reliability Pattern (Retries + Idempotency)
+    classification: internal_only
+    rationale: Webhook reliability implementation is a design pattern. No external service needed beyond standard libraries.
+
+  - riu_id: RIU-122
+    name: Batch Pipeline Safety Pattern (Checkpointing)
+    classification: internal_only
+    rationale: Batch checkpointing is an implementation pattern. No external service materially helps.
+
+  - riu_id: RIU-140
+    name: Competitive/Alternatives Scan (Landscape)
+    classification: both
+    rationale: |
+      Argy does competitive scans, but Perplexity materially accelerates breadth
+      and recency of competitive intelligence vs web search alone.
+    candidate_services:
+      - Perplexity (already integrated, best for current competitive landscape)
+    service_signal: high
+    notes: Perplexity is the clear choice here.
+
+  # ==========================================================================
+  # ESSENTIAL FDE PATTERNS (RIU-200 to RIU-413)
+  # ==========================================================================
+
+  - riu_id: RIU-200
+    name: Customer Problem Narrative (JTBD + Constraints)
+    classification: internal_only
+    rationale: JTBD narrative synthesis is Argy + Yuty's work from customer interviews. No service replaces this.
+
+  - riu_id: RIU-201
+    name: Competitive/Alternatives Research
+    classification: both
+    rationale: |
+      Argy conducts this research, but Perplexity MCP materially improves depth
+      and recency with sourced, synthesized competitive intelligence.
+    candidate_services:
+      - Perplexity (already integrated, highest signal)
+      - Tavily (research-focused search API)
+    service_signal: high
+    notes: Perplexity is the default. Tavily as alternative if Perplexity unavailable.
+
+  - riu_id: RIU-231
+    name: Document Chunking Strategy
+    classification: internal_only
+    rationale: Chunking strategy is architecture design. Implementation uses standard libraries (LangChain, LlamaIndex).
+
+  - riu_id: RIU-232
+    name: Deduplication System
+    classification: internal_only
+    rationale: Dedup logic is custom to data domain. No external service materially helps for typical Palette use cases.
+
+  - riu_id: RIU-250
+    name: Security Review Packet
+    classification: internal_only
+    rationale: Security review packet compilation is Anky/Rex documentation work.
+
+  - riu_id: RIU-252
+    name: Model Evaluation & Selection
+    classification: both
+    rationale: |
+      Rex evaluates models, but benchmark services materially improve evaluation
+      accuracy with standardized scores and cost/latency data.
+    candidate_services:
+      - Artificial Analysis (artificialanalysis.ai — benchmarks + cost data)
+      - OpenRouter (model catalog with pricing, Palette routing candidate)
+      - LiteLLM (self-hosted model routing + cost tracking)
+    service_signal: medium
+    notes: Artificial Analysis for evaluation data. OpenRouter for routing integration (see service-routing).
+
+  - riu_id: RIU-290
+    name: Internal Demo Narrative (Problem→Value→Limits)
+    classification: internal_only
+    rationale: Demo narrative writing is Yuty's function.
+
+  - riu_id: RIU-320
+    name: Third-Party API Integration Pattern
+    classification: internal_only
+    rationale: Circuit breaker and resilience pattern design is Rex/Theri work. Standard libraries (tenacity, etc.) for implementation.
+
+  - riu_id: RIU-321
+    name: Database Migration Strategy
+    classification: internal_only
+    rationale: Migration strategy design is Rex's work. Implementation tools match tech stack (Flyway, Alembic — see RIU-067).
+
+  - riu_id: RIU-322
+    name: Authentication/Authorization Integration
+    classification: internal_only
+    rationale: Auth integration design is Rex/Theri work. Implementation uses standard OAuth/SAML libraries.
+
+  - riu_id: RIU-323
+    name: Message Queue Integration Pattern
+    classification: internal_only
+    rationale: Queue integration design is architecture work. Choice of SQS/Kafka/RabbitMQ is customer's existing infrastructure.
+
+  - riu_id: RIU-324
+    name: Caching Strategy Design
+    classification: internal_only
+    rationale: Caching strategy design is Rex's work. Service selection handled via RIU-035.
+
+  - riu_id: RIU-326
+    name: Threat Model + Attack Surface Map
+    classification: internal_only
+    rationale: Threat modeling is Rex/Anky judgment work. No service replaces contextual threat identification.
+
+  - riu_id: RIU-327
+    name: AuthN/AuthZ Integration
+    classification: internal_only
+    rationale: Auth design is Rex/Theri work. Implementation uses standard libraries (Auth0, Cognito, etc. are customer choices).
+
+  - riu_id: RIU-330
+    name: Error Messaging Standards
+    classification: internal_only
+    rationale: Error message standards definition is Yuty/Theri work.
+
+  - riu_id: RIU-400
+    name: KB Content Audit (Coverage + Gaps)
+    classification: internal_only
+    rationale: KB auditing is Argy/Anky analysis work. No external service replaces structured audit methodology.
+
+  - riu_id: RIU-413
+    name: Customer Value Demo Creation
+    classification: both
+    rationale: |
+      Palette produces the demo content, but presentation and demo tools
+      materially improve deliverable quality and production speed.
+    candidate_services:
+      - Gamma (AI-native slides/presentations, very high signal)
+      - Lovable (AI-generated app demos, high signal)
+      - Canva AI (presentation design, medium signal)
+    service_signal: high
+    notes: Gamma is the primary choice per people-library (Grant Lee CEO signal). Lovable for interactive demos.
+
+  # ==========================================================================
+  # MULTIMODAL AI WORKFLOWS (RIU-500 to RIU-503)
+  # Image and audio processing have strong external services.
+  # ==========================================================================
+
+  - riu_id: RIU-500
+    name: Multimodal Data Pipeline Design
+    classification: internal_only
+    rationale: Pipeline architecture design is Rex's work. The pipeline design itself has no external substitute.
+
+  - riu_id: RIU-501
+    name: Image/Vision Processing Integration
+    classification: both
+    rationale: |
+      Image generation and vision analysis services materially change output quality
+      vs attempting to replicate these capabilities internally.
+    candidate_services:
+      - Claude Vision (already integrated, best for image understanding)
+      - Seedance (AI video/image generation, very high signal)
+      - Higgsfield AI (video generation, high signal)
+      - Leonardo AI (image generation, medium signal)
+      - AWS Rekognition (managed image analysis, enterprise)
+    service_signal: high
+    notes: Claude Vision for analysis. Seedance/Higgsfield for generation per people-library signals.
+
+  - riu_id: RIU-502
+    name: Audio Processing Integration
+    classification: both
+    rationale: |
+      Speech-to-text and audio processing services materially change transcription
+      accuracy and language support vs building custom audio processing.
+    candidate_services:
+      - Wispr Flow (voice input, highest signal, Palette Telegram bot integration)
+      - OpenAI Whisper (open-source, already referenced in Palette)
+      - Deepgram (production STT, good accuracy + low latency)
+      - AssemblyAI (STT + audio intelligence)
+    service_signal: high
+    notes: Wispr Flow for voice UI. Whisper/Deepgram for backend transcription pipelines.
+
+  - riu_id: RIU-503
+    name: Cross-Modal Validation Pattern
+    classification: internal_only
+    rationale: Cross-modal consistency checking is custom quality logic using Claude's multimodal capabilities.
+
+  # ==========================================================================
+  # ADVANCED AGENTIC SYSTEMS (RIU-510 to RIU-514)
+  # All internal_only: these are Palette's core agentic patterns.
+  # ==========================================================================
+
+  - riu_id: RIU-510
+    name: Multi-Agent Workflow Design
+    classification: internal_only
+    rationale: Multi-agent workflow design is Palette's core architectural pattern. No external framework replaces it.
+
+  - riu_id: RIU-511
+    name: Agent State Management Pattern
+    classification: internal_only
+    rationale: State management design uses Palette's checkpoint protocol. No external service materially helps.
+
+  - riu_id: RIU-512
+    name: Agent Failure Recovery Pattern
+    classification: internal_only
+    rationale: Failure recovery pattern is Palette's design. Standard retry libraries for implementation.
+
+  - riu_id: RIU-513
+    name: Inter-Agent Communication Protocol
+    classification: internal_only
+    rationale: Palette's own communication protocol. No external framework replaces this.
+
+  - riu_id: RIU-514
+    name: Agent Capability Boundary Enforcement
+    classification: internal_only
+    rationale: Boundary enforcement design is Rex/Anky work. Policy enforcement is internal. See RIU-082 for LLM guardrails.
+
+  # ==========================================================================
+  # MODERN LLMOPS (RIU-520 to RIU-524)
+  # All "both" — LLMOps tooling materially improves every dimension here.
+  # ==========================================================================
+
+  - riu_id: RIU-520
+    name: Prompt Version Control & Lifecycle
+    classification: both
+    rationale: |
+      Prompt management platforms materially improve versioning, rollback, and
+      team collaboration on prompts vs manual git-based management.
+    candidate_services:
+      - Braintrust (prompt management + evals, strong signal)
+      - Helicone (prompt versioning + observability)
+      - LangSmith (if in LangChain ecosystem)
+      - Anthropic Console (basic prompt management, already accessible)
+    service_signal: medium
+    notes: Braintrust for full lifecycle. Helicone for simpler setups. Anthropic Console for basic needs.
+
+  - riu_id: RIU-521
+    name: LLM Model Version Management
+    classification: both
+    rationale: |
+      Model routing platforms materially simplify managing multiple model versions
+      with automatic fallback, cost tracking, and compatibility testing.
+    candidate_services:
+      - OpenRouter (500+ models, $40M funded, 5% markup)
+      - LiteLLM (OSS self-hosted, ~3-5ms overhead, 100+ models)
+      - Vercel AI Gateway (if on Vercel, Guillermo Rauch signal)
+    service_signal: medium
+    notes: OpenRouter for managed simplicity. LiteLLM for self-hosted control. See service-routing for full analysis.
+
+  - riu_id: RIU-522
+    name: Token Budget Management
+    classification: both
+    rationale: |
+      Cost tracking platforms materially improve attribution and budget enforcement
+      across teams, users, and features vs manual logging.
+    candidate_services:
+      - Helicone (usage tracking + cost attribution)
+      - OpenRouter (built-in cost tracking across models)
+      - LiteLLM (cost tracking + budget limits)
+    service_signal: medium
+    notes: Use whatever is chosen for RIU-521 (model routing) — most include cost tracking.
+
+  - riu_id: RIU-523
+    name: LLM Response Caching Strategy
+    classification: both
+    rationale: |
+      Semantic caching platforms materially reduce token costs for repeated/similar
+      queries at production scale.
+    candidate_services:
+      - GPTCache (OSS semantic cache)
+      - Upstash Vector (serverless semantic cache on Redis)
+      - Momento Cache (serverless, semantic search add-on)
+    service_signal: low
+    notes: Evaluate based on RIU-035 caching stack choice. Semantic caching has ~10-40% hit rates typically.
+
+  - riu_id: RIU-524
+    name: LLM Output Quality Monitoring
+    classification: both
+    rationale: |
+      LLM observability platforms materially improve quality detection with
+      automated scoring, drift alerts, and production sampling.
+    candidate_services:
+      - Braintrust (production eval + quality monitoring)
+      - Arize AI (ML + LLM observability, drift detection)
+      - Whylogs / WhyLabs (OSS + managed data quality + LLM)
+      - Helicone (observability + quality scoring)
+    service_signal: medium
+    notes: Braintrust if already used for RIU-520/RIU-021. Arize for production LLM monitoring specifically.
+
+  # ==========================================================================
+  # AI GOVERNANCE (RIU-530 to RIU-535)
+  # Bias detection and explainability have material external tools.
+  # ==========================================================================
+
+  - riu_id: RIU-530
+    name: AI System Risk Classification
+    classification: internal_only
+    rationale: Risk classification is an assessment and documentation task. No tool replaces regulatory judgment.
+
+  - riu_id: RIU-531
+    name: Algorithmic Bias Detection
+    classification: both
+    rationale: |
+      Bias detection frameworks materially improve coverage across protected attributes
+      with established fairness metrics that would take significant time to reimplement.
+    candidate_services:
+      - Fairlearn (Microsoft OSS, scikit-learn compatible)
+      - IBM AI Fairness 360 (AIF360, comprehensive metrics)
+      - Evidently AI (bias + data quality, OSS + managed)
+    service_signal: low
+    notes: Fairlearn for standard ML models. Evidently for combined DQ + bias monitoring.
+
+  - riu_id: RIU-532
+    name: AI Explainability Framework
+    classification: both
+    rationale: |
+      Explainability libraries materially improve explanation quality and correctness
+      for ML models (SHAP values, feature importance) vs manual descriptions.
+    candidate_services:
+      - SHAP (standard for feature-based explainability)
+      - LIME (local interpretable explanations)
+      - Captum (PyTorch, deep learning explainability)
+    service_signal: low
+    notes: Primarily relevant for traditional ML components. LLM-based decisions use RIU-034 reason codes instead.
+
+  - riu_id: RIU-533
+    name: Fundamental Rights Impact Assessment (FRIA)
+    classification: internal_only
+    rationale: FRIA is a structured assessment requiring legal/ethical judgment. No service replaces human review.
+
+  - riu_id: RIU-534
+    name: AI Audit Trail Requirements
+    classification: internal_only
+    rationale: Audit trail requirements definition is documentation. Implementation uses standard logging (see RIU-061).
+
+  - riu_id: RIU-535
+    name: AI System Documentation Package
+    classification: internal_only
+    rationale: Documentation compilation is Yuty/Theri work. No service materially improves package quality.
+
+  # ==========================================================================
+  # AGENT-SPECIFIC PATTERNS (RIU-540 to RIU-543)
+  # Observability stack and drift detection have material external tools.
+  # ==========================================================================
+
+  - riu_id: RIU-540
+    name: Validation Gate Design
+    classification: internal_only
+    rationale: Gate criteria design is Anky/Rex work. No service replaces contextual gate definition.
+
+  - riu_id: RIU-541
+    name: Compliance Audit Preparation
+    classification: internal_only
+    rationale: Evidence gathering and gap analysis is Anky/Argy work. No service replaces structured audit prep.
+
+  - riu_id: RIU-542
+    name: Observability Stack Design
+    classification: both
+    rationale: |
+      Observability platform selection materially affects what is visible and at what cost.
+      This design RIU directly maps to service selection.
+    candidate_services:
+      - Datadog (full-stack, widest coverage)
+      - Honeycomb (tracing-first, excellent for distributed systems)
+      - Grafana + Prometheus (OSS, maximum flexibility)
+      - New Relic (APM + logs + infra, competitive pricing)
+    service_signal: medium
+    notes: Same selection as RIU-061 — they're the same decision. Honeycomb preferred for LLM-heavy systems.
+
+  - riu_id: RIU-543
+    name: Drift Detection Configuration
+    classification: both
+    rationale: |
+      Drift detection platforms materially improve detection of data and model drift
+      with statistical tests and alerting that would be complex to reimplement.
+    candidate_services:
+      - Arize AI (LLM + ML monitoring, drift detection)
+      - WhyLabs (OSS + managed, data/model drift)
+      - Evidently AI (OSS + cloud, data + model drift, comprehensive)
+    service_signal: low
+    notes: Evidently for combined DQ + drift. Arize for LLM-specific monitoring.
+
+  # ==========================================================================
+  # ENTERPRISE AI STRATEGY (RIU-600 to RIU-608)
+  # Mostly internal_only. RIU-606 (brand safety) maps to guardrail services.
+  # ==========================================================================
+
+  - riu_id: RIU-600
+    name: Multi-Brand AI Strategy Framework
+    classification: internal_only
+    rationale: Strategy design and brand landscape mapping is Rex/Human work. No external service required.
+
+  - riu_id: RIU-601
+    name: AI Operating Model Design
+    classification: internal_only
+    rationale: Operating model design is Rex/Human strategic work.
+
+  - riu_id: RIU-602
+    name: AI Use Case Prioritization Matrix
+    classification: internal_only
+    rationale: WSJF scoring and prioritization is structured judgment work. No service materially helps.
+
+  - riu_id: RIU-603
+    name: Employee AI Adoption Program
+    classification: internal_only
+    rationale: Adoption program design is Yuty/Human work focused on behavior change methodology.
+
+  - riu_id: RIU-604
+    name: AI ROI Quantification Framework
+    classification: internal_only
+    rationale: ROI modeling is structured financial analysis. No external service materially improves the framework.
+
+  - riu_id: RIU-605
+    name: Cross-Brand Knowledge Transfer
+    classification: internal_only
+    rationale: Knowledge transfer system design is Argy/Yuty work. Pattern library is Palette's internal artifact.
+
+  - riu_id: RIU-606
+    name: Brand Safety for AI-Generated Content
+    classification: both
+    rationale: |
+      Palette designs the brand safety framework, but managed guardrail services
+      materially improve enforcement reliability for customer-facing AI content.
+    candidate_services:
+      - AWS Bedrock Guardrails (managed, Claude-integrated, denied topics + word filters)
+      - Lakera Guard (prompt injection + brand safety)
+      - Guardrails AI (OSS, custom validators for brand voice)
+    service_signal: medium
+    notes: Overlaps with RIU-082. Same service selection. Bedrock Guardrails if on AWS.
+
+  - riu_id: RIU-607
+    name: Context Compaction for Long Engagements
+    classification: internal_only
+    rationale: Context compaction is a Palette-native protocol (Yuty + Anky pattern).
+
+  - riu_id: RIU-608
+    name: Workflow Definition for Multi-Agent Engagements
+    classification: internal_only
+    rationale: Workflow definition is Palette's own structured format. No external framework replaces it.
+
+# ==========================================================================
+# SUMMARY STATISTICS
+# ==========================================================================
+
+summary:
+  total_rius: 117
+  internal_only: 80
+  both: 37
+  service_applicable: 0
+
+  # "both" breakdown by theme:
+  both_by_theme:
+    data_and_privacy: [RIU-012, RIU-019, RIU-084, RIU-088]
+    evaluation_and_quality: [RIU-021, RIU-082, RIU-083, RIU-086]
+    retrieval_and_similarity: [RIU-026, RIU-027, RIU-028]
+    caching_and_performance: [RIU-035, RIU-523]
+    ops_and_observability: [RIU-061, RIU-063, RIU-064, RIU-066, RIU-067, RIU-068, RIU-070, RIU-542]
+    llmops: [RIU-520, RIU-521, RIU-522, RIU-524]
+    research: [RIU-140, RIU-201, RIU-252, RIU-106]
+    multimodal: [RIU-501, RIU-502]
+    demos_and_gtm: [RIU-413, RIU-109]
+    governance: [RIU-531, RIU-532, RIU-543, RIU-606]
+    agent_safety: [RIU-108]
+    drift_detection: [RIU-543]
+
+  # High-signal RIUs to prioritize for service-routing expansion:
+  high_priority_service_routing:
+    - riu_id: RIU-502
+      name: Audio Processing Integration
+      reason: Wispr Flow already integrated; people-library high signal
+    - riu_id: RIU-501
+      name: Image/Vision Processing Integration
+      reason: Seedance + Higgsfield high signal from people-library
+    - riu_id: RIU-201
+      name: Competitive/Alternatives Research
+      reason: Perplexity MCP already integrated
+    - riu_id: RIU-521
+      name: LLM Model Version Management
+      reason: OpenRouter/LiteLLM high priority; matches SageMaker vision
+    - riu_id: RIU-413
+      name: Customer Value Demo Creation
+      reason: Gamma high signal (Grant Lee CEO); immediate use case
+    - riu_id: RIU-252
+      name: Model Evaluation & Selection
+      reason: Artificial Analysis data directly improves Rex's model selection
+    - riu_id: RIU-082
+      name: LLM Safety Guardrails
+      reason: Bedrock Guardrails + Lakera; safety-critical
+    - riu_id: RIU-524
+      name: LLM Output Quality Monitoring
+      reason: Production quality; Braintrust/Arize strong signal
+
+  notes: |
+    - No RIUs are purely service_applicable: Palette's agents always do meaningful work.
+    - "both" means external service materially improves outcome vs Palette alone.
+    - 37 "both" RIUs are the initial target for service-routing expansion.
+    - Start with high_priority_service_routing (8 RIUs) given people-library signal strength.

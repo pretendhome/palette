@@ -1,10 +1,10 @@
-# Rex Architecture Proposal
-**Agent**: Tyrannosaurus Rex (Architecture)  
+# Architecture Proposal
+**Agent**: Architect (Architecture)  
 **Date**: 2026-02-01  
 **Duration**: 20 minutes  
 **Status**: COMPLETE
 
-**Input**: Argy's research report (5 findings)  
+**Input**: Researcher's research report (5 findings)  
 **Output**: Information architecture and governance model
 
 ---
@@ -28,13 +28,13 @@ palette/
 │       └── TIER3_decisions_prompt.md  # Tier 3 template (existing)
 │
 ├── agents/                            # 8 agent implementations
-│   ├── argentavis/                    # Argy (research)
-│   ├── tyrannosaurus/                 # Rex (architecture)
-│   ├── therizinosaurus/               # Theri (build)
-│   ├── velociraptor/                  # Raptor (debug)
-│   ├── yutyrannus/                    # Yuty (narrative)
-│   ├── ankylosaurus/                  # Anky (validate)
-│   ├── parasaurolophus/               # Para (monitor)
+│   ├── researcher/                    # Researcher (research)
+│   ├── tyrannosaurus/                 # Architect (architecture)
+│   ├── builder/               # Builder (build)
+│   ├── debugger/                  # Debugger (debug)
+│   ├── narrator/                    # Narrator (narrative)
+│   ├── validator/                  # Validator (validate)
+│   ├── monitor/               # Monitor (monitor)
 │   └── README.md                      # Agent overview (new)
 │
 ├── taxonomy/                          # RIU classification system
@@ -80,15 +80,15 @@ palette/
 ```
 
 **Rationale**:
-- **Based on Argy Finding 1**: Function-based organization, `/examples/` and `/docs/` directories
+- **Based on Researcher Finding 1**: Function-based organization, `/examples/` and `/docs/` directories
 - **Separation of concerns**: System definition (tier/agents/taxonomy/library) vs. usage (examples/docs)
 - **Onboarding path**: README → GETTING_STARTED → examples → docs (progressive depth)
 - **Self-improvement**: CONTRIBUTING.md + issue templates enable community contributions
 - **Visual identity**: `/assets/` centralizes brand materials
 
 **Changes from Current Structure**:
-- **Add**: `/examples/` (6-30 use cases from Anky)
-- **Add**: `/assets/` (visual identity from Yuty)
+- **Add**: `/examples/` (6-30 use cases from Validator)
+- **Add**: `/assets/` (visual identity from Narrator)
 - **Add**: `/.github/` (contribution workflow)
 - **Add**: `GETTING_STARTED.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `LICENSE`
 - **Enhance**: `/docs/` with structured guides
@@ -102,7 +102,7 @@ palette/
 - Documentation cross-references will hardcode paths
 - Examples will reference specific file locations
 
-**Approval Required**: YES - Mical must approve before Theri implements
+**Approval Required**: YES - Mical must approve before Builder implements
 
 ---
 
@@ -143,7 +143,7 @@ PR merged → User acknowledged in CHANGELOG
 - **Human approval**: No autonomous merging (maintains quality)
 
 **Rationale**:
-- **Based on Argy Finding 4**: Successful OSS projects use structured contribution workflows
+- **Based on Researcher Finding 4**: Successful OSS projects use structured contribution workflows
 - **Maintains quality**: Human approval prevents low-quality contributions
 - **Encourages participation**: Clear process lowers barrier to entry
 - **Builds community**: Contributors see impact, get acknowledged
@@ -170,7 +170,7 @@ PR merged → User acknowledged in CHANGELOG
 **Release Artifacts**:
 - Taxonomy version (currently v1.2)
 - Library version (currently v1.2)
-- Agent versions (individual, e.g., Argy v1.0)
+- Agent versions (individual, e.g., Researcher v1.0)
 - Toolkit version (overall, e.g., Palette v1.0)
 
 **CHANGELOG.md Format**:
@@ -193,7 +193,7 @@ PR merged → User acknowledged in CHANGELOG
 ```
 
 **Rationale**:
-- **Based on Argy Finding 5**: Successful toolkits (Terraform, Kubernetes) use clear versioning
+- **Based on Researcher Finding 5**: Successful toolkits (Terraform, Kubernetes) use clear versioning
 - **Manages expectations**: Users know what changed, why, and impact
 - **Enables rollback**: If v1.3 breaks something, users can revert to v1.2
 - **Acknowledges contributors**: CHANGELOG credits community contributions
@@ -229,7 +229,7 @@ PR merged → User acknowledged in CHANGELOG
 - Maintainer retains veto power on all decisions
 
 **Rationale**:
-- **Based on Argy Finding 4**: Clear governance prevents contribution chaos
+- **Based on Researcher Finding 4**: Clear governance prevents contribution chaos
 - **Maintains quality**: Single decision-maker ensures coherence
 - **Enables scaling**: Delegation path allows growth without bottleneck
 - **Preserves vision**: Maintainer ensures Palette stays true to core principles
@@ -254,16 +254,16 @@ PR merged → User acknowledged in CHANGELOG
 - **Dimensions**: Square aspect ratio (scalable)
 - **Usage**: GitHub avatar, README header, documentation
 
-**Color Palette** (Based on Argy Finding 3):
+**Color Palette** (Based on Researcher Finding 3):
 ```
-Argentavis (Argy):     #3B82F6  (Blue - research/trust/water)
-Therizinosaurus (Theri): #F97316  (Orange - build/action/fire)
-Velociraptor (Raptor):   #EF4444  (Red - debug/alert/critical)
-Tyrannosaurus (Rex):     #A855F7  (Purple - design/vision/architecture)
-Yutyrannus (Yuty):       #10B981  (Green - narrative/growth/GTM)
-Ankylosaurus (Anky):     #6B7280  (Gray - validate/stability/stone)
-Parasaurolophus (Para):  #FBBF24  (Yellow - signal/monitor/light)
-Orchestrator (Orch):     #F3F4F6  (White/Light Gray - coordinate/neutral/air)
+Researcher:     #3B82F6  (Blue - research/trust/water)
+Builder: #F97316  (Orange - build/action/fire)
+Debugger:   #EF4444  (Red - debug/alert/critical)
+Architect:     #A855F7  (Purple - design/vision/architecture)
+Narrator:       #10B981  (Green - narrative/growth/GTM)
+Validator:     #6B7280  (Gray - validate/stability/stone)
+Monitor:  #FBBF24  (Yellow - signal/monitor/light)
+Orchestrator (Orchestrator):     #F3F4F6  (White/Light Gray - coordinate/neutral/air)
 ```
 
 **Accessibility**:
@@ -273,12 +273,12 @@ Orchestrator (Orch):     #F3F4F6  (White/Light Gray - coordinate/neutral/air)
 
 **Brand Guidelines**:
 - Glyph usage: Always include all 8 colors (represents complete system)
-- Color usage: Use semantic colors in documentation (e.g., Argy sections use blue)
+- Color usage: Use semantic colors in documentation (e.g., Researcher sections use blue)
 - Typography: Monospace for code, sans-serif for prose
 - Tone: Professional, approachable, builder-focused (not corporate, not playful)
 
 **Rationale**:
-- **Based on Argy Finding 3**: Semantic color coding improves recognition and usability
+- **Based on Researcher Finding 3**: Semantic color coding improves recognition and usability
 - **8 agents = 8 colors**: Natural mapping, easy to remember
 - **Painter's palette metaphor**: Reinforces "Palette" name, builder-centric identity
 - **Professional aesthetic**: Appeals to FDE/developer audience
@@ -291,7 +291,7 @@ Orchestrator (Orch):     #F3F4F6  (White/Light Gray - coordinate/neutral/air)
 - Documentation will embed color semantics (e.g., "blue = research")
 - Hard to rebrand after community adoption
 
-**Approval Required**: YES - Mical must approve before Yuty creates assets
+**Approval Required**: YES - Mical must approve before Narrator creates assets
 
 ---
 
@@ -306,7 +306,7 @@ Orchestrator (Orch):     #F3F4F6  (White/Light Gray - coordinate/neutral/air)
 - Changing it later breaks workflows
 - Documentation will hardcode paths
 
-**Rationale**: Based on Argy Finding 1 (70% productivity increase from good structure)
+**Rationale**: Based on Researcher Finding 1 (70% productivity increase from good structure)
 
 **Approval Status**: ⬜ PENDING
 
@@ -321,25 +321,25 @@ Orchestrator (Orch):     #F3F4F6  (White/Light Gray - coordinate/neutral/air)
 - Documentation will embed color semantics
 - Hard to rebrand after adoption
 
-**Rationale**: Based on Argy Finding 3 (semantic color coding improves usability)
+**Rationale**: Based on Researcher Finding 3 (semantic color coding improves usability)
 
 **Approval Status**: ⬜ PENDING
 
 ---
 
-## Recommendation: Routing to Theri
+## Recommendation: Routing to Builder
 
-**Next Agent**: Therizinosaurus (Theri) - Build
+**Next Agent**: Builder - Build
 
 **Handoff Context**:
 - Architecture complete, 5 decisions documented
-- 2 ONE-WAY DOORS require approval before Theri proceeds
+- 2 ONE-WAY DOORS require approval before Builder proceeds
 - 3 TWO-WAY DOORS can proceed without approval
-- Theri will implement: repository structure, GETTING_STARTED.md, CONTRIBUTING.md, issue templates, README enhancements
+- Builder will implement: repository structure, GETTING_STARTED.md, CONTRIBUTING.md, issue templates, README enhancements
 
-**Blocking**: Theri cannot proceed until ONE-WAY DOORS #1 and #2 are approved
+**Blocking**: Builder cannot proceed until ONE-WAY DOORS #1 and #2 are approved
 
-**If approved**: Theri implements structure, Yuty creates visual assets in parallel
+**If approved**: Builder implements structure, Narrator creates visual assets in parallel
 
 ---
 
@@ -355,6 +355,6 @@ Orchestrator (Orch):     #F3F4F6  (White/Light Gray - coordinate/neutral/air)
 
 ---
 
-**Agent Status**: Tyrannosaurus Rex (Rex) - Architecture phase complete  
+**Agent Status**: Architect - Architecture phase complete  
 **Impressions**: success=1, fail=0, fail_gap=1, status=UNVALIDATED  
-**Next**: Human approval of ONE-WAY DOORS before proceeding to Theri
+**Next**: Human approval of ONE-WAY DOORS before proceeding to Builder

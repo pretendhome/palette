@@ -38,13 +38,13 @@ palette_fit:
   supporting_rius:
     - RIU-014
   primary_agents:
-    - therizinosaurus
-    - velociraptor
+    - builder
+    - debugger
     - rex
   supporting_agents:
-    - ankylosaurus
-    - parasaurolophus
-    - argentavis
+    - validator
+    - monitor
+    - researcher
   library_links:
     - "Use LIB entries tied to reliability, failure handling, integration, and operational runbooks."
   company_matrix_use:

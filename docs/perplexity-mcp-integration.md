@@ -1,7 +1,7 @@
 # Perplexity MCP Integration for Palette
 
 **Date**: 2026-02-06  
-**Purpose**: Enable Argentavis (research agent) to use Perplexity AI for enhanced search capabilities  
+**Purpose**: Enable Researcher (research agent) to use Perplexity AI for enhanced search capabilities  
 **Status**: Configured
 
 ---
@@ -77,9 +77,9 @@ The MCP server should auto-start when Kiro initializes.
 
 ## Usage in Palette
 
-### Argentavis (Research Agent)
+### Researcher (Research Agent)
 
-When Argentavis is active (`#argentavis` or `#argy`), it will automatically use Perplexity MCP for searches if available.
+When Researcher is active (`#researcher`), it will automatically use Perplexity MCP for searches if available.
 
 **Search priority**:
 1. Knowledge Library (internal validated knowledge)
@@ -90,7 +90,7 @@ When Argentavis is active (`#argentavis` or `#argy`), it will automatically use 
 ```
 User: Research best practices for agent security
 
-Argy: Checking knowledge library first...
+Researcher: Checking knowledge library first...
 ✓ Found LIB-089, LIB-090, LIB-091
 
 Searching via Perplexity for additional sources...
@@ -120,15 +120,15 @@ Searching via Perplexity for additional sources...
 
 ## Integration with Palette Agents
 
-### Argentavis (Argy) - Primary User
+### Researcher - Primary User
 - Uses Perplexity for external research
 - Combines with Knowledge Library for comprehensive findings
 - Maintains read-only constraint (no decisions)
 
 ### Other Agents
-- **Rex (Architecture)**: Can request Argy to research via Perplexity
-- **Anky (Validation)**: Can use Perplexity to validate claims
-- **Yuty (Narrative)**: Can request Argy to research communication best practices
+- **Architect (Architecture)**: Can request Researcher to research via Perplexity
+- **Validator (Validation)**: Can use Perplexity to validate claims
+- **Narrator (Narrative)**: Can request Researcher to research communication best practices
 
 ---
 
@@ -153,9 +153,9 @@ cat ~/.config/kiro/mcp.json | jq .
 
 ### Perplexity Not Being Used
 
-**Check 1**: Verify Argentavis is active
+**Check 1**: Verify Researcher is active
 ```
-Current agent should show: Argentavis (Argy)
+Current agent should show: Researcher
 ```
 
 **Check 2**: Check Kiro logs
@@ -204,7 +204,7 @@ Perplexity API is usage-based:
 - Perplexity API Docs: https://docs.perplexity.ai
 - MCP Protocol: https://modelcontextprotocol.io
 - Palette Tier 2 (Agent Archetypes): `.kiro/steering/assumptions.md`
-- Argentavis Agent: `agents/argentavis/argentavis.md`
+- Researcher Agent: `agents/researcher/researcher.md`
 
 ---
 

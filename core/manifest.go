@@ -7,7 +7,7 @@ package core
 type AgentManifest struct {
 	Name         string            `json:"name"`
 	Version      string            `json:"version"`
-	ArkType      string            `json:"ark_type"`
+	AgentType    string            `json:"agent_type"`
 	Code         string            `json:"code"`
 	Role         string            `json:"role"`
 	Description  string            `json:"description"`

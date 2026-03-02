@@ -24,8 +24,8 @@
 }
 ```
 
-### 2. Argentavis Agent Updated ✅
-**File**: `/home/mical/palette/agents/argentavis/argentavis.md`
+### 2. Researcher Agent Updated ✅
+**File**: `/home/mical/palette/agents/researcher/researcher.md`
 
 **Changes**:
 - Added Perplexity MCP as primary search tool
@@ -77,7 +77,7 @@
 4. **Test in Kiro**:
    ```bash
    kiro-cli chat
-   #argentavis
+   #researcher
    Research agent security best practices
    ```
 
@@ -93,13 +93,13 @@ If you prefer manual setup:
 
 2. **MCP config already created** at `~/.config/kiro/mcp.json`
 
-3. **Start using**: Activate Argentavis and search
+3. **Start using**: Activate Researcher and search
 
 ---
 
 ## Integration Details
 
-### Tool Priority for Argentavis
+### Tool Priority for Researcher
 
 **Before Perplexity**:
 1. Knowledge Library (internal)
@@ -130,7 +130,7 @@ If you prefer manual setup:
 - ✅ Faster convergence (less back-and-forth)
 - ✅ Higher quality findings
 - ✅ Better source diversity
-- ✅ Maintains Argy's read-only constraint
+- ✅ Maintains Researcher's read-only constraint
 
 ### For Cost Efficiency
 - ✅ Knowledge Library first (free)
@@ -147,7 +147,7 @@ If you prefer manual setup:
 3. `/home/mical/palette/scripts/setup-perplexity-mcp.sh` - Setup script
 
 ### Modified
-1. `/home/mical/palette/agents/argentavis/argentavis.md` - Added Perplexity tool
+1. `/home/mical/palette/agents/researcher/researcher.md` - Added Perplexity tool
 
 ---
 
@@ -156,7 +156,7 @@ If you prefer manual setup:
 ### Immediate
 1. Get Perplexity API key
 2. Run setup script
-3. Test with Argentavis
+3. Test with Researcher
 
 ### Future Enhancements
 1. **Cache results**: Store Perplexity findings in Knowledge Library
@@ -191,7 +191,7 @@ cat ~/.config/kiro/mcp.json | jq .
 ```
 
 ### Perplexity Not Being Used
-- Verify Argentavis is active (`#argentavis`)
+- Verify Researcher is active (`#researcher`)
 - Check Kiro logs: `~/.kiro/logs/mcp.log`
 - Ensure API key is set in current shell
 
@@ -200,7 +200,7 @@ cat ~/.config/kiro/mcp.json | jq .
 ## Documentation References
 
 - **Setup Guide**: `/home/mical/palette/docs/perplexity-mcp-integration.md`
-- **Argentavis Agent**: `/home/mical/palette/agents/argentavis/argentavis.md`
+- **Researcher Agent**: `/home/mical/palette/agents/researcher/researcher.md`
 - **Perplexity API**: https://docs.perplexity.ai
 - **MCP Protocol**: https://modelcontextprotocol.io
 

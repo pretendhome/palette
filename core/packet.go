@@ -13,14 +13,14 @@ type AgentID string
 
 const (
 	AgentOrchestrator AgentID = "orchestrator"
-	AgentCory         AgentID = "corythosaurus"
-	AgentRex          AgentID = "rex"
-	AgentArgy         AgentID = "argentavis"
-	AgentTheri        AgentID = "therizinosaurus"
-	AgentAnky         AgentID = "ankylosaurus"
-	AgentPara         AgentID = "parasaurolophus"
-	AgentRaptor       AgentID = "velociraptor"
-	AgentYuty         AgentID = "yutyrannus"
+	AgentResolver     AgentID = "resolver"
+	AgentArchitect    AgentID = "architect"
+	AgentResearcher   AgentID = "researcher"
+	AgentBuilder      AgentID = "builder"
+	AgentValidator    AgentID = "validator"
+	AgentMonitor      AgentID = "monitor"
+	AgentDebugger     AgentID = "debugger"
+	AgentNarrator     AgentID = "narrator"
 	AgentHuman        AgentID = "human"
 )
 

@@ -66,7 +66,7 @@ def _load_knowledge(root: str) -> dict[str, dict]:
 
 
 def _load_routing(root: str) -> dict[str, dict]:
-    path = os.path.join(root, "company-library", "service-routing", "v1.0", "service_routing_v1.0.yaml")
+    path = os.path.join(root, "buy-vs-build", "service-routing", "v1.0", "service_routing_v1.0.yaml")
     docs = _load_yaml_docs(path)
     entries: dict[str, dict] = {}
     for doc in docs:
@@ -78,7 +78,7 @@ def _load_routing(root: str) -> dict[str, dict]:
 
 
 def _load_recipes(root: str) -> dict[str, dict]:
-    pattern = os.path.join(root, "company-library", "integrations", "*", "recipe.yaml")
+    pattern = os.path.join(root, "buy-vs-build", "integrations", "*", "recipe.yaml")
     entries: dict[str, dict] = {}
     for path in globmod.glob(pattern):
         docs = _load_yaml_docs(path)
@@ -93,7 +93,7 @@ def _load_recipes(root: str) -> dict[str, dict]:
 
 def _load_signals(root: str) -> list[dict]:
     path = os.path.join(
-        root, "company-library", "people-library", "v1.1",
+        root, "buy-vs-build", "people-library", "v1.1",
         "people_library_company_signals_v1.1.yaml",
     )
     docs = _load_yaml_docs(path)
@@ -106,7 +106,7 @@ def _load_signals(root: str) -> list[dict]:
 
 
 def _load_classification(root: str) -> dict[str, dict]:
-    path = os.path.join(root, "company-library", "service-routing", "v1.0", "riu_classification_v1.0.yaml")
+    path = os.path.join(root, "buy-vs-build", "service-routing", "v1.0", "riu_classification_v1.0.yaml")
     docs = _load_yaml_docs(path)
     entries: dict[str, dict] = {}
     for doc in docs:

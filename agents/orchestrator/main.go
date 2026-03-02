@@ -1,11 +1,11 @@
 // orch — Palette Workflow Router (Orchestrator)
 //
-// Orch is the connective tissue of the Palette multi-agent system.
+// Orchestrator is the connective tissue of the Palette multi-agent system.
 // It reads a task description, routes it to the right specialist agent(s),
 // enforces maturity gates and ONE-WAY DOOR confirmation, dispatches
 // HandoffPackets, and aggregates HandoffResults.
 //
-// Architecture mirrors Raptor and Para:
+// Architecture mirrors Debugger and Monitor:
 //
 //	AgentRunner interface   →  SubprocessRunner (real) | DryRunner (plan-only)
 //	routeRules []rule       →  data-driven routing table, add a route = one line

@@ -11,14 +11,14 @@ PALETTE_ROOT = _SCRIPT_DIR.parents[1]  # fde/palette/
 # ── People library ────────────────────────────────────────────────────────────
 PEOPLE_LIBRARY_PATH = (
     PALETTE_ROOT
-    / "company-library"
+    / "buy-vs-build"
     / "people-library"
     / "v1.1"
     / "people_library_v1.1.yaml"
 )
 CROSSREF_PATH = (
     PALETTE_ROOT
-    / "company-library"
+    / "buy-vs-build"
     / "people-library"
     / "v1.1"
     / "people_library_company_signals_v1.1.yaml"

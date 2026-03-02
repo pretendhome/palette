@@ -90,11 +90,11 @@
   
   agent_types:
     - Human:Delivery
-    - ARK:Orchestrator
-    - ARK:Argentavis
-    - ARK:Tyrannosaurus
-    - ARK:Yutyrannus
-    - ARK:Ankylosaurus
+    - Orchestrator
+    - Researcher
+    - Architect
+    - Narrator
+    - Validator
   
   notes: |
     Time budget: 9-16 agent hours, 2.5-4.5 customer hours, 1-2 weeks elapsed
@@ -184,7 +184,7 @@
   dependencies: []
   
   agent_types:
-    - ARK:Argentavis
+    - Researcher
   
   notes: |
     Time budget: 1-2 hours
@@ -269,7 +269,7 @@
   dependencies: []
   
   agent_types:
-    - ARK:Tyrannosaurus
+    - Architect
   
   notes: |
     Time budget: 1 hour

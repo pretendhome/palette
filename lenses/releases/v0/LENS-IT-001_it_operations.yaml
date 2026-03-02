@@ -46,14 +46,14 @@ palette_fit:
   supporting_rius:
     - RIU-014
   primary_agents:
-    - velociraptor
-    - therizinosaurus
-    - parasaurolophus
-    - ankylosaurus
+    - debugger
+    - builder
+    - monitor
+    - validator
   supporting_agents:
     - rex
-    - yutyrannus
-    - argentavis
+    - narrator
+    - researcher
   library_links:
     - "Prefer LIB entries on reliability, incident handling, observability, operationalization, and failure recovery."
   company_matrix_use:

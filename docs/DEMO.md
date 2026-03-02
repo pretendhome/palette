@@ -69,19 +69,19 @@ Everything else is execution.
 
 ---
 
-### Demo 1: Argy Refuses Architecture Decision (2.5 min)
+### Demo 1: Researcher Refuses Architecture Decision (2.5 min)
 
 **SAY**:
 ```
 Let me show you constraint enforcement live. I'm going to switch to 
-Argentavis—our research agent—and ask it to make an architecture decision.
+Researcher—our research agent—and ask it to make an architecture decision.
 
 Watch what happens.
 ```
 
 **TYPE** (visible to audience):
 ```
-#argy
+#researcher
 ```
 
 **WAIT** for confirmation that agent loaded
@@ -92,11 +92,11 @@ We need to choose between monorepo vs multi-repo for our codebase.
 Which should we use and why?
 ```
 
-**EXPECTED RESPONSE** (as Argy):
+**EXPECTED RESPONSE** (as Researcher):
 ```
 ⚠️ CONSTRAINT VIOLATION
 
-I'm a research agent (ARK:Argentavis) with read-only access. I can provide 
+I'm a research agent (Researcher) with read-only access. I can provide 
 findings on monorepo vs multi-repo strategies, but I cannot make 
 architecture decisions.
 
@@ -105,10 +105,10 @@ What I can do:
 - Gather industry best practices
 - Find relevant case studies
 
-Architecture decisions must route to Tyrannosaurus (Rex).
+Architecture decisions must route to Architect.
 
 Would you like me to gather research on monorepo vs multi-repo patterns 
-for Rex to evaluate?
+for Architect to evaluate?
 ```
 
 **SAY AFTER**:
@@ -126,7 +126,7 @@ This isn't prompt engineering—it's enforced at the agent level.
 
 ---
 
-### Demo 2: Theri Requires Spec Before Building (2.5 min)
+### Demo 2: Builder Requires Spec Before Building (2.5 min)
 
 **SAY**:
 ```
@@ -135,7 +135,7 @@ Now let me ask our builder agent to implement something without a clear spec.
 
 **TYPE**:
 ```
-#theri
+#builder
 ```
 
 **WAIT** for confirmation
@@ -145,11 +145,11 @@ Now let me ask our builder agent to implement something without a clear spec.
 Build a monitoring dashboard for our agents.
 ```
 
-**EXPECTED RESPONSE** (as Theri):
+**EXPECTED RESPONSE** (as Builder):
 ```
 ⚠️ CONVERGENCE REQUIRED
 
-I'm a builder (ARK:Therizinosaurus) and I need a clear specification before 
+I'm a builder (Builder) and I need a clear specification before 
 implementation. The request "build a monitoring dashboard" is underspecified.
 
 Required before I can proceed:
@@ -161,9 +161,9 @@ Required before I can proceed:
 
 This requires:
 1. Convergence Brief (RIU-001) to clarify requirements
-2. Architecture decision from Rex (if tech stack not specified)
+2. Architecture decision from Architect (if tech stack not specified)
 
-Would you like me to route this to Rex for architecture design, or can 
+Would you like me to route this to Architect for architecture design, or can 
 you provide a complete specification?
 ```
 
@@ -182,7 +182,7 @@ convergence first. This prevents building the wrong thing fast.
 
 ---
 
-### Demo 3: Rex Flags ONE-WAY DOOR (3 min)
+### Demo 3: Architect Flags ONE-WAY DOOR (3 min)
 
 **SAY**:
 ```
@@ -192,7 +192,7 @@ ONE-WAY DOOR flag.
 
 **TYPE**:
 ```
-#rex
+#architect
 ```
 
 **WAIT** for confirmation
@@ -203,7 +203,7 @@ We need to select a database for our agent performance metrics.
 Recommend one and explain why.
 ```
 
-**EXPECTED RESPONSE** (as Rex):
+**EXPECTED RESPONSE** (as Architect):
 ```
 I'll evaluate database options for agent performance metrics.
 
@@ -257,7 +257,7 @@ yes, approved
 ```
 ✅ Architecture decision approved and logged.
 
-Routing to Therizinosaurus (Theri) for implementation with specification:
+Routing to Builder for implementation with specification:
 - Database: InfluxDB
 - Metrics: agent success/fail/latency
 - Retention: 90 days
@@ -278,17 +278,17 @@ Now the architect routes to the builder with a complete spec. That's the workflo
 
 ---
 
-### Demo 4: Para Emits Raw Signal (2 min)
+### Demo 4: Monitor Emits Raw Signal (2 min)
 
 **SAY**:
 ```
-Finally, let me show our signal monitor. Para emits raw signals without 
+Finally, let me show our signal monitor. Monitor emits raw signals without 
 interpretation.
 ```
 
 **TYPE**:
 ```
-#para
+#monitor
 ```
 
 **WAIT** for confirmation
@@ -298,7 +298,7 @@ interpretation.
 Agent success rate dropped from 95% to 78%. What should we do?
 ```
 
-**EXPECTED RESPONSE** (as Para):
+**EXPECTED RESPONSE** (as Monitor):
 ```
 ⚠️ SIGNAL DETECTED
 
@@ -309,14 +309,14 @@ Deviation: -17 percentage points
 Status: ANOMALY
 
 Routing recommendation:
-- For diagnosis → ARK:Velociraptor (Raptor)
-- For root cause analysis → ARK:Tyrannosaurus (Rex)
+- For diagnosis → Debugger
+- For root cause analysis → Architect
 
-Para does NOT say:
+Monitor does NOT say:
 ❌ "This is probably because the taxonomy is incomplete"
 ❌ "You should add more RIUs to fix this"
 
-Para ONLY signals the deviation and routes. No interpretation.
+Monitor ONLY signals the deviation and routes. No interpretation.
 ```
 
 **SAY AFTER**:
@@ -363,14 +363,14 @@ Here's how I used Palette last night to design what you're watching:
    Routed to agents with proven solutions.
 
 4. ONE-WAY DOOR FLAG (point to 🚨 section)
-   Rex flagged: "Demo scenario selection is irreversible"
+   Architect flagged: "Demo scenario selection is irreversible"
    System paused. Required my approval. Only then proceeded.
 
 5. AGENT EXECUTION (point to Artifacts)
-   - Argy researched demo strategies
-   - Rex evaluated 5 options with tradeoffs
-   - Yuty generated complete script
-   - Anky validated plan (7 risks, all mitigated)
+   - Researcher researched demo strategies
+   - Architect evaluated 5 options with tradeoffs
+   - Narrator generated complete script
+   - Validator validated plan (7 risks, all mitigated)
 
 6. WHAT IT PRODUCED (point to demo_guide.md)
    This demo—including the live agent switching you just saw—was 
@@ -442,7 +442,7 @@ You can use LangChain under Palette. They solve different problems.
 Three things:
 
 1. Constraint enforcement prevents scope violations (you just saw this)
-2. ONE-WAY DOOR pausing prevents irreversible mistakes (Rex flagged it)
+2. ONE-WAY DOOR pausing prevents irreversible mistakes (Architect flagged it)
 3. Maturity demotion: two failures within 10 runs = agent demoted
 
 Every failure gets logged with reasoning (post-mortem in decisions.md).
@@ -504,13 +504,13 @@ Knowledge Assets:
 - palette_taxonomy_v1.2.yaml (104 RIUs)
 
 Agents (7 implemented):
-- argentavis/ (Argy - research)
-- rex/ (Rex - architect)
-- therizinosaurus/ (Theri - builder)
-- velociraptor/ (Raptor - debugger)
-- yutyrannus/ (Yuty - narrative)
-- ankylosaurus/ (Anky - validator)
-- parasaurolophus/ (Para - signal monitor)
+- researcher/ (Researcher - research)
+- rex/ (Architect - architect)
+- builder/ (Builder - builder)
+- debugger/ (Debugger - debugger)
+- narrator/ (Narrator - narrative)
+- validator/ (Validator - validator)
+- monitor/ (Monitor - signal monitor)
 
 All open, all inspectable. Glass-box by design.
 ```
@@ -567,20 +567,20 @@ Ready to try it on one of your problems?
 
 2. **Test all 4 agent switches**:
    ```
-   #argy
-   [test that I become Argy]
+   #researcher
+   [test that I become Researcher]
    #kiro
    
-   #theri
-   [test that I become Theri]
+   #builder
+   [test that I become Builder]
    #kiro
    
-   #rex
-   [test that I become Rex]
+   #architect
+   [test that I become Architect]
    #kiro
    
-   #para
-   [test that I become Para]
+   #monitor
+   [test that I become Monitor]
    #kiro
    ```
 
@@ -598,25 +598,25 @@ Ready to try it on one of your problems?
 ## AGENT SWITCHING CHEATSHEET
 
 ```bash
-# Demo 1: Argy refuses architecture
-#argy
+# Demo 1: Researcher refuses architecture
+#researcher
 We need to choose between monorepo vs multi-repo. Which should we use?
 #kiro
 
-# Demo 2: Theri requires spec
-#theri
+# Demo 2: Builder requires spec
+#builder
 Build a monitoring dashboard for our agents.
 #kiro
 
-# Demo 3: Rex flags ONE-WAY DOOR
-#rex
+# Demo 3: Architect flags ONE-WAY DOOR
+#architect
 Select a database for agent performance metrics and explain why.
 [wait for response]
 yes, approved
 #kiro
 
-# Demo 4: Para emits raw signal
-#para
+# Demo 4: Monitor emits raw signal
+#monitor
 Agent success rate dropped from 95% to 78%. What should we do?
 #kiro
 ```
@@ -630,7 +630,7 @@ Agent success rate dropped from 95% to 78%. What should we do?
 1. **It's real** - Not screenshots, not mock-ups, actual agents refusing
 2. **It's unexpected** - Most demos show agents succeeding, not refusing
 3. **It proves constraints** - Actions speak louder than documentation
-4. **It's memorable** - Watching Argy say "I can't do that" sticks
+4. **It's memorable** - Watching Researcher say "I can't do that" sticks
 
 **The narrative arc**:
 - Part 2: "Here's how constraints are documented"

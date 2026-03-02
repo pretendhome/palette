@@ -1,0 +1,2144 @@
+# Palette People & Influencer Library v1.1
+# Generated: 2026-02-24
+# Agent: Yuty (GTM/Narrative) — evidence-based only, all claims sourced
+# Source: people_library_v1.0.yaml + Phase 1 web enrichment pass
+# Status: CURRENT — supersedes v1.0
+#
+# Changes from v1.0:
+#   - All 18 profiles enriched (13 complete, 5 with updated data)
+#   - PERSON-013 corrected: Victoria Liang is Product Marketing Lead, not CTO
+#   - PERSON-017 Pablo Palafox promoted from stub to full profile
+#   - PERSON-018 Lazar Jovanovic archived (derivative Lovable signal)
+#   - 4 watch list candidates promoted: PERSON-019 to PERSON-022
+#   - Signal quality validated/updated on all profiles
+#   - New fields: perplexity_enrichment_status, enrichment_date, enrichment_notes
+#   - 2 new clusters added: frontier_ai_engineering, ai_production_commercial
+#
+# Schema notes:
+#   - signal_type: content_educator | vc_investor | founder_builder | product_insider | creative_technologist | curator
+#   - signal_quality: high | medium | low | unvalidated
+#   - status: active | archived | inactive
+#   - perplexity_enrichment_status: complete | pending | not_applicable
+
+metadata:
+  version: "1.1"
+  generated_date: "2026-02-24"
+  total_profiles: 21
+  archived: 1
+  enrichment_pass: "2026-02-24 — full (18/18 profiles enriched, 4 watch list promoted)"
+  source_file: "people_library_v1.0.yaml"
+  clusters_identified:
+    - ruben_hassid_network       # Ruben, Anisha, Axelle, Maria
+    - lovable_orbit              # Anton Osika, Felix Haas, Oskar Elvhage, Joel Nordström
+    - wispr_flow_orbit           # Tanay Kothari, Victoria Liang
+    - vc_infrastructure_lens     # Olivia Moore (a16z), Filip Mark (Creandum), Guillermo Rauch (Vercel)
+    - ai_creative_tools          # Alex Patrascu, Sebastien Jefferies
+    - frontier_ai_engineering    # Andrej Karpathy, Chip Huyen (NEW in v1.1)
+    - ai_production_commercial   # Matthieu Lorrain, PJ Accetturo (NEW in v1.1)
+
+---
+
+profiles:
+
+  # ─────────────────────────────────────────────
+  # CLUSTER: RUBEN HASSID NETWORK
+  # ─────────────────────────────────────────────
+
+  - id: "PERSON-001"
+    name: "Ruben Hassid"
+    headline: "Master AI before it masters you."
+    signal_type: content_educator
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Confirmed HIGH. Added Claude, Grok, Wispr, Gamma as 2026 tool signals. Updated EasyGen MRR to $41K. Substack at 312K subscribers."
+
+    location:
+      current: "Tel Aviv District, Israel"
+      origin: "Paris, France"
+      lived_in: ["Paris", "Seoul", "Berlin", "Tel Aviv"]
+
+    platforms:
+      linkedin:
+        handle: "rubenhassid"
+        url: "https://www.linkedin.com/in/rubenhassid/"
+        followers: 774441
+        connection_degree: "2nd"
+      substack:
+        url: "https://ruben.substack.com/"
+        newsletter: "How to AI"
+        subscribers: 312000
+      website: "how-to-ai.guide"
+      mediakit: "https://rubenhassid.ai/mediakit"
+
+    affiliation:
+      primary_company: "How to AI"
+      role: "Content Creator & Founder"
+      secondary_company: "EasyGen"
+      secondary_role: "Founder"
+      additional_pages:
+        - name: "How to Prompt"
+          url: "how-to-prompt.ai"
+      team_metrics:
+        daily_followers_gained: "12,000+"
+        daily_impressions: "2M"
+        audience_composition: "68.2% Founders & C-levels"
+
+    company_metrics:
+      easygen:
+        mrr: "$41,532"
+        mrr_timeline: "within 195 days of launch"
+        weekly_users: "26,000+"
+        status: "bootstrapped"
+      how_to_ai:
+        subscribers: "312,000+"
+        organic_linkedin_reach: "120M over 2 years"
+        substack_ranking: "#2 Education on Substack"
+
+    expertise_tags:
+      - ai_for_non_technical
+      - prompt_engineering
+      - content_creation
+      - personal_branding
+      - linkedin_growth
+      - ai_writing
+      - ai_productivity
+
+    background:
+      education:
+        - institution: "IÉSEG School of Management"
+          degree: "MBA, Digital Marketing"
+          years: "2017–2022"
+          rank: "34th best Masters in management globally (FT)"
+        - institution: "Sungkyunkwan University (SKKU)"
+          degree: "BBA, Marketing"
+          years: "2018–2019"
+      prior_career: "Music industry — 2 labels, vinyl/CD distribution globally, 1M+ streams at age 19"
+      linkedin_growth_milestones:
+        - "Apr 2022: First post"
+        - "Dec 2022: First viral post (1.3M views)"
+        - "Apr 2023: 100K followers"
+        - "Jun 2023: International keynote speaker"
+        - "Jan 2025: 500K followers"
+        - "Oct 2025: 700K followers"
+
+    notable_recommendations:
+      tools:
+        - name: "Claude"
+          url: "claude.ai"
+          reason: "The single most important AI tool for knowledge work — dedicated full newsletter issue"
+          signal_strength: high
+        - name: "Wispr Flow"
+          url: "wispr.ai"
+          reason: "Voice-to-text for faster replies and content; 200+ WPM equivalent; partners with them"
+          signal_strength: high
+        - name: "Gamma"
+          url: "gamma.app"
+          reason: "Replacing PowerPoint for presentations"
+          signal_strength: high
+        - name: "Grok"
+          url: "grok.com"
+          reason: "Go-to all-rounder, currently rates above ChatGPT"
+          signal_strength: medium
+        - name: "NotebookLM"
+          url: "notebooklm.google.com"
+          reason: "Upload anything, let AI teach it back to you"
+          signal_strength: medium
+        - name: "Granola"
+          url: "granola.ai"
+          reason: "AI note-taker that does not join your calls"
+          signal_strength: medium
+        - name: "Lovable"
+          url: "lovable.dev"
+          reason: "Build apps without coding"
+          signal_strength: medium
+        - name: "ChatGPT"
+          url: "chatgpt.com"
+          reason: "Actively telling readers to kill old ChatGPT habits — shifting away"
+          signal_strength: low
+        - name: "Opus Clip"
+          url: "opusclip.pro"
+          reason: "Long video to viral shorts automatically"
+          signal_strength: medium
+        - name: "Canva AI"
+          url: "canva.com"
+          reason: "Visuals without design skills"
+          signal_strength: low
+
+    key_activity_2026:
+      - "Published 'Happy New AI Year' Jan 2026 — declared 2026 the year to evolve from 2022-2025 AI patterns"
+      - "Shift from ChatGPT to Claude as primary recommendation — consumer AI adoption signal"
+
+    lens:
+      id: "LENS-PERSON-001"
+      name: "Ruben Hassid Signal Lens"
+      activate_when:
+        - "Looking for non-technical AI use cases"
+        - "Prompt engineering tactics for content"
+        - "Consumer AI tool adoption signals"
+        - "AI for personal productivity or writing"
+      focus: "What tools is Ruben recommending this week? What's going viral in non-technical AI?"
+      search_cadence: "weekly"
+
+    palette_relevance:
+      why_follow: "Highest-reach non-technical AI educator on LinkedIn. Tool recommendations predict consumer AI adoption 2–4 weeks ahead of mainstream. His shift from ChatGPT to Claude is a leading indicator."
+      company_signals:
+        - Wispr Flow
+        - Gamma
+        - Lovable
+        - Granola
+        - Claude
+        - Grok
+      network_gateway: "Ruben is the hub of a large creator network — following him surfaces Anisha, Axelle, Maria, and their recommendations"
+
+    sources:
+      - url: "https://ruben.substack.com/"
+        title: "How to AI Substack"
+      - url: "https://easygen.io"
+        title: "EasyGen"
+      - url: "https://www.starterstory.com"
+        title: "Starter Story — EasyGen MRR data"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ───────────────────────────────────────────
+
+  - id: "PERSON-002"
+    name: "Anisha Jain"
+    headline: "How to write (better) with AI."
+    signal_type: content_educator
+    signal_quality: low
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Downgraded from HIGH to LOW. LinkedIn confirmed, affiliation confirmed, but generates zero independently indexed content. Signal is derivative of Ruben's brand."
+
+    location:
+      current: "London, England, United Kingdom"
+
+    platforms:
+      linkedin:
+        handle: "theanishajain"
+        url: "https://www.linkedin.com/in/theanishajain/"
+        followers: 152712
+        connection_degree: "2nd"
+      substack:
+        url: "https://ruben.substack.com/p/from-49-to-10000-followers-in-17"
+        note: "Featured in Ruben's newsletter ecosystem"
+      newsletter: "How To AI"
+
+    affiliation:
+      primary_company: "How To AI"
+      role: "Content Creator"
+      relationship: "Works with Ruben Hassid"
+
+    expertise_tags:
+      - ai_writing
+      - content_creation
+      - prompt_engineering
+      - competitive_intelligence_with_ai
+      - gemini
+      - claude
+      - linkedin_content
+
+    notable_recommendations:
+      tools:
+        - name: "Claude Opus 4.6"
+          url: "claude.ai"
+          reason: "Extended thinking for competitive intelligence — reads 60 job listings + 200-page SEC filing simultaneously"
+          signal_strength: high
+        - name: "Wispr Flow"
+          url: "wispr.ai"
+          reason: "Voice dictation — 143 WPM vs 40 WPM typing; wrote 200+ LinkedIn posts this way"
+          signal_strength: high
+        - name: "Gemini"
+          url: "gemini.google.com"
+          reason: "YouTube video to carousel pipeline; music generation"
+          signal_strength: medium
+        - name: "Gamma"
+          url: "gamma.app"
+          reason: "Carousel creation from Gemini extractions"
+          signal_strength: medium
+
+    lens:
+      id: "LENS-PERSON-002"
+      name: "Anisha Jain Signal Lens"
+      activate_when:
+        - "AI writing techniques"
+        - "Competitive intelligence with LLMs"
+        - "Content repurposing workflows"
+      focus: "Claude use cases for writing, research, and competitive intelligence"
+      search_cadence: "weekly"
+
+    palette_relevance:
+      why_follow: "Minimal independent signal — derivative of Ruben's brand. Monitor but do not prioritize."
+      company_signals:
+        - Claude (Anthropic)
+        - Wispr Flow
+        - Gemini
+
+    sources:
+      - url: "https://www.linkedin.com/in/theanishajain/"
+        title: "Anisha Jain LinkedIn"
+      - url: "https://www.websitebuilderexpert.com"
+        title: "Website Builder Expert profile"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ───────────────────────────────────────────
+
+  - id: "PERSON-003"
+    name: "Axelle Malek"
+    headline: "Daily post to fight your FOMO on AI."
+    signal_type: content_educator
+    signal_quality: medium
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Confirmed MEDIUM. Added Kling AI as strong signal (2+ dedicated posts). Seedance/Veo comparison NOT attributable to her specifically. Updated audience metrics."
+
+    location:
+      current: "France"
+
+    platforms:
+      linkedin:
+        handle: "axellemalek"
+        followers: 139006
+        connection_degree: "2nd"
+      website: "easygen.io (affiliate)"
+      newsletter: "how-to-prompt.ai"
+
+    affiliation:
+      primary_company: "How to Prompt"
+      role: "Content Creator"
+      secondary_role: "Twitter Account Manager at rubenhassid.ai"
+      relationship: "Works with Ruben Hassid; part of How to AI network"
+      education: "Université Paris 1 Panthéon-Sorbonne"
+
+    audience_metrics:
+      daily_followers_gained: "12,000+"
+      daily_linkedin_impressions: "1.5M"
+      audience_composition: "68.2% Founders & C-levels"
+
+    expertise_tags:
+      - ai_news_curation
+      - ai_video_generation
+      - prompt_engineering
+      - content_creation
+      - ai_image_generation
+
+    notable_recommendations:
+      tools:
+        - name: "Kling AI"
+          reason: "Multiple posts including 'Kling AI is disrupting an entire industry' — strong signal"
+          signal_strength: high
+        - name: "Seedance 2.0"
+          reason: "Video AI — realistic physics and motion, compared vs Veo 3.1 and Kling 3.0"
+          signal_strength: high
+        - name: "Wispr Flow"
+          url: "wispr.ai"
+          reason: "Voice-to-text workflow for LinkedIn posts"
+          signal_strength: medium
+        - name: "Claude"
+          url: "claude.ai"
+          reason: "Writing assistant for final post polish"
+          signal_strength: medium
+        - name: "Kling 3.0"
+          reason: "Video AI — realistic physics, compared vs Seedance and Veo"
+          signal_strength: medium
+        - name: "Suno AI"
+          reason: "AI music generation — covered in content"
+          signal_strength: medium
+        - name: "Veo 3.1"
+          reason: "Google video AI — compared vs Seedance and Kling"
+          signal_strength: medium
+        - name: "Gemini"
+          url: "gemini.google.com"
+          reason: "Music generation feature"
+          signal_strength: medium
+        - name: "Easygen"
+          url: "easygen.io"
+          reason: "LinkedIn post creation (affiliate partner)"
+          signal_strength: low
+
+    lens:
+      id: "LENS-PERSON-003"
+      name: "Axelle Malek Signal Lens"
+      activate_when:
+        - "AI video generation tool comparison"
+        - "AI image generation news"
+        - "Daily AI tool updates"
+      focus: "Latest AI video/image tool releases and head-to-head comparisons"
+      search_cadence: "weekly"
+
+    palette_relevance:
+      why_follow: "Best signal for AI video/image model releases. Tests new models immediately and posts comparisons. Feeds buy-vs-build video generation category."
+      company_signals:
+        - Seedance
+        - Kling
+        - Veo (Google)
+        - Wispr Flow
+        - Suno AI
+
+    sources:
+      - url: "https://www.linkedin.com/in/axellemalek/"
+        title: "Axelle Malek LinkedIn"
+      - url: "https://ruben.substack.com/p/spend"
+        title: "Ruben Substack — Axelle metrics"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ───────────────────────────────────────────
+
+  - id: "PERSON-004"
+    name: "Maria Zhanette Yap"
+    headline: "I curate who is worth your attention."
+    signal_type: curator
+    signal_quality: low
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Downgraded from MEDIUM to LOW. Community Manager at 'wait, that's AI?' — posts about AI announcements but no substantial independent content. No appearance on top AI creators lists. Value is as a meta-signal source (her list seeded this library's watch list)."
+
+    location:
+      current: "London, England, United Kingdom"
+
+    platforms:
+      linkedin:
+        handle: "mariazhanetteyap"
+        followers: 28640
+        connection_degree: "3rd"
+      newsletter: "How to AI"
+
+    affiliation:
+      primary_company: "wait, that's AI?"
+      role: "Community Manager"
+      relationship: "Part of Ruben Hassid's extended network"
+
+    expertise_tags:
+      - ai_curator
+      - ai_educator_discovery
+      - ai_books_resources
+      - linkedin_content
+
+    notable_recommendations:
+      people_recommended:
+        - "Ruben Hassid — AI in simple steps"
+        - "Anisha Jain — content + AI writing"
+        - "Axelle Malek — AI tools explained"
+        - "Chip Huyen — AI through storytelling"
+        - "Olivia Moore — AI from the VC side"
+        - "Alex Patrascu — Hollywood-level AI content"
+        - "Grant Lee — Gamma, AI slides"
+        - "Tatiana Tsiguleva — Midjourney tips"
+        - "Matthieu Lorrain — Creative Lead, Google DeepMind"
+        - "Anton Osika — CEO of Lovable"
+        - "Wyndo Mitra Buwana — practical no-fluff AI systems"
+        - "Tanay Kothari — Wispr, voice-to-text AI"
+        - "Guillermo Rauch — future of web + AI"
+        - "Sebastien Jefferies — AI video creator tools"
+        - "David Blagojevic — hooking video creation"
+        - "Rory Flynn — makes AI fun and easy"
+        - "Felix Haas — modern design + AI"
+        - "Simon Meyer — cinematic ads"
+        - "Greg Isenberg — internet-first companies"
+        - "PJ Accetturo — viral AI ads"
+      books_recommended:
+        - "Artificial Intelligence: A Modern Approach"
+        - "Deep Learning (Goodfellow et al.)"
+        - "Understanding Deep Learning"
+        - "Hands-On Machine Learning"
+        - "Mathematics for Machine Learning"
+
+    lens:
+      id: "LENS-PERSON-004"
+      name: "Maria Zhanette Yap Signal Lens"
+      activate_when:
+        - "Discovering new AI influencers to add to people-library"
+        - "Finding curated lists of AI educators"
+      focus: "Network discovery — who does Maria recommend that we're not already tracking?"
+      search_cadence: "monthly"
+
+    palette_relevance:
+      why_follow: "Meta-signal only: she curates other curators. Her list of 21 AI creators seeded this library. Monitor for new names."
+      people_signals:
+        - Chip Huyen
+        - Matthieu Lorrain
+        - Greg Isenberg
+        - PJ Accetturo
+
+    sources:
+      - url: "https://www.linkedin.com/in/maria-zhanette-yap/"
+        title: "Maria Zhanette Yap LinkedIn"
+      - url: "https://www.signalhire.com"
+        title: "SignalHire profile"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ─────────────────────────────────────────────
+  # CLUSTER: VC / INFRASTRUCTURE LENS
+  # ─────────────────────────────────────────────
+
+  - id: "PERSON-005"
+    name: "Olivia Moore"
+    headline: "AI Partner at Andreessen Horowitz"
+    signal_type: vc_investor
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Confirmed HIGH. Added full personal AI stack (9 tools from viral X post). Added Big Ideas 2026 prediction. Twin sister Justine Moore co-authors consumer AI reports."
+
+    location:
+      current: "San Francisco, California, United States"
+
+    platforms:
+      linkedin:
+        handle: "olivia-moore"
+        followers: 31304
+        connection_degree: "3rd"
+      affiliation_page: "Andreessen Horowitz"
+
+    affiliation:
+      primary_company: "Andreessen Horowitz (a16z)"
+      role: "Partner, AI Investing Team"
+      note: "Twin sister Justine Moore is also a partner on the same team"
+      education: "Stanford University"
+
+    expertise_tags:
+      - vc_ai_investing
+      - consumer_ai
+      - ai_market_maps
+      - startup_investing
+      - generative_ai_applications
+
+    personal_ai_stack:
+      source: "Viral X post, 2025"
+      tools:
+        - name: "Comet (Perplexity)"
+          reason: "Default browser; uses shortcuts for outreach and competitive analysis"
+        - name: "Julius AI"
+          reason: "Data analyst, replacing ChatGPT for Excel; notebook feature for templated daily analyses"
+        - name: "Happenstance"
+          reason: "AI people/network search (LinkedIn + Gmail + Twitter); investor sourcing"
+        - name: "Granola"
+          reason: "AI meeting notes; runs without a visible bot"
+        - name: "Gamma"
+          reason: "AI slide decks; 'AI handles first 80%, human skill is editing and directing'"
+        - name: "Willow"
+          reason: "AI voice dictation"
+        - name: "Superhuman"
+          reason: "AI email"
+        - name: "Overlap (YC S24)"
+          reason: "AI clip editing for video highlights"
+        - name: "Krea (krea.ai)"
+          reason: "AI creative tool (also Creandum-backed — overlap with Filip Mark's portfolio)"
+
+    key_publications:
+      - "State of Consumer AI 2025: Product Hits, Misses, and What's Next (co-authored with Justine Moore)"
+      - "a16z Big Ideas 2026: prediction — 2026 is the year AI voice agents gain enterprise foothold; 'prompt box dies' for mainstream users"
+      - "Top 100 Gen AI Consumer Apps 5th Edition (Aug 2025): ChatGPT #1, Lovable #23, Cursor #26"
+
+    key_insights_from_posts:
+      - "52% of top consumer AI sites are in content generation or editing"
+      - "ChatGPT remains #1 but Perplexity broke top 3 on web; Claude hit #4"
+      - "ByteDance has 3 apps on mobile AI list (Gauth, Coze, Doubao)"
+      - "Discord servers are leading indicator for AI adoption (Midjourney #1)"
+      - "Creative tools dominate: 60% of new entrants in content generation/editing"
+
+    lens:
+      id: "LENS-PERSON-005"
+      name: "Olivia Moore Signal Lens"
+      activate_when:
+        - "Consumer AI market sizing"
+        - "Top AI apps by usage (not hype)"
+        - "a16z portfolio signals — what is a16z backing?"
+        - "Understanding which AI companies are actually being used"
+      focus: "Which AI companies have real user traction, not just funding announcements?"
+      search_cadence: "monthly"
+
+    palette_relevance:
+      why_follow: "Best source for actual usage data (not funding hype) on consumer AI. Her top-100 lists show which products have real users. Personal AI stack is a validated practitioner signal."
+      company_signals:
+        - Julius AI
+        - Granola
+        - Gamma
+        - Happenstance
+        - Krea
+        - Overlap
+        - Willow
+      investment_signals:
+        - Tradepost
+      market_signals:
+        - "Perplexity climbing in web usage"
+        - "ByteDance AI apps expanding fast"
+        - "Creative/video AI dominating new entrants"
+      cross_reference: "Krea.ai appears in both Olivia Moore's personal stack AND Creandum's portfolio (Filip Mark) — double signal"
+
+    sources:
+      - url: "https://a16z.com/author/olivia-moore/"
+        title: "a16z author page"
+      - url: "https://homescreen.news/p/olivia-moore-s-ai-stack"
+        title: "Olivia Moore AI stack"
+      - url: "https://www.cognitiverevolution.ai"
+        title: "Cognitive Revolution podcast"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ───────────────────────────────────────────
+
+  - id: "PERSON-006"
+    name: "Guillermo Rauch"
+    headline: "CEO at Vercel"
+    signal_type: founder_builder
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Confirmed HIGH. Updated valuation to $9.3B, ARR ~$200M. Added AI Gateway model list. CNBC interview Feb 5 2026. v0 at $42M ARR. Competitive flag: Vercel AI Gateway vs nexos.ai."
+
+    location:
+      current: "San Francisco, California, United States"
+
+    platforms:
+      linkedin:
+        handle: "guillermo-rauch"
+        followers: 52519
+        connection_degree: "2nd"
+      github: "rauchg"
+      company: "https://vercel.com"
+
+    affiliation:
+      primary_company: "Vercel"
+      role: "Co-Founder & CEO"
+
+    company_metrics:
+      vercel:
+        valuation: "$9.3B (Series F, Sept 2025)"
+        total_funding: "$863M over 6 rounds"
+        arr: "~$200M mid-2025 (~80% YoY)"
+        key_customers: ["OpenAI", "Anthropic", "PayPal", "Nike", "Walmart"]
+      v0:
+        arr: "$42M (Feb 2025)"
+        users: "3.5M+ unique"
+        enterprise_share: "50%+ of v0 revenue"
+      ai_sdk:
+        downloads: "3M/week"
+
+    products:
+      - name: "v0"
+        description: "AI-powered UI generation tool; used to ship production code via Git integration"
+      - name: "Vercel AI Gateway"
+        description: "Unified API for 100+ models: OpenAI, Anthropic, Google, Meta, xAI, Mistral, DeepSeek, Amazon Bedrock, Cohere, Perplexity, Alibaba; smart routing, fallbacks, image/video generation, web search, no token markup, BYOK"
+
+    expertise_tags:
+      - frontend_infrastructure
+      - nextjs
+      - ai_sdk
+      - ai_gateway
+      - web_performance
+      - agent_deployment
+
+    key_beliefs:
+      - "The world is going from pages to agents — Vercel building 'the AI cloud' for autonomous agents"
+      - "Most software and companies will start as markdown files; agents will do the coding"
+
+    lens:
+      id: "LENS-PERSON-006"
+      name: "Guillermo Rauch Signal Lens"
+      activate_when:
+        - "Frontend AI infrastructure decisions"
+        - "AI SDK choices for web apps"
+        - "LLM routing/gateway at the infrastructure layer"
+        - "Deploying agents on web infrastructure"
+      focus: "What is Vercel shipping for AI? What models does AI Gateway now support?"
+      search_cadence: "biweekly"
+
+    palette_relevance:
+      why_follow: "Vercel AI Gateway is a direct competitor/complement to OpenRouter for web-native deployments. His product releases signal what AI capabilities are becoming infrastructure-grade."
+      company_signals:
+        - Vercel
+        - "Vercel AI Gateway"
+        - "v0.dev"
+      competitive_flag: "Vercel AI Gateway vs nexos.ai (Creandum portfolio, Filip Mark) — direct competitors routing 100+ LLM endpoints"
+
+    sources:
+      - url: "https://www.cnbc.com"
+        title: "CNBC interview Feb 5 2026"
+      - url: "https://vercel.com/ai-gateway"
+        title: "Vercel AI Gateway"
+      - url: "https://sacra.com/c/vercel"
+        title: "Sacra — Vercel analysis"
+      - url: "https://www.acquired.fm"
+        title: "Acquired podcast"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ───────────────────────────────────────────
+
+  - id: "PERSON-007"
+    name: "Filip Mark"
+    headline: "VP at CREANDUM | Backing great product teams"
+    signal_type: vc_investor
+    signal_quality: medium
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Promoted from stub to full profile. MEDIUM confirmed — new hire with limited personal content, but Creandum AI portfolio is strong institutional signal."
+
+    location:
+      current: "Stockholm, Sweden"
+
+    platforms:
+      linkedin:
+        handle: "filiphmark"
+        url: "https://se.linkedin.com/in/filiphmark"
+        connection_degree: "3rd"
+      twitter: "No personal account identified"
+
+    affiliation:
+      primary_company: "Creandum"
+      role: "Vice President, Investments"
+      joined: "early 2025"
+
+    background:
+      career_path:
+        - "Stockholm School of Economics"
+        - "Bain & Company"
+        - "EQT Group"
+        - "Passionfroot (Berlin, operator)"
+        - "Creandum VP (~early 2025)"
+      investment_thesis: "Agnostic by sector; drawn to 'products that define culture' (cites Spotify, iZettle as archetypes); seed and Series A focus"
+
+    expertise_tags:
+      - european_vc
+      - product_investing
+      - design_led_startups
+
+    creandum_ai_portfolio:
+      - name: "Lovable"
+        hq: "Sweden"
+        description: "AI app builder"
+        funding: "Creandum led pre-Series A $15M; now $6.6B valuation"
+      - name: "Black Forest Labs"
+        hq: "Germany"
+        description: "Text-to-image AI"
+        funding: "$300M Series B, $3.25B valuation; used by Adobe, Meta, Canva"
+      - name: "Complyance"
+        description: "AI-native enterprise GRC"
+        funding: "$20M Series A led by GV (Feb 2026)"
+      - name: "GetVocal"
+        description: "AI customer support"
+        funding: "€24M Series A led by Creandum"
+      - name: "Jack & Jill AI"
+        hq: "UK"
+        description: "AI recruiting"
+        funding: "Creandum-led seed $20M; entering US"
+      - name: "Superscale"
+        hq: "Berlin"
+        description: "AI CMO automated ad generation"
+        funding: "$5M pre-seed Creandum; OpenAI/Anthropic angels"
+      - name: "nexos.ai"
+        hq: "Lithuania"
+        description: "AI gateway routing 200+ LLM endpoints"
+        funding: "$8M seed Index + Creandum"
+      - name: "Vesence"
+        description: "AI agents in Microsoft Office for law firms; 90%+ weekly adoption"
+      - name: "Doinstruct"
+        description: "AI learning/training"
+        funding: "€16.5M Series A"
+      - name: "plancraft"
+        description: "AI for construction SaaS"
+        funding: "€38M round"
+
+    lens:
+      id: "LENS-PERSON-007"
+      name: "Filip Mark Signal Lens"
+      activate_when:
+        - "European AI startup funding signals"
+        - "Design-led AI product investments"
+        - "AI gateway/routing market intelligence"
+      focus: "What is Creandum backing in AI? What design-led companies are getting funded?"
+      search_cadence: "monthly"
+
+    palette_relevance:
+      why_follow: "European VC lens on AI. Creandum portfolio covers AI coding (Lovable), image gen (Black Forest Labs), LLM routing (nexos.ai), and more."
+      company_signals:
+        - Lovable
+        - "Black Forest Labs"
+        - "nexos.ai"
+        - Complyance
+        - GetVocal
+      cross_references:
+        - "Krea.ai is in both Olivia Moore's personal AI stack AND Creandum's portfolio — double signal"
+        - "nexos.ai vs Vercel AI Gateway — direct competitors"
+
+    sources:
+      - url: "https://creandum.com/team/filip-mark"
+        title: "Creandum team page"
+      - url: "https://sifted.eu"
+        title: "Sifted — European VC coverage"
+      - url: "https://creandum.com/commitments"
+        title: "Creandum commitments page"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ─────────────────────────────────────────────
+  # CLUSTER: LOVABLE ORBIT
+  # ─────────────────────────────────────────────
+
+  - id: "PERSON-008"
+    name: "Anton Osika"
+    headline: "empowering anyone to create"
+    signal_type: founder_builder
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Confirmed HIGH — one of the best-documented founders in European tech. Updated to $200M ARR, $6.6B valuation, $330M Series B, 8M users, 25M+ projects."
+
+    location:
+      current: "Stockholm, Sweden"
+
+    platforms:
+      linkedin:
+        handle: "antonosika"
+        followers: 159127
+        badge: "Executive Top Voice"
+        connection_degree: "3rd"
+      github: "AntOsika"
+      company: "https://lovable.dev"
+
+    affiliation:
+      primary_company: "Lovable"
+      role: "CEO & Co-Founder"
+      co_founder: "Fabian Hedin"
+
+    company_metrics:
+      lovable:
+        arr: "$200M+ (November 2025)"
+        arr_growth: "~2,800% YoY (from $7M end of 2024)"
+        valuation: "$6.6B (December 2025)"
+        users: "8M (November 2025, up from 2.3M July 2025)"
+        projects_built: "25M+ total; 100,000 new per day"
+        total_funding: "$653M across 4 rounds"
+        series_b: "$330M (December 2025)"
+        backers: ["CapitalG", "Menlo Ventures", "Nvidia (NVentures)", "Salesforce Ventures", "Databricks Ventures", "DST Global"]
+        enterprise_customers: ["Klarna", "Deutsche Telekom", "Uber", "Zendesk"]
+
+    expertise_tags:
+      - no_code_ai
+      - vibe_coding
+      - app_builder
+      - democratizing_software
+      - founder_mindset
+      - product_led_growth
+
+    key_beliefs:
+      - "99% of the world's best ideas are trapped in heads of people who can't code"
+      - "AI shouldn't help engineers code faster — it should help everyone else build"
+      - "The last piece of software companies ever buy — expanding toward enterprise infrastructure"
+      - "Hire founders, not employees — ownership mindset compounds"
+
+    lens:
+      id: "LENS-PERSON-008"
+      name: "Anton Osika Signal Lens"
+      activate_when:
+        - "No-code/vibe-coding tool evaluation"
+        - "AI-powered app generation use cases"
+        - "Understanding the democratized software market"
+        - "Non-technical founder tooling"
+      focus: "What is Lovable shipping? Who is building what with it? What's the next frontier?"
+      search_cadence: "biweekly"
+
+    palette_relevance:
+      why_follow: "Lovable is the clearest example of the no-code AI revolution. $200M ARR in 12 months validates the market."
+      company_signals:
+        - Lovable
+
+    sources:
+      - url: "https://techcrunch.com"
+        title: "TechCrunch — Lovable coverage (Nov + Dec 2025)"
+      - url: "https://lovable.dev/blog/series-b"
+        title: "Lovable Series B announcement"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ───────────────────────────────────────────
+
+  - id: "PERSON-009"
+    name: "Felix Haas"
+    headline: "Design at Lovable, Angel Investor"
+    signal_type: founder_builder
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Confirmed HIGH. Added 'AI Design Stack 2026' article (Dec 16 2025). Claude cited by his readers as 'desk partner'. 50K+ readers. 14+ angel investments."
+
+    location:
+      current: "Stockholm, Sweden"
+
+    platforms:
+      linkedin:
+        handle: "felixhhaas"
+        url: "https://se.linkedin.com/in/felixhhaas"
+        followers: 91883
+        connection_degree: "3rd"
+      substack: "designplusai.com"
+
+    affiliation:
+      primary_company: "Lovable"
+      role: "Designer"
+      additional_role: "Angel Investor (14+ startups)"
+      newsletter: "Design + AI (designplusai.com)"
+      audience: "50,000+ readers across LinkedIn, X, and Substack"
+
+    expertise_tags:
+      - design_ai
+      - ux_for_ai_products
+      - approval_interface_pattern
+      - founding_designer
+      - product_design
+      - ai_native_ux
+
+    ai_design_stack_2026:
+      source: "Article Dec 16 2025"
+      stack:
+        - tool: "ChatGPT"
+          role: "Concept stress-testing and scoping (starting point)"
+        - tool: "Lovable"
+          role: "Turning prompts into working products (primary build tool)"
+        - tool: "Claude"
+          role: "Desk partner (cited by readers for design workflows)"
+        - tool: "Figma"
+          role: "Optional polish — argues it's now 'an inhibitor' if used first"
+
+    key_concepts_coined:
+      - name: "The Approval Interface"
+        description: "New interaction pattern where AI runs slightly ahead and users approve/redirect; recognition over recall. Dominant in Lovable, Cursor, ChatGPT, Notion AI."
+        implications: "Judgment becomes the core skill; the suggestion layer is the primary design challenge"
+      - name: "Founding Designer Advantage"
+        description: "Designer in the room from day 1 — asks 'why would someone do this?' before code is written"
+
+    recent_articles:
+      - title: "AI Design Stack 2026"
+        date: "Dec 16, 2025"
+      - title: "How to Build Stunning Slide Decks with AI"
+        date: "Jan 19, 2026"
+      - title: "The Rise of the Founding Designer"
+        date: "Nov 2025"
+      - title: "The Golden Age of the Design Founder"
+        date: "Nov 2025"
+
+    notable_recommendations:
+      tools:
+        - name: "Lovable"
+          url: "lovable.dev"
+          reason: "Primary approval-interface example"
+          signal_strength: high
+        - name: "Cursor"
+          url: "cursor.sh"
+          reason: "Another example of approval-loop interaction"
+          signal_strength: medium
+        - name: "Claude"
+          url: "claude.ai"
+          reason: "Reader-recommended desk partner for design workflows"
+          signal_strength: medium
+
+    lens:
+      id: "LENS-PERSON-009"
+      name: "Felix Haas Signal Lens"
+      activate_when:
+        - "AI UX design patterns"
+        - "How to design human-AI interaction"
+        - "Approval-loop interface architecture"
+        - "Design-first product development"
+      focus: "What design patterns are emerging in AI products? What is Felix writing about at designplusai.com?"
+      search_cadence: "biweekly"
+
+    palette_relevance:
+      why_follow: "Articulating the UX theory of AI interfaces. The Approval Interface pattern is what Palette's Orchestrator agent should design for."
+      design_patterns_for_palette:
+        - "Approval Interface → Orchestrator UX design"
+        - "Suggestion layer as primary design challenge → Palette convergence UX"
+
+    sources:
+      - url: "https://designplusai.com"
+        title: "Design + AI Substack"
+      - url: "https://se.linkedin.com/in/felixhhaas"
+        title: "Felix Haas LinkedIn"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ───────────────────────────────────────────
+
+  - id: "PERSON-010"
+    name: "Oskar Elvhage"
+    headline: "Founder & CEO @ Agent.Mama | Rebuilding marketing for the age of AI"
+    signal_type: founder_builder
+    signal_quality: medium
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Confirmed MEDIUM. Added: pre-revenue, pilot phase, first pilot customers in e-commerce (Google Ads focus). Hiring Lead Engineer/future CTO. Channels: Google Ads, Meta, TikTok, LinkedIn, YouTube. Also re-founder of Shopello."
+
+    platforms:
+      linkedin:
+        handle: "oskar-elvhage"
+        url: "https://www.linkedin.com/in/oskar-elvhage"
+        connection_degree: "3rd"
+      company: "agentmama.ai"
+
+    affiliation:
+      primary_company: "AgentMaMa"
+      role: "Founder & CEO"
+      previous: "Shopello (re-founder)"
+
+    company_metrics:
+      agentmama:
+        stage: "Pre-revenue / early access / pilot phase"
+        customers: "First pilot customers in e-commerce"
+        focus: "Google Ads"
+        channels: ["Google Ads", "Meta", "TikTok", "LinkedIn", "YouTube"]
+        hiring: "Lead Engineer / future CTO"
+
+    expertise_tags:
+      - ai_marketing_agents
+      - founder_tools
+      - lovable_power_user
+      - startup_building
+
+    notable_recommendations:
+      tools:
+        - name: "Lovable"
+          url: "lovable.dev"
+          reason: "Builds entire company on Lovable — website, decks, demos, prototypes"
+          signal_strength: high
+
+    lens:
+      id: "LENS-PERSON-010"
+      name: "Oskar Elvhage Signal Lens"
+      activate_when:
+        - "AI-native marketing platforms"
+        - "Agentic marketing workflows"
+      focus: "What is AgentMaMa building? What problem does agentic marketing solve?"
+      search_cadence: "monthly"
+
+    palette_relevance:
+      why_follow: "Agent.Mama is building AI-native marketing — a direct use case for Palette's agentic workflow patterns. Early stage — flag as low-traction."
+
+    sources:
+      - url: "https://www.linkedin.com/in/oskar-elvhage"
+        title: "Oskar Elvhage LinkedIn"
+      - url: "https://agentmama.ai"
+        title: "AgentMaMa website"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ───────────────────────────────────────────
+
+  - id: "PERSON-011"
+    name: "Joel Nordström"
+    headline: "CEO & co-founder at Atlar"
+    signal_type: founder_builder
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Upgraded from MEDIUM to HIGH. Major product launch Feb 2026: AI agents for treasury. Added Epidemic Sound, Trustly, Tide, HSBC Innovation Banking as customers. Co-founded with Joel Wägmark and Johannes Elgh."
+
+    platforms:
+      linkedin:
+        handle: "joelnordstrom"
+        connection_degree: "3rd"
+      company: "atlar.com"
+
+    affiliation:
+      primary_company: "Atlar"
+      role: "CEO & Co-Founder"
+      co_founders: ["Joel Wägmark", "Johannes Elgh"]
+      description: "AI-native treasury platform for fast-growing companies"
+
+    company_metrics:
+      atlar:
+        funding: "€5M seed (Index Ventures lead); later-stage amounts not public"
+        ai_agents_launched: "Feb 2026 — cash positioning agent, payments briefing agent"
+        agents_announced: ["bank reconciliation agent", "forecasting agent"]
+        customer_list:
+          - "Lovable"
+          - "Mangopay"
+          - "Tide"
+          - "Trustly"
+          - "Zilch"
+          - "Epidemic Sound"
+          - "Aiven"
+          - "Acne Studios"
+          - "GetYourGuide"
+          - "Forto"
+          - "Juni"
+          - "Liberis"
+        partnerships:
+          - "HSBC Innovation Banking UK — API integration"
+          - "Light — AI-native accounting platform; Atlar bank connectivity embedded"
+
+    expertise_tags:
+      - fintech
+      - treasury_ai
+      - b2b_saas
+      - ai_finance_automation
+
+    lens:
+      id: "LENS-PERSON-011"
+      name: "Joel Nordström Signal Lens"
+      activate_when:
+        - "AI in finance/treasury operations"
+        - "B2B fintech signals in AI-native companies"
+      focus: "What is Atlar doing? Who else is using them? Signals for AI in finance ops."
+      search_cadence: "monthly"
+
+    palette_relevance:
+      why_follow: "Atlar serves AI-native fast-growing companies (Lovable, Epidemic Sound, Trustly, Tide). AI treasury agents launched Feb 2026 — shows enterprise AI agent adoption in fintech."
+      company_signals:
+        - Atlar
+      cross_reference: "Atlar + Lovable relationship: Lovable is an Atlar customer — Lovable orbit is tighter than previously mapped"
+
+    sources:
+      - url: "https://atlar.com/blog"
+        title: "Atlar blog — AI agents announcement"
+      - url: "https://treasury-management.com"
+        title: "Treasury Management — Tide partnership"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ─────────────────────────────────────────────
+  # CLUSTER: WISPR FLOW ORBIT
+  # ─────────────────────────────────────────────
+
+  - id: "PERSON-012"
+    name: "Tanay Kothari"
+    headline: "CEO at Wispr Flow | IOI Medalist | Stanford CS + AI"
+    signal_type: founder_builder
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Confirmed HIGH. Added: $81M total funding, $700M valuation, $10M ARR, 50% MoM user growth, Android launch Feb 2026, Hinglish model, ~50 employees. Uses Llama models on Baseten for inference. CTO is Sahaj Garg (not Victoria Liang)."
+
+    location:
+      current: "San Francisco, California, United States"
+      origin: "India"
+
+    platforms:
+      linkedin:
+        handle: "tanaykothari"
+        followers: 62638
+        connection_degree: "2nd"
+      product: "https://wispr.ai"
+
+    affiliation:
+      primary_company: "Wispr Flow"
+      role: "Co-Founder & CEO"
+      co_founder: "Sahaj Garg (CTO)"
+
+    background:
+      education: "Stanford CS + AI"
+      awards: ["IOI Medalist"]
+
+    company_metrics:
+      wispr_flow:
+        total_funding: "$81M (2 rounds)"
+        series_a: "$30M (Jun 2025, led by Menlo Ventures)"
+        series_a_ii: "$25M (Nov 2025, led by Notable Capital)"
+        valuation: "$700M (Nov 2025)"
+        arr: "$10M (Oct 2025)"
+        arr_growth: "40% month-over-month"
+        user_growth: "50% month-over-month"
+        new_customers_per_week: 125
+        retention_6_month: "80%"
+        team_size: "~50"
+        capital_efficiency: "8.81x (valuation/capital raised)"
+        languages: "100+"
+        notable_users: ["Reid Hoffman", "Marc Andreessen", "Steve Wozniak"]
+        privacy: "Zero data retention option on free and paid tiers"
+
+    key_launches_2026:
+      - "Android app launched Feb 23, 2026 (Union Square, SF activation)"
+      - "Hinglish model (Hindi-English mix) for Indian market"
+      - "Infrastructure rewrite — 30% faster dictation"
+      - "1.3M+ words dictated in English in first days of Android rollout"
+
+    expertise_tags:
+      - voice_ai
+      - dictation
+      - productivity_tools
+      - growth_strategy
+      - global_markets
+
+    key_beliefs:
+      - "Speed is not direction — voice at 143 WPM beats typing at 40 WPM but direction matters more"
+      - "Indian market: trust precedes sale; 75% choose annual plans immediately vs monthly in US"
+      - "Product reliability builds trust that compounds like an 800-year-old brand"
+
+    lens:
+      id: "LENS-PERSON-012"
+      name: "Tanay Kothari Signal Lens"
+      activate_when:
+        - "Voice-to-text AI evaluation"
+        - "Productivity tool integration decisions"
+        - "AI input modality (voice vs typing) decisions for Palette"
+      focus: "Is Wispr Flow worth integrating into Palette workflows? What has changed in voice AI?"
+      search_cadence: "monthly"
+
+    palette_relevance:
+      why_follow: "$700M valuation, $10M ARR, used by Ruben/Anisha/Axelle for content creation. 80% 6-month retention validates product-market fit. Palette already uses Whisper — evaluate Wispr Flow API as upgrade."
+      company_signals:
+        - Wispr Flow
+
+    sources:
+      - url: "https://techcrunch.com/2026/02/23/wispr-flow-launches-an-android-app-for-ai-powered-dictation/"
+        title: "TechCrunch — Wispr Flow Android launch"
+      - url: "https://techcrunch.com/2025/11/20/as-its-voice-dectation-app-takes-off-wispr-secures-25m-from-notable-capital/"
+        title: "TechCrunch — Wispr $25M raise"
+      - url: "https://www.computerworld.com/article/4107331/wispr-ceo-interview-post-keyboard-office.html"
+        title: "Computerworld — Wispr CEO interview"
+      - url: "https://www.forwardobsessed.com/episodes/tanay-kothari"
+        title: "Forward Obsessed Podcast"
+      - url: "https://menlovc.com/perspective/why-were-betting-wispr-will-kill-the-keyboard/"
+        title: "Menlo Ventures — Why We're Betting on Wispr"
+      - url: "https://getlatka.com/companies/wisprflow.ai"
+        title: "Getlatka — Wispr Flow revenue"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ───────────────────────────────────────────
+
+  - id: "PERSON-013"
+    name: "Victoria Liang"
+    headline: "Product Marketing @ Wispr Flow + Community @ Reforge"
+    signal_type: product_insider
+    signal_quality: low
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "MAJOR CORRECTION: She is NOT a co-founder or CTO. She is Product Marketing Lead at Wispr Flow and Fractional Head of Community at Reforge. Actual CTO/co-founder is Sahaj Garg (Stanford, published with Andrew Ng, Forbes 30 Under 30). Previous experience: Director of Growth at Monarch Money. Downgraded to LOW — limited public signal."
+
+    platforms:
+      linkedin:
+        handle: "victoriacliang"
+        url: "https://www.linkedin.com/in/victoriacliang/"
+        connection_degree: "3rd"
+
+    affiliation:
+      primary_company: "Wispr Flow"
+      role: "Product Marketing Lead"
+      secondary_company: "Reforge"
+      secondary_role: "Fractional Head of Community"
+      previous: "Director of Growth, Monarch Money"
+
+    correction_note: |
+      v1.0 listed Victoria as "Co-founder & CTO, Wispr Flow. Ex-Snap AR." This was incorrect.
+      The actual co-founders are Tanay Kothari (CEO) and Sahaj Garg (CTO).
+      Sahaj Garg: Stanford AI Lab researcher, published with Andrew Ng and Google Research,
+      Forbes 30 Under 30 2023, ex-Luminous Computing AI Lead.
+      Consider adding Sahaj Garg as a separate profile in v1.2 for higher signal value.
+
+    expertise_tags:
+      - product_marketing
+      - ai_voice_tools
+      - launch_campaigns
+      - developer_community
+
+    lens:
+      id: "LENS-PERSON-013"
+      name: "Victoria Liang Signal Lens"
+      activate_when:
+        - "Wispr Flow product updates and campaigns"
+      focus: "What is Wispr Flow launching? How are they positioning?"
+      search_cadence: "monthly"
+
+    palette_relevance:
+      why_follow: "Minimal independent signal. Product marketing insider at Wispr Flow but no public-facing thought leadership."
+
+    sources:
+      - url: "https://www.linkedin.com/in/victoriacliang/"
+        title: "Victoria Liang LinkedIn"
+      - url: "https://www.zoominfo.com/p/Victoria-Liang/1290211509"
+        title: "ZoomInfo — Victoria Liang at Reforge"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ─────────────────────────────────────────────
+  # CLUSTER: AI CREATIVE TOOLS
+  # ─────────────────────────────────────────────
+
+  - id: "PERSON-014"
+    name: "Alex Patrascu"
+    headline: "Cinematic AI | Founder at MASSIVE Studios | Head of Creative Partnerships at Topaz Labs"
+    signal_type: creative_technologist
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Confirmed HIGH. Added: 3 theatrical features in production with Roger Avary (Oscar winner, co-writer Pulp Fiction) via General Cinema Dynamics partnership (Feb 2026). Topaz Labs won 2025 Emmy Award. Seedance 2.0 strong endorsement. VFX cost claim: $1M/minute → $5K/minute with AI pipeline."
+
+    platforms:
+      linkedin:
+        handle: "alexpatrascu"
+        followers: 9796
+        connection_degree: "3rd"
+      twitter: "x.com/maxescu"
+      company: "https://www.themassive.ai"
+
+    affiliation:
+      primary_company: "MASSIVE Studios"
+      role: "Co-Founder & Creative Technologist"
+      co_founders: ["Reza Sixo Safai"]
+      secondary_company: "Topaz Labs"
+      secondary_role: "Head of Creative Partnerships"
+      clients: ["Topaz Labs", "Leonardo AI", "Google", "Higgsfield AI"]
+
+    company_metrics:
+      massive_studios:
+        founded: 2024
+        status: "In active production on 3 theatrical feature films (Feb 2026)"
+        partnership: "General Cinema Dynamics (Roger Avary, Oscar-winning co-writer of Pulp Fiction)"
+        film_slate:
+          - "Family Christmas film (2026 holiday)"
+          - "Christian faith-based film (Easter 2027)"
+          - "Sweeping romantic war epic"
+        cost_comparison: "VFX that cost $1M/minute now cost $5K/minute with AI pipeline"
+      topaz_labs:
+        emmy: "2025 Emmy Award for AI Image/Video Enhancement for High Quality TV Catalog Restoration"
+        customers: "3M+ worldwide"
+        launched: "Project Starlight — first diffusion AI model for video enhancement (Feb 2025)"
+
+    metrics:
+      ai_frames_rendered: "4M+"
+      career_years: "25 years in visual storytelling"
+      notable_work: "Short 'A Hard Winter' — 1M+ views"
+
+    expertise_tags:
+      - ai_filmmaking
+      - ai_video_generation
+      - ai_image_generation
+      - creative_pipeline
+      - prompt_engineering_visual
+      - brand_content
+
+    notable_tools_tested:
+      - name: "Seedance 2.0"
+        reason: "Old prompts that 'never worked in any other models come to life flawlessly on the first try'"
+        signal_strength: high
+      - name: "Seedance Pro"
+        platform: "Higgsfield AI"
+        reason: "Realistic physics, primary video AI tool"
+        signal_strength: high
+      - name: "Kling 2.1"
+        platform: "Higgsfield AI"
+        reason: "Video AI for cinematic work"
+        signal_strength: high
+      - name: "nano-banana (Freepik)"
+        reason: "Image generation for cinematic shots — Central Park romance scene"
+        signal_strength: high
+      - name: "Higgsfield AI"
+        url: "higgsfield.ai"
+        reason: "Primary platform for all video AI experiments"
+        signal_strength: high
+      - name: "Runway Aleph"
+        reason: "Reimagines existing footage — Photoshop for motion pictures"
+        signal_strength: high
+      - name: "CapCut"
+        reason: "Video editing layer"
+        signal_strength: medium
+      - name: "Epidemic Sound"
+        reason: "Music for AI films"
+        signal_strength: low
+
+    lens:
+      id: "LENS-PERSON-014"
+      name: "Alex Patrascu Signal Lens"
+      activate_when:
+        - "AI video generation tool evaluation"
+        - "Cinematic AI pipeline decisions"
+        - "Creative brand content with AI"
+        - "Hollywood AI adoption signals"
+      focus: "What is Alex testing this week? Which video AI model is winning? What's the cost?"
+      search_cadence: "biweekly"
+
+    palette_relevance:
+      why_follow: "Best technical signal for AI video/image generation tools in production. Runs real film pipelines. Cost data ($5K/minute vs $1M/minute) is service-routing gold."
+      company_signals:
+        - Higgsfield AI
+        - Seedance
+        - "Runway (Aleph)"
+        - Kling
+        - Topaz Labs
+        - Leonardo AI
+        - "nano-banana (Freepik)"
+
+    sources:
+      - url: "https://deadline.com/2026/02/roger-avary-3-ai-films-active-production-1236725619/"
+        title: "Deadline — Roger Avary 3 AI films"
+      - url: "https://variety.com/2026/film/news/pulp-fiction-writer-ai-movies-production-company-1236664074/"
+        title: "Variety — Pulp Fiction writer AI movies"
+      - url: "https://nofilmschool.com/roger-avary-ai-films"
+        title: "No Film School — Roger Avary AI films"
+      - url: "https://www.topazlabs.com/news/spotlight-on-ai-filmmaking-ep-2-massive-studios"
+        title: "Topaz Labs Spotlight: MASSIVE Studios"
+      - url: "https://www.topazlabs.com/news/topaz-labs-receives-2025-emmy-award-for-video-technology"
+        title: "Topaz Labs 2025 Emmy Award"
+      - url: "https://www.themassive.ai/our-team/alex-patrascu"
+        title: "MASSIVE Studios team page"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ───────────────────────────────────────────
+
+  - id: "PERSON-015"
+    name: "Sebastien Jefferies"
+    headline: "Generative AI Creator, Educator & Speaker helping 1M+ creators and brands master AI, editing, and creator tools"
+    signal_type: creative_technologist
+    signal_quality: medium
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Confirmed MEDIUM. Added: Google Veo 2 and Adobe Firefly for Video signals. 1M+ combined followers (TikTok 558.6K, IG 725K, LinkedIn 12.5K). Google Pixel Brand Ambassador. SJ Productions Ltd. Educator/curator, not a builder."
+
+    location:
+      current: "London, United Kingdom"
+
+    platforms:
+      linkedin:
+        handle: "sebastienjefferies"
+        followers: 12515
+        connection_degree: "3rd"
+      tiktok:
+        handle: "@sebastienjefferies"
+        followers: 558600
+      instagram:
+        followers: 725000
+      twitter: "x.com/SebJefferies"
+      website: "sebastienjefferies.com"
+      newsletter: "sebtips.kit.com"
+      community: "Private AI community (via LinkedIn)"
+
+    affiliation:
+      role: "Independent Creator, Educator & Speaker"
+      company: "SJ Productions Ltd (Managing Director)"
+      brand_partnerships: ["Google Pixel", "Adobe", "TikTok Shop UK", "DJI"]
+      notable_campaign: "Google Pixel 7 — 11M views in 2 months"
+
+    audience_metrics:
+      combined_followers: "1M+"
+      tiktok: 558600
+      instagram: 725000
+      linkedin: 12515
+
+    expertise_tags:
+      - ai_image_generation
+      - prompt_engineering_visual
+      - ai_content_creation
+      - creator_education
+      - generative_ai_video
+
+    notable_tools_2026:
+      - name: "Google Veo 2"
+        reason: "Posted about it 'revolutionizing video creation'"
+        signal_strength: medium
+      - name: "Adobe Firefly for Video"
+        reason: "Promoted as AI-powered video editing tool"
+        signal_strength: medium
+      - name: "AI photo editing tools"
+        reason: "Active content about AI-powered photo editing workflows"
+        signal_strength: medium
+
+    notable_work:
+      - "Layered prompt frameworks for realistic human emotion in AI images"
+      - "Google Pixel 7 campaign — 11M views in 2 months"
+      - "Cross-platform content strategy covering Generative AI, Creator Tools & Emerging Tech"
+
+    lens:
+      id: "LENS-PERSON-015"
+      name: "Sebastien Jefferies Signal Lens"
+      activate_when:
+        - "AI image prompt engineering techniques"
+        - "Creator tools for AI content"
+        - "Consumer-facing AI video/image tools"
+      focus: "What prompt systems is Sebastien publishing? What AI tools is he using?"
+      search_cadence: "monthly"
+
+    palette_relevance:
+      why_follow: "1M+ followers — large reach for consumer AI tool signals. Educator/curator rather than builder. Google Veo 2 and Adobe Firefly signals complement Alex Patrascu's production-focused signal."
+
+    sources:
+      - url: "https://www.linkedin.com/in/sebastienjefferies/"
+        title: "Sebastien Jefferies LinkedIn"
+      - url: "https://www.tiktok.com/@sebastienjefferies"
+        title: "Sebastien Jefferies TikTok"
+      - url: "https://sebastienjefferies.com/"
+        title: "Sebastien Jefferies website"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ─────────────────────────────────────────────
+  # CLUSTER: AI PRODUCTIVITY / TOOLS
+  # ─────────────────────────────────────────────
+
+  - id: "PERSON-016"
+    name: "Grant Lee"
+    headline: "Co-Founder/CEO @ Gamma"
+    signal_type: founder_builder
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Confirmed HIGH. Updated: valuation now $2.1B, ARR $100M+, $68M Series B led by a16z with Accel, profitable 2+ years, team ~50 (up from 28). Co-founders Jon Noronha + James Fox. $0 spent on advertising. Lenny's Podcast and a16z Podcast appearances."
+
+    location:
+      current: "San Francisco, California"
+
+    platforms:
+      linkedin:
+        handle: "grantleehq"
+        followers: 98392
+        connection_degree: "2nd"
+      company: "https://gamma.app"
+
+    affiliation:
+      primary_company: "Gamma"
+      role: "Co-Founder & CEO"
+      co_founders: ["Jon Noronha (VP Product, ex-Optimizely)", "James Fox (Staff Engineer, ex-Optimizely)"]
+      backed_by: ["Andreessen Horowitz (Series B lead)", "Accel", "Uncork Capital", "South Park Commons", "Script Capital", "Afore Capital (seed)"]
+
+    company_metrics:
+      gamma:
+        valuation: "$2.1B (Nov 2025)"
+        arr: "$100M+ (crossed Nov 2025)"
+        users: "70M+ globally"
+        profitability: "2+ years profitable; lifetime negative net burn (more money in bank than total raised)"
+        team_size: "~50"
+        funding_total: "$23M seed + $68M Series B"
+        series_b: "$68M (Nov 10, 2025) led by a16z, Accel participation"
+        advertising_spend: "$0"
+        fund: "$10M Afore x Gamma Ideas to Reality Fund (through Mar 24, 2026)"
+
+    expertise_tags:
+      - ai_presentations
+      - ai_documents
+      - lean_startup
+      - ai_native_products
+      - small_team_excellence
+
+    key_beliefs:
+      - "Tiny teams of extraordinary people are the future"
+      - "AI tools are force multipliers: Claude for data analysis, Cursor for coding, NotebookLM for customer research"
+      - "Versatile generalists beat specialist silos in AI era"
+      - "Gamma is inside Superhuman Go — AI presentations wherever you work"
+
+    key_appearances_2025_2026:
+      - title: "'Dumbest idea I've heard' to $100M ARR: Inside the rise of Gamma"
+        venue: "Lenny's Podcast"
+        date: "Nov 13, 2025"
+      - title: "Building Gamma's AI Presentation Company"
+        venue: "a16z Podcast"
+        date: "Nov 2025"
+      - title: "Finding Early-Stage Energy"
+        venue: "Stanford eCorner"
+        date: "Oct 2025"
+      - title: "Gamma's Startup Journey"
+        venue: "JP Morgan Insights"
+      - title: "Speaker"
+        venue: "Camp Hustle 2025 (Hustle Fund)"
+      - title: "Speaker"
+        venue: "HumanX conference"
+
+    notable_recommendations:
+      tools:
+        - name: "Claude"
+          url: "claude.ai"
+          reason: "Data analysis at Gamma"
+          signal_strength: high
+        - name: "Cursor"
+          url: "cursor.sh"
+          reason: "Coding efficiency for ~50-person engineering team"
+          signal_strength: high
+        - name: "NotebookLM"
+          url: "notebooklm.google.com"
+          reason: "Customer research synthesis"
+          signal_strength: high
+        - name: "Superhuman Go"
+          reason: "Platform where Gamma is now embedded as an agent"
+          signal_strength: medium
+
+    lens:
+      id: "LENS-PERSON-016"
+      name: "Grant Lee Signal Lens"
+      activate_when:
+        - "AI presentation or document generation"
+        - "Lean AI-native team building philosophy"
+        - "Superhuman Go ecosystem"
+        - "AI-native profitability benchmarks"
+      focus: "What is Gamma shipping? What is Grant's philosophy on AI tool adoption in small teams?"
+      search_cadence: "biweekly"
+
+    palette_relevance:
+      why_follow: "Grant's internal stack (Claude + Cursor + NotebookLM) is a validated model for lean AI-native teams. $100M ARR with ~50 people and $0 ad spend — the benchmark for AI-native efficiency."
+      company_signals:
+        - Gamma
+        - Superhuman Go
+      internal_stack_signal:
+        - "Claude for data analysis"
+        - "Cursor for coding"
+        - "NotebookLM for synthesis"
+
+    sources:
+      - url: "https://techcrunch.com/2025/11/10/ai-powerpoint-killer-gamma-hits-2-1b-valuation-100m-arr-founder-says/"
+        title: "TechCrunch — Gamma $2.1B valuation"
+      - url: "https://www.businesswire.com/news/home/20251110805751/en/"
+        title: "BusinessWire — Gamma $100M ARR"
+      - url: "https://www.lennysnewsletter.com/p/how-50-people-built-a-profitable-ai-unicorn"
+        title: "Lenny's Podcast — Grant Lee episode"
+      - url: "https://gamma.app/insights/how-we-built-a-usd100m-business-differently"
+        title: "Gamma blog — How we built differently"
+      - url: "https://stvp.stanford.edu/contributor/grant-lee/"
+        title: "Stanford eCorner — Grant Lee"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ─────────────────────────────────────────────
+  # FORMER STUBS — RESOLVED
+  # ─────────────────────────────────────────────
+
+  - id: "PERSON-017"
+    name: "Pablo Palafox"
+    headline: "Co-founder & CEO, HappyRobot (YC S23)"
+    signal_type: founder_builder
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Promoted from stub to full profile. a16z-backed enterprise AI voice agent company for logistics/freight. $15.6M Series A (a16z led), $44M Series B (Base10 led, ~$500M valuation). 100K+ daily AI calls. Eight-figure ARR."
+
+    location:
+      current: "San Francisco, California (implied)"
+
+    platforms:
+      linkedin:
+        handle: "pablorpalafox"
+        url: "https://www.linkedin.com/in/pablorpalafox"
+        connection_degree: "2nd"
+      github: "pablorpalafox"
+      twitter: "x.com/pablorpalafox"
+
+    affiliation:
+      primary_company: "HappyRobot"
+      role: "Co-founder & CEO"
+      accelerator: "Y Combinator S23"
+
+    background:
+      education: "PhD Computer Vision, TU Munich"
+      previous: "Meta Reality Labs (research intern)"
+
+    company_metrics:
+      happyrobot:
+        series_a: "$15.6M (Dec 2024, led by a16z)"
+        series_b: "$44M (Sept 2025, led by Base10, ~$500M valuation)"
+        daily_ai_calls: "100,000+"
+        customers: "8 of top 10 freight brokers; 2 of top 3 ocean carriers"
+        arr: "Eight-figure run rate; revenue 10x between Series A and B"
+
+    expertise_tags:
+      - enterprise_ai_voice_agents
+      - logistics_ai
+      - freight_automation
+      - computer_vision
+
+    lens:
+      id: "LENS-PERSON-017"
+      name: "Pablo Palafox Signal Lens"
+      activate_when:
+        - "Enterprise AI voice agents"
+        - "AI in logistics/freight/supply chain"
+        - "Vertical AI agent adoption"
+      focus: "How is HappyRobot scaling AI voice agents in industrial workflows? What's the voice agent market?"
+      search_cadence: "monthly"
+
+    palette_relevance:
+      why_follow: "Enterprise AI voice agents for logistics — 'Titanium Economy' thesis (AI transforming real-economy sectors). a16z connection (Olivia Moore)."
+      company_signals:
+        - HappyRobot
+      new_riu_candidate: "Voice agent workflows for enterprise — potential new RIU"
+
+    sources:
+      - url: "https://a16z.com/announcement/investing-in-happyrobot"
+        title: "a16z — investing in HappyRobot"
+      - url: "https://www.prnewswire.com"
+        title: "PRNewswire — HappyRobot Series B"
+      - url: "https://deepgram.com"
+        title: "Deepgram AI Minds podcast"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ─────────────────────────────────────────────
+  # CLUSTER: FRONTIER AI ENGINEERING (NEW in v1.1)
+  # ─────────────────────────────────────────────
+
+  - id: "PERSON-019"
+    name: "Andrej Karpathy"
+    headline: "Co-founder of OpenAI | Founded Eureka Labs | Coined 'vibe coding' and 'agentic engineering'"
+    signal_type: content_educator
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-25"
+    enrichment_notes: "Promoted from watch list. Score 5/5. Frontier AI paradigm-setter — when he names a paradigm (vibe coding, agentic engineering), the industry follows within weeks. No equivalent in existing library."
+
+    location:
+      current: "San Francisco, California (implied)"
+
+    platforms:
+      twitter:
+        handle: "karpathy"
+        url: "https://x.com/karpathy"
+        followers: 1700000
+      github: "karpathy"
+      youtube: "Andrej Karpathy (educational content)"
+
+    affiliation:
+      current_company: "Eureka Labs"
+      role: "Founder"
+      previous:
+        - "Co-founder, OpenAI"
+        - "Senior Director of AI, Tesla (Autopilot)"
+
+    background:
+      education: "PhD, Stanford (under Fei-Fei Li)"
+      notable: "Rebuilt GPT from scratch in 243 lines of Python (viral educational content)"
+
+    expertise_tags:
+      - frontier_ai_research
+      - llm_architecture
+      - vibe_coding
+      - agentic_engineering
+      - ai_education
+      - coding_paradigm_shifts
+
+    paradigms_coined:
+      - name: "vibe coding"
+        date: "February 2025"
+        description: "Writing software by describing intent to AI rather than writing code"
+      - name: "agentic engineering"
+        date: "February 2026"
+        description: "Engineering discipline for building autonomous AI agent systems"
+
+    key_activity_2025_2026:
+      - "Coined 'agentic engineering' (Feb 2026)"
+      - "Posted '2025 LLM Year in Review'"
+      - "Eureka Labs development ongoing (first course: LLM101n)"
+      - "Actively commenting on future of programming and AI agent architectures"
+
+    lens:
+      id: "LENS-PERSON-019"
+      name: "Andrej Karpathy Signal Lens"
+      activate_when:
+        - "Frontier AI research direction"
+        - "LLM architecture understanding"
+        - "Coding paradigm shifts"
+        - "Agentic AI patterns and engineering"
+      focus: "What paradigm is Karpathy naming next? What does he see as the frontier?"
+      search_cadence: "biweekly"
+
+    palette_relevance:
+      why_follow: "When Karpathy names a paradigm, the industry follows. 'Vibe coding' defined a market (Lovable, Cursor, Replit). 'Agentic engineering' directly maps to Palette's core thesis. His LLM architecture understanding informs model routing decisions."
+      rius_applicable:
+        - "RIU-521 (LLM routing)"
+        - "Agentic pattern RIUs (80 internal_only)"
+        - "Palette core thesis — service routing"
+
+    sources:
+      - url: "https://x.com/karpathy"
+        title: "Andrej Karpathy on X"
+      - url: "https://thenewstack.io/vibe-coding-is-passe/"
+        title: "The New Stack — Karpathy agentic engineering"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+    github_data:
+      username: "karpathy"
+      followers: 135011
+      public_repos: 61
+      bio: I like to train Deep Neural Nets on large datasets.
+      blog: https://twitter.com/karpathy
+      top_repos:
+      - name: rustbpe
+        stars: 368
+        description: The missing tiktoken training code
+        language: Rust
+        forks: 27
+        last_push: '2026-01-03T22:24:54Z'
+      - name: hn-time-capsule
+        stars: 563
+        description: Analyzing Hacker News discussions from a decade ago in hindsight with LLMs
+        language: Python
+        forks: 52
+        last_push: '2025-12-10T16:59:29Z'
+      - name: cpython
+        stars: 43
+        description: The Python programming language
+        forks: 2
+        last_push: '2025-12-19T06:13:32Z'
+      - name: llm-council
+        stars: 14982
+        description: LLM Council works together to answer your hardest questions
+        language: Python
+        forks: 3024
+        last_push: '2025-11-22T23:35:21Z'
+      - name: reader3
+        stars: 3319
+        description: Quick illustration of how one can easily read books together with LLMs. It's great and I highly recommend it.
+        language: Python
+        forks: 416
+        last_push: '2025-11-18T02:37:51Z'
+      fetched_at: '2026-02-25T16:42:07Z'
+
+  # ───────────────────────────────────────────
+
+  - id: "PERSON-020"
+    name: "Chip Huyen"
+    headline: "AI Engineer | Author of 'AI Engineering' and 'Designing Machine Learning Systems'"
+    signal_type: content_educator
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Promoted from watch list. Score 5/5. First deep technical practitioner in library. Production ML systems design and AI engineering architecture — entirely new coverage area. O'Reilly's most-read book since launch."
+
+    location:
+      current: "San Francisco, California (implied)"
+
+    platforms:
+      website: "huyenchip.com"
+      github: "chiphuyen"
+      linkedin: "LinkedIn Top Voice in Data Science & AI (2020)"
+
+    affiliation:
+      current_company: "Voltron Data"
+      role: "AI Engineer"
+      previous:
+        - "NVIDIA (NeMo core developer)"
+        - "Snorkel AI"
+        - "Netflix"
+        - "Stanford (ML Systems Design instructor)"
+
+    background:
+      education: "Stanford"
+      books:
+        - title: "AI Engineering: Building Applications with Foundation Models"
+          year: 2025
+          note: "Most-read book on O'Reilly since launch"
+        - title: "Designing Machine Learning Systems"
+          note: "Amazon #1 bestseller in AI, 10+ languages"
+        - title: "Upcoming book"
+          year: 2026
+          note: "December 2026"
+
+    expertise_tags:
+      - production_ml_systems
+      - ai_engineering_architecture
+      - llm_application_patterns
+      - evaluation_frameworks
+      - model_serving
+      - data_pipelines
+
+    lens:
+      id: "LENS-PERSON-020"
+      name: "Chip Huyen Signal Lens"
+      activate_when:
+        - "Production ML system design decisions"
+        - "AI engineering architecture patterns"
+        - "LLM application evaluation frameworks"
+        - "Model serving and data pipeline decisions"
+      focus: "What patterns does Chip recommend for production ML systems? What evaluation frameworks?"
+      search_cadence: "monthly"
+
+    palette_relevance:
+      why_follow: "First deep technical practitioner in the library. Her work on evaluation frameworks, model serving, and data pipelines directly maps to Palette's knowledge-library and service-routing needs. Source bar is Tier 1 equivalent."
+      rius_applicable:
+        - "RIU-521 (LLM routing)"
+        - "RIU-524 (quality monitoring)"
+        - "RIU-082 (guardrails)"
+        - "Knowledge library alignment"
+
+    sources:
+      - url: "https://huyenchip.com/"
+        title: "Chip Huyen personal site"
+      - url: "https://www.oreilly.com/library/view/ai-engineering/9781098166298/"
+        title: "AI Engineering book on O'Reilly"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ─────────────────────────────────────────────
+  # CLUSTER: AI PRODUCTION / COMMERCIAL (NEW in v1.1)
+  # ─────────────────────────────────────────────
+
+  - id: "PERSON-021"
+    name: "Matthieu Lorrain"
+    headline: "Creative Lead, AI & Creativity Research at Google DeepMind"
+    signal_type: product_insider
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Promoted from watch list. Score 5/5. Google DeepMind creative insider — institutional access to Veo, Genie, next-gen creative AI. 20 years digital content (Gorillaz, Star Wars, NBA, Louis Vuitton, Lego, Nike). Emmy, Cannes Lions Gold, Clios Gold. Columbia University AI & Filmmaking educator."
+
+    location:
+      current: "New York / London (implied)"
+
+    platforms:
+      website: "matthieulorrain.com"
+
+    affiliation:
+      primary_company: "Google DeepMind"
+      role: "Creative Lead, AI & Creativity Research"
+      secondary: "Columbia University School of Arts — teaches 'Augmented Creativity' and AI & Filmmaking"
+
+    background:
+      career_years: "20 years pioneering digital content"
+      past_clients: ["Gorillaz", "Star Wars", "NBA", "Louis Vuitton", "Lego", "Nike"]
+      awards: ["Emmy", "Cannes Lions Gold", "Clios Gold", "Webby", "Tribeca"]
+      recognition: "PR Week Dashboard 25: Class of 2025"
+
+    key_projects:
+      - "Instrumental in launching Google's Veo AI video tool to YouTube Shorts"
+      - "'Imagine If...' NYC public art + AI project"
+      - "Collaborated with Donald Glover and The Weeknd on generative AI projects"
+
+    expertise_tags:
+      - frontier_lab_creative_ai
+      - veo
+      - genie
+      - ai_filmmaking
+      - augmented_creativity
+      - institutional_ai_signal
+
+    lens:
+      id: "LENS-PERSON-021"
+      name: "Matthieu Lorrain Signal Lens"
+      activate_when:
+        - "Google DeepMind creative AI product signals"
+        - "Veo / Genie development direction"
+        - "AI filmmaking institutional adoption"
+        - "AI video generation model selection"
+      focus: "What is DeepMind building for creative AI? What does Matthieu see coming before it ships?"
+      search_cadence: "monthly"
+
+    palette_relevance:
+      why_follow: "Institutional insider at Google DeepMind's creative AI pipeline. Knows what's being built before it ships. First frontier lab insider in the library. Maps to GAP-002 (AI video generation model selection) and RIU-501 (image generation)."
+      rius_applicable:
+        - "RIU-501 (image generation)"
+        - "GAP-002 (AI video generation model selection)"
+
+    sources:
+      - url: "https://www.matthieulorrain.com/about"
+        title: "Matthieu Lorrain about page"
+      - url: "https://www.prweek.com/article/1905816/dashboard-25-class-2025-%E2%80%94-matthieu-lorrain"
+        title: "PR Week — Dashboard 25: Class of 2025"
+      - url: "https://blog.google/technology/google-deepmind/imagine-if/"
+        title: "Google DeepMind — Imagine If project"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ───────────────────────────────────────────
+
+  - id: "PERSON-022"
+    name: "PJ Accetturo"
+    headline: "CEO, Genre.ai | AI-Native Advertising Pioneer"
+    signal_type: founder_builder
+    signal_quality: high
+    status: active
+    perplexity_enrichment_status: complete
+    enrichment_date: "2026-02-24"
+    enrichment_notes: "Promoted from watch list. Score 4/5. First person running a commercial AI-native production company at scale with named brand clients. Real cost data: $300-$2K budgets vs traditional $100K+ productions. Provides commercial cost/quality benchmarks for AI video tools."
+
+    location:
+      current: "United States"
+
+    platforms:
+      linkedin:
+        handle: "pj-accetturo-b3b693129"
+        url: "https://www.linkedin.com/in/pj-accetturo-b3b693129/"
+      twitter: "PJ Ace"
+      newsletter: "AI filmmaking newsletter via Beehiiv"
+
+    affiliation:
+      primary_company: "Genre.ai"
+      role: "CEO & Founder"
+      description: "AI-native advertising agency"
+
+    company_metrics:
+      genre_ai:
+        clients: ["Kalshi", "Popeyes", "David Beckham's IM8", "Oracle", "Qatar Airlines", "major Hollywood studios", "Teriyaki Madness"]
+        notable_campaigns:
+          - name: "Kalshi ad during 2025 NBA Finals"
+            impressions: "18M+ in 48 hours"
+            budget: "$2K vs traditional $100K+"
+          - name: "AI Legend of Zelda trailer"
+            time: "5 days"
+            budget: "$300"
+          - name: "Teriyaki Madness national ad series"
+            date: "October 2025"
+        recognition: "DesignRush Top 5 AI Advertising Campaigns in 2026"
+
+    tools_used:
+      - name: "Sora (OpenAI)"
+        signal_strength: high
+      - name: "Veo 3 (Google)"
+        signal_strength: high
+      - name: "ChatGPT"
+        signal_strength: medium
+      - name: "Gemini"
+        signal_strength: medium
+      - name: "Freepik AI"
+        signal_strength: medium
+
+    expertise_tags:
+      - ai_native_advertising
+      - ai_video_production
+      - commercial_ai_content
+      - cost_benchmarking
+      - brand_campaigns
+
+    key_appearances:
+      - "Advertising Week NY 2025 (speaker)"
+      - "DesignRush feature — Top 5 AI Advertising Campaigns 2026"
+
+    lens:
+      id: "LENS-PERSON-022"
+      name: "PJ Accetturo Signal Lens"
+      activate_when:
+        - "AI video tool commercial benchmarks"
+        - "AI advertising adoption by brands"
+        - "Cost comparison: AI vs traditional production"
+        - "Which AI video tools work for commercial production"
+      focus: "Which AI video tools does PJ use for real client work? What are the actual costs?"
+      search_cadence: "monthly"
+
+    palette_relevance:
+      why_follow: "Commercial cost/quality benchmarks for AI video tools ($300 vs $100K). Real brand clients validate AI production at scale. Distinct from Alex Patrascu (cinematic/film) — PJ covers advertising. Maps to service-routing cost data (Phase 2 priority)."
+      rius_applicable:
+        - "RIU-501 (AI video/image generation)"
+        - "GAP-002 (AI video generation model selection)"
+        - "Service routing — cost data"
+
+    sources:
+      - url: "https://grokipedia.com/page/pj-ace"
+        title: "Grokipedia — PJ Ace"
+      - url: "https://themediabrain.substack.com/p/advertisings-top-ai-disruptor-pj-161"
+        title: "The Media Brain — Advertising's top AI disruptor"
+
+    added_date: "2026-02-24"
+    last_verified: "2026-02-24"
+
+  # ─────────────────────────────────────────────
+  # ARCHIVED STUBS
+  # ─────────────────────────────────────────────
+
+archived_stubs:
+  - id: "PERSON-018"
+    name: "Lazar Jovanovic"
+    original_status: stub
+    archive_reason: |
+      Signal is derivative of Lovable's brand (Anton Osika already covers this).
+      Most likely the 'Professional Vibe Coder' at Lovable who created '50in50 Challenge'
+      (50 AI projects in 50 days) and was featured on Lenny's Newsletter.
+      No founding role, no investment activity, no research output.
+      Name ambiguity (5+ LinkedIn profiles). Lovable signal already covered by
+      PERSON-008 (Anton Osika) and PERSON-009 (Felix Haas).
+    archived_date: "2026-02-24"
+
+# ─────────────────────────────────────────────
+# WATCH LIST — Evaluated, not promoted
+# ─────────────────────────────────────────────
+
+watch_list:
+  source: "Evaluated 2026-02-24 — 4 of 10 promoted, 1 held, 5 not promoted"
+  hold_for_phase_2:
+    - name: "Greg Isenberg"
+      score: "3/5"
+      reason: "CEO of Late Checkout. AI business model patterns, startup ideas, SaaS disruption. Hosts 'The Startup Ideas Podcast'. Useful but overlaps with VC/infrastructure lens. Revisit after Phase 2 enrichment."
+      url: "https://www.gregisenberg.com/"
+
+  not_promoted:
+    - name: "Tatiana Tsiguleva"
+      score: "2/5"
+      reason: "Midjourney/AI image niche — overlaps with PERSON-014 (Alex Patrascu) and PERSON-015 (Sebastien Jefferies)"
+    - name: "Wyndo Mitra Buwana"
+      score: "1/5"
+      reason: "Signal fully covered by Ruben Hassid network. Small audience (10K subscribers)."
+    - name: "Rory Flynn"
+      score: "2/5"
+      reason: "Midjourney-focused creative educator — overlaps with ai_creative_tools cluster"
+    - name: "Simon Meyer"
+      score: "2/5"
+      reason: "AI cinematic advertising niche — less differentiated than PJ Accetturo"
+    - name: "David Blagojevic"
+      score: "2/5"
+      reason: "Beauty/cosmetics AI ads niche — less commercial traction than PJ Accetturo. Controversy around copied KFC ad reduces signal reliability."
+
+# ─────────────────────────────────────────────
+# CROSS-PROFILE INTELLIGENCE FLAGS (NEW in v1.1)
+# ─────────────────────────────────────────────
+
+intelligence_flags:
+  - flag: "Krea.ai double signal"
+    detail: "In both Olivia Moore's personal AI stack AND Creandum's portfolio (Filip Mark)"
+    action: "Add to buy-vs-build"
+  - flag: "Vercel AI Gateway vs nexos.ai"
+    detail: "Direct competitors — both routing 100+ LLM endpoints"
+    action: "Flag in competitive analysis for service routing"
+  - flag: "Atlar + Lovable relationship"
+    detail: "Lovable is an Atlar customer — Lovable orbit is tighter than previously mapped"
+    action: "Cross-reference in company signals"
+  - flag: "Ruben Hassid → Claude shift"
+    detail: "His newsletter shift from ChatGPT to Claude is a consumer AI adoption signal"
+    action: "Track as leading indicator for Claude adoption"
+  - flag: "Granola (AI meetings)"
+    detail: "New tool not in buy-vs-build — recommended by both Ruben Hassid and Olivia Moore"
+    action: "Add to buy-vs-build; evaluate for Argy"
+  - flag: "Julius AI"
+    detail: "Data analysis tool recommended by a16z partner — not in buy-vs-build"
+    action: "Add to buy-vs-build"
+  - flag: "HappyRobot (Pablo Palafox)"
+    detail: "Enterprise AI voice agents for logistics — new RIU candidate"
+    action: "Propose voice agent workflows RIU"
+  - flag: "Victoria Liang correction"
+    detail: "Was listed as CTO; actual CTO is Sahaj Garg (Stanford, Andrew Ng, Forbes 30U30)"
+    action: "Consider adding Sahaj Garg in v1.2"
+  - flag: "MASSIVE Studios + Roger Avary"
+    detail: "3 theatrical features with Oscar winner; VFX cost $5K/minute vs $1M/minute"
+    action: "Service routing cost data for AI video production"
+  - flag: "Wispr Flow metrics confirmed"
+    detail: "$700M valuation, $81M raised, $10M ARR, 80% 6-month retention"
+    action: "Update company signals; validate Wispr Flow API vs raw Whisper decision"

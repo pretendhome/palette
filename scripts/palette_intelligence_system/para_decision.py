@@ -11,10 +11,10 @@ Policy mode:
   - reach_convergence_first (bool)
 
 Routing on block:
-  - self_inflicted_bug -> Raptor
-  - architecture_gap -> Rex
-  - research_gap -> Argy
-  - unknown -> Rex + Argy
+  - self_inflicted_bug -> Debugger
+  - architecture_gap -> Architect
+  - research_gap -> Researcher
+  - unknown -> Architect + Researcher
 """
 
 from __future__ import annotations
@@ -59,12 +59,12 @@ class ParaDecision:
 
 def _route_for_block_cause(block_cause: str) -> list[str]:
     if block_cause == "self_inflicted_bug":
-        return ["Raptor"]
+        return ["Debugger"]
     if block_cause == "architecture_gap":
-        return ["Rex"]
+        return ["Architect"]
     if block_cause == "research_gap":
-        return ["Argy"]
-    return ["Rex", "Argy"]
+        return ["Researcher"]
+    return ["Architect", "Researcher"]
 
 
 def _blocking_reasons(

@@ -1,0 +1,43 @@
+{
+  "name": "researcher",
+  "version": "1.0",
+  "agent_type": "Researcher",
+  "code": "Researcher",
+  "role": "Resource Gatherer",
+  "description": "Conversational research agent that clarifies intent before searching",
+  "status": "WORKING",
+  "maturity": {
+    "tier": 2,
+    "successes": 13,
+    "failures": 0,
+    "promotes_at": 50
+  },
+  "entry_point": "researcher.py",
+  "runtime": "python",
+  "capabilities": [
+    "web_search",
+    "web_fetch",
+    "context_clarification",
+    "structured_synthesis",
+    "tradeoff_identification",
+    "gap_flagging"
+  ],
+  "constraints": {
+    "read_only": true,
+    "no_execution": true,
+    "no_commits": true,
+    "no_decisions": true,
+    "must_clarify_before_search": true
+  },
+  "accepts_from": ["orchestrator", "architect", "human"],
+  "routes_to": ["orchestrator", "architect", "builder", "human"],
+  "invocation": {
+    "command": "/researcher",
+    "aliases": ["research", "search"]
+  },
+  "logging": {
+    "ledger": "palette/decisions.md",
+    "track_maturity": true,
+    "log_queries": true
+  }
+}

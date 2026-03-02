@@ -21,7 +21,7 @@ type DispatchStep struct {
 	OneWayDoor bool
 }
 
-// DispatchPlan is the full ordered sequence of steps Orch will execute.
+// DispatchPlan is the full ordered sequence of steps the Orchestrator will execute.
 type DispatchPlan struct {
 	TraceID    string
 	Steps      []DispatchStep
