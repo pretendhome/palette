@@ -3,112 +3,102 @@ version: 0.1
 status: pilot
 name: IT Operations Lens
 optional: true
-
 origin:
   type: hybrid
-  palette_basis: "Palette lenses framework"
+  palette_basis: Palette lenses framework
   external_inspiration:
-    - "OpenAI Academy Prompt Packs (ChatGPT for IT)"
-  source_pack: "ChatGPT for IT"
-  notes: "Designed for IT and operations workflows: incident triage, change rollout, SOPs, troubleshooting coordination, and service reliability communication."
-
+  - OpenAI Academy Prompt Packs (ChatGPT for IT)
+  source_pack: ChatGPT for IT
+  notes: 'Designed for IT and operations workflows: incident triage, change rollout, SOPs, troubleshooting coordination, and
+    service reliability communication.'
 critical_question:
-  as_palette: "How will this lens best help me, and what would it actually help me do?"
-  answer: "It helps Palette turn IT/ops requests into structured troubleshooting, rollout, and operational response artifacts with clear actions, owners, checks, and containment steps."
-
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: It helps Palette turn IT/ops requests into structured troubleshooting, rollout, and operational response artifacts
+    with clear actions, owners, checks, and containment steps.
 when_to_use:
   signals:
-    - incident triage
-    - troubleshooting workflow
-    - change rollout plan
-    - service outage communication
-    - access or tooling request process
-    - runbook / SOP drafting
-    - operational handoff
+  - incident triage
+  - troubleshooting workflow
+  - change rollout plan
+  - service outage communication
+  - access or tooling request process
+  - runbook / SOP drafting
+  - operational handoff
   not_for:
-    - deep code implementation details
-    - legal/compliance decisions requiring counsel
-    - unsupported root-cause claims without evidence
+  - deep code implementation details
+  - legal/compliance decisions requiring counsel
+  - unsupported root-cause claims without evidence
   user_intents:
-    - "How do we troubleshoot this issue step by step?"
-    - "What is the rollout plan and rollback for this change?"
-    - "What should we communicate to users during this outage?"
-    - "How do we operationalize this into a repeatable SOP?"
-
+  - How do we troubleshoot this issue step by step?
+  - What is the rollout plan and rollback for this change?
+  - What should we communicate to users during this outage?
+  - How do we operationalize this into a repeatable SOP?
 palette_fit:
   primary_rius:
-    - RIU-001
-    - RIU-009
-    - RIU-039
-    - RIU-061
-    - RIU-062
-    - RIU-073
+  - RIU-001
+  - RIU-009
+  - RIU-061
+  - RIU-062
   supporting_rius:
-    - RIU-014
+  - RIU-014
   primary_agents:
-    - debugger
-    - builder
-    - monitor
-    - validator
+  - debugger
+  - builder
+  - monitor
+  - validator
   supporting_agents:
-    - architect
-    - narrator
-    - researcher
+  - architect
+  - narrator
+  - researcher
   library_links:
-    - "Prefer LIB entries on reliability, incident handling, observability, operationalization, and failure recovery."
+  - Prefer LIB entries on reliability, incident handling, observability, operationalization, and failure recovery.
   company_matrix_use:
-    - "Use company/tool examples to estimate operational fit and runbook patterns, not as root-cause evidence."
-
+  - Use company/tool examples to estimate operational fit and runbook patterns, not as root-cause evidence.
 output_contract:
   required_sections:
-    - Problem statement and observed symptoms
-    - Triage priority / severity
-    - Hypotheses and checks (ordered)
-    - Containment / rollback actions
-    - Communication plan (who/what/when)
-    - Recovery validation checks
-    - Follow-up / prevention tasks
-    - Open unknowns / assumptions
+  - Problem statement and observed symptoms
+  - Triage priority / severity
+  - Hypotheses and checks (ordered)
+  - Containment / rollback actions
+  - Communication plan (who/what/when)
+  - Recovery validation checks
+  - Follow-up / prevention tasks
+  - Open unknowns / assumptions
   forbidden_patterns:
-    - unsupported root-cause certainty
-    - no containment for risky change paths
-    - vague troubleshooting steps
-    - no communication owner during user-impacting events
-
+  - unsupported root-cause certainty
+  - no containment for risky change paths
+  - vague troubleshooting steps
+  - no communication owner during user-impacting events
 quality_checks:
-  - "Triage severity or priority is explicit."
-  - "Checks are executable and ordered."
-  - "Containment or rollback path is present for risky actions."
-  - "Communication plan is explicit when user/service impact is implied."
-  - "Unknowns are preserved instead of collapsed into false certainty."
-
+- Triage severity or priority is explicit.
+- Checks are executable and ordered.
+- Containment or rollback path is present for risky actions.
+- Communication plan is explicit when user/service impact is implied.
+- Unknowns are preserved instead of collapsed into false certainty.
 interaction_style:
   default_answer_shape:
-    - symptoms_and_severity
-    - hypotheses_and_checks
-    - containment_and_comms
-    - recovery_and_prevention
+  - symptoms_and_severity
+  - hypotheses_and_checks
+  - containment_and_comms
+  - recovery_and_prevention
   presentation_rules:
-    - "Prefer operational checklists over explanatory prose."
-    - "State impact, severity, and next action early."
-    - "Separate confirmed facts from hypotheses."
-
+  - Prefer operational checklists over explanatory prose.
+  - State impact, severity, and next action early.
+  - Separate confirmed facts from hypotheses.
 prompt_pack_alignment:
-  closest_role_pack: "ChatGPT for IT"
+  closest_role_pack: ChatGPT for IT
   role_pack_translation:
-    - "Translate role-pack productivity into operationally safe runbooks and triage outputs."
-    - "Bias outputs toward containment, validation, and communication clarity."
-    - "Preserve evidence discipline in troubleshooting."
-
+  - Translate role-pack productivity into operationally safe runbooks and triage outputs.
+  - Bias outputs toward containment, validation, and communication clarity.
+  - Preserve evidence discipline in troubleshooting.
 evaluation_plan:
   compare_against_no_lens:
-    - time_to_first_actionable_triage_plan
-    - incident_response_clarity_score
-    - rollback_readiness_score
-    - follow_up_prevention_completion_rate
+  - time_to_first_actionable_triage_plan
+  - incident_response_clarity_score
+  - rollback_readiness_score
+  - follow_up_prevention_completion_rate
   minimum_sample_size: 20
   kill_if:
-    - "No measurable improvement on at least 2 of 4 metrics."
-    - "Outputs increase operational confusion or unsafe actions."
-    - "Adds process overhead without improving response quality."
-
+  - No measurable improvement on at least 2 of 4 metrics.
+  - Outputs increase operational confusion or unsafe actions.
+  - Adds process overhead without improving response quality.

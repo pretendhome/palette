@@ -3,112 +3,102 @@ version: 0.1
 status: pilot
 name: Marketing Execution Lens
 optional: true
-
 origin:
   type: hybrid
-  palette_basis: "Palette lenses framework"
+  palette_basis: Palette lenses framework
   external_inspiration:
-    - "OpenAI Academy Prompt Packs (ChatGPT for marketing)"
-  source_pack: "ChatGPT for marketing"
-  notes: "Designed for marketing planning and execution: campaign strategy, messaging tests, content operations, and measurement loops."
-
+  - OpenAI Academy Prompt Packs (ChatGPT for marketing)
+  source_pack: ChatGPT for marketing
+  notes: 'Designed for marketing planning and execution: campaign strategy, messaging tests, content operations, and measurement
+    loops.'
 critical_question:
-  as_palette: "How will this lens best help me, and what would it actually help me do?"
-  answer: "It helps Palette convert marketing asks into executable campaign and content plans with clear audiences, hypotheses, channels, creative variations, and measurable success criteria."
-
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: It helps Palette convert marketing asks into executable campaign and content plans with clear audiences, hypotheses,
+    channels, creative variations, and measurable success criteria.
 when_to_use:
   signals:
-    - campaign planning
-    - messaging strategy
-    - content calendar
-    - channel prioritization
-    - experiment design
-    - launch plan
-    - performance review
+  - campaign planning
+  - messaging strategy
+  - content calendar
+  - channel prioritization
+  - experiment design
+  - launch plan
+  - performance review
   not_for:
-    - brand legal review
-    - unsupported performance guarantees
-    - deep engineering implementation tasks
-    - unverified audience claims presented as facts
+  - brand legal review
+  - unsupported performance guarantees
+  - deep engineering implementation tasks
+  - unverified audience claims presented as facts
   user_intents:
-    - "How should we structure this campaign?"
-    - "What messaging should we test?"
-    - "What should we publish and when?"
-    - "How do we measure if this worked?"
-
+  - How should we structure this campaign?
+  - What messaging should we test?
+  - What should we publish and when?
+  - How do we measure if this worked?
 palette_fit:
   primary_rius:
-    - RIU-001
-    - RIU-006
-    - RIU-014
-    - RIU-062
-    - RIU-073
+  - RIU-001
+  - RIU-006
+  - RIU-014
+  - RIU-062
   supporting_rius:
-    - RIU-039
-    - RIU-002
+  - RIU-002
   primary_agents:
-    - narrator
-    - architect
-    - validator
+  - narrator
+  - architect
+  - validator
   supporting_agents:
-    - researcher
-    - monitor
-    - builder
+  - researcher
+  - monitor
+  - builder
   library_links:
-    - "Prefer LIB entries on experimentation, evaluation, messaging reliability, and operational rollout."
+  - Prefer LIB entries on experimentation, evaluation, messaging reliability, and operational rollout.
   company_matrix_use:
-    - "Use company examples and comparables to validate campaign patterns, not as direct claims about the current audience."
-
+  - Use company examples and comparables to validate campaign patterns, not as direct claims about the current audience.
 output_contract:
   required_sections:
-    - Objective and target audience
-    - Core hypothesis / message angle
-    - Channel and format plan
-    - Creative/test variants
-    - Execution timeline and owners
-    - Measurement plan (leading + lagging metrics)
-    - Risks / dependencies
-    - Open questions / assumptions
+  - Objective and target audience
+  - Core hypothesis / message angle
+  - Channel and format plan
+  - Creative/test variants
+  - Execution timeline and owners
+  - Measurement plan (leading + lagging metrics)
+  - Risks / dependencies
+  - Open questions / assumptions
   forbidden_patterns:
-    - generic marketing advice with no audience
-    - no testable hypothesis
-    - no measurement plan
-    - unsupported channel performance claims
-
+  - generic marketing advice with no audience
+  - no testable hypothesis
+  - no measurement plan
+  - unsupported channel performance claims
 quality_checks:
-  - "Audience is explicit and not generic."
-  - "At least one testable message or creative hypothesis is included."
-  - "Timeline and owners exist for execution steps."
-  - "Measurement includes both leading and lagging indicators where relevant."
-  - "Assumptions about audience/channel performance are labeled."
-
+- Audience is explicit and not generic.
+- At least one testable message or creative hypothesis is included.
+- Timeline and owners exist for execution steps.
+- Measurement includes both leading and lagging indicators where relevant.
+- Assumptions about audience/channel performance are labeled.
 interaction_style:
   default_answer_shape:
-    - objective_audience_hypothesis
-    - channel_and_creative_plan
-    - execution_timeline_and_metrics
-    - risks_and_assumptions
+  - objective_audience_hypothesis
+  - channel_and_creative_plan
+  - execution_timeline_and_metrics
+  - risks_and_assumptions
   presentation_rules:
-    - "Lead with objective, audience, and core message hypothesis."
-    - "Prefer campaign plans and experiments over generic brainstorm lists."
-    - "Tie every recommendation to measurement."
-
+  - Lead with objective, audience, and core message hypothesis.
+  - Prefer campaign plans and experiments over generic brainstorm lists.
+  - Tie every recommendation to measurement.
 prompt_pack_alignment:
-  closest_role_pack: "ChatGPT for marketing"
+  closest_role_pack: ChatGPT for marketing
   role_pack_translation:
-    - "Translate role-pack prompts into execution-ready campaign and content plans."
-    - "Bias outputs toward hypotheses, experiments, and measurement loops."
-    - "Reduce generic ideation in favor of prioritized tests."
-
+  - Translate role-pack prompts into execution-ready campaign and content plans.
+  - Bias outputs toward hypotheses, experiments, and measurement loops.
+  - Reduce generic ideation in favor of prioritized tests.
 evaluation_plan:
   compare_against_no_lens:
-    - campaign_plan_acceptance_rate
-    - experiment_definition_quality_score
-    - time_to_first_launchable_plan
-    - post_launch_measurement_completeness
+  - campaign_plan_acceptance_rate
+  - experiment_definition_quality_score
+  - time_to_first_launchable_plan
+  - post_launch_measurement_completeness
   minimum_sample_size: 20
   kill_if:
-    - "No measurable improvement on at least 2 of 4 metrics."
-    - "Outputs remain generic and not execution-ready."
-    - "Increases planning volume without improving test quality."
-
+  - No measurable improvement on at least 2 of 4 metrics.
+  - Outputs remain generic and not execution-ready.
+  - Increases planning volume without improving test quality.

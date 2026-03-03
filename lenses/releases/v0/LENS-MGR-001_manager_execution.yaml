@@ -3,112 +3,101 @@ version: 0.1
 status: pilot
 name: Manager Execution Lens
 optional: true
-
 origin:
   type: hybrid
-  palette_basis: "Palette lenses framework"
+  palette_basis: Palette lenses framework
   external_inspiration:
-    - "OpenAI Academy Prompt Packs (ChatGPT for managers)"
-  source_pack: "ChatGPT for managers"
-  notes: "Designed to turn requests into team-executable plans with ownership, follow-up cadence, and decision clarity."
-
+  - OpenAI Academy Prompt Packs (ChatGPT for managers)
+  source_pack: ChatGPT for managers
+  notes: Designed to turn requests into team-executable plans with ownership, follow-up cadence, and decision clarity.
 critical_question:
-  as_palette: "How will this lens best help me, and what would it actually help me do?"
-  answer: "It helps Palette turn ambiguous management asks into clear execution plans: priorities, owners, dependencies, follow-up loops, and decision points. It reduces manager overhead and drift."
-
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: 'It helps Palette turn ambiguous management asks into clear execution plans: priorities, owners, dependencies, follow-up
+    loops, and decision points. It reduces manager overhead and drift.'
 when_to_use:
   signals:
-    - delegation
-    - team planning
-    - priority alignment
-    - follow-up cadence
-    - stakeholder sync
-    - performance unblock
-    - status review
+  - delegation
+  - team planning
+  - priority alignment
+  - follow-up cadence
+  - stakeholder sync
+  - performance unblock
+  - status review
   not_for:
-    - low-level code implementation
-    - deep technical debugging
-    - legal_hr_compliance_advice
+  - low-level code implementation
+  - deep technical debugging
+  - legal_hr_compliance_advice
   user_intents:
-    - "How do I organize this work across the team?"
-    - "What should I delegate and to whom?"
-    - "How do I run the follow-up and keep this on track?"
-    - "What should I ask in the next team sync?"
-
+  - How do I organize this work across the team?
+  - What should I delegate and to whom?
+  - How do I run the follow-up and keep this on track?
+  - What should I ask in the next team sync?
 palette_fit:
   primary_rius:
-    - RIU-001
-    - RIU-002
-    - RIU-003
-    - RIU-006
-    - RIU-062
+  - RIU-001
+  - RIU-002
+  - RIU-003
+  - RIU-006
+  - RIU-062
   supporting_rius:
-    - RIU-014
-    - RIU-039
-    - RIU-073
+  - RIU-014
   primary_agents:
-    - architect
-    - narrator
-    - validator
+  - architect
+  - narrator
+  - validator
   supporting_agents:
-    - monitor
-    - researcher
-    - builder
+  - monitor
+  - researcher
+  - builder
   library_links:
-    - "Prefer LIB entries on convergence, success metrics, risk framing, operational cadence, and adoption."
+  - Prefer LIB entries on convergence, success metrics, risk framing, operational cadence, and adoption.
   company_matrix_use:
-    - "Use company examples to calibrate realistic sequencing and change-management patterns, not as direct templates."
-
+  - Use company examples to calibrate realistic sequencing and change-management patterns, not as direct templates.
 output_contract:
   required_sections:
-    - Objective and desired outcome
-    - Top priorities (ordered)
-    - Delegation plan (owner + task + due date)
-    - Dependencies and blockers
-    - Follow-up cadence / checkpoints
-    - Decision points / escalation triggers
-    - Success signals (leading + lagging)
-    - Open questions / assumptions
+  - Objective and desired outcome
+  - Top priorities (ordered)
+  - Delegation plan (owner + task + due date)
+  - Dependencies and blockers
+  - Follow-up cadence / checkpoints
+  - Decision points / escalation triggers
+  - Success signals (leading + lagging)
+  - Open questions / assumptions
   forbidden_patterns:
-    - ownerless action items
-    - vague follow-up language
-    - no escalation criteria
-    - unsupported certainty about team capacity
-
+  - ownerless action items
+  - vague follow-up language
+  - no escalation criteria
+  - unsupported certainty about team capacity
 quality_checks:
-  - "Every priority has an owner or explicit owner-needed flag."
-  - "Follow-up cadence is explicit (date/rhythm) rather than implied."
-  - "At least one escalation trigger is named for risky work."
-  - "Assumptions about capacity, dependencies, or stakeholder alignment are labeled."
-  - "Output is runnable as a manager's meeting or tasking artifact."
-
+- Every priority has an owner or explicit owner-needed flag.
+- Follow-up cadence is explicit (date/rhythm) rather than implied.
+- At least one escalation trigger is named for risky work.
+- Assumptions about capacity, dependencies, or stakeholder alignment are labeled.
+- Output is runnable as a manager's meeting or tasking artifact.
 interaction_style:
   default_answer_shape:
-    - objective_and_priority_order
-    - delegation_and_dependencies
-    - cadence_and_decision_points
-    - metrics_and_assumptions
+  - objective_and_priority_order
+  - delegation_and_dependencies
+  - cadence_and_decision_points
+  - metrics_and_assumptions
   presentation_rules:
-    - "Lead with the objective and top 2-3 priorities."
-    - "Prefer tables or bullets over prose for delegation."
-    - "Keep manager-facing outputs short enough to use in a live meeting."
-
+  - Lead with the objective and top 2-3 priorities.
+  - Prefer tables or bullets over prose for delegation.
+  - Keep manager-facing outputs short enough to use in a live meeting.
 prompt_pack_alignment:
-  closest_role_pack: "ChatGPT for managers"
+  closest_role_pack: ChatGPT for managers
   role_pack_translation:
-    - "Convert role-pack productivity prompts into team execution structures."
-    - "Bias outputs toward delegation, follow-up, and decision hygiene."
-    - "Make hidden assumptions and escalation triggers explicit."
-
+  - Convert role-pack productivity prompts into team execution structures.
+  - Bias outputs toward delegation, follow-up, and decision hygiene.
+  - Make hidden assumptions and escalation triggers explicit.
 evaluation_plan:
   compare_against_no_lens:
-    - team_task_clarity_score
-    - follow_up_completion_rate
-    - blocker_detection_latency
-    - meeting_to_action_conversion_rate
+  - team_task_clarity_score
+  - follow_up_completion_rate
+  - blocker_detection_latency
+  - meeting_to_action_conversion_rate
   minimum_sample_size: 20
   kill_if:
-    - "No measurable improvement on at least 2 of 4 metrics."
-    - "Adds process overhead without improving execution clarity."
-    - "Generates plans that managers do not actually use."
-
+  - No measurable improvement on at least 2 of 4 metrics.
+  - Adds process overhead without improving execution clarity.
+  - Generates plans that managers do not actually use.

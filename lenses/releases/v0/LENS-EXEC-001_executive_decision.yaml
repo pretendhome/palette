@@ -3,112 +3,101 @@ version: 0.1
 status: pilot
 name: Executive Decision Lens
 optional: true
-
 origin:
   type: hybrid
-  palette_basis: "Palette lenses framework"
+  palette_basis: Palette lenses framework
   external_inspiration:
-    - "OpenAI Academy Prompt Packs (ChatGPT for executives)"
-  source_pack: "ChatGPT for executives"
-  notes: "Designed for high-level decision framing, strategic tradeoffs, risk posture, and concise executive readouts."
-
+  - OpenAI Academy Prompt Packs (ChatGPT for executives)
+  source_pack: ChatGPT for executives
+  notes: Designed for high-level decision framing, strategic tradeoffs, risk posture, and concise executive readouts.
 critical_question:
-  as_palette: "How will this lens best help me, and what would it actually help me do?"
-  answer: "It helps Palette convert complex analysis into executive-ready decisions: options, tradeoffs, risks, timing, and asks. It reduces noise and improves decision velocity."
-
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: 'It helps Palette convert complex analysis into executive-ready decisions: options, tradeoffs, risks, timing, and
+    asks. It reduces noise and improves decision velocity.'
 when_to_use:
   signals:
-    - strategy decision
-    - investment prioritization
-    - go/no-go
-    - portfolio tradeoff
-    - risk posture
-    - executive briefing
-    - board_pre_read
+  - strategy decision
+  - investment prioritization
+  - go/no-go
+  - portfolio tradeoff
+  - risk posture
+  - executive briefing
+  - board_pre_read
   not_for:
-    - detailed implementation planning
-    - low-level debugging
-    - speculative financial forecasting without assumptions
+  - detailed implementation planning
+  - low-level debugging
+  - speculative financial forecasting without assumptions
   user_intents:
-    - "What decision should we make and why?"
-    - "What are the strategic options and tradeoffs?"
-    - "What does leadership need to know right now?"
-    - "What is the risk if we delay this?"
-
+  - What decision should we make and why?
+  - What are the strategic options and tradeoffs?
+  - What does leadership need to know right now?
+  - What is the risk if we delay this?
 palette_fit:
   primary_rius:
-    - RIU-001
-    - RIU-003
-    - RIU-006
-    - RIU-009
-    - RIU-014
-    - RIU-062
-  supporting_rius:
-    - RIU-039
-    - RIU-073
+  - RIU-001
+  - RIU-003
+  - RIU-006
+  - RIU-009
+  - RIU-014
+  - RIU-062
+  supporting_rius: []
   primary_agents:
-    - narrator
-    - architect
-    - validator
+  - narrator
+  - architect
+  - validator
   supporting_agents:
-    - researcher
-    - monitor
-    - builder
+  - researcher
+  - monitor
+  - builder
   library_links:
-    - "Prefer LIB entries on strategy framing, risk, governance, evaluation, and adoption."
+  - Prefer LIB entries on strategy framing, risk, governance, evaluation, and adoption.
   company_matrix_use:
-    - "Use company examples and comparables to validate options and execution risk, not as direct imitation."
-
+  - Use company examples and comparables to validate options and execution risk, not as direct imitation.
 output_contract:
   required_sections:
-    - Executive summary (decision-first)
-    - Options and tradeoffs (2-4)
-    - Recommendation
-    - Why now / timing implications
-    - Risks and mitigations
-    - Financial or operational impact framing (ranges if assumptions)
-    - Decisions required / asks from leadership
-    - Assumptions and unknowns
+  - Executive summary (decision-first)
+  - Options and tradeoffs (2-4)
+  - Recommendation
+  - Why now / timing implications
+  - Risks and mitigations
+  - Financial or operational impact framing (ranges if assumptions)
+  - Decisions required / asks from leadership
+  - Assumptions and unknowns
   forbidden_patterns:
-    - analysis_without_recommendation
-    - hidden assumptions in financial claims
-    - overly tactical implementation detail in exec summary
-    - unsupported certainty on risk or outcomes
-
+  - analysis_without_recommendation
+  - hidden assumptions in financial claims
+  - overly tactical implementation detail in exec summary
+  - unsupported certainty on risk or outcomes
 quality_checks:
-  - "Recommendation appears before deep detail."
-  - "At least two options are compared when the decision is non-trivial."
-  - "Tradeoffs are explicit (speed, cost, risk, reversibility, resourcing)."
-  - "Assumptions are labeled, especially for impact estimates."
-  - "Executive asks are explicit, not implied."
-
+- Recommendation appears before deep detail.
+- At least two options are compared when the decision is non-trivial.
+- Tradeoffs are explicit (speed, cost, risk, reversibility, resourcing).
+- Assumptions are labeled, especially for impact estimates.
+- Executive asks are explicit, not implied.
 interaction_style:
   default_answer_shape:
-    - executive_summary_and_recommendation
-    - options_tradeoffs
-    - risk_timing_impact
-    - explicit_asks_and_assumptions
+  - executive_summary_and_recommendation
+  - options_tradeoffs
+  - risk_timing_impact
+  - explicit_asks_and_assumptions
   presentation_rules:
-    - "Lead with the decision and rationale in the first 3-5 lines."
-    - "Keep tactical details in supporting bullets, not the headline."
-    - "Use ranges and confidence labels for uncertain impact estimates."
-
+  - Lead with the decision and rationale in the first 3-5 lines.
+  - Keep tactical details in supporting bullets, not the headline.
+  - Use ranges and confidence labels for uncertain impact estimates.
 prompt_pack_alignment:
-  closest_role_pack: "ChatGPT for executives"
+  closest_role_pack: ChatGPT for executives
   role_pack_translation:
-    - "Translate role-pack productivity framing into decision-readout outputs."
-    - "Bias toward strategic options, risk posture, and explicit asks."
-    - "Preserve concision and executive readability without hiding uncertainty."
-
+  - Translate role-pack productivity framing into decision-readout outputs.
+  - Bias toward strategic options, risk posture, and explicit asks.
+  - Preserve concision and executive readability without hiding uncertainty.
 evaluation_plan:
   compare_against_no_lens:
-    - decision_turn_count
-    - exec_artifact_acceptance_rate
-    - follow_up_clarification_rate
-    - strategic_alignment_score
+  - decision_turn_count
+  - exec_artifact_acceptance_rate
+  - follow_up_clarification_rate
+  - strategic_alignment_score
   minimum_sample_size: 20
   kill_if:
-    - "No measurable improvement on at least 2 of 4 metrics."
-    - "Adds executive briefing overhead without clearer decisions."
-    - "Increases confident-but-unsupported recommendations."
-
+  - No measurable improvement on at least 2 of 4 metrics.
+  - Adds executive briefing overhead without clearer decisions.
+  - Increases confident-but-unsupported recommendations.

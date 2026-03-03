@@ -4876,9 +4876,9 @@ rius:
         - Novel business models (no comparables)
 
     dependencies:
-      - RIU-001 (Convergence Brief)
-      - RIU-106 (Comparable Organization Research)
-      - RIU-107 (Financial Crisis Detection)
+      - RIU-001
+      - RIU-106
+      - RIU-107
 
     agent_types:
       - Human:Delivery

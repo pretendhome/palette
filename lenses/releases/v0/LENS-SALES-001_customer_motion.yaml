@@ -3,111 +3,101 @@ version: 0.1
 status: pilot
 name: Sales Customer Motion Lens
 optional: true
-
 origin:
   type: hybrid
-  palette_basis: "Palette lenses framework"
+  palette_basis: Palette lenses framework
   external_inspiration:
-    - "OpenAI Academy Prompt Packs (ChatGPT for sales)"
-  source_pack: "ChatGPT for sales"
-  notes: "Designed to turn prospect/account requests into structured sales motion outputs: qualification, next steps, objections, stakeholders, and deal risk."
-
+  - OpenAI Academy Prompt Packs (ChatGPT for sales)
+  source_pack: ChatGPT for sales
+  notes: 'Designed to turn prospect/account requests into structured sales motion outputs: qualification, next steps, objections,
+    stakeholders, and deal risk.'
 critical_question:
-  as_palette: "How will this lens best help me, and what would it actually help me do?"
-  answer: "It helps Palette produce sales-ready outputs: account strategy, qualification gaps, stakeholder plans, objection responses, and next-step sequences. It reduces generic pitches and improves deal progression clarity."
-
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: 'It helps Palette produce sales-ready outputs: account strategy, qualification gaps, stakeholder plans, objection
+    responses, and next-step sequences. It reduces generic pitches and improves deal progression clarity.'
 when_to_use:
   signals:
-    - account planning
-    - qualification
-    - objection handling
-    - deal strategy
-    - next step planning
-    - stakeholder mapping
-    - pipeline review
+  - account planning
+  - qualification
+  - objection handling
+  - deal strategy
+  - next step planning
+  - stakeholder mapping
+  - pipeline review
   not_for:
-    - contract redlining or legal advice
-    - unsupported pricing commitments
-    - deep technical implementation design
+  - contract redlining or legal advice
+  - unsupported pricing commitments
+  - deep technical implementation design
   user_intents:
-    - "How do I move this deal forward?"
-    - "What should my next step be with this account?"
-    - "How do I handle this objection?"
-    - "What am I missing in qualification?"
-
+  - How do I move this deal forward?
+  - What should my next step be with this account?
+  - How do I handle this objection?
+  - What am I missing in qualification?
 palette_fit:
   primary_rius:
-    - RIU-001
-    - RIU-002
-    - RIU-006
-    - RIU-014
-    - RIU-062
-  supporting_rius:
-    - RIU-039
-    - RIU-073
+  - RIU-001
+  - RIU-002
+  - RIU-006
+  - RIU-014
+  - RIU-062
+  supporting_rius: []
   primary_agents:
-    - narrator
-    - architect
-    - validator
+  - narrator
+  - architect
+  - validator
   supporting_agents:
-    - researcher
-    - monitor
-    - builder
+  - researcher
+  - monitor
+  - builder
   library_links:
-    - "Prefer LIB entries on stakeholder mapping, risk framing, metrics, trust/adoption, and execution planning."
+  - Prefer LIB entries on stakeholder mapping, risk framing, metrics, trust/adoption, and execution planning.
   company_matrix_use:
-    - "Use company comparables to sharpen positioning and plausibility, not to fabricate customer specifics."
-
+  - Use company comparables to sharpen positioning and plausibility, not to fabricate customer specifics.
 output_contract:
   required_sections:
-    - Deal objective / stage context
-    - Current hypothesis (why this deal moves / stalls)
-    - Qualification gaps (ordered)
-    - Stakeholder map / missing stakeholders
-    - Next-step plan (owner + date + desired outcome)
-    - Objections / risks and response strategy
-    - Success signals for next meeting or milestone
-    - Open questions / assumptions
+  - Deal objective / stage context
+  - Current hypothesis (why this deal moves / stalls)
+  - Qualification gaps (ordered)
+  - Stakeholder map / missing stakeholders
+  - Next-step plan (owner + date + desired outcome)
+  - Objections / risks and response strategy
+  - Success signals for next meeting or milestone
+  - Open questions / assumptions
   forbidden_patterns:
-    - generic sales scripts with no account context
-    - next steps without owner or desired outcome
-    - fabricated customer facts
-    - unsupported commercial promises
-
+  - generic sales scripts with no account context
+  - next steps without owner or desired outcome
+  - fabricated customer facts
+  - unsupported commercial promises
 quality_checks:
-  - "At least one next step includes owner, date, and desired outcome."
-  - "Qualification gaps are explicit, not implied."
-  - "Stakeholder risk is surfaced when information is missing."
-  - "Objection handling includes a response strategy, not just rebuttal lines."
-  - "Assumptions about budget, authority, or timing are labeled."
-
+- At least one next step includes owner, date, and desired outcome.
+- Qualification gaps are explicit, not implied.
+- Stakeholder risk is surfaced when information is missing.
+- Objection handling includes a response strategy, not just rebuttal lines.
+- Assumptions about budget, authority, or timing are labeled.
 interaction_style:
   default_answer_shape:
-    - deal_context_and_hypothesis
-    - qualification_and_stakeholders
-    - next_steps_and_risks
-    - success_signals_and_assumptions
+  - deal_context_and_hypothesis
+  - qualification_and_stakeholders
+  - next_steps_and_risks
+  - success_signals_and_assumptions
   presentation_rules:
-    - "Lead with the deal objective and what is blocking progress."
-    - "Prefer concise account-plan bullets over long persuasive prose."
-    - "Make next steps explicit and measurable."
-
+  - Lead with the deal objective and what is blocking progress.
+  - Prefer concise account-plan bullets over long persuasive prose.
+  - Make next steps explicit and measurable.
 prompt_pack_alignment:
-  closest_role_pack: "ChatGPT for sales"
+  closest_role_pack: ChatGPT for sales
   role_pack_translation:
-    - "Translate role-pack prompts into account-strategy and deal-progression outputs."
-    - "Bias toward qualification clarity, stakeholder mapping, and next-step discipline."
-    - "Reduce generic pitch language in favor of motion-specific planning."
-
+  - Translate role-pack prompts into account-strategy and deal-progression outputs.
+  - Bias toward qualification clarity, stakeholder mapping, and next-step discipline.
+  - Reduce generic pitch language in favor of motion-specific planning.
 evaluation_plan:
   compare_against_no_lens:
-    - next_step_quality_score
-    - deal_progression_velocity
-    - qualification_gap_detection_rate
-    - follow_up_conversion_rate
+  - next_step_quality_score
+  - deal_progression_velocity
+  - qualification_gap_detection_rate
+  - follow_up_conversion_rate
   minimum_sample_size: 20
   kill_if:
-    - "No measurable improvement on at least 2 of 4 metrics."
-    - "Outputs are generic and not usable in real account planning."
-    - "Increases unsupported assumptions in customer-facing messaging."
-
+  - No measurable improvement on at least 2 of 4 metrics.
+  - Outputs are generic and not usable in real account planning.
+  - Increases unsupported assumptions in customer-facing messaging.

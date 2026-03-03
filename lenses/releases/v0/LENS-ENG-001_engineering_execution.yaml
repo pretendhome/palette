@@ -5,98 +5,90 @@ name: Engineering Execution Lens
 optional: true
 origin:
   type: hybrid
-  palette_basis: "Palette lenses v0"
+  palette_basis: Palette lenses v0
   external_inspiration:
-    - "OpenAI Academy Prompt Packs (role-based task framing for engineering users)"
-  notes: "Refined for systems-level execution planning, operational risk containment, and handoff readiness."
-
+  - OpenAI Academy Prompt Packs (role-based task framing for engineering users)
+  notes: Refined for systems-level execution planning, operational risk containment, and handoff readiness.
 critical_question:
-  as_palette: "How will this lens best help me, and what would it actually help me do?"
-  answer: "It helps Palette turn good plans into executable engineering slices with clear constraints, test expectations, rollback paths, and dependency sequencing. It reduces vague implementation handoffs."
-
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: It helps Palette turn good plans into executable engineering slices with clear constraints, test expectations, rollback
+    paths, and dependency sequencing. It reduces vague implementation handoffs.
 when_to_use:
   signals:
-    - implementation planning
-    - integration sequencing
-    - technical risk containment
-    - release readiness
-    - incident follow-through
+  - implementation planning
+  - integration sequencing
+  - technical risk containment
+  - release readiness
+  - incident follow-through
   not_for:
-    - executive narrative crafting
-    - non-technical stakeholder positioning
+  - executive narrative crafting
+  - non-technical stakeholder positioning
   user_intents:
-    - "How should we sequence implementation safely?"
-    - "What are the dependencies and rollout risks?"
-    - "What needs to be true before release?"
-    - "How do we contain or recover if this fails?"
-
+  - How should we sequence implementation safely?
+  - What are the dependencies and rollout risks?
+  - What needs to be true before release?
+  - How do we contain or recover if this fails?
 palette_fit:
   primary_rius:
-    - RIU-062
-    - RIU-073
-    - RIU-001
+  - RIU-062
+  - RIU-001
   supporting_rius:
-    - RIU-014
+  - RIU-014
   primary_agents:
-    - builder
-    - debugger
-    - architect
+  - builder
+  - debugger
+  - architect
   supporting_agents:
-    - validator
-    - monitor
-    - researcher
+  - validator
+  - monitor
+  - researcher
   library_links:
-    - "Use LIB entries tied to reliability, failure handling, integration, and operational runbooks."
+  - Use LIB entries tied to reliability, failure handling, integration, and operational runbooks.
   company_matrix_use:
-    - "Use company mappings to estimate implementation patterns and delivery risk, not as architecture authority."
-
+  - Use company mappings to estimate implementation patterns and delivery risk, not as architecture authority.
 output_contract:
   required_sections:
-    - Scope boundary
-    - Task slices (ordered)
-    - Dependencies and blockers
-    - Test/validation plan
-    - Rollback or recovery path
-    - Operational checks
-    - Decision gates / stop points
+  - Scope boundary
+  - Task slices (ordered)
+  - Dependencies and blockers
+  - Test/validation plan
+  - Rollback or recovery path
+  - Operational checks
+  - Decision gates / stop points
   forbidden_patterns:
-    - architecture drift during build
-    - untestable acceptance criteria
-    - no rollback for risky changes
-
+  - architecture drift during build
+  - untestable acceptance criteria
+  - no rollback for risky changes
 quality_checks:
-  - "Each slice is independently verifiable."
-  - "Dependencies are explicit and ordered."
-  - "Validation checks are executable, not narrative."
-  - "Risky steps include rollback or containment."
-  - "Release/readiness gates are explicit for risky changes."
-  - "Assumptions and unknowns are surfaced before execution starts."
-
+- Each slice is independently verifiable.
+- Dependencies are explicit and ordered.
+- Validation checks are executable, not narrative.
+- Risky steps include rollback or containment.
+- Release/readiness gates are explicit for risky changes.
+- Assumptions and unknowns are surfaced before execution starts.
 interaction_style:
   default_answer_shape:
-    - scope_boundary
-    - ordered_slices
-    - dependencies_and_gates
-    - validation_and_rollback
+  - scope_boundary
+  - ordered_slices
+  - dependencies_and_gates
+  - validation_and_rollback
   presentation_rules:
-    - "Prefer ordered execution plans over prose."
-    - "State blockers and gate conditions before optimistic timelines."
-    - "Tie operational checks to deployment or incident risk."
-
+  - Prefer ordered execution plans over prose.
+  - State blockers and gate conditions before optimistic timelines.
+  - Tie operational checks to deployment or incident risk.
 prompt_pack_alignment:
-  closest_role_pack: "ChatGPT for engineers"
+  closest_role_pack: ChatGPT for engineers
   role_pack_translation:
-    - "Convert architecture intent into executable slices."
-    - "Make validation and rollback part of the output by default."
-    - "Prefer operational readiness and containment over feature completeness."
-
+  - Convert architecture intent into executable slices.
+  - Make validation and rollback part of the output by default.
+  - Prefer operational readiness and containment over feature completeness.
 evaluation_plan:
   compare_against_no_lens:
-    - implementation_rework_rate
-    - defect_escape_rate
-    - time_to_first_valid_artifact
-    - rollback_readiness_score
+  - implementation_rework_rate
+  - defect_escape_rate
+  - time_to_first_valid_artifact
+  - rollback_readiness_score
   minimum_sample_size: 20
   kill_if:
-    - "No measurable gain in implementation quality metrics."
-    - "Adds planning complexity without reducing downstream defects."
+  - No measurable gain in implementation quality metrics.
+  - Adds planning complexity without reducing downstream defects.
