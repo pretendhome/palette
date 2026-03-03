@@ -38,7 +38,7 @@ Final output requirements:
 
 ### What Palette currently is
 - A **three-tier operating system** for FDE work: immutable core rules, experimental assumptions, and decision logging.
-- Now partially evolved into a **runtime system** with executable agents (`cory`, `orchestrator`, `argy`, `para`, `raptor`) plus docs-era governance.
+- Now partially evolved into a **runtime system** with executable agents (`resolver`, `orchestrator`, `researcher`, `monitor`, `debugger`) plus docs-era governance.
 - Lenses are present as **optional framing overlays** (PM/ENG/DEV), currently **manual/pilot**.
 
 ### Architecture truth (current state)
@@ -90,7 +90,7 @@ Combined use gives full stack clarity:
 **Palette explained in PM language**: Palette is a decision acceleration system that turns ambiguous problem statements into owner-backed, metric-backed, reversible/irreversible product calls.
 
 **Best supporting agents**:
-- Primary: `narrator`, `rex`, `validator`
+- Primary: `narrator`, `architect`, `validator`
 - Support: `researcher`, `builder`
 
 **Assigned deep-dive task**:
@@ -107,7 +107,7 @@ Combined use gives full stack clarity:
 **Palette explained in ENG language**: Palette is an execution planner that turns architecture intent into ordered, testable slices with dependencies, rollback paths, and operational gates.
 
 **Best supporting agents**:
-- Primary: `builder`, `debugger`, `rex`
+- Primary: `builder`, `debugger`, `architect`
 - Support: `validator`, `monitor`, `researcher`
 
 **Assigned deep-dive task**:
@@ -125,7 +125,7 @@ Combined use gives full stack clarity:
 
 **Best supporting agents**:
 - Primary: `builder`, `debugger`, `validator`
-- Support: `rex`, `monitor`, `researcher`
+- Support: `architect`, `monitor`, `researcher`
 
 **Assigned deep-dive task**:
 - Task: Take one bug-to-fix workflow and produce scoped code tasks + validation commands + rollback notes.

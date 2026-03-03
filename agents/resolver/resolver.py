@@ -401,7 +401,7 @@ def refine_prompt(
         f"2. Includes all context needed to act without further clarification\n"
         f"3. Uses clear, professional language appropriate for a specialist agent\n\n"
         f"Choose the best specialist agent:\n"
-        f"  rex              → architectural/design decisions or system structure\n"
+        f"  architect        → architectural/design decisions or system structure\n"
         f"  builder     → implementation, code, or building something\n"
         f"  validator   → validation, testing, audit, or risk assessment\n"
         f"  researcher  → research, investigation, or information gathering\n"

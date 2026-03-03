@@ -87,7 +87,7 @@ example_request:
       -u "<instance_id>:$GRAFANA_CLOUD_API_KEY" \
       -d '{
         "streams": [{
-          "stream": {"agent": "argy", "level": "info"},
+          "stream": {"agent": "researcher", "level": "info"},
           "values": [["'$(date +%s)000000000'", "Research query completed in 1250ms"]]
         }]
       }'

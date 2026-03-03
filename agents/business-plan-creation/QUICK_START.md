@@ -68,8 +68,8 @@ cat business_plan_convergence_template.md
 - `library_additions_business_plan.yaml` - LIB-089, 090, 091
 - `business_plan_convergence_template.md` - Customer intake
 - `business_plan_agent_prompts.md` - Agent execution prompts
-- `argy_rossi_process_analysis.md` - Process reverse-engineering
-- `rex_business_plan_agent_architecture.md` - Formal architecture
+- `researcher_rossi_process_analysis.md` - Process reverse-engineering
+- `architect_business_plan_agent_architecture.md` - Formal architecture
 
 ---
 

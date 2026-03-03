@@ -47,7 +47,7 @@ palette_fit:
   supporting_rius:
     - RIU-039
   primary_agents:
-    - rex
+    - architect
     - validator
     - narrator
   supporting_agents:

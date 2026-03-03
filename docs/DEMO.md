@@ -253,7 +253,7 @@ prevent silent architecture commitments.
 yes, approved
 ```
 
-**REX CONTINUES**:
+**ARCHITECT CONTINUES**:
 ```
 ✅ Architecture decision approved and logged.
 
@@ -505,7 +505,7 @@ Knowledge Assets:
 
 Agents (7 implemented):
 - researcher/ (Researcher - research)
-- rex/ (Architect - architect)
+- architect/ (Architect - architect)
 - builder/ (Builder - builder)
 - debugger/ (Debugger - debugger)
 - narrator/ (Narrator - narrative)

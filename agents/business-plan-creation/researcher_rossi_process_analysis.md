@@ -227,7 +227,7 @@
 ### Step 3: Strategic Framework Development
 **What happened**: Architect designed revenue model, organizational structure, expansion plan
 **Inputs**: Researcher research, convergence brief
-**Outputs**: REX-TASK-REVENUE-MODEL-REVISION.md (example)
+**Outputs**: ARCHITECT-TASK-REVENUE-MODEL-REVISION.md (example)
 **Time**: ~2 hours
 **Agent**: Architect
 

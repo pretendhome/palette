@@ -59,7 +59,7 @@ example_request:
     }
 
     event = {
-        "service_name": "palette-argy",
+        "service_name": "palette-researcher",
         "trace.trace_id": "abc123",
         "trace.span_id": "span456",
         "name": "llm.call",
@@ -94,7 +94,7 @@ example_request:
     provider.add_span_processor(BatchSpanProcessor(exporter))
     trace.set_tracer_provider(provider)
 
-    tracer = trace.get_tracer("palette.argy")
+    tracer = trace.get_tracer("palette.researcher")
     with tracer.start_as_current_span("research-query") as span:
         span.set_attribute("query", "competitive analysis")
         span.set_attribute("model", "claude-opus-4-6")

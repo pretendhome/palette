@@ -5577,11 +5577,11 @@ taxonomy_statistics:
     one_way: 33
     mixed: 11
   agent_coverage:
-    argy: 22
-    theri: 62
-    raptor: 18
-    rex: 66
-    yuty: 18
-    anky: 37
-    para: 16
-    orch: 3
+    researcher: 22
+    builder: 62
+    debugger: 18
+    architect: 66
+    narrator: 18
+    validator: 37
+    monitor: 16
+    orchestrator: 3

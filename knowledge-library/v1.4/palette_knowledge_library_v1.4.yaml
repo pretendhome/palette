@@ -609,6 +609,12 @@ library_questions:
     url: https://aws.amazon.com/blogs/publicsector/planning-for-failure-how-to-make-generative-ai-workloads-more-resilient/
   - title: Build reliable AI agents for UI workflow automation with Amazon Nova Act
     url: https://aws.amazon.com/blogs/aws/build-reliable-ai-agents-for-ui-workflow-automation-with-amazon-nova-act-now-generally-available/
+  - title: AI Agents in Action, Second Edition
+    author: Micheal Lanham
+    publisher: Manning Publications
+    year: 2026
+    url: https://www.manning.com/books/ai-agents-in-action-second-edition
+    note: 'Chapters on MCP implementation, agent workflow patterns, and exception handling'
   journey_stage: orchestration
 - id: LIB-015
   question: How do I turn 'we'll know it when we see it' into measurable acceptance criteria?
@@ -721,6 +727,12 @@ library_questions:
     url: https://awslabs.github.io/generative-ai-atlas/topics/5_0_organization_adoption_framework/5_2_governance_and_organization/5_2_3_risk_and_compliance_mngmt.html
   - title: 'Anthropic: Constitutional AI — Harmlessness from AI Feedback'
     url: https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback
+  - title: Generative AI on AWS
+    author: Chris Fregly, Antje Barth, Shelbee Eigenbrode
+    publisher: O'Reilly Media
+    year: 2024
+    url: https://www.oreilly.com/library/view/generative-ai-on/9781098159214/
+    note: 'Chapters on Amazon Bedrock Guardrails, prompt engineering, and production deployment'
   journey_stage: foundation
 - id: LIB-017
   question: How do I capture human judgment that's based on years of experience, not explicit
@@ -6498,6 +6510,12 @@ library_questions:
     url: https://mlflow.org/docs/latest/llms/llm-evaluate/index.html
   - title: 'Databricks: Big Book of Generative AI'
     url: https://www.databricks.com/resources/ebook/big-book-of-generative-ai
+  - title: Hands-On Large Language Models
+    author: Jay Alammar, Maarten Grootendorst
+    publisher: O'Reilly Media
+    year: 2024
+    url: https://github.com/HandsOnLLM/Hands-On-Large-Language-Models
+    note: 'Chapter on RAG evaluation with practical examples and code'
 - id: LIB-114
   question: What is LLM-as-judge and when should I use it?
   answer: 'LLM-as-judge uses a strong LLM (GPT-4, Claude) to evaluate another LLM''s output
@@ -6578,6 +6596,12 @@ library_questions:
     url: https://mlflow.org/docs/latest/llms/llm-evaluate/index.html
   - title: 'Anthropic: Constitutional AI — Harmlessness from AI Feedback'
     url: https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback
+  - title: Hands-On Large Language Models
+    author: Jay Alammar, Maarten Grootendorst
+    publisher: O'Reilly Media
+    year: 2024
+    url: https://github.com/HandsOnLLM/Hands-On-Large-Language-Models
+    note: 'Chapters on LLM evaluation and testing strategies'
 - id: LIB-115
   question: How do I know when prompting alone is insufficient and I need to advance to the
     next stage?
@@ -6757,6 +6781,12 @@ library_questions:
     url: https://redis.io/blog/what-is-semantic-caching/
   - title: 'arXiv: Reducing LLM Costs via Semantic Embedding Caching'
     url: https://arxiv.org/html/2411.05276v2
+  - title: Hands-On Large Language Models
+    author: Jay Alammar, Maarten Grootendorst
+    publisher: O'Reilly Media
+    year: 2024
+    url: https://github.com/HandsOnLLM/Hands-On-Large-Language-Models
+    note: 'Chapters on semantic search and embeddings for caching strategies'
 - id: LIB-119
   question: How do I implement feature flags and kill switches for AI model rollouts?
   answer: Feature flags gate model versions, prompt variants, and pipeline configurations behind
@@ -6937,6 +6967,12 @@ library_questions:
     url: https://fast.io/resources/ai-agent-secrets-management/
   - title: 'Auxiliobits: Secure Secret Management in Agentic AI Stacks'
     url: https://www.auxiliobits.com/blog/secure-credentials-in-agent-stacks-secret%E2%80%91management-in-aws-azure-gpu-inference-layers/
+  - title: AI Agents in Action, Second Edition
+    author: Micheal Lanham
+    publisher: Manning Publications
+    year: 2026
+    url: https://www.manning.com/books/ai-agents-in-action-second-edition
+    note: 'Chapters on agent security, tool access control, and production deployment patterns'
 - id: LIB-125
   question: How do I create a business plan using AI research and presentation tools?
   answer: Combine AI research (Perplexity for market data, competitive landscape, and TAM/SAM/SOM
@@ -8904,6 +8940,12 @@ gap_additions:
     url: https://redis.io/blog/machine-learning-inference-cost/
   - title: 'arXiv: Reducing LLM Costs via Semantic Caching'
     url: https://arxiv.org/html/2411.05276v2
+  - title: Generative AI on AWS
+    author: Chris Fregly, Antje Barth, Shelbee Eigenbrode
+    publisher: O'Reilly Media
+    year: 2024
+    url: https://www.oreilly.com/library/view/generative-ai-on/9781098159214/
+    note: 'Chapters on SageMaker optimization, model quantization, and cost-effective deployment'
 - id: LIB-079
   question: How do I implement multi-jurisdictional AI compliance across expanding state regulations?
   rationale: Addresses regulatory compliance gap for 20+ state privacy laws effective by January
@@ -9074,7 +9116,7 @@ integration:
     researcher: Check library before web_search tool invocation
     architect: Reference library in architecture decision frameworks
     builder: Use library for implementation patterns
-    raptor: Reference library for debugging strategies
+    debugger: Reference library for debugging strategies
   monitoring:
     track_library_hits: Log in decisions.md
     track_library_misses: Identify gaps for future additions

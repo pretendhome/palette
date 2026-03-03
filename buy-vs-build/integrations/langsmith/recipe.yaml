@@ -67,7 +67,7 @@ example_request:
 
     client = Client()
 
-    @traceable(name="argy-research")
+    @traceable(name="researcher-research")
     def research_query(question: str) -> str:
         """Traced function — all nested calls are captured."""
         # Your LLM call here (any provider)

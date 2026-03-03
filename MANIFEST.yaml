@@ -1,0 +1,113 @@
+# Palette Manifest — Single Source of Truth
+# Updated: 2026-03-03
+# Purpose: One file to orient any agent, tool, or human on what's current.
+
+system:
+  name: Palette
+  version: "1.0"
+  status: active
+  integrity_checks: 8/8
+  repository:
+    origin: "git@github.com:pretendhome/pretendhome.git"
+    palette: "git@github.com:pretendhome/palette.git"
+    subtree_prefix: palette
+
+layers:
+
+  taxonomy:
+    version: v1.3
+    path: taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml
+    generated: 2026-01-29
+    entries: 117
+    unit: RIU (Routing Intelligence Unit)
+    status: current
+
+  knowledge_library:
+    version: v1.4
+    path: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
+    generated: 2026-02-05
+    entries: 136
+    unit: LIB entry
+    status: current
+
+  people_library:
+    version: v1.1
+    path: buy-vs-build/people-library/v1.1/people_library_v1.1.yaml
+    crossref: buy-vs-build/people-library/v1.1/people_library_company_signals_v1.1.yaml
+    generated: 2026-02-24
+    entries: 22
+    unit: PERSON profile
+    status: current
+
+  company_index:
+    version: v1.0
+    path: buy-vs-build/v1.0/palette_company_riu_mapping_v1.0.yaml
+    generated: 2026-02-10
+    entries: 127
+    unit: company
+    status: baseline
+
+  service_routing:
+    version: v1.0
+    path: buy-vs-build/service-routing/v1.0/service_routing_v1.0.yaml
+    classification: buy-vs-build/service-routing/v1.0/riu_classification_v1.0.yaml
+    overrides: buy-vs-build/service-routing/v1.0/service_recipe_overrides.yaml
+    generated: 2026-02-24
+    entries: 40
+    unit: routed RIU
+    status: seed
+
+  integrations:
+    path: buy-vs-build/integrations/
+    entries: 69
+    unit: recipe directory
+    status: active
+
+  lenses:
+    version: v0
+    path: lenses/releases/v0/
+    entries: 11
+    unit: role lens
+    status: pilot
+
+agents:
+  path: agents/
+  count: 10
+  list:
+    - { name: resolver,    role: "intent resolver — front door, maps input to RIU" }
+    - { name: researcher,  role: "research — internal libraries first, then Perplexity MCP" }
+    - { name: architect,   role: "system design and tradeoff evaluation" }
+    - { name: builder,     role: "implementation within bounded spec" }
+    - { name: narrator,    role: "GTM/narrative — evidence-based only" }
+    - { name: validator,   role: "plan/spec assessment, GO/NO-GO verdicts" }
+    - { name: monitor,     role: "signal monitoring and anomaly detection" }
+    - { name: debugger,    role: "failure diagnosis and minimal repair" }
+    - { name: orchestrator, role: "workflow routing" }
+    - { name: business-plan-creation, role: "multi-agent business plan workflow" }
+
+governance:
+  tier_1: core/palette-core.md
+  tier_2: core/assumptions.md
+  tier_3: decisions.md
+  decision_prompt: core/decisions-prompt.md
+
+scripts:
+  integrity: "python3 -m scripts.palette_intelligence_system.integrity --checks-only"
+  audit: "python3 -m scripts.palette_intelligence_system.audit_system"
+  regression: "python3 -m scripts.palette_intelligence_system.regression --check"
+  drift: "python3 -m scripts.palette_intelligence_system.drift"
+  para_decision: "python3 -m scripts.palette_intelligence_system.para_decision"
+  tests: "uv run pytest -q scripts/palette_intelligence_system/test_*.py"
+
+bridges:
+  - { name: telegram, path: bridges/telegram/ }
+
+skills:
+  - { name: retail-ai, path: skills/retail-ai/ }
+
+archive:
+  path: archive/superseded-libraries/
+  superseded:
+    - knowledge-library-v1.2
+    - people-library-v1.0
+    - taxonomy-v1.2

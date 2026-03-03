@@ -152,13 +152,15 @@ When recommending agents for selected RIUs:
    - **UNVALIDATED** → Requires human-in-loop
    - **WORKING** → Autonomous with review
    - **PRODUCTION** → Fully autonomous
-3. Match ARK type to task:
-   - Search/retrieval → Argentavis
-   - Code/artifact creation → Therizinosaurus
-   - Bug fixing → Velociraptor
-   - Architecture/design → Tyrannosaurus Rex
-   - Customer comms → Yutyrannus
-   - Workflow routing → Orchestrator (placeholder until implemented)
+3. Match agent role to task:
+   - Search/retrieval → Researcher
+   - Code/artifact creation → Builder
+   - Bug fixing → Debugger
+   - Architecture/design → Architect
+   - Customer comms → Narrator
+   - Validation/assessment → Validator
+   - Signal monitoring → Monitor
+   - Workflow routing → Orchestrator
 4. Flag if agent doesn't exist → Note in "Open Questions"
 
 **Important**: Do NOT re-score, reinterpret, or change agent maturity status. Only read it to determine required human involvement level.

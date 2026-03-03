@@ -40,7 +40,7 @@ palette_fit:
   primary_agents:
     - builder
     - debugger
-    - rex
+    - architect
   supporting_agents:
     - validator
     - monitor

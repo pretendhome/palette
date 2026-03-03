@@ -51,7 +51,7 @@ palette_fit:
     - monitor
     - validator
   supporting_agents:
-    - rex
+    - architect
     - narrator
     - researcher
   library_links:

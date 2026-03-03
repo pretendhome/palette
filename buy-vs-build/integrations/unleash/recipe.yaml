@@ -64,12 +64,12 @@ example_request:
     # Check if new Researcher v2 research pipeline is enabled
     context = {"userId": "operator-1", "environment": "production"}
 
-    if client.is_enabled("argy-v2-research-pipeline", context):
+    if client.is_enabled("researcher-v2-research-pipeline", context):
         # Route to new research pipeline
-        result = argy_v2.research(query)
+        result = researcher_v2.research(query)
     else:
         # Use existing pipeline
-        result = argy_v1.research(query)
+        result = researcher_v1.research(query)
 
     # Variants for A/B testing model routing
     variant = client.get_variant("llm-model-experiment", context)

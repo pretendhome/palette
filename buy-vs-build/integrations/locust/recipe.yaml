@@ -62,7 +62,7 @@ example_request:
         def research_query(self):
             """Most common task: research queries."""
             self.client.post("/api/v1/query", json={
-                "agent": "argy",
+                "agent": "researcher",
                 "query": "What is the latest funding round for Braintrust?",
             })
 

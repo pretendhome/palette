@@ -69,7 +69,7 @@ example_request:
     # Send custom event
     event = [{
         "eventType": "PaletteLLMCall",
-        "agent": "argy",
+        "agent": "researcher",
         "model": "claude-opus-4-6",
         "tokens_in": 1500,
         "tokens_out": 800,

@@ -90,7 +90,7 @@ palette/
 │
 ├── agents/                  # 8 agent implementations
 │   ├── researcher/          # Research
-│   ├── rex/                 # Architecture
+│   ├── architect/           # Architecture
 │   ├── builder/     # Build
 │   ├── debugger/        # Debug
 │   ├── narrator/          # Narrative

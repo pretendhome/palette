@@ -424,7 +424,7 @@ When architecture is decided (human confirms or declines):
 ## Current Maturity Status
 
 ```
-agent: rex
+agent: architect
 agent_type: Architect
 version: 1.0
 status: UNVALIDATED

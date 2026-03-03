@@ -64,7 +64,7 @@ example_request:
         base_url="https://oai.helicone.ai/v1",
         default_headers={
             "Helicone-Auth": "Bearer $HELICONE_API_KEY",
-            "Helicone-Property-Agent": "argy",
+            "Helicone-Property-Agent": "researcher",
             "Helicone-Property-Task": "research",
             "Helicone-Cache-Enabled": "true",
         },

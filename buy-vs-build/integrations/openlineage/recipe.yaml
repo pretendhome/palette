@@ -63,7 +63,7 @@ example_request:
     )
 
     # Define the job
-    job = Job(namespace="palette", name="argy-research-enrichment")
+    job = Job(namespace="palette", name="researcher-research-enrichment")
     run = Run(runId=str(uuid.uuid4()))
 
     # Emit START event

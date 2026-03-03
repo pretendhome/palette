@@ -208,8 +208,8 @@ Use the convergence brief template:
 4. **business_plan_agent_prompts.md** - Agent execution prompts
 
 ### Documentation Files
-5. **argy_rossi_process_analysis.md** - Reverse-engineered process from Rossi
-6. **rex_business_plan_agent_architecture.md** - Formal process architecture
+5. **researcher_rossi_process_analysis.md** - Reverse-engineered process from Rossi
+6. **architect_business_plan_agent_architecture.md** - Formal process architecture
 7. **BUSINESS_PLAN_AGENT_README.md** - This file
 
 ---
@@ -350,9 +350,9 @@ Use the convergence brief template:
 
 ## Questions?
 
-**For technical questions**: See `rex_business_plan_agent_architecture.md` (formal process design)
+**For technical questions**: See `architect_business_plan_agent_architecture.md` (formal process design)
 
-**For process questions**: See `argy_rossi_process_analysis.md` (reverse-engineered from Rossi)
+**For process questions**: See `researcher_rossi_process_analysis.md` (reverse-engineered from Rossi)
 
 **For execution questions**: See `business_plan_agent_prompts.md` (agent prompts)
 

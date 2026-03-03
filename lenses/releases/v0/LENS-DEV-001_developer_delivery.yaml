@@ -42,7 +42,7 @@ palette_fit:
     - debugger
     - validator
   supporting_agents:
-    - rex
+    - architect
     - monitor
     - researcher
   library_links:

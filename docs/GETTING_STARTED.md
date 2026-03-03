@@ -226,7 +226,7 @@ Each agent got **one round only** (discipline test):
 #### Round 1: Researcher (Research) - 15 min 🔵
 **Task**: Research UX patterns for developer toolkits
 **Output**: 5 findings (repo structure, onboarding, visual identity, self-improvement, adoption)
-**File**: `examples/ux-engagement-2026-02-01/argy_research_report.md`
+**File**: `examples/ux-engagement-2026-02-01/researcher_research_report.md`
 
 #### Round 2: Architect (Architecture) - 20 min 🟣
 **Task**: Design repo structure and governance model
@@ -234,14 +234,14 @@ Each agent got **one round only** (discipline test):
 **ONE-WAY DOORS**:
 - 🚨 Repository structure (hard to change after users clone)
 - 🚨 Visual glyph (brand consistency)
-**File**: `examples/ux-engagement-2026-02-01/rex_architecture_proposal.md`
+**File**: `examples/ux-engagement-2026-02-01/architect_architecture_proposal.md`
 
 **What happened here**: Architect **paused** and flagged irreversible decisions. Human approved before Builder could build.
 
 #### Round 3: Builder (Build) - 30 min 🟠
 **Task**: Implement repo structure, templates, contribution guidelines
 **Output**: 11/12 files created (92% complete, missed LICENSE)
-**File**: `examples/ux-engagement-2026-02-01/theri_build_report.md`
+**File**: `examples/ux-engagement-2026-02-01/builder_build_report.md`
 
 #### Round 4: Narrator (Narrative + Visual) - 45 min 🟢
 **PRIMARY OWNER** - Narrator's bread and butter
@@ -255,19 +255,19 @@ Each agent got **one round only** (discipline test):
 
 **Narrator's Validation**: "Can I explain this clearly?" → **YES**
 
-**File**: `examples/ux-engagement-2026-02-01/yuty_narrative_and_visual.md`
+**File**: `examples/ux-engagement-2026-02-01/narrator_narrative_and_visual.md`
 
 #### Round 5: Monitor (Integration) - 20 min 🟡
 **Task**: Verify integration, signal anomalies
 **Output**: 11/12 files verified, 1 anomaly detected (missing LICENSE)
 **Routed to**: Debugger for fix
 
-**File**: `examples/ux-engagement-2026-02-01/para_integration_report.md`
+**File**: `examples/ux-engagement-2026-02-01/monitor_integration_report.md`
 
 #### Round 6: Debugger (Debug) - 15 min 🔴
 **Task**: Fix anomaly (missing LICENSE)
 **Output**: LICENSE created (MIT), 100% structure complete
-**File**: `examples/ux-engagement-2026-02-01/raptor_debug_report.md`
+**File**: `examples/ux-engagement-2026-02-01/debugger_debug_report.md`
 
 #### Round 7: Validator (Validation) - 30 min ⚪
 **Task**: Validate quality + **run Step 6 (cross-domain synthesis)**
@@ -277,7 +277,7 @@ Each agent got **one round only** (discipline test):
 - **3 cross-domain patterns identified**
 - **6 system improvements recommended**
 
-**File**: `examples/ux-engagement-2026-02-01/anky_validation_report.md`
+**File**: `examples/ux-engagement-2026-02-01/validator_validation_report.md`
 
 ---
 
@@ -301,7 +301,7 @@ This engagement **tested** a new validation protocol: Narrator + Validator pairi
 
 **What this proved**: Cross-domain synthesis works. Found 3 patterns, generated 6 improvements, 30 min invested, high ROI.
 
-**File to read**: `examples/ux-engagement-2026-02-01/anky_validation_report.md` (Part B + Part F)
+**File to read**: `examples/ux-engagement-2026-02-01/validator_validation_report.md` (Part B + Part F)
 
 ---
 
@@ -344,7 +344,7 @@ Based on patterns identified, Palette **improved itself**:
 
 **Why it matters**: Prevents "we deployed" or "we committed architecture" without human sign-off.
 
-**File example**: `examples/ux-engagement-2026-02-01/rex_architecture_proposal.md` (lines 89-105)
+**File example**: `examples/ux-engagement-2026-02-01/architect_architecture_proposal.md` (lines 89-105)
 
 ---
 
@@ -378,7 +378,7 @@ Based on patterns identified, Palette **improved itself**:
 
 **Why it matters**: System gets smarter with every engagement. Library grows, Taxonomy routes better, agents coordinate better.
 
-**File example**: `examples/ux-engagement-2026-02-01/anky_validation_report.md` (Part B)
+**File example**: `examples/ux-engagement-2026-02-01/validator_validation_report.md` (Part B)
 
 ---
 
@@ -473,13 +473,13 @@ palette-framework/
 │   └── ux-engagement-2026-02-01/ ← COMPLETE WALKTHROUGH
 │       ├── convergence_brief.md
 │       ├── riu_selection.md
-│       ├── argy_research_report.md
-│       ├── rex_architecture_proposal.md
-│       ├── theri_build_report.md
-│       ├── yuty_narrative_and_visual.md
-│       ├── para_integration_report.md
-│       ├── raptor_debug_report.md
-│       ├── anky_validation_report.md
+│       ├── researcher_research_report.md
+│       ├── architect_architecture_proposal.md
+│       ├── builder_build_report.md
+│       ├── narrator_narrative_and_visual.md
+│       ├── monitor_integration_report.md
+│       ├── debugger_debug_report.md
+│       ├── validator_validation_report.md
 │       └── decisions.md
 │
 └── assets/
@@ -505,7 +505,7 @@ palette-framework/
    - See the complete outcome
 
 4. **Validator's validation report (Part B + Part F)** - 10 min
-   - `examples/ux-engagement-2026-02-01/anky_validation_report.md`
+   - `examples/ux-engagement-2026-02-01/validator_validation_report.md`
    - See cross-domain synthesis in action
 
 5. **Tier 1 core principles** - 5 min
