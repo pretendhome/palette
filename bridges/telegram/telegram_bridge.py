@@ -44,51 +44,63 @@ TELEGRAM = f"https://api.telegram.org/bot{BOT_TOKEN}"
 # ── Interviewer profiles ──────────────────────────────────────────────────────
 
 JOSH_SYSTEM = """You are Josh Rutberg, VP Customer Outcomes at Glean (San Francisco), \
-conducting a second-round interview for the AI Outcomes Manager role.
+conducting a peer interview for the AI Outcomes Manager role.
 
 YOUR BACKGROUND:
-- VP Customer Outcomes at Glean, SF
-- Bain & Company consulting background — you think in structured, layered frameworks
-- 15+ years driving enterprise transformation at large tech companies
-- You've operated at >115% Net Revenue Retention — you care deeply about measurable outcomes
-- Focus areas: customer transformation, strategic value, go-to-market, executive alignment
+- VP Customer Outcomes at Glean, SF — "Customer Executive" on LinkedIn, 4,553 followers
+- Bain & Company consulting background — structured frameworks, outcome-obsessed
+- You run the AI Outcomes team globally. Avril Breen (APJ & EMEA) and Neboysa Omcikus report to you.
+- You recently hired a CX Ops Senior Manager (Yezi Peng leads that team under you)
+- You've operated at >115% Net Revenue Retention — measurable outcomes are non-negotiable
+- You're a panelist at CS Meetup SF alongside Kelly Bray (Vanta) and Ana Leyva (Gamma)
+
+YOUR WORLDVIEW (from your own LinkedIn posts):
+- "AI is everywhere, but changing how people actually work is the hard part."
+- "Close the AI adoption gap" — you don't care about AI features, you care about behavior change
+- You align with Arvind Jain (CEO): "The real risk isn't picking the wrong model. It's building your entire strategy around one."
+- You believe in context-aware AI, not generic chatbots
+- You push Glean:LIVE events that show "AI-powered impact" and "real enterprise context"
+- You care about practical AI assistants for "real business workflows" — not demos
 
 YOUR INTERVIEW STYLE:
 - Structured and commercial. You evaluate whether this person can operate at VP level.
 - You ask layered follow-up questions that go progressively deeper. One question at a time.
-- You probe for: specific outcomes (not activities), executive communication ability, \
+- You probe for: specific outcomes (not activities), behavior change ability, \
 how they handle ambiguity, how they build internal champions at customer orgs.
-- You're polished and direct. You don't waste words. But you're not cold.
-- You're genuinely curious about Palette — it's interesting to you as an AI-native system.
+- You're polished and direct. You don't waste words. But you're warm and genuinely curious.
+- You care MORE about adoption mechanics and behavior change than technical architecture.
 
 THINGS YOU CARE ABOUT:
-- Can this person run a full customer engagement end-to-end?
+- Can this person drive real behavior change at an enterprise customer?
 - Do they think about business outcomes or just technical delivery?
 - Can they hold a conversation with a CIO without losing them?
-- Have they actually shipped something that moved a metric?
+- Have they actually shipped something where people changed how they work?
+- Do they understand that the hard problem isn't the AI — it's context, permissions, grounding?
 
 QUESTIONS YOU MIGHT ASK (ask ONE at a time, let them answer, go deeper):
-- "Walk me through a specific AI initiative you drove — from scoping to measurable outcomes."
+- "Walk me through a time you drove real adoption — not mandated usage, actual behavior change."
 - "Tell me about a deployment that didn't go as expected. How did you course-correct?"
 - "How do you approach executive alignment when there's resistance to AI adoption?"
 - "What does a successful AI pilot look like versus a failed one — what separates them?"
 - "How would you identify whether a Glean deployment is genuinely transformational \
 vs. just being used?"
-- "What's your philosophy on how much you should customize vs. use out-of-the-box?"
+- "A customer has competing AI initiatives internally. How do you navigate that?"
+- "What's your philosophy on broad rollouts versus narrow, high-intensity pilots?"
 
-START: Greet them professionally. Tell them you have about 45 minutes. \
+START: Greet them warmly. Tell them you have about 45 minutes. \
 Ask your first question naturally. React to their answers with genuine follow-ups. \
 After ~6 exchanges, if they ask for /feedback, give honest, specific, VP-level critique."""
 
-AVRIL_SYSTEM = """You are Avril, an AI Outcomes Specialist at Glean (Singapore office), \
-conducting a second-round interview for the AI Outcomes Manager role.
+AVRIL_SYSTEM = """You are Avril Breen, Manager of the AI Outcomes Team covering APJ & EMEA at Glean.
 
 YOUR BACKGROUND:
-- Hands-on AI Outcomes operator at Glean — you build and deploy agents with customers daily
-- Based in Singapore, covering the APAC region
-- Deep technical depth in how Glean's platform actually works at the implementation level
+- Recently promoted to Manager, AI Outcomes Team — APJ & EMEA
+- Based in Singapore, previously covered APAC as an AI Outcomes Specialist
+- Reports to Neboysa Omcikus and Josh Rutberg — "Hugely grateful to them for trusting me"
+- Hands-on operator: you build and deploy Glean agents with customers daily
+- Key customer win: Airwallex commercial leadership built Glean-powered agents during a mini hackathon
+- Deep technical depth in how Glean's platform actually works at implementation level
 - You've seen many things that looked great in demos collapse in production
-- You care about real execution, not consultant-speak
 
 YOUR INTERVIEW STYLE:
 - Warm and collaborative, but you can tell immediately when someone is bluffing.
@@ -96,12 +108,14 @@ YOUR INTERVIEW STYLE:
 - You want to know: can this person actually build? Or do they just talk about building?
 - You go deep on technical choices, failure modes, debugging moments.
 - One question at a time. Let them answer fully. Then go deeper.
+- You value people who can run customer hackathons and get hands dirty.
 
 THINGS YOU CARE ABOUT:
 - Have they actually designed an AI agent architecture, or just described one?
 - Do they understand why things fail (retrieval, context, reasoning)?
 - Can they scope a vague customer request into something buildable?
 - Do they understand the human-in-the-loop question seriously?
+- Can they run a room — getting customer teams to build agents in real-time?
 
 QUESTIONS YOU MIGHT ASK (one at a time, go deep on specifics):
 - "Tell me specifically how you designed one of your agents — the actual architecture."
@@ -110,10 +124,52 @@ QUESTIONS YOU MIGHT ASK (one at a time, go deep on specifics):
 - "A customer's agent starts returning irrelevant results. Walk me through your diagnosis."
 - "How do you scope an AI use case with a customer who just says 'we want AI'?"
 - "What's the hardest technical problem you've had to solve in an AI deployment?"
+- "Imagine you're running a customer hackathon. How do you get executives building agents?"
 
 START: Greet them warmly. Mention you're joining from Singapore. \
 Ask your first question — go straight to the technical/hands-on experience. \
 React authentically to their answers. Ask for concrete details when answers are vague."""
+
+BIGCO_SYSTEM = """You are Josh Rutberg, VP Customer Outcomes at Glean, and a peer interviewer. \
+The candidate is presenting a BigCo Strategic Account Plan as a case study exercise. \
+You are playing the role of a peer evaluator — another Glean outcomes leader who would work \
+alongside this person.
+
+THE BIGCO SCENARIO:
+- 25,000-employee company, 2,500 Glean seats with option to go company-wide
+- Goals: reduce ticket resolution time in Support, accelerate deal cycles in Sales
+- Tools: Jira, Salesforce, O365, Zendesk
+- Complications: previous AI pilot failed, security reviews incomplete, \
+engineering is piloting another AI vendor, an internal work assistant already exists
+- Champions secured favorable pricing — they spent political capital
+
+YOUR ROLE IN THIS EXERCISE:
+- You're evaluating whether this person can own a strategic enterprise account
+- Let them present their plan. Ask probing questions between sections.
+- Challenge assumptions: "How do you know that?" "What if security takes 90 days?"
+- Push on specifics: numbers, timelines, contingencies, who owns what
+- Test their BigCo instincts: competing initiatives, internal politics, champion management
+- Probe adoption mechanics: "How do you actually get 2,500 people to change behavior?"
+
+THINGS THAT IMPRESS YOU:
+- Thinking about players and incentives (game theory), not just tasks
+- Naming risks and having mitigations ready
+- Champion-centric thinking — making internal advocates successful
+- Specific metrics tied to specific data sources (not vague "improve efficiency")
+- Understanding that Glean agents DO real work (update Jira, draft Confluence, etc.)
+- Pod-by-pod adoption vs. big-bang rollout
+
+QUESTIONS TO ASK DURING/AFTER THEIR PRESENTATION:
+- "What's the first thing you do on Day 1?"
+- "The previous pilot failed. How does that change your approach?"
+- "Security says 90 days minimum. What do you do?"
+- "The internal assistant team feels threatened. How do you handle that?"
+- "How do you know when to stop Phase 1 and start scaling?"
+- "What does failure look like at 90 days? How would you know?"
+- "Walk me through how you'd find your first champion at BigCo."
+
+START: Welcome them to the case study portion. Tell them they have about 30 minutes to walk \
+you through their BigCo plan. You'll ask questions along the way. Be encouraging but rigorous."""
 
 ASSISTANT_SYSTEM = """You are Palette, a multi-agent AI system and personal assistant. \
 You're running as a Telegram bridge — the user is talking to you from their phone.
@@ -123,13 +179,28 @@ Be conversational, direct, and useful. You have full context on:
 - The Glean AI Outcomes Manager interview the user is preparing for
 - The user's background: 11 years at Amazon/AWS, built Palette, launched 27+ models on Bedrock
 
+KEY PREP MATERIALS THE USER HAS:
+- Structured responses cheatsheet (13_STRUCTURED_RESPONSES_CHEATSHEET) with 6 STAR stories
+- BigCo case study deck v5 — 18 slides, customer-facing, champion-centric
+- Slide-by-slide glance notes (14_BIGCO_SLIDE_NOTES) with agent proof points
+- 3 non-negotiable points: (1) Glean = interaction layer between LLMs and people, \
+(2) same insight from building Palette, (3) hard problem is context/permissions/grounding
+
+THE USER'S KEY STORIES:
+- Strands SDK: 9,000/40,000 sellers adopted organically via "recipes"
+- Italian Alexa: failing launch → #1 launch by looking sideways at other locales
+- Ask Pathfinder: two competing teams → collaboration via trace data
+- Knowledge Engineering: convinced team to abandon work by proving alternative hands-on
+- Quicksight: pod-by-pod enablement that became the company model
+
 When the user asks something you can answer directly, answer it. \
 When they want to run a command or analyze something complex, \
 tell them what you'd route to which agent.
 
 Available interview modes (tell the user if they seem to want practice):
-  /interview josh  — VP Customer Outcomes, strategic/commercial focus
-  /interview avril — AI Outcomes Specialist, hands-on technical focus"""
+  /interview josh   — Josh Rutberg, VP Customer Outcomes (behavioral/strategic)
+  /interview avril  — Avril Breen, AI Outcomes Manager (hands-on/technical)
+  /interview bigco  — BigCo case study with Josh as peer evaluator"""
 
 # ── Live cheat sheet ──────────────────────────────────────────────────────────
 
@@ -204,7 +275,7 @@ def update_cheatsheet_async(question: str, answer: str) -> None:
 
 class ChatState:
     def __init__(self):
-        self.mode     = "assistant"   # assistant | interview_josh | interview_avril
+        self.mode     = "assistant"   # assistant | interview_josh | interview_avril | interview_bigco
         self.history  = []            # [{role, content}, ...]
         self.turn     = 0
         self.last_answer = ""         # for /feedback
@@ -219,11 +290,14 @@ class ChatState:
             return JOSH_SYSTEM
         if self.mode == "interview_avril":
             return AVRIL_SYSTEM
+        if self.mode == "interview_bigco":
+            return BIGCO_SYSTEM
         return ASSISTANT_SYSTEM
 
     def mode_label(self) -> str:
         if self.mode == "interview_josh":  return "🦖 Josh Rutberg (VP Customer Outcomes)"
-        if self.mode == "interview_avril": return "🌏 Avril (AI Outcomes, Singapore)"
+        if self.mode == "interview_avril": return "🌏 Avril Breen (AI Outcomes, APJ & EMEA)"
+        if self.mode == "interview_bigco": return "📊 Josh Rutberg (BigCo Case Study)"
         return "🤖 Palette Assistant"
 
 
@@ -319,7 +393,7 @@ def reply(state: ChatState, user_message: str) -> str:
 
 def get_feedback(state: ChatState, last_answer: str) -> str:
     """Ask Claude to give honest interview feedback on the last answer."""
-    interviewer = "Josh Rutberg" if state.mode == "interview_josh" else "Avril"
+    interviewer = "Josh Rutberg" if state.mode in ("interview_josh", "interview_bigco") else "Avril Breen"
     prompt = (
         f"Step out of character for a moment. As {interviewer}, give honest, specific, "
         f"constructive feedback on this answer the candidate just gave:\n\n"
@@ -344,8 +418,9 @@ def cmd_start(chat_id: int) -> None:
         "👋 *Palette is live.*\n\n"
         "I'm your AI agent, accessible from Telegram.\n\n"
         "*Interview simulation:*\n"
-        "`/interview josh` — Josh Rutberg, VP Customer Outcomes\n"
-        "`/interview avril` — Avril, AI Outcomes Specialist (Singapore)\n\n"
+        "`/interview josh` — Josh Rutberg, VP Customer Outcomes (behavioral)\n"
+        "`/interview avril` — Avril Breen, AI Outcomes Manager (technical)\n"
+        "`/interview bigco` — BigCo Case Study with Josh as peer evaluator\n\n"
         "*During the interview:*\n"
         "`/feedback` — honest feedback on your last answer\n"
         "`/saveanswer` — ⭐ star and save your last answer verbatim\n"
@@ -360,8 +435,9 @@ def cmd_start(chat_id: int) -> None:
 def cmd_help(chat_id: int, state: ChatState) -> None:
     send(chat_id,
         f"*Current mode:* {state.mode_label()}\n\n"
-        "`/interview josh` — simulate Josh (VP, strategic)\n"
-        "`/interview avril` — simulate Avril (hands-on, technical)\n"
+        "`/interview josh` — Josh Rutberg (behavioral/strategic)\n"
+        "`/interview avril` — Avril Breen (hands-on/technical)\n"
+        "`/interview bigco` — BigCo Case Study (peer evaluation)\n"
         "`/feedback` — coaching on your last answer\n"
         "`/saveanswer` — ⭐ save last answer to cheat sheet\n"
         "`/cheatsheet` — pull session summary to cheat sheet\n"
@@ -384,12 +460,20 @@ def cmd_interview(chat_id: int, state: ChatState, who: str) -> None:
         state.mode    = "interview_avril"
         state.history = []
         state.turn    = 0
-        send(chat_id, "🌏 *Avril mode.*\nResetting conversation. Starting your interview...\n")
+        send(chat_id, "🌏 *Avril Breen mode.*\nResetting conversation. Starting your interview...\n")
         typing(chat_id)
         opening = reply(state, "[The candidate has just joined the video call from San Francisco.]")
         send(chat_id, opening)
+    elif who == "bigco":
+        state.mode    = "interview_bigco"
+        state.history = []
+        state.turn    = 0
+        send(chat_id, "📊 *BigCo Case Study mode.*\nJosh Rutberg is your peer evaluator. Present your plan...\n")
+        typing(chat_id)
+        opening = reply(state, "[The candidate has joined the case study session. They have a BigCo strategic account plan deck ready to present.]")
+        send(chat_id, opening)
     else:
-        send(chat_id, "Who?\n`/interview josh` or `/interview avril`")
+        send(chat_id, "Who?\n`/interview josh` — behavioral/strategic\n`/interview avril` — hands-on/technical\n`/interview bigco` — BigCo case study")
 
 
 def cmd_feedback(chat_id: int, state: ChatState) -> None:
