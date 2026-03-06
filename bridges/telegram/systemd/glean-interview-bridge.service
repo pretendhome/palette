@@ -1,0 +1,24 @@
+[Unit]
+Description=Glean Interview Telegram Bridge
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mical
+Group=mical
+WorkingDirectory=/home/mical/fde/palette/bridges/telegram
+EnvironmentFile=/home/mical/fde/palette/bridges/telegram/systemd/glean-interview-bridge.env
+ExecStart=/usr/bin/python3 /home/mical/fde/palette/bridges/telegram/telegram_bridge.py
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=false
+ReadWritePaths=/home/mical/fde/implementations/talent/talent-glean-interview
+ReadOnlyPaths=/home/mical/fde/palette/bridges/telegram
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
