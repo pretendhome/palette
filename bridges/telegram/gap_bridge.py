@@ -323,10 +323,15 @@ def tg(method: str, **kwargs) -> dict:
 def send(chat_id: int, text: str) -> None:
     chunk_size = 4000
     for i in range(0, len(text), chunk_size):
-        tg("sendMessage",
-           chat_id    = chat_id,
-           text       = text[i : i + chunk_size],
-           parse_mode = "Markdown")
+        chunk = text[i : i + chunk_size]
+        # Try Markdown first, fall back to plain text if Telegram rejects it
+        resp = tg("sendMessage",
+                   chat_id    = chat_id,
+                   text       = chunk,
+                   parse_mode = "Markdown")
+        if not resp.get("ok"):
+            print(f"[warn] Markdown send failed, retrying plain: {resp.get('description','')[:80]}", flush=True)
+            tg("sendMessage", chat_id=chat_id, text=chunk)
         if i + chunk_size < len(text):
             time.sleep(0.3)
 
