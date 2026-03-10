@@ -128,7 +128,7 @@ THINGS THAT WOULD CONCERN YOU:
 - Salary expectations way above range
 
 CANDIDATE CONTEXT (evaluate against this):
-- 11 years Amazon: 8 years computational linguistics (25B-node knowledge graph), then Sales Acceleration at AWS
+- 11 years Amazon: 8 years comparative linguistics (25B-node knowledge graph), then Sales Acceleration at AWS
 - Built analytics pipeline matching enablement consumption to sales outcomes by GEO — discovered 3 cohorts
 - Helped organize Kiro hackathon (10K participants, $100K) — extracted builds into internal agentic tools and recipes
 - Finance POD model: went to 1 pod, built for their workflow → became the model for every pod
@@ -292,7 +292,7 @@ Be conversational, direct, and useful. You have full context on:
 - The user's background: 11 years at Amazon/AWS, built Palette, taxonomy/KM expert
 
 KEY BACKGROUND:
-- 11 years Amazon: 8 years computational linguistics (25B-node knowledge graph), then GTM/partnerships at AWS
+- 11 years Amazon: 8 years comparative linguistics (25B-node knowledge graph), then GTM/partnerships at AWS
 - Built multi-agent enablement system: 500+ sellers, -25% prep time, +67% coverage, +50% CSAT
 - Built Palette: 117 RIUs, 136 knowledge entries, 69 integration recipes, 7 agents, eval loop
 - AWS Bedrock: launched 27+ AI models
