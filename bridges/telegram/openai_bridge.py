@@ -40,7 +40,9 @@ ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 POLL_TIMEOUT = 30
 MAX_HISTORY  = 20
 
-IMPL_DIR     = '/home/mical/fde/implementations/talent/talent-openai-deployment-mgr'
+# Auto-detect repo root (script is at palette/bridges/telegram/openai_bridge.py)
+_REPO_ROOT   = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
+IMPL_DIR     = os.path.join(_REPO_ROOT, 'implementations', 'talent', 'talent-openai-deployment-mgr')
 SESSION_LOG  = f'{IMPL_DIR}/live_session.jsonl'
 CHEATSHEET   = f'{IMPL_DIR}/cheatsheet.txt'
 
