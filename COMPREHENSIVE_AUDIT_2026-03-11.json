@@ -1,0 +1,128 @@
+{
+  "steering": {
+    "status": "COMPLETE",
+    "files": {
+      "palette-core.md": {
+        "exists": true,
+        "size": 13086
+      },
+      "assumptions.md": {
+        "exists": true,
+        "size": 10046
+      },
+      "convergence-pattern": {
+        "exists": true
+      }
+    }
+  },
+  "decisions": {
+    "status": "COMPLETE",
+    "line_count": 1242,
+    "size_bytes": 47180
+  },
+  "knowledge_library": {
+    "status": "COMPLETE",
+    "library_questions": 131,
+    "gap_additions": 5,
+    "context_specific": 27,
+    "total_entries": 163,
+    "unique_riu_references": 0
+  },
+  "taxonomy": {
+    "status": "COMPLETE",
+    "version": "v1.3",
+    "riu_count": 117,
+    "archetype_count": 8
+  },
+  "relationship_graph": {
+    "status": "COMPLETE",
+    "quad_count": 1806,
+    "predicate_distribution": {
+      "handles_riu": 232,
+      "recommended_by": 114,
+      "implemented_by": 47,
+      "has_knowledge": 479,
+      "has_lens": 54,
+      "recommends": 48,
+      "routed_to": 232,
+      "has_service": 106,
+      "solves": 47,
+      "applies_to": 54,
+      "uses_agent": 66,
+      "belongs_to_workstream": 210,
+      "classified_as": 117
+    },
+    "unique_predicates": 13
+  },
+  "cross_references": {
+    "status": "COMPLETE",
+    "issues": [],
+    "lib_rius": 0,
+    "tax_rius": 117,
+    "graph_rius": 117
+  },
+  "agents": {
+    "status": "COMPLETE",
+    "agents": {
+      "architect": {
+        "path": "/home/mical/fde/palette/agents/architect",
+        "has_prompt": false,
+        "has_config": false
+      },
+      "researcher": {
+        "path": "/home/mical/fde/palette/agents/researcher",
+        "has_prompt": false,
+        "has_config": false
+      },
+      "debugger": {
+        "path": "/home/mical/fde/palette/agents/debugger",
+        "has_prompt": false,
+        "has_config": false
+      },
+      "resolver": {
+        "path": "/home/mical/fde/palette/agents/resolver",
+        "has_prompt": false,
+        "has_config": false
+      },
+      "monitor": {
+        "path": "/home/mical/fde/palette/agents/monitor",
+        "has_prompt": false,
+        "has_config": false
+      },
+      "narrator": {
+        "path": "/home/mical/fde/palette/agents/narrator",
+        "has_prompt": false,
+        "has_config": false
+      },
+      "business-plan-creation": {
+        "path": "/home/mical/fde/palette/agents/business-plan-creation",
+        "has_prompt": false,
+        "has_config": false
+      },
+      "validator": {
+        "path": "/home/mical/fde/palette/agents/validator",
+        "has_prompt": false,
+        "has_config": false
+      },
+      "orchestrator": {
+        "path": "/home/mical/fde/palette/agents/orchestrator",
+        "has_prompt": false,
+        "has_config": false
+      },
+      "builder": {
+        "path": "/home/mical/fde/palette/agents/builder",
+        "has_prompt": false,
+        "has_config": false
+      }
+    },
+    "agent_count": 10
+  },
+  "summary": {
+    "successes": 15,
+    "warnings": 11,
+    "issues": 3,
+    "critical_issues": 0,
+    "high_issues": 3,
+    "health": "FAIR"
+  }
+}

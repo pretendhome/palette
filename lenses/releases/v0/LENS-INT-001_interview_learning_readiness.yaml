@@ -1,0 +1,91 @@
+lens_id: LENS-INT-001
+version: 0.1
+status: pilot
+name: Interview Learning Readiness Lens
+optional: true
+origin:
+  type: hybrid
+  palette_basis: Palette lenses framework
+  external_inspiration:
+  - OpenAI interview process guidance
+  - Adaptive learning design from La Scuola strategy work
+  notes: Convert interview prep from generic mock practice to weak-spot diagnosis and targeted skill acquisition.
+critical_question:
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: It turns interview prep into an evidence-based learning loop that identifies weak spots by interview stage and prescribes the smallest high-leverage drill to improve readiness.
+when_to_use:
+  signals:
+  - recruiter screen prep
+  - hiring manager prep
+  - panel loop prep
+  - role-fit uncertainty
+  - inconsistent mock performance
+  not_for:
+  - pure coding/debug tasks
+  - one-shot interview scripts without iteration
+  user_intents:
+  - Where am I weak for this interview?
+  - What should I learn before the next round?
+  - How do I improve fast without over-practicing?
+palette_fit:
+  primary_rius:
+  - RIU-001
+  - RIU-014
+  - RIU-062
+  supporting_rius:
+  - RIU-020
+  primary_agents:
+  - narrator
+  - researcher
+  - validator
+  supporting_agents:
+  - architect
+  - builder
+  library_links:
+  - Prioritize interview question frameworks, outcome storytelling methods, and role-fit decision rubrics.
+  company_matrix_use:
+  - Use company/role research as constraints and evidence, never as scripted impersonation.
+output_contract:
+  required_sections:
+  - Target interview stage and role assumptions
+  - Weak-spot diagnosis (scored)
+  - Priority learning objectives (top 2-3)
+  - Drill prescription per objective
+  - Next interview readiness check
+  - Open risks and assumptions
+  forbidden_patterns:
+  - unsupported certainty
+  - generic motivation language without role evidence
+  - ownerless study plans
+quality_checks:
+- Recommendations are stage-specific (recruiter vs hiring manager vs panel).
+- Each weak spot has one measurable drill and success threshold.
+- Advice includes both technical and communication dimensions.
+- Assumptions are labeled when JD/process details are unknown.
+- Output ends with a 24-hour action plan.
+interaction_style:
+  default_answer_shape:
+  - answer_first
+  - diagnosis_table
+  - drill_plan
+  - readiness_check
+  presentation_rules:
+  - Lead with the highest-risk gap first.
+  - Keep recommendations concrete and testable within 20-30 minute sessions.
+  - Prefer concise scripts and checklists over long theory.
+prompt_pack_alignment:
+  closest_role_pack: ChatGPT for learners and interview candidates
+  role_pack_translation:
+  - Shift from broad mock interviews to targeted capability building.
+  - Emphasize evidence-backed responses and measurable improvement.
+  - Preserve confidence while preventing over-claiming.
+evaluation_plan:
+  compare_against_no_lens:
+  - answer_concision_score
+  - evidence_density_score
+  - role_fit_clarity_score
+  - interviewer_followup_reduction_rate
+  minimum_sample_size: 6
+  kill_if:
+  - No improvement across 3 consecutive interview prep cycles.
+  - Added prep overhead exceeds value of measurable gains.

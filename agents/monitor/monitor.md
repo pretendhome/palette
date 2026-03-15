@@ -243,6 +243,54 @@ Monitor: "✅ Metric normalized — fixture pass rate 94%"
 
 ---
 
+## System Health Monitoring (Continuous)
+
+**Purpose**: Passive health checks at phase transitions to catch catastrophic failures early.
+
+**What Monitor Checks**:
+- Critical files exist (palette-core.md, assumptions.md, decisions.md, knowledge library, taxonomy)
+- YAML files are loadable (no syntax errors)
+- No blocking system issues
+
+**When Monitor Checks**:
+- At workflow phase transitions (phase-0 → phase-1, etc.)
+- On explicit request (`check system health`)
+- Never blocks unless CRITICAL failure detected
+
+**Health Check Script**: `agents/monitor/system_health_checks.py`
+
+### System Health Signal Format
+
+**Normal State**:
+```
+✅ SYSTEM HEALTH: NORMAL
+
+All critical files present and loadable.
+Status: HEALTHY
+Last checked: [timestamp]
+```
+
+**Degraded State**:
+```
+⚠️ SIGNAL DETECTED: SYSTEM HEALTH DEGRADED
+
+Status: DEGRADED
+Critical issues detected:
+  - CRITICAL: knowledge_library not found at ~/fde/palette/knowledge-library/v1.4/...
+  - CRITICAL: taxonomy cannot be loaded: YAML syntax error
+
+Routing recommendation:
+- For immediate attention → Human
+- For diagnosis → Debugger
+```
+
+**When to Block**:
+- Only if CRITICAL files missing or unloadable
+- Never blocks on warnings
+- Logs degraded state but allows workflow to continue unless catastrophic
+
+---
+
 ## Common Monitoring Scenarios
 
 ### Agent Success Rate Monitoring

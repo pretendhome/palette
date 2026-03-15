@@ -1,5 +1,5 @@
 # Palette Manifest — Single Source of Truth
-# Updated: 2026-03-03
+# Updated: 2026-03-15
 # Purpose: One file to orient any agent, tool, or human on what's current.
 
 system:
@@ -103,7 +103,15 @@ bridges:
   - { name: telegram, path: bridges/telegram/ }
 
 skills:
-  - { name: retail-ai, path: skills/retail-ai/ }
+  - { name: retail-ai, path: skills/retail-ai/, status: WORKING, skills: 1 }
+  - { name: talent, path: skills/talent/, status: WORKING, skills: 2 }
+  - { name: education, path: skills/education/, status: WORKING, skills: 1 }
+  - { name: travel, path: skills/travel/, status: WORKING, skills: 1 }
+
+ai_tool_config:
+  claude_code: CLAUDE.md
+  codex: AGENTS.md
+  kiro: .kiro/steering.md
 
 archive:
   path: archive/superseded-libraries/

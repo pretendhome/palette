@@ -164,7 +164,7 @@ def check_knowledge_library(task: str) -> Optional[SearchResult]:
     top = scored[:3]
 
     result = SearchResult(cache_hit=True, depth_used="knowledge-library:v1.4")
-    now    = datetime.datetime.utcnow().isoformat() + "Z"
+    now    = datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z")
 
     for _, q in top:
         answer = q.get("answer", "")
@@ -314,7 +314,7 @@ def search_perplexity(task: str, context: str, model: str = "sonar-pro") -> Sear
 
     content   = data["choices"][0]["message"]["content"]
     citations = data.get("citations", [])
-    now       = datetime.datetime.utcnow().isoformat() + "Z"
+    now       = datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z")
 
     sources = [
         Source(url=url, title=f"Source {i+1}", retrieved_at=now, reliability="medium")
@@ -599,7 +599,15 @@ def run_research(
         else:  # SYNTHESIS or UNKNOWN — Perplexity first
             if registry.perplexity:
                 model = "sonar-reasoning" if depth == "deep" else "sonar-pro"
-                raw   = search_perplexity(task, context, model=model)
+                try:
+                    raw = search_perplexity(task, context, model=model)
+                except Exception as e:
+                    # Graceful fallback for model compatibility errors.
+                    if depth == "deep" and "400" in str(e):
+                        progress("perplexity sonar-reasoning unsupported; falling back to sonar-pro")
+                        raw = search_perplexity(task, context, model="sonar-pro")
+                    else:
+                        raise
             elif registry.tavily:
                 raw = search_tavily(task, context, depth)
             elif registry.exa:
@@ -662,7 +670,7 @@ def log_execution(
 
     outcome    = "SUCCESS" if result.confidence >= 50 else "FAILURE"
     lib_status = "HIT" if result.cache_hit else "MISS"
-    ts         = datetime.datetime.utcnow().isoformat()
+    ts         = datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z")
 
     entry = (
         f"\n---\n"
@@ -715,7 +723,7 @@ def build_handoff_result(
         "produced_artifacts": [],
         "blockers":           [],
         "next_agent":         result.next_agent,
-        "timestamp":          datetime.datetime.utcnow().isoformat() + "Z",
+        "timestamp":          datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
     }
 
 
@@ -785,7 +793,7 @@ def main() -> int:
                     "decision_context missing — cannot determine relevance or search depth"
                 ],
             },
-            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
         }
         json.dump(clarify, sys.stdout, indent=2)
         sys.stdout.write("\n")

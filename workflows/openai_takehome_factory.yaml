@@ -1,0 +1,327 @@
+id: WF-INT-001
+name: OpenAI Takehome Factory
+description: >
+  Multi-agent workflow for converting a high-stakes OpenAI skills-based assessment
+  into a reviewer-ready submission with explicit research, architecture, build,
+  validation, and ship/block gates.
+continuous_agents:
+  - monitor
+  - orchestrator
+monitor_duties:
+  system_health:
+    description: Passive health checks at phase transitions
+    frequency: At each phase transition
+    script: agents/monitor/system_health_checks.py
+    blocks_on: CRITICAL failures only (missing files, unloadable YAML)
+    logs_on: All checks (HEALTHY or DEGRADED)
+    routing: Human (if CRITICAL), Debugger (if degraded but not blocking)
+  workflow_metrics:
+    description: Track phase completion times and blockers
+    frequency: Continuous
+    blocks_on: Never (observational only)
+execution_modes:
+  standard:
+    use_when:
+      - deadline is 6 hours or more
+      - prompt is ambiguous or multi-deliverable
+      - submission shape is not obvious from the prompt
+  compressed:
+    use_when:
+      - deadline is under 6 hours
+      - prompt is tightly bounded
+      - deliverable format is obvious
+    collapse_rules:
+      - combine phase-0-convergence, phase-1-research, and phase-2-architecture into a single 90-minute block
+      - combine phase-4-narrative and phase-5-validation into a single review block
+      - skip phase-6-remediation unless a critical or high-severity issue is detected
+prompt_classifier:
+  purpose: Route the test to the lightest viable workflow shape before deep work starts.
+  classify_on:
+    - case_study
+    - workshop_or_enablement_plan
+    - technical_brief
+    - prototype_or_build
+    - presentation_or_walkthrough
+  outputs:
+    - chosen execution mode
+    - default artifact shape
+    - highest-risk failure mode
+handoff_protocol:
+  artifact_convention:
+    - convergence_brief.md
+    - research_pack.md
+    - architecture_decision.md
+    - submission/README.md
+    - validation_report.md
+    - defense_notes.md
+  minimum_handoff_fields:
+    - objective
+    - required_inputs
+    - output_artifacts
+    - open_questions
+    - assumptions
+    - blockers
+phases:
+  - id: phase-0-convergence
+    name: Convergence Brief
+    agent: human
+    supporting_agents: [orchestrator]
+    time_budget: 30m
+    inputs:
+      - assessment prompt
+      - deadline and timezone
+      - expected deliverables
+      - known audience or reviewer context
+    outputs:
+      - convergence brief with goal, roles, capabilities, constraints, and non-goals
+      - requirement checklist
+    quality_gate:
+      - Exact deliverables are enumerated.
+      - Deadline and timezone are explicit.
+      - Unknowns are labeled as assumptions or research questions.
+    decisions:
+      - type: TWO_WAY_DOOR
+        note: Prompt interpretation and scope framing
+      - type: ONE_WAY_DOOR
+        note: Any irreversible scope cut or submission-shape commitment with no fallback
+    memory_updates:
+      - Canonical statement of what the prompt asks.
+      - Canonical list of assumptions and open questions.
+    approval: human
+
+  - id: phase-1-research
+    name: Research Pack
+    agent: researcher
+    supporting_agents: [monitor, orchestrator]
+    time_budget: 90m
+    inputs:
+      - convergence brief
+      - official OpenAI role and product context
+      - customer or industry context from prompt
+    outputs:
+      - source-backed findings pack
+      - unknowns and unresolved gaps
+      - comparable examples if relevant
+    quality_gate:
+      - Findings are source-backed.
+      - Gaps are explicit.
+      - Research does not contain disguised recommendations.
+    decisions:
+      - type: TWO_WAY_DOOR
+        note: Depth of research and source expansion
+    memory_updates:
+      - Evidence set for prompt-specific constraints.
+      - Known unknowns requiring architectural judgment.
+    approval: auto
+
+  - id: phase-2-architecture
+    name: Response Design
+    agent: architect
+    supporting_agents: [researcher, narrator, orchestrator]
+    time_budget: 60m
+    inputs:
+      - convergence brief
+      - research pack
+    outputs:
+      - governing thesis naming the core tension or tradeoff
+      - 2-4 response-shape options
+      - selected design after human confirmation
+      - tradeoff table
+      - one-way and two-way door decision notes
+    quality_gate:
+      - A governing thesis names a specific tension, asymmetry, or tradeoff that a generic answer would miss.
+      - At least two viable options are compared.
+      - Chosen design maps directly to prompt requirements.
+      - Risks and reversibility are explicit.
+    decisions:
+      - type: ONE_WAY_DOOR
+        note: Final submission shape if it constrains the whole build
+      - type: TWO_WAY_DOOR
+        note: Draft structure and provisional decomposition
+    memory_updates:
+      - Canonical thesis for the submission.
+      - Canonical submission shape.
+      - Architectural tradeoffs and rejected alternatives.
+    approval: human
+
+  - id: phase-3-build
+    name: Submission Build
+    agent: builder
+    supporting_agents: [narrator, monitor, orchestrator]
+    time_budget: 8h
+    inputs:
+      - approved architecture
+      - requirement checklist
+    outputs:
+      - submission artifacts
+      - runnable code or prototype if required
+      - README and review instructions
+    quality_gate:
+      - Every artifact has a clear purpose.
+      - Acceptance checks exist for runnable pieces.
+      - No architecture drift is introduced silently.
+    decisions:
+      - type: TWO_WAY_DOOR
+        note: Implementation details inside approved design
+    memory_updates:
+      - Artifact inventory.
+      - Verification commands and expected outputs.
+    approval: auto
+
+  - id: phase-4-narrative
+    name: Reviewer Framing
+    agent: narrator
+    supporting_agents: [builder, monitor]
+    time_budget: 2h
+    inputs:
+      - built artifacts
+      - requirement checklist
+    outputs:
+      - executive summary
+      - first-60-seconds reviewer experience map
+      - voice and culture-fit pass
+      - tightened section flow and explanatory framing
+      - reduced ambiguity and overclaiming
+    quality_gate:
+      - First 60 seconds of review makes strength and prompt coverage obvious.
+      - Reviewer can locate prompt coverage quickly.
+      - Voice reads like a strong operator memo, not applicant theater.
+      - Claims are concise and defensible.
+      - Communication is usable by both technical and business reviewers.
+    decisions:
+      - type: TWO_WAY_DOOR
+        note: Presentation polish and ordering
+    memory_updates:
+      - Final narrative thesis and reviewer-facing framing.
+    approval: auto
+
+  - id: phase-5-validation
+    name: Readiness Validation
+    agent: validator
+    supporting_agents: [monitor, orchestrator]
+    time_budget: 90m
+    inputs:
+      - full submission package
+      - convergence brief
+      - requirement checklist
+    outputs:
+      - validation report
+      - adversarial reviewer challenge set
+      - GO, CONDITIONAL, or NO-GO decision
+      - critical and high-severity gap list
+    quality_gate:
+      - Completeness, clarity, feasibility, risks, gaps, dependencies, and readiness are all assessed.
+      - At least 3 adversarial reviewer challenges are documented.
+      - Severity is assigned to each non-trivial issue.
+    transition:
+      on_go: phase-7-monitor
+      on_conditional: phase-6-remediation
+      on_no_go: phase-6-remediation
+    decisions:
+      - type: TWO_WAY_DOOR
+        note: Validator readiness verdict
+    memory_updates:
+      - Canonical risk register for current draft.
+      - Shipment blockers and conditions.
+    approval: auto
+
+  - id: phase-6-remediation
+    name: Targeted Remediation
+    agent: debugger
+    supporting_agents: [builder, architect, orchestrator]
+    time_budget: 2h
+    inputs:
+      - validation report
+      - monitor signals
+      - failing artifacts or checks
+    outputs:
+      - fixed defects
+      - resolved blocker notes
+    quality_gate:
+      - Only identified failures are addressed.
+      - Remediation preserves approved architecture unless re-approved.
+      - Any architecture escalation is routed back to phase-2-architecture.
+    transition:
+      default: phase-5-validation
+    decisions:
+      - type: TWO_WAY_DOOR
+        note: Fix-only remediation
+      - type: ONE_WAY_DOOR
+        note: Any architecture change discovered during remediation
+    memory_updates:
+      - Root causes and fixes for blocking issues.
+    approval: auto
+
+  - id: phase-7-monitor
+    name: Ship Decision
+    agent: monitor
+    supporting_agents: [validator, orchestrator]
+    time_budget: 30m
+    inputs:
+      - latest validation report
+      - requirement coverage state
+      - remaining time and unresolved assumptions
+    outputs:
+      - monitor decision state
+      - ship, ship_with_risks, ship_with_convergence, or block note
+    quality_gate:
+      - Decision state is explicit.
+      - Route-to agent is specified for any block.
+    decisions:
+      - type: TWO_WAY_DOOR
+        note: Ship decision for current draft
+    memory_updates:
+      - Final shipment state and any accepted risks.
+    approval: auto
+    notes:
+      - Monitor is continuous from phase-1 onward; this phase is the explicit final ship/block checkpoint.
+
+  - id: phase-8-defense
+    name: Spoken Defense Rehearsal
+    agent: narrator
+    supporting_agents: [validator, monitor]
+    time_budget: 45m
+    inputs:
+      - final package
+      - validation report
+      - monitor decision
+    outputs:
+      - defense_notes.md
+      - 5-7 likely grader questions
+      - 60-second response frames
+      - one challenge-to-thesis question
+      - one explicit uncertainty answer
+      - rubber-duck explanation of the core recommendation
+    quality_gate:
+      - Weakest claims and boldest recommendations are rehearsed.
+      - Candidate can answer one thesis challenge coherently.
+      - At least one answer includes a credible "I don't know yet, here is how I would find out."
+      - Core recommendation can be explained simply enough that confusion becomes visible.
+    decisions:
+      - type: TWO_WAY_DOOR
+        note: Final spoken defense readiness
+    memory_updates:
+      - Final defense posture and likely follow-up questions.
+    approval: auto
+
+  - id: phase-9-final-review
+    name: Human Final Pass
+    agent: human
+    supporting_agents: [narrator, validator]
+    time_budget: 30m
+    inputs:
+      - final package
+      - monitor decision
+      - defense notes
+    outputs:
+      - approved submission
+      - final follow-up defense notes
+    quality_gate:
+      - Human can defend every major claim live.
+      - Package is ready to submit without additional cleanup.
+    decisions:
+      - type: ONE_WAY_DOOR
+        note: Final submission
+    memory_updates:
+      - Final submitted package and defense posture.
+    approval: human

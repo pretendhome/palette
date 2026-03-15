@@ -1,0 +1,115 @@
+lens_id: LENS-INT-002
+version: 0.1
+status: pilot
+name: OpenAI Takehome Grader Lens
+optional: true
+origin:
+  type: custom
+  palette_basis: Palette lenses framework
+  external_inspiration:
+  - OpenAI interview guide
+  - OpenAI enterprise and technical success role signals
+  - Internal interview-prep research in talent-openai-deployment-mgr
+  notes: Built to evaluate high-stakes interview assignments for technical success and deployment-oriented roles where the grader expects customer realism, technical judgment, and operational rigor.
+critical_question:
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: It helps Palette shape outputs the way a rigorous OpenAI grader is likely to score them: full requirement coverage, customer-value grounding, technical credibility, safety and evaluation discipline, and clean execution quality.
+scoring_weights:
+  prompt_coverage: 30
+  customer_reality: 20
+  technical_credibility: 20
+  safety_and_governance: 12
+  operational_readiness: 10
+  communication_quality: 8
+when_to_use:
+  signals:
+  - take-home assessment
+  - case study submission
+  - technical success exercise
+  - deployment plan review
+  - grader-modeling
+  not_for:
+  - recruiter screen prep
+  - informal brainstorming
+  - low-stakes drafts without evaluation pressure
+  user_intents:
+  - What would a rigorous grader care about here?
+  - How do we make this submission easier to score highly?
+  - What gaps would cause this take-home to get downgraded?
+palette_fit:
+  primary_rius:
+  - RIU-001
+  - RIU-014
+  - RIU-062
+  supporting_rius:
+  - RIU-020
+  primary_agents:
+  - architect
+  - builder
+  - validator
+  supporting_agents:
+  - researcher
+  - narrator
+  - monitor
+  library_links:
+  - Prioritize entries tied to evaluation, deployment reliability, customer adoption, and decision hygiene.
+  company_matrix_use:
+  - Use company examples to pressure-test realism, not to force imitation.
+output_contract:
+  required_sections:
+  - Governing thesis
+  - Prompt coverage summary
+  - User/customer problem framing
+  - Proposed solution and tradeoffs
+  - Technical design or workflow detail
+  - Safety, governance, and risk controls
+  - Measurement and evaluation plan
+  - Rollout / adoption plan
+  - Assumptions and open questions
+  - Reviewer-ready executive summary
+  forbidden_patterns:
+  - generic AI platitudes
+  - unsupported certainty
+  - architecture without adoption path
+  - adoption claims without technical detail
+  - unlabeled assumptions in key recommendations
+quality_checks:
+- A governing thesis identifies the central tension or asymmetry.
+- Every explicit prompt requirement is mapped to a concrete output section.
+- Major decisions include at least one tradeoff or rejected alternative.
+- Safety, evaluation, and monitoring are integrated into the main plan.
+- The artifact could be understood by both technical and business reviewers.
+- Claims are specific enough to defend in live follow-up discussion.
+- The submission has a clear scoring surface: easy to review, easy to trust, easy to run.
+- The first 60 seconds of reviewer experience make strength and coverage obvious.
+interaction_style:
+  default_answer_shape:
+  - governing_thesis
+  - requirement_coverage
+  - decision_and_tradeoffs
+  - technical_and_operational_plan
+  - risk_evals_and_open_questions
+  presentation_rules:
+  - Optimize the first 60 seconds of grader experience.
+  - Lead with what the grader can score fastest.
+  - Prefer explicit requirement mapping over long narrative setup.
+  - Make tradeoffs, metrics, and assumptions easy to find.
+  - Bias toward executable artifacts and reviewer efficiency.
+prompt_pack_alignment:
+  closest_role_pack: ChatGPT for engineers
+  role_pack_translation:
+  - Blend engineering execution rigor with customer-outcome framing.
+  - Optimize for artifacts that survive technical and business review.
+  - Treat evaluation and monitoring as first-class scoring dimensions.
+evaluation_plan:
+  compare_against_no_lens:
+  - prompt_coverage_score
+  - first_60_seconds_clarity
+  - grader_followup_risk
+  - artifact_completeness_score
+  - technical_credibility_score
+  - operational_readiness_score
+  minimum_sample_size: 5
+  kill_if:
+  - Does not improve prompt coverage or grader clarity across 3 comparable runs.
+  - Adds overhead without improving technical or operational quality.
