@@ -14,7 +14,7 @@ One conversational interface that knows your business, routes any problem to the
 [![Integrity](https://img.shields.io/badge/integrity-8%2F8_passing-brightgreen)]()
 [![SLOs](https://img.shields.io/badge/SLOs-7%2F7_passing-brightgreen)]()
 [![RIUs](https://img.shields.io/badge/RIUs-117-blue)]()
-[![Knowledge](https://img.shields.io/badge/knowledge-498_entries-blue)]()
+[![Knowledge](https://img.shields.io/badge/knowledge-136_entries-blue)]()
 [![Recipes](https://img.shields.io/badge/recipes-69-blue)]()
 [![License](https://img.shields.io/badge/license-private-lightgrey)]()
 
@@ -24,7 +24,7 @@ One conversational interface that knows your business, routes any problem to the
 
 ## What Is Palette?
 
-Palette is an applied intelligence toolkit that turns natural language problems into governed, evidence-backed decisions. It maps 117 validated problem-solution pairs across 6 data layers, routes to the cheapest and best service for each task, and proves its own structural health at every step.
+Palette is an applied intelligence toolkit that turns natural language problems into governed, evidence-backed decisions. It maps 117 validated problem-solution pairs across 6 data layers, routes to the cheapest and best service for each task, and proves its own structural health at every step. It operates in two modes: **Palette-native** (full routing protocol for building the system) and **Skill execution** (applying validated domain frameworks to real problems).
 
 **The thesis**: instead of configuring pipelines and picking models, you describe your problem. The system knows your context, routes to the right tool at the right price, and delivers a governed outcome with evidence at every step.
 
@@ -33,7 +33,8 @@ Palette is an applied intelligence toolkit that turns natural language problems 
 - **Traversal Engine** — Query any problem, get a structured decision packet: top recommendation, ranked alternatives, cost data, knowledge citations, completeness score
 - **Integrity Engine** — 8 consistency checks across 6 data layers, catching orphans, missing links, and ambiguous mappings in real time
 - **Governance Layer** — Every decision classified as `ship` / `ship_with_risks` / `ship_with_convergence` / `block` with explicit reversibility gates
-- **Multi-Agent Relay** — 7 specialized agents with promotion/demotion logic and explicit handoff contracts
+- **Multi-Agent Relay** — 9 specialized agents with promotion/demotion logic and explicit handoff contracts
+- **Skills** — 4 validated domain frameworks (retail-ai, talent, education, travel) applied through real implementations
 
 ---
 
@@ -44,12 +45,13 @@ Palette is an applied intelligence toolkit that turns natural language problems 
 | Component | Specification |
 |:--|:--|
 | Problem-Solution Pairs (RIUs) | 117 (80 internal, 37 service-routed) |
-| Knowledge Entries | 498 with verified source citations |
+| Knowledge Entries | 136 with verified source citations |
 | Integration Recipes | 69 (auth, endpoints, cost, quality tier) |
 | Service Routing | 106 services across 40 routing profiles |
 | People Signals | 21 profiles, 33 tools tracked |
 | Override Registry | 19 explicit mappings for ambiguous cases |
-| Agents | 7 specialized (research, architecture, build, debug, narrative, validation, monitoring) |
+| Agents | 9 specialized (resolver, researcher, architect, builder, debugger, narrator, validator, monitor, orchestrator) |
+| Skills | 4 domains (retail-ai, talent, education, travel) |
 | Active Projects | 9 (retail, talent, education, finance, dev) |
 
 </div>
@@ -111,7 +113,7 @@ Palette is an applied intelligence toolkit that turns natural language problems 
 | Risk score | **2** (down from 14) | — |
 | Avg completeness | **81.8/100** | ≥ 40 |
 | Routing↔Recipe match | **106/106** | ≥ 95% |
-| Knowledge coverage | **498/498** (100%) | ≥ 50% |
+| Knowledge coverage | **136/136** (100%) | ≥ 50% |
 | Terminology drift clusters | **15** (3 high, 9 medium, 3 low) | — |
 | Traverse health | **117/117 healthy** | — |
 
@@ -184,13 +186,15 @@ Required actions:
 
 | Agent | Role | Specialty |
 |:--|:--|:--|
-| **Researcher** (Researcher) | Research | Check internal libraries first, then external sources |
-| **Architect** (Architect) | Architecture | Design with explicit tradeoff clarity |
-| **Builder** (Builder) | Build | Scope-bounded implementation |
-| **Debugger** (Debugger) | Debug | Root cause analysis, fix verification |
-| **Narrator** (Narrator) | Narrative | Evidence-based GTM, no speculation |
-| **Validator** (Validator) | Validation | Quality gates, test coverage |
-| **Monitor** (Monitor) | Monitoring | Governance decisions, block routing |
+| **Resolver** | Intent Resolution | Maps input to RIU, asks clarifying questions |
+| **Researcher** | Research | Check internal libraries first, then Perplexity Sonar API |
+| **Architect** | Architecture | Design with explicit tradeoff clarity |
+| **Builder** | Build | Scope-bounded implementation |
+| **Debugger** | Debug | Root cause analysis, fix verification |
+| **Narrator** | Narrative | Evidence-based GTM, no speculation |
+| **Validator** | Validation | Quality gates, GO/NO-GO verdicts |
+| **Monitor** | Monitoring | Governance decisions, block routing |
+| **Orchestrator** | Workflow | Routes between agents, manages relay |
 
 **Maturity Model**: Agents earn trust through performance.
 - **UNVALIDATED** → 10 successes → **WORKING** → 50 runs <5% fail → **PRODUCTION**
@@ -207,25 +211,39 @@ Required actions:
 
 ```
 palette/
-├── core/                               # Governance tiers (visible on GitHub)
+├── CLAUDE.md                           # Claude Code project instructions
+├── AGENTS.md                           # OpenAI Codex project instructions
+├── MANIFEST.yaml                       # Single source of truth for versions/paths
+├── .claude-code/                       # Claude Code self-reflection
+├── .codex/                             # OpenAI Codex self-reflection
+├── .kiro/                              # Kiro self-reflection + steering
+├── .perplexity/                        # Perplexity self-reflection
+├── core/                               # Governance tiers
 │   ├── palette-core.md                 # Tier 1 — Immutable rules
 │   ├── assumptions.md                  # Tier 2 — Experimental assumptions
 │   └── decisions-prompt.md             # Tier 3 — Decision log policy
 ├── taxonomy/releases/v1.3/             # 117 RIUs (problem-solution pairs)
-├── knowledge-library/v1.4/             # 498 entries with source citations
+├── knowledge-library/v1.4/             # 136 entries with source citations
 ├── buy-vs-build/
 │   ├── integrations/                   # 69 integration recipes
 │   ├── service-routing/v1.0/           # 106 services, 40 routing profiles
-│   ├── people-library/v1.1/            # 21 profiles, 33 tools tracked
+│   ├── people-library/v1.1/            # 22 profiles, 33 tools tracked
 │   └── PALETTE_INTELLIGENCE_SYSTEM_v1.0.md
-├── agents/
-│   ├── researcher/                     # Researcher — Research
-│   ├── architect/                      # Architect — Architecture
-│   ├── builder/                # Builder — Build
-│   ├── debugger/                   # Debugger — Debug
-│   ├── narrator/                     # Narrator — Narrative
-│   ├── validator/                   # Validator — Validation
-│   └── monitor/                # Monitor — Monitoring
+├── agents/                             # 9 specialized agents
+│   ├── resolver/                       # Intent resolution
+│   ├── researcher/                     # Research (Perplexity Sonar API primary)
+│   ├── architect/                      # System design
+│   ├── builder/                        # Implementation
+│   ├── debugger/                       # Failure diagnosis
+│   ├── narrator/                       # GTM/narrative
+│   ├── validator/                      # Quality gates
+│   ├── monitor/                        # Signal monitoring
+│   └── orchestrator/                   # Workflow routing
+├── skills/                             # Validated domain frameworks
+│   ├── retail-ai/                      # Enterprise AI strategy
+│   ├── talent/                         # Interview prep + application system
+│   ├── education/                      # Adaptive learning for special needs
+│   └── travel/                         # Multi-leg family route planning
 ├── scripts/palette_intelligence_system/
 │   ├── integrity.py                    # 8 consistency checks across 6 layers
 │   ├── audit_system.py                 # Severity-ranked findings
@@ -233,16 +251,8 @@ palette/
 │   ├── drift.py                        # Terminology inconsistency detection
 │   ├── para_decision.py                # Governance decision engine
 │   ├── traverse.py                     # Structured decision packets
-│   └── test_*.py                       # 60 tests, all passing
-├── docs/
-│   ├── architecture/                   # E2E system diagrams (Mermaid)
-│   ├── audits/                         # Hardening reviews
-│   └── PARA_DECISION_CONTRACT.md       # Governance spec
-└── implementations/                    # Live projects using the toolkit
-    ├── retail/                         # Small business (Rossi Store)
-    ├── talent/                         # Interview prep (Glean, Gap)
-    ├── education/                      # Resume optimization (Lenovo EKM)
-    └── ...                             # 9 active projects
+│   └── test_*.py                       # Tests
+└── docs/                               # Architecture guides, audit reports
 ```
 
 ---
@@ -293,7 +303,7 @@ print(f'Completeness: {r.completeness.total}/100')
 
 ## Built By
 
-**Mical Neill** — 11 years at Amazon/AWS. Knowledge architecture, AI deployment, GenAI partnerships. Built Palette over 2.5 years to solve the problem of scaling human expertise through governed AI systems.
+**Mical Neill** — 12+ years at Amazon/AWS. Comparative linguistics background. Knowledge architecture, AI deployment, GenAI partnerships. Built Palette to solve the problem of scaling human expertise through governed AI systems.
 
 ---
 
