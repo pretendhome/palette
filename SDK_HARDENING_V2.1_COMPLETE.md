@@ -1,8 +1,8 @@
-# Palette V2.1 — SDK Hardening Complete
+# Palette V2.0 — SDK Hardening Complete
 
 **Date**: 2026-03-16
 **Session**: SDK Hardening in 8 Iterations
-**Version**: 2.1 (up from 1.0)
+**Version**: 2.0 (up from 1.0)
 **Status**: Ready for push
 
 ---
@@ -106,7 +106,7 @@
 **Fixes applied**:
 1. Knowledge library counting: `startswith` instead of `in` (eliminates 4 false positives from nested YAML strings)
 2. Taxonomy counting key: `- riu_id: RIU-` instead of `id: RIU-` (matches actual YAML format)
-3. Personal name regex: added word boundaries (`\bMical\b` instead of `Mical`) to eliminate false positives (e.g., "reliability" no longer matches "Elia")
+3. Personal name regex: added word boundaries to eliminate false positives (e.g., "reliability" no longer matches partial name substrings)
 4. Dynamic pattern construction: detection patterns built from string concatenation to avoid self-matching
 5. Scan scope: excluded content directories (docs, research, assets, knowledge-library, taxonomy, lenses, bridges, buy-vs-build, fixtures) — names there are legitimate attribution
 6. File exclusions: CHANGELOG.md, RELATIONSHIP_GRAPH.yaml, KNOWLEDGE_INDEX.yaml, decisions.md, README.md

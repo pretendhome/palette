@@ -31,15 +31,17 @@ from palette.sdk.graph_query import GraphQuery
 
 # ── Minimal fixtures ──────────────────────────────────────────────────
 
+_UNSET = object()
+
+
 class FakePISData:
     """Minimal stand-in for PISData with the attrs AgentBase.self_check expects."""
-    def __init__(self, knowledge=None, routing=None, classification=None):
-        self.knowledge = knowledge or {"LIB-001": {"id": "LIB-001"}}
-        self.routing = routing or {"RIU-082": {"riu_id": "RIU-082"}}
-        self.classification = classification or {"RIU-082": {"riu_id": "RIU-082", "classification": "both"}}
-
-
-_UNSET = object()
+    def __init__(self, knowledge=_UNSET, routing=_UNSET, classification=_UNSET, recipes=_UNSET, signals=_UNSET):
+        self.knowledge = {"LIB-001": {"id": "LIB-001"}} if knowledge is _UNSET else knowledge
+        self.routing = {"RIU-082": {"riu_id": "RIU-082"}} if routing is _UNSET else routing
+        self.classification = {"RIU-082": {"riu_id": "RIU-082", "classification": "both"}} if classification is _UNSET else classification
+        self.recipes = {"example": {"service_name": "Example"}} if recipes is _UNSET else recipes
+        self.signals = [{"tool": "Example", "signal_tier": "watch"}] if signals is _UNSET else signals
 
 
 def _make_context(pis_data=_UNSET, graph_quads=_UNSET) -> PaletteContext:
@@ -115,6 +117,18 @@ class TestHandoffPacket(unittest.TestCase):
         p = HandoffPacket(**filtered)
         self.assertEqual(p.from_agent, "x")
 
+    def test_none_coerced_to_empty_list(self):
+        """Finding 3: HandoffPacket(riu_ids=None) should coerce to []."""
+        p = HandoffPacket(riu_ids=None, constraints=None, artifacts=None, context=None)
+        self.assertEqual(p.riu_ids, [])
+        self.assertEqual(p.constraints, [])
+        self.assertEqual(p.artifacts, [])
+        self.assertEqual(p.context, {})
+        # Should be safe to iterate
+        self.assertEqual(len(p.riu_ids), 0)
+        for _ in p.constraints:
+            pass  # no crash
+
 
 # ── HandoffResult tests ──────────────────────────────────────────────
 
@@ -164,6 +178,16 @@ class TestAgentBase(unittest.TestCase):
         agent = AgentBase(context=ctx)
         status = agent.self_check()
         self.assertIn("Relationship graph is empty", status["issues"])
+
+    def test_self_check_detects_missing_recipes_signals(self):
+        """Finding 7: self_check should flag missing recipes and signals."""
+        data = FakePISData(recipes={}, signals=[])
+        ctx = _make_context(pis_data=data, graph_quads=[{"subject": "A", "predicate": "p", "object": "B"}])
+        agent = AgentBase(context=ctx)
+        status = agent.self_check()
+        self.assertEqual(status["status"], "degraded")
+        self.assertIn("Integration recipes not loaded", status["issues"])
+        self.assertIn("Company signals not loaded", status["issues"])
 
     def test_execute_raises_not_implemented(self):
         ctx = _make_context()

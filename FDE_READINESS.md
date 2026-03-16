@@ -1,7 +1,7 @@
 # Palette — FDE Readiness Assessment
 
 **Date**: 2026-03-16
-**Version**: 2.1 (SDK Hardening + Dual Enablement)
+**Version**: 2.0 (SDK Hardening + Dual Enablement)
 **Scope**: How Palette addresses the 6 core FDE (Foundation-model-powered Development Environment) multi-agent coordination challenges.
 
 ---
@@ -19,7 +19,7 @@
 
 **Overall**: 4 of 6 challenges addressed with production-quality mechanisms. 2 acknowledged as gaps with mitigation paths.
 
-**V2.1 improvements**: SDK now has 58 tests, production error handling (graceful degradation), and a health agent running 58 system-wide checks. Error Amplification coverage strengthened via IntegrityGate defensive guards and explicit degraded-state reporting.
+**V2.0 improvements**: SDK now has 58 tests, production error handling (graceful degradation), and a health agent running 58 system-wide checks. Error Amplification coverage strengthened via IntegrityGate defensive guards and explicit degraded-state reporting.
 
 ---
 

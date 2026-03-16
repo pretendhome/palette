@@ -104,6 +104,17 @@ class HandoffPacket:
     constraints: list[str] = field(default_factory=list)
     artifacts: list[str] = field(default_factory=list)
 
+    def __post_init__(self):
+        """Coerce None to empty defaults for collection fields."""
+        if self.riu_ids is None:
+            self.riu_ids = []
+        if self.context is None:
+            self.context = {}
+        if self.constraints is None:
+            self.constraints = []
+        if self.artifacts is None:
+            self.artifacts = []
+
 
 @dataclass
 class HandoffResult:
@@ -271,6 +282,10 @@ class AgentBase:
                 issues.append("Service routing not loaded")
             if not getattr(data, "classification", None):
                 issues.append("RIU classification not loaded")
+            if not getattr(data, "recipes", None):
+                issues.append("Integration recipes not loaded")
+            if not getattr(data, "signals", None):
+                issues.append("Company signals not loaded")
 
         return {
             "agent": self.agent_name,

@@ -13,7 +13,7 @@ origin:
   notes: Built to evaluate high-stakes interview assignments for technical success and deployment-oriented roles where the grader expects customer realism, technical judgment, and operational rigor.
 critical_question:
   as_palette: How will this lens best help me, and what would it actually help me do?
-  answer: It helps Palette shape outputs the way a rigorous OpenAI grader is likely to score them: full requirement coverage, customer-value grounding, technical credibility, safety and evaluation discipline, and clean execution quality.
+  answer: "It helps Palette shape outputs the way a rigorous OpenAI grader is likely to score them: full requirement coverage, customer-value grounding, technical credibility, safety and evaluation discipline, and clean execution quality."
 scoring_weights:
   prompt_coverage: 30
   customer_reality: 20

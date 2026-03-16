@@ -293,6 +293,34 @@ def extract_knowledge_riu(knowledge_lib: dict) -> list:
     return quads
 
 
+def extract_agent_roles(manifest_path: Path) -> list:
+    """Extract Agent → has_role → description from MANIFEST.yaml.
+
+    Ensures every declared agent appears in the graph, even if
+    it has no RIU mappings in the taxonomy (e.g., Resolver, Health,
+    Business-Plan-Creation).
+    """
+    quads = []
+    if not manifest_path.exists():
+        return quads
+    manifest = load_yaml(manifest_path)
+    agents_section = manifest.get("agents", {})
+    agent_list = agents_section.get("list", [])
+    for agent in agent_list:
+        name = agent.get("name", "")
+        role = agent.get("role", "")
+        if name and role:
+            # Capitalize to match taxonomy convention (Architect, Researcher, etc.)
+            display_name = name.title().replace("-", " ")
+            quads.append({
+                "subject": display_name,
+                "predicate": "has_role",
+                "object": role,
+                "meta": {"source": "MANIFEST.yaml"},
+            })
+    return quads
+
+
 def extract_lens_relationships(lenses: list) -> list:
     """Extract Lens → applies_to → RIU and Lens → uses_agent → Agent from lenses."""
     quads = []
@@ -534,7 +562,11 @@ def main():
     lib_riu = extract_knowledge_riu(data["knowledge_library"])
     print(f"  LIB -> RIU: {len(lib_riu)} quads")
 
-    # 8. Lens → applies_to → RIU, Lens → uses_agent → Agent
+    # 8. Agent → has_role (from MANIFEST)
+    agent_roles = extract_agent_roles(PALETTE_ROOT / "MANIFEST.yaml")
+    print(f"  Agent -> Role: {len(agent_roles)} quads")
+
+    # 9. Lens → applies_to → RIU, Lens → uses_agent → Agent
     lens_rels = extract_lens_relationships(data["lenses"])
     lens_riu = [q for q in lens_rels if q["predicate"] == "applies_to"]
     lens_agent = [q for q in lens_rels if q["predicate"] == "uses_agent"]
@@ -633,6 +665,11 @@ def main():
             "RIU -> classified_as -> Classification",
             "Forward: internal_only / both / service_applicable classification per RIU",
             riu_class,
+        ),
+        (
+            "Agent -> has_role -> Description",
+            "All declared agents and their roles (from MANIFEST.yaml)",
+            agent_roles,
         ),
     ]
 

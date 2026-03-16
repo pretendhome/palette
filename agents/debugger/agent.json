@@ -1,6 +1,6 @@
 {
   "name": "debugger",
-  "version": "2.1",
+  "version": "2.0",
   "agent_type": "Debugger",
   "code": "Debugger",
   "role": "Debugger",

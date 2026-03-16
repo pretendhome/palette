@@ -15,10 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [2.1.0] - 2026-03-16
+## [2.0.0] - 2026-03-16
 
 ### Summary
-**v2.1 (SDK Hardening + Dual Enablement)**: Completes the machine enablement half of the Dual Enablement loop. The SDK — which provides any agent instant access to Palette's full intelligence system — gains production-grade error handling, a 58-test suite, and a system-wide health agent. V2 graduation: the SDK is verified, tested, and ready for agent adoption.
+**v2.0 (SDK Hardening + Dual Enablement)**: Completes the machine enablement half of the Dual Enablement loop. The SDK — which provides any agent instant access to Palette's full intelligence system — gains production-grade error handling, a 58-test suite, and a system-wide health agent. V2 graduation: the SDK is verified, tested, and ready for agent adoption.
 
 ### Added
 

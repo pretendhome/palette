@@ -163,7 +163,7 @@ Maintain high standards:
 ## Governance
 
 ### Decision Authority
-- **Maintainer** (Mical): Final approval on all contributions
+- **Maintainer**: Final approval on all contributions
 - **Contributors** (You): Submit improvements via PR
 - **Reviewers** (Future): Delegated review authority for specific areas
 
