@@ -6,7 +6,7 @@ query, verify against, and extend the Palette Intelligence System through
 structured interfaces to the same underlying knowledge.
 
 Usage:
-    from palette.sdk import AgentBase, PaletteContext
+    from palette.sdk import AgentBase, HandoffPacket, HandoffResult, PaletteContext
 
     class MyAgent(AgentBase):
         def execute(self, packet):
@@ -22,8 +22,20 @@ Usage:
             return my_result
 """
 
-from palette.sdk.agent_base import AgentBase, PaletteContext
+from palette.sdk.agent_base import (
+    AgentBase,
+    HandoffPacket,
+    HandoffResult,
+    PaletteContext,
+)
 from palette.sdk.integrity_gate import IntegrityGate
 from palette.sdk.graph_query import GraphQuery
 
-__all__ = ["AgentBase", "PaletteContext", "IntegrityGate", "GraphQuery"]
+__all__ = [
+    "AgentBase",
+    "HandoffPacket",
+    "HandoffResult",
+    "PaletteContext",
+    "IntegrityGate",
+    "GraphQuery",
+]
