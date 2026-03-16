@@ -11,9 +11,20 @@ Parallel to the human enablement coach's 7 stages:
   Stage 6 (Building)         → execute() protocol  "Here's how to create"
   Stage 7 (Autonomy)         → integrity self-check "Here's how to be independent"
 
-Any agent that inherits from AgentBase gets instant access to the full
-Palette Intelligence System — the same knowledge the human enablement coach
-teaches progressively, delivered as structured interfaces.
+Wire contract (V2.2):
+
+  Packet  →  Agent  →  Result
+
+  Packet: id, from, to, task, riu_ids, payload, trace_id
+  Result: packet_id, from, status, output, blockers, artifacts, next_agent
+
+  Status is a closed enum: success | failure | blocked
+  Result always references Packet: result.packet_id == packet.id
+  If status != success, blockers explains why (glass-box).
+
+  The protocol is 7 fields in, 7 fields out, linked by one ID.
+  Everything domain-specific lives in payload and output.
+  Everything runtime-specific is transport.
 """
 
 from __future__ import annotations
@@ -21,6 +32,7 @@ from __future__ import annotations
 import json
 import sys
 import os
+import uuid
 import datetime
 from dataclasses import dataclass, field, asdict
 from typing import Any
@@ -44,11 +56,7 @@ from palette.sdk.graph_query import GraphQuery
 
 @dataclass
 class PaletteContext:
-    """Everything an agent needs to know about the system it's operating in.
-
-    This is the machine equivalent of what the enablement coach builds
-    up over 7 stages with a human learner — delivered all at once.
-    """
+    """Everything an agent needs to know about the system it's operating in."""
 
     pis_data: Any = None
     integrity_gate: IntegrityGate | None = None
@@ -61,8 +69,7 @@ class PaletteContext:
         """Load all PIS data layers into a context.
 
         On failure, returns a degraded context (pis_data=None) with the
-        error logged to stderr.  Agents can check self_check() and decide
-        whether to proceed or halt.
+        error logged to stderr.
         """
         root = root or _palette_root
         data = None
@@ -91,50 +98,114 @@ class PaletteContext:
         )
 
 
+# ── Wire Contract: Packet ───────────────────────────────────────────
+#
+# Python reserves `from` as a keyword, so the internal field is `from_`.
+# On the wire (JSON), it serializes as `from` via to_wire()/from_wire().
+
 @dataclass
 class HandoffPacket:
-    """Structured input to any Palette agent."""
+    """Structured input to any Palette agent.
 
-    schema_version: str = "handoffpacket.v2"
-    from_agent: str = ""
-    to_agent: str = ""
+    Wire fields: id, from, to, task, riu_ids, payload, trace_id
+    """
+
+    id: str = ""
+    from_: str = ""
+    to: str = ""
     task: str = ""
     riu_ids: list[str] = field(default_factory=list)
-    context: dict[str, Any] = field(default_factory=dict)
-    constraints: list[str] = field(default_factory=list)
-    artifacts: list[str] = field(default_factory=list)
+    payload: dict[str, Any] = field(default_factory=dict)
+    trace_id: str = ""
 
     def __post_init__(self):
-        """Coerce None to empty defaults for collection fields."""
+        if not self.id:
+            self.id = str(uuid.uuid4())
         if self.riu_ids is None:
             self.riu_ids = []
-        if self.context is None:
-            self.context = {}
-        if self.constraints is None:
-            self.constraints = []
-        if self.artifacts is None:
-            self.artifacts = []
+        if self.payload is None:
+            self.payload = {}
 
+    def to_wire(self) -> dict:
+        """Serialize to canonical wire format (from_ → from)."""
+        return {
+            "id": self.id,
+            "from": self.from_,
+            "to": self.to,
+            "task": self.task,
+            "riu_ids": self.riu_ids,
+            "payload": self.payload,
+            "trace_id": self.trace_id,
+        }
+
+    @classmethod
+    def from_wire(cls, data: dict) -> HandoffPacket:
+        """Deserialize from canonical wire format (from → from_)."""
+        return cls(
+            id=data.get("id", ""),
+            from_=data.get("from", data.get("from_", "")),
+            to=data.get("to", ""),
+            task=data.get("task", ""),
+            riu_ids=data.get("riu_ids", []),
+            payload=data.get("payload", data.get("context", {})),
+            trace_id=data.get("trace_id", ""),
+        )
+
+
+# ── Wire Contract: Result ───────────────────────────────────────────
 
 @dataclass
 class HandoffResult:
-    """Structured output from any Palette agent."""
+    """Structured output from any Palette agent.
 
-    schema_version: str = "handoffresult.v1"
-    from_agent: str = ""
-    status: str = "success"  # success | failure | blocked
-    outputs: dict[str, Any] = field(default_factory=dict)
+    Wire fields: packet_id, from, status, output, blockers, artifacts, next_agent
+    Status: success | failure | blocked
+    """
+
+    packet_id: str = ""
+    from_: str = ""
+    status: str = "success"
+    output: dict[str, Any] = field(default_factory=dict)
+    blockers: list[str] = field(default_factory=list)
     artifacts: list[str] = field(default_factory=list)
-    gaps: list[str] = field(default_factory=list)
-    validation_warnings: list[str] = field(default_factory=list)
     next_agent: str = ""
+
+    def __post_init__(self):
+        if self.output is None:
+            self.output = {}
+        if self.blockers is None:
+            self.blockers = []
+        if self.artifacts is None:
+            self.artifacts = []
+
+    def to_wire(self) -> dict:
+        """Serialize to canonical wire format (from_ → from)."""
+        return {
+            "packet_id": self.packet_id,
+            "from": self.from_,
+            "status": self.status,
+            "output": self.output,
+            "blockers": self.blockers,
+            "artifacts": self.artifacts,
+            "next_agent": self.next_agent,
+        }
+
+    @classmethod
+    def from_wire(cls, data: dict) -> HandoffResult:
+        """Deserialize from canonical wire format (from → from_)."""
+        return cls(
+            packet_id=data.get("packet_id", ""),
+            from_=data.get("from", data.get("from_", "")),
+            status=data.get("status", "success"),
+            output=data.get("output", data.get("outputs", {})),
+            blockers=data.get("blockers", data.get("gaps", [])),
+            artifacts=data.get("artifacts", []),
+            next_agent=data.get("next_agent", ""),
+        )
 
 
 class AgentBase:
     """Base class for all Palette agents.
-
-    Provides the machine enablement interface: query, traverse, validate,
-    and graph-query the Palette Intelligence System.
 
     Subclass and implement execute():
 
@@ -142,11 +213,11 @@ class AgentBase:
             agent_name = "researcher"
 
             def execute(self, packet: HandoffPacket) -> HandoffResult:
-                # Your agent logic here
                 pis = self.query_pis("RIU-082")
                 return HandoffResult(
-                    from_agent=self.agent_name,
-                    outputs={"recommendation": pis.recommendation},
+                    packet_id=packet.id,
+                    from_=self.agent_name,
+                    output={"recommendation": pis.recommendation},
                 )
     """
 
@@ -155,25 +226,20 @@ class AgentBase:
     def __init__(self, context: PaletteContext | None = None):
         self.ctx = context or PaletteContext.load()
 
-    # ── Stage 1: Foundations — "Here's what exists" ─────────────────────
+    # ── Stage 1: Foundations ────────────────────────────────────────────
 
     @property
     def pis_data(self):
-        """Direct access to all loaded PIS data (taxonomy, knowledge,
-        routing, signals, classification)."""
+        """Direct access to all loaded PIS data."""
         return self.ctx.pis_data
 
-    # ── Stage 2: First Instructions — "Here's how to ask" ──────────────
+    # ── Stage 2: First Instructions ────────────────────────────────────
 
     def query_pis(self, riu_id: str = None, lib_id: str = None):
-        """Traverse the PIS for a given RIU or knowledge library entry.
-
-        Returns a TraversalResult with recommendation, alternatives,
-        knowledge support, signal validation, completeness score, and gaps.
-        """
+        """Traverse the PIS for a given RIU or knowledge library entry."""
         return traverse(self.ctx.pis_data, riu_id=riu_id, lib_id=lib_id)
 
-    # ── Stage 3: Memory — "Here's how to carry context" ────────────────
+    # ── Stage 3: Memory ────────────────────────────────────────────────
 
     def read_packet(self) -> HandoffPacket:
         """Read a HandoffPacket from stdin (standard agent protocol)."""
@@ -185,41 +251,36 @@ class AgentBase:
         except (json.JSONDecodeError, ValueError) as exc:
             print(f"[{self.agent_name}] Malformed packet JSON: {exc}", file=sys.stderr)
             return HandoffPacket()
-        return HandoffPacket(**{
-            k: v for k, v in data.items()
-            if k in HandoffPacket.__dataclass_fields__
-        })
+        return HandoffPacket.from_wire(data)
 
     def emit_result(self, result: HandoffResult) -> None:
         """Write a HandoffResult to stdout (standard agent protocol)."""
-        # Auto-validate before emitting
         warnings = self.validate_output(result)
-        result.validation_warnings = warnings
+        if warnings:
+            print(f"[{self.agent_name}] validation: {warnings}", file=sys.stderr)
         try:
-            json.dump(asdict(result), sys.stdout, indent=2, default=str)
+            wire = result.to_wire()
+            json.dump(wire, sys.stdout, indent=2, default=str)
         except (TypeError, ValueError) as exc:
-            # Fallback: emit a failure result describing the serialization error
             fallback = HandoffResult(
-                from_agent=getattr(result, "from_agent", self.agent_name),
+                packet_id=getattr(result, "packet_id", ""),
+                from_=self.agent_name,
                 status="failure",
-                gaps=[f"Output serialization failed: {exc}"],
+                blockers=[f"Output serialization failed: {exc}"],
             )
-            json.dump(asdict(fallback), sys.stdout, indent=2)
+            json.dump(fallback.to_wire(), sys.stdout, indent=2)
         sys.stdout.write("\n")
         sys.stdout.flush()
 
-    # ── Stage 4: Verification — "Here's how to check your work" ────────
+    # ── Stage 4: Verification ──────────────────────────────────────────
 
     def validate_output(self, result: HandoffResult) -> list[str]:
-        """Run integrity checks against a result before emitting it.
-
-        Returns a list of warnings (empty = clean).
-        """
+        """Run integrity checks against a result before emitting it."""
         if self.ctx.integrity_gate is None:
             return []
         return self.ctx.integrity_gate.check_result(result)
 
-    # ── Stage 5: Organization — "Here's how it connects" ───────────────
+    # ── Stage 5: Organization ──────────────────────────────────────────
 
     def query_graph(
         self,
@@ -227,39 +288,25 @@ class AgentBase:
         predicate: str | None = None,
         object: str | None = None,
     ) -> list[dict]:
-        """Query the relationship graph by any combination of S/P/O.
-
-        Examples:
-            self.query_graph(subject="Architect", predicate="handles_riu")
-            self.query_graph(predicate="recommends", object="OpenRouter")
-            self.query_graph(subject="RIU-082")
-        """
+        """Query the relationship graph by any combination of S/P/O."""
         if self.ctx.graph_query is None:
             return []
         return self.ctx.graph_query.query(
             subject=subject, predicate=predicate, object=object,
         )
 
-    # ── Stage 6: Building — "Here's how to create" ─────────────────────
+    # ── Stage 6: Building ──────────────────────────────────────────────
 
     def execute(self, packet: HandoffPacket) -> HandoffResult:
-        """Override this method with your agent's logic.
-
-        This is the only method a new agent needs to implement.
-        Everything else (loading, querying, validating, emitting)
-        is handled by the base class.
-        """
+        """Override this method with your agent's logic."""
         raise NotImplementedError(
             f"{self.agent_name} must implement execute()"
         )
 
-    # ── Stage 7: Autonomy — "Here's how to be independent" ─────────────
+    # ── Stage 7: Autonomy ──────────────────────────────────────────────
 
     def self_check(self) -> dict:
-        """Run a health check on the agent's connection to PIS.
-
-        Returns a dict with status and any issues found.
-        """
+        """Run a health check on the agent's connection to PIS."""
         issues = []
 
         if self.ctx.pis_data is None:
@@ -273,7 +320,6 @@ class AgentBase:
         elif self.ctx.graph_query.quad_count == 0:
             issues.append("Relationship graph is empty")
 
-        # Verify core data layers are populated
         data = self.ctx.pis_data
         if data:
             if not getattr(data, "knowledge", None):
@@ -295,17 +341,20 @@ class AgentBase:
             "palette_root": self.ctx.palette_root,
         }
 
-    # ── Main loop (stdin → execute → stdout) ───────────────────────────
+    # ── Main loop ──────────────────────────────────────────────────────
 
     def run(self) -> None:
         """Standard entry point: read packet from stdin, execute, emit result."""
         packet = self.read_packet()
         try:
             result = self.execute(packet)
+            if not result.packet_id:
+                result.packet_id = packet.id
             self.emit_result(result)
         except Exception as e:
             self.emit_result(HandoffResult(
-                from_agent=self.agent_name,
+                packet_id=packet.id,
+                from_=self.agent_name,
                 status="failure",
-                gaps=[f"Agent error: {e}"],
+                blockers=[f"Agent error: {e}"],
             ))

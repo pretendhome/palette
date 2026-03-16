@@ -926,7 +926,7 @@ def main() -> int:
         err_out = {
             "packet_id": packet_id,
             "from":      "researcher",
-            "status":    "error",
+            "status":    "failure",
             "output": {
                 "findings":   [],
                 "gaps":       [f"search error: {e}"],
@@ -935,10 +935,10 @@ def main() -> int:
                 "query_type": query_type.value,
                 "depth_used": "error",
                 "cache_hit":  False,
-                "next_agent": "human",
             },
-            "blockers":  [str(e)],
-            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+            "blockers":    [str(e)],
+            "artifacts":   [],
+            "next_agent":  "human",
         }
         json.dump(err_out, sys.stdout, indent=2)
         sys.stdout.write("\n")
