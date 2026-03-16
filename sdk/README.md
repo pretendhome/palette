@@ -30,9 +30,10 @@ class MyResearcher(AgentBase):
         services = self.query_graph(subject="RIU-082", predicate="has_service")
 
         return HandoffResult(
-            from_agent=self.agent_name,
-            outputs={"recommendation": result.recommendation},
-            gaps=result.gaps,
+            packet_id=packet.id,
+            from_=self.agent_name,
+            output={"recommendation": result.recommendation},
+            blockers=result.blockers,
         )
 
 # Run as stdin/stdout agent
@@ -44,13 +45,13 @@ if __name__ == "__main__":
 
 ### `agent_base.py`
 - `PaletteContext` — loads all PIS data, integrity gate, and graph query
-- `HandoffPacket` — structured input (schema: `handoffpacket.v2`)
-- `HandoffResult` — structured output (schema: `handoffresult.v1`)
+- `HandoffPacket` — structured input (wire: 7 fields)
+- `HandoffResult` — structured output (wire: 7 fields)
 - `AgentBase` — base class; subclass and implement `execute()`
 
 ### `integrity_gate.py`
 - `IntegrityGate` — validates agent outputs against PIS data
-- Checks: RIU references, service references, knowledge references, gaps/assumptions
+- Checks: RIU references, service references, knowledge references, blockers/assumptions
 
 ### `graph_query.py`
 - `GraphQuery` — queryable interface to the 1,800+ quad relationship graph
@@ -75,7 +76,7 @@ if check["status"] == "degraded":
 ## Running Tests
 
 ```bash
-uv run pytest -q sdk/tests/           # 58 SDK tests
+uv run pytest -q sdk/tests/           # 69 SDK tests
 uv run pytest -q sdk/tests/ -v        # verbose output
 ```
 

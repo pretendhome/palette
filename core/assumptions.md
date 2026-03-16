@@ -347,23 +347,19 @@ Security considerations route to:
 
 **Purpose**: Standardize agent-to-agent handoffs during a single session.
 
-**Message structure**:
+**Message structure** (aligned with V2.2 wire contract):
 
     {
-      "from_agent": "agent_type:agent_name:version",
-      "to_agent": "agent_type:agent_name:version",
-      "message_type": "request | response | error",
-      "trace_id": "unique_session_trace_id",
+      "id": "unique_packet_id",
+      "from": "agent_name",
+      "to": "agent_name",
+      "task": "what needs to be done",
+      "riu_ids": ["RIU-XXX"],
       "payload": {
-        "task": "what needs to be done",
-        "context": "relevant information",
-        "artifacts": ["path1", "path2"],
-        "constraints": ["constraint1", "constraint2"]
+        "decision_context": "what the receiving agent needs to know",
+        "depth": "standard"
       },
-      "metadata": {
-        "timestamp": "ISO8601",
-        "priority": "normal | high | critical"
-      }
+      "trace_id": "unique_session_trace_id"
     }
 
 **Rules**:

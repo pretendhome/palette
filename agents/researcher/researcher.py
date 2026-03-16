@@ -113,24 +113,24 @@ if _SDK_AVAILABLE:
 
         def execute(self, packet: HandoffPacket) -> HandoffResult:
             """Map SDK HandoffPacket → existing research flow → HandoffResult."""
-            task = packet.task or packet.context.get("task", "")
-            context = packet.context.get("decision_context", "")
-            depth = packet.context.get("depth", "standard")
-            query_type_hint = packet.context.get("query_type_hint")
+            task = packet.task or packet.payload.get("task", "")
+            context = packet.payload.get("decision_context", "")
+            depth = packet.payload.get("depth", "standard")
+            query_type_hint = packet.payload.get("query_type_hint")
 
             if not task:
                 return HandoffResult(
-                    from_agent=self.agent_name,
+                    from_=self.agent_name,
                     status="blocked",
-                    gaps=["No task provided in HandoffPacket"],
+                    blockers=["No task provided in HandoffPacket"],
                 )
 
             if not context:
                 return HandoffResult(
-                    from_agent=self.agent_name,
+                    from_=self.agent_name,
                     status="blocked",
-                    gaps=["decision_context missing — cannot determine relevance or search depth"],
-                    outputs={"question": "What decision does this research inform?"},
+                    blockers=["decision_context missing — cannot determine relevance or search depth"],
+                    output={"question": "What decision does this research inform?"},
                 )
 
             registry = BackendRegistry()
@@ -140,16 +140,16 @@ if _SDK_AVAILABLE:
                 search_result = run_research(task, context, depth, query_type, registry)
             except Exception as e:
                 return HandoffResult(
-                    from_agent=self.agent_name,
+                    from_=self.agent_name,
                     status="failure",
-                    gaps=[f"search error: {e}"],
-                    outputs={"query_type": query_type.value},
+                    blockers=[f"search error: {e}"],
+                    output={"query_type": query_type.value},
                 )
 
             return HandoffResult(
-                from_agent=self.agent_name,
+                from_=self.agent_name,
                 status="success",
-                outputs={
+                output={
                     "findings": [asdict(f) for f in search_result.findings],
                     "sources": [asdict(s) for s in search_result.sources],
                     "confidence": search_result.confidence,
@@ -157,7 +157,7 @@ if _SDK_AVAILABLE:
                     "depth_used": search_result.depth_used,
                     "cache_hit": search_result.cache_hit,
                 },
-                gaps=search_result.gaps or ["no gaps recorded — review findings manually"],
+                blockers=search_result.gaps or ["no gaps recorded — review findings manually"],
                 next_agent=search_result.next_agent or "",
             )
 
@@ -800,10 +800,9 @@ def build_handoff_result(
             "cache_hit":  result.cache_hit,
             "next_agent": result.next_agent,
         },
-        "produced_artifacts": [],
-        "blockers":           [],
-        "next_agent":         result.next_agent,
-        "timestamp":          datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
+        "artifacts":   [],
+        "blockers":    [],
+        "next_agent":  result.next_agent,
     }
 
 
@@ -964,10 +963,10 @@ def main() -> int:
     # SDK validation: check output against PIS integrity before emitting
     if _SDK_AVAILABLE and _sdk_ctx and _sdk_ctx.integrity_gate:
         sdk_result = HandoffResult(
-            from_agent="researcher",
+            from_="researcher",
             status="success",
-            outputs=handoff.get("output", {}),
-            gaps=handoff.get("output", {}).get("gaps", []),
+            output=handoff.get("output", {}),
+            blockers=handoff.get("output", {}).get("gaps", []),
         )
         warnings = _sdk_ctx.integrity_gate.check_result(sdk_result)
         if warnings:
