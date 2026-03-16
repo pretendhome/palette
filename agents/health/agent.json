@@ -1,0 +1,26 @@
+{
+  "name": "health",
+  "version": "1.0",
+  "status": "WORKING",
+  "maturity": {
+    "tier": 2,
+    "successes": 0,
+    "failures": 0,
+    "promotes_at": 50
+  },
+  "entry_point": "python3 agents/health/health_check.py",
+  "capabilities": [
+    "system_audit",
+    "cross_layer_integrity",
+    "drift_detection",
+    "sync_verification",
+    "improvement_reflection"
+  ],
+  "constraints": {
+    "read_only": true,
+    "no_execution": true,
+    "no_commits": true,
+    "no_decisions": true
+  },
+  "description": "System health agent. Runs a full checklist across all Palette layers, verifies sync, identifies gaps, and ends every run with a structured reflection on how the system could be built better."
+}

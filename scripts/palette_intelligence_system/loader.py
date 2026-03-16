@@ -58,6 +58,10 @@ def _load_knowledge(root: str) -> dict[str, dict]:
             continue
         for item in doc.get("library_questions", []):
             entries[item["id"]] = item
+        # Also load context_specific_questions (same schema as library_questions)
+        for item in doc.get("context_specific_questions", []):
+            if item.get("id") and item["id"] not in entries:
+                entries[item["id"]] = item
         # Also load gap_additions (proposed entries with different schema)
         for item in doc.get("gap_additions", []):
             if item.get("id") and item["id"] not in entries:

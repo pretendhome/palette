@@ -457,11 +457,12 @@ class PaletteAuditor:
         return audit_results
 
 if __name__ == "__main__":
-    auditor = PaletteAuditor("/home/mical/fde/palette")
+    _root = os.environ.get("PALETTE_ROOT", os.path.join(os.path.expanduser("~"), "fde", "palette"))
+    auditor = PaletteAuditor(_root)
     results = auditor.run_full_audit()
-    
+
     # Save detailed results
-    output_path = Path("/home/mical/fde/palette/COMPREHENSIVE_AUDIT_2026-03-11.json")
+    output_path = Path(_root) / "COMPREHENSIVE_AUDIT_2026-03-11.json"
     with open(output_path, "w") as f:
         json.dump(results, f, indent=2)
     

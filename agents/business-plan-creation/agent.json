@@ -1,0 +1,24 @@
+{
+  "name": "business-plan-creation",
+  "version": "1.0",
+  "status": "WORKING",
+  "maturity": {
+    "tier": 2,
+    "successes": 1,
+    "failures": 0,
+    "promotes_at": 10
+  },
+  "entry_point": null,
+  "capabilities": [
+    "business_plan_generation",
+    "market_research",
+    "financial_modeling",
+    "strategic_framework",
+    "multi_agent_orchestration"
+  ],
+  "constraints": {
+    "requires_human_review": true,
+    "no_financial_commitments": true
+  },
+  "description": "Multi-agent business plan workflow. Orchestrates Researcher, Architect, Narrator, and Validator through 8 phases: Discovery, Comparable Research, Market Research, Strategic Framework, Product Strategy, Document Assembly, Quality Validation, Customer Review. Validated on Rossi project (82/100 quality score)."
+}

@@ -58,6 +58,10 @@ Convergence is achieved only when:
 - The proposed solution aligns with real needs and constraints
 - The human confirms the solution's effectiveness
 
+### Dual Enablement
+
+Convergence operates on the system itself. Palette maintains parallel enablement paths — one for humans through progressive conversation, one for machines through structured interfaces — each teaching the same system knowledge through the medium native to that participant. These paths evolve together: improvements to either inform the other, making self-understanding itself a convergence loop.
+
 ---
 
 ## Glass-Box Architecture

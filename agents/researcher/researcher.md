@@ -60,27 +60,27 @@ Before any external search, check these sources in order:
 ```
 Checking knowledge library for: [topic]
 ```
-Search `/home/mical/fde/palette/knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml`
+Search `palette/knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml`
 
 **1b. People Library** (if research involves AI tools, companies, or practitioners)
 ```
 Checking people library for: [topic]
 ```
-Search `/home/mical/fde/palette/buy-vs-build/people-library/v1.1/people_library_v1.1.yaml`
+Search `palette/buy-vs-build/people-library/v1.1/people_library_v1.1.yaml`
 — Relevant when: looking for tool recommendations, practitioner signals, or AI company intelligence
 
 **1c. Service Routing Index** (if research involves "which service to use for X")
 ```
 Checking service routing index for: [RIU or task type]
 ```
-Search `/home/mical/fde/palette/buy-vs-build/service-routing/v1.0/service_routing_v1.0.yaml`
+Search `palette/buy-vs-build/service-routing/v1.0/service_routing_v1.0.yaml`
 — Relevant when: deciding between external services for a task, cost/quality tradeoffs
 
 **1d. Company Signals** (if research involves specific tools mentioned by practitioners)
 ```
 Checking company signals for: [tool/company name]
 ```
-Search `/home/mical/fde/palette/buy-vs-build/people-library/v1.1/people_library_company_signals_v1.1.yaml`
+Search `palette/buy-vs-build/people-library/v1.1/people_library_company_signals_v1.1.yaml`
 — Shows: signal_tier, recommenders, RIU mapping, palette_action recommendation
 
 If found in any internal library:

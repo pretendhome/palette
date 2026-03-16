@@ -15,6 +15,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.1.0] - 2026-03-16
+
+### Summary
+**v2.1 (SDK Hardening + Dual Enablement)**: Completes the machine enablement half of the Dual Enablement loop. The SDK — which provides any agent instant access to Palette's full intelligence system — gains production-grade error handling, a 58-test suite, and a system-wide health agent. V2 graduation: the SDK is verified, tested, and ready for agent adoption.
+
+### Added
+
+- **SDK Test Suite** (`sdk/tests/`): 58 unit and integration tests covering all 3 SDK modules (agent_base, integrity_gate, graph_query). Tests cover: PaletteContext loading (healthy + degraded), HandoffPacket/HandoffResult serialization round-trips, IntegrityGate validation (RIU/LIB/service references, assumption detection, gap enforcement), GraphQuery SPO queries, stdin/stdout agent protocol, self_check() health status, and full integration with real PIS data.
+
+- **Health Agent** (`agents/health/`): 6-section system integrity checklist (58 checks) covering layer integrity, agent health, enablement sync, cleanliness, data quality, and governance. Ends every run with a structured reflection prompt for continuous improvement. Runnable as `python3 agents/health/health_check.py`.
+
+- **Business Plan Creation agent.json** (`agents/business-plan-creation/agent.json`): Added missing agent manifest for the multi-agent business plan workflow (validated on Rossi project, 82/100 quality score).
+
+### Changed
+
+- **SDK Error Handling**: `PaletteContext.load()` now catches exceptions and returns a degraded context (pis_data=None) with error logged to stderr, instead of crashing. Agents can check `self_check()` and decide whether to proceed or halt.
+
+- **GraphQuery.from_yaml() Visibility**: Failed YAML loads now log to stderr with the specific error, instead of returning None silently.
+
+- **IntegrityGate Defensive Guards**: All 4 check methods now guard against None data and None results. Passing None PIS data returns an explicit warning instead of crashing with AttributeError.
+
+- **Health Check Accuracy**: Fixed knowledge library entry counting (was matching sub-entries inside YAML string literals). Fixed taxonomy counting key. Added word-boundary matching for personal name detection to eliminate false positives (e.g., "reliability" no longer matches "Elia"). Self-matching patterns constructed dynamically.
+
+- **Health Check Scope**: Operational code scan now excludes content/documentation directories (docs, research, assets, knowledge-library, taxonomy, lenses, bridges, buy-vs-build) where names and paths are legitimate. Hardcoded path check excludes bridges (VPS deployment).
+
+### Fixed
+
+- **Hardcoded paths in operational code**: Replaced absolute `/home/*/fde/palette/` paths with portable relative paths or `PALETTE_ROOT` environment variable lookups in `agents/researcher/researcher.md`, `agents/debugger/README.md`, `agents/business-plan-creation/QUICK_START.md`, `scripts/comprehensive_palette_audit.py`, `scripts/lens_eval_runner.py`.
+
+### Metrics
+
+- Health check: 51/62 → 57/58 passing (1 pre-existing data quality warning: terminology drift in service naming)
+- SDK tests: 0 → 58 passing
+- Coordination tests: 21/21 (no regression)
+- Integrity checks: 8/8 (no regression)
+- Regression SLOs: all passing (no regression)
+
+---
+
 ## [2.0.0] - 2026-02-18
 
 ### Summary
@@ -157,7 +196,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Thank you to everyone who has contributed to Palette!
 
 ### Maintainer
-- Mical - Creator and maintainer
+- Project maintainer
 
 ### Contributors
 (Contributors will be listed here as they submit validated improvements)

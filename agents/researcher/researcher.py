@@ -42,6 +42,23 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Optional
 
+# SDK integration — adds PIS validation on output, self_check, graph queries
+_palette_root = os.environ.get(
+    "PALETTE_ROOT",
+    os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..")),
+)
+_palette_parent = os.path.dirname(_palette_root)
+if _palette_root not in sys.path:
+    sys.path.insert(0, _palette_root)
+if _palette_parent not in sys.path:
+    sys.path.insert(0, _palette_parent)
+
+try:
+    from palette.sdk.agent_base import AgentBase, HandoffPacket, HandoffResult, PaletteContext
+    _SDK_AVAILABLE = True
+except ImportError:
+    _SDK_AVAILABLE = False
+
 
 # ── Query types ───────────────────────────────────────────────────────────────
 
@@ -80,6 +97,69 @@ class SearchResult:
     depth_used: str           = "none"
     cache_hit:  bool          = False
     next_agent: str           = "human"  # filled by Claude synthesis
+
+
+# ── SDK Agent class ──────────────────────────────────────────────────────────
+
+if _SDK_AVAILABLE:
+    class Researcher(AgentBase):
+        """SDK-integrated Researcher agent.
+
+        Wraps the existing run_research() flow inside the AgentBase protocol,
+        gaining: PIS validation on emit, self_check(), graph query access.
+        """
+
+        agent_name = "researcher"
+
+        def execute(self, packet: HandoffPacket) -> HandoffResult:
+            """Map SDK HandoffPacket → existing research flow → HandoffResult."""
+            task = packet.task or packet.context.get("task", "")
+            context = packet.context.get("decision_context", "")
+            depth = packet.context.get("depth", "standard")
+            query_type_hint = packet.context.get("query_type_hint")
+
+            if not task:
+                return HandoffResult(
+                    from_agent=self.agent_name,
+                    status="blocked",
+                    gaps=["No task provided in HandoffPacket"],
+                )
+
+            if not context:
+                return HandoffResult(
+                    from_agent=self.agent_name,
+                    status="blocked",
+                    gaps=["decision_context missing — cannot determine relevance or search depth"],
+                    outputs={"question": "What decision does this research inform?"},
+                )
+
+            registry = BackendRegistry()
+            query_type = classify_query(task, query_type_hint)
+
+            try:
+                search_result = run_research(task, context, depth, query_type, registry)
+            except Exception as e:
+                return HandoffResult(
+                    from_agent=self.agent_name,
+                    status="failure",
+                    gaps=[f"search error: {e}"],
+                    outputs={"query_type": query_type.value},
+                )
+
+            return HandoffResult(
+                from_agent=self.agent_name,
+                status="success",
+                outputs={
+                    "findings": [asdict(f) for f in search_result.findings],
+                    "sources": [asdict(s) for s in search_result.sources],
+                    "confidence": search_result.confidence,
+                    "query_type": query_type.value,
+                    "depth_used": search_result.depth_used,
+                    "cache_hit": search_result.cache_hit,
+                },
+                gaps=search_result.gaps or ["no gaps recorded — review findings manually"],
+                next_agent=search_result.next_agent or "",
+            )
 
 
 # ── Backend registry ──────────────────────────────────────────────────────────
@@ -799,6 +879,16 @@ def main() -> int:
         sys.stdout.write("\n")
         return 0
 
+    # ── SDK self-check (if available) ────────────────────────────────────────
+    _sdk_ctx = None
+    if _SDK_AVAILABLE:
+        try:
+            _sdk_ctx = PaletteContext.load(_palette_root)
+            check = AgentBase(context=_sdk_ctx).self_check()
+            progress(f"sdk: {check['status']} | graph={_sdk_ctx.graph_query.quad_count if _sdk_ctx.graph_query else 0} quads")
+        except Exception as e:
+            progress(f"sdk: unavailable ({e})")
+
     # ── Registry ──────────────────────────────────────────────────────────────
     registry = BackendRegistry()
     progress(f"researcher v2.0 | {registry.report()}")
@@ -870,6 +960,21 @@ def main() -> int:
 
     # ── Emit HandoffResult ────────────────────────────────────────────────────
     handoff = build_handoff_result(packet_id, search_result, query_type)
+
+    # SDK validation: check output against PIS integrity before emitting
+    if _SDK_AVAILABLE and _sdk_ctx and _sdk_ctx.integrity_gate:
+        sdk_result = HandoffResult(
+            from_agent="researcher",
+            status="success",
+            outputs=handoff.get("output", {}),
+            gaps=handoff.get("output", {}).get("gaps", []),
+        )
+        warnings = _sdk_ctx.integrity_gate.check_result(sdk_result)
+        if warnings:
+            handoff.setdefault("output", {})["sdk_validation_warnings"] = warnings
+            for w in warnings:
+                progress(f"sdk validation: {w}")
+
     json.dump(handoff, sys.stdout, indent=2)
     sys.stdout.write("\n")
     return 0

@@ -1,10 +1,10 @@
 # Palette Manifest — Single Source of Truth
-# Updated: 2026-03-15
+# Updated: 2026-03-16
 # Purpose: One file to orient any agent, tool, or human on what's current.
 
 system:
   name: Palette
-  version: "1.0"
+  version: "2.1"
   status: active
   integrity_checks: 8/8
   repository:
@@ -26,7 +26,7 @@ layers:
     version: v1.4
     path: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
     generated: 2026-02-05
-    entries: 136
+    entries: 163
     unit: LIB entry
     status: current
 
@@ -66,13 +66,13 @@ layers:
   lenses:
     version: v0
     path: lenses/releases/v0/
-    entries: 11
+    entries: 13
     unit: role lens
     status: pilot
 
 agents:
   path: agents/
-  count: 10
+  count: 11
   list:
     - { name: resolver,    role: "intent resolver — front door, maps input to RIU" }
     - { name: researcher,  role: "research — internal libraries first, then Perplexity MCP" }
@@ -84,6 +84,18 @@ agents:
     - { name: debugger,    role: "failure diagnosis and minimal repair" }
     - { name: orchestrator, role: "workflow routing" }
     - { name: business-plan-creation, role: "multi-agent business plan workflow" }
+    - { name: health, role: "system integrity checklist and continuous improvement reflection" }
+
+sdk:
+  path: sdk/
+  modules:
+    - { name: agent_base, purpose: "machine enablement engine — base class for all agents" }
+    - { name: integrity_gate, purpose: "pre-emit validation against PIS data" }
+    - { name: graph_query, purpose: "queryable interface to relationship graph" }
+  tests:
+    path: sdk/tests/
+    count: 58
+    run: "uv run pytest -q sdk/tests/"
 
 governance:
   tier_1: core/palette-core.md
@@ -107,6 +119,7 @@ skills:
   - { name: talent, path: skills/talent/, status: WORKING, skills: 2 }
   - { name: education, path: skills/education/, status: WORKING, skills: 1 }
   - { name: travel, path: skills/travel/, status: WORKING, skills: 1 }
+  - { name: enablement, path: skills/enablement/, status: UNVALIDATED, skills: 1 }
 
 ai_tool_config:
   claude_code: CLAUDE.md

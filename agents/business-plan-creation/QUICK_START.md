@@ -1,6 +1,6 @@
 # Business Plan Creation Agent - Quick Start
 
-**Location**: `/home/mical/fde/palette/agents/business-plan-creation/`  
+**Location**: `agents/business-plan-creation/`  
 **Status**: WORKING (Tier 2)
 **Validated**: Rossi Mission (Feb 2026) — 1 successful engagement
 

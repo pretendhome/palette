@@ -72,7 +72,7 @@ Creates comprehensive business plans for small businesses through an 8-phase pro
 ### Step 1: Customer Interview (1-2 hours)
 
 Use the convergence brief template:
-- `/home/mical/fde/outputs/business-plan-agent/business_plan_convergence_template.md`
+- `agents/business-plan-creation/business_plan_convergence_template.md`
 
 **Key Questions**:
 - What do you do? (business description)

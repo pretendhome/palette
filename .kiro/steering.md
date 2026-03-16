@@ -1,7 +1,7 @@
 # Palette — Kiro Steering File
 
 ## Project Identity
-**Palette** is a multi-agent intelligence system that routes AI/ML decisions to the optimal combination of internal knowledge and external services. Built by Mical Neill.
+**Palette** is a multi-agent intelligence system that routes AI/ML decisions to the optimal combination of internal knowledge and external services.
 
 ## Start Here
 1. `MANIFEST.yaml` — all current versions and file paths

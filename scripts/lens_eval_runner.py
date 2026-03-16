@@ -22,7 +22,7 @@ from typing import Any
 import yaml
 
 
-REPO_ROOT = Path("/home/mical/fde")
+REPO_ROOT = Path(os.environ.get("PALETTE_ROOT", os.path.join(os.path.expanduser("~"), "fde", "palette"))).parent
 DEFAULT_FIXTURES = REPO_ROOT / "palette/lenses/fixtures/LENS_EVAL_FIXTURES_v0.yaml"
 DEFAULT_RESULTS_DIR = REPO_ROOT / "palette/lenses/results"
 DEFAULT_SPEC = REPO_ROOT / "palette/lenses/LENS_EVAL_HARNESS_SPEC_2026-02-25.md"

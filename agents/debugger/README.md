@@ -27,7 +27,7 @@ then reach port 19000. The SSH tunnel then targets the bridge IP:19000.
 curl -fsSL https://go.dev/dl/go1.22.5.linux-amd64.tar.gz | tar -C ~/go-sdk -xz
 
 # Build:
-cd /home/mical/fde/palette/agents/debugger
+cd agents/debugger
 ~/go-sdk/go/bin/go build -o debugger .
 ```
 
