@@ -30,11 +30,11 @@ HandoffPacket.payload fields read:
   last_question          question asked in prior turn (for CLI re-invocation)
   max_turns              max clarification rounds before out-of-scope (default: 3)
 
-HandoffResult statuses:
-  complete      → output.refined_packet  (clean HandoffPacket for Orch)
-  clarify       → output.question, output.turn, output.payload_for_next_turn
-  out-of-scope  → output.message, output.guidance
-  error         → blockers[]
+HandoffResult statuses (canonical wire: success | failure | blocked):
+  success  → output.refined_packet  (clean HandoffPacket for Orch)
+  blocked  → output.resolver_status="clarify", output.question
+  failure  → output.resolver_status="out-of-scope", blockers[]
+  failure  → blockers[] (e.g. missing API key)
 """
 from __future__ import annotations
 
@@ -448,8 +448,9 @@ def build_clarify(
     return {
         "packet_id": packet_id,
         "from":      "resolver",
-        "status":    "clarify",
+        "status":    "blocked",
         "output": {
+            "resolver_status": "clarify",
             "question":        question,
             "turn":            turn + 1,
             "max_turns":       max_turns,
@@ -464,9 +465,8 @@ def build_clarify(
                 "last_question":         question,
             },
         },
-        "produced_artifacts": [],
-        "blockers":           [],
-        "timestamp":          _now(),
+        "blockers": ["awaiting clarification from user"],
+        "artifacts": [],
     }
 
 
@@ -494,24 +494,20 @@ def build_complete(
             "clarification_history": clarification_history,
             "resolver_confidence":   confidence,
         },
-        "artifacts":   [],
-        "constraints": [],
-        "timestamp":   _now(),
     }
     return {
         "packet_id": packet_id,
         "from":      "resolver",
-        "status":    "complete",
+        "status":    "success",
         "output": {
             "refined_packet":  refined_packet,
             "riu_id":          riu_id,
             "confidence":      confidence,
             "suggested_agent": refined.get("suggested_agent", ""),
         },
-        "produced_artifacts": [],
-        "blockers":           [],
-        "next_agent":         "orchestrator",
-        "timestamp":          _now(),
+        "artifacts": [],
+        "blockers":  [],
+        "next_agent": "orchestrator",
     }
 
 
@@ -519,8 +515,9 @@ def build_out_of_scope(packet_id: str, reason: str) -> dict:
     return {
         "packet_id": packet_id,
         "from":      "resolver",
-        "status":    "out-of-scope",
+        "status":    "failure",
         "output": {
+            "resolver_status": "out-of-scope",
             "message": reason,
             "guidance": (
                 "This request doesn't clearly match any of Palette's 111 RIUs. "
@@ -528,10 +525,9 @@ def build_out_of_scope(packet_id: str, reason: str) -> dict:
                 "e.g. 'I need to align stakeholders on X' or 'our Y integration is failing'."
             ),
         },
-        "produced_artifacts": [],
-        "blockers":           [],
-        "next_agent":         "human",
-        "timestamp":          _now(),
+        "blockers":  [reason],
+        "artifacts": [],
+        "next_agent": "human",
     }
 
 
@@ -596,12 +592,11 @@ def main() -> int:
         err = {
             "packet_id": packet_id,
             "from":      "resolver",
-            "status":    "error",
+            "status":    "failure",
             "output":    {},
             "blockers":  [
                 "ANTHROPIC_API_KEY not set — Resolver requires Claude for intent resolution"
             ],
-            "timestamp": _now(),
         }
         json.dump(err, sys.stdout, indent=2)
         sys.stdout.write("\n")
@@ -614,13 +609,13 @@ def main() -> int:
         out = {
             "packet_id": packet_id,
             "from":      "resolver",
-            "status":    "dry-run",
+            "status":    "success",
             "output": {
+                "resolver_status": "dry-run",
                 "turn":    turn,
                 "cluster": matched_cluster or "unclassified",
                 "input":   raw_input[:120],
             },
-            "timestamp": _now(),
         }
         json.dump(out, sys.stdout, indent=2)
         sys.stdout.write("\n")

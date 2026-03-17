@@ -1,7 +1,7 @@
 # Palette — FDE Readiness Assessment
 
 **Date**: 2026-03-16
-**Version**: 2.0 (SDK Hardening + Dual Enablement)
+**Version**: 2.2 (Wire Contract Alignment)
 **Scope**: How Palette addresses the 6 core FDE (Foundation-model-powered Development Environment) multi-agent coordination challenges.
 
 ---

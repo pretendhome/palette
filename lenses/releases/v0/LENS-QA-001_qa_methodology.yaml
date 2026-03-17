@@ -1,0 +1,124 @@
+lens_id: LENS-QA-001
+version: 0.1
+status: draft
+name: QA Methodology Lens
+optional: true
+
+origin:
+  type: hybrid
+  palette_basis: Palette lenses v0
+  external_inspiration:
+  - "garrytan/gstack qa skill (MIT license) — diff-aware testing, tiered QA methodology, health scoring, regression comparison"
+  notes: "Translated from gstack's QA lead mode into a Palette decision frame. gstack's QA is browser-automation focused; this lens extracts the methodology (diff-aware scoping, tiered depth, quantified health) independent of tooling."
+
+critical_question:
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: "It helps Palette scope testing based on what actually changed, choose the right depth of testing for the situation, and produce quantified quality assessments with regression tracking over time."
+
+when_to_use:
+  signals:
+  - pre-merge validation needed
+  - feature branch ready for QA
+  - deployment verification
+  - quality regression suspected
+  - uncertainty about what to test
+  not_for:
+  - test implementation (use LENS-DEV-001)
+  - architecture review (use LENS-ENG-001)
+  - production incident debugging (use Debugger agent)
+  - security audit (use LENS-REVIEW-001 trust boundary section)
+  user_intents:
+  - "What do I need to test given what changed?"
+  - "Is this safe to deploy?"
+  - "How thorough should testing be here?"
+  - "Did quality improve or regress since last release?"
+
+palette_fit:
+  primary_rius:
+  - RIU-062
+  - RIU-001
+  supporting_rius:
+  - RIU-014
+  primary_agents:
+  - validator
+  - monitor
+  supporting_agents:
+  - debugger
+  - builder
+  library_links:
+  - Prefer LIB entries covering testing strategy, validation methodology, and operational verification.
+  company_matrix_use:
+  - Use company context to calibrate QA depth — regulated industries need exhaustive, internal tools can use quick.
+
+output_contract:
+  required_sections:
+  - Change scope analysis (what changed → what's affected → what to test)
+  - Tier selection with rationale (quick / standard / exhaustive)
+  - Test plan (ordered by risk, with expected outcomes)
+  - Health score (quantified 0-100 with category breakdown)
+  - Regression delta (vs baseline if available — what improved, what regressed, what's new)
+  forbidden_patterns:
+  - testing everything with equal depth regardless of change scope
+  - test plan without connection to actual changes
+  - qualitative-only assessment ("looks good") without quantified score
+  - skipping regression comparison when baseline exists
+  - testing only happy paths
+
+quality_checks:
+- Change scope traces from diff to affected components to test targets.
+- Tier selection is justified by risk level, not habit.
+- Test plan covers happy path, failure path, and at least one edge case per affected component.
+- Health score has reproducible methodology (not subjective).
+- Regression delta identifies specific improvements and regressions, not just "better/worse."
+- At least one interaction edge case is tested (double-submit, navigate-away, stale state).
+
+interaction_style:
+  default_answer_shape:
+  - change_scope_analysis
+  - tier_selection
+  - test_plan
+  - health_score
+  - regression_delta
+  presentation_rules:
+  - Start from the diff, not from a generic test plan.
+  - State the tier and why before listing tests.
+  - Quantify everything possible — scores, counts, deltas.
+  - Flag any untestable component and explain why.
+
+tier_definitions:
+  quick:
+    depth: Smoke test — does it load, are there errors?
+    duration: Under 2 minutes
+    when: Low-risk changes, config updates, documentation
+    covers: Core paths only, console errors, basic assertions
+  standard:
+    depth: Affected routes and adjacent components
+    duration: 5-15 minutes
+    when: Feature branches, most PRs, routine changes
+    covers: Happy + failure paths for changed components, regression on adjacent
+  exhaustive:
+    depth: Full application coverage
+    duration: 30-60 minutes
+    when: Major releases, security changes, data model changes, regulated deployments
+    covers: All routes, all interaction edge cases, performance, accessibility
+
+prompt_pack_alignment:
+  closest_role_pack: gstack qa
+  role_pack_translation:
+  - Diff-aware scoping preserved — always start from what changed.
+  - Three-tier methodology (quick/standard/exhaustive) preserved with clear selection criteria.
+  - Health scoring concept preserved — quantified, reproducible, trackable.
+  - Regression comparison preserved — baseline vs current with specific deltas.
+  - Browser automation specifics removed — methodology is tooling-independent.
+
+evaluation_plan:
+  compare_against_no_lens:
+  - escaped_defect_rate
+  - test_relevance_score (% of tests that exercise changed code)
+  - qa_cycle_time
+  - regression_detection_speed
+  minimum_sample_size: 20
+  kill_if:
+  - No reduction in escaped defects.
+  - QA cycle time increases >40% without quality improvement.
+  - Users consistently override tier selection.

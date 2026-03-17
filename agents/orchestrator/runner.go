@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os/exec"
 	"strings"
-	"time"
 
 	core "github.com/pretendhome/palette/core"
 )
@@ -190,10 +189,9 @@ func (r DryRunner) Invoke(
 		Output:   fmt.Sprintf("[dry-run] would invoke:\n  %s", invocation),
 		ExitCode: 0,
 		Result: core.HandoffResult{
-			PacketID:  pkt.ID,
-			From:      pkt.To,
-			Status:    core.StatusComplete,
-			Timestamp: time.Now(),
+			PacketID: pkt.ID,
+			From:     pkt.To,
+			Status:   core.StatusSuccess,
 		},
 	}
 }
@@ -201,25 +199,23 @@ func (r DryRunner) Invoke(
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 func inferResult(pkt core.HandoffPacket, exitCode int) core.HandoffResult {
-	status := core.StatusComplete
+	status := core.StatusSuccess
 	if exitCode != 0 {
 		status = core.StatusBlocked
 	}
 	return core.HandoffResult{
-		PacketID:  pkt.ID,
-		From:      pkt.To,
-		Status:    status,
-		Timestamp: time.Now(),
+		PacketID: pkt.ID,
+		From:     pkt.To,
+		Status:   status,
 	}
 }
 
 func blockedResult(pkt core.HandoffPacket, reason string) core.HandoffResult {
 	return core.HandoffResult{
-		PacketID:  pkt.ID,
-		From:      pkt.To,
-		Status:    core.StatusBlocked,
-		Blockers:  []string{reason},
-		Timestamp: time.Now(),
+		PacketID: pkt.ID,
+		From:     pkt.To,
+		Status:   core.StatusBlocked,
+		Blockers: []string{reason},
 	}
 }
 

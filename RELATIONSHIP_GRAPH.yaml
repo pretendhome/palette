@@ -11820,8 +11820,130 @@ quads:
     object: system integrity checklist and continuous improvement reflection
     meta:
       source: MANIFEST.yaml
+  # V2.2 ontology fix: add missing agent relationships (Finding 5)
+  - id: Q-1845
+    subject: Resolver
+    predicate: has_role
+    object: intent resolver — maps raw user input to RIU, front door of Palette
+    meta:
+      source: agents/resolver/agent.json
+  - id: Q-1846
+    subject: Resolver
+    predicate: routes_to
+    object: Orchestrator
+    meta:
+      source: agents/resolver/resolver.py
+  - id: Q-1847
+    subject: business-plan-creation
+    predicate: has_role
+    object: multi-agent business plan workflow — orchestrates Researcher, Architect, Narrator, Validator
+    meta:
+      source: agents/business-plan-creation/agent.json
+  - id: Q-1848
+    subject: business-plan-creation
+    predicate: uses_agent
+    object: Researcher
+    meta:
+      source: agents/business-plan-creation/agent.json
+  - id: Q-1849
+    subject: business-plan-creation
+    predicate: uses_agent
+    object: Architect
+    meta:
+      source: agents/business-plan-creation/agent.json
+  - id: Q-1850
+    subject: business-plan-creation
+    predicate: uses_agent
+    object: Narrator
+    meta:
+      source: agents/business-plan-creation/agent.json
+  - id: Q-1851
+    subject: business-plan-creation
+    predicate: uses_agent
+    object: Validator
+    meta:
+      source: agents/business-plan-creation/agent.json
+  - id: Q-1852
+    subject: Health
+    predicate: monitors
+    object: system integrity across all Palette layers
+    meta:
+      source: agents/health/agent.json
+  # gstack lens integration — new lens relationships
+  - id: Q-1853
+    subject: LENS-CEO-001
+    predicate: applies_to
+    object: RIU-001
+    meta:
+      source: lenses/releases/v0/LENS-CEO-001_product_vision.yaml
+  - id: Q-1854
+    subject: LENS-CEO-001
+    predicate: applies_to
+    object: RIU-002
+    meta:
+      source: lenses/releases/v0/LENS-CEO-001_product_vision.yaml
+  - id: Q-1855
+    subject: LENS-CEO-001
+    predicate: uses_agent
+    object: Architect
+    meta:
+      source: lenses/releases/v0/LENS-CEO-001_product_vision.yaml
+  - id: Q-1856
+    subject: LENS-CEO-001
+    predicate: uses_agent
+    object: Researcher
+    meta:
+      source: lenses/releases/v0/LENS-CEO-001_product_vision.yaml
+  - id: Q-1857
+    subject: LENS-REVIEW-001
+    predicate: applies_to
+    object: RIU-062
+    meta:
+      source: lenses/releases/v0/LENS-REVIEW-001_code_review.yaml
+  - id: Q-1858
+    subject: LENS-REVIEW-001
+    predicate: applies_to
+    object: RIU-001
+    meta:
+      source: lenses/releases/v0/LENS-REVIEW-001_code_review.yaml
+  - id: Q-1859
+    subject: LENS-REVIEW-001
+    predicate: uses_agent
+    object: Validator
+    meta:
+      source: lenses/releases/v0/LENS-REVIEW-001_code_review.yaml
+  - id: Q-1860
+    subject: LENS-REVIEW-001
+    predicate: uses_agent
+    object: Debugger
+    meta:
+      source: lenses/releases/v0/LENS-REVIEW-001_code_review.yaml
+  - id: Q-1861
+    subject: LENS-QA-001
+    predicate: applies_to
+    object: RIU-062
+    meta:
+      source: lenses/releases/v0/LENS-QA-001_qa_methodology.yaml
+  - id: Q-1862
+    subject: LENS-QA-001
+    predicate: applies_to
+    object: RIU-001
+    meta:
+      source: lenses/releases/v0/LENS-QA-001_qa_methodology.yaml
+  - id: Q-1863
+    subject: LENS-QA-001
+    predicate: uses_agent
+    object: Validator
+    meta:
+      source: lenses/releases/v0/LENS-QA-001_qa_methodology.yaml
+  - id: Q-1864
+    subject: LENS-QA-001
+    predicate: uses_agent
+    object: Monitor
+    meta:
+      source: lenses/releases/v0/LENS-QA-001_qa_methodology.yaml
 summary:
-  total_quads: 1844
+  total_quads: 1864
   generated: '2026-03-16 15:28:54'
   source_files:
     - taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml

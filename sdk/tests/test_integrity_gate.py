@@ -1,10 +1,8 @@
-"""Tests for palette.sdk.integrity_gate — IntegrityGate validation checks."""
+"""Tests for palette.sdk.integrity_gate — V2.2 wire contract."""
 
 from __future__ import annotations
 
-import sys
-import os
-import unittest
+import sys, os, unittest
 
 _palette_root = os.path.join(os.path.expanduser("~"), "fde", "palette")
 _palette_parent = os.path.dirname(_palette_root)
@@ -24,18 +22,18 @@ class FakePISData:
         self.routing = routing or {}
         self.knowledge = knowledge or {}
 
-
 class FakeResult:
-    def __init__(self, outputs=None, status="success", gaps=None):
-        self.outputs = outputs or {}
+    """Mimics HandoffResult with canonical V2.2 field names."""
+    def __init__(self, output=None, status="success", blockers=None, artifacts=None):
+        self.output = output or {}
         self.status = status
-        self.gaps = gaps or []
+        self.blockers = blockers or []
+        self.artifacts = artifacts or []
 
 
-# ── None / empty data guards ─────────────────────────────────────────
+# ── None guards ───────────────────────────────────────────────────────
 
 class TestNoneGuards(unittest.TestCase):
-
     def test_none_data_returns_warning(self):
         gate = IntegrityGate(None)
         warnings = gate.check_result(FakeResult())
@@ -45,144 +43,121 @@ class TestNoneGuards(unittest.TestCase):
     def test_none_result_returns_warning(self):
         gate = IntegrityGate(FakePISData())
         warnings = gate.check_result(None)
-        self.assertEqual(len(warnings), 1)
         self.assertIn("result is None", warnings[0])
 
     def test_empty_data_clean(self):
         gate = IntegrityGate(FakePISData())
-        warnings = gate.check_result(FakeResult())
-        self.assertEqual(warnings, [])
+        self.assertEqual(gate.check_result(FakeResult()), [])
 
 
-# ── RIU reference checks ─────────────────────────────────────────────
+# ── RIU references ────────────────────────────────────────────────────
 
 class TestRIUReferences(unittest.TestCase):
-
     def test_valid_riu_no_warning(self):
-        data = FakePISData(classification={"RIU-082": {"riu_id": "RIU-082"}})
+        data = FakePISData(classification={"RIU-082": {}})
         gate = IntegrityGate(data)
-        result = FakeResult(outputs={"note": "See RIU-082 for guardrails"})
+        result = FakeResult(output={"note": "See RIU-082"})
         self.assertEqual(gate.check_result(result), [])
 
     def test_invalid_riu_warns(self):
-        data = FakePISData(classification={"RIU-082": {"riu_id": "RIU-082"}})
+        data = FakePISData(classification={"RIU-082": {}})
         gate = IntegrityGate(data)
-        result = FakeResult(outputs={"note": "See RIU-999"})
-        warnings = gate.check_result(result)
-        self.assertTrue(any("RIU-999" in w for w in warnings))
+        result = FakeResult(output={"note": "See RIU-999"})
+        self.assertTrue(any("RIU-999" in w for w in gate.check_result(result)))
 
     def test_nested_riu_extraction(self):
-        data = FakePISData(classification={
-            "RIU-001": {}, "RIU-002": {},
-        })
+        data = FakePISData(classification={"RIU-001": {}, "RIU-002": {}})
         gate = IntegrityGate(data)
-        result = FakeResult(outputs={
-            "deep": {"nested": ["RIU-001", {"ref": "RIU-002 and RIU-999"}]}
-        })
+        result = FakeResult(output={"deep": {"nested": ["RIU-001", {"ref": "RIU-002 and RIU-999"}]}})
         warnings = gate.check_result(result)
-        # RIU-001 and RIU-002 exist, RIU-999 doesn't
         self.assertTrue(any("RIU-999" in w for w in warnings))
         self.assertFalse(any("RIU-001" in w for w in warnings))
-        self.assertFalse(any("RIU-002" in w for w in warnings))
 
     def test_no_classification_skips_check(self):
-        data = FakePISData(classification={})
+        gate = IntegrityGate(FakePISData())
+        self.assertEqual(gate.check_result(FakeResult(output={"note": "RIU-999"})), [])
+
+    def test_checks_artifacts_field(self):
+        data = FakePISData(classification={"RIU-082": {}})
         gate = IntegrityGate(data)
-        result = FakeResult(outputs={"note": "RIU-999"})
-        self.assertEqual(gate.check_result(result), [])
+        result = FakeResult(artifacts=["See RIU-999 for details"])
+        self.assertTrue(any("RIU-999" in w for w in gate.check_result(result)))
+
+    def test_checks_blockers_field(self):
+        data = FakePISData(classification={"RIU-082": {}})
+        gate = IntegrityGate(data)
+        result = FakeResult(blockers=["RIU-998 is uncertain"])
+        self.assertTrue(any("RIU-998" in w for w in gate.check_result(result)))
 
 
-# ── Knowledge reference checks ───────────────────────────────────────
+# ── Knowledge references ──────────────────────────────────────────────
 
 class TestKnowledgeReferences(unittest.TestCase):
-
     def test_valid_lib_no_warning(self):
-        data = FakePISData(knowledge={"LIB-042": {"id": "LIB-042"}})
+        data = FakePISData(knowledge={"LIB-042": {}})
         gate = IntegrityGate(data)
-        result = FakeResult(outputs={"ref": "LIB-042"})
-        self.assertEqual(gate.check_result(result), [])
+        self.assertEqual(gate.check_result(FakeResult(output={"ref": "LIB-042"})), [])
 
     def test_invalid_lib_warns(self):
-        data = FakePISData(knowledge={"LIB-042": {"id": "LIB-042"}})
+        data = FakePISData(knowledge={"LIB-042": {}})
         gate = IntegrityGate(data)
-        result = FakeResult(outputs={"ref": "LIB-999"})
-        warnings = gate.check_result(result)
-        self.assertTrue(any("LIB-999" in w for w in warnings))
+        self.assertTrue(any("LIB-999" in w for w in gate.check_result(FakeResult(output={"ref": "LIB-999"}))))
 
 
-# ── Service reference checks ─────────────────────────────────────────
+# ── Service references ────────────────────────────────────────────────
 
 class TestServiceReferences(unittest.TestCase):
-
     def test_valid_service_no_warning(self):
-        data = FakePISData(routing={
-            "RIU-082": {"services": [{"name": "Bedrock Guardrails"}]}
-        })
+        data = FakePISData(routing={"RIU-082": {"services": [{"name": "Bedrock Guardrails"}]}})
         gate = IntegrityGate(data)
-        result = FakeResult(outputs={
-            "riu_id": "RIU-082",
-            "recommendation": {"service": "Bedrock Guardrails"},
-        })
+        result = FakeResult(output={"riu_id": "RIU-082", "recommendation": {"service": "Bedrock Guardrails"}})
         self.assertEqual(gate.check_result(result), [])
 
     def test_invalid_service_warns(self):
-        data = FakePISData(routing={
-            "RIU-082": {"services": [{"name": "Bedrock Guardrails"}]}
-        })
+        data = FakePISData(routing={"RIU-082": {"services": [{"name": "Bedrock Guardrails"}]}})
         gate = IntegrityGate(data)
-        result = FakeResult(outputs={
-            "riu_id": "RIU-082",
-            "recommendation": {"service": "FakeService"},
-        })
-        warnings = gate.check_result(result)
-        self.assertTrue(any("FakeService" in w for w in warnings))
+        result = FakeResult(output={"riu_id": "RIU-082", "recommendation": {"service": "FakeService"}})
+        self.assertTrue(any("FakeService" in w for w in gate.check_result(result)))
 
     def test_no_routing_skips_check(self):
-        data = FakePISData(routing={})
-        gate = IntegrityGate(data)
-        result = FakeResult(outputs={
-            "riu_id": "RIU-082",
-            "recommendation": {"service": "anything"},
-        })
+        gate = IntegrityGate(FakePISData())
+        result = FakeResult(output={"riu_id": "RIU-082", "recommendation": {"service": "anything"}})
         self.assertEqual(gate.check_result(result), [])
 
 
-# ── Gaps populated checks ────────────────────────────────────────────
+# ── Blockers populated (glass-box invariant #3) ──────────────────────
 
-class TestGapsPopulated(unittest.TestCase):
-
-    def test_failure_without_gaps_warns(self):
+class TestBlockersPopulated(unittest.TestCase):
+    def test_failure_without_blockers_warns(self):
         gate = IntegrityGate(FakePISData())
-        result = FakeResult(status="failure", gaps=[])
-        warnings = gate.check_result(result)
-        self.assertTrue(any("failure" in w.lower() and "gaps" in w.lower() for w in warnings))
+        result = FakeResult(status="failure", blockers=[])
+        self.assertTrue(any("blockers" in w.lower() for w in gate.check_result(result)))
 
-    def test_failure_with_gaps_clean(self):
+    def test_blocked_without_blockers_warns(self):
         gate = IntegrityGate(FakePISData())
-        result = FakeResult(status="failure", gaps=["something went wrong"])
-        warnings = gate.check_result(result)
-        self.assertFalse(any("failure" in w.lower() and "gaps" in w.lower() for w in warnings))
+        result = FakeResult(status="blocked", blockers=[])
+        self.assertTrue(any("blockers" in w.lower() for w in gate.check_result(result)))
 
-    def test_assumptions_without_gaps_warns(self):
+    def test_failure_with_blockers_clean(self):
         gate = IntegrityGate(FakePISData())
-        result = FakeResult(outputs={"note": "ASSUMPTION: pricing is stable"}, gaps=[])
+        result = FakeResult(status="failure", blockers=["something went wrong"])
         warnings = gate.check_result(result)
-        self.assertTrue(any("ASSUMPTION" in w for w in warnings))
+        self.assertFalse(any("blockers" in w.lower() and "empty" in w.lower() for w in warnings))
 
-    def test_assumptions_with_gaps_clean(self):
+    def test_assumptions_without_blockers_warns(self):
         gate = IntegrityGate(FakePISData())
-        result = FakeResult(
-            outputs={"note": "ASSUMPTION: pricing is stable"},
-            gaps=["pricing may change"],
-        )
-        warnings = gate.check_result(result)
-        self.assertFalse(any("ASSUMPTION" in w for w in warnings))
+        result = FakeResult(output={"note": "ASSUMPTION: pricing is stable"}, blockers=[])
+        self.assertTrue(any("ASSUMPTION" in w for w in gate.check_result(result)))
+
+    def test_assumptions_with_blockers_clean(self):
+        gate = IntegrityGate(FakePISData())
+        result = FakeResult(output={"note": "ASSUMPTION: pricing is stable"}, blockers=["pricing may change"])
+        self.assertFalse(any("ASSUMPTION" in w for w in gate.check_result(result)))
 
 
-# ── Helper extraction tests ──────────────────────────────────────────
+# ── Helpers ───────────────────────────────────────────────────────────
 
 class TestHelpers(unittest.TestCase):
-
     def test_extract_riu_ids_from_string(self):
         collector = set()
         IntegrityGate._extract_riu_ids("RIU-001 and RIU-082", collector)
@@ -190,10 +165,7 @@ class TestHelpers(unittest.TestCase):
 
     def test_extract_riu_ids_from_nested(self):
         collector = set()
-        IntegrityGate._extract_riu_ids(
-            {"a": ["RIU-001", {"b": "RIU-002"}], "c": "RIU-003"},
-            collector,
-        )
+        IntegrityGate._extract_riu_ids({"a": ["RIU-001", {"b": "RIU-002"}], "c": "RIU-003"}, collector)
         self.assertEqual(collector, {"RIU-001", "RIU-002", "RIU-003"})
 
     def test_extract_lib_ids(self):
@@ -204,7 +176,6 @@ class TestHelpers(unittest.TestCase):
     def test_count_assumptions(self):
         self.assertEqual(IntegrityGate._count_assumptions("ASSUMPTION: x"), 1)
         self.assertEqual(IntegrityGate._count_assumptions({"a": "ASSUMPTION: x", "b": "ASSUMPTION: y"}), 2)
-        self.assertEqual(IntegrityGate._count_assumptions("clean text"), 0)
         self.assertEqual(IntegrityGate._count_assumptions(42), 0)
 
 

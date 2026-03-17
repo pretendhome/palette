@@ -4,7 +4,6 @@ import (
 	"crypto/rand"
 	"fmt"
 	"sync"
-	"time"
 
 	core "github.com/pretendhome/palette/core"
 )
@@ -84,19 +83,18 @@ func buildPacket(task Task, agentID core.AgentID, cfg Config) core.HandoffPacket
 		From:    core.AgentOrchestrator,
 		To:      agentID,
 		Task:    task.Description,
-		Constraints: []string{
-			"stay within your defined scope",
-			"report status and blockers in HandoffResult",
-			"flag ONE-WAY DOOR actions before executing",
-		},
 		Payload: map[string]any{
 			"remote":      cfg.Remote,
 			"container":   cfg.Container,
 			"adapter_url": cfg.AdapterURL,
 			"tunnel_port": cfg.TunnelPort,
 			"bridge_port": cfg.BridgePort,
+			"constraints": []string{
+				"stay within your defined scope",
+				"report status and blockers in HandoffResult",
+				"flag ONE-WAY DOOR actions before executing",
+			},
 		},
-		Timestamp: time.Now(),
 	}
 }
 

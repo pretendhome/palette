@@ -5,7 +5,7 @@
 # Priority: MEDIUM — premium AI video generation, API available
 # Note: GAP-002 — No RIU for AI video generation model selection. Propose RIU-504.
 
-service_name: "Runway"
+service_name: "Runway (Aleph model)"
 company: "Runway AI, Inc."
 company_url: "https://runwayml.com"
 api_url: "https://api.dev.runwayml.com/v1"

@@ -38,19 +38,18 @@ func toPacket(sig MetricSignal, cfg Config) core.HandoffPacket {
 		To:      sig.RouteTo,
 		Task: fmt.Sprintf("SIGNAL DETECTED [%s] %s — %s",
 			sig.Status, sig.Name, sig.Detail),
-		Constraints: []string{
-			"diagnose root cause only",
-			"do not expand scope",
-			"report fix mode back to orchestrator",
-		},
 		Payload: map[string]any{
 			"metric":   sig.Name,
 			"status":   sig.Status.String(),
 			"value":    sig.Value,
 			"baseline": sig.Baseline,
 			"detail":   sig.Detail,
+			"constraints": []string{
+				"diagnose root cause only",
+				"do not expand scope",
+				"report fix mode back to orchestrator",
+			},
 		},
-		Timestamp: time.Now(),
 	}
 }
 

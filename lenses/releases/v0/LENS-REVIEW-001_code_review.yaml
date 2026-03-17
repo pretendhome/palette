@@ -1,0 +1,106 @@
+lens_id: LENS-REVIEW-001
+version: 0.1
+status: draft
+name: Code Review Lens
+optional: true
+
+origin:
+  type: hybrid
+  palette_basis: Palette lenses v0
+  external_inspiration:
+  - "garrytan/gstack review skill (MIT license) — paranoid staff engineer mode, error/rescue mapping, trust boundary analysis"
+  notes: "Translated from gstack's paranoid review mode into a Palette decision frame. Focuses on the class of bugs that survive CI but break in production. Complements Validator (data integrity) and Debugger (failure isolation) with structured pre-ship review methodology."
+
+critical_question:
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: "It helps Palette find bugs that pass tests but break in production — race conditions, trust boundary violations, silent data corruption, missing error handling. It produces a structured error/rescue registry and failure modes map before code ships."
+
+when_to_use:
+  signals:
+  - pre-merge code review
+  - new integration points or external API calls
+  - changes to auth, payment, or data mutation paths
+  - tests pass but confidence is low
+  - post-incident review of what the review should have caught
+  not_for:
+  - style or formatting reviews
+  - architecture decisions (use Architect agent or LENS-ENG-001)
+  - implementation planning (use LENS-DEV-001)
+  - runtime debugging (use Debugger agent)
+  user_intents:
+  - "What can still break after CI passes?"
+  - "Review this for production safety"
+  - "What error paths am I missing?"
+  - "Is this safe to ship?"
+
+palette_fit:
+  primary_rius:
+  - RIU-062
+  - RIU-001
+  supporting_rius:
+  - RIU-014
+  primary_agents:
+  - validator
+  - debugger
+  supporting_agents:
+  - architect
+  - monitor
+  library_links:
+  - Prefer LIB entries covering reliability, failure handling, error recovery, and trust boundaries.
+  company_matrix_use:
+  - Use company patterns to identify industry-specific failure modes (e.g., financial double-debit, healthcare data leaks).
+
+output_contract:
+  required_sections:
+  - Error/rescue registry (method → exception → rescued? → rescue action → user sees)
+  - Trust boundary map (who can call what, with what data, at what privilege level)
+  - Shadow path analysis (nil / empty / error path for every new data flow)
+  - Failure modes registry (codepath → failure → rescued? → tested? → user sees? → logged?)
+  - Critical gaps (any row where rescued=N AND tested=N AND user sees=silent)
+  forbidden_patterns:
+  - generic error handling without naming specific exception classes
+  - rescue/catch-all without specific rescue actions
+  - reviewing style instead of safety
+  - approving without tracing shadow paths
+  - missing the "what happens under concurrency" question
+
+quality_checks:
+- Every new method that can fail has a row in the error/rescue registry.
+- Every rescued error either retries, degrades gracefully, or re-raises with context.
+- Shadow paths (nil, empty, error) are traced for every new data flow.
+- Trust boundaries are explicit — who can call it, what they get, what they can change.
+- Concurrency edge cases are addressed (double-submit, race conditions, stale reads).
+- Critical gaps (unrescued + untested + silent) are flagged with specific fix recommendations.
+- At least one "production incident scenario" is described for each new integration point.
+
+interaction_style:
+  default_answer_shape:
+  - error_rescue_registry
+  - trust_boundary_map
+  - shadow_path_analysis
+  - failure_modes_registry
+  - critical_gaps_and_fixes
+  presentation_rules:
+  - Use tables for error/rescue and failure modes — scannable, not prose.
+  - Name specific exception classes, not generic "error handling."
+  - For each critical gap, provide the specific fix, not just the finding.
+  - Imagine the production incident before it happens.
+
+prompt_pack_alignment:
+  closest_role_pack: gstack review
+  role_pack_translation:
+  - Error/rescue map table format preserved directly — highest-value pattern.
+  - Trust boundary analysis becomes explicit output section.
+  - Shadow path tracing (nil/empty/error) becomes required for every data flow.
+  - What-can-still-break framing becomes the lens core question.
+
+evaluation_plan:
+  compare_against_no_lens:
+  - post_ship_incident_rate
+  - unhandled_exception_rate
+  - silent_failure_discovery_time
+  - review_thoroughness_score
+  minimum_sample_size: 20
+  kill_if:
+  - No measurable reduction in post-ship incidents.
+  - Review time increases >50% without quality improvement.

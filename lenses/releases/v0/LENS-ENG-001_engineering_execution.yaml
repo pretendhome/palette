@@ -55,10 +55,14 @@ output_contract:
   - Rollback or recovery path
   - Operational checks
   - Decision gates / stop points
+  - Temporal interrogation (Hour 1 foundations / 2-3 core logic / 4-5 integration / 6+ polish — what decisions must be resolved now?)
+  - Required diagrams (architecture, data flow with shadow paths, state machine, deployment sequence — as applicable)
   forbidden_patterns:
   - architecture drift during build
   - untestable acceptance criteria
   - no rollback for risky changes
+  - data flows without shadow path analysis (nil, empty, error)
+  - non-trivial flows without diagrams
 quality_checks:
 - Each slice is independently verifiable.
 - Dependencies are explicit and ordered.
@@ -66,6 +70,8 @@ quality_checks:
 - Risky steps include rollback or containment.
 - Release/readiness gates are explicit for risky changes.
 - Assumptions and unknowns are surfaced before execution starts.
+- Every new data flow has four paths traced (happy, nil, empty, error).
+- Temporal interrogation surfaces implementation decisions that should be resolved before coding starts.
 interaction_style:
   default_answer_shape:
   - scope_boundary

@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 """
-gap_bridge.py — Gap Interview Practice × Telegram Bridge
-Practice with Bert Reuler III (Sr. Director, Innovation, Office of AI) from your phone.
+gap_bridge.py — Interview Practice × Telegram Bridge
+Practice interview sessions with a configurable interviewer persona from your phone.
 
 Setup:
   1. Uses the same @palette_bot on Telegram
   2. export TELEGRAM_BOT_TOKEN="your-token"
   3. export ANTHROPIC_API_KEY="your-key"
-  4. python3 gap_bridge.py
+  4. export INTERVIEWER_NAME="Interviewer Name"
+  5. export INTERVIEWER_TITLE="Sr. Director, Innovation"
+  6. python3 gap_bridge.py
 
 Commands:
   /start           — welcome + help
-  /interview bert  — become Bert Reuler III (director-level, strategy + execution)
-  /interview quick — quick-fire: Bert asks 5 rapid questions, scores each
+  /interview bert  — director-level interview (strategy + execution)
+  /interview quick — quick-fire: 5 rapid questions, scored immediately
   /feedback        — get honest feedback on your last answer
   /saveanswer      — star and save your last answer verbatim
   /cheatsheet      — pull a summary of best answers so far
@@ -38,15 +40,17 @@ ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 POLL_TIMEOUT = 30
 MAX_HISTORY  = 20
 
-SESSION_LOG  = '/home/mical/fde/implementations/talent/talent-gap-interview/live_session.jsonl'
-CHEATSHEET   = '/home/mical/fde/implementations/talent/talent-gap-interview/cheetsheet.txt'
+INTERVIEWER_NAME  = os.environ.get("INTERVIEWER_NAME", "Interviewer")
+INTERVIEWER_TITLE = os.environ.get("INTERVIEWER_TITLE", "Sr. Director, Innovation")
+SESSION_LOG  = os.environ.get("GAP_SESSION_LOG", "live_session.jsonl")
+CHEATSHEET   = os.environ.get("GAP_CHEATSHEET", "cheatsheet.txt")
 
 TELEGRAM = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
 # ── Strategy doc (loaded at startup) ─────────────────────────────────────────
 
 STRATEGY_DOC = ""
-_strategy_path = '/home/mical/fde/implementations/talent/talent-gap-interview/gap_AI_STRATEGY_DOC.md'
+_strategy_path = os.environ.get("GAP_STRATEGY_DOC_PATH", "gap_AI_STRATEGY_DOC.md")
 try:
     with open(_strategy_path) as f:
         STRATEGY_DOC = f.read()
@@ -54,7 +58,7 @@ except Exception as e:
     print(f"[warn] could not load strategy doc: {e}", flush=True)
 
 CHEATSHEET_DOC = ""
-_cheatsheet_path = '/home/mical/fde/implementations/talent/talent-gap-interview/gap_INTERVIEW_CHEAT_SHEET.md'
+_cheatsheet_path = os.environ.get("GAP_CHEATSHEET_DOC_PATH", "gap_INTERVIEW_CHEAT_SHEET.md")
 try:
     with open(_cheatsheet_path) as f:
         CHEATSHEET_DOC = f.read()
@@ -63,11 +67,11 @@ except Exception as e:
 
 # ── Interviewer profiles ──────────────────────────────────────────────────────
 
-BERT_SYSTEM = f"""You are Bert Reuler III, Sr. Director of Innovation at Gap Inc.'s Office of AI, \
+BERT_SYSTEM = f"""You are {INTERVIEWER_NAME}, {INTERVIEWER_TITLE} at Gap Inc.'s Office of AI, \
 conducting a director-level interview for a senior AI strategy role.
 
 YOUR BACKGROUND:
-- Sr. Director of Innovation, Office of AI at Gap Inc.
+- {INTERVIEWER_TITLE}, Office of AI at Gap Inc.
 - You report to Gap's CTO Sven Gerjets
 - You helped establish the Office of AI in 2024 under CEO Richard Dickson
 - Your focus: practical AI deployment, enterprise-scale orchestration, human-centered enablement
@@ -142,7 +146,7 @@ This is a director-level conversation, not a recruiter screen. \
 Ask your first question naturally. React to their answers with genuine follow-ups. \
 Push for specifics when answers are abstract. Pull them back to Gap's reality when they drift."""
 
-BERT_QUICK_SYSTEM = f"""You are Bert Reuler III, Sr. Director of Innovation at Gap Inc.'s Office of AI. \
+BERT_QUICK_SYSTEM = f"""You are {INTERVIEWER_NAME}, {INTERVIEWER_TITLE} at Gap Inc.'s Office of AI. \
 You're running a rapid-fire round: 5 tough questions, each scored immediately.
 
 GAP CONTEXT: FY2024 $15.1B revenue, 41.3% margin, ~3,500 stores, ~80K employees, \
@@ -179,7 +183,7 @@ ASSISTANT_SYSTEM = f"""You are Palette, a multi-agent AI system and personal ass
 You're running as a Telegram bridge — the user is talking to you from their phone.
 
 Be conversational, direct, and useful. You have full context on:
-- The Gap Inc. AI strategy role the user is interviewing for with Bert Reuler III
+- The Gap Inc. AI strategy role the user is interviewing for with {INTERVIEWER_NAME}
 - The user's Kaizen-based AI improvement cycle strategy for Gap
 - The user's background: 11 years at Amazon/AWS, built Palette, taxonomy/KM expert
 
@@ -198,7 +202,7 @@ THE USER'S KEY STORIES:
 - Diagnostics: research agent using gradient descent + game theory against internal data
 
 Available interview modes:
-  /interview bert  — Bert Reuler III, director-level (strategy + execution)
+  /interview bert  — director-level interview (strategy + execution)
   /interview quick — Rapid-fire: 5 questions, scored immediately
   /feedback        — coaching on your last answer
   /saveanswer      — save last answer to cheat sheet
@@ -299,8 +303,8 @@ class ChatState:
         return ASSISTANT_SYSTEM
 
     def mode_label(self) -> str:
-        if self.mode == "interview_bert":  return "🏢 Bert Reuler III (Sr. Director, Office of AI)"
-        if self.mode == "interview_quick": return "⚡ Bert Reuler III (Rapid Fire)"
+        if self.mode == "interview_bert":  return f"🏢 {INTERVIEWER_NAME} ({INTERVIEWER_TITLE})"
+        if self.mode == "interview_quick": return f"⚡ {INTERVIEWER_NAME} (Rapid Fire)"
         return "🎨 Palette Assistant (Gap Prep)"
 
 
@@ -391,7 +395,7 @@ def reply(state: ChatState, user_message: str) -> str:
 
 
 def get_feedback(state: ChatState, last_answer: str) -> str:
-    interviewer = "Bert Reuler III"
+    interviewer = INTERVIEWER_NAME
     prompt = (
         f"Step out of character for a moment. As {interviewer}, give honest, specific, "
         f"constructive feedback on this answer the candidate just gave:\n\n"
@@ -416,9 +420,9 @@ def get_feedback(state: ChatState, last_answer: str) -> str:
 def cmd_start(chat_id: int) -> None:
     send(chat_id,
         "🏢 *Gap Interview Prep is live.*\n\n"
-        "Practicing for Bert Reuler III, Sr. Director, Office of AI.\n\n"
+        f"Practicing for {INTERVIEWER_NAME}, {INTERVIEWER_TITLE}.\n\n"
         "*Interview modes:*\n"
-        "`/interview bert` — Full director-level interview (30 min)\n"
+        f"`/interview bert` — Full director-level interview with {INTERVIEWER_NAME} (30 min)\n"
         "`/interview quick` — Rapid fire: 5 questions, scored immediately\n\n"
         "*During the interview:*\n"
         "`/feedback` — honest feedback on your last answer\n"
@@ -434,7 +438,7 @@ def cmd_start(chat_id: int) -> None:
 def cmd_help(chat_id: int, state: ChatState) -> None:
     send(chat_id,
         f"*Current mode:* {state.mode_label()}\n\n"
-        "`/interview bert` — Bert Reuler III (director-level)\n"
+        f"`/interview bert` — {INTERVIEWER_NAME} (director-level)\n"
         "`/interview quick` — Rapid fire (5 questions, scored)\n"
         "`/feedback` — coaching on your last answer\n"
         "`/saveanswer` — ⭐ save last answer to cheat sheet\n"
@@ -450,7 +454,7 @@ def cmd_interview(chat_id: int, state: ChatState, who: str) -> None:
         state.mode    = "interview_bert"
         state.history = []
         state.turn    = 0
-        send(chat_id, "🏢 *Bert Reuler III mode.*\nSr. Director, Innovation (Office of AI).\nStarting your interview...\n")
+        send(chat_id, f"🏢 *{INTERVIEWER_NAME} mode.*\n{INTERVIEWER_TITLE} (Office of AI).\nStarting your interview...\n")
         typing(chat_id)
         opening = reply(state, "[The candidate has just joined the MS Teams call.]")
         send(chat_id, opening)
@@ -458,7 +462,7 @@ def cmd_interview(chat_id: int, state: ChatState, who: str) -> None:
         state.mode    = "interview_quick"
         state.history = []
         state.turn    = 0
-        send(chat_id, "⚡ *Rapid Fire mode.*\n5 questions from Bert. Keep answers under 90 seconds.\n")
+        send(chat_id, f"⚡ *Rapid Fire mode.*\n5 questions from {INTERVIEWER_NAME}. Keep answers under 90 seconds.\n")
         typing(chat_id)
         opening = reply(state, "[The candidate is ready for rapid fire.]")
         send(chat_id, opening)

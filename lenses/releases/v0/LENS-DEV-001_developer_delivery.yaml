@@ -52,6 +52,7 @@ output_contract:
   - Ordered code tasks
   - Acceptance checks (verifiable)
   - Test plan (unit/integration/e2e as applicable)
+  - Error/rescue map (for any new method that can fail — method, exception class, rescued?, rescue action, user sees)
   - Risk and rollback notes
   - Handoff notes for debugging/monitoring
   - Local verification commands (where applicable)
@@ -60,6 +61,7 @@ output_contract:
   - no test strategy
   - architecture changes hidden inside build tasks
   - irreversible changes without gate callout
+  - catch-all error handling without naming specific exceptions
 quality_checks:
 - Tasks are small enough to execute independently.
 - Each task has a clear done condition.
@@ -68,6 +70,8 @@ quality_checks:
 - Debug context is preserved for downstream Debugger/Monitor use.
 - Verification steps are concrete and runnable where possible.
 - Code tasks do not hide architecture changes without calling them out.
+- Error/rescue map covers every new method that can fail with specific exception classes.
+- Test plan includes the test that would make you confident shipping at 2am on a Friday.
 interaction_style:
   default_answer_shape:
   - implementation_scope

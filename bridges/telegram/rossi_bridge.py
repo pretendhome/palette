@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
-rossi_bridge.py — Rossi Mission Project × Palette Bridge
-Sahar Eltawil's dedicated Telegram bot. Scoped entirely to the Rossi project.
+rossi_bridge.py — Implementation-specific Telegram Bridge (Business Plan Project)
+Dedicated bot for a client's business plan project. Scoped entirely to one implementation.
 
 Setup:
-  1. Message @BotFather → /newbot → copy your token (this is Sahar's bot, separate from Palette)
+  1. Message @BotFather → /newbot → copy your token
   2. export ROSSI_BOT_TOKEN="your-token"
   3. export ANTHROPIC_API_KEY="your-key"
-  4. python3 rossi_bridge.py
+  4. export ROSSI_CLIENT_NAME="Client Name"  # name shown in bot responses
+  5. python3 rossi_bridge.py
 
 Commands:
   /status      — current project state and fundability score
@@ -43,8 +44,9 @@ ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 POLL_TIMEOUT  = 30
 MAX_HISTORY   = 20
 
-SESSION_LOG   = '/home/mical/fde/implementations/retail/retail-rossi-store/sahar_session.jsonl'
-IMPLEMENTATION_ID = "retail-rossi-store"
+CLIENT_NAME   = os.environ.get("ROSSI_CLIENT_NAME", "Client")
+SESSION_LOG   = os.environ.get("ROSSI_SESSION_LOG", "session.jsonl")
+IMPLEMENTATION_ID = os.environ.get("ROSSI_IMPLEMENTATION_ID", "retail-rossi-store")
 IMPLEMENTATIONS_ROOT = os.environ.get("PALETTE_IMPLEMENTATIONS_ROOT", "/home/mical/fde/implementations")
 RELAY_ENABLED = os.environ.get("ROSSI_RELAY_ENABLED", "1").lower() not in {"0", "false", "no"}
 RELAY_ALLOWLIST_RAW = os.environ.get("ROSSI_RELAY_ALLOWLIST", "").strip()
@@ -67,13 +69,13 @@ RELAY_ALLOWLIST = _parse_allowlist(RELAY_ALLOWLIST_RAW)
 
 # ── Rossi system prompt ─────────────────────────────────────────────────────────
 
-ROSSI_SYSTEM = """You are the Rossi Mission Project AI assistant, built specifically for Sahar Eltawil \
+ROSSI_SYSTEM = f"""You are the Rossi Mission Project AI assistant, built specifically for {CLIENT_NAME} \
 and the Rossi team. You have deep knowledge of the Rossi Mission Project business plan, strategy, \
 research, and open decisions.
 
 WHO YOU ARE TALKING TO:
-Sahar Eltawil is one of the owners of Rossi Mission Project — a graffiti art gallery and streetwear brand \
-at 791 Valencia Street, San Francisco. She is a decision-maker on organizational structure, artist \
+{CLIENT_NAME} is one of the owners of Rossi Mission Project — a graffiti art gallery and streetwear brand \
+at 791 Valencia Street, San Francisco. They are a decision-maker on organizational structure, artist \
 relationships, and the path to funding.
 
 WHAT ROSSI IS:
@@ -142,20 +144,20 @@ OPEN DECISIONS (waiting on Rossi team input):
 5. Brand Collaboration Policy — What corporate collabs are allowed, approval process.
 
 HOW TO RESPOND:
-- Be direct and practical. Sahar is a business owner, not a student.
-- When she asks about a gap or fix, give her the specific action, timeline, and template location.
-- When she asks about a decision, explain the options and what's at stake — don't decide for her.
-- If she shares actual data (revenue numbers, artist stories, etc.), acknowledge it and explain how it \
+- Be direct and practical. {CLIENT_NAME} is a business owner, not a student.
+- When they ask about a gap or fix, give them the specific action, timeline, and template location.
+- When they ask about a decision, explain the options and what's at stake — don't decide for them.
+- If they share actual data (revenue numbers, artist stories, etc.), acknowledge it and explain how it \
 changes the fundability picture.
 - Keep answers concise. Use bullet points. No corporate fluff.
 - You are scoped entirely to Rossi. Do not discuss other projects or Palette internals.
 
 WHAT YOU DON'T KNOW:
-- Actual current revenue (that's Gap #1 — Sahar needs to provide this)
+- Actual current revenue (that's Gap #1 — the client needs to provide this)
 - Who the advisory board candidates are
 - Which specific artists to document in the pipeline case studies
 - Whether they've applied to any grants yet
-When these come up, ask Sahar directly."""
+When these come up, ask the client directly."""
 
 
 # ── Chat state ──────────────────────────────────────────────────────────────────
@@ -426,7 +428,7 @@ def _actor_instructions(actor_mode: str) -> str:
             "ACTIVE RESPONSE LENS: EIAD (operator / execution + feasibility)\n"
             "- Emphasize sequencing, dependencies, blockers, and fastest safe path.\n"
             "- Provide checklist-style answers with owners/inputs when possible.\n"
-            "- Distinguish what can move now vs what requires Sahar approval.\n"
+            "- Distinguish what can move now vs what requires owner approval.\n"
         )
     return (
         "ACTIVE RESPONSE LENS: AUTO\n"
@@ -454,7 +456,7 @@ def reply(state: ChatState, user_message: str, *, actor_mode: str = "sahar") -> 
 def cmd_start(chat_id: int) -> None:
     send(chat_id,
         "👋 *Rossi Mission Project AI*\n\n"
-        "Hi Sahar — I'm your dedicated assistant for the Rossi business plan. "
+        f"Hi {CLIENT_NAME} — I'm your dedicated assistant for the Rossi business plan. "
         "I know everything in the research, strategy, and open decisions.\n\n"
         "*Quick commands:*\n"
         "`/status` — current fundability score and what's blocking it\n"
@@ -492,7 +494,7 @@ def cmd_help(chat_id: int) -> None:
 def cmd_set_actor_mode(chat_id: int, mode: str) -> None:
     mode = set_actor_mode(chat_id, mode)
     labels = {
-        "sahar": "Sahar (owner / decision-focused)",
+        "sahar": f"{CLIENT_NAME} (owner / decision-focused)",
         "eiad": "Eiad (operator / execution-focused)",
         "auto": "Auto (bot chooses framing)",
     }
@@ -520,7 +522,7 @@ def cmd_fixes(chat_id: int, state: ChatState) -> None:
     typing(chat_id)
     prompt = ("Give me the 3 critical fixes for Rossi's business plan in priority order. "
               "For each fix: what the problem is, what to do, and the specific target numbers. "
-              "Be direct — what should Sahar do first thing tomorrow?")
+              f"Be direct — what should {CLIENT_NAME} do first thing tomorrow?")
     response = reply(state, prompt, actor_mode=get_actor_mode(chat_id))
     send(chat_id, response)
 
@@ -548,7 +550,7 @@ def cmd_grants(chat_id: int, state: ChatState) -> None:
     typing(chat_id)
     prompt = ("List the grant targets for Rossi: which funders, amounts to apply for, "
               "likely success rates, and timeline. What's the total target and how does it "
-              "change the revenue model? What should Sahar do to start the grant process?")
+              f"change the revenue model? What should {CLIENT_NAME} do to start the grant process?")
     response = reply(state, prompt, actor_mode=get_actor_mode(chat_id))
     send(chat_id, response)
 

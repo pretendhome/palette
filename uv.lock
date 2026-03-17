@@ -213,7 +213,7 @@ wheels = [
 
 [[package]]
 name = "palette"
-version = "1.0.0"
+version = "2.2.0"
 source = { virtual = "." }
 dependencies = [
     { name = "anthropic" },

@@ -1,11 +1,14 @@
 """
 IntegrityGate — Pre-emit validation for agent outputs.
 
-Adapts the 8 integrity checks from integrity.py into a single-result
-validator that agents call before emitting a HandoffResult.
+Validates a HandoffResult against PIS data before it hits the wire.
+This is Stage 4 (Verification): "Here's how to check your work."
 
-This is Stage 4 (Verification) of the machine enablement engine:
-"Here's how to check your work."
+Checks:
+  1. RIU references in output, artifacts, blockers exist in taxonomy
+  2. Service recommendations match routing table
+  3. Knowledge references exist in library
+  4. Non-success status has blockers (glass-box invariant)
 """
 
 from __future__ import annotations
@@ -15,21 +18,16 @@ from typing import Any
 
 
 class IntegrityGate:
-    """Validates a single HandoffResult against PIS data integrity rules.
+    """Validates a HandoffResult against PIS data integrity rules.
 
-    Not a full system audit (that's integrity.py). This is scoped validation:
-    "Is what this agent is about to emit consistent with the system?"
+    Warnings are informational, not blocking — glass-box, not gatekeeping.
     """
 
     def __init__(self, pis_data: Any):
         self.data = pis_data
 
     def check_result(self, result) -> list[str]:
-        """Run all gate checks against a HandoffResult.
-
-        Returns a list of warning strings (empty = clean).
-        Warnings are informational, not blocking — glass-box, not gatekeeping.
-        """
+        """Run all gate checks. Returns list of warnings (empty = clean)."""
         if self.data is None:
             return ["IntegrityGate: PIS data is None — skipping checks"]
         if result is None:
@@ -38,24 +36,23 @@ class IntegrityGate:
         warnings.extend(self._check_riu_references(result))
         warnings.extend(self._check_service_references(result))
         warnings.extend(self._check_knowledge_references(result))
-        warnings.extend(self._check_gaps_populated(result))
+        warnings.extend(self._check_blockers_populated(result))
         return warnings
 
     def _check_riu_references(self, result) -> list[str]:
-        """Verify any RIU IDs mentioned in outputs, artifacts, or gaps exist in taxonomy."""
+        """Verify any RIU IDs mentioned in output, artifacts, or blockers exist in taxonomy."""
         warnings = []
         classification = getattr(self.data, "classification", {}) or {}
         if not classification:
             return warnings
 
-        # Extract RIU references from outputs, artifacts, and gaps
         riu_ids = set()
-        outputs = getattr(result, "outputs", None) or {}
-        self._extract_riu_ids(outputs, riu_ids)
+        output = getattr(result, "output", None) or getattr(result, "outputs", None) or {}
+        self._extract_riu_ids(output, riu_ids)
         artifacts = getattr(result, "artifacts", None) or []
         self._extract_riu_ids(artifacts, riu_ids)
-        gaps = getattr(result, "gaps", None) or []
-        self._extract_riu_ids(gaps, riu_ids)
+        blockers = getattr(result, "blockers", None) or getattr(result, "gaps", None) or []
+        self._extract_riu_ids(blockers, riu_ids)
 
         for riu_id in riu_ids:
             if riu_id not in classification:
@@ -72,13 +69,12 @@ class IntegrityGate:
         if not routing:
             return warnings
 
-        outputs = getattr(result, "outputs", None) or {}
-        recommendation = outputs.get("recommendation")
+        output = getattr(result, "output", None) or getattr(result, "outputs", None) or {}
+        recommendation = output.get("recommendation")
         if not recommendation:
             return warnings
 
-        # If recommending a service for a specific RIU, check it's routed
-        riu_id = outputs.get("riu_id") or outputs.get("query_riu")
+        riu_id = output.get("riu_id") or output.get("query_riu")
         service_name = (
             recommendation.get("service")
             or recommendation.get("name")
@@ -86,9 +82,7 @@ class IntegrityGate:
         )
         if riu_id and service_name and riu_id in routing:
             entry = routing[riu_id]
-            service_names = []
-            for svc in entry.get("services", []):
-                service_names.append(svc.get("name", "").lower())
+            service_names = [svc.get("name", "").lower() for svc in entry.get("services", [])]
             if service_name.lower() not in service_names:
                 warnings.append(
                     f"Service '{service_name}' not in routing for {riu_id}. "
@@ -97,19 +91,19 @@ class IntegrityGate:
         return warnings
 
     def _check_knowledge_references(self, result) -> list[str]:
-        """Verify any LIB IDs mentioned in outputs, artifacts, or gaps exist in knowledge library."""
+        """Verify any LIB IDs mentioned in output, artifacts, or blockers exist in library."""
         warnings = []
         knowledge = getattr(self.data, "knowledge", {}) or {}
         if not knowledge:
             return warnings
 
         lib_ids = set()
-        outputs = getattr(result, "outputs", None) or {}
-        self._extract_lib_ids(outputs, lib_ids)
+        output = getattr(result, "output", None) or getattr(result, "outputs", None) or {}
+        self._extract_lib_ids(output, lib_ids)
         artifacts = getattr(result, "artifacts", None) or []
         self._extract_lib_ids(artifacts, lib_ids)
-        gaps = getattr(result, "gaps", None) or []
-        self._extract_lib_ids(gaps, lib_ids)
+        blockers = getattr(result, "blockers", None) or getattr(result, "gaps", None) or []
+        self._extract_lib_ids(blockers, lib_ids)
 
         for lib_id in lib_ids:
             if lib_id not in knowledge:
@@ -119,26 +113,24 @@ class IntegrityGate:
                 )
         return warnings
 
-    def _check_gaps_populated(self, result) -> list[str]:
-        """Verify that agents don't emit empty gaps when outputs suggest uncertainty."""
+    def _check_blockers_populated(self, result) -> list[str]:
+        """Verify non-success results explain why (glass-box invariant #3)."""
         warnings = []
-        outputs = getattr(result, "outputs", None) or {}
+        output = getattr(result, "output", None) or getattr(result, "outputs", None) or {}
         status = getattr(result, "status", "success")
-        gaps = getattr(result, "gaps", []) or []
+        blockers = getattr(result, "blockers", None) or getattr(result, "gaps", None) or []
 
-        # If status is not success but gaps is empty, flag it
-        if status == "failure" and not gaps:
+        if status in ("failure", "blocked") and not blockers:
             warnings.append(
-                "Result status is 'failure' but gaps list is empty. "
+                f"Result status is '{status}' but blockers list is empty. "
                 "Glass-box: explain what went wrong."
             )
 
-        # If outputs contain ASSUMPTION labels, flag that gaps should mention them
-        assumption_count = self._count_assumptions(outputs)
-        if assumption_count > 0 and not gaps:
+        assumption_count = self._count_assumptions(output)
+        if assumption_count > 0 and not blockers:
             warnings.append(
                 f"Output contains {assumption_count} ASSUMPTION label(s) "
-                "but gaps list is empty. Assumptions should surface as gaps."
+                "but blockers list is empty. Assumptions should surface as blockers."
             )
 
         return warnings
@@ -177,11 +169,7 @@ class IntegrityGate:
         if isinstance(obj, str):
             return obj.upper().count("ASSUMPTION:")
         elif isinstance(obj, dict):
-            return sum(
-                IntegrityGate._count_assumptions(v) for v in obj.values()
-            )
+            return sum(IntegrityGate._count_assumptions(v) for v in obj.values())
         elif isinstance(obj, (list, tuple)):
-            return sum(
-                IntegrityGate._count_assumptions(item) for item in obj
-            )
+            return sum(IntegrityGate._count_assumptions(item) for item in obj)
         return 0

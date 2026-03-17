@@ -58,7 +58,7 @@ actions_summary:
 
   evaluate:
     count: 7
-    tools: ["Wispr Flow", "Lovable", "NotebookLM", "Granola", "Vercel AI Gateway", "Krea", "Julius AI"]
+    tools: ["Wispr Flow", "Lovable", "NotebookLM (Google)", "Granola", "Vercel AI Gateway", "Krea", "Julius AI"]
     note: "Run evaluation experiments; decide integrate vs. skip. Krea and Julius AI are new in v1.1."
 
   monitor:
@@ -84,7 +84,7 @@ actions_summary:
 
   skip:
     count: 4
-    tools: ["Canva AI", "Easygen", "CapCut", "Epidemic Sound"]
+    tools: ["Canva AI (Magic Media)", "Easygen", "CapCut", "Epidemic Sound"]
     note: "No clear Palette integration use case in current roadmap"
 
   perplexity_enrichment_needed:
@@ -224,7 +224,7 @@ signals:
   taxonomy_gap: true
   taxonomy_gap_note: "No RIU specifically covers 'no-code AI app generation / vibe-coding'. RIU-413 (Demo Creation) is the closest but imperfect. Consider RIU-550 proposal."
 
-- tool: "NotebookLM"
+- tool: "NotebookLM (Google)"
   company: "Google (NotebookLM)"
   company_url: "https://notebooklm.google.com"
   founded: 2023
@@ -343,7 +343,7 @@ signals:
   palette_note: "Gemini fills specific niches not covered by Claude: YouTube/video ingestion, music generation, Google Workspace integration. Track as a complementary model to Claude, not a replacement."
   taxonomy_gap: false
 
-- tool: "Runway (Aleph)"
+- tool: "Runway (Aleph model)"
   company: "Runway AI"
   company_url: "https://runwayml.com"
   founded: 2018
@@ -626,7 +626,7 @@ signals:
   palette_action: monitor
   taxonomy_gap: true
 
-- tool: "Canva AI"
+- tool: "Canva AI (Magic Media)"
   company: "Canva"
   company_url: "https://canva.com/ai-image-generator/"
   founded: 2013

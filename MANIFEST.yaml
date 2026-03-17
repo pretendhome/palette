@@ -4,7 +4,7 @@
 
 system:
   name: Palette
-  version: "2.0"
+  version: "2.2"
   status: active
   integrity_checks: 8/8
   repository:
@@ -26,7 +26,7 @@ layers:
     version: v1.4
     path: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
     generated: 2026-02-05
-    entries: 163
+    entries: 167
     unit: LIB entry
     status: current
 
@@ -66,7 +66,7 @@ layers:
   lenses:
     version: v0
     path: lenses/releases/v0/
-    entries: 13
+    entries: 16
     unit: role lens
     status: pilot
 
@@ -94,7 +94,7 @@ sdk:
     - { name: graph_query, purpose: "queryable interface to relationship graph" }
   tests:
     path: sdk/tests/
-    count: 58
+    count: 86
     run: "uv run pytest -q sdk/tests/"
 
 governance:

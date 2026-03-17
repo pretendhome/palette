@@ -10943,3 +10943,133 @@ context_specific_questions:
   - engagement-operations
   validated: false
   journey_stage: all
+
+- id: LIB-173
+  question: How do I systematically map every error path in a new feature before shipping?
+  answer: >-
+    Use an error/rescue registry — a table that maps every method or codepath that can fail
+    to its specific exception classes, whether each is rescued, what the rescue action is,
+    and what the user sees. Format: METHOD | WHAT CAN GO WRONG | EXCEPTION CLASS | RESCUED? |
+    RESCUE ACTION | USER SEES. Rules: (1) Never use catch-all exception handling — name specific
+    exceptions. (2) Every rescued error must either retry with backoff, degrade gracefully with
+    a user-visible message, or re-raise with added context. (3) For every data flow, trace four
+    paths: happy path, nil input, empty input, and upstream error. (4) Any row where RESCUED=N
+    and TESTED=N and USER SEES=silent is a critical gap. This methodology comes from production
+    code review practice where the class of bugs that survive CI but break in production are
+    almost always unhandled error paths, not logic errors.
+  problem_type: Reliability_and_Failure_Handling
+  related_rius:
+  - RIU-062
+  - RIU-001
+  difficulty: high
+  industries:
+  - cross-industry
+  tags:
+  - error-handling
+  - code-review
+  - reliability
+  - production-safety
+  - failure-modes
+  sources:
+  - title: "garrytan/gstack review skill — error/rescue map methodology"
+    url: "https://github.com/garrytan/gstack"
+  validated: false
+  journey_stage: all
+
+- id: LIB-174
+  question: How do I challenge whether I am building the right thing before committing to implementation?
+  answer: >-
+    Use a structured premise challenge before any implementation begins. Three questions:
+    (1) Is this the right problem to solve, or could a different framing yield a simpler or
+    more impactful solution? (2) What is the actual user or business outcome — is this plan
+    the most direct path, or is it solving a proxy problem? (3) What would happen if we did
+    nothing — is this a real pain point or a hypothetical one? Then map existing code leverage
+    (what already partially solves this?), produce a dream state delta (current state → this
+    plan → 12-month ideal), and select a scope mode: expansion (dream big, opt-in per item),
+    selective expansion (hold scope but surface opportunities), hold scope (make it bulletproof),
+    or reduction (strip to essentials). Every scope change requires explicit human opt-in.
+    This prevents the most expensive engineering failure: building the wrong thing well.
+  problem_type: Intake_and_Convergence
+  related_rius:
+  - RIU-001
+  - RIU-002
+  difficulty: medium
+  industries:
+  - cross-industry
+  tags:
+  - scoping
+  - product-vision
+  - premise-validation
+  - convergence
+  - scope-management
+  sources:
+  - title: "garrytan/gstack plan-ceo-review skill — nuclear scope challenge"
+    url: "https://github.com/garrytan/gstack"
+  validated: false
+  journey_stage: all
+
+- id: LIB-175
+  question: How do I build a release checklist that prevents deployment failures?
+  answer: >-
+    A release checklist covers six areas in order: (1) Migration safety — is every DB migration
+    backward-compatible and zero-downtime? Are there table locks? (2) Feature flags — should any
+    part be behind a flag for gradual rollout? (3) Rollout order — correct sequence (migrate first,
+    deploy second)? Old code and new code running simultaneously — what breaks? (4) Rollback plan —
+    explicit step-by-step, including time estimate. (5) Post-deploy verification — what automated
+    checks run in the first 5 minutes? First hour? (6) Smoke tests — what proves the deployment
+    succeeded? For each area, the checklist should produce a concrete artifact: migration SQL
+    reviewed, feature flag config committed, rollback runbook written, smoke test commands documented.
+    The most common deployment failures come from partial states (old and new code running together)
+    and missing rollback plans, not from the code itself.
+  problem_type: Operationalization_and_Scaling
+  related_rius:
+  - RIU-062
+  - RIU-001
+  difficulty: medium
+  industries:
+  - cross-industry
+  tags:
+  - deployment
+  - release-engineering
+  - rollback
+  - operational-safety
+  - checklist
+  sources:
+  - title: "garrytan/gstack ship skill — release hygiene methodology"
+    url: "https://github.com/garrytan/gstack"
+  validated: false
+  journey_stage: all
+
+- id: LIB-176
+  question: How do I scope QA testing based on what actually changed instead of testing everything?
+  answer: >-
+    Use diff-aware QA scoping: start from the code diff, trace to affected components, then
+    select a testing tier. Step 1 — Change scope analysis: read the diff, identify which files
+    changed, map those to affected routes, services, and UI components. Step 2 — Tier selection
+    based on risk: Quick (under 2 min, smoke test for low-risk changes), Standard (5-15 min,
+    affected routes plus adjacent components for most PRs), or Exhaustive (30-60 min, full
+    coverage for major releases, security changes, or data model changes). Step 3 — Test plan
+    ordered by risk: for each affected component, test happy path, one failure path, and one
+    edge case. Step 4 — Health score: quantify quality 0-100 with category breakdown so you
+    can track improvement over time. Step 5 — Regression delta: compare against previous
+    baseline to identify what improved, what regressed, and what is new. The key insight is
+    that testing everything equally wastes time on unchanged code while under-testing the
+    actual changes.
+  problem_type: Reliability_and_Failure_Handling
+  related_rius:
+  - RIU-062
+  - RIU-001
+  difficulty: medium
+  industries:
+  - cross-industry
+  tags:
+  - testing
+  - qa-methodology
+  - diff-aware
+  - quality-assurance
+  - regression-testing
+  sources:
+  - title: "garrytan/gstack qa skill — diff-aware tiered QA methodology"
+    url: "https://github.com/garrytan/gstack"
+  validated: false
+  journey_stage: all

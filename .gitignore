@@ -11,3 +11,5 @@ scripts/palette_intelligence_system/state/
 scripts/palette_intelligence_system/pis_query_log.jsonl
 agents/corythosaurus/history.jsonl
 scripts/enrichment/enrichment_log.jsonl
+buy-vs-build/profiles-raw.txt
+*.lock

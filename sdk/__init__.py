@@ -1,25 +1,21 @@
 """
 Palette SDK — Machine Enablement Interface
 
-The parallel to the human enablement coach: teaches any agent how to navigate,
-query, verify against, and extend the Palette Intelligence System through
-structured interfaces to the same underlying knowledge.
+Wire contract (V2.2): Packet → Agent → Result
+  Packet: id, from, to, task, riu_ids, payload, trace_id
+  Result: packet_id, from, status, output, blockers, artifacts, next_agent
 
 Usage:
     from palette.sdk import AgentBase, HandoffPacket, HandoffResult, PaletteContext
 
     class MyAgent(AgentBase):
         def execute(self, packet):
-            # Query the system
             result = self.query_pis("RIU-082")
-
-            # Check what's connected
-            quads = self.query_graph(subject="Architect", predicate="handles_riu")
-
-            # Validate before emitting
-            warnings = self.validate_output(my_result)
-
-            return my_result
+            return HandoffResult(
+                packet_id=packet.id,
+                from_=self.agent_name,
+                output={"recommendation": "use Bedrock"},
+            )
 """
 
 from palette.sdk.agent_base import (

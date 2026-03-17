@@ -1,0 +1,110 @@
+lens_id: LENS-CEO-001
+version: 0.1
+status: draft
+name: Product Vision Lens
+optional: true
+
+origin:
+  type: hybrid
+  palette_basis: Palette lenses v0
+  external_inspiration:
+  - "garrytan/gstack plan-ceo-review skill (MIT license) — 10-star product thinking, scope modes, nuclear scope challenge"
+  notes: "Translated from gstack's founder-mode review into a Palette decision frame. gstack provides slash-command prompts for Claude Code; this lens extracts the cognitive patterns into Palette's output contract format with RIU routing."
+
+critical_question:
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: "It helps Palette challenge whether the right problem is being solved before committing to implementation. It forces premise validation, scope mode selection, and dream-state mapping — reducing the risk of building the wrong thing well."
+
+when_to_use:
+  signals:
+  - new feature or product direction
+  - scope feels uncertain or too narrow
+  - stakeholders disagree on what to build
+  - request feels like a proxy for a bigger problem
+  - "'are we building the right thing?' doubt"
+  not_for:
+  - bug fixes or hotfixes
+  - well-scoped implementation tasks
+  - infrastructure or refactoring work
+  - post-decision execution
+  user_intents:
+  - "Is this the right thing to build?"
+  - "What would the 10x version of this look like?"
+  - "Should we expand or reduce scope?"
+  - "What's the real product hiding inside this request?"
+
+palette_fit:
+  primary_rius:
+  - RIU-001
+  - RIU-002
+  supporting_rius:
+  - RIU-014
+  - RIU-003
+  primary_agents:
+  - architect
+  - researcher
+  supporting_agents:
+  - narrator
+  - validator
+  library_links:
+  - Prefer LIB entries covering convergence, stakeholder alignment, and scoping methodology.
+  company_matrix_use:
+  - Use company examples to ground scope decisions in real market context, not as strategy templates.
+
+output_contract:
+  required_sections:
+  - Premise challenge (is this the right problem? what happens if we do nothing?)
+  - Existing leverage map (what already partially solves this?)
+  - Dream state delta (current → this plan → 12-month ideal)
+  - Scope mode selection (expansion / selective expansion / hold / reduction)
+  - Scope decisions (accepted / deferred / skipped with rationale)
+  - Temporal interrogation (Hour 1 / 2-3 / 4-5 / 6+ implementation questions)
+  - Deferred items list (with effort estimates)
+  forbidden_patterns:
+  - taking the request literally without challenging premises
+  - expanding scope without explicit human opt-in per item
+  - reducing scope silently
+  - abstract vision without concrete next steps
+  - skipping the "what happens if we do nothing" question
+
+quality_checks:
+- Premise challenge is specific, not generic ("is this the right problem" with evidence).
+- At least one concrete alternative framing is proposed.
+- Scope mode is explicitly selected with rationale.
+- Every scope expansion is individually presented for human decision.
+- Dream state delta includes measurable distance from current to ideal.
+- Temporal interrogation surfaces implementation decisions that should be resolved now.
+- Deferred items have effort estimates (S/M/L) and priority (P1/P2/P3).
+
+interaction_style:
+  default_answer_shape:
+  - premise_challenge
+  - existing_leverage
+  - dream_state_delta
+  - scope_mode_and_decisions
+  - temporal_interrogation
+  - deferred_items
+  presentation_rules:
+  - Challenge before building. Always ask "what if we did nothing?" first.
+  - Present scope expansions one at a time, never batched.
+  - Use concrete examples and analogies, not abstract frameworks.
+  - Map every recommendation to a specific user outcome.
+
+prompt_pack_alignment:
+  closest_role_pack: gstack plan-ceo-review
+  role_pack_translation:
+  - 10-star product thinking becomes premise challenge + dream state delta.
+  - Scope expansion/reduction modes become explicit scope mode selection.
+  - Nuclear scope challenge becomes structured premise validation.
+  - Temporal interrogation preserved directly — surfaces implementation decisions early.
+
+evaluation_plan:
+  compare_against_no_lens:
+  - scope_rework_rate
+  - stakeholder_alignment_speed
+  - feature_direction_reversals
+  - time_to_first_convergence_brief
+  minimum_sample_size: 15
+  kill_if:
+  - Adds >30% overhead to scoping without reducing rework.
+  - Users skip the premise challenge consistently.

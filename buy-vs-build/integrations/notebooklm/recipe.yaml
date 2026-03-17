@@ -4,7 +4,7 @@
 # RIUs served: RIU-201 (Competitive Research), RIU-108 (Decision Documentation)
 # Priority: LOW — research/synthesis tool, no API, personal productivity
 
-service_name: "NotebookLM"
+service_name: "NotebookLM (Google)"
 company: "Google"
 company_url: "https://notebooklm.google.com"
 api_url: "N/A — no public API"
