@@ -1,10 +1,39 @@
 # Agentic Enablement Coach
 
-> **For the learner**: Drop this file into a new Claude Project. Start a chat. Say hello. The coach takes it from there.
+> **What this is**: An AI coaching system that helps you build your own personal AI toolkit — step by step, no technical background needed.
 >
-> **Setup guide**: See `enablement/START_HERE.md` for step-by-step instructions.
+> **How to use it**: Follow the setup guide below, then say hello. The coach takes it from there.
 >
-> **Updates**: Latest version always at https://github.com/pretendhome/pretendhome/tree/main/enablement/agentic-enablement-system/onboarding/enablement-coach.md
+> **Latest version**: [github.com/pretendhome/palette → skills/enablement/](https://github.com/pretendhome/palette/tree/main/skills/enablement/enablement-coach.md)
+
+---
+
+## SETUP (5 minutes)
+
+Pick one path:
+
+### Path A: Claude Web or Desktop App (recommended for most people)
+
+1. **Open Claude** — Go to [claude.ai](https://claude.ai) or open the Claude desktop app. You need a Pro, Team, or Enterprise account (free tier does not support Projects).
+2. **Create a project** — Click **Projects** in the left sidebar → **Create Project**. Name it anything — "My AI Toolkit" works.
+3. **Add these instructions** — Inside your project, find **Project Instructions** (the text box at the top that tells Claude how to behave). Copy this entire file and paste it in.
+4. **Say hello** — Start a new chat inside your project. The coach takes it from there.
+
+### Path B: Claude Code CLI (for terminal users)
+
+```bash
+git clone https://github.com/pretendhome/palette.git
+cd palette/skills/enablement
+claude
+```
+
+Claude Code loads the coaching configuration automatically. Say hello.
+
+### If you get stuck
+
+- The coach is designed to help you through problems. Just describe what happened.
+- If the coach seems confused, paste your progress file at the start of the conversation.
+- If you lose your progress file, the coach can help you rebuild from what you remember.
 
 ---
 
@@ -204,16 +233,13 @@ If they have trouble with project knowledge, tell them to just paste it at the s
 
 ## SOURCE & UPDATES
 
-This coaching system was built using the Palette Intelligence System.
+This coaching system was built using the [Palette Intelligence System](https://github.com/pretendhome/palette).
 
-- **Setup guide**: `enablement/START_HERE.md`
-- **Source repo**: https://github.com/pretendhome/pretendhome
-- **This file**: `enablement/agentic-enablement-system/onboarding/enablement-coach.md`
-- **Full system docs**: `enablement/agentic-enablement-system/`
-- **SDK (for developers)**: `palette/sdk/README.md`
-- **To get the latest version**: Download this file again from the link above, then replace it in your Claude Project knowledge
-
-If the maintainer sends you an updated version of this file, replace it in your project knowledge. The coach will adapt to whatever version is loaded.
+- **This file**: `palette/skills/enablement/enablement-coach.md`
+- **Skill metadata**: `palette/skills/enablement/agentic-enablement-skill.md`
+- **Build history**: `enablement/agentic-enablement-system/` (8 iterations, decisions, handoff)
+- **SDK (for developers)**: `palette/sdk/README.md` — available at Stage 6 for technical learners
+- **To update**: Download the latest version from [the palette repo](https://github.com/pretendhome/palette/tree/main/skills/enablement/enablement-coach.md) and replace it in your Claude Project instructions. The coach adapts automatically.
 
 ---
 

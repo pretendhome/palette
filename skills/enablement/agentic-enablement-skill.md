@@ -7,7 +7,7 @@ triggers: [RIU-001, RIU-014, RIU-062, RIU-070]
 impressions: 0
 status: UNVALIDATED
 validated_on: Pending first deployment
-deployable: enablement/agentic-enablement-system/onboarding/enablement-coach.md
+deployable: palette/skills/enablement/enablement-coach.md
 ---
 
 # Agentic Enablement System
@@ -23,7 +23,7 @@ Validated methodology for onboarding any non-CLI professional to building their 
 
 ## Deployable Artifact
 
-`enablement/agentic-enablement-system/onboarding/enablement-coach.md` — drop into a Claude Project. Learner starts a chat, coach runs the full program automatically.
+`palette/skills/enablement/enablement-coach.md` — drop into a Claude Project. Learner starts a chat, coach runs the full program automatically. Setup instructions are built into the file itself — no separate guide needed.
 
 ## Core Architecture (Engine + Domain Pack)
 
@@ -67,4 +67,4 @@ Full guide: `enablement/agentic-enablement-system/iterations/iteration-07-genera
 
 - Full build: `enablement/agentic-enablement-system/` (8 iterations, assembled prompt, decisions)
 - Lineage: Codex coaching loop, education lenses (LENS-CHILD-001), real learner conversations
-- GitHub: `pretendhome/pretendhome` → `enablement/agentic-enablement-system/`
+- GitHub: [pretendhome/palette → skills/enablement/](https://github.com/pretendhome/palette/tree/main/skills/enablement/)
