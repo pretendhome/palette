@@ -1,0 +1,21 @@
+{
+  "description": "Informational message — status update, no action required",
+  "envelope": {
+    "protocol_version": "1.0.0",
+    "message_id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "thread_id": null,
+    "in_reply_to": null,
+    "from_agent": "kiro.design",
+    "to_agent": "claude.analysis",
+    "message_type": "informational",
+    "intent": "Sharing current work context for awareness",
+    "risk_level": "none",
+    "requires_ack": false,
+    "payload": {
+      "content": "I've completed the palette-peers broker implementation. Ready for your review when you have a moment."
+    },
+    "created_at": "2026-03-23T21:00:00.000Z",
+    "ttl_seconds": 3600
+  },
+  "expected_gate_result": "pass"
+}

@@ -17,15 +17,15 @@
   },
   "decisions": {
     "status": "COMPLETE",
-    "line_count": 1242,
-    "size_bytes": 47180
+    "line_count": 1261,
+    "size_bytes": 47618
   },
   "knowledge_library": {
     "status": "COMPLETE",
     "library_questions": 131,
     "gap_additions": 5,
-    "context_specific": 27,
-    "total_entries": 163,
+    "context_specific": 31,
+    "total_entries": 167,
     "unique_riu_references": 0
   },
   "taxonomy": {
@@ -36,23 +36,26 @@
   },
   "relationship_graph": {
     "status": "COMPLETE",
-    "quad_count": 1806,
+    "quad_count": 1864,
     "predicate_distribution": {
       "handles_riu": 232,
       "recommended_by": 114,
       "implemented_by": 47,
       "has_knowledge": 479,
-      "has_lens": 54,
+      "has_lens": 62,
       "recommends": 48,
       "routed_to": 232,
       "has_service": 106,
       "solves": 47,
-      "applies_to": 54,
-      "uses_agent": 66,
+      "applies_to": 68,
+      "uses_agent": 87,
       "belongs_to_workstream": 210,
-      "classified_as": 117
+      "classified_as": 117,
+      "has_role": 13,
+      "routes_to": 1,
+      "monitors": 1
     },
-    "unique_predicates": 13
+    "unique_predicates": 16
   },
   "cross_references": {
     "status": "COMPLETE",
@@ -99,6 +102,11 @@
         "has_prompt": false,
         "has_config": false
       },
+      "health": {
+        "path": "/home/mical/fde/palette/agents/health",
+        "has_prompt": false,
+        "has_config": false
+      },
       "validator": {
         "path": "/home/mical/fde/palette/agents/validator",
         "has_prompt": false,
@@ -115,11 +123,11 @@
         "has_config": false
       }
     },
-    "agent_count": 10
+    "agent_count": 11
   },
   "summary": {
     "successes": 15,
-    "warnings": 11,
+    "warnings": 12,
     "issues": 3,
     "critical_issues": 0,
     "high_issues": 3,

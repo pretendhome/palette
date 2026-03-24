@@ -1,0 +1,13 @@
+{
+  "name": "palette-peers",
+  "version": "1.0.0",
+  "description": "Governed local message bus for Palette multi-agent coordination",
+  "type": "module",
+  "scripts": {
+    "broker": "node broker/index.mjs",
+    "cli": "node cli.mjs"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "description": "Execution request from working-tier peer — should pass",
+  "envelope": {
+    "protocol_version": "1.0.0",
+    "message_id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+    "thread_id": "00000000-0000-4000-a000-000000000002",
+    "in_reply_to": null,
+    "from_agent": "claude.analysis",
+    "to_agent": "perplexity.research",
+    "message_type": "execution_request",
+    "intent": "Research current state of MCP protocol adoption across AI coding tools",
+    "risk_level": "low",
+    "requires_ack": true,
+    "payload": {
+      "handoff_packet": {
+        "id": "0b7f95e9-6950-4da8-9d45-2b3d7f6a1bc2",
+        "from": "claude.analysis",
+        "to": "perplexity.research",
+        "task": "Research MCP protocol adoption: which AI coding tools support MCP servers, what transport modes, and current limitations",
+        "riu_ids": ["RIU-024"],
+        "payload": {
+          "context": "Building palette-peers multi-agent communication. Need to understand what each tool supports natively.",
+          "constraints": ["2024+ sources only", "Tier 1 and Tier 2 sources preferred"],
+          "artifacts": []
+        },
+        "trace_id": "trace-peers-mcp-adoption-001"
+      },
+      "acceptance_criteria": "Structured findings with confidence scores and at least one gap identified"
+    },
+    "created_at": "2026-03-23T21:10:00.000Z",
+    "ttl_seconds": 1800
+  },
+  "expected_gate_result": "pass",
+  "peer_trust_tier": "WORKING"
+}

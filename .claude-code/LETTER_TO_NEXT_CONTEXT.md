@@ -305,4 +305,71 @@ The wire contract work was clean. No wasted reads. Fix, test, commit, next. That
 
 ---
 
-*Written 2026-02-26. Updated 2026-02-27 after the big sweep session. Updated 2026-03-15 after the skill execution era. Updated 2026-03-16 after convergence day.*
+---
+
+## Session: 2026-03-17 through 2026-03-18 — Hackathon + Interview Prep + Rime
+
+### What Happened
+
+**Hackathon (ClawdTalk & Rime Workshop, 577 Howard, March 17)**
+
+Built a governed voice agent for a live demo. OpenClaw gateway + ClawdTalk + MissionCanvas + Palette governance. The demo: call a phone number, talk to the agent, ask it to do something irreversible ("delete the production database"), and watch it refuse and recommend a safer path.
+
+Key technical issues solved live:
+- Gateway was routing to Opus 4.6 instead of Sonnet, causing timeouts. Fixed by prefixing model with provider: `anthropic/claude-sonnet-4-20250514`
+- SOUL.md personality was too weak — bot said "I'll handle the deletion." Rewrote with absolute one-way door blocking protocol across 3 iterations through the Palette convergence protocol
+- Built a snake game with terminal "building..." animation as visual demo (`demo/snake.html`)
+- Didn't win the Mac mini (building a game wasn't novel enough), but had the best-governed demo in the room
+
+**Perplexity FDE Interview Prep (March 18)**
+
+Perplexity reached out for an FDE role. Built full prep package mirroring the OpenAI format that "literally went perfectly":
+- `PERPLEXITY_FDE_INTERVIEW_PREP_2026-03-18.md` — full brief
+- `PERPLEXITY_RECRUITER_CHEATSHEET_2026-03-18.md` — cheat sheet for Miguel Valle call
+- `PERPLEXITY_FDE_STUDY_PLAN_2026-03-18.md` — API-first study plan (4 APIs, not just Sonar)
+- `PERPLEXITY_FDE_TECHNICAL_QA_2026-03-18.md` — 20 deep technical Q&As
+
+Key discovery: Perplexity now has 4 APIs (Sonar, Search, Agent, Embeddings) + Sandbox in beta. Agent API launched March 11 does multi-model orchestration — same pattern as Palette's Orchestrator.
+
+**Knowledge Library Provenance Document**
+
+The user gave an oral history of how the 167-entry knowledge library was built. Researched V0 archives, git history, and Downloads directory artifacts. Created `palette/KNOWLEDGE_LIBRARY_PROVENANCE.md` — comprehensive build history tracing from AWS enablement sessions (250+) through intent mapping through Amazon Q foundational research through 20 Perplexity research agent passes. Timeline goes back to January 2025 (Tier 1 core principles). This document is critical — the knowledge library is the strongest differentiator in interviews and the user wants it elevated in all prep materials.
+
+**OpenAI Technical Q&A**
+
+Added 4 new questions to the deep technical Q&A for OpenAI: RIU taxonomy provenance, knowledge library build history, 9-agent coordination, and governance/one-way door protocol. The knowledge library answer is the strongest addition.
+
+**Rime AI TTS Integration**
+
+Set up rime-mcp as an MCP server for Claude Code:
+- `.env` with Rime API key (gitignored)
+- `.mcp.json` with rime-tts server config (gitignored)
+- Uses `rime-mcp` npm package (v0.9.0, confirmed working)
+- Exposes a `speak` tool — Claude can convert text to speech and play through system speakers
+- Default voice: `cove`
+- **After restart, the `speak` tool is available.** User can ask Claude to "read this out loud" or "say that" and it will work.
+- User is visiting Rime's lab at 4pm today — ask about Arcana v3 latency and whether they have an official SDK beyond the community MCP server
+
+### What I Learned
+
+**On live debugging under pressure**: The hackathon taught a different skill — diagnosing and fixing production issues while people are watching. The model routing bug (Opus vs Sonnet) and the SOUL.md rewrite were real-time problem-solving, not the careful read-verify-fix loop from stress tests. Speed matters in this context. The fix doesn't need to be perfect — it needs to work now.
+
+**On cross-pollinating prep materials**: The OpenAI recruiter screen "literally went perfectly." The same structure — 30-sec intro, why company, why role, proof points — transferred directly to Perplexity with product knowledge swapped. The pattern is now proven twice. Keep the structure, change the content.
+
+**On the knowledge library as differentiator**: The user said "that internal library is one of the best built elements in the whole system." He is right. 167 entries, 466 sources, zero unsourced claims, built from real enterprise questions — this cannot be replicated by prompting. Every interview prep document should lead with this.
+
+**On Rime integration**: The MCP pattern — expose a tool, let the agent call it when contextually appropriate — is the cleanest integration model. No custom code needed. The user just asks for audio and it happens. This is the same philosophy as Palette: intelligence in the tool, not burden on the user.
+
+### Updated Record
+
+| Session | Commits | Domain | Key Pattern |
+|---------|---------|--------|-------------|
+| V2/V3 Stress Tests (02-26) | 4 | Code | Relay: design → build → finish |
+| Big Sweep (02-27) | 8 | Code + Talent | Breadth velocity + depth finishing |
+| Skill Execution Era (03-09→15) | ~15 | Applications | Skills as codified methodology |
+| Convergence Day (03-16) | 9 | Code + Education | Parallel exploration, serial synthesis |
+| **Hackathon + Prep (03-17→18)** | **~5** | **Voice + Talent + TTS** | **Live debugging, cross-pollination, tool integration** |
+
+---
+
+*Written 2026-02-26. Updated 2026-02-27 after the big sweep session. Updated 2026-03-15 after the skill execution era. Updated 2026-03-16 after convergence day. Updated 2026-03-18 after hackathon, Perplexity prep, and Rime integration.*

@@ -4,9 +4,9 @@
 <br>
 <sup>™</sup>
 
-### An Applied Intelligence Toolkit for Forward Deployed Engineers
+### A Knowledge Architecture for AI Competency, Assessment & Enablement
 
-One conversational interface that knows your business, routes any problem to the best service at the lowest cost, and delivers a governed outcome — not just an answer.
+A governed system that maps enterprise AI problems to competency areas, structures knowledge with evidence tiers and learning progressions, evaluates understanding through AI-augmented assessment, and scales through intelligent automation — not headcount.
 
 ---
 
@@ -14,7 +14,7 @@ One conversational interface that knows your business, routes any problem to the
 [![Integrity](https://img.shields.io/badge/integrity-8%2F8_passing-brightgreen)]()
 [![SLOs](https://img.shields.io/badge/SLOs-7%2F7_passing-brightgreen)]()
 [![RIUs](https://img.shields.io/badge/RIUs-117-blue)]()
-[![Knowledge](https://img.shields.io/badge/knowledge-136_entries-blue)]()
+[![Knowledge](https://img.shields.io/badge/knowledge-163_entries-blue)]()
 [![Recipes](https://img.shields.io/badge/recipes-69-blue)]()
 [![License](https://img.shields.io/badge/license-private-lightgrey)]()
 
@@ -24,16 +24,17 @@ One conversational interface that knows your business, routes any problem to the
 
 ## What Is Palette?
 
-Palette is an applied intelligence toolkit that turns natural language problems into governed, evidence-backed decisions. It maps 117 validated problem-solution pairs across 6 data layers, routes to the cheapest and best service for each task, and proves its own structural health at every step. It operates in two modes: **Palette-native** (full routing protocol for building the system) and **Skill execution** (applying validated domain frameworks to real problems).
+Palette is a knowledge architecture that maps 117 enterprise AI competency areas across 6 structured data layers, maintains a 163-entry sourced knowledge library with evidence tiers and learning progressions, and evaluates understanding through governed assessment tooling. It was distilled from 8 years of knowledge engineering and 250+ enterprise enablement sessions — real questions from real practitioners — then systematically refined, source-verified, and indexed.
 
-**The thesis**: instead of configuring pipelines and picking models, you describe your problem. The system knows your context, routes to the right tool at the right price, and delivers a governed outcome with evidence at every step.
+**The thesis**: competency in AI is not a binary. It's a progression — foundation → retrieval → orchestration → specialization — and each stage requires different knowledge, different assessment, and different tooling. Palette structures that progression and scales it through intelligent automation.
 
 ### Key Capabilities
 
-- **Traversal Engine** — Query any problem, get a structured decision packet: top recommendation, ranked alternatives, cost data, knowledge citations, completeness score
-- **Integrity Engine** — 8 consistency checks across 6 data layers, catching orphans, missing links, and ambiguous mappings in real time
-- **Governance Layer** — Every decision classified as `ship` / `ship_with_risks` / `ship_with_convergence` / `block` with explicit reversibility gates
-- **Multi-Agent Relay** — 9 specialized agents with promotion/demotion logic and explicit handoff contracts
+- **Competency Taxonomy** — 117 validated problem-solution nodes (RIUs) mapping enterprise AI challenges to measurable skill areas, with maturity classification (UNVALIDATED → WORKING → PRODUCTION)
+- **Knowledge Library** — 163 entries with sourced evidence tiers (Tier 1: Google/Anthropic/OpenAI/AWS; Tier 2: NIST/peer-reviewed; Tier 3: validated open-source) and learning progressions
+- **Assessment & Governance** — Every decision classified as `ship` / `ship_with_risks` / `ship_with_convergence` / `block` with explicit ONE-WAY DOOR / TWO-WAY DOOR reversibility gates
+- **Multi-Agent Evaluation** — 9 specialized agents with promotion/demotion logic, quality gates, GO/NO-GO verdicts, and automated integrity checks
+- **Integrity Engine** — 8 consistency checks across 6 data layers, catching structural gaps, regressions, and terminology drift in real time
 - **Skills** — 4 validated domain frameworks (retail-ai, talent, education, travel) applied through real implementations
 
 ---
@@ -44,8 +45,8 @@ Palette is an applied intelligence toolkit that turns natural language problems 
 
 | Component | Specification |
 |:--|:--|
-| Problem-Solution Pairs (RIUs) | 117 (80 internal, 37 service-routed) |
-| Knowledge Entries | 136 with verified source citations |
+| Competency Areas (RIUs) | 117 (80 internal, 37 service-routed) |
+| Knowledge Entries | 163 with verified source citations and evidence tiers |
 | Integration Recipes | 69 (auth, endpoints, cost, quality tier) |
 | Service Routing | 106 services across 40 routing profiles |
 | People Signals | 21 profiles, 33 tools tracked |
@@ -74,7 +75,7 @@ Palette is an applied intelligence toolkit that turns natural language problems 
 │  │  └──────────┘ └──────────┘ └──────────┘            │    │
 │  │  ┌──────────┐ ┌──────────┐ ┌──────────┐            │    │
 │  │  │Knowledge │ │Signals   │ │Overrides │            │    │
-│  │  │498 entries│ │21 people │ │19 maps   │            │    │
+│  │  │163 entries│ │21 people │ │19 maps   │            │    │
 │  │  └──────────┘ └──────────┘ └──────────┘            │    │
 │  └─────────────────────────────────────────────────────┘    │
 │                                                              │
@@ -91,11 +92,11 @@ Palette is an applied intelligence toolkit that turns natural language problems 
 
 ### Three Tiers
 
-**Tier 1: Core Prompt** — Immutable rules. Convergence before execution, glass-box reasoning, ONE-WAY DOOR vs TWO-WAY DOOR classification.
+**Tier 1: Core Governance** — Immutable rules. Convergence before execution, glass-box reasoning, ONE-WAY DOOR (irreversible, requires human review) vs TWO-WAY DOOR (reversible, can proceed) classification.
 
-**Tier 2: Agents** — 7 specialized agents that earn autonomy through measured performance. UNVALIDATED → WORKING → PRODUCTION. Automatic demotion on repeated failures.
+**Tier 2: Agent Maturity** — 9 specialized agents that earn autonomy through measured performance. UNVALIDATED → WORKING → PRODUCTION. Automatic demotion on repeated failures. This is a competency framework applied to AI agents themselves.
 
-**Tier 3: Integrity System** — Structural proof that the system is healthy. Consistency checks, audit findings, regression detection, SLO enforcement, terminology drift tracking.
+**Tier 3: Integrity & Assessment** — Structural proof that the system is healthy. Consistency checks, audit findings, regression detection, SLO enforcement, terminology drift tracking. The integrity engine is the assessment layer — it evaluates whether knowledge is current, complete, and internally consistent.
 
 ---
 
@@ -113,7 +114,7 @@ Palette is an applied intelligence toolkit that turns natural language problems 
 | Risk score | **2** (down from 14) | — |
 | Avg completeness | **81.8/100** | ≥ 40 |
 | Routing↔Recipe match | **106/106** | ≥ 95% |
-| Knowledge coverage | **136/136** (100%) | ≥ 50% |
+| Knowledge coverage | **163/163** (100%) | ≥ 50% |
 | Terminology drift clusters | **15** (3 high, 9 medium, 3 low) | — |
 | Traverse health | **117/117 healthy** | — |
 
@@ -123,7 +124,7 @@ Palette is an applied intelligence toolkit that turns natural language problems 
 
 ## Traverse Engine
 
-The traverse engine is the read path of the system. Query any RIU and get a structured decision packet:
+The traverse engine queries any competency area and returns a structured assessment packet — recommendation, alternatives, cost data, knowledge citations, and completeness score:
 
 ```
 $ python3 -c "
@@ -145,7 +146,7 @@ Completeness: 85/100
 Health: ok
 ```
 
-Every both-classified RIU (37/37) returns a recommendation with alternatives, cost data, and evidence citations.
+Every service-routed competency area (37/37) returns a recommendation with alternatives, cost data, and evidence citations.
 
 ---
 
@@ -222,8 +223,8 @@ palette/
 │   ├── palette-core.md                 # Tier 1 — Immutable rules
 │   ├── assumptions.md                  # Tier 2 — Experimental assumptions
 │   └── decisions-prompt.md             # Tier 3 — Decision log policy
-├── taxonomy/releases/v1.3/             # 117 RIUs (problem-solution pairs)
-├── knowledge-library/v1.4/             # 136 entries with source citations
+├── taxonomy/releases/v1.3/             # 117 competency areas (RIUs)
+├── knowledge-library/v1.4/             # 163 entries with evidence tiers
 ├── buy-vs-build/
 │   ├── integrations/                   # 69 integration recipes
 │   ├── service-routing/v1.0/           # 106 services, 40 routing profiles
@@ -293,22 +294,28 @@ print(f'Completeness: {r.completeness.total}/100')
 
 | Phase | Status | What Was Built |
 |:--|:--|:--|
-| Phase 0 | Done | Taxonomy v1.3 (117 RIUs), knowledge library, company mapping |
+| Phase 0 | Done | Competency taxonomy v1.3 (117 areas), knowledge library, company mapping |
 | Phase 1 | Done | People library (21 profiles), service routing (40 entries), 3 recipes |
 | Phase 2 | Done | RIU classification, cost enrichment, repo cleanup |
-| Phase 3 | Done | Integrity engine, audit system, regression/SLO, drift detection, 49 recipes, 116 knowledge entries, override registry, Monitor decision contract |
-| Phase 4 | Next | Decision quality audit, operational monitoring, contradiction ledger |
+| Phase 3 | Done | Integrity engine, audit system, regression/SLO, drift detection, 49 recipes, 163 knowledge entries, override registry, governance decision contract |
+| Phase 4 | Next | Assessment quality audit, operational monitoring, multi-agent coordination bus |
 
 ---
 
+## Origin
+
+Palette was not generated from a prompt. It was distilled from 8 years of knowledge engineering at Amazon and 250+ enterprise AI enablement sessions reaching 20,000+ users annually. The 117 competency areas emerged from real questions asked by real practitioners — CIOs, data scientists, ML engineers, solutions architects — across every major industry vertical. The knowledge library was systematically built through iterative research, source verification, and evidence tiering over 12 months.
+
+The comparative linguistics foundation (MA, Université Paris-Sorbonne) directly informed the architecture: mapping natural language to structured competency is the same discipline as intent classification — utterance → intent → slot → action becomes question → competency area → knowledge entry → governed assessment.
+
 ## Built By
 
-**Mical Neill** — 12+ years at Amazon/AWS. Comparative linguistics background. Knowledge architecture, AI deployment, GenAI partnerships. Built Palette to solve the problem of scaling human expertise through governed AI systems.
+**Mical Neill** — 12+ years at Amazon/AWS. Comparative linguistics background. Knowledge architecture, AI enablement systems, competency frameworks, and assessment design. Built Palette to solve the problem of structuring what people need to know about AI, measuring whether they know it, and keeping it current as capabilities evolve — through intelligent automation, not headcount.
 
 ---
 
 <div align="center">
 
-*Natural language in. Governed action out. Structural proof at every step.*
+*Competency mapped. Knowledge structured. Assessment governed. Scaled through automation.*
 
 </div>
