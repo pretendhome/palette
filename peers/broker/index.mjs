@@ -17,6 +17,8 @@ import { validateEnvelope, validateRegistration } from './validate.mjs';
 const PORT = parseInt(process.env.PALETTE_PEERS_PORT ?? '7899', 10);
 const DB_PATH = process.env.PALETTE_PEERS_DB ?? join(homedir(), '.palette-peers.db');
 const MAX_BODY_BYTES = 1_048_576; // 1 MiB — prevents unbounded reads on localhost
+const PID_PEER_GRACE_MS = 60_000;
+const PIDLESS_PEER_TTL_MS = 24 * 60 * 60 * 1000;
 
 const db = initDb(DB_PATH);
 
@@ -47,8 +49,15 @@ function cleanStalePeers() {
     if (p.pid && p.pid > 10) { // skip fake/system PIDs
       // Grace period: don't clean peers registered less than 60s ago (avoids PID reuse races)
       const registeredAt = new Date(p.registered_at).getTime();
-      if (now - registeredAt < 60_000) continue;
+      if (now - registeredAt < PID_PEER_GRACE_MS) continue;
       try { process.kill(p.pid, 0); } catch { stmts.deletePeer.run(p.identity); }
+      continue;
+    }
+
+    // Relay-style peers may not keep a stable local PID. Keep them visible based on freshness.
+    const lastSeen = new Date(p.last_seen ?? p.registered_at).getTime();
+    if (!Number.isNaN(lastSeen) && now - lastSeen > PIDLESS_PEER_TTL_MS) {
+      stmts.deletePeer.run(p.identity);
     }
   }
 }

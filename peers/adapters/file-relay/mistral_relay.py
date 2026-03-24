@@ -80,7 +80,9 @@ def register():
         "identity": IDENTITY,
         "agent_name": AGENT_NAME,
         "runtime": RUNTIME,
-        "pid": os.getpid(),
+        # File-relay may run as short-lived polling cycles, so a process PID is not
+        # a stable liveness signal for peer visibility on the bus.
+        "pid": None,
         "cwd": str(ENABLEMENT_DIR),
         "git_root": str(ENABLEMENT_DIR),
         "capabilities": CAPABILITIES,
@@ -301,6 +303,7 @@ def send_outbox():
 def run_once():
     """Single fetch + send cycle."""
     register()
+    heartbeat()
     fetched = fetch_messages()
     sent = send_outbox()
     log(f"Cycle complete: {fetched} fetched, {sent} sent")
