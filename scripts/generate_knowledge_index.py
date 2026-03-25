@@ -2,7 +2,7 @@
 """
 Generate a multi-label knowledge library index for Palette.
 
-Each of the 163 knowledge library entries gets tagged with 1-3 problem_type
+Each of the 167 knowledge library entries gets tagged with 1-3 problem_type
 categories (strongest, medium, good_match). The index groups entries by
 category, showing each entry in every section it's tagged for with its
 strength indicator.
@@ -298,8 +298,8 @@ def generate_index():
     entries = collect_all_entries(knowledge_lib)
     print(f"  {len(entries)} entries found")
 
-    if len(entries) != 163:
-        print(f"  WARNING: Expected 163 entries, got {len(entries)}")
+    if len(entries) != 167:
+        print(f"  WARNING: Expected 167 entries, got {len(entries)}")
 
     # --- Compute global problem_type frequencies for distinctiveness scoring ---
     print("Computing global problem_type frequencies...")

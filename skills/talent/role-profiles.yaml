@@ -1,0 +1,581 @@
+# Role Profiles — Palette Talent Skill
+# Each profile is a lens through which the entire career gets framed.
+# Discovery → Fit → Resume → Application → Interview Prep → Post-mortem
+# all flow through profile_id.
+#
+# Learnings compound: every interview for a profile type makes the next one better.
+# Updated: 2026-03-24
+
+profiles:
+
+  # --- FORWARD DEPLOYED ENGINEER ---
+  forward_deployed_engineer:
+    id: FDE
+    display_name: "Forward Deployed Engineer"
+    one_liner: "Build and deploy AI systems at customer sites — architecture + delivery"
+    resource_refs:
+      primary_lenses: [LENS-DEV-001, LENS-INT-001]
+      supporting_lenses: [LENS-CS-001, LENS-ENG-001]
+
+    search_patterns:
+      titles:
+        - "Forward Deployed Engineer"
+        - "Solutions Architect"
+        - "Solutions Engineer"
+        - "Applied AI Engineer"
+        - "Field Engineer"
+        - "Customer Engineer"
+        - "Implementation Engineer"
+      keywords:
+        - "customer-facing"
+        - "deploy"
+        - "prototype"
+        - "architecture review"
+        - "integration"
+        - "hands-on"
+        - "technical depth"
+      companies_targeted:
+        - { name: Perplexity, role: "FDE", status: applied }
+        - { name: "Google Cloud", role: "FDE GenAI", status: sweep }
+        - { name: Dust, role: "FDE Paris", status: sweep }
+        - { name: FriendliAI, role: "Agentic FDE", status: interviewed }
+        - { name: Braintrust, role: "Solutions Engineer", status: sweep }
+
+    resume_profile: forward_deployed_engineer  # maps to build_resume.py PROFILES key
+    bullet_key: data_engineer  # which bullet variant to pull from experience-inventory.yaml
+
+    lead_eras: [ERA-2, ERA-4]  # POI Knowledge Graph + Ask Pathfinder
+    capstone_era: ERA-5  # Palette as builder credibility
+    palette_framing: "builder credibility — full-stack AI system with 9 agents, 146 tests"
+
+    fit_lens:
+      must_haves:
+        - { requirement: "Systems architecture", maps_to: "ERA-2 POI Graph + ERA-5 Palette", weight: 2 }
+        - { requirement: "Customer delivery", maps_to: "ERA-4 Ask Pathfinder (12K sellers/month)", weight: 2 }
+        - { requirement: "Technical depth (Python, APIs)", maps_to: "ERA-5 Palette (Python, Claude API, Go)", weight: 2 }
+      nice_to_haves:
+        - { requirement: "LLM/RAG experience", maps_to: "ERA-3 AGI attribution + ERA-5 Palette RAG", weight: 1 }
+        - { requirement: "Startup experience", maps_to: "ERA-5 Palette (independent build)", weight: 1 }
+
+    story_bank:
+      lead: STORY-5   # POI Knowledge Graph (scale, architecture)
+      secondary: STORY-1  # Ask Pathfinder (adoption, cross-team)
+      technical: STORY-4  # Taxonomy restructuring (design decisions)
+      builder: STORY-7   # Palette (hands-on credibility)
+      failure: STORY-1   # Ask Pathfinder team unification (conflict → resolution)
+
+    interview_playbook:
+      prep_hours: 4-6
+      prep_documents:
+        - fit_analysis
+        - company_research_brief
+        - interview_cheatsheet
+        - behavioral_stories
+        - technical_deep_dive
+        - day_of_protocol
+      anchor_messages:
+        - "I've built production AI systems end-to-end — from 25B-node knowledge graphs to multi-agent orchestration"
+        - "I bridge the gap between what models can do technically and what customers need to deploy"
+        - "My comparative linguistics background means I translate complex systems into actionable architecture"
+      common_questions:
+        - { q: "Walk me through a system you built", lead_with: ERA-2, follow: ERA-5 }
+        - { q: "How do you handle conflicting requirements?", lead_with: ERA-2, note: "47 providers, entity resolution" }
+        - { q: "Tell me about a customer delivery win", lead_with: ERA-4, note: "Ask Pathfinder, 25% prep reduction" }
+        - { q: "How would you debug a RAG pipeline?", lead_with: ERA-3, follow: ERA-5 }
+      advance_bar: "8.5/10 — customer-safe, structured, concise, confident"
+
+    accumulated_learnings:
+      from_implementations:
+        - talent-perplexity-fde
+        - talent-friendliai-interview
+      patterns:
+        - "FDE roles value 'diagnose AND build' — always show both sides"
+        - "Power user positioning is rare and memorable (Palette built ON their product)"
+        - "Technical depth matters more than breadth — go deep on one system per answer"
+        - "They want to see you prototype, not just plan"
+      anti_patterns:
+        - "Don't lead with Palette unless asked — it's capstone, not headline"
+        - "Don't over-explain architecture without tying to customer outcome"
+
+  # --- ENABLEMENT STRATEGY ---
+  enablement_strategy:
+    id: ES
+    display_name: "Enablement Strategy & Adoption"
+    one_liner: "Drive AI adoption at scale — strategy, measurement, executive engagement"
+    resource_refs:
+      primary_lenses: [LENS-SALES-001, LENS-INT-001]
+      supporting_lenses: [LENS-CS-001, LENS-EXEC-001, LENS-MGR-001]
+
+    search_patterns:
+      titles:
+        - "AI Strategy Manager"
+        - "AI Enablement Lead"
+        - "Senior Manager, AI Strategy"
+        - "Director, AI Enablement"
+        - "GTM Enablement Manager"
+        - "Customer Enablement Architect"
+        - "AI Adoption Manager"
+        - "AI Outcomes Manager"
+      keywords:
+        - "adoption"
+        - "enablement"
+        - "strategy"
+        - "executive"
+        - "GTM"
+        - "change management"
+        - "measurement"
+        - "scaled impact"
+      companies_targeted:
+        - { name: "Gap Inc", role: "Sr Manager AI Strategy", status: interviewed }
+        - { name: TaskRabbit, role: "Director AI Strategy", status: applied }
+        - { name: Databricks, role: "Sr Customer Enablement Architect", status: sweep }
+
+    resume_profile: enablement_strategy
+    bullet_key: enablement
+
+    lead_eras: [ERA-4]  # Ask Pathfinder — the adoption machine
+    capstone_era: ERA-5
+    palette_framing: "enablement at scale — 117 taxonomy nodes, assessment system, learning progressions"
+
+    fit_lens:
+      must_haves:
+        - { requirement: "Scaled enablement/adoption", maps_to: "ERA-4 Ask Pathfinder (12K sellers, 250+ sessions, 20K users)", weight: 2 }
+        - { requirement: "Executive engagement", maps_to: "ERA-4 Data Leadership Forum (291 leaders, 98 CxOs)", weight: 2 }
+        - { requirement: "Measurement & outcomes", maps_to: "ERA-4 three-level measurement (+17% engagement, +67% adoption)", weight: 2 }
+      nice_to_haves:
+        - { requirement: "AI/ML technical depth", maps_to: "ERA-2 POI Graph + ERA-3 AGI + ERA-5 Palette", weight: 1 }
+        - { requirement: "Change management", maps_to: "ERA-1 multinational programs (200+ associates, 4 countries)", weight: 1 }
+
+    story_bank:
+      lead: STORY-1   # Ask Pathfinder (adoption, enablement, cross-team)
+      secondary: STORY-3  # Data Leadership Forum (executive engagement)
+      technical: STORY-4  # Taxonomy restructuring (design → outcome)
+      builder: STORY-7   # Palette (builder credibility, use sparingly)
+      cultural: STORY-6  # Multilingual (translation = enablement)
+
+    interview_playbook:
+      prep_hours: 4-8
+      prep_documents:
+        - fit_analysis
+        - company_research_brief
+        - interview_cheatsheet
+        - behavioral_stories
+        - simulation_drills_4_rounds
+        - day_of_protocol
+      anchor_messages:
+        - "Adoption isn't a model problem — it's a translation problem"
+        - "I measure at three levels: usage, behavior shift, business outcomes"
+        - "I find one team, prove the win, let success create pull"
+      common_questions:
+        - { q: "How do you drive adoption at scale?", lead_with: ERA-4, note: "Finance POD → full org" }
+        - { q: "Give an example of executive engagement", lead_with: ERA-4, note: "Data Forum, 98 CxOs" }
+        - { q: "How do you measure success?", lead_with: ERA-4, note: "Three-level measurement" }
+        - { q: "Tell me about a failure", lead_with: "Glean post-mortem", note: "Didn't know internal systems" }
+      advance_bar: "8/10 recruiter, 8.5/10 hiring manager, 9/10 technical"
+
+    accumulated_learnings:
+      from_implementations:
+        - talent-gap-interview
+        - talent-taskrabbit-director-ai-strategy
+      patterns:
+        - "Research depth scales with domain familiarity — don't over-research familiar domains"
+        - "4-round simulation protocol (Gap) was the most rigorous prep — keep using it"
+        - "Enabler vs Executor: same proof points, different framing"
+        - "Counter-intuitive specificity wins: 'I would NOT do X' is more memorable"
+        - "'Find one team, prove the win, let success create pull' = Finance POD pattern"
+        - "Deep company research is non-negotiable for unfamiliar domains (Gap: 8+ docs, 150KB)"
+      anti_patterns:
+        - "Don't use generic transformation language — specifics win"
+        - "Don't lead with Palette for strategy roles — lead with Ask Pathfinder"
+        - "Don't skip hiring manager research (LinkedIn, talks, blog posts)"
+
+  # --- ENABLEMENT SYSTEMS BUILDER ---
+  enablement_systems_builder:
+    id: ESB
+    display_name: "Enablement Systems Builder"
+    one_liner: "Build the infrastructure that enables AI adoption — curriculum, assessment, credentialing systems"
+    resource_refs:
+      primary_lenses: [LENS-DEV-001, LENS-INT-001]
+      supporting_lenses: [LENS-SALES-001, LENS-MKT-001]
+
+    search_patterns:
+      titles:
+        - "Technical Marketing Engineer"
+        - "Developer Education Lead"
+        - "Education Engineer"
+        - "AI Enablement Engineer"
+        - "Developer Advocate"
+        - "Developer Experience Engineer"
+        - "Certification Content & Systems Architect"
+        - "Design Engineer, Education"
+      keywords:
+        - "enablement infrastructure"
+        - "developer education"
+        - "curriculum"
+        - "certification"
+        - "credentialing"
+        - "assessment"
+        - "developer experience"
+        - "playbooks"
+        - "integration frameworks"
+      companies_targeted:
+        - { name: Mistral, role: "TME", status: interviewing }
+        - { name: Lenovo, role: "Sr Manager EKM", status: interviewing }
+        - { name: Cognition, role: "AI Enablement Engineer", status: sweep }
+        - { name: Anthropic, role: "Developer Education Lead", status: sweep }
+        - { name: Anthropic, role: "Cert Content & Systems Architect", status: sweep }
+        - { name: LangChain, role: "Education Engineer ML", status: sweep }
+        - { name: OpenAI, role: "Developer Experience Engineer", status: sweep }
+        - { name: n8n, role: "Sr Developer Advocate EMEA", status: sweep }
+
+    resume_profile: technical_marketing_engineer  # TME profile is closest
+    bullet_key: tme  # falls back to enablement/knowledge_engineer where tme doesn't exist
+
+    lead_eras: [ERA-4]  # Ask Pathfinder as knowledge-to-adoption translation system
+    secondary_eras: [ERA-1]  # Multilingual enablement foundation
+    capstone_era: ERA-5
+    palette_framing: "enablement system builder — taxonomy, assessment, calibration, validation loops"
+
+    fit_lens:
+      must_haves:
+        - { requirement: "Technical content creation", maps_to: "ERA-4 Ask Pathfinder (3-layer architecture, 100+ use cases)", weight: 2 }
+        - { requirement: "Developer enablement", maps_to: "ERA-4 (250+ sessions, 12K sellers, partner ecosystem)", weight: 2 }
+        - { requirement: "AI product fluency", maps_to: "ERA-4 Mistral/xAI partnerships + ERA-5 Palette (Claude API daily)", weight: 2 }
+      nice_to_haves:
+        - { requirement: "Curriculum/assessment design", maps_to: "ERA-5 Palette enablement system (117 modules, calibration exemplars)", weight: 1 }
+        - { requirement: "Open source / community", maps_to: "ERA-5 Palette (github.com/pretendhome/palette)", weight: 1 }
+        - { requirement: "Multilingual", maps_to: "ERA-1 + STORY-6 (French, Italian, Spanish)", weight: 1 }
+
+    story_bank:
+      lead: STORY-1   # Ask Pathfinder (GTM chatbot, adoption)
+      secondary: STORY-4  # Taxonomy restructuring (design → impact)
+      executive: STORY-3  # Data Leadership Forum
+      technical: STORY-7  # Palette (builder credibility)
+      cultural: STORY-6  # Multilingual (Paris, translation = enablement)
+      partner: STORY-2  # Mistral partnership at AWS
+
+    interview_playbook:
+      prep_hours: 4-6
+      prep_documents:
+        - fit_analysis
+        - company_research_brief
+        - product_mastery
+        - interview_cheatsheet
+        - behavioral_stories
+        - drill_protocol
+        - day_of_protocol
+      anchor_messages:
+        - "I don't just create content — I build the enablement layer around adoption"
+        - "The best model doesn't get deployed if the sales team can't explain why it matters"
+        - "Taxonomy, calibration, assessment, validation — that's what scales enablement, not more docs"
+      common_questions:
+        - { q: "Tell me about yourself", lead_with: ERA-4, note: "Ask Pathfinder as enablement system" }
+        - { q: "Why this company?", note: "Thesis-first, product-specific" }
+        - { q: "What enablement system would you build?", lead_with: ERA-4, follow: ERA-5 }
+        - { q: "Technical content that drove adoption", lead_with: ERA-4, note: "67% feature adoption" }
+        - { q: "First 90 days?", note: "Audit existing enablement → identify highest-leverage gap → build one system → prove the win" }
+      advance_bar: "8.5/10 — reward enablement-system thinking, not just launch-content answers"
+
+    accumulated_learnings:
+      from_implementations:
+        - talent-mistral-tme
+        - talent-lenovo-ekm
+        - talent-anthropic-cert-architect
+      patterns:
+        - "Frame as 'enablement infrastructure' not 'content creation' — systems thinking wins"
+        - "Pathfinder stays lead historical proof, V1 enablement build is fresh secondary"
+        - "'Already done the job from the other side' is strongest positioning"
+        - "Product demonstration is non-negotiable — use their product to advocate for it"
+        - "Study system: STUDY_INDEX → REFERENCE_STACK → LIVE_COACHING_LOOP → DRILL_PROTOCOL"
+        - "Coaching loops with hard grading (8.5/10 bar) outperform passive prep"
+        - "Stale product knowledge is deadly — verify against current docs before interview"
+      anti_patterns:
+        - "Don't lead with Palette unless directly asked"
+        - "Don't memorize model specs — understand decision framing instead"
+        - "Don't use generic 'drive adoption' language — describe the system you'd build"
+
+  # --- CUSTOMER SUCCESS & AI DEPLOYMENT ---
+  customer_success_ai:
+    id: CSAI
+    display_name: "Customer Success & AI Deployment"
+    one_liner: "Own customer outcomes with AI — deployment, adoption, expansion"
+    resource_refs:
+      primary_lenses: [LENS-CS-001, LENS-INT-001]
+      supporting_lenses: [LENS-SALES-001, LENS-DEV-001]
+
+    search_patterns:
+      titles:
+        - "AI Outcomes Manager"
+        - "AI Deployment Manager"
+        - "Customer Success Manager"
+        - "Technical Account Manager"
+        - "Customer Solutions Architect"
+        - "AI Customer Engineer"
+      keywords:
+        - "customer outcomes"
+        - "deployment"
+        - "expansion"
+        - "retention"
+        - "time to value"
+        - "success metrics"
+        - "account management"
+        - "enterprise"
+      companies_targeted:
+        - { name: OpenAI, role: "AI Deployment Manager", status: interviewing }
+        - { name: Glean, role: "AI Outcomes Manager", status: post_mortem }
+        - { name: Perplexity, role: "CSM", status: applied }
+
+    resume_profile: customer_success_ai
+    bullet_key: enablement  # customer outcomes framing uses enablement bullets
+
+    lead_eras: [ERA-4]  # Ask Pathfinder (12K users, adoption measurement)
+    secondary_eras: [ERA-3]  # AGI (evaluation, quality)
+    capstone_era: ERA-5
+    palette_framing: "customer-facing AI systems — routing, evaluation, quality instrumentation"
+
+    fit_lens:
+      must_haves:
+        - { requirement: "Customer-facing delivery", maps_to: "ERA-4 Ask Pathfinder (12K sellers, 250+ sessions)", weight: 2 }
+        - { requirement: "AI product deployment", maps_to: "ERA-4 partners (Mistral, xAI) + ERA-5 Palette", weight: 2 }
+        - { requirement: "Outcome measurement", maps_to: "ERA-4 three-level measurement + ERA-3 evaluation frameworks", weight: 2 }
+      nice_to_haves:
+        - { requirement: "Technical depth", maps_to: "ERA-2 POI Graph + ERA-5 Palette (9 agents)", weight: 1 }
+        - { requirement: "Executive relationships", maps_to: "ERA-4 Data Forum (98 CxOs)", weight: 1 }
+
+    story_bank:
+      lead: STORY-1   # Ask Pathfinder (adoption, measurement)
+      secondary: STORY-3  # Data Leadership Forum (executive engagement)
+      technical: STORY-5  # POI Graph (scale, data quality)
+      failure: STORY-4   # Taxonomy restructuring (found and fixed a structural problem)
+      builder: STORY-7   # Palette (builder credibility)
+
+    interview_playbook:
+      prep_hours: 6-8
+      prep_documents:
+        - fit_analysis
+        - company_research_brief
+        - product_deep_dive
+        - interview_cheatsheet
+        - behavioral_stories
+        - simulation_drills_4_rounds
+        - takehome_protocol  # common for these roles
+        - day_of_protocol
+      anchor_messages:
+        - "I measure at three levels: usage, behavior shift, business outcomes"
+        - "The 4-question framework: Is it a pattern? Is there data? Is it repetitive? Is it measurable?"
+        - "I've been on both sides — building the AI and deploying it for customers"
+      common_questions:
+        - { q: "How do you ensure customer success?", lead_with: ERA-4, note: "Three-level measurement" }
+        - { q: "Walk me through a deployment", lead_with: ERA-4, note: "Ask Pathfinder adoption journey" }
+        - { q: "How do you handle a failing account?", lead_with: ERA-3, note: "Diagnostic approach from AGI eval" }
+        - { q: "Technical product demo", note: "Use their product, build something on it" }
+      advance_bar: "9/10 — these roles have the highest bar for product knowledge"
+
+    accumulated_learnings:
+      from_implementations:
+        - talent-openai-deployment-mgr
+        - talent-glean-interview
+        - talent-perplexity-csm
+      patterns:
+        - "Product depth matters more than generic prep — know their internal systems"
+        - "4-question framework works as both demo tool and customer engagement method"
+        - "Modular materials (5-6 docs) > monolithic documents (Glean learning)"
+        - "Takehome assignments are common — use the takehome protocol"
+        - "Study system with coaching loop and hard grading (9/10 bar) is essential"
+        - "FDE-adjacent positioning may be stronger than pure CS for technical candidates"
+        - "Research depth: unfamiliar domain 8+ docs/150KB, familiar domain 5 docs/80KB"
+      anti_patterns:
+        - "Don't use generic transformation language — specifics win"
+        - "Don't skip company blog/engineering posts — non-negotiable"
+        - "Don't skip hiring manager philosophy research (LinkedIn, talks)"
+        - "Don't lead with revenue numbers — lead with customer outcomes"
+
+  # --- KNOWLEDGE & DATA ENGINEER ---
+  knowledge_data_engineer:
+    id: KDE
+    display_name: "Knowledge & Data Engineer"
+    one_liner: "Build knowledge architectures, ontologies, and retrieval systems"
+    resource_refs:
+      primary_lenses: [LENS-DEV-001, LENS-INT-001]
+      supporting_lenses: [LENS-ENG-001, LENS-QA-001]
+
+    search_patterns:
+      titles:
+        - "Knowledge Data Engineer"
+        - "Knowledge Engineer"
+        - "Ontologist"
+        - "Taxonomist"
+        - "Data Engineer"
+        - "Knowledge Graph Engineer"
+        - "NLP Engineer"
+        - "AI Data Engineer"
+      keywords:
+        - "ontology"
+        - "taxonomy"
+        - "knowledge graph"
+        - "entity resolution"
+        - "data pipeline"
+        - "retrieval"
+        - "structured data"
+        - "NLP"
+      companies_targeted:
+        - { name: iBusiness, role: "AI Knowledge Data Engineer", status: applying }
+        - { name: Gusto, role: "Taxonomist/Ontologist", status: sweep }
+        - { name: Airbnb, role: "Sr Ontologist Knowledge Graph", status: sweep }
+        - { name: "Leonardo SpA", role: "AI/NLP", status: sweep, deadline: "2026-03-29" }
+
+    resume_profile: knowledge_data_engineer
+    bullet_key: data_engineer
+
+    lead_eras: [ERA-2]  # POI Knowledge Graph — biggest scale
+    secondary_eras: [ERA-4, ERA-3]  # Ask Pathfinder retrieval + AGI evaluation
+    capstone_era: ERA-5
+    palette_framing: "knowledge graph + retrieval system — 1,876 quads, taxonomy-driven routing"
+
+    fit_lens:
+      must_haves:
+        - { requirement: "Knowledge architecture / ontology", maps_to: "ERA-2 POI Graph (25B nodes, 47 providers)", weight: 2 }
+        - { requirement: "Data pipelines", maps_to: "ERA-2 Spark ETL + ERA-5 Palette validation pipelines", weight: 2 }
+        - { requirement: "Entity resolution / data fusion", maps_to: "ERA-2 vector-based entity resolution", weight: 2 }
+      nice_to_haves:
+        - { requirement: "LLM/RAG", maps_to: "ERA-3 attribution + ERA-5 Palette RAG", weight: 1 }
+        - { requirement: "Multilingual", maps_to: "ERA-1 + ERA-2 (13 locales, 4 languages)", weight: 1 }
+
+    story_bank:
+      lead: STORY-5   # POI Knowledge Graph (scale, architecture)
+      secondary: STORY-4  # Taxonomy restructuring (design decisions)
+      technical: STORY-5  # Same — go deeper on entity resolution
+      cultural: STORY-6  # Multilingual (Italian launch)
+      builder: STORY-7   # Palette (knowledge graph, retrieval)
+
+    interview_playbook:
+      prep_hours: 3-4
+      prep_documents:
+        - fit_analysis
+        - company_research_brief
+        - interview_cheatsheet
+        - behavioral_stories
+        - technical_deep_dive
+        - day_of_protocol
+      anchor_messages:
+        - "I've built knowledge systems from 200-person teams to 25B-node graphs"
+        - "Comparative linguistics IS knowledge engineering — structuring meaning for machine consumption"
+        - "Every approach has tradeoffs — I name them and show how I solved them"
+      common_questions:
+        - { q: "Walk me through a system", lead_with: ERA-2, note: "Full POI pipeline story" }
+        - { q: "How do you handle conflicting data?", lead_with: ERA-2, note: "47 providers, entity resolution" }
+        - { q: "Retrieval approach?", lead_with: ERA-2, follow: ERA-4, then: ERA-5 }
+        - { q: "LLM enrichment?", lead_with: ERA-3, follow: ERA-5 }
+      advance_bar: "8/10 — technical depth is paramount"
+
+    accumulated_learnings:
+      from_implementations:
+        - talent-ibusiness-ai-kde
+      patterns:
+        - "Lead with 12 years of Amazon depth, Palette as capstone — not the reverse"
+        - "3 retrieval approaches across career shows range (graph, metadata, taxonomy-driven)"
+        - "Italy launch + multilingual systems is a unique differentiator for EU roles"
+        - "Each answer must feature a DIFFERENT era — no repetition"
+      anti_patterns:
+        - "Don't make answers Palette-heavy — 12 years of Amazon is the foundation"
+        - "Don't skip the annotation team management story — it shows leadership"
+
+  # --- CERTIFICATION ARCHITECT ---
+  certification_architect:
+    id: CA
+    display_name: "Certification & Education Architect"
+    one_liner: "Design certification programs, assessment systems, and learning architectures"
+    resource_refs:
+      primary_lenses: [LENS-INT-001, LENS-INT-002]
+      supporting_lenses: [LENS-DEV-001, LENS-QA-001]
+
+    search_patterns:
+      titles:
+        - "Certification Architect"
+        - "Certification Content & Systems Architect"
+        - "Learning Architect"
+        - "Assessment Designer"
+        - "Curriculum Architect"
+        - "Education Program Manager"
+      keywords:
+        - "certification"
+        - "assessment"
+        - "curriculum"
+        - "learning design"
+        - "credentialing"
+        - "competency framework"
+        - "evaluation"
+      companies_targeted:
+        - { name: Anthropic, role: "Cert Content & Systems Architect", status: sweep }
+
+    resume_profile: certification_architect
+    bullet_key: enablement
+
+    lead_eras: [ERA-4]  # Ask Pathfinder enablement metrics
+    secondary_eras: [ERA-1]  # Multilingual training programs
+    capstone_era: ERA-5
+    palette_framing: "assessment system — 117 curriculum modules, 3-layer evaluation, calibration exemplars"
+
+    fit_lens:
+      must_haves:
+        - { requirement: "Curriculum/assessment design", maps_to: "ERA-5 Palette (117 modules, calibration, 3-layer eval)", weight: 2 }
+        - { requirement: "AI product fluency", maps_to: "ERA-4 partners + ERA-5 (Claude API, Claude Code daily)", weight: 2 }
+        - { requirement: "Knowledge architecture", maps_to: "ERA-2 POI taxonomy + ERA-4 Ask Pathfinder ontology", weight: 2 }
+      nice_to_haves:
+        - { requirement: "Technical depth", maps_to: "ERA-2 + ERA-3 + ERA-5", weight: 1 }
+        - { requirement: "Multilingual", maps_to: "ERA-1 (4 countries, 4 languages)", weight: 1 }
+
+    story_bank:
+      lead: STORY-1   # Ask Pathfinder (enablement at scale)
+      secondary: STORY-4  # Taxonomy restructuring (knowledge architecture)
+      technical: STORY-7  # Palette (assessment system, calibration)
+      cultural: STORY-6  # Multilingual
+
+    interview_playbook:
+      prep_hours: 4-6
+      prep_documents:
+        - fit_analysis
+        - company_research_brief
+        - product_mastery
+        - interview_cheatsheet
+        - behavioral_stories
+        - day_of_protocol
+      anchor_messages:
+        - "Certification at scale needs taxonomy, calibration, and intelligent automation — not more headcount"
+        - "I built a production assessment system with 3-layer evaluation and calibration exemplars"
+        - "Quality of thinking, not word count, is what differentiates competency levels"
+      common_questions:
+        - { q: "How would you design a certification program?", lead_with: ERA-5, note: "Palette assessment system" }
+        - { q: "How do you scale assessment?", lead_with: ERA-5, follow: ERA-4 }
+        - { q: "AI-augmented education?", lead_with: ERA-5, note: "LLM-as-judge, calibration exemplars" }
+      advance_bar: "8.5/10"
+
+    accumulated_learnings:
+      from_implementations:
+        - talent-anthropic-cert-architect
+      patterns:
+        - "This profile uniquely benefits from leading with Palette (ERA-5) as primary evidence"
+        - "The enablement system V1 build is the strongest fresh proof"
+        - "Assessment contract → gold exemplars → threshold policy → semantic integrity = the right build order"
+      anti_patterns:
+        - "Don't describe assessment as 'just multiple choice' — show the confidence-escalation model"
+
+# --- EU-SPECIFIC SEARCH PATTERNS ---
+# Applies across all profiles for European opportunities
+
+eu_search:
+  active: true
+  markets: [France, Italy, Germany, UK, Remote-EU]
+  languages_advantage: [French, Italian, Spanish]
+  visa_status: "EU work authorization may be needed — check per country"
+  targeted_companies:
+    - { name: Mistral, location: Paris, profile: enablement_systems_builder }
+    - { name: Dust, location: Paris, profile: forward_deployed_engineer }
+    - { name: "Leonardo SpA", location: Italy, profile: knowledge_data_engineer, deadline: "2026-03-29" }
+    - { name: n8n, location: "Remote EU", profile: enablement_systems_builder }
+    - { name: Gladia, location: Paris, profile: knowledge_data_engineer }
+    - { name: "Black Forest Labs", location: Germany, profile: knowledge_data_engineer }
+    - { name: Lovable, location: Stockholm, profile: forward_deployed_engineer }
+    - { name: Parloa, location: "Berlin/Remote", profile: customer_success_ai }
+    - { name: "Politecnico di Milano", location: Milan, profile: certification_architect, deadline: "2026-04-02" }
+  positioning_advantage: "6 years Milan + 4 years Paris + fluent French/Italian/Spanish = rare for AI roles"

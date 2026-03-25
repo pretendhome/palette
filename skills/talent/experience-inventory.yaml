@@ -1,0 +1,453 @@
+# Experience Inventory — Mical Neill
+# The "Knowledge Library" for talent: structured career data that resumes,
+# cover letters, interview answers, and story banks all assemble from.
+# Updated: 2026-03-24
+
+profile:
+  name: "Mical Neill"
+  location: "San Francisco Bay Area, CA"
+  phone: "(415) 465-0568"
+  email: "micalrneill@gmail.com"
+  linkedin: "linkedin.com/in/mical-neill-79176412"
+  portfolio: "github.com/pretendhome/palette"
+  visa_sponsorship: false
+  available: "2026-05-01"
+  languages:
+    - { lang: English, level: native }
+    - { lang: French, level: fluent, note: "4 years in Paris" }
+    - { lang: Italian, level: fluent, note: "6 years in Milan" }
+    - { lang: Spanish, level: proficient }
+
+education:
+  - { school: "UC Berkeley Extension", degree: "Data Analytics Certificate", year: 2019 }
+  - { school: "Université Paris-Sorbonne", degree: "MA, Romance Languages & Linguistics", year: 2009 }
+  - { school: "San Francisco State University", degree: "BA, Comparative Literature & Spanish", year: 2005 }
+
+# --- CAREER ERAS ---
+# Each era is a structured knowledge unit. Resumes and answers query these.
+
+eras:
+
+  - id: ERA-1
+    company: Amazon
+    location: "Milan, Italy & San Francisco, CA"
+    dates: "2013-2019"
+    title: "Knowledge Engineer → Program Manager"
+    headline_variants:
+      knowledge_engineer: "Knowledge Engineer → Program Manager"
+      data_engineer: "Knowledge Engineer → Program Manager"
+      enablement: "Knowledge Engineer → Program Manager"
+    bullets:
+      knowledge_engineer:
+        - "Built training data pipelines and knowledge classification systems for multilingual content operations spanning 4 countries and 4 languages (English, French, Italian, Spanish)"
+        - "Managed cross-functional delivery in data-quality-critical operating environments — designing data curation workflows, annotation guidelines, and quality instrumentation"
+      enablement:
+        - "Led training and change programs for 200+ associates across 4 countries in English, French, Italian, and Spanish — building credentialing-adjacent competency programs in multilingual enterprise environments"
+        - "Managed cross-functional delivery in quality-critical operating environments spanning multiple countries and regulatory contexts"
+    systems_built: []
+    scale_metrics:
+      - "200+ associates"
+      - "4 countries"
+      - "4 languages"
+    technologies: []
+    skills_demonstrated:
+      - multilingual knowledge engineering
+      - training data curation
+      - annotation workflow design
+      - cross-cultural ontology
+      - change management
+
+  - id: ERA-2
+    company: "Amazon Alexa Automotive"
+    location: "Santa Clara, CA"
+    dates: "2019-2023"
+    title: "Taxonomist / Ontologist — AI Knowledge Infrastructure"
+    headline_variants:
+      knowledge_engineer: "Taxonomist / Ontologist — AI Knowledge Infrastructure"
+      data_engineer: "Taxonomist / Ontologist — AI Knowledge Infrastructure"
+      enablement: "Taxonomist / Ontologist — AI Knowledge Infrastructure"
+    bullets:
+      knowledge_engineer:
+        - "Built scalable ontology and taxonomy frameworks across 13 locales and 47 data providers — structuring unstructured automotive knowledge into machine-navigable hierarchies"
+        - "Designed entity resolution and data fusion pipelines aggregating heterogeneous data sources (navigation, media, smart home, communication) into unified knowledge representations"
+        - "Standardized cross-team metadata schemas, entity relationships, and quality gates to ensure consistency and traceability across multilingual AI systems"
+      data_engineer:
+        - "Built scalable ontology and taxonomy frameworks across 13 locales and 47 data providers — structuring unstructured automotive knowledge into machine-navigable hierarchies"
+        - "Designed entity resolution and data fusion pipelines aggregating heterogeneous data sources (navigation, media, smart home, communication) into unified knowledge representations"
+        - "Standardized cross-team metadata schemas, entity relationships, and quality gates to ensure consistency and traceability across multilingual AI systems"
+        - "Led data quality programs for knowledge-critical AI operations — defining validation rules, coverage metrics, and automated anomaly detection"
+      enablement:
+        - "Built scalable metadata and taxonomy frameworks across 13 locales and 47 data providers — competency in multilingual knowledge systems architecture"
+        - "Standardized cross-team data structures, artifact relationships, and quality standards to improve traceability and reuse across assessment instruments"
+        - "Led cross-team alignment and technical enablement for quality-sensitive, multilingual AI operations"
+    systems_built:
+      - name: "POI Knowledge Graph"
+        type: knowledge_graph
+        scale: "25 billion nodes"
+        description: "Intelligence layer for Alexa location-based features across 13 locales"
+        architecture:
+          ingestion: "Spark ETL normalizing 47 provider feeds (CSV, JSON, XML, API) into canonical entity schema with field-level provenance"
+          transformation: "Vector-based entity resolution — each entity reduced to ID + embedding (name features, geospatial, category, contextual attributes). Nearest-neighbor in embedding space with per-locale tunable thresholds"
+          storage: "Knowledge graph with typed relationships (located_in, categorized_as, near, part_of). Schema designed for traversal, not just lookup"
+          retrieval: "NLU intent parsing → graph traversal → ranking by relevance, confidence (source quality + agreement), freshness"
+        key_decisions:
+          - "Field-level provenance (not entity-level) — know exactly which source contributed each field"
+          - "Vector-based entity resolution over rule-based — learned 'same place' concept from labeled data, generalized across locales"
+          - "Asymmetric merge thresholds — high confidence auto-merge, low confidence → human review"
+          - "Category taxonomy normalizing 47 provider schemes into one hierarchy"
+        problems_solved:
+          - "False merges (entity disappearance) → asymmetric thresholds + human review queue"
+          - "Embedding drift from new providers → periodic retraining + merge-rate anomaly monitoring"
+          - "Source conflicts (Provider A says 10pm, Provider B says 11pm) → source-priority rules + recency weighting"
+          - "47 different category schemes → hierarchical ontology accommodating granular (200+) and coarse (10) taxonomies"
+        italy_launch:
+          led_by: "Mical (fluent Italian, lived in Milan 6 years)"
+          challenges: "New provider integrations, Italian-specific entity resolution rules, Italian business naming conventions, Italian commercial category patterns"
+          outcome: "Proved architecture was generalizable — same graph schema onboards new locales via config, not rebuild"
+    annotation_teams:
+      size: "~30 people, two teams"
+      purpose: "Training data for entity resolution models + ground truth for quality evaluation"
+      workflow: "Annotation guidelines → labeling → inter-annotator agreement measurement → disagreement review → guideline revision → retrain"
+    scale_metrics:
+      - "25 billion nodes"
+      - "47 data providers"
+      - "13 locales"
+      - "~30 annotators"
+    technologies:
+      - Spark
+      - vector embeddings
+      - nearest-neighbor search
+      - knowledge graphs
+    skills_demonstrated:
+      - ontology design
+      - entity resolution
+      - data fusion
+      - vector embeddings
+      - Spark ETL
+      - annotation team management
+      - multilingual systems
+      - knowledge graph construction
+
+  - id: ERA-3
+    company: "Amazon AGI"
+    location: "San Francisco, CA"
+    dates: "2023-2024"
+    title: "Senior Knowledge Engineer — Applied AI Systems"
+    headline_variants:
+      knowledge_engineer: "Senior Knowledge Engineer — Applied AI Systems"
+      data_engineer: "Senior Knowledge Engineer — Applied AI Systems"
+      enablement: "Senior Knowledge Engineer — Applied AI Systems"
+    bullets:
+      knowledge_engineer:
+        - "Designed evaluation frameworks for AI output quality, confidence scoring, and failure-mode detection — assessment methodologies measuring applied competence, not surface exposure"
+        - "Built retrieval and knowledge architecture patterns optimizing for assessment validity: ensuring the right knowledge surfaces for the right competency level"
+        - "Partnered cross-functionally with engineering and applied science to operationalize quality controls and establish reliability standards across the AI lifecycle"
+      data_engineer:
+        - "Designed evaluation frameworks for AI output quality using structured rubrics, confidence scoring, and failure-mode classification — measuring retrieval accuracy and generation fidelity"
+        - "Built knowledge retrieval architecture patterns optimizing for precision and recall: ensuring the right knowledge surfaces at the right confidence threshold for downstream LLM consumption"
+        - "Developed quality control pipelines validating AI-generated outputs against source knowledge, tracking hallucination rates and attribution accuracy"
+      enablement:
+        - "Designed evaluation frameworks for AI output quality, confidence scoring, and failure-mode detection — assessment methodologies measuring applied competence, not surface exposure"
+        - "Measured inter-rater reliability (Cohen's kappa) across annotation teams; used disagreement analysis to refine rubrics and improve assessment validity"
+        - "Partnered cross-functionally with engineering and applied science to operationalize quality controls and establish reliability standards across the AI lifecycle"
+    systems_built:
+      - name: "Structured Attribution Pipeline"
+        type: evaluation
+        description: "Decompose AI outputs into claims, link each to source documents, score link strength. No-link or weak-link = potential hallucination."
+        impact: "Turned subjective 'does this look right?' into measurable 'what percentage of claims are traceable to sources?'"
+        key_insight: "Hallucination is a knowledge coverage problem, not just a model problem. Filling knowledge gaps directly reduced hallucination rates."
+    annotation_teams:
+      size: "~30 people, two teams"
+      purpose: "Labeled judgments feeding RL training loops"
+      workflow: "Annotation guidelines → labeling → inter-annotator agreement (Cohen's kappa) → versioned datasets with lineage tracking → traceability from model behavior back to training data"
+      key_insight: "When model quality degraded, diagnosis: data quality issue (annotator disagreement, guideline ambiguity) or model issue? Most of the time, it was data."
+    scale_metrics:
+      - "~30 annotators"
+      - "RL training pipeline"
+    technologies:
+      - evaluation frameworks
+      - structured rubrics
+      - confidence scoring
+      - attribution pipelines
+    skills_demonstrated:
+      - AI evaluation design
+      - hallucination detection
+      - training data operations
+      - annotation quality control
+      - RL training data curation
+      - knowledge gap analysis
+
+  - id: ERA-4
+    company: "Amazon Web Services (AWS)"
+    location: "San Francisco, CA"
+    dates: "2024-2026"
+    title: "Technical Program Manager — AI Enablement & Knowledge Systems"
+    headline_variants:
+      knowledge_engineer: "Technical Program Manager — AI Enablement & Knowledge Systems"
+      data_engineer: "Technical Program Manager — AI Enablement & Knowledge Systems"
+      enablement: "Technical Program Manager — AI Enablement & Knowledge Systems"
+      tme: "Technical Program Manager — AI Enablement & Knowledge Systems"
+      customer_success: "Technical Program Manager — AI Deployment & Customer Outcomes"
+    bullets:
+      knowledge_engineer:
+        - "Built Ask Pathfinder: an AI knowledge system with structured taxonomy (industry-based to function-based reclassification), parent-child artifact relationships, and competency-aligned retrieval — serving 12,000+ sellers monthly with 25% reduction in prep time"
+        - "Designed the 3-layer knowledge architecture: content ingestion layer, metadata layer (type/subType/pf_metaKeywords as human-designed competency signals), and use-case ontology spanning 15 verticals and 100+ specific use cases"
+        - "Created and maintained item banks of enablement content aligned to competency frameworks, with AI-assisted processes for keeping content current as product capabilities evolved"
+        - "Built adoption measurement instrumentation tracking usage, behavior change, and competency progression — not vanity metrics"
+        - "Partnered with GTM, Product, and Engineering teams to translate business requirements into educational design and credentialing content"
+        - "Analyzed adoption and assessment data to identify content gaps and competency bottlenecks; used findings to prioritize curriculum updates and deprecate low-signal content"
+      data_engineer:
+        - "Built Ask Pathfinder: an AI knowledge retrieval system with structured taxonomy (reclassified from industry-based to function-based), parent-child artifact relationships, metadata layer with human-designed competency signals, and use-case ontology spanning 15 verticals and 100+ use cases — serving 12,000+ users monthly"
+        - "Designed 3-layer knowledge architecture: content ingestion layer (unstructured docs, product updates, field reports), metadata layer (type/subType/pf_metaKeywords as structured retrieval signals), and use-case ontology enabling precision retrieval by intent"
+        - "Built data pipelines for continuous knowledge ingestion, transformation, and indexing — automated content currency checks and staleness detection across 100+ knowledge artifacts"
+        - "Delivered 250+ technical enablement sessions reaching 20,000+ enterprise users annually, driving +17% engagement and +67% feature adoption through knowledge-driven interventions"
+      tme:
+        - "Built Ask Pathfinder: a knowledge and retrieval architecture that helped 12,000 sellers monthly have better technical AI conversations — 25% reduction in prep time, 67% more sales-play coverage, 50% CSAT uplift"
+        - "Served as dedicated technical partner for Mistral and other frontier AI companies (xAI, Stability AI, Luma AI, TwelveLabs) — bridging model capabilities to enterprise deployment needs"
+        - "Created the AWS Data Leadership Forum — 291+ senior data leaders, 98+ CxOs — producing decision-framework content for executive buyers"
+        - "Delivered 250+ technical enablement sessions reaching 20,000+ enterprise users annually within 140,000-person partner ecosystem"
+    systems_built:
+      - name: "Ask Pathfinder"
+        type: knowledge_retrieval
+        scale: "12,000+ users/month"
+        description: "AI knowledge retrieval system for AWS enterprise sellers"
+        architecture:
+          layer1_ingestion: "Content from internal wikis, product release notes, field reports, customer case studies. Normalized with source provenance and currency tracking"
+          layer2_metadata: "Human-designed competency signals: type, subType, pf_metaKeywords. Classified by problem solved, not product described"
+          layer3_ontology: "Use-case ontology spanning 15 verticals, 100+ specific use cases. Function-based (customer problems) not industry-based (AWS org structure)"
+        key_decisions:
+          - "Reclassified taxonomy from industry-based to function-based — biggest design win, improved retrieval accuracy more than any algorithmic change"
+          - "pf_metaKeywords as human-designed signal injection — not automated tagging. Precision over coverage"
+          - "Staleness detection — automated checks flagging content not validated against recent product changes"
+        retrieval: "Query by problem type, industry, or use case → ranked by relevance, currency, confidence"
+    partner_work:
+      companies: ["Mistral", "xAI", "Stability AI", "Luma AI", "TwelveLabs"]
+      role: "Dedicated technical partner — architecture design, API integration debugging, translating model capabilities for 140K-person ecosystem"
+    scale_metrics:
+      - "12,000+ sellers/month (Ask Pathfinder)"
+      - "25% reduction in seller prep time"
+      - "67% increase in sales-play coverage"
+      - "50% increase in high-CSAT session indicators"
+      - "250+ enablement sessions/year"
+      - "20,000+ users reached/year"
+      - "+17% engagement"
+      - "+50% satisfaction"
+      - "+67% feature adoption"
+      - "291+ senior data leaders (Forum)"
+      - "98+ CxOs (Forum)"
+      - "140,000-person partner ecosystem"
+      - "5x YoY revenue growth from partners"
+    technologies:
+      - knowledge architecture
+      - metadata schemas
+      - use-case ontology
+      - retrieval systems
+    skills_demonstrated:
+      - knowledge architecture
+      - taxonomy design
+      - retrieval system design
+      - enablement at scale
+      - partner management
+      - executive engagement
+      - measurement design
+
+  - id: ERA-5
+    company: "Independent"
+    location: "San Francisco, CA"
+    dates: "2025-2026"
+    title: "Palette Intelligence System"
+    headline_variants:
+      knowledge_engineer: "Palette Intelligence System — Independent Project"
+      data_engineer: "Palette Intelligence System — Independent Project"
+      enablement: "Palette Intelligence System — Independent Project"
+    systems_built:
+      - name: "Palette Intelligence System"
+        type: multi_agent_knowledge_system
+        repo: "github.com/pretendhome/palette"
+        components:
+          taxonomy: "117-node problem taxonomy (RIUs) with classification, difficulty, prerequisite DAG, service routing"
+          knowledge_library: "167 sourced entries with evidence tiers (Tier 1: Google/Anthropic/OpenAI/AWS; Tier 2: NIST/peer-reviewed; Tier 3: validated open-source), journey stages"
+          knowledge_graph: "1,876-quad relationship graph enabling bidirectional traversal across taxonomy, knowledge, services, people signals, integration recipes"
+          agents: "9 specialized agents (resolver, researcher, architect, builder, narrator, validator, monitor, debugger, orchestrator) with cognitive memory and governed message bus (MCP protocol)"
+          validation: "14 automated integrity validators, threshold engine (89/89 tests, 11 patterns), cross-layer consistency verification"
+          retrieval: "Taxonomy-driven routing: 80 internal_only + 37 service-routable RIUs, 69 integration recipes, ranked service recommendations"
+          assessment: "117 curriculum modules, 3-layer evaluation (automated checks → AI rubric → human review), 11 calibration exemplar sets, certification tiers (UNVALIDATED → WORKING → PRODUCTION)"
+          sdk: "Python SDK (86 tests), Go wire contracts, Telegram bridge"
+        key_decisions:
+          - "Taxonomy IS the routing layer — classify problem → know what knowledge, services, and agents to apply"
+          - "Evidence tiers for knowledge quality — not all sources are equal"
+          - "Calibration exemplars differ by quality of thinking, not word count"
+          - "Fail-closed validation — validators catch and block, never silently pass"
+    scale_metrics:
+      - "117 taxonomy nodes"
+      - "167 knowledge library entries"
+      - "1,876-quad relationship graph"
+      - "9 specialized agents"
+      - "69 integration recipes"
+      - "14 integrity validators"
+      - "146 automated tests (86 SDK + 60 PIS)"
+      - "89/89 threshold engine tests"
+      - "11 calibration exemplar sets"
+    technologies:
+      - Python
+      - Claude API
+      - Claude Code
+      - YAML knowledge representation
+      - MCP protocol
+      - Go
+      - SQL
+      - Git/GitHub
+
+# --- STAT VERIFICATION ---
+# GREEN = safe to cite, YELLOW = hedge, RED = don't cite
+
+stats:
+  green:
+    - { stat: "Ask Pathfinder serves 12,000+ sellers monthly", source: "Internal AWS tool metrics" }
+    - { stat: "25% reduction in seller prep time", source: "Internal measurement" }
+    - { stat: "2-3 hours saved per seller per week", source: "Internal measurement" }
+    - { stat: "67% increase in sales-play coverage", source: "Internal measurement" }
+    - { stat: "50% increase in high-CSAT session indicators", source: "Internal measurement" }
+    - { stat: "250+ technical enablement sessions annually", source: "Program records" }
+    - { stat: "20,000+ enterprise users reached", source: "Program records" }
+    - { stat: "291+ senior data leaders in Data Leadership Forum", source: "Forum records" }
+    - { stat: "98+ CxOs in Data Leadership Forum", source: "Forum records" }
+    - { stat: "+17% engagement increase", source: "Program KPIs" }
+    - { stat: "+50% satisfaction increase", source: "Program KPIs" }
+    - { stat: "+67% feature adoption increase", source: "Program KPIs" }
+    - { stat: "5x YoY revenue growth from partners", source: "Partner program metrics" }
+    - { stat: "13 locales, 47 data providers (Alexa)", source: "Internal Alexa data" }
+    - { stat: "Palette: 9 agents, 117 RIUs, 167 KL, 1,876 quads", source: "github.com/pretendhome/palette" }
+    - { stat: "140,000-person global partner ecosystem", source: "AWS organizational data" }
+
+  yellow:
+    - { stat: "Dedicated technical partner for Mistral at AWS", hedge: "Served as dedicated partner for Mistral and other frontier AI companies" }
+    - { stat: "12+ years at Amazon/AWS", hedge: "12+ years across Amazon roles, from knowledge engineering to AI enablement" }
+    - { stat: "25 billion node POI Knowledge Graph", hedge: "Verify exact node count — order of magnitude is correct" }
+
+  red:
+    - { stat: "Any Mistral-specific metrics from AWS", reason: "Confidential" }
+    - { stat: "Revenue numbers from AWS partner program", reason: "Use '5x YoY growth' directionally only" }
+    - { stat: "Internal AWS tool names beyond Ask Pathfinder", reason: "Check what's public" }
+
+# --- ROLE POSITIONING PROFILES ---
+# Each profile defines how to reframe the same career for a different role type
+
+positioning:
+
+  knowledge_data_engineer:
+    headline: "AI KNOWLEDGE & DATA ENGINEER | KNOWLEDGE ARCHITECTURE & RETRIEVAL SYSTEMS"
+    summary_frame: "knowledge architectures, ontologies, and AI-augmented retrieval systems"
+    lead_system: "POI Knowledge Graph (ERA-2)"
+    secondary_system: "Ask Pathfinder (ERA-4)"
+    capstone: "Palette"
+    emphasis: [data_pipelines, entity_resolution, knowledge_graphs, vector_embeddings, ontology_design]
+
+  certification_architect:
+    headline: "CERTIFICATION & KNOWLEDGE SYSTEMS ARCHITECT | AI-AUGMENTED EDUCATION DESIGN"
+    summary_frame: "knowledge architectures, competency frameworks, and AI-augmented assessment systems"
+    lead_system: "Ask Pathfinder (ERA-4)"
+    secondary_system: "Palette enablement system"
+    capstone: "Palette"
+    emphasis: [curriculum_design, assessment_systems, learning_progressions, taxonomy_design, evaluation_tooling]
+    includes_selected_impact: true
+
+  technical_marketing_engineer:
+    headline: "TECHNICAL MARKETING ENGINEER | KNOWLEDGE ARCHITECTURE & DEVELOPER ENABLEMENT"
+    summary_frame: "knowledge architectures, technical enablement, and developer adoption systems"
+    lead_story: "Ask Pathfinder as knowledge-to-adoption translation system"
+    secondary_story: "Data Leadership Forum (executive content)"
+    capstone: "Palette (use sparingly)"
+    emphasis: [technical_content, sales_enablement, executive_engagement, product_positioning, adoption_measurement]
+    lead_with_pathfinder_not_palette: true
+
+  forward_deployed_engineer:
+    headline: "FORWARD DEPLOYED ENGINEER | AI SYSTEMS ARCHITECTURE & CUSTOMER DELIVERY"
+    summary_frame: "AI systems architecture, knowledge engineering, and customer-facing technical delivery"
+    lead_system: "Ask Pathfinder (ERA-4)"
+    secondary_system: "POI Knowledge Graph (ERA-2)"
+    capstone: "Palette"
+    emphasis: [customer_delivery, systems_architecture, technical_depth, cross_functional, builder_credibility]
+
+# --- BEHAVIORAL STORIES ---
+# 90-second versions. Extended versions in implementation prep materials.
+
+stories:
+
+  - id: STORY-1
+    name: "Ask Pathfinder — The GTM Chatbot"
+    maps_to: [technical_content, sales_enablement, adoption, engineering_interface]
+    use_when: ["Tell me about yourself", "Give an example of enabling sales teams", "Technical content that drove adoption"]
+    ninety_seconds: |
+      At AWS I joined a three-person team building an internal sales chatbot called Ask Pathfinder. My first move was diagnostic — I built a quality scoring prompt and ran it against the tool's own traces. What it showed was that retrieval was lazily routing to the same small set of documents.
+
+      The fix required two things: restructuring the taxonomy from industry-based to function-based, so learnings could transfer across domains, and creating parent-child artifact relationships so one solution's approach could inform another.
+
+      But the real blocker wasn't technical — a parallel team had better data and worse algorithms, and they were competing instead of collaborating. I used the audit results as neutral evidence, got both teams in a room, gave each a win they could claim, and unified the effort.
+
+      Result: 25% reduction in seller prep time, two to three hours saved per seller per week, and the tool now serves over 12,000 sellers monthly.
+
+  - id: STORY-2
+    name: "Mistral Partnership at AWS"
+    maps_to: [partner_management, model_deployment, trust_building]
+    use_when: ["Why Mistral?", "Tell me about your AI experience", "How would you ramp up?"]
+    ninety_seconds: |
+      At AWS, I served as the dedicated technical partner for Mistral and other frontier AI companies — xAI, Stability AI, Luma AI, TwelveLabs. My job was to bridge the gap between what these models could do technically and what enterprise customers needed to deploy them.
+
+      For Mistral specifically, that meant guiding architecture design for enterprise deployments, debugging API integration challenges, and translating model capabilities into language that AWS's 140,000-person partner ecosystem could act on.
+
+      What I learned is that adoption isn't a model problem — it's a translation problem. The best model in the world doesn't get deployed if the sales team can't explain why it matters.
+
+  - id: STORY-3
+    name: "Data Leadership Forum"
+    maps_to: [executive_engagement, thought_leadership, content_strategy]
+    use_when: ["How do you build credibility with senior audiences?", "Content for executive buyers"]
+    ninety_seconds: |
+      At AWS I created and ran the Data Leadership Forum — a technical community of 291 senior data leaders and 98 CxOs. The insight was that C-level buyers don't want product demos, they want to understand the decision architecture: what to build, what to buy, what to evaluate, and what to skip.
+
+      So I designed the forum around decision frameworks, not feature lists. We'd bring in real architecture patterns, real failure modes, and real cost models. No slides — just working sessions where leaders could stress-test their AI strategies against each other.
+
+      That's the difference between marketing content and technical marketing content. One tells you what a product does. The other helps you decide whether to bet on it.
+
+  - id: STORY-4
+    name: "Taxonomy Restructuring"
+    maps_to: [technical_depth, knowledge_architecture, design_decisions]
+    use_when: ["Tell me about a design decision", "How do you structure knowledge?", "Explain X to non-technical audience"]
+    ninety_seconds: |
+      Inside Ask Pathfinder, I found that AWS's internal knowledge was organized by industry — law, healthcare, financial services. That made sense historically, but in an LLM context it's the wrong organizing principle. What matters is function: document processing, code generation, data extraction.
+
+      I had a migrations team with an elegant recursive commit-checking system — incredibly rigorous. And a legal document processing team that was purely semantic. By reclassifying both under 'document processing' and creating parent-child relationships between their artifacts, the rigor of one approach could improve the other. Accuracy improved significantly.
+
+      This is the kind of technical story that works in a whitepaper or a sales deck: take a complex architecture decision, show why it matters for the customer's outcome, and make the insight transferable.
+
+  - id: STORY-5
+    name: "POI Knowledge Graph"
+    maps_to: [data_engineering, entity_resolution, scale, multilingual]
+    use_when: ["Walk me through a system you built", "Tell me about working with data at scale", "How do you handle conflicting data?"]
+    ninety_seconds: |
+      At Alexa Automotive I designed the knowledge architecture for a 25-billion-node POI Knowledge Graph. We were ingesting data from 47 providers — map vendors, restaurant aggregators, government databases — each with different schemas, quality bars, and update cadences. The same restaurant might appear in 6 feeds with conflicting names, addresses, and hours.
+
+      My approach was vector-based entity resolution: reduce each entity to an ID plus an embedding capturing its identity, then do nearest-neighbor matching with per-locale tunable thresholds. This replaced a brittle rule-based system that needed constant manual tuning.
+
+      I also designed the category taxonomy normalizing 47 different provider categorization schemes into one consistent hierarchy, and led the Italy launch leveraging my Italian fluency. The architecture proved generalizable — new locales onboard via configuration, not rebuild.
+
+  - id: STORY-6
+    name: "Multilingual Communication"
+    maps_to: [cultural_fit, communication, international]
+    use_when: ["Why Paris?", "Diverse audiences?", "Background?"]
+    ninety_seconds: |
+      Before Amazon, I spent four years in Paris — teaching at Sciences Po and Université Paris Ouest Nanterre, interpreting at international conferences, and designing domain-specific lexicons for the publishing industry.
+
+      Comparative linguistics teaches you one thing above all: the same concept expressed differently changes whether people understand it, believe it, and act on it. That's true whether you're teaching a class in French or writing a whitepaper about LLM fine-tuning.
+
+  - id: STORY-7
+    name: "Palette Builder Credibility"
+    maps_to: [builder_credibility, hands_on, agent_design]
+    use_when: ["Personal projects?", "Technical depth?", "Hands-on AI experience?"]
+    use_sparingly: true
+    ninety_seconds: |
+      On my own time, I built Palette — an open-source multi-agent intelligence system with 9 specialized agents that route any AI decision to the right combination of internal knowledge and external services.
+
+      The system has 117 problem-solution taxonomies, a 167-entry knowledge library with evidence tiers, a 1,876-quad relationship graph, and 14 automated integrity validators. It's a production Python codebase with 146 passing tests.
+
+      I built it because I wanted to understand, at a deep level, how these models actually work in production — not just in demos.

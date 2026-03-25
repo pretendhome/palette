@@ -8,7 +8,7 @@
 
 ## What Palette Is
 
-Palette is a multi-agent intelligence system. It routes AI/ML decisions to the optimal combination of internal knowledge and external services. It is not a wrapper around one LLM. It orchestrates specialized agents, a 117-problem taxonomy, 163+ knowledge entries, 69 integration recipes, and 40+ external service routes.
+Palette is a multi-agent intelligence system. It routes AI/ML decisions to the optimal combination of internal knowledge and external services. It is not a wrapper around one LLM. It orchestrates specialized agents, a 117-problem taxonomy, 167 knowledge entries, 69 integration recipes, and 40+ external service routes.
 
 ### The Agents You'll Work Alongside
 

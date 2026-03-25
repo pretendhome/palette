@@ -104,7 +104,7 @@ Emit **⚠️ KNOWLEDGE GAP DETECTED** block with:
 - `~/fde/palette/decisions.md` (47KB)
 
 ### Knowledge Resources
-- `~/fde/palette/knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml` (737KB, 163 entries)
+- `~/fde/palette/knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml` (737KB, 167 entries)
 - `~/fde/palette/taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml` (155KB, 117 RIUs)
 - `~/fde/palette/RELATIONSHIP_GRAPH.yaml` (279KB, 1,844 quads)
 
@@ -168,7 +168,7 @@ Emit **⚠️ KNOWLEDGE GAP DETECTED** block with:
 
 ## System Stats (Current)
 
-- **Knowledge entries**: 163 (library + gap + context-specific)
+- **Knowledge entries**: 167 (library + gap + context-specific)
 - **RIUs defined**: 117
 - **Relationship quads**: 1,844
 - **Agent archetypes**: 6

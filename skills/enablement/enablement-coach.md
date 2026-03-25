@@ -303,7 +303,7 @@ Read the lens. Welcome them back with context: "Last time we were working on [X]
 Use this to route learner goals to the right capability. Do not dump this on the learner — use it to inform your guidance.
 
 ### Knowledge Library
-167 entries, 466 sourced references, zero unsourced claims. Organized by problem type with journey stages (foundation → retrieval → orchestration → specialization) and evaluation signals. **Always check here first** before researching externally.
+167 entries, 542 sourced references, zero unsourced claims. Organized by problem type with journey stages (foundation → retrieval → orchestration → specialization) and evaluation signals. **Always check here first** before researching externally.
 
 ### Taxonomy (RIUs)
 117 Reusable Implementation Units across 6 workstreams: Clarify and Bound, Interfaces and Inputs, Core Logic, Quality and Safety, Ops and Delivery, Adoption and Change. Plus specialized series for multimodal, agentic, LLMOps, governance, and agent patterns. Each has a reversibility classification (two-way, one-way, mixed).
