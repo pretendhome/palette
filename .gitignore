@@ -13,3 +13,4 @@ agents/corythosaurus/history.jsonl
 scripts/enrichment/enrichment_log.jsonl
 buy-vs-build/profiles-raw.txt
 *.lock
+peers/broker/palette_peers.db

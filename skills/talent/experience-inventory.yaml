@@ -14,8 +14,8 @@ profile:
   available: "2026-05-01"
   languages:
     - { lang: English, level: native }
-    - { lang: French, level: fluent, note: "4 years in Paris" }
-    - { lang: Italian, level: fluent, note: "6 years in Milan" }
+    - { lang: French, level: fluent, note: "8 years in Paris" }
+    - { lang: Italian, level: fluent, note: "7 years in Milan + Cagliari" }
     - { lang: Spanish, level: proficient }
 
 education:
@@ -59,7 +59,7 @@ eras:
 
   - id: ERA-2
     company: "Amazon Alexa Automotive"
-    location: "Santa Clara, CA"
+    location: "San Francisco, CA"
     dates: "2019-2023"
     title: "Taxonomist / Ontologist — AI Knowledge Infrastructure"
     headline_variants:
@@ -180,13 +180,13 @@ eras:
   - id: ERA-4
     company: "Amazon Web Services (AWS)"
     location: "San Francisco, CA"
-    dates: "2024-2026"
-    title: "Technical Program Manager — AI Enablement & Knowledge Systems"
+    dates: "2024-Present"
+    title: "Technical Program Manager — AI Knowledge Enablement & Adoption"
     headline_variants:
-      knowledge_engineer: "Technical Program Manager — AI Enablement & Knowledge Systems"
-      data_engineer: "Technical Program Manager — AI Enablement & Knowledge Systems"
-      enablement: "Technical Program Manager — AI Enablement & Knowledge Systems"
-      tme: "Technical Program Manager — AI Enablement & Knowledge Systems"
+      knowledge_engineer: "Technical Program Manager — AI Knowledge Enablement & Adoption"
+      data_engineer: "Technical Program Manager — AI Knowledge Enablement & Adoption"
+      enablement: "Technical Program Manager — AI Knowledge Enablement & Adoption"
+      tme: "Technical Program Manager — AI Knowledge Enablement & Adoption"
       customer_success: "Technical Program Manager — AI Deployment & Customer Outcomes"
     bullets:
       knowledge_engineer:
@@ -203,7 +203,7 @@ eras:
         - "Delivered 250+ technical enablement sessions reaching 20,000+ enterprise users annually, driving +17% engagement and +67% feature adoption through knowledge-driven interventions"
       tme:
         - "Built Ask Pathfinder: a knowledge and retrieval architecture that helped 12,000 sellers monthly have better technical AI conversations — 25% reduction in prep time, 67% more sales-play coverage, 50% CSAT uplift"
-        - "Served as dedicated technical partner for Mistral and other frontier AI companies (xAI, Stability AI, Luma AI, TwelveLabs) — bridging model capabilities to enterprise deployment needs"
+        - "Organized enterprise enablement programs featuring Mistral and other frontier AI partners (xAI, Stability AI, Luma AI, TwelveLabs) — translating model capabilities into enterprise deployment narratives for technical and executive audiences"
         - "Created the AWS Data Leadership Forum — 291+ senior data leaders, 98+ CxOs — producing decision-framework content for executive buyers"
         - "Delivered 250+ technical enablement sessions reaching 20,000+ enterprise users annually within 140,000-person partner ecosystem"
     systems_built:
@@ -392,9 +392,9 @@ stories:
     maps_to: [partner_management, model_deployment, trust_building]
     use_when: ["Why Mistral?", "Tell me about your AI experience", "How would you ramp up?"]
     ninety_seconds: |
-      At AWS, I served as the dedicated technical partner for Mistral and other frontier AI companies — xAI, Stability AI, Luma AI, TwelveLabs. My job was to bridge the gap between what these models could do technically and what enterprise customers needed to deploy them.
+      At AWS, I organized enterprise enablement programs featuring Mistral and other frontier AI partners — xAI, Stability AI, Luma AI, TwelveLabs. My job was to translate what these models could do technically into enablement content and deployment narratives that AWS's 140,000-person partner ecosystem could act on.
 
-      For Mistral specifically, that meant guiding architecture design for enterprise deployments, debugging API integration challenges, and translating model capabilities into language that AWS's 140,000-person partner ecosystem could act on.
+      For Mistral specifically, that meant curating technical content for enterprise audiences, running enablement sessions on model selection and deployment architecture, and helping sellers articulate why Mistral's models mattered for specific customer use cases.
 
       What I learned is that adoption isn't a model problem — it's a translation problem. The best model in the world doesn't get deployed if the sales team can't explain why it matters.
 
@@ -436,7 +436,7 @@ stories:
     maps_to: [cultural_fit, communication, international]
     use_when: ["Why Paris?", "Diverse audiences?", "Background?"]
     ninety_seconds: |
-      Before Amazon, I spent four years in Paris — teaching at Sciences Po and Université Paris Ouest Nanterre, interpreting at international conferences, and designing domain-specific lexicons for the publishing industry.
+      Before Amazon, I spent eight years in Paris — teaching at Sciences Po and Université Paris Ouest Nanterre, interpreting at international conferences, and designing domain-specific lexicons for the publishing industry.
 
       Comparative linguistics teaches you one thing above all: the same concept expressed differently changes whether people understand it, believe it, and act on it. That's true whether you're teaching a class in French or writing a whitepaper about LLM fine-tuning.
 

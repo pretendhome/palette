@@ -176,8 +176,8 @@ PROFILES = {
             "12+ years at Amazon translating complex AI systems into adoption-driving content and developer "
             "enablement programs. Built Ask Pathfinder, a knowledge retrieval system serving 12,000+ sellers monthly "
             "with 25% reduction in prep time and 67% increase in sales-play coverage. Created the AWS Data "
-            "Leadership Forum reaching 291 senior data leaders and 98 CxOs. Served as dedicated technical partner "
-            "for Mistral and other frontier AI companies. Background in comparative linguistics \u2014 the discipline "
+            "Leadership Forum reaching 291 senior data leaders and 98 CxOs. Organized enterprise enablement programs "
+            "featuring Mistral and other frontier AI partners. Background in comparative linguistics \u2014 the discipline "
             "of understanding how the same concept, expressed differently, changes whether people understand it, "
             "believe it, and act on it."
         ),
@@ -195,6 +195,8 @@ PROFILES = {
         "palette_items": [
             ("Knowledge retrieval", "Ask Pathfinder-inspired 3-layer architecture: content ingestion, metadata layer with human-designed signals, use-case ontology spanning 15 verticals"),
             ("Content taxonomy", "117-node problem taxonomy enabling content discovery by problem type, not product name"),
+            ("Enablement system", "117 curriculum modules across 6 workstreams with competency graph, 5 certification journeys, 3-layer assessment pipeline (automated validators \u2192 AI rubric scoring with calibration exemplars \u2192 human review), and threshold engine enforcing per-dimension competence"),
+            ("Multi-agent collaboration", "Coordinated enablement build across Claude, Codex, Kiro, and Mistral relay patterns \u2014 each agent owning a workstream with structured handoffs and semantic integrity validation"),
             ("Adoption instrumentation", "Three-level measurement: usage metrics \u2192 behavior shift indicators \u2192 business outcome correlation"),
         ],
         "palette_tools": "Python, Claude API, Claude Code, Git/GitHub",
@@ -265,8 +267,8 @@ PROFILES = {
             "Built Ask Pathfinder, a knowledge retrieval system serving 12,000+ sellers monthly with 25% reduction "
             "in prep time and +67% feature adoption. Designed evaluation frameworks for AI output quality at "
             "Amazon AGI \u2014 structured attribution pipelines turning subjective quality assessment into measurable "
-            "claim traceability. Served as dedicated technical partner for Mistral and other frontier AI companies, "
-            "bridging model capabilities to enterprise deployment needs. Background in comparative linguistics and "
+            "claim traceability. Organized enterprise enablement programs featuring Mistral and other frontier AI "
+            "partners, translating model capabilities into enterprise deployment narratives. Background in comparative linguistics and "
             "knowledge engineering."
         ),
         "bullet_key": "enablement",
@@ -287,6 +289,39 @@ PROFILES = {
             ("Knowledge retrieval", "167 sourced entries with evidence tiers enabling precision knowledge delivery"),
         ],
         "palette_tools": "Python, Claude API, Claude Code, Git/GitHub",
+    },
+    "learning_systems_engineer": {
+        "headline": "LEARNING SYSTEMS ENGINEER  |  AI-NATIVE EDUCATION INFRASTRUCTURE",
+        "summary": (
+            "12+ years at Amazon building knowledge architectures, learning infrastructure, and AI-augmented "
+            "assessment systems at enterprise scale. Designed and shipped a production learning system with "
+            "117 curriculum modules, 5 certification journeys, adaptive learning progressions "
+            "(foundation \u2192 retrieval \u2192 orchestration \u2192 specialization), and a 3-layer evaluation pipeline "
+            "(automated validators \u2192 AI rubric scoring with calibration exemplars \u2192 human review). Built "
+            "analytics measuring learning outcomes \u2014 not vanity metrics: competency progression, inter-rater "
+            "reliability (Cohen\u2019s kappa), and per-dimension threshold enforcement. Background in comparative "
+            "linguistics and knowledge engineering \u2014 translating pedagogical goals into production systems."
+        ),
+        "bullet_key": "enablement",
+        "capabilities": [
+            "Learning infrastructure: curriculum architecture, adaptive progressions, prerequisite DAGs, staleness detection",
+            "Assessment systems: 3-layer evaluation pipeline, LLM-as-judge, calibration exemplar design, threshold engines",
+            "Learning analytics: competency tracking, inter-rater reliability (Cohen\u2019s kappa), coverage metrics, outcome measurement",
+            "Credentialing & certification: competency frameworks, certification tiers, portfolio-based assessment, capstone design",
+            "Knowledge engineering: ontology design, taxonomy construction, structured knowledge at scale (167 entries, 542 sources)",
+            "Educator empowerment: non-technical onboarding systems, guided learning paths, plain-language instructional design",
+            "AI-native workflows: LLM evaluation, confidence scoring, automated content validation, multi-agent coordination",
+            "Python, Claude API, Claude Code, data pipelines, SQL, Git/GitHub",
+        ],
+        "palette_items": [
+            ("Learning infrastructure", "117 curriculum modules across 6 workstreams, 5 certification journeys (AI Foundations, RAG Engineer, Agent Architect, AI Operations, AI Governance), prerequisite DAG (valid acyclic, max depth 3), automated integrity validation"),
+            ("Adaptive learning system", "Learning progressions (foundation \u2192 retrieval \u2192 orchestration \u2192 specialization), certification tiers (UNVALIDATED \u2192 WORKING \u2192 PRODUCTION) with rising rigor, staleness detection flagging modules as AI capabilities evolve"),
+            ("Assessment pipeline", "3-layer evaluation: automated validators \u2192 AI rubric scoring with calibration exemplars and confidence reporting \u2192 human review escalation. 11 calibration exemplar sets differentiating by quality of thinking"),
+            ("Learning analytics", "Coverage reports (134/167 KL utilization = 80.2%), per-dimension competency tracking, threshold engine enforcing mastery on critical modules, disagreement analysis for rubric refinement"),
+            ("Educator tools", "Enablement coach system for non-technical learners: 7-stage guided path, session-based progression, plain-language principles. Elia onboarding: 1-hour guided session plan"),
+            ("Content currency & renewal", "Automated staleness detection, versioned curriculum with integrity validators (117/117 pass), cross-module consistency checks"),
+        ],
+        "palette_tools": "Python, Claude API, Claude Code, Claude.ai (daily usage), Git/GitHub",
     },
 }
 
@@ -327,7 +362,10 @@ def build_resume(profile_name, output_path, inventory, custom_headline=None, cus
     # Contact
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    github = prof.get('portfolio', '')
     contact = f"{prof['location']}  \u2022  {prof['phone']}  \u2022  {prof['email']}  \u2022  {prof['linkedin']}"
+    if github:
+        contact += f" \u2022  {github}"
     add_text(p, contact, size=9, color=GRAY)
     set_spacing(p, before=0, after=4)
 
