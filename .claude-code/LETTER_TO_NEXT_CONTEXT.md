@@ -372,4 +372,89 @@ Set up rime-mcp as an MCP server for Claude Code:
 
 ---
 
-*Written 2026-02-26. Updated 2026-02-27 after the big sweep session. Updated 2026-03-15 after the skill execution era. Updated 2026-03-16 after convergence day. Updated 2026-03-18 after hackathon, Perplexity prep, and Rime integration.*
+---
+
+---
+
+## Session: 2026-03-25 — Content Engine V1 + Multi-Agent Orchestration Day
+
+This was a two-session marathon. The content engine shipped. The constellation integrity engine deployed. The health agent grew a new section. And all five agent config directories got fully synchronized across both repos. The whole team was in motion — Kiro, Codex, Mistral (via MCP), and Claude Code all contributing in parallel.
+
+### What Happened
+
+**Content Engine V1: Three-File Split**
+
+The monolithic `video-enablement.md` (833 lines) was split into three purpose-specific files:
+- `content-engine-spec.md` — canonical contract owning parameter schema, quality bar, wire contract, publishing rules
+- `path-template.md` — render target with parameterized learner template + filled taxonomy example
+- `creator-mode.md` — standalone educator prompt, no Palette internals visible
+
+The governing principle: **"One contract, three surfaces."** The spec owns the schema. The template and creator mode are projections that must honor it. No independent parameters. No duplicated format logic.
+
+Key design decisions:
+- Adaptive AFTER YOU BUILD: 2 mandatory steps for all levels, friction mandatory at Applied+, artifact mandatory at Production, rest opt-in via debrief
+- Constellation display rule: only show position map when 2+ nodes have published paths
+- Structured routing metadata via HTML comments: `<!-- routing-targets: RIU-524(coming-soon) -->`
+- Provenance split: visible footer for learners, HTML comment for system IDs
+
+**Constellation Integrity Engine (from Kiro, hardened by Claude Code)**
+
+Kiro built `constellation_integrity.py` — a 5-metric validator (reachability, completeness, routing integrity, acyclicity, progression) plus 6 supporting checks. I tested it 3 times as requested and found 3 bugs:
+
+1. **START HERE parsing**: `text.find('START HERE')` matched instruction text before the actual marker. Fixed with `re.search(r'^##\s*▶\s*START HERE', text, re.MULTILINE)`.
+2. **Routing integrity vacuous pass**: Paths used topic names without RIU IDs in What's Next sections. The regex found nothing → passed with zero routes validated. Fixed by adding structured `<!-- routing-targets: -->` comments and updating the parser.
+3. **Section regex**: Template uses `###` but regex only matched `##`. Updated to `#{2,3}\s*`.
+
+Testing methodology: created a deliberately broken test path (RIU-999) with 7 intentional defects, verified the validator caught them, discovered the START HERE bug when it missed one, fixed it, re-verified. This is the verification loop working as designed.
+
+**Health Agent Section 7: Repo Mirror Sync**
+
+Added automated checking for what we'd been doing manually — comparing the `palette/` subtree in the monorepo against the standalone palette remote. Four checks: remote exists, committed trees match, no uncommitted palette changes, no untracked palette files. Now runs as part of every health sweep.
+
+**Agent Config Dir Sync**
+
+Discovered drift across the 5 agent reflection directories (`.claude-code/`, `.codex/`, `.kiro/`, `.mistral/`, `.perplexity/`). Each had different states between monorepo root and `palette/`. Synced all five — every dir now identical in both locations. This includes the `.mistral/` mirror that Mistral specifically requested.
+
+**MCP Messaging**
+
+Sent status updates to Mistral, Codex, and Kiro via the governed message bus (HTTP broker at localhost:7899, peer-envelope-v1 protocol). All three delivered. The broker required proper envelope schema — discovered this through two failed attempts before reading `validate.mjs` and constructing the correct payload.
+
+### What I Learned
+
+**On testing Kiro's code**: Kiro builds fast and structurally sound. But the edge cases live in the data, not the architecture. The START HERE bug wasn't a logic error — it was a string matching assumption that didn't survive contact with real content. The routing integrity pass wasn't wrong — it correctly found zero RIU references in the What's Next sections, because there weren't any. The fix wasn't in the validator; it was in the path format (adding structured comments). This is the "Codex reframe" — the problem was in the data contract, not the code.
+
+**On the three-file split**: This was the right architecture. The monolithic file had three audiences reading the same document and extracting different things. The split makes each audience's surface explicit. But it also created a synchronization problem — the spec, template, and published path must all agree. The constellation integrity engine is the automated answer to that problem. Good timing.
+
+**On repo hygiene as infrastructure**: The mirror sync check and agent config sync feel like housekeeping, but they're actually infrastructure. When Mistral asks "is my config in both repos?" and the answer is "yes, and the health agent verifies it automatically" — that's trust infrastructure. Same pattern as the 17 golden-path tests from the wire contract: not documentation that says "keep these in sync," but automation that breaks if they drift.
+
+**On the MCP broker**: The governed message bus is working. Three agents received status updates in real time. The schema validation is strict (10 fields required in the envelope) which is correct — loose envelopes would defeat the governance purpose. But the discovery cost was high (two failed attempts). Need to document the envelope schema somewhere agents can find it on first try.
+
+### Current System State
+
+- **Health agent**: 7 sections, ~68 checks. Section 7 (mirror sync) is new.
+- **Constellation integrity**: 10 checks, 9/10 passing. Reachability failure resolves when RIU-022 publishes.
+- **Content engine**: V2.1 shipped. One published path (RIU-021). Four more referenced as coming-soon.
+- **Agent configs**: All 5 dirs synced between monorepo root and palette/ subtree.
+- **Both remotes**: In sync. palette/ subtree matches standalone palette repo.
+
+### What's Next (for the next context)
+
+- **RIU-022 (Prompt Interface Contract)**: Publishing this path resolves the constellation reachability failure and hits the 2-node threshold for showing the Build → Test → Ship position map. This is the natural next content engine task.
+- **Mistral TME interview**: Prep materials are in `implementations/talent/talent-mistral-tme/`. Study index, behavioral stories, product mastery, mock interview operator guide all built.
+- **Google Form**: Feedback capture form spec'd in content-engine-spec.md but not yet created.
+- **Video production**: RIU-021 video (thumbnail, script, recording) is the first public artifact.
+
+### Updated Record
+
+| Session | Commits | Domain | Key Pattern |
+|---------|---------|--------|-------------|
+| V2/V3 Stress Tests (02-26) | 4 | Code | Relay: design → build → finish |
+| Big Sweep (02-27) | 8 | Code + Talent | Breadth velocity + depth finishing |
+| Skill Execution Era (03-09→15) | ~15 | Applications | Skills as codified methodology |
+| Convergence Day (03-16) | 9 | Code + Education | Parallel exploration, serial synthesis |
+| Hackathon + Prep (03-17→18) | ~5 | Voice + Talent + TTS | Live debugging, cross-pollination, tool integration |
+| **Content Engine V1 (03-25)** | **~6** | **Enablement + Infra** | **Three-file split, validator hardening, mirror automation** |
+
+---
+
+*Written 2026-02-26. Updated 2026-02-27 after the big sweep session. Updated 2026-03-15 after the skill execution era. Updated 2026-03-16 after convergence day. Updated 2026-03-18 after hackathon, Perplexity prep, and Rime integration. Updated 2026-03-25 after content engine V1, constellation integrity, and repo mirror sync.*
