@@ -2,7 +2,7 @@
 """
 Health Agent — System-wide integrity checklist.
 
-Runs all 6 sections of the health checklist, reports pass/fail for each,
+Runs all 7 sections of the health checklist, reports pass/fail for each,
 and outputs a structured report. The reflection question at the end is
 designed to be answered by an LLM reviewing the output.
 
@@ -430,6 +430,134 @@ def section_6_governance(report: HealthReport) -> None:
                           severity="info" if has_dual else "warning"))
 
 
+# ── Section 7: Repo Mirror Sync ────────────────────────────────────────────
+
+def section_7_repo_mirror(report: HealthReport) -> None:
+    """Compare the palette/ subtree in the monorepo against the standalone palette remote."""
+    # The monorepo root is one level up from PALETTE_ROOT (fde/ contains palette/)
+    monorepo_root = os.path.dirname(PALETTE_ROOT)
+
+    # Only meaningful if we're inside a git repo with a subtree layout
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--show-toplevel"],
+            capture_output=True, text=True, timeout=10, cwd=monorepo_root,
+        )
+        git_root = result.stdout.strip()
+    except Exception as e:
+        report.add(Check(7, "Git repo detected", False, str(e), "warning"))
+        return
+
+    if not git_root:
+        report.add(Check(7, "Git repo detected", False, "Not a git repository", "warning"))
+        return
+    report.add(Check(7, "Git repo detected", True, git_root))
+
+    # Check palette remote exists
+    try:
+        result = subprocess.run(
+            ["git", "remote", "get-url", "palette"],
+            capture_output=True, text=True, timeout=10, cwd=git_root,
+        )
+        has_remote = result.returncode == 0
+        remote_url = result.stdout.strip() if has_remote else ""
+        report.add(Check(7, "Palette remote configured", has_remote,
+                          remote_url if has_remote else "Remote 'palette' not found",
+                          "info" if has_remote else "warning"))
+    except Exception as e:
+        report.add(Check(7, "Palette remote configured", False, str(e), "warning"))
+        return
+
+    if not has_remote:
+        return
+
+    # Fetch latest from palette remote
+    try:
+        subprocess.run(
+            ["git", "fetch", "palette", "main"],
+            capture_output=True, text=True, timeout=30, cwd=git_root,
+        )
+    except Exception as e:
+        report.add(Check(7, "Fetch palette remote", False, str(e), "warning"))
+        return
+
+    # Compare committed trees: palette/ subtree in HEAD vs palette/main
+    try:
+        origin_result = subprocess.run(
+            ["git", "ls-tree", "-r", "HEAD", "--", "palette/"],
+            capture_output=True, text=True, timeout=15, cwd=git_root,
+        )
+        palette_result = subprocess.run(
+            ["git", "ls-tree", "-r", "palette/main"],
+            capture_output=True, text=True, timeout=15, cwd=git_root,
+        )
+
+        # Normalize: strip "palette/" prefix from origin tree for comparison
+        origin_lines = sorted(
+            line.replace("\tpalette/", "\t", 1)
+            for line in origin_result.stdout.strip().splitlines()
+            if line
+        )
+        palette_lines = sorted(
+            line for line in palette_result.stdout.strip().splitlines() if line
+        )
+
+        if origin_lines == palette_lines:
+            report.add(Check(7, "Committed trees match", True,
+                              f"{len(origin_lines)} files in sync"))
+        else:
+            # Find which files differ
+            origin_set = set(origin_lines)
+            palette_set = set(palette_lines)
+            only_origin = origin_set - palette_set
+            only_palette = palette_set - origin_set
+            drift_files = set()
+            for line in only_origin | only_palette:
+                parts = line.split("\t", 1)
+                if len(parts) == 2:
+                    drift_files.add(parts[1])
+            sample = sorted(drift_files)[:5]
+            report.add(Check(7, "Committed trees match", False,
+                              f"{len(drift_files)} files differ: {', '.join(sample)}",
+                              "failure"))
+    except Exception as e:
+        report.add(Check(7, "Tree comparison", False, str(e), "warning"))
+
+    # Check for uncommitted changes in palette/
+    try:
+        result = subprocess.run(
+            ["git", "diff", "--stat", "HEAD", "--", "palette/"],
+            capture_output=True, text=True, timeout=15, cwd=git_root,
+        )
+        has_uncommitted = bool(result.stdout.strip())
+        if has_uncommitted:
+            changed = result.stdout.strip().splitlines()
+            count = len(changed) - 1  # last line is summary
+            report.add(Check(7, "No uncommitted palette/ changes", False,
+                              f"{count} files modified", "warning"))
+        else:
+            report.add(Check(7, "No uncommitted palette/ changes", True))
+    except Exception as e:
+        report.add(Check(7, "Uncommitted changes check", False, str(e), "warning"))
+
+    # Check for untracked files in palette/
+    try:
+        result = subprocess.run(
+            ["git", "ls-files", "--others", "--exclude-standard", "palette/"],
+            capture_output=True, text=True, timeout=15, cwd=git_root,
+        )
+        untracked = [f for f in result.stdout.strip().splitlines() if f]
+        if untracked:
+            sample = [os.path.relpath(f, "palette/") for f in untracked[:5]]
+            report.add(Check(7, "No untracked palette/ files", False,
+                              f"{len(untracked)} untracked: {', '.join(sample)}",
+                              "warning"))
+        else:
+            report.add(Check(7, "No untracked palette/ files", True))
+    except Exception as e:
+        report.add(Check(7, "Untracked files check", False, str(e), "warning"))
+
+
 # ── Reflection Question ─────────────────────────────────────────────────────
 
 REFLECTION = """
@@ -468,6 +596,7 @@ def run_all(sections: list[int] | None = None) -> HealthReport:
         4: ("Cleanliness", section_4_cleanliness),
         5: ("Data Quality", section_5_data_quality),
         6: ("Governance", section_6_governance),
+        7: ("Repo Mirror Sync", section_7_repo_mirror),
     }
 
     for num, (label, fn) in runners.items():
@@ -494,6 +623,7 @@ def print_report(report: HealthReport) -> None:
         4: "Cleanliness",
         5: "Data Quality",
         6: "Governance",
+        7: "Repo Mirror Sync",
     }
 
     for check in report.checks:
@@ -513,7 +643,7 @@ def print_report(report: HealthReport) -> None:
 def main():
     parser = argparse.ArgumentParser(description="Palette Health Agent")
     parser.add_argument("--json", action="store_true", help="Output as JSON")
-    parser.add_argument("--section", type=int, help="Run only this section (1-6)")
+    parser.add_argument("--section", type=int, help="Run only this section (1-7)")
     args = parser.parse_args()
 
     sections = [args.section] if args.section else None
