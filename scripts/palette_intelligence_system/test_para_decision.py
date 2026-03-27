@@ -11,7 +11,7 @@ from scripts.palette_intelligence_system.para_decision import decide
 
 def _mk_reports(findings: list[Finding], failed_checks: int = 0, failing_slos: int = 0):
     summary = AuditSummary(
-        total_rius=117,
+        total_rius=121,
         total_findings=len(findings),
         by_severity={"critical": 0, "high": 0, "medium": 0, "low": 0},
         by_category={},

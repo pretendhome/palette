@@ -27,6 +27,7 @@ Domain-specific knowledge, patterns, gotchas, and validated approaches. This con
 | **education** | Adaptive Learning Framework | WORKING | ARON pilot, La Scuola (2026-03) |
 | **travel** | Route Planning Methodology | WORKING | Neill Summer 2026 (9 bookings) |
 | **enablement** | Agentic Enablement System | UNVALIDATED | Pending first deployment (2026-03) |
+| **lenses** | Lens Creation Methodology | UNVALIDATED | 22 lenses created (2026-03) |
 
 ## Relationship to Implementations
 

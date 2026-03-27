@@ -46,7 +46,7 @@
 - COMPACT protocol for context-window management (compress earlier turns, preserve recent)
 - 4-layer loading hierarchy: MANIFEST → Runbook → Core governance → Task-specific files
 - Progress files (enablement) and decision logs (`decisions.md`) capture durable state
-- RELATIONSHIP_GRAPH.yaml (1,844 quads) enables bidirectional traversal without loading full files
+- RELATIONSHIP_GRAPH.yaml (2,013 quads) enables bidirectional traversal without loading full files
 
 **Strength**: Multiple redundant mechanisms. No single point of context failure.
 
@@ -72,9 +72,9 @@
 **Problem**: Applying the wrong solution pattern to a problem because the system doesn't classify problems well.
 
 **Palette's answer**:
-- 117 RIUs (Routing Intelligence Units) map problems to solution categories
+- 121 RIUs (Routing Intelligence Units) map problems to solution categories
 - Resolver agent classifies intent before routing to specialist agents
-- Buy-vs-build analysis (80 internal_only, 37 both) prevents over-engineering with external services
+- Buy-vs-build analysis (81 internal_only, 40 both) prevents over-engineering with external services
 - Service routing with explicit classification prevents "use AI for everything" syndrome
 - Semantic blueprints force goal/constraint definition before solution selection
 

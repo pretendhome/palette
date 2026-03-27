@@ -430,7 +430,7 @@ profiles:
     lead_eras: [ERA-2]  # POI Knowledge Graph — biggest scale
     secondary_eras: [ERA-4, ERA-3]  # Ask Pathfinder retrieval + AGI evaluation
     capstone_era: ERA-5
-    palette_framing: "knowledge graph + retrieval system — 1,876 quads, taxonomy-driven routing"
+    palette_framing: "knowledge graph + retrieval system — 2,013 quads, taxonomy-driven routing"
 
     fit_lens:
       must_haves:

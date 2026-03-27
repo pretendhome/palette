@@ -22,11 +22,11 @@ When building or modifying the system itself, follow the routing protocol:
 When applying a skill to a real problem, load from `skills/<domain>/` and follow the skill's methodology. Active skills: retail-ai, talent, education, travel.
 
 ## Architecture
-- **9 agents**: resolver, researcher, architect, builder, debugger, narrator, validator, monitor, orchestrator
-- **117 RIUs**: problem-to-solution taxonomy
-- **136 knowledge entries**: sourced, cited, tiered by evidence quality
+- **12 agents**: resolver, researcher, architect, builder, debugger, narrator, validator, monitor, orchestrator, business-plan-creation, health, total-health
+- **121 RIUs**: problem-to-solution taxonomy
+- **167 knowledge entries**: sourced, cited, tiered by evidence quality
 - **69 integration recipes**: external service configurations
-- **4 skill domains**: retail-ai, talent, education, travel
+- **6 skill domains**: retail-ai, talent, education, travel, enablement, lenses
 
 ## Key Implementation
 The researcher agent (`agents/researcher/researcher.py`):

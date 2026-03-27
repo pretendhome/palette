@@ -112,9 +112,9 @@ PROFILES = {
         "headline": "AI KNOWLEDGE & DATA ENGINEER  |  KNOWLEDGE ARCHITECTURE & RETRIEVAL SYSTEMS",
         "summary": (
             "12+ years at Amazon building knowledge architectures, ontologies, and AI-augmented retrieval "
-            "systems at enterprise scale. Designed and shipped a 117-node problem taxonomy with service routing, "
+            "systems at enterprise scale. Designed and shipped a 121-node problem taxonomy with service routing, "
             "a 167-entry sourced knowledge library with evidence tiers and retrieval metadata, and a multi-agent "
-            "orchestration system with 9 specialized agents, 1,876-quad relationship graph, and governed message "
+            "orchestration system with 12 specialized agents, 2,013-quad relationship graph, and governed message "
             "bus. Background in comparative linguistics and knowledge engineering \u2014 the discipline of turning "
             "unstructured domain knowledge into machine-navigable structures."
         ),
@@ -130,12 +130,12 @@ PROFILES = {
             "Python, YAML/structured data, SQL, Git/GitHub, Claude API, Claude Code, LLM evaluation frameworks",
         ],
         "palette_items": [
-            ("Taxonomy & ontology", "117-node problem taxonomy (RIUs) with classification metadata, difficulty ratings, prerequisite DAG, and service routing"),
+            ("Taxonomy & ontology", "121-node problem taxonomy (RIUs) with classification metadata, difficulty ratings, prerequisite DAG, and service routing"),
             ("Knowledge library", "167 sourced entries with evidence tiers (Tier 1: Google/Anthropic/OpenAI/AWS; Tier 2: NIST/peer-reviewed; Tier 3: validated open-source), journey stages, and cross-referencing to taxonomy nodes"),
-            ("Knowledge graph", "1,876-quad relationship graph enabling bidirectional traversal across taxonomy, knowledge, services, people signals, and integration recipes"),
-            ("Multi-agent orchestration", "9 specialized agents with cognitive memory, governed message bus (MCP protocol), and persistent context across interactions"),
+            ("Knowledge graph", "2,013-quad relationship graph enabling bidirectional traversal across taxonomy, knowledge, services, people signals, and integration recipes"),
+            ("Multi-agent orchestration", "12 specialized agents with cognitive memory, governed message bus (MCP protocol), and persistent context across interactions"),
             ("Data pipelines", "14 automated integrity validators, cross-layer consistency verification, threshold engine (89/89 tests), and continuous validation"),
-            ("Retrieval infrastructure", "Taxonomy-driven routing classifying 117 problem types as internal_only (80) or service-routable (37), with 69 integration recipes"),
+            ("Retrieval infrastructure", "Taxonomy-driven routing classifying 121 problem types as internal_only (81) or service-routable (40), with 69 integration recipes"),
         ],
         "palette_tools": "Python, Claude API, Claude Code, YAML-based knowledge representation, SQL, Git/GitHub",
     },
@@ -144,7 +144,7 @@ PROFILES = {
         "summary": (
             "12+ years at Amazon building knowledge architectures, competency frameworks, and AI-augmented "
             "assessment systems at enterprise scale. Designed and shipped a developer certification system with "
-            "117 curriculum modules, 5 certification journeys, portfolio-based assessment with a 3-layer evaluation "
+            "121 curriculum modules, 5 certification journeys, portfolio-based assessment with a 3-layer evaluation "
             "pipeline (automated validators \u2192 AI rubric scoring with calibration exemplars \u2192 human review), "
             "and a threshold engine enforcing competency gates across all modules. Skeptical of multiple-choice "
             "as the default \u2014 built assessment systems where AI evaluates demonstrations of competence, not "
@@ -162,7 +162,7 @@ PROFILES = {
             "Python, Claude API, Claude Code, LLM evaluation frameworks, SQL, Git/GitHub",
         ],
         "palette_items": [
-            ("Certification system", "117 curriculum modules across 6 workstreams, 5 certification journeys (AI Foundations, RAG Engineer, Agent Architect, AI Operations, AI Governance), 5 capstone projects with artifact-based evaluation"),
+            ("Certification system", "121 curriculum modules across 6 workstreams, 5 certification journeys (AI Foundations, RAG Engineer, Agent Architect, AI Operations, AI Governance), 5 capstone projects with artifact-based evaluation"),
             ("3-layer assessment pipeline", "Automated validators \u2192 AI rubric scoring with calibration exemplars \u2192 human review escalation. Confidence-based: AI handles consistency, humans handle edge cases and novel reasoning"),
             ("Item banks & calibration", "11 calibration exemplar sets differentiating competency levels by quality of thinking, not word count. Threshold engine enforcing per-dimension competence on critical control modules"),
             ("Certification tiers", "UNVALIDATED \u2192 WORKING \u2192 PRODUCTION with rising rigor. PRODUCTION requires one-way-door decision defense, auditability, and mandatory human sign-off"),
@@ -194,8 +194,8 @@ PROFILES = {
         ],
         "palette_items": [
             ("Knowledge retrieval", "Ask Pathfinder-inspired 3-layer architecture: content ingestion, metadata layer with human-designed signals, use-case ontology spanning 15 verticals"),
-            ("Content taxonomy", "117-node problem taxonomy enabling content discovery by problem type, not product name"),
-            ("Enablement system", "117 curriculum modules across 6 workstreams with competency graph, 5 certification journeys, 3-layer assessment pipeline (automated validators \u2192 AI rubric scoring with calibration exemplars \u2192 human review), and threshold engine enforcing per-dimension competence"),
+            ("Content taxonomy", "121-node problem taxonomy enabling content discovery by problem type, not product name"),
+            ("Enablement system", "121 curriculum modules across 6 workstreams with competency graph, 5 certification journeys, 3-layer assessment pipeline (automated validators \u2192 AI rubric scoring with calibration exemplars \u2192 human review), and threshold engine enforcing per-dimension competence"),
             ("Multi-agent collaboration", "Coordinated enablement build across Claude, Codex, Kiro, and Mistral relay patterns \u2014 each agent owning a workstream with structured handoffs and semantic integrity validation"),
             ("Adoption instrumentation", "Three-level measurement: usage metrics \u2192 behavior shift indicators \u2192 business outcome correlation"),
         ],
@@ -208,7 +208,7 @@ PROFILES = {
             "25-billion-node Knowledge Graph at Alexa Automotive to a knowledge retrieval system serving 12,000+ "
             "AWS sellers monthly. Hands-on builder: designed entity resolution pipelines, Spark ETL across 47 data "
             "providers, vector-based deduplication, structured attribution for hallucination detection, and a "
-            "multi-agent orchestration system with 9 specialized agents. Background in comparative linguistics and "
+            "multi-agent orchestration system with 12 specialized agents. Background in comparative linguistics and "
             "knowledge engineering, with deep fluency across Python, Claude API, and production AI systems."
         ),
         "bullet_key": "data_engineer",
@@ -223,10 +223,10 @@ PROFILES = {
             "Python, Go, SQL, Spark, Claude API, Claude Code, Git/GitHub",
         ],
         "palette_items": [
-            ("Knowledge graph", "1,876-quad relationship graph with bidirectional traversal across taxonomy, knowledge, services, people signals, and integration recipes"),
-            ("Multi-agent system", "9 specialized agents with cognitive memory, governed message bus (MCP protocol), and persistent context"),
+            ("Knowledge graph", "2,013-quad relationship graph with bidirectional traversal across taxonomy, knowledge, services, people signals, and integration recipes"),
+            ("Multi-agent system", "12 specialized agents with cognitive memory, governed message bus (MCP protocol), and persistent context"),
             ("Data pipelines", "14 automated integrity validators, cross-layer consistency verification, threshold engine (89/89 tests)"),
-            ("Retrieval infrastructure", "Taxonomy-driven routing: 80 internal-only + 37 service-routable problem types, 69 integration recipes"),
+            ("Retrieval infrastructure", "Taxonomy-driven routing: 81 internal-only + 40 service-routable problem types, 69 integration recipes"),
         ],
         "palette_tools": "Python, Go, Claude API, Claude Code, Spark, SQL, Git/GitHub",
     },
@@ -253,7 +253,7 @@ PROFILES = {
             "Python, Claude API, Claude Code, SQL, Git/GitHub",
         ],
         "palette_items": [
-            ("Enablement taxonomy", "117-node problem taxonomy mapping enterprise AI challenges to adoption pathways"),
+            ("Enablement taxonomy", "121-node problem taxonomy mapping enterprise AI challenges to adoption pathways"),
             ("Knowledge library", "167 sourced entries with evidence tiers and learning progressions (foundation \u2192 specialization)"),
             ("Adoption measurement", "Three-level instrumentation: usage metrics, behavior shift indicators, business outcome correlation"),
             ("Operational scaling", "Intelligent automation maintaining content currency without headcount growth"),
@@ -283,7 +283,7 @@ PROFILES = {
             "Python, Claude API, Claude Code, SQL, Git/GitHub",
         ],
         "palette_items": [
-            ("Customer intelligence", "Taxonomy-driven routing classifying 117 problem types with service recommendations"),
+            ("Customer intelligence", "Taxonomy-driven routing classifying 121 problem types with service recommendations"),
             ("Quality instrumentation", "14 automated integrity validators, threshold engine, cross-layer consistency verification"),
             ("Evaluation system", "3-layer assessment (automated checks \u2192 AI rubric \u2192 human review) with calibration exemplars"),
             ("Knowledge retrieval", "167 sourced entries with evidence tiers enabling precision knowledge delivery"),
@@ -295,7 +295,7 @@ PROFILES = {
         "summary": (
             "12+ years at Amazon building knowledge architectures, learning infrastructure, and AI-augmented "
             "assessment systems at enterprise scale. Designed and shipped a production learning system with "
-            "117 curriculum modules, 5 certification journeys, adaptive learning progressions "
+            "121 curriculum modules, 5 certification journeys, adaptive learning progressions "
             "(foundation \u2192 retrieval \u2192 orchestration \u2192 specialization), and a 3-layer evaluation pipeline "
             "(automated validators \u2192 AI rubric scoring with calibration exemplars \u2192 human review). Built "
             "analytics measuring learning outcomes \u2014 not vanity metrics: competency progression, inter-rater "
@@ -314,12 +314,12 @@ PROFILES = {
             "Python, Claude API, Claude Code, data pipelines, SQL, Git/GitHub",
         ],
         "palette_items": [
-            ("Learning infrastructure", "117 curriculum modules across 6 workstreams, 5 certification journeys (AI Foundations, RAG Engineer, Agent Architect, AI Operations, AI Governance), prerequisite DAG (valid acyclic, max depth 3), automated integrity validation"),
+            ("Learning infrastructure", "121 curriculum modules across 6 workstreams, 5 certification journeys (AI Foundations, RAG Engineer, Agent Architect, AI Operations, AI Governance), prerequisite DAG (valid acyclic, max depth 3), automated integrity validation"),
             ("Adaptive learning system", "Learning progressions (foundation \u2192 retrieval \u2192 orchestration \u2192 specialization), certification tiers (UNVALIDATED \u2192 WORKING \u2192 PRODUCTION) with rising rigor, staleness detection flagging modules as AI capabilities evolve"),
             ("Assessment pipeline", "3-layer evaluation: automated validators \u2192 AI rubric scoring with calibration exemplars and confidence reporting \u2192 human review escalation. 11 calibration exemplar sets differentiating by quality of thinking"),
             ("Learning analytics", "Coverage reports (134/167 KL utilization = 80.2%), per-dimension competency tracking, threshold engine enforcing mastery on critical modules, disagreement analysis for rubric refinement"),
             ("Educator tools", "Enablement coach system for non-technical learners: 7-stage guided path, session-based progression, plain-language principles. Elia onboarding: 1-hour guided session plan"),
-            ("Content currency & renewal", "Automated staleness detection, versioned curriculum with integrity validators (117/117 pass), cross-module consistency checks"),
+            ("Content currency & renewal", "Automated staleness detection, versioned curriculum with integrity validators (121/121 pass), cross-module consistency checks"),
         ],
         "palette_tools": "Python, Claude API, Claude Code, Claude.ai (daily usage), Git/GitHub",
     },

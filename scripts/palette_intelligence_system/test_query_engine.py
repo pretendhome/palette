@@ -52,10 +52,10 @@ class TestDataLoading(unittest.TestCase):
                          f"Load errors: {self.pis.load_errors}")
 
     def test_taxonomy_populated(self):
-        self.assertEqual(len(self.pis.taxonomy), 117)
+        self.assertEqual(len(self.pis.taxonomy), 121)
 
     def test_classification_populated(self):
-        self.assertEqual(len(self.pis.classification), 117)
+        self.assertEqual(len(self.pis.classification), 121)
 
     def test_routing_populated(self):
         self.assertGreater(len(self.pis.routing), 30)
@@ -142,7 +142,7 @@ class TestCoverageCommand(unittest.TestCase):
         rc, out = _capture(cmd_coverage, self.pis)
         self.assertEqual(rc, 0)
         self.assertIn("Layer Coverage Report", out)
-        self.assertIn("117/117", out)
+        self.assertIn("121/121", out)
         self.assertIn("Taxonomy:", out)
         self.assertIn("Classification:", out)
         self.assertIn("Service Routing:", out)

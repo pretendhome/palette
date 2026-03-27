@@ -144,7 +144,7 @@ The same career, framed differently:
 | "Retrieval/indexing approach..." | ERA-2 + ERA-4 + ERA-5 | Three different approaches, shows range |
 | "LLM enrichment / RAG..." | ERA-3 (AGI) + ERA-5 (Palette) | Hallucination detection + RAG pipeline |
 | "Training data operations..." | ERA-2 + ERA-3 | Annotation teams, RL loops |
-| "Knowledge graphs / ontologies..." | ERA-2 (POI) + ERA-5 (Palette) | 25B nodes, 1,876 quads |
+| "Knowledge graphs / ontologies..." | ERA-2 (POI) + ERA-5 (Palette) | 25B nodes, 2,013 quads |
 | "Scale / distributed systems..." | ERA-2 (Spark, 47 sources) | Production scale evidence |
 | "Adoption / enablement..." | ERA-4 (Ask Pathfinder) | 12K users, measurable impact |
 | "Leadership / executive..." | ERA-4 (Data Forum) | 291 leaders, 98 CxOs |

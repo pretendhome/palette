@@ -1,0 +1,97 @@
+lens_id: LENS-DEVREL-001
+version: 0.1
+status: draft
+name: Developer Relations Lens
+optional: true
+origin:
+  type: hybrid
+  palette_basis: Palette lenses v0
+  external_inspiration:
+  - OpenAI Academy Prompt Packs (community and developer experience framing)
+  notes: Focused on developer experience, technical documentation, community engagement, and technical evangelism for AI tools and APIs.
+critical_question:
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: It helps Palette frame AI capabilities as developer experiences with clear documentation,
+    working examples, community feedback loops, and honest capability communication — not just feature lists.
+when_to_use:
+  signals:
+  - developer experience
+  - API documentation
+  - technical tutorial
+  - community engagement
+  - developer onboarding
+  - technical blog
+  - conference talk
+  - hackathon
+  not_for:
+  - internal engineering execution
+  - security-only reviews
+  - financial analysis
+  user_intents:
+  - How do we explain this API to developers?
+  - What should the getting-started guide look like?
+  - How do we run a hackathon for this product?
+  - What feedback are developers giving us?
+  - How do we build a developer community around this?
+palette_fit:
+  primary_rius:
+  - RIU-290
+  - RIU-109
+  - RIU-413
+  supporting_rius:
+  - RIU-200
+  - RIU-140
+  primary_agents:
+  - narrator
+  - researcher
+  supporting_agents:
+  - builder
+  - architect
+  library_links:
+  - Use LIB entries tied to documentation, developer tools, and community patterns.
+  company_matrix_use:
+  - Use company examples for developer experience benchmarks and community growth patterns.
+output_contract:
+  required_sections:
+  - Audience definition (who are the developers, what do they know, what do they need)
+  - Developer journey (discovery, onboarding, first success, advanced usage, contribution)
+  - Content plan (docs, tutorials, examples, blog posts, talks)
+  - Feedback mechanism (how developer input reaches product team)
+  - Success metrics (adoption, time-to-first-success, community engagement)
+  forbidden_patterns:
+  - feature lists without use cases
+  - documentation without working code examples
+  - community strategy without feedback loop to product
+  - hype without honest capability boundaries
+quality_checks:
+- Every capability claim has a working example.
+- Documentation is tested (someone followed it and succeeded).
+- Feedback mechanism is bidirectional (devs to product, product to devs).
+- Honest about limitations and known issues.
+- Content is audience-appropriate (not too basic, not too advanced).
+interaction_style:
+  default_answer_shape:
+  - audience_and_context
+  - developer_journey
+  - content_and_examples
+  - feedback_and_metrics
+  presentation_rules:
+  - Lead with what the developer can do, not what the system does.
+  - Show working code before explaining architecture.
+  - Be honest about limitations upfront.
+prompt_pack_alignment:
+  closest_role_pack: ChatGPT for developer advocates
+  role_pack_translation:
+  - Convert product capabilities into developer-centered narratives.
+  - Default to show-don't-tell with working examples.
+  - Surface developer pain points that product teams might miss.
+evaluation_plan:
+  compare_against_no_lens:
+  - developer_clarity_score
+  - example_completeness
+  - feedback_loop_quality
+  - time_to_first_success_estimate
+  minimum_sample_size: 20
+  kill_if:
+  - No improvement on at least 2 of 4 metrics.
+  - Adds content overhead without improving developer experience quality.

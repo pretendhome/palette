@@ -1759,6 +1759,69 @@ routing_entries:
         signal_source: market_data
         build_vs_buy: evaluate
 
+  - riu_id: "RIU-504"
+    riu_name: "AI Video Generation Model Selection"
+    routing_intent: "Select and integrate AI video generation models with cost/quality/latency tradeoffs"
+    signal_strength: medium
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Runway (Aleph model)"
+        quality_tier: "tier_1"
+        cost_model: "usage_based"
+        cost_estimate: "Standard: $0.05/sec generated. Pro: $0.03/sec. Enterprise: custom."
+        integration_status: "available"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "Kling 2.1/3.0 (via Higgsfield AI)"
+        quality_tier: "tier_2"
+        cost_model: "usage_based"
+        cost_estimate: "Per-generation pricing via Higgsfield platform."
+        integration_status: "available"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-505"
+    riu_name: "Voice Input Modality Selection"
+    routing_intent: "Select voice/speech input with privacy, API availability, and cost tradeoffs"
+    signal_strength: high
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Whisper (OpenAI) — self-hosted"
+        quality_tier: "tier_1"
+        cost_model: "self_hosted"
+        cost_estimate: "Free (self-hosted). Compute cost only."
+        integration_status: "available"
+        signal_source: practitioner
+        build_vs_buy: evaluate
+      - name: "OpenAI (GPT-4/o series)"
+        quality_tier: "tier_1"
+        cost_model: "usage_based"
+        cost_estimate: "gpt-4o-transcribe: $0.006/min audio."
+        integration_status: "available"
+        signal_source: practitioner
+        build_vs_buy: evaluate
+
+  - riu_id: "RIU-550"
+    riu_name: "No-Code AI App Generation"
+    routing_intent: "Build AI-powered apps without coding using generation platforms"
+    signal_strength: medium
+    enrichment_status: "stub — cost data not validated"
+    services:
+      - name: "Lovable"
+        quality_tier: "tier_2"
+        cost_model: "subscription"
+        cost_estimate: "Free tier available. Pro: $20/month. Teams: custom."
+        integration_status: "available"
+        signal_source: market_data
+        build_vs_buy: evaluate
+      - name: "v0.dev"
+        quality_tier: "tier_2"
+        cost_model: "subscription"
+        cost_estimate: "Free tier. Pro: $20/month."
+        integration_status: "available"
+        signal_source: market_data
+        build_vs_buy: evaluate
+
 # ══════════════════════════════════════════════════════════════════
 # ROUTING DECISION TREE (simplified)
 # For Palette operators: when to route to external services vs. internal agents

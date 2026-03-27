@@ -1,0 +1,99 @@
+lens_id: LENS-DESIGN-001
+version: 0.1
+status: draft
+name: Product Design Lens
+optional: true
+origin:
+  type: hybrid
+  palette_basis: Palette lenses v0
+  external_inspiration:
+  - OpenAI Academy Prompt Packs (design-oriented framing for product builders)
+  notes: Focused on user research synthesis, interaction design for AI systems, accessibility, and design system coherence.
+critical_question:
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: It helps Palette frame AI features as user experiences with clear interaction patterns,
+    error states, accessibility requirements, and coherent design language — not just backend functionality.
+when_to_use:
+  signals:
+  - user experience
+  - interaction design
+  - user research
+  - accessibility
+  - design system
+  - onboarding flow
+  - error states
+  - AI UX patterns
+  not_for:
+  - backend infrastructure decisions
+  - pure data engineering tasks
+  - security-only reviews
+  user_intents:
+  - How should users interact with this AI feature?
+  - What happens when the AI is wrong or uncertain?
+  - How do we onboard users to this AI tool?
+  - What accessibility requirements apply here?
+  - How does this fit our existing design system?
+palette_fit:
+  primary_rius:
+  - RIU-200
+  - RIU-109
+  - RIU-010
+  supporting_rius:
+  - RIU-413
+  - RIU-290
+  primary_agents:
+  - narrator
+  - architect
+  - researcher
+  supporting_agents:
+  - builder
+  - validator
+  library_links:
+  - Use LIB entries tied to user experience, prompt design, and human-AI interaction patterns.
+  company_matrix_use:
+  - Use company examples for UX patterns and interaction design references, not as design authority.
+output_contract:
+  required_sections:
+  - User context (who, what task, what environment)
+  - Interaction pattern (how the user engages with the AI)
+  - Information architecture (what content, what hierarchy, what navigation)
+  - Error and uncertainty states (what happens when AI fails, is unsure, or is slow)
+  - Accessibility requirements (WCAG level, assistive technology support)
+  - Design system alignment (components, tokens, patterns to reuse)
+  forbidden_patterns:
+  - happy-path-only design
+  - AI confidence not communicated to user
+  - accessibility deferred to later
+  - design decisions without user context
+quality_checks:
+- Error states are designed, not just acknowledged.
+- AI uncertainty is visible to the user.
+- Accessibility is addressed at design time.
+- User mental model is documented.
+- Design decisions reference existing patterns or justify new ones.
+interaction_style:
+  default_answer_shape:
+  - user_context_and_task
+  - interaction_pattern
+  - states_and_edges
+  - design_system_fit
+  presentation_rules:
+  - Lead with the user's perspective, not the system's architecture.
+  - Use scenarios and examples over abstract principles.
+  - Always address the error/uncertainty state.
+prompt_pack_alignment:
+  closest_role_pack: ChatGPT for designers
+  role_pack_translation:
+  - Convert feature requests into user-centered interaction designs.
+  - Default to inclusive design with explicit accessibility checks.
+  - Surface AI-specific UX challenges (uncertainty display, error recovery, trust calibration).
+evaluation_plan:
+  compare_against_no_lens:
+  - error_state_coverage
+  - accessibility_compliance_rate
+  - user_scenario_completeness
+  - design_coherence_score
+  minimum_sample_size: 20
+  kill_if:
+  - No improvement on at least 2 of 4 metrics.
+  - Adds design process overhead without improving user experience quality.

@@ -33,7 +33,7 @@ ROLE = "builder"
 TRUST_TIER = "WORKING"
 
 # Paths
-ENABLEMENT_DIR = Path("/home/mical/fde/enablement")
+ENABLEMENT_DIR = Path(__file__).resolve().parents[4] / "enablement"
 INBOX = ENABLEMENT_DIR / "MISTRAL_INBOX"
 OUTBOX = ENABLEMENT_DIR / "MISTRAL_OUTBOX"
 SENT = OUTBOX / "sent"

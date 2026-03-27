@@ -134,7 +134,7 @@ CANDIDATE CONTEXT (evaluate against this):
 - Finance POD model: went to 1 pod, built for their workflow → became the model for every pod
 - Recipes: 5-10 min exercises, 9,000/40,000 organic seller adoption
 - Global enablement: Zoom subtitles standard, cross-locale content propagation, hashtag discoverability
-- Built Palette: 117 RIUs, 7 agents, eval loop (100 payloads, 6 dimensions)
+- Built Palette: 121 RIUs, 12 agents, eval loop (100 payloads, 6 dimensions)
 - Philosophy: "Create less enablement, higher quality. Right info to right group."
 - AWS enablement system: 500+ sellers, -25% prep time, +67% coverage, +50% CSAT
 {RECRUITER_CHEATSHEET[:2000]}
@@ -294,7 +294,7 @@ Be conversational, direct, and useful. You have full context on:
 KEY BACKGROUND:
 - 11 years Amazon: 8 years comparative linguistics (25B-node knowledge graph), then GTM/partnerships at AWS
 - Built multi-agent enablement system: 500+ sellers, -25% prep time, +67% coverage, +50% CSAT
-- Built Palette: 117 RIUs, 136 knowledge entries, 69 integration recipes, 7 agents, eval loop
+- Built Palette: 121 RIUs, 167 knowledge entries, 69 integration recipes, 12 agents, eval loop
 - AWS Bedrock: launched 27+ AI models
 - Languages: English, French, Italian, Spanish
 

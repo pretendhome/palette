@@ -1,7 +1,7 @@
 # Palette — Claude Code Project Instructions
 
 ## What This Is
-Palette is a multi-agent intelligence system that routes any AI/ML decision to the right combination of internal knowledge and external services. It is NOT a wrapper around one LLM — it orchestrates 9 specialized agents, 117 problem-solution taxonomies (RIUs), 136 knowledge entries, 69 integration recipes, and 40+ external service routes.
+Palette is a multi-agent intelligence system that routes any AI/ML decision to the right combination of internal knowledge and external services. It is NOT a wrapper around one LLM — it orchestrates 12 specialized agents, 121 problem-solution taxonomies (RIUs), 167 knowledge entries, 69 integration recipes, and 40+ external service routes.
 
 ## Quick Orientation
 - **MANIFEST.yaml** — single source of truth for all current versions and paths. Read this first.
@@ -30,13 +30,13 @@ Palette is a multi-agent intelligence system that routes any AI/ML decision to t
 3. The skill was BUILT using the Palette protocol; executing it doesn't require re-routing through RIUs every time
 4. Log ONE-WAY DOOR decisions in `decisions.md`
 
-**Active Skills**: retail-ai, talent, education, travel (see `skills/README.md`)
+**Active Skills**: retail-ai, talent, education, travel, enablement, lenses (see `skills/README.md`)
 
 ## Architecture (6 Layers)
 1. **Core** (`core/`) — Governance tiers, immutable rules, assumptions
-2. **Taxonomy** (`taxonomy/releases/v1.3/`) — 117 RIUs mapping problems to solution categories
-3. **Knowledge Library** (`knowledge-library/v1.4/`) — 136 sourced, cited entries
-4. **Agents** (`agents/`) — 9 specialized agents with maturity tracking
+2. **Taxonomy** (`taxonomy/releases/v1.3/`) — 121 RIUs mapping problems to solution categories
+3. **Knowledge Library** (`knowledge-library/v1.4/`) — 167 sourced, cited entries
+4. **Agents** (`agents/`) — 12 specialized agents with maturity tracking
 5. **Buy-vs-Build** (`buy-vs-build/`) — Service routing, people signals, 69 integration recipes
 6. **Skills** (`skills/`) — Validated domain frameworks applied through implementations
 
@@ -52,6 +52,9 @@ Palette is a multi-agent intelligence system that routes any AI/ML decision to t
 | validator | Plan assessment, GO/NO-GO verdicts | Design spec |
 | monitor | Signal monitoring and anomaly detection | Go + Python |
 | orchestrator | Workflow routing between agents | Go |
+| business-plan-creation | Multi-agent business plan workflow | Design spec |
+| health | System integrity checklist (7 sections) | Python (`health_check.py`) |
+| total-health | Cross-layer audit (12 sections) | Python (`total_health_check.py`) |
 
 ## Repository Structure
 

@@ -1,0 +1,27 @@
+{
+  "name": "total-health",
+  "version": "1.0",
+  "status": "WORKING",
+  "maturity": {
+    "tier": 2,
+    "successes": 0,
+    "failures": 0,
+    "promotes_at": 50
+  },
+  "entry_point": "python3 agents/total-health/total_health_check.py",
+  "capabilities": [
+    "cross_layer_integrity",
+    "service_name_resolution",
+    "enablement_sync",
+    "identity_coherence",
+    "optimization_recommendations",
+    "full_system_audit"
+  ],
+  "constraints": {
+    "read_only": true,
+    "no_execution": true,
+    "no_commits": true,
+    "no_decisions": true
+  },
+  "description": "Comprehensive system health agent. Extends the base health agent with cross-layer referential integrity, service name resolution, enablement system checks, identity coherence verification, and optimization recommendations. Understands each piece, how they work together, and what to improve."
+}

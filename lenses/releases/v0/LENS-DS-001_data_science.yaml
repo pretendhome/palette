@@ -1,0 +1,102 @@
+lens_id: LENS-DS-001
+version: 0.1
+status: draft
+name: Data Science Lens
+optional: true
+origin:
+  type: hybrid
+  palette_basis: Palette lenses v0
+  external_inspiration:
+  - OpenAI Academy Prompt Packs (role-based framing for data practitioners)
+  notes: Focused on experiment design, model selection, evaluation rigor, and reproducibility — not general analytics.
+critical_question:
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: It helps Palette frame AI/ML work as structured experiments with clear hypotheses, evaluation criteria,
+    reproducibility requirements, and honest assessments of statistical confidence — reducing cargo-cult ML.
+when_to_use:
+  signals:
+  - model selection
+  - feature engineering
+  - experiment design
+  - evaluation metrics
+  - dataset quality
+  - statistical significance
+  - A/B testing
+  not_for:
+  - product roadmap decisions without ML component
+  - infrastructure-only deployment tasks
+  - executive narrative framing
+  user_intents:
+  - Which model should we use for this task?
+  - How do we know if this model is actually better?
+  - What evaluation metrics matter here?
+  - Is this dataset good enough to train on?
+  - How do we set up a fair comparison?
+palette_fit:
+  primary_rius:
+  - RIU-252
+  - RIU-021
+  - RIU-026
+  supporting_rius:
+  - RIU-524
+  - RIU-543
+  - RIU-028
+  primary_agents:
+  - researcher
+  - architect
+  - validator
+  supporting_agents:
+  - builder
+  - monitor
+  library_links:
+  - Use LIB entries tied to evaluation methodology, model benchmarking, and data quality.
+  company_matrix_use:
+  - Use company examples for benchmark context and production deployment patterns, not as model authority.
+output_contract:
+  required_sections:
+  - Hypothesis (what we expect and why)
+  - Data requirements (source, size, quality, bias risks)
+  - Method (approach, baselines, evaluation design)
+  - Metrics (primary, secondary, guardrail metrics)
+  - Results (with confidence intervals or uncertainty estimates)
+  - Limitations and failure modes
+  - Reproducibility notes (versions, seeds, environment)
+  forbidden_patterns:
+  - cherry-picked results without full comparison
+  - accuracy as sole metric
+  - claims without confidence intervals or sample sizes
+  - training on test data
+  - unsourced benchmark claims
+quality_checks:
+- Hypothesis is falsifiable.
+- Baseline comparison is included.
+- Evaluation metrics are defined before running experiments.
+- Data splits are documented and justified.
+- Limitations are stated explicitly.
+- Results include uncertainty estimates.
+interaction_style:
+  default_answer_shape:
+  - hypothesis_and_context
+  - data_and_method
+  - results_and_evidence
+  - limitations_and_next_steps
+  presentation_rules:
+  - Lead with the finding or recommendation, then show the evidence.
+  - Use tables for model/metric comparisons.
+  - Always state sample size and confidence level.
+prompt_pack_alignment:
+  closest_role_pack: ChatGPT for data scientists
+  role_pack_translation:
+  - Convert open-ended analysis requests into structured experiment designs.
+  - Default to rigorous evaluation over quick demos.
+  - Surface statistical limitations that practitioners might skip.
+evaluation_plan:
+  compare_against_no_lens:
+  - evaluation_rigor_score
+  - reproducibility_completeness
+  - false_confidence_rate
+  - time_to_actionable_result
+  minimum_sample_size: 20
+  kill_if:
+  - No improvement on at least 2 of 4 metrics.
+  - Adds methodology overhead without improving decision quality.

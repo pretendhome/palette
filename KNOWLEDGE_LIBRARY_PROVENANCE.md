@@ -287,7 +287,7 @@ This means the library isn't just reference material — it's a **production cac
 
 ### Relationship Graph (Traversal Layer)
 
-`RELATIONSHIP_GRAPH.yaml` contains 1,844 quads linking RIUs ↔ Library entries ↔ Agents for bidirectional traversal.
+`RELATIONSHIP_GRAPH.yaml` contains 2,013 quads linking RIUs ↔ Library entries ↔ Agents for bidirectional traversal.
 
 ---
 
@@ -316,7 +316,7 @@ You can't rebuild this library by asking an LLM to "generate 167 enterprise AI k
 ### The Numbers
 
 - **167 entries** across 7 problem types
-- **117 RIUs** cross-referenced
+- **121 RIUs** cross-referenced
 - **466 sourced references** (avg 3.56 per entry)
 - **15 industries** covered
 - **45 AWS services** referenced

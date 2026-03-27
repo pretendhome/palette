@@ -1,0 +1,102 @@
+lens_id: LENS-SEC-001
+version: 0.1
+status: draft
+name: Security Decision Lens
+optional: true
+origin:
+  type: hybrid
+  palette_basis: Palette lenses v0
+  external_inspiration:
+  - OpenAI Academy Prompt Packs (security-aware framing for technical teams)
+  notes: Focused on threat modeling, access control, data classification, and incident readiness for AI systems.
+critical_question:
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: It helps Palette frame every AI implementation decision through a security lens — threat models,
+    data classification, access boundaries, and incident response — before deployment, not after breach.
+when_to_use:
+  signals:
+  - threat model
+  - access control
+  - data classification
+  - prompt injection
+  - PII
+  - compliance
+  - incident response
+  - security review
+  not_for:
+  - product strategy without security implications
+  - pure UI/UX decisions
+  - marketing content creation
+  user_intents:
+  - What are the security risks of this AI system?
+  - How should we handle PII in this pipeline?
+  - What access controls do we need?
+  - How do we protect against prompt injection?
+  - What happens if this system is compromised?
+palette_fit:
+  primary_rius:
+  - RIU-082
+  - RIU-108
+  - RIU-514
+  supporting_rius:
+  - RIU-012
+  - RIU-084
+  - RIU-066
+  primary_agents:
+  - validator
+  - monitor
+  - debugger
+  supporting_agents:
+  - architect
+  - researcher
+  library_links:
+  - Use LIB entries tied to AI safety, guardrails, access control, and compliance frameworks.
+  company_matrix_use:
+  - Use company examples for known vulnerability patterns and security architecture references.
+output_contract:
+  required_sections:
+  - Threat model (assets, threats, attack vectors)
+  - Data classification (what data, what sensitivity, what handling rules)
+  - Access control design (who can do what, default-deny posture)
+  - Attack surface assessment (prompt injection, data exfiltration, privilege escalation)
+  - Mitigation plan (controls, monitoring, response procedures)
+  - Residual risk acceptance (what risks remain and who owns them)
+  forbidden_patterns:
+  - security by obscurity
+  - default-allow without justification
+  - unclassified data handling
+  - incident response deferred to post-launch
+  - trust assumptions without verification
+quality_checks:
+- Threat model covers at least 3 attack vectors.
+- Data classification is explicit for every data type in the system.
+- Access control follows least privilege principle.
+- Incident response procedure exists before deployment.
+- Residual risks have named owners.
+- AI-specific attacks (prompt injection, jailbreak) are addressed.
+interaction_style:
+  default_answer_shape:
+  - threat_model
+  - data_and_access
+  - mitigations
+  - residual_risk_and_monitoring
+  presentation_rules:
+  - Lead with highest-severity risk.
+  - Use severity ratings (critical/high/medium/low) consistently.
+  - Never downplay a risk without evidence.
+prompt_pack_alignment:
+  closest_role_pack: ChatGPT for security professionals
+  role_pack_translation:
+  - Convert implementation requests into security-first design reviews.
+  - Default to defense-in-depth over single-control solutions.
+  - Surface AI-specific attack vectors that general security reviews miss.
+evaluation_plan:
+  compare_against_no_lens:
+  - threat_coverage_completeness
+  - security_gap_detection_rate
+  - false_security_confidence_rate
+  - time_to_security_review
+  minimum_sample_size: 20
+  kill_if:
+  - No improvement on at least 2 of 4 metrics.
+  - Adds security theater without genuine risk reduction.

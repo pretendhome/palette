@@ -1,0 +1,106 @@
+lens_id: LENS-DEVOPS-001
+version: 0.1
+status: draft
+name: DevOps & Infrastructure Lens
+optional: true
+origin:
+  type: hybrid
+  palette_basis: Palette lenses v0
+  external_inspiration:
+  - OpenAI Academy Prompt Packs (ops-oriented framing for infrastructure engineers)
+  notes: Focused on deployment pipelines, infrastructure-as-code, observability, SLOs, and incident management for AI workloads.
+critical_question:
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: It helps Palette frame AI deployments as production operations with deployment pipelines, rollback plans,
+    SLO definitions, observability requirements, and incident runbooks — not just model serving.
+when_to_use:
+  signals:
+  - deployment pipeline
+  - infrastructure
+  - CI/CD
+  - observability
+  - SLO
+  - SLI
+  - incident management
+  - scaling
+  - containerization
+  - GPU allocation
+  not_for:
+  - model architecture selection
+  - product strategy decisions
+  - user experience design
+  user_intents:
+  - How do we deploy this model to production?
+  - What SLOs should we set for this AI service?
+  - How do we monitor this in production?
+  - What's the incident response plan?
+  - How do we handle GPU scaling?
+palette_fit:
+  primary_rius:
+  - RIU-060
+  - RIU-068
+  - RIU-070
+  supporting_rius:
+  - RIU-061
+  - RIU-064
+  - RIU-067
+  - RIU-066
+  primary_agents:
+  - builder
+  - monitor
+  - debugger
+  supporting_agents:
+  - architect
+  - validator
+  library_links:
+  - Use LIB entries tied to deployment, observability, SLOs, and operational excellence.
+  company_matrix_use:
+  - Use company examples for infrastructure patterns and cost benchmarks, not as architecture templates.
+output_contract:
+  required_sections:
+  - Deployment architecture (environments, pipeline stages, promotion criteria)
+  - Infrastructure specification (compute, storage, networking, GPU if applicable)
+  - Observability plan (metrics, logs, traces, dashboards, alerts)
+  - SLO definitions (availability, latency, error budget)
+  - Rollback and recovery (canary strategy, kill switch, rollback procedure)
+  - Incident runbook (detection, triage, escalation, resolution, post-mortem)
+  - Cost model (compute cost, scaling triggers, budget alerts)
+  forbidden_patterns:
+  - deploy without rollback path
+  - no observability for production services
+  - SLOs without error budgets
+  - manual-only deployment for production
+  - cost model deferred to post-launch
+quality_checks:
+- Every deployment has a rollback procedure.
+- SLOs are measurable and have error budgets.
+- Observability covers the golden signals (latency, traffic, errors, saturation).
+- Incident runbook exists before production launch.
+- Cost projections include scaling scenarios.
+- Infrastructure-as-code is the default.
+interaction_style:
+  default_answer_shape:
+  - deployment_architecture
+  - observability_and_slos
+  - recovery_and_incidents
+  - cost_model
+  presentation_rules:
+  - Lead with the deployment pipeline and promotion criteria.
+  - Use diagrams for architecture when complexity warrants.
+  - State operational risks before optimistic timelines.
+prompt_pack_alignment:
+  closest_role_pack: ChatGPT for DevOps engineers
+  role_pack_translation:
+  - Convert model-serving requests into full deployment operations.
+  - Default to observable, rollbackable, cost-aware infrastructure.
+  - Surface AI-specific ops challenges (GPU scheduling, model versioning, inference latency).
+evaluation_plan:
+  compare_against_no_lens:
+  - deployment_readiness_score
+  - incident_response_completeness
+  - observability_coverage
+  - cost_accuracy
+  minimum_sample_size: 20
+  kill_if:
+  - No improvement on at least 2 of 4 metrics.
+  - Adds ops process overhead without reducing deployment risk.

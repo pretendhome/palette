@@ -13,17 +13,17 @@
 #   candidate_services: short list of known options
 #   service_signal:     people-library signal strength for these services (high/medium/low/none)
 #
-# Source: palette_taxonomy_v1.3.yaml (117 RIUs)
+# Source: palette_taxonomy_v1.3.yaml (121 RIUs)
 # Author: Researcher + classification review
 
 ---
 version: "1.0"
 generated_at: "2026-02-24"
 taxonomy_version: "v1.3"
-total_rius: 117
-service_applicable_count: 0   # see summary at bottom
-both_count: 0                  # see summary at bottom
-internal_only_count: 0         # see summary at bottom
+total_rius: 121
+service_applicable_count: 0
+both_count: 40
+internal_only_count: 81
 
 classification_rule: |
   External service is material if it would meaningfully change:
@@ -686,6 +686,11 @@ rius:
     classification: internal_only
     rationale: KB auditing is Researcher/Validator analysis work. No external service replaces structured audit methodology.
 
+  - riu_id: RIU-401
+    name: Taxonomy Design
+    classification: internal_only
+    rationale: Taxonomy design is an Architect/Researcher knowledge engineering task. No external service replaces structured domain modeling.
+
   - riu_id: RIU-413
     name: Customer Value Demo Creation
     classification: both
@@ -700,8 +705,8 @@ rius:
     notes: Gamma is the primary choice per people-library (Grant Lee CEO signal). Lovable for interactive demos.
 
   # ==========================================================================
-  # MULTIMODAL AI WORKFLOWS (RIU-500 to RIU-503)
-  # Image and audio processing have strong external services.
+  # MULTIMODAL AI WORKFLOWS (RIU-500 to RIU-505)
+  # Image, audio, video, and voice processing have strong external services.
   # ==========================================================================
 
   - riu_id: RIU-500
@@ -742,6 +747,34 @@ rius:
     name: Cross-Modal Validation Pattern
     classification: internal_only
     rationale: Cross-modal consistency checking is custom quality logic using Claude's multimodal capabilities.
+
+  - riu_id: RIU-504
+    name: AI Video Generation Model Selection
+    classification: both
+    rationale: |
+      Video generation models (Seedance, Kling, Veo, Runway, Sora) are external services that
+      materially define output quality. Palette routes the selection; the service generates the video.
+    candidate_services:
+      - Seedance (ByteDance, cost-effective via Replicate)
+      - Kling (Kuaishou, 2.1/3.0 tiers, high quality)
+      - Veo (Google, integrated with Vertex AI)
+      - Runway (premium quality, Aleph model)
+      - Sora (OpenAI, text-to-video)
+    service_signal: high
+    notes: Active model race. Seedance/Kling for cost-effective. Runway for premium. Monitor Veo maturity.
+
+  - riu_id: RIU-505
+    name: Voice Input Modality Selection
+    classification: both
+    rationale: |
+      Voice input requires speech-to-text services that Palette cannot replicate internally.
+      Selection between consumer (Wispr Flow) and API-accessible (Whisper, Deepgram) matters for integration path.
+    candidate_services:
+      - Wispr Flow (consumer macOS app, no API yet, highest user signal)
+      - OpenAI Whisper (open-source, self-hosted or API)
+      - Deepgram (production STT, low latency)
+    service_signal: medium
+    notes: Wispr Flow has no API — monitor for release. Whisper is the default integration path.
 
   # ==========================================================================
   # ADVANCED AGENTIC SYSTEMS (RIU-510 to RIU-514)
@@ -938,6 +971,19 @@ rius:
     service_signal: low
     notes: Evidently for combined DQ + drift. Arize for LLM-specific monitoring.
 
+  - riu_id: RIU-550
+    name: No-Code AI App Generation
+    classification: both
+    rationale: |
+      No-code AI app builders (Lovable, v0.dev) are the service — Palette routes the platform
+      selection and assesses capability boundaries, but the platform generates the app.
+    candidate_services:
+      - Lovable (AI web app builder, strong people-library signal from 4 profiles)
+      - v0.dev (Vercel, React component generation)
+      - Bolt (Stackblitz, full-stack AI generation)
+    service_signal: high
+    notes: Lovable has no API. v0.dev integrates with Vercel ecosystem. Both are web-only currently.
+
   # ==========================================================================
   # ENTERPRISE AI STRATEGY (RIU-600 to RIU-608)
   # Mostly internal_only. RIU-606 (brand safety) maps to guardrail services.
@@ -1001,9 +1047,9 @@ rius:
 # ==========================================================================
 
 summary:
-  total_rius: 117
+  total_rius: 121
   internal_only: 80
-  both: 37
+  both: 40
   service_applicable: 0
 
   # "both" breakdown by theme:
@@ -1015,7 +1061,8 @@ summary:
     ops_and_observability: [RIU-061, RIU-063, RIU-064, RIU-066, RIU-067, RIU-068, RIU-070, RIU-542]
     llmops: [RIU-520, RIU-521, RIU-522, RIU-524]
     research: [RIU-140, RIU-201, RIU-252, RIU-106]
-    multimodal: [RIU-501, RIU-502]
+    multimodal: [RIU-501, RIU-502, RIU-504, RIU-505]
+    no_code: [RIU-550]
     demos_and_gtm: [RIU-413, RIU-109]
     governance: [RIU-531, RIU-532, RIU-543, RIU-606]
     agent_safety: [RIU-108]

@@ -1,0 +1,103 @@
+lens_id: LENS-MLOPS-001
+version: 0.1
+status: draft
+name: ML Operations Lens
+optional: true
+origin:
+  type: hybrid
+  palette_basis: Palette lenses v0
+  external_inspiration:
+  - OpenAI Academy Prompt Packs (ops-oriented framing for ML practitioners)
+  notes: Focused on model lifecycle management, serving infrastructure, monitoring, drift detection, and retraining pipelines.
+critical_question:
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: It helps Palette frame model deployment as a lifecycle operation with versioning, serving,
+    monitoring, drift detection, and retraining triggers — not just a one-time push to production.
+when_to_use:
+  signals:
+  - model deployment
+  - model serving
+  - model monitoring
+  - drift detection
+  - retraining
+  - model registry
+  - A/B testing models
+  - feature store
+  - inference optimization
+  not_for:
+  - initial model development and experimentation (use DS lens)
+  - product strategy decisions
+  - pure infrastructure without ML component
+  user_intents:
+  - How do we deploy and serve this model?
+  - How do we know when the model needs retraining?
+  - What monitoring do we need for this model in production?
+  - How do we A/B test model versions?
+  - What's the model lifecycle from training to retirement?
+palette_fit:
+  primary_rius:
+  - RIU-524
+  - RIU-543
+  - RIU-542
+  supporting_rius:
+  - RIU-060
+  - RIU-521
+  - RIU-523
+  primary_agents:
+  - monitor
+  - builder
+  - debugger
+  supporting_agents:
+  - architect
+  - validator
+  library_links:
+  - Use LIB entries tied to LLMOps, model monitoring, drift detection, and quality assurance.
+  company_matrix_use:
+  - Use company examples for MLOps platform comparisons and production patterns.
+output_contract:
+  required_sections:
+  - Model registry entry (version, lineage, training data, performance baseline)
+  - Serving architecture (endpoint, scaling, latency targets, fallback)
+  - Monitoring plan (performance metrics, drift indicators, alert thresholds)
+  - Retraining strategy (triggers, data pipeline, validation gates, rollback)
+  - Cost model (inference cost per request, scaling economics, optimization opportunities)
+  - Lifecycle policy (versioning scheme, deprecation timeline, retirement criteria)
+  forbidden_patterns:
+  - deploy without monitoring
+  - no retraining trigger defined
+  - model version without performance baseline
+  - drift detection deferred to later
+  - inference cost unknown at deployment
+quality_checks:
+- Model has a registered baseline performance before deployment.
+- Drift detection covers data drift, prediction drift, and concept drift.
+- Retraining pipeline is automated or has clear manual trigger procedure.
+- Fallback strategy exists for model serving failures.
+- Cost per inference is estimated and has budget alerts.
+- Model retirement criteria are defined at deployment time.
+interaction_style:
+  default_answer_shape:
+  - model_registry_and_baseline
+  - serving_and_scaling
+  - monitoring_and_drift
+  - retraining_and_lifecycle
+  presentation_rules:
+  - Lead with the production readiness assessment.
+  - Use metrics tables for model comparison.
+  - State monitoring gaps before optimistic deployment plans.
+prompt_pack_alignment:
+  closest_role_pack: ChatGPT for MLOps engineers
+  role_pack_translation:
+  - Convert model-ready requests into production lifecycle plans.
+  - Default to monitored, versioned, retrainable deployments.
+  - Surface MLOps-specific challenges (drift, serving latency, retraining cost).
+evaluation_plan:
+  compare_against_no_lens:
+  - monitoring_completeness
+  - drift_detection_coverage
+  - retraining_readiness_score
+  - lifecycle_documentation_quality
+  minimum_sample_size: 20
+  kill_if:
+  - No improvement on at least 2 of 4 metrics.
+  - Adds MLOps process overhead without improving model reliability.

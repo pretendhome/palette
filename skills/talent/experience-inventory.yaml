@@ -265,13 +265,13 @@ eras:
         type: multi_agent_knowledge_system
         repo: "github.com/pretendhome/palette"
         components:
-          taxonomy: "117-node problem taxonomy (RIUs) with classification, difficulty, prerequisite DAG, service routing"
+          taxonomy: "121-node problem taxonomy (RIUs) with classification, difficulty, prerequisite DAG, service routing"
           knowledge_library: "167 sourced entries with evidence tiers (Tier 1: Google/Anthropic/OpenAI/AWS; Tier 2: NIST/peer-reviewed; Tier 3: validated open-source), journey stages"
-          knowledge_graph: "1,876-quad relationship graph enabling bidirectional traversal across taxonomy, knowledge, services, people signals, integration recipes"
-          agents: "9 specialized agents (resolver, researcher, architect, builder, narrator, validator, monitor, debugger, orchestrator) with cognitive memory and governed message bus (MCP protocol)"
+          knowledge_graph: "2,013-quad relationship graph enabling bidirectional traversal across taxonomy, knowledge, services, people signals, integration recipes"
+          agents: "12 specialized agents (resolver, researcher, architect, builder, narrator, validator, monitor, debugger, orchestrator, business-plan-creation, health, total-health) with cognitive memory and governed message bus (MCP protocol)"
           validation: "14 automated integrity validators, threshold engine (89/89 tests, 11 patterns), cross-layer consistency verification"
-          retrieval: "Taxonomy-driven routing: 80 internal_only + 37 service-routable RIUs, 69 integration recipes, ranked service recommendations"
-          assessment: "117 curriculum modules, 3-layer evaluation (automated checks → AI rubric → human review), 11 calibration exemplar sets, certification tiers (UNVALIDATED → WORKING → PRODUCTION)"
+          retrieval: "Taxonomy-driven routing: 81 internal_only + 40 service-routable RIUs, 69 integration recipes, ranked service recommendations"
+          assessment: "121 curriculum modules, 3-layer evaluation (automated checks → AI rubric → human review), 11 calibration exemplar sets, certification tiers (UNVALIDATED → WORKING → PRODUCTION)"
           sdk: "Python SDK (86 tests), Go wire contracts, Telegram bridge"
         key_decisions:
           - "Taxonomy IS the routing layer — classify problem → know what knowledge, services, and agents to apply"
@@ -279,10 +279,10 @@ eras:
           - "Calibration exemplars differ by quality of thinking, not word count"
           - "Fail-closed validation — validators catch and block, never silently pass"
     scale_metrics:
-      - "117 taxonomy nodes"
+      - "121 taxonomy nodes"
       - "167 knowledge library entries"
-      - "1,876-quad relationship graph"
-      - "9 specialized agents"
+      - "2,013-quad relationship graph"
+      - "12 specialized agents"
       - "69 integration recipes"
       - "14 integrity validators"
       - "146 automated tests (86 SDK + 60 PIS)"
@@ -317,7 +317,7 @@ stats:
     - { stat: "+67% feature adoption increase", source: "Program KPIs" }
     - { stat: "5x YoY revenue growth from partners", source: "Partner program metrics" }
     - { stat: "13 locales, 47 data providers (Alexa)", source: "Internal Alexa data" }
-    - { stat: "Palette: 9 agents, 117 RIUs, 167 KL, 1,876 quads", source: "github.com/pretendhome/palette" }
+    - { stat: "Palette: 12 agents, 121 RIUs, 167 KL, 2,013 quads", source: "github.com/pretendhome/palette" }
     - { stat: "140,000-person global partner ecosystem", source: "AWS organizational data" }
 
   yellow:
@@ -446,8 +446,8 @@ stories:
     use_when: ["Personal projects?", "Technical depth?", "Hands-on AI experience?"]
     use_sparingly: true
     ninety_seconds: |
-      On my own time, I built Palette — an open-source multi-agent intelligence system with 9 specialized agents that route any AI decision to the right combination of internal knowledge and external services.
+      On my own time, I built Palette — an open-source multi-agent intelligence system with 12 specialized agents that route any AI decision to the right combination of internal knowledge and external services.
 
-      The system has 117 problem-solution taxonomies, a 167-entry knowledge library with evidence tiers, a 1,876-quad relationship graph, and 14 automated integrity validators. It's a production Python codebase with 146 passing tests.
+      The system has 121 problem-solution taxonomies, a 167-entry knowledge library with evidence tiers, a 2,013-quad relationship graph, and 14 automated integrity validators. It's a production Python codebase with 146 passing tests.
 
       I built it because I wanted to understand, at a deep level, how these models actually work in production — not just in demos.

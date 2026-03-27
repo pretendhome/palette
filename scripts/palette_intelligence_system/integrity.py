@@ -1,4 +1,4 @@
-"""PIS Cross-Layer Integrity Engine — scan all 117 RIUs across 6 data sources.
+"""PIS Cross-Layer Integrity Engine — scan all 121 RIUs across 6 data sources.
 
 Loads taxonomy, classification, knowledge library, service routing, integration
 recipes, and people signals.  Resolves every cross-layer relationship, produces

@@ -95,31 +95,37 @@ Emit **⚠️ KNOWLEDGE GAP DETECTED** block with:
 ## File Locations (Quick Access)
 
 ### Tier 1: Core Framework
-- `~/.kiro/steering/palette-core.md` (13KB)
+- `~/fde/palette/core/palette-core.md` (13KB)
 
 ### Tier 2: Experimental Layer
-- `~/.kiro/steering/assumptions.md` (10KB)
+- `~/fde/palette/core/assumptions.md` (10KB)
 
 ### Tier 3: Execution Log
 - `~/fde/palette/decisions.md` (47KB)
 
 ### Knowledge Resources
 - `~/fde/palette/knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml` (737KB, 167 entries)
-- `~/fde/palette/taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml` (155KB, 117 RIUs)
-- `~/fde/palette/RELATIONSHIP_GRAPH.yaml` (279KB, 1,844 quads)
+- `~/fde/palette/taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml` (155KB, 121 RIUs)
+- `~/fde/palette/RELATIONSHIP_GRAPH.yaml` (279KB, 2,013 quads)
 
 ---
 
-## Agent Archetypes (Cognitive Labels)
+## Agents (12 Specialized)
 
-| Archetype | Role | Disallowed |
-|-----------|------|------------|
-| **Argentavis (Argy)** | Search, retrieval, sourcing | Synthesis-as-decision, execution |
-| **Therizinosaurus (Theri)** | Implementation within scope | Architecture commitments |
-| **Velociraptor (Raptor)** | Failure isolation and repair | Feature expansion |
-| **Tyrannosaurus Rex (Rex)** | Design and tradeoffs | Silent commits (must flag ONE-WAY DOOR) |
-| **Yutyrannus (Yuty)** | GTM / narrative | Outrunning truth/evidence |
-| **Orchestrator (Orch)** | Workflow routing | Direct execution, bypassing convergence |
+| Agent | Role | Disallowed |
+|-------|------|------------|
+| **Resolver** | Intent resolution, maps input to RIU | Execution, architecture commitments |
+| **Researcher** | Search, retrieval, sourcing | Synthesis-as-decision, execution |
+| **Architect** | Design and tradeoffs | Silent commits (must flag ONE-WAY DOOR) |
+| **Builder** | Implementation within scope | Architecture commitments |
+| **Debugger** | Failure isolation and repair | Feature expansion |
+| **Narrator** | GTM / narrative | Outrunning truth/evidence |
+| **Validator** | Quality gates, GO/NO-GO verdicts | Execution, only evaluates |
+| **Monitor** | Signal monitoring, governance decisions | Direct execution |
+| **Orchestrator** | Workflow routing | Direct execution, bypassing convergence |
+| **Business Plan** | Multi-agent business plan workflow | Outside business plan scope |
+| **Health** | System integrity checklist (7 sections) | Code changes |
+| **Total Health** | Cross-layer audit (12 sections) | Code changes |
 
 ---
 
@@ -169,9 +175,9 @@ Emit **⚠️ KNOWLEDGE GAP DETECTED** block with:
 ## System Stats (Current)
 
 - **Knowledge entries**: 167 (library + gap + context-specific)
-- **RIUs defined**: 117
-- **Relationship quads**: 1,844
-- **Agent archetypes**: 6
+- **RIUs defined**: 121
+- **Relationship quads**: 2,013
+- **Agents**: 12
 - **System health**: GOOD (92% pass rate)
 - **Critical issues**: 0
 - **Last audit**: 2026-03-11
