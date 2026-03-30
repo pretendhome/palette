@@ -30,7 +30,8 @@ const stmts = {
   getPeer: db.prepare(`SELECT * FROM peers WHERE identity = ?`),
   allPeers: db.prepare(`SELECT * FROM peers`),
   insertMsg: db.prepare(`INSERT INTO messages (message_id, thread_id, in_reply_to, from_agent, to_agent, message_type, intent, risk_level, requires_ack, payload, state, created_at, ttl_seconds) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`),
-  fetchUndelivered: db.prepare(`SELECT * FROM messages WHERE to_agent = ? AND state IN ('pending', 'approved') ORDER BY created_at ASC`),
+  fetchUndelivered: db.prepare(`SELECT * FROM messages WHERE (to_agent = ? OR to_agent = 'all') AND state IN ('pending', 'approved') ORDER BY created_at ASC`),
+  peekUndelivered: db.prepare(`SELECT * FROM messages WHERE (to_agent = ? OR to_agent = 'all') AND state IN ('pending', 'approved') ORDER BY created_at ASC`),
   markDelivered: db.prepare(`UPDATE messages SET state = 'delivered', delivered_at = ? WHERE message_id = ?`),
   markAcked: db.prepare(`UPDATE messages SET acked_at = ? WHERE message_id = ?`),
   getMsg: db.prepare(`SELECT * FROM messages WHERE message_id = ?`),
@@ -171,10 +172,30 @@ const routes = {
           continue;
         }
       }
-      stmts.markDelivered.run(now, m.message_id);
+      if (m.to_agent !== 'all') stmts.markDelivered.run(now, m.message_id);
       live.push({ ...m, payload: JSON.parse(m.payload) });
     }
     json(res, { messages: live });
+  },
+
+  'POST /peek': async (req, res) => {
+    const body = await parseBody(req);
+    const msgs = stmts.peekUndelivered.all(body.identity);
+    const live = [];
+    for (const m of msgs) {
+      if (m.ttl_seconds > 0) {
+        const expires = new Date(m.created_at).getTime() + m.ttl_seconds * 1000;
+        if (Date.now() > expires) {
+          stmts.updateMsgState.run('expired', m.message_id);
+          continue;
+        }
+      }
+      live.push({ ...m, payload: JSON.parse(m.payload) });
+    }
+    json(res, {
+      count: live.length,
+      messages: live,
+    });
   },
 
   'POST /ack': async (req, res) => {

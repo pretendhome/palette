@@ -57,16 +57,35 @@ Run a market sweep weekly. For each opportunity:
 ### Search Patterns
 Each profile defines `titles` and `keywords` to search for. EU opportunities use the `eu_search` section.
 
+### Company Signals Cross-Reference (NEW)
+Every sweep MUST cross-reference Palette's company intelligence:
+
+**Source**: `buy-vs-build/people-library/v1.1/people_library_company_signals_v1.1.yaml` (43 tracked tools/companies)
+
+**Why**: These are companies Palette already has deep intelligence on — funding stage, product positioning, signal tier, People Library connections. Applying to a tracked company means you can speak to their product, competitive position, and market signal with specificity no other candidate has.
+
+**Sweep step**: For each company in the signals file:
+1. Check their careers page for roles matching any `role-profiles.yaml` search pattern
+2. Flag any role at a Tier 1 signal company (Anthropic, Lovable, Gamma, Wispr, Cursor, Perplexity, NotebookLM/Google) as priority
+3. Note the Palette context advantage in the pipeline tracker (e.g., "tracked in People Library — Anton Osika cluster", "integrated in Palette routing", "service routing covers their product")
+4. For People Library connections (21 profiles), check if the person is a hiring manager or can be a warm intro
+
+**Company list** (33 unique companies, grouped by Palette context):
+- **Integrated**: Anthropic (Claude), Perplexity, Gamma
+- **Evaluated/Tracked**: Lovable, Cursor, Vercel, Wispr Flow, NotebookLM (Google)
+- **Monitored**: Runway AI, Superhuman, Leonardo AI, xAI, Julius AI, Granola, HappyRobot, Krea, Higgsfield AI, OpenAI (Sora), Google DeepMind, Canva, Opus Clip, Easygen, Topaz Labs, Epidemic Sound, Overlap, Happenstance, Willow, Genre.ai, Freepik, ByteDance (Seedance/CapCut), Kuaishou (Kling)
+
 ### Pipeline Tracker
 Every opportunity gets one row:
 ```
-| Company | Role | profile_id | Fit Score | Tier | Status | Deadline | Next Action |
+| Company | Role | profile_id | Fit Score | Tier | Status | Deadline | Palette Context | Next Action |
 ```
 
 ### Validated Pattern
 - Sweep weekly, apply daily for Tier 1
 - EU opportunities are tracked separately with language advantage notes
 - New role types that don't fit existing profiles → evaluate whether to create a new profile
+- Company signals companies get priority review — deep context is a competitive advantage
 
 ---
 

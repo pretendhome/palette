@@ -1,0 +1,36 @@
+lens_id: LENS-UX-GOOGLE
+version: 1.0
+status: PRODUCTION
+name: Google Genius UX Lens (The Michelangelo Standard)
+purpose: "To bridge the gap between System Power and Human Adoption using Google's foundational UX philosophies."
+
+philosophies:
+  - id: DUARTE-001
+    name: "Form Follows Feeling"
+    principle: "Digital surfaces must behave like physical materials (Paper & Ink). Use motion to unfold complexity."
+    implementation: "Use ASCII progressions or Terminal-UI transitions to show the 'opening' of a briefing."
+  - id: AU-001
+    name: "The Zen of Pacing"
+    principle: "Empathy at scale requires stillness. Reduce cognitive load by asking one thing at a time."
+    implementation: "The 3-turn limit for first value. Greet the user based on persistent last_seen context."
+  - id: CHURCHILL-001
+    name: "Cognitive Availability"
+    principle: "Design for the user's mental model, not the system's schema."
+    implementation: "Rename technical IDs (RIU-109) to Human Anchors (Strategic Growth Plan) in user-facing views."
+  - id: VEEN-001
+    name: "Building to Think"
+    principle: "Value must be felt in < 60 seconds. Deliver a tangible prototype turn before asking for deep context."
+    implementation: "Add a 'Quick Value' command that extracts a high-fidelity alpha signal from a single file."
+
+mandatory_checks:
+  - "Does the first turn require more than 5 seconds of configuration? (If yes, it fails LENS-UX-GOOGLE)"
+  - "Is the primary output a 'Board' or an 'Actionable Anchor'? (Must be an anchor)"
+  - "Does the UI 'breathe' between turns, or is it an HFT-style dump? (Must breathe)"
+  - "Is the 'Why' (Evidence) cognitively available without clicking three levels deep?"
+
+success_metrics:
+  - "Time-to-First-Value (TTFV) < 60 seconds"
+  - "User Stress Signal (inferred from voice/text) decreases after Turn 1"
+  - "Single-word approval rate > 80% for suggested moves"
+
+closing_mantra: "The user doesn't need to see the dinosaur. They just need to feel the power."

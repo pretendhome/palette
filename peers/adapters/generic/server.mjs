@@ -24,6 +24,7 @@
 const BROKER_PORT = parseInt(process.env.PALETTE_PEERS_PORT ?? '7899', 10);
 const BROKER_BASE = `http://127.0.0.1:${BROKER_PORT}`;
 const HEARTBEAT_INTERVAL_MS = 15_000;
+const PEEK_INTERVAL_MS = 5_000;
 
 // --- Agent identity from env or CLI arg ---
 const AGENT_CONFIGS = {
@@ -228,14 +229,20 @@ async function handleTool(name, args) {
 
 // --- Lifecycle ---
 let heartbeatTimer = null;
+let peekTimer = null;
+let isRegistered = false;
+let lastPendingIds = new Set();
 
 async function register() {
+  if (isRegistered) return;
   try {
     await brokerPost('/register', {
       identity: IDENTITY,
       agent_name: AGENT_NAME,
       runtime: RUNTIME,
-      pid: process.pid,
+      // pid: null so cleanStalePeers doesn't reap when session ends.
+      // Liveness tracked via heartbeat + last_seen instead.
+      pid: null,
       cwd: process.cwd(),
       git_root: process.cwd(),
       capabilities: CAPABILITIES,
@@ -243,9 +250,23 @@ async function register() {
       trust_tier: TRUST_TIER,
       version: '1.0.0',
     });
+    isRegistered = true;
     heartbeatTimer = setInterval(async () => {
       try { await brokerPost('/heartbeat', { identity: IDENTITY }); } catch { /* broker may be down */ }
     }, HEARTBEAT_INTERVAL_MS);
+    peekTimer = setInterval(async () => {
+      try {
+        const result = await brokerPost('/peek', { identity: IDENTITY });
+        const ids = new Set((result.messages ?? []).map(m => m.message_id));
+        const newIds = [...ids].filter(id => !lastPendingIds.has(id));
+        if (newIds.length) {
+          process.stderr.write(`[palette-peers] ${IDENTITY} has ${newIds.length} new pending message(s)\n`);
+        }
+        lastPendingIds = ids;
+      } catch {
+        /* broker may be down */
+      }
+    }, PEEK_INTERVAL_MS);
     process.stderr.write(`[palette-peers] registered as ${IDENTITY}\n`);
   } catch {
     process.stderr.write(`[palette-peers] broker not reachable, tools will error until broker starts\n`);
@@ -254,7 +275,10 @@ async function register() {
 
 async function unregister() {
   if (heartbeatTimer) clearInterval(heartbeatTimer);
+  if (peekTimer) clearInterval(peekTimer);
   try { await brokerPost('/unregister', { identity: IDENTITY }); } catch { /* best effort */ }
+  isRegistered = false;
+  lastPendingIds = new Set();
 }
 
 // --- MCP stdio transport (newline-delimited JSON per MCP spec) ---
@@ -272,6 +296,7 @@ function processBuffer() {
 
 async function handleMessage(msg) {
   if (msg.method === 'initialize') {
+    await register();
     sendResponse(msg.id, {
       protocolVersion: '2024-11-05',
       capabilities: { tools: {} },
@@ -315,3 +340,4 @@ process.on('SIGTERM', async () => { await unregister(); process.exit(0); });
 process.on('SIGINT', async () => { await unregister(); process.exit(0); });
 
 process.stderr.write(`[palette-peers] ${IDENTITY} MCP server started (pid: ${process.pid})\n`);
+register();

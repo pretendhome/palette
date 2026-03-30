@@ -38,6 +38,7 @@ INBOX = ENABLEMENT_DIR / "MISTRAL_INBOX"
 OUTBOX = ENABLEMENT_DIR / "MISTRAL_OUTBOX"
 SENT = OUTBOX / "sent"
 RELAY_LOG = INBOX / ".relay_log"
+SEEN_IDS = INBOX / ".seen_ids"
 
 
 def broker_post(path, body):
@@ -102,6 +103,19 @@ def heartbeat():
     broker_post("/heartbeat", {"identity": IDENTITY})
 
 
+def load_seen_ids():
+    """Load set of already-processed message IDs (for broadcast dedup)."""
+    if SEEN_IDS.exists():
+        return set(SEEN_IDS.read_text().strip().splitlines())
+    return set()
+
+
+def save_seen_id(msg_id):
+    """Append a message ID to the seen set."""
+    with open(SEEN_IDS, "a") as f:
+        f.write(msg_id + "\n")
+
+
 def fetch_messages():
     """Fetch pending messages for Mistral and write them to INBOX."""
     result = broker_post("/fetch", {"identity": IDENTITY})
@@ -109,8 +123,11 @@ def fetch_messages():
     if not messages:
         return 0
 
+    seen = load_seen_ids()
     for msg in messages:
         msg_id = msg.get("message_id", "unknown")
+        if msg_id in seen:
+            continue
         from_agent = msg.get("from_agent", "unknown")
         intent = msg.get("intent", "no intent")
         msg_type = msg.get("message_type", "unknown")
@@ -152,6 +169,7 @@ def fetch_messages():
 {payload_text}
 """
         filepath.write_text(content)
+        save_seen_id(msg_id)
         log(f"INBOX <- {from_agent}: {intent} ({filename})")
 
     return len(messages)

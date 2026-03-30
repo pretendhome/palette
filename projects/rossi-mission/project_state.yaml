@@ -1,0 +1,222 @@
+# Rossi Mission — Project State (bootstrapped from bridge + crew analysis)
+# Schema: project_state_spec.md (kiro.design)
+# Bootstrapped: 2026-03-29 by claude.analysis
+# Source data: rossi_bridge.py ROSSI_SYSTEM prompt, FINAL_DELIVERY_SUMMARY.md,
+#   decisions.md, CONVERGENCE_GAP_ANALYSIS_KIRO.md, SECURITY_AUDIT_RIU-081.md
+
+project_state:
+  # Identity
+  id: "rossi-mission"
+  name: "Rossi — Graffiti Art Gallery & Streetwear Brand"
+  owner: "sahar"
+  operator: "mical"
+  created_at: "2026-02-01"
+  last_updated: "2026-03-29"
+
+  # Current objective
+  objective: "Get Rossi to fundable status (79/100 → 95/100) and submit first grant applications"
+
+  # Known facts — confirmed true, sourced from bridge + deliverables
+  known_facts:
+    - id: "KF-001"
+      fact: "791 Valencia Street, San Francisco"
+      source: "rossi_bridge.py"
+
+    - id: "KF-002"
+      fact: "Graffiti art gallery + streetwear brand"
+      source: "rossi_bridge.py"
+
+    - id: "KF-003"
+      fact: "50/50 profit split with artists"
+      source: "rossi_bridge.py"
+
+    - id: "KF-004"
+      fact: "Current fundability score: 79/100 (CONDITIONAL FAIL)"
+      source: "rossi_bridge.py"
+
+    - id: "KF-005"
+      fact: "Current revenue model: 64% retail, 6% grants — retail-heavy, needs flip"
+      source: "FINAL_DELIVERY_SUMMARY.md"
+
+    - id: "KF-006"
+      fact: "Target revenue model: 45% retail, 26% grants (Creative Growth model)"
+      source: "FINAL_DELIVERY_SUMMARY.md"
+
+    - id: "KF-007"
+      fact: "Comparable validated: Creative Growth Art Center (Oakland) — 50 years, 140 artists, $3.26M revenue, 50/50 split, Form 990 confirmed"
+      source: "VALIDATED_COMPARABLES_RESEARCH.md"
+
+    - id: "KF-008"
+      fact: "Organizational structure: Fiscal sponsorship hybrid (501(c)(3) + LLC)"
+      source: "decisions.md (OWD, 2026-02-06)"
+
+    - id: "KF-009"
+      fact: "Governance: Dual-board (artist advisory + governing board)"
+      source: "decisions.md (OWD, 2026-02-06)"
+
+    - id: "KF-010"
+      fact: "Revenue: 7-stream diversification model"
+      source: "decisions.md (OWD, 2026-02-06)"
+
+    - id: "KF-011"
+      fact: "Partner criteria: Stüssy International Tribe model"
+      source: "decisions.md (OWD, 2026-02-06)"
+
+    - id: "KF-012"
+      fact: "Expansion order: LA/Oakland (Year 2), NYC/Seattle (Year 3)"
+      source: "decisions.md (OWD, 2026-02-06)"
+
+    - id: "KF-013"
+      fact: "Funding ask must increase from $150K to $185-200K (covers Months 1-3 burn of $8-10K/month)"
+      source: "rossi_bridge.py"
+
+    - id: "KF-014"
+      fact: "MQ x Tie One Drop Package: 22 documents, validation score 87/100, revenue forecast $34K-$62K"
+      source: "decisions.md (2026-02-11)"
+
+    - id: "KF-015"
+      fact: "Rossi Telegram bot operational on Hostinger VPS — relay pipeline working"
+      source: "ROSSI_BOT_READINESS_REVIEW.md"
+
+    - id: "KF-016"
+      fact: "All major research and architecture deliverables complete (~80 hours, 30+ artifacts)"
+      source: "STATUS.md"
+
+  # Missing evidence — things we need but don't have
+  missing_evidence:
+    - id: "ME-001"
+      what: "12 months trailing actuals from Square/Shopify POS (monthly revenue by category, transaction count, average order value, top 10 artists)"
+      why: "Cannot validate $500K Year 1 projection without baseline — transforms projections from theoretical to validated"
+      who_resolves: "owner"
+      priority: "critical"
+      remediation: "remediation/condition-1-trailing-actuals.md"
+
+    - id: "ME-002"
+      what: "Named advisory board members (3-5 with relevant credentials)"
+      why: "Funders require governance visibility — current plan lacks named advisors"
+      who_resolves: "owner"
+      priority: "moderate"
+      remediation: "remediation/condition-4-simplified-governance.md"
+
+    - id: "ME-003"
+      what: "2-3 documented artist success stories (career-launch case studies)"
+      why: "Artist pipeline thesis (Chito, Barry McGee model) is derived from others — need proof from Rossi's own roster"
+      who_resolves: "owner"
+      priority: "moderate"
+      remediation: "remediation/condition-3-pipeline-validation.md"
+
+    - id: "ME-004"
+      what: "Monthly cash flow timing model (burn rate vs grant arrival schedule)"
+      why: "Grants arrive 60-90 days after award — Months 1-3 burn $8-10K/month with no grant revenue, risk of insolvency"
+      who_resolves: "operator"
+      priority: "moderate"
+      remediation: "remediation/condition-2-monthly-cashflow.md"
+
+    - id: "ME-005"
+      what: "Visual credentials — photos, show documentation, press clippings"
+      why: "No visual evidence of gallery operations or artist work to include in applications"
+      who_resolves: "owner"
+      priority: "low"
+      remediation: "remediation/condition-5-bear-case-scenario.md"
+
+  # Open decisions — choices waiting on a human
+  open_decisions:
+    - id: "OD-001"
+      decision: "Flip revenue model from retail-heavy (64%) to grant-heavy (45% retail / 26% grants)?"
+      options:
+        - "Keep current model (64% retail, 6% grants)"
+        - "Flip to Creative Growth model (45% retail, 26% grants)"
+      who_decides: "owner"
+      blocked_by: "ME-001"
+      impact: "Determines entire funding strategy and grant application framing"
+
+    - id: "OD-002"
+      decision: "Which 2-3 artists to document for pipeline validation?"
+      options: []
+      who_decides: "owner"
+      blocked_by: null
+      impact: "Proves artist career-launch thesis with real evidence"
+
+    - id: "OD-003"
+      decision: "MQ x Tie One Drop — 6 pending decisions (drop date, format, editions, pricing, narrative, revenue allocation)"
+      options: []
+      who_decides: "owner"
+      blocked_by: null
+      impact: "Unlocks $34K-$62K revenue event"
+
+  # Blocked actions — things we can't do yet and why
+  blocked_actions:
+    - action: "Submit grant applications ($250K+ target)"
+      blocked_by: ["ME-001"]
+      unblocks: "Primary funding stream"
+
+    - action: "Finalize business plan for underwriter review"
+      blocked_by: ["ME-001", "ME-002", "OD-001"]
+      unblocks: "Fundability score increase to 85+"
+
+    - action: "Invite Rossi team to Telegram bot"
+      blocked_by: ["P0 readiness gaps: lenses, simulation rounds, user allowlist"]
+      unblocks: "Direct owner interaction with system"
+
+  # Known unknowns — things we know we don't know
+  known_unknowns:
+    - "Actual monthly cash flow timing (burn rate vs grant arrival lag)"
+    - "Whether artist pipeline thesis has any informal validation from Rossi's own experience"
+    - "Grant application status — have any prior submissions been made?"
+    - "Whether owner (Sahar) has capacity to supply missing evidence in the near term"
+    - "Actual current monthly revenue run rate ($150K? $400K? Unknown.)"
+
+  # Resolved decisions — ONE-WAY DOORS already confirmed
+  resolved_decisions:
+    - id: "RD-001"
+      decision: "Organizational structure"
+      resolution: "Fiscal sponsorship hybrid (501(c)(3) + LLC)"
+      resolved_at: "2026-02-06"
+      reversible: false
+
+    - id: "RD-002"
+      decision: "Governance model"
+      resolution: "Dual-board (artist advisory + governing board)"
+      resolved_at: "2026-02-06"
+      reversible: false
+
+    - id: "RD-003"
+      decision: "Revenue diversification"
+      resolution: "7-stream model"
+      resolved_at: "2026-02-06"
+      reversible: false
+
+    - id: "RD-004"
+      decision: "Partner selection criteria"
+      resolution: "Stüssy International Tribe model"
+      resolved_at: "2026-02-06"
+      reversible: false
+
+    - id: "RD-005"
+      decision: "Expansion sequence"
+      resolution: "LA/Oakland Year 2, NYC/Seattle Year 3"
+      resolved_at: "2026-02-06"
+      reversible: false
+
+    - id: "RD-006"
+      decision: "Convergence brief approval"
+      resolution: "Approved — agent workflow validated"
+      resolved_at: "2026-02-06"
+      reversible: false
+
+  # Route hypothesis
+  route_hypothesis:
+    riu_id: "RIU-109"
+    name: "Business Plan Creation"
+    confidence: "moderate"
+    reason: "Business plan is the umbrella deliverable — but blocked on evidence (ME-001, ME-002)"
+
+  # Metrics
+  health_score: 79
+  health_label: "CONDITIONAL FAIL"
+  target_score: 95
+  turns_in_session: 0
+  project_phase: "validation-complete-awaiting-evidence"
+  time_invested_hours: 80
+  artifacts_created: 30
+  decisions_logged: 25

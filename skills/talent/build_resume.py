@@ -113,7 +113,7 @@ PROFILES = {
         "summary": (
             "12+ years at Amazon building knowledge architectures, ontologies, and AI-augmented retrieval "
             "systems at enterprise scale. Designed and shipped a 121-node problem taxonomy with service routing, "
-            "a 167-entry sourced knowledge library with evidence tiers and retrieval metadata, and a multi-agent "
+            "a 168-entry sourced knowledge library with evidence tiers and retrieval metadata, and a multi-agent "
             "orchestration system with 12 specialized agents, 2,013-quad relationship graph, and governed message "
             "bus. Background in comparative linguistics and knowledge engineering \u2014 the discipline of turning "
             "unstructured domain knowledge into machine-navigable structures."
@@ -131,7 +131,7 @@ PROFILES = {
         ],
         "palette_items": [
             ("Taxonomy & ontology", "121-node problem taxonomy (RIUs) with classification metadata, difficulty ratings, prerequisite DAG, and service routing"),
-            ("Knowledge library", "167 sourced entries with evidence tiers (Tier 1: Google/Anthropic/OpenAI/AWS; Tier 2: NIST/peer-reviewed; Tier 3: validated open-source), journey stages, and cross-referencing to taxonomy nodes"),
+            ("Knowledge library", "168 sourced entries with evidence tiers (Tier 1: Google/Anthropic/OpenAI/AWS; Tier 2: NIST/peer-reviewed; Tier 3: validated open-source), journey stages, and cross-referencing to taxonomy nodes"),
             ("Knowledge graph", "2,013-quad relationship graph enabling bidirectional traversal across taxonomy, knowledge, services, people signals, and integration recipes"),
             ("Multi-agent orchestration", "12 specialized agents with cognitive memory, governed message bus (MCP protocol), and persistent context across interactions"),
             ("Data pipelines", "14 automated integrity validators, cross-layer consistency verification, threshold engine (89/89 tests), and continuous validation"),
@@ -322,6 +322,38 @@ PROFILES = {
             ("Content currency & renewal", "Automated staleness detection, versioned curriculum with integrity validators (121/121 pass), cross-module consistency checks"),
         ],
         "palette_tools": "Python, Claude API, Claude Code, Claude.ai (daily usage), Git/GitHub",
+    },
+    "enablement_systems_builder": {
+        "headline": "AI ENABLEMENT ENGINEER  |  SYSTEMS ARCHITECTURE & TECHNICAL EDUCATION",
+        "summary": (
+            "AI enablement systems builder with 12+ years at Amazon. Built Ask Pathfinder "
+            "(AI knowledge retrieval system serving 12,000+ users/month, 25% reduction in prep time) "
+            "and Palette (multi-agent intelligence system with 12 agents, 121 curriculum modules, "
+            "certification tiers, and portfolio-based assessment). Delivered 250+ technical enablement "
+            "sessions reaching 20,000+ enterprise users annually. Understand agent architecture from "
+            "the inside because I built one. Background in comparative linguistics \u2014 the discipline "
+            "of understanding how the same concept, expressed differently, changes whether people "
+            "understand it, believe it, and act on it."
+        ),
+        "bullet_key": "enablement",
+        "capabilities": [
+            "Enablement systems: curriculum architecture, playbook design, workshop facilitation, certification programs",
+            "Agent architecture: multi-agent orchestration, governed coordination, wire contracts, MCP protocol",
+            "Knowledge engineering: taxonomy design, ontology construction, retrieval systems, knowledge graphs",
+            "AI evaluation: structured attribution, quality scoring, hallucination detection, output validation",
+            "Technical education: 250+ workshops, 20,000+ users, diverse audiences (engineers to CxOs)",
+            "Adoption strategy: targeted value demonstrations, behavior change measurement, three-level metrics",
+            "Cross-functional delivery: partnering with Product, Engineering, Customer Success, and Partners",
+            "Python (primary), SQL, Bash, Git/GitHub; familiar with JavaScript/TypeScript",
+        ],
+        "palette_items": [
+            ("Multi-agent system", "12 specialized agents with governed coordination via wire contract protocol (7 fields in, 7 fields out), MCP integrations, and persistent context across interactions"),
+            ("Enablement curriculum", "121 curriculum modules organized into 14 learning paths and 5 certification tracks, with portfolio-based assessment and 3-layer evaluation pipeline"),
+            ("Knowledge architecture", "168-entry sourced knowledge library with three-tier evidence bar, 2,013-quad relationship graph, and taxonomy-driven routing across 121 classified problem types"),
+            ("Quality infrastructure", "103 automated health checks across 12 audit sections, 14 integrity validators, threshold engine enforcing per-dimension competence on critical modules"),
+            ("Adoption measurement", "Three-level instrumentation: usage metrics \u2192 behavior shift indicators \u2192 business outcome correlation"),
+        ],
+        "palette_tools": "Python, Claude API, Claude Code, MCP protocol, YAML knowledge representation, Git/GitHub",
     },
 }
 

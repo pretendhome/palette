@@ -67,7 +67,7 @@ layers:
   lenses:
     version: v0
     path: lenses/releases/v0/
-    entries: 22
+    entries: 23
     unit: role lens
     status: pilot
     creation_skill: skills/lenses/lens-creation-methodology.md

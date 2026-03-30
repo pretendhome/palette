@@ -1,0 +1,48 @@
+# Palette Knowledge Library Entry: RIU-505
+# Version: 1.0
+# Status: DRAFT
+# Modality: Voice Input Selection
+
+id: "KL-505-001"
+title: "Agentic Voice Input Modality Selection: Decision Framework"
+question: "How should I select between self-hosted Whisper and consumer apps like Wispr Flow for Palette voice input?"
+answer: |
+  **Decision Framework for Voice Input Modality:**
+
+  1. **Select Whisper (Self-Hosted/Programmatic) IF:**
+     - You require direct integration into agent workflows (RIU-011).
+     - Privacy mandates require raw audio to stay on local hardware (Pattern 2: Local Outpost).
+     - Cost optimization is critical (Subscription-free model).
+     - **Best Practice (2026)**: Use `faster-whisper` large-v3 or `Whisper Large V3 Turbo` for <800ms modular latency. Implement on-device VAD (Picovoice/Moonshine) to prevent unconfirmed data upload.
+
+  2. **Select Wispr Flow (Consumer/Dictation) IF:**
+     - The use case is human-led personal productivity (143 WPM dictation).
+     - Programmatic agent execution is NOT required (Wispr Flow lacks a public API as of Q1 2026).
+     - High-fidelity context-aware correction is prioritized over local-only processing.
+
+  **2026 Standards for "Natural" Interaction:**
+  - **Latency**: Target <300ms (Native Audio-to-Audio) or <800ms (Modular Stack).
+  - **Protocol**: Use Full-Duplex WebSockets (WSS) or WebRTC for interruption handling (Barge-in).
+  - **Privacy**: Implement local PII redaction from transcripts before bus transmission (RIU-081).
+
+evidence:
+  - source_id: "PERSON-019"
+    name: "Andrej Karpathy"
+    signal: "Agentic Engineering requires native audio processing for intent-based building."
+  - source_id: "PERSON-012"
+    name: "Tanay Kothari"
+    signal: "Voice at 143 WPM is the trust-builder for busy founders (Wispr Flow benchmark)."
+  - source_id: "INT-WHISPER-001"
+    name: "Whisper Integration Recipe"
+    signal: "Integrated into Palette Telegram bot; supports 99 languages locally."
+
+related_rius:
+  - "RIU-505"
+  - "RIU-500"
+  - "RIU-011"
+  - "RIU-081"
+
+success_metrics:
+  - "End-to-end latency < 800ms"
+  - "0% unscrubbed PII in bus-transmitted transcripts"
+  - "User convergence velocity improvement > 20% vs text-only"

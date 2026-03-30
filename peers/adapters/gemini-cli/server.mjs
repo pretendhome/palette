@@ -1,28 +1,17 @@
 #!/usr/bin/env node
 /**
- * Palette Peers — Claude Code MCP Adapter
+ * Palette Peers — Gemini CLI MCP Adapter
  *
- * An MCP server (stdio transport) that lets Claude Code participate
+ * An MCP server (stdio transport) that lets Gemini CLI participate
  * in the Palette Peers governed message bus.
- *
- * Exposes tools: peers_send, peers_fetch, peers_list, peers_status,
- *                peers_checkpoints, peers_approve, peers_reject, peers_thread
- *
- * Auto-registers with the broker on startup, sends heartbeats,
- * and unregisters on shutdown.
- *
- * Usage in .claude/settings.local.json mcpServers:
- *   "palette-peers": {
- *     "command": "node",
- *     "args": ["/home/mical/fde/palette/peers/adapters/claude-code/server.mjs"]
- *   }
  */
 import { createInterface } from 'node:readline';
+import crypto from 'node:crypto';
 
 const BROKER_PORT = parseInt(process.env.PALETTE_PEERS_PORT ?? '7899', 10);
 const BROKER_BASE = `http://127.0.0.1:${BROKER_PORT}`;
-const IDENTITY = 'claude.analysis';
-const AGENT_NAME = 'claude-code';
+const IDENTITY = 'gemini.specialist';
+const AGENT_NAME = 'gemini-cli';
 const HEARTBEAT_INTERVAL_MS = 15_000;
 const PEEK_INTERVAL_MS = 5_000;
 
@@ -61,75 +50,87 @@ function sendNotification(method, params) {
 const TOOLS = [
   {
     name: 'peers_send',
-    description: 'Send a governed message to another Palette peer (kiro.design, codex.implementation, perplexity.research, or human.operator). Messages are classified by type and risk level, with one-way-door decisions held for human approval.',
+    description: 'Send a governed message to another Palette peer (kiro.design, codex.implementation, perplexity.research, or human.operator).',
     inputSchema: {
       type: 'object',
       properties: {
-        to_agent: { type: 'string', description: 'Recipient peer identity (e.g., kiro.design, codex.implementation, perplexity.research)' },
+        to_agent: { type: 'string', description: 'Recipient peer identity' },
         message_type: { type: 'string', enum: ['informational', 'advisory', 'proposal', 'execution_request', 'one_way_door', 'human_checkpoint'], description: 'Message classification' },
-        intent: { type: 'string', description: 'Human-readable purpose of this message (1-2 sentences)' },
-        risk_level: { type: 'string', enum: ['none', 'low', 'medium', 'high', 'critical'], default: 'none', description: 'Risk classification. Critical = held for human approval.' },
-        payload: { type: 'object', description: 'Message-type-specific content. For execution_request, include handoff_packet with id/from/to/task fields.' },
-        thread_id: { type: 'string', description: 'Optional thread UUID to group related messages' },
-        in_reply_to: { type: 'string', description: 'Optional message_id this replies to' },
-        requires_ack: { type: 'boolean', default: false, description: 'Whether you expect acknowledgment' },
-        ttl_seconds: { type: 'integer', default: 3600, description: 'Time-to-live in seconds. 0 = no expiry.' },
+        intent: { type: 'string', description: 'Human-readable purpose of this message' },
+        risk_level: { type: 'string', enum: ['none', 'low', 'medium', 'high', 'critical'], default: 'none' },
+        payload: { type: 'object', description: 'Message-type-specific content.' },
+        thread_id: { type: 'string' },
+        in_reply_to: { type: 'string' },
+        requires_ack: { type: 'boolean', default: false },
+        ttl_seconds: { type: 'integer', default: 3600 },
       },
       required: ['to_agent', 'message_type', 'intent', 'payload'],
     },
   },
   {
     name: 'peers_fetch',
-    description: 'Fetch undelivered messages addressed to Claude Code from the Palette Peers bus. Returns pending and approved messages.',
+    description: 'Fetch undelivered messages addressed to Gemini CLI from the Palette Peers bus.',
     inputSchema: { type: 'object', properties: {}, required: [] },
   },
   {
     name: 'peers_list',
-    description: 'List all registered peers on the Palette Peers bus with their capabilities and trust tiers.',
+    description: 'List all registered peers on the Palette Peers bus.',
     inputSchema: { type: 'object', properties: {}, required: [] },
   },
   {
     name: 'peers_status',
-    description: 'Check Palette Peers broker health, peer count, and version.',
+    description: 'Check Palette Peers broker health.',
     inputSchema: { type: 'object', properties: {}, required: [] },
   },
   {
     name: 'peers_checkpoints',
-    description: 'List messages held at human checkpoint (waiting_human state). These are one-way-door or critical-risk messages that need human approval before delivery.',
+    description: 'List all messages held at a checkpoint requiring human or agent approval.',
     inputSchema: { type: 'object', properties: {}, required: [] },
   },
   {
     name: 'peers_approve',
-    description: 'Approve a message held at human checkpoint, allowing it to be delivered to the recipient.',
+    description: 'Approve a message held at a checkpoint.',
     inputSchema: {
       type: 'object',
       properties: {
-        message_id: { type: 'string', description: 'The message_id to approve' },
+        message_id: { type: 'string', description: 'ID of the message to approve' },
+        reason: { type: 'string', description: 'Optional reason for approval' },
       },
       required: ['message_id'],
     },
   },
   {
     name: 'peers_reject',
-    description: 'Reject a message held at human checkpoint.',
+    description: 'Reject a message held at a checkpoint.',
     inputSchema: {
       type: 'object',
       properties: {
-        message_id: { type: 'string', description: 'The message_id to reject' },
+        message_id: { type: 'string', description: 'ID of the message to reject' },
         reason: { type: 'string', description: 'Reason for rejection' },
       },
-      required: ['message_id'],
+      required: ['message_id', 'reason'],
     },
   },
   {
     name: 'peers_thread',
-    description: 'View all messages in a conversation thread.',
+    description: 'Fetch all messages in a specific thread.',
     inputSchema: {
       type: 'object',
       properties: {
-        thread_id: { type: 'string', description: 'The thread UUID to view' },
+        thread_id: { type: 'string', description: 'ID of the thread to fetch' },
       },
       required: ['thread_id'],
+    },
+  },
+  {
+    name: 'fetch_signals_PROTOTYPE',
+    description: 'SIMULATION ONLY. A placeholder for a local file scanner. Extracts hardcoded signals for architectural demonstration. NOT FOR PRODUCTION USE.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        file_path: { type: 'string', description: 'Path to the local file to scan.' },
+      },
+      required: ['file_path'],
     },
   },
 ];
@@ -137,6 +138,13 @@ const TOOLS = [
 // --- Tool handlers ---
 async function handleTool(name, args) {
   switch (name) {
+    case 'fetch_signals_PROTOTYPE': {
+      const result = `## [PROTOTYPE] Palette Evidence Packet (SIMULATED)
+- **Source**: ${args.file_path}
+- **Status**: Simulated signal extraction. No real data processing performed.
+- **Signals**: [REVENUE_RANGE: $50k-$100k], [INDUSTRY: RETAIL]`;
+      return { content: [{ type: 'text', text: result }] };
+    }
     case 'peers_send': {
       const msgId = crypto.randomUUID();
       const envelope = {
@@ -184,33 +192,33 @@ async function handleTool(name, args) {
     }
 
     case 'peers_checkpoints': {
-      const result = await brokerGet('/checkpoints');
-      const cps = result.checkpoints ?? [];
-      if (!cps.length) return { content: [{ type: 'text', text: 'No pending human checkpoints.' }] };
-      const summary = cps.map(c =>
-        `🚨 ${c.message_id}\n  ${c.from_agent} → ${c.to_agent}\n  type: ${c.message_type} | risk: ${c.risk_level}\n  intent: ${c.intent}\n  created: ${c.created_at}`
+      const result = await brokerPost('/list-checkpoints', { identity: IDENTITY });
+      const msgs = result.messages ?? [];
+      if (!msgs.length) return { content: [{ type: 'text', text: 'No messages held at checkpoints.' }] };
+      const summary = msgs.map(m =>
+        `[${m.created_at}] ${m.from_agent} → ${m.to_agent} (ID: ${m.message_id})\n  type: ${m.message_type}\n  intent: ${m.intent}`
       ).join('\n\n');
-      return { content: [{ type: 'text', text: `${cps.length} checkpoint(s):\n\n${summary}` }] };
+      return { content: [{ type: 'text', text: `${msgs.length} message(s) held:\n\n${summary}` }] };
     }
 
     case 'peers_approve': {
-      const result = await brokerPost('/approve', { message_id: args.message_id });
-      return { content: [{ type: 'text', text: result.ok ? `Approved ${args.message_id}` : `Failed: ${JSON.stringify(result)}` }] };
+      const result = await brokerPost('/approve', { identity: IDENTITY, message_id: args.message_id, reason: args.reason });
+      return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
     }
 
     case 'peers_reject': {
-      const result = await brokerPost('/reject', { message_id: args.message_id, reason: args.reason ?? 'rejected by claude' });
-      return { content: [{ type: 'text', text: result.ok ? `Rejected ${args.message_id}` : `Failed: ${JSON.stringify(result)}` }] };
+      const result = await brokerPost('/reject', { identity: IDENTITY, message_id: args.message_id, reason: args.reason });
+      return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
     }
 
     case 'peers_thread': {
-      const result = await brokerPost('/thread', { thread_id: args.thread_id });
+      const result = await brokerPost('/thread', { identity: IDENTITY, thread_id: args.thread_id });
       const msgs = result.messages ?? [];
-      if (!msgs.length) return { content: [{ type: 'text', text: 'No messages in thread.' }] };
+      if (!msgs.length) return { content: [{ type: 'text', text: 'Thread not found or empty.' }] };
       const summary = msgs.map(m =>
-        `[${m.created_at}] ${m.from_agent} → ${m.to_agent} (${m.message_type})\n  ${m.intent}`
+        `[${m.created_at}] ${m.from_agent}: ${m.intent}\n  payload: ${JSON.stringify(m.payload, null, 2)}`
       ).join('\n\n');
-      return { content: [{ type: 'text', text: `Thread (${msgs.length} messages):\n\n${summary}` }] };
+      return { content: [{ type: 'text', text: `Thread ${args.thread_id} (${msgs.length} messages):\n\n${summary}` }] };
     }
 
     default:
@@ -230,12 +238,12 @@ async function register() {
     await brokerPost('/register', {
       identity: IDENTITY,
       agent_name: AGENT_NAME,
-      runtime: 'claude-code',
+      runtime: 'gemini-cli',
       pid: null, // null so cleanStalePeers tracks liveness via heartbeat, not PID
       cwd: process.cwd(),
       git_root: process.cwd(),
-      capabilities: ['code_generation', 'code_review', 'bash_execution', 'file_operations', 'debugging', 'testing'],
-      palette_role: 'debugger',
+      capabilities: ['strategic_planning', 'codebase_analysis', 'code_generation', 'debugging', 'testing'],
+      palette_role: 'specialist',
       trust_tier: 'WORKING',
       version: '1.0.0',
     });
@@ -254,9 +262,8 @@ async function register() {
         lastPendingIds = ids;
       } catch { /* broker may be down */ }
     }, PEEK_INTERVAL_MS);
-  } catch {
-    // Broker not running — adapter still works, tools will fail gracefully
-    process.stderr.write('[palette-peers adapter] broker not reachable, tools will error until broker starts\n');
+  } catch (e) {
+    process.stderr.write(`[palette-peers adapter] registration failed: ${e.message}\n`);
   }
 }
 
@@ -293,7 +300,7 @@ async function handleMessage(msg) {
     sendResponse(msg.id, {
       protocolVersion: '2024-11-05',
       capabilities: { tools: {} },
-      serverInfo: { name: 'palette-peers', version: '1.0.0' },
+      serverInfo: { name: 'palette-peers-gemini', version: '1.0.0' },
     });
     return;
   }
@@ -319,7 +326,6 @@ async function handleMessage(msg) {
     return;
   }
 
-  // Unknown method — respond with error if it has an id
   if (msg.id != null) {
     sendError(msg.id, -32601, `method not found: ${msg.method}`);
   }
@@ -330,6 +336,6 @@ process.stdin.on('data', chunk => { buffer += chunk; processBuffer(); });
 process.stdin.on('end', async () => { await unregister(); process.exit(0); });
 process.on('SIGTERM', async () => { await unregister(); process.exit(0); });
 process.on('SIGINT', async () => { await unregister(); process.exit(0); });
-register();
 
-process.stderr.write(`[palette-peers adapter] claude-code MCP server started (pid: ${process.pid})\n`);
+process.stderr.write(`[palette-peers adapter] gemini-cli MCP server started (pid: ${process.pid})\n`);
+register();

@@ -266,7 +266,7 @@ eras:
         repo: "github.com/pretendhome/palette"
         components:
           taxonomy: "121-node problem taxonomy (RIUs) with classification, difficulty, prerequisite DAG, service routing"
-          knowledge_library: "167 sourced entries with evidence tiers (Tier 1: Google/Anthropic/OpenAI/AWS; Tier 2: NIST/peer-reviewed; Tier 3: validated open-source), journey stages"
+          knowledge_library: "168 sourced entries with evidence tiers (Tier 1: Google/Anthropic/OpenAI/AWS; Tier 2: NIST/peer-reviewed; Tier 3: validated open-source), journey stages"
           knowledge_graph: "2,013-quad relationship graph enabling bidirectional traversal across taxonomy, knowledge, services, people signals, integration recipes"
           agents: "12 specialized agents (resolver, researcher, architect, builder, narrator, validator, monitor, debugger, orchestrator, business-plan-creation, health, total-health) with cognitive memory and governed message bus (MCP protocol)"
           validation: "14 automated integrity validators, threshold engine (89/89 tests, 11 patterns), cross-layer consistency verification"
@@ -280,7 +280,7 @@ eras:
           - "Fail-closed validation — validators catch and block, never silently pass"
     scale_metrics:
       - "121 taxonomy nodes"
-      - "167 knowledge library entries"
+      - "168 knowledge library entries"
       - "2,013-quad relationship graph"
       - "12 specialized agents"
       - "69 integration recipes"
@@ -317,7 +317,7 @@ stats:
     - { stat: "+67% feature adoption increase", source: "Program KPIs" }
     - { stat: "5x YoY revenue growth from partners", source: "Partner program metrics" }
     - { stat: "13 locales, 47 data providers (Alexa)", source: "Internal Alexa data" }
-    - { stat: "Palette: 12 agents, 121 RIUs, 167 KL, 2,013 quads", source: "github.com/pretendhome/palette" }
+    - { stat: "Palette: 12 agents, 121 RIUs, 168 KL, 2,013 quads", source: "github.com/pretendhome/palette" }
     - { stat: "140,000-person global partner ecosystem", source: "AWS organizational data" }
 
   yellow:

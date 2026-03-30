@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palette — Mission Canvas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Palette</div>
+        <div class="status" id="server-status">Checking local route...</div>
+    </header>
+
+    <main>
+        <section class="card">
+            <h1>Mission Canvas</h1>
+            <p class="intro">
+                Local-first planning workspace for Mission Canvas. Submit an objective, context, outcome,
+                and constraints to the local Palette route. No bus payloads are rendered as HTML.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2>Intent Intake</h2>
+            <form id="mission-form">
+                <div class="field">
+                    <label for="objective">Objective</label>
+                    <textarea id="objective" name="objective" rows="3" required placeholder="I need a business plan for my store."></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="context">Context</label>
+                    <textarea id="context" name="context" rows="3" placeholder="Small neighborhood retail space with existing foot traffic."></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="desired_outcome">Desired Outcome</label>
+                    <textarea id="desired_outcome" name="desired_outcome" rows="3" required placeholder="A practical 30-day roadmap."></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="constraints">Constraints</label>
+                    <textarea id="constraints" name="constraints" rows="3" placeholder="Small budget, one owner, limited time."></textarea>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="risk_posture">Risk Posture</label>
+                        <select id="risk_posture" name="risk_posture">
+                            <option value="low">low</option>
+                            <option value="medium" selected>medium</option>
+                            <option value="high">high</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="user_role">User Role</label>
+                        <select id="user_role" name="user_role">
+                            <option value="owner" selected>owner</option>
+                            <option value="operator">operator</option>
+                            <option value="admin">admin</option>
+                            <option value="unknown">unknown</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" id="submit-button">Route Mission</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Route Output</h2>
+            <div class="response-meta" id="response-meta">No request sent yet.</div>
+            <pre class="response-box" id="response-box">Awaiting route response...</pre>
+        </section>
+
+        <section class="card">
+            <h2>Selected RIUs</h2>
+            <ul class="simple-list" id="riu-list">
+                <li>No routing decision yet.</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>Agent Map</h2>
+            <ul class="simple-list" id="agent-list">
+                <li>No agent assignments yet.</li>
+            </ul>
+        </section>
+
+        <section class="card warning-card hidden" id="owd-card">
+            <h2>One-Way-Door Warning</h2>
+            <div id="owd-text">No one-way-door actions detected.</div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Built for Small Business. Local-first route: <code>/v1/missioncanvas/route</code></p>
+    </footer>
+
+    <script>
+        const API_BASE = "http://localhost:8787/v1/missioncanvas";
+        const form = document.getElementById("mission-form");
+        const statusEl = document.getElementById("server-status");
+        const responseMetaEl = document.getElementById("response-meta");
+        const responseBoxEl = document.getElementById("response-box");
+        const riuListEl = document.getElementById("riu-list");
+        const agentListEl = document.getElementById("agent-list");
+        const owdCardEl = document.getElementById("owd-card");
+        const owdTextEl = document.getElementById("owd-text");
+        const submitButtonEl = document.getElementById("submit-button");
+
+        function safeSetText(el, value) {
+            el.textContent = value;
+        }
+
+        function replaceList(el, items, formatter) {
+            el.textContent = "";
+            if (!items || !items.length) {
+                const li = document.createElement("li");
+                li.textContent = "None.";
+                el.appendChild(li);
+                return;
+            }
+            for (const item of items) {
+                const li = document.createElement("li");
+                li.textContent = formatter(item);
+                el.appendChild(li);
+            }
+        }
+
+        async function checkHealth() {
+            try {
+                const res = await fetch(`${API_BASE}/health`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                safeSetText(statusEl, `Local route online (${data.mode})`);
+            } catch (err) {
+                safeSetText(statusEl, `Local route unavailable: ${err.message}`);
+            }
+        }
+
+        function buildPayload() {
+            const objective = document.getElementById("objective").value.trim();
+            const context = document.getElementById("context").value.trim();
+            const desiredOutcome = document.getElementById("desired_outcome").value.trim();
+            const constraints = document.getElementById("constraints").value.trim();
+            const riskPosture = document.getElementById("risk_posture").value;
+            const userRole = document.getElementById("user_role").value;
+            const sessionId = sessionStorage.getItem("missioncanvas_session_id") || crypto.randomUUID();
+            sessionStorage.setItem("missioncanvas_session_id", sessionId);
+
+            return {
+                request_id: crypto.randomUUID(),
+                timestamp: new Date().toISOString(),
+                session_id: sessionId,
+                user: {
+                    id: "mical",
+                    role: userRole
+                },
+                input: {
+                    objective,
+                    context,
+                    desired_outcome: desiredOutcome,
+                    constraints,
+                    risk_posture: riskPosture
+                },
+                policy: {
+                    enforce_convergence: true,
+                    enforce_one_way_gate: true,
+                    max_selected_rius: 5,
+                    require_validation_checks: true
+                },
+                runtime: {
+                    mode: "planning",
+                    allow_execution: false,
+                    tool_whitelist: ["research", "planning"],
+                    log_target: "implementation"
+                }
+            };
+        }
+
+        function renderResponse(data) {
+            safeSetText(
+                responseMetaEl,
+                `Status: ${data.status || "unknown"} | Request: ${data.request_id || "n/a"} | Source: ${data.source || "unknown"}`
+            );
+            safeSetText(responseBoxEl, data.action_brief_markdown || JSON.stringify(data, null, 2));
+
+            replaceList(
+                riuListEl,
+                data?.routing?.selected_rius || [],
+                (item) => `${item.riu_id} — ${item.name}: ${item.why_now}`
+            );
+
+            replaceList(
+                agentListEl,
+                data?.routing?.agent_map || [],
+                (item) => `${item.agent} | ${item.task} | maturity=${item.maturity} | human_required=${item.human_required}`
+            );
+
+            if (data?.one_way_door?.detected) {
+                owdCardEl.classList.remove("hidden");
+                const messages = (data.one_way_door.items || []).map(
+                    (item) => `${item.decision_id}: ${item.description} — ${item.reason}`
+                );
+                safeSetText(owdTextEl, messages.join("\n"));
+            } else {
+                owdCardEl.classList.add("hidden");
+                safeSetText(owdTextEl, "No one-way-door actions detected.");
+            }
+        }
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            submitButtonEl.disabled = true;
+            safeSetText(responseMetaEl, "Submitting request...");
+            safeSetText(responseBoxEl, "Routing through local Mission Canvas adapter...");
+
+            try {
+                const payload = buildPayload();
+                const res = await fetch(`${API_BASE}/route`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+                if (!res.ok || data.status === "error") {
+                    const details = data?.error?.details?.join("; ") || data?.error?.message || "Unknown error";
+                    safeSetText(responseMetaEl, `Error | Request: ${data.request_id || payload.request_id}`);
+                    safeSetText(responseBoxEl, details);
+                    replaceList(riuListEl, [], () => "");
+                    replaceList(agentListEl, [], () => "");
+                    owdCardEl.classList.add("hidden");
+                    return;
+                }
+
+                renderResponse(data);
+            } catch (err) {
+                safeSetText(responseMetaEl, "Runtime error");
+                safeSetText(responseBoxEl, err.message);
+                replaceList(riuListEl, [], () => "");
+                replaceList(agentListEl, [], () => "");
+                owdCardEl.classList.add("hidden");
+            } finally {
+                submitButtonEl.disabled = false;
+            }
+        });
+
+        checkHealth();
+    </script>
+</body>
+</html>
