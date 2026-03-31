@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MissionCanvas | Voice-First Planning</title>
+  <meta name="description" content="Voice-first mission planning. Speak naturally, translate into structured intent, and route through Palette." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="index.html">MissionCanvas</a>
+      <div class="topbar-sub">Voice-first convergence system</div>
+      <div id="workspaceSelectorMount" class="workspace-selector-mount"></div>
+    </header>
+
+    <main class="layout">
+      <section class="panel onboarding-panel" aria-labelledby="onboarding-title">
+        <div class="panel-head compact">
+          <h2 id="onboarding-title">Quick start</h2>
+          <p>Use this flow. 30 seconds to first plan.</p>
+        </div>
+        <ol class="onboarding-list">
+          <li><span>1</span>Press <strong>Start Voice</strong> and describe your mission.</li>
+          <li><span>2</span>Press <strong>Translate Into Prompt</strong> and review the fields.</li>
+          <li><span>3</span>Press <strong>Route Mission</strong> to get RIU, agent, and action brief.</li>
+        </ol>
+        <div class="row wrap">
+          <div id="systemStatus" class="system-status">System status: waiting</div>
+          <button id="btnHealth" class="btn" type="button">Check Connection</button>
+        </div>
+      </section>
+
+      <section class="panel persona-panel" aria-labelledby="persona-title">
+        <div class="panel-head compact">
+          <h2 id="persona-title">Choose your context</h2>
+          <p>Start from a persona pattern, then customize.</p>
+        </div>
+        <div class="persona-grid">
+          <button class="persona-chip" type="button" data-persona="mythfall">Game Builder</button>
+          <button class="persona-chip" type="button" data-persona="rossi">Business Owner</button>
+          <button class="persona-chip" type="button" data-persona="scuola">Education</button>
+          <button class="persona-chip" type="button" data-persona="job">Job Seeker</button>
+          <button class="persona-chip" type="button" data-persona="exec">Enterprise AI Operator</button>
+        </div>
+        <p id="personaHint" class="persona-hint">No persona selected.</p>
+        <ul id="personaChecklist" class="persona-checklist">
+          <li>Select a persona to load guidance.</li>
+        </ul>
+      </section>
+
+      <section class="panel primary-panel" aria-labelledby="voice-title">
+        <div class="panel-head">
+          <h1 id="voice-title">Tell me what you need.</h1>
+          <p>Speak naturally. MissionCanvas translates it into a structured prompt before routing.</p>
+        </div>
+
+        <div class="voice-controls">
+          <button id="btnVoiceStart" class="btn btn-primary" type="button">Start Voice</button>
+          <button id="btnVoiceStop" class="btn" type="button">Stop</button>
+          <span id="voiceState" class="voice-state">Voice idle</span>
+        </div>
+
+        <div class="mode-hint">
+          <strong>Default:</strong> Voice-first. Use chat only when speaking is not practical.
+        </div>
+
+        <label class="label" for="transcriptInput">What you said</label>
+        <textarea id="transcriptInput" class="mono" placeholder="Example: I run a local store. I need a business plan and grant strategy in 30 days with low budget."></textarea>
+
+        <div class="row">
+          <button id="btnTranslate" class="btn" type="button">Translate Into Prompt</button>
+          <span id="translateConfidence" class="confidence">Confidence: n/a</span>
+        </div>
+        <p id="translationNotes" class="translation-notes">Translator notes: waiting for input.</p>
+
+        <div class="sample-missions" aria-label="Sample missions">
+          <button class="chip preset-chip" type="button" data-preset="I run a local retail store. I need a 30-day business plan with grant opportunities and low budget constraints.">Retail plan + grants</button>
+          <button class="chip preset-chip" type="button" data-preset="I need a launch strategy for a new product drop with messaging, channels, and timeline.">Launch strategy</button>
+          <button class="chip preset-chip" type="button" data-preset="I have scattered notes and need a single operating roadmap with clear next actions.">Converge notes</button>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="prompt-title">
+        <div class="panel-head compact">
+          <h2 id="prompt-title">Translation Layer</h2>
+          <p>Edit if needed, then route.</p>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label class="label" for="tObjective">Objective</label>
+            <textarea id="tObjective" placeholder="What do you want to accomplish?"></textarea>
+          </div>
+          <div>
+            <label class="label" for="tContext">Context</label>
+            <textarea id="tContext" placeholder="Current state, what already exists"></textarea>
+          </div>
+          <div>
+            <label class="label" for="tOutcome">Desired Outcome</label>
+            <input id="tOutcome" type="text" placeholder="Concrete end state" />
+          </div>
+          <div>
+            <label class="label" for="tConstraints">Constraints</label>
+            <input id="tConstraints" type="text" placeholder="Time, budget, team, risk" />
+          </div>
+          <div>
+            <label class="label" for="tRiskPosture">Risk Posture</label>
+            <select id="tRiskPosture">
+              <option value="low">low</option>
+              <option value="medium" selected>medium</option>
+              <option value="high">high</option>
+            </select>
+          </div>
+          <div>
+            <label class="label" for="tUserRole">User Role</label>
+            <select id="tUserRole">
+              <option value="owner">owner</option>
+              <option value="operator" selected>operator</option>
+              <option value="admin">admin</option>
+              <option value="unknown">unknown</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="live-convergence">
+          <div class="live-meter-track">
+            <div id="liveMeterFill" class="live-meter-fill" style="width:0%"></div>
+          </div>
+          <span id="liveScore" class="live-score">EXPLORE 0/100</span>
+          <p id="liveHint" class="live-hint">Fill in fields to build convergence.</p>
+        </div>
+
+        <div class="row">
+          <button id="btnRoute" class="btn btn-primary" type="button">Route Mission</button>
+          <button id="btnStream" class="btn" type="button">Stream Mode</button>
+        </div>
+
+        <details class="details">
+          <summary>Prefer typing? Open chat input</summary>
+          <label class="label" for="manualInput">Manual chat input</label>
+          <textarea id="manualInput" placeholder="Type your request here."></textarea>
+          <button id="btnManualTranslate" class="btn" type="button">Use This As Transcript</button>
+        </details>
+      </section>
+
+      <div id="projectCheckin" class="panel checkin-panel hidden"></div>
+
+      <section class="panel result-panel" aria-labelledby="result-title">
+        <div class="panel-head compact">
+          <h2 id="result-title">Routed Plan</h2>
+          <span id="modeBadge" class="mode-badge">--</span>
+          <p id="resultStatus">No route yet.</p>
+        </div>
+
+        <div id="commitBanner" class="commit-banner hidden"></div>
+        <div id="modeContent" class="mode-content"></div>
+        <div id="workspaceUiRoot" class="workspace-ui-root hidden"></div>
+
+        <dl class="result-grid">
+          <div><dt>Source</dt><dd id="rSource">-</dd></div>
+          <div><dt>Status</dt><dd id="rStatus">-</dd></div>
+          <div><dt>Primary RIU</dt><dd id="rRiu">-</dd></div>
+          <div><dt>Primary Agent</dt><dd id="rAgent">-</dd></div>
+          <div><dt>Next Artifact</dt><dd id="rArtifact">-</dd></div>
+          <div><dt>Immediate Action</dt><dd id="rAction">-</dd></div>
+        </dl>
+
+        <label class="label" for="briefOutput">Action brief</label>
+        <textarea id="briefOutput" class="mono" readonly></textarea>
+
+        <div class="row wrap">
+          <button id="btnSpeak" class="btn" type="button">Speak Brief</button>
+          <button id="btnCopy" class="btn" type="button">Copy Brief</button>
+          <button id="btnConfirmOwd" class="btn hidden" type="button">Confirm One-Way Door</button>
+          <button id="btnCommit" class="btn btn-commit hidden" type="button">Commit to this route</button>
+          <button id="btnUncommit" class="btn hidden" type="button">Back to Converge</button>
+          <button id="btnAppendLog" class="btn" type="button">Append Decision Log</button>
+          <label class="check"><input id="autoLog" type="checkbox" /> Auto-log</label>
+        </div>
+
+        <label class="label" for="followupInput">Self-reference refinement</label>
+        <textarea id="followupInput" placeholder="What did this miss? Add a correction and reroute."></textarea>
+        <button id="btnRefine" class="btn" type="button">Refine + Reroute</button>
+
+        <div class="qa-box">
+          <h3>Prompt quality check</h3>
+          <ul id="qualityChecks">
+            <li>Waiting for translated prompt.</li>
+          </ul>
+        </div>
+
+        <div id="streamBox" class="stream-box hidden">
+          <h3>Streaming output</h3>
+          <pre id="streamOutput"></pre>
+        </div>
+
+        <div id="queryPanel" class="query-panel hidden">
+          <h3>Project State</h3>
+          <div class="row">
+            <input id="queryInput" type="text" placeholder="Ask: progress, gaps, decisions, routes, facts..." />
+            <button id="btnQuery" class="btn" type="button">Query</button>
+          </div>
+          <pre class="query-output"></pre>
+        </div>
+
+        <button class="btn btn-query-toggle" type="button" onclick="document.getElementById('queryPanel').classList.toggle('hidden')">Check my progress</button>
+      </section>
+    </main>
+
+    <footer class="footer">MissionCanvas · Palette-powered routing · Voice-first UX</footer>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    window.MISSIONCANVAS_CONFIG = Object.assign({ apiBase: "" }, window.MISSIONCANVAS_CONFIG || {});
+  </script>
+  <script src="workspace_ui.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -227,12 +227,19 @@ palette/
 │   ├── assumptions.md                  # Tier 2 — Experimental assumptions
 │   └── decisions-prompt.md             # Tier 3 — Decision log policy
 ├── taxonomy/releases/v1.3/             # 121 competency areas (RIUs)
-├── knowledge-library/v1.4/             # 167 entries with evidence tiers
+├── knowledge-library/v1.4/             # 168 entries with evidence tiers
 ├── buy-vs-build/
 │   ├── integrations/                   # 69 integration recipes
 │   ├── service-routing/v1.0/           # 106 services, 40 routing profiles
 │   ├── people-library/v1.1/            # 21 profiles, 33 tools tracked
 │   └── PALETTE_INTELLIGENCE_SYSTEM_v1.0.md
+├── mission-canvas/                     # Voice-first execution platform (UX)
+│   ├── index.html                      # Unified voice UI
+│   ├── server.mjs                      # API server (10 endpoints)
+│   ├── convergence_chain.mjs           # Workspace state engine
+│   ├── workspace_coaching.mjs          # Learner lens coaching
+│   ├── workspaces/                     # Workspace configs + state
+│   └── competitions/                   # Multi-agent design competitions
 ├── agents/                             # 12 specialized agents
 │   ├── resolver/                       # Intent resolution
 │   ├── researcher/                     # Research (Perplexity Sonar API primary)
@@ -246,6 +253,8 @@ palette/
 │   ├── business-plan-creation/         # Multi-agent business plan workflow
 │   ├── health/                         # System integrity checklist
 │   └── total-health/                   # Cross-layer audit + optimization
+├── peers/                              # Governed message bus
+│   └── broker/                         # Multi-agent communication broker
 ├── skills/                             # Validated domain frameworks
 │   ├── retail-ai/                      # Enterprise AI strategy
 │   ├── talent/                         # Interview prep + application system

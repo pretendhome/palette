@@ -1,0 +1,35 @@
+# FDE Toolkit — Workspace Configuration
+# Domain: AI Sales Engineering & Solution Architecture
+# Purpose: Support FDEs in customer discovery, technical scoping, and objection handling.
+
+workspace:
+  id: "fde-toolkit"
+  name: "FDE Mission Control"
+  description: "Real-time support for AI implementation, technical sales, and customer success."
+  user_name: "Agent"
+  user_role: "operator"
+  operator_name: "Mical"
+  domain: "ai-sales-engineering"
+  primary_frontend: "voice"
+
+frx:
+  greeting_style: "professional"
+  startup_artifact: "meeting_brief"
+  show_top_blockers: true
+  nudge_threshold_days: 1 # Fast-paced sales environment
+  max_nudges: 5
+
+artifacts:
+  defaults:
+    - "technical_scoping_doc"
+    - "objection_handling_cheat_sheet"
+    - "demo_script"
+    - "implementation_roadmap"
+
+retrieval:
+  static_knowledge_pack: "core"
+  live_retrieval_enabled: true
+
+governance:
+  risk_posture: "high" # Speed is critical in sales
+  require_owd_confirmation: true

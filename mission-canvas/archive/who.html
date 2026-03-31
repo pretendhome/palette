@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MissionCanvas | Who Are You?</title>
+  <meta name="description" content="A minimal voice-first Mission Canvas artifact. Ask one question and hear the answer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="identity-page">
+  <main class="identity-shell">
+    <p class="identity-kicker">MissionCanvas · voice artifact</p>
+    <h1 class="identity-title">Who are you?</h1>
+    <p class="identity-subtitle">
+      One question. One voice button. One direct answer from the system you are building.
+    </p>
+
+    <div class="identity-question-card">
+      <div class="identity-question-label">Question</div>
+      <div class="identity-question">Who are you?</div>
+    </div>
+
+    <button id="identitySpeakButton" class="identity-speak-button" type="button" aria-label="Speak your question">
+      <span class="identity-speak-ring"></span>
+      <span class="identity-speak-core">Speak</span>
+    </button>
+
+    <p id="identityStatus" class="identity-status">Idle. Voxtral-ready, browser speech fallback enabled.</p>
+
+    <section class="identity-panel">
+      <div class="identity-panel-label">Transcript</div>
+      <div id="identityTranscript" class="identity-panel-body identity-panel-body-muted">Waiting for voice.</div>
+    </section>
+
+    <section class="identity-panel identity-answer-panel">
+      <div class="identity-panel-label">Answer</div>
+      <div id="identityAnswer" class="identity-answer">Press Speak and ask it out loud.</div>
+    </section>
+
+    <section class="identity-panel identity-meta-panel">
+      <div class="identity-panel-label">Backend</div>
+      <div id="identityBackend" class="identity-panel-body identity-panel-body-muted">No backend turn yet.</div>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script>
+    window.MISSIONCANVAS_CONFIG = Object.assign({ apiBase: "" }, window.MISSIONCANVAS_CONFIG || {});
+  </script>
+  <script src="who.js"></script>
+</body>
+</html>

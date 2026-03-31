@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "mission-canvas": {
+      "command": "node",
+      "args": ["/home/mical/fde/missioncanvas-site/mcp_server.mjs"],
+      "env": {
+        "MC_WORKSPACE": "oil-investor"
+      }
+    }
+  }
+}

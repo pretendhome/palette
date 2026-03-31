@@ -1,0 +1,31 @@
+{
+  "request_id": "pilot-rossi-001",
+  "timestamp": "2026-02-17T08:00:00Z",
+  "session_id": "pilot-rossi-session",
+  "user": {
+    "id": "mical",
+    "role": "owner"
+  },
+  "input": {
+    "objective": "Create a business plan and grant strategy for Rossi Mission, then define the first 30-day execution sprint.",
+    "context": "Rossi Mission is a retail art/gallery concept with existing local brand energy but fragmented planning and unclear operating roadmap.",
+    "desired_outcome": "A concrete operating plan, funding pipeline, and immediate execution checklist.",
+    "constraints": "Small team, limited budget, high urgency, must stay practical and local-first.",
+    "risk_posture": "medium"
+  },
+  "policy": {
+    "enforce_convergence": true,
+    "enforce_one_way_gate": true,
+    "max_selected_rius": 5,
+    "require_validation_checks": true
+  },
+  "runtime": {
+    "mode": "planning",
+    "allow_execution": false,
+    "tool_whitelist": [
+      "research",
+      "planning"
+    ],
+    "log_target": "implementation"
+  }
+}

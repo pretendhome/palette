@@ -1,0 +1,3252 @@
+[
+  {
+    "id": "RIU-001",
+    "name": "Convergence Brief (Semantic Blueprint)",
+    "trigger_signals": [
+      "new engagement",
+      "conflicting asks",
+      "paid commitment",
+      "rebrand messaging risk"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Architect",
+      "Researcher"
+    ],
+    "artifacts": [
+      "convergence_brief.md (use LIB-088 5-section template)",
+      "assumptions.md",
+      "open_questions.md"
+    ],
+    "execution_intent": "Create a Convergence Brief using LIB-088 5-section template:\n1. Problem (what are we solving?)\n2. Context (constraints, stakeholders, timeline)\n3. Success Criteria (how do we know we're done?)\n4. Non-goals (explicitly out of scope)\n5. Next Steps (what happens after convergence?)\n\nThis structured approach accelerates alignment and reduces \nback-and-forth by making implicit assumptions explicit.\n",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-002",
+    "name": "Stakeholder Map + RACI-lite",
+    "trigger_signals": [
+      "scoping engagement",
+      "change in mgmt context",
+      "ambiguous requirements",
+      "stakeholder alignment needed"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Researcher"
+    ],
+    "artifacts": [
+      "stakeholder_map.md",
+      "raci_lite.md",
+      "escalation_path.md"
+    ],
+    "execution_intent": "Map deciders/influencers/approvers; define RACI-lite for key artifacts and escalation path.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Clarify & Bound",
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-003",
+    "name": "Decision Log + One-Way Door Registry",
+    "trigger_signals": [
+      "scoping engagement",
+      "quality concerns",
+      "ambiguous requirements",
+      "reliability concerns"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Architect"
+    ],
+    "artifacts": [
+      "decisions.md"
+    ],
+    "execution_intent": "Maintain decisions.md with decisions, reversibility, rationale, rejected alternatives, escalation status.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Clarify & Bound",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-004",
+    "name": "Problem \u2192 Workstream Decomposition",
+    "trigger_signals": [
+      "scoping engagement",
+      "schema needs",
+      "ambiguous requirements"
+    ],
+    "agent_types": [
+      "Architect",
+      "Researcher"
+    ],
+    "artifacts": [
+      "candidate_workstreams.yaml",
+      "candidate_rius.yaml"
+    ],
+    "execution_intent": "Generate broad candidate workstreams + RIUs (non-commit). Human confirms active subset in decisions.md.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-005",
+    "name": "Scope Freeze + Phased Delivery Contract",
+    "trigger_signals": [
+      "scoping-incident-response",
+      "schema needs",
+      "ambiguous requirements",
+      "production deployment needed"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Architect"
+    ],
+    "artifacts": [
+      "phase_plan.md",
+      "acceptance_criteria.md"
+    ],
+    "execution_intent": "Define Phase 0/1/2 deliverables with acceptance criteria and rollback expectations.",
+    "reversibility": "mixed",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Clarify & Bound",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-006",
+    "name": "Success Metrics Charter",
+    "trigger_signals": [
+      "debates about 'good'",
+      "no KPI",
+      "success criteria unclear"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Architect",
+      "Researcher"
+    ],
+    "artifacts": [
+      "success_metrics_charter.md",
+      "acceptance_checks.md"
+    ],
+    "execution_intent": "Define outcome metrics + leading indicators + acceptance checks; align with stakeholders.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-007",
+    "name": "Constraint Profile Capture",
+    "trigger_signals": [
+      "security asks",
+      "latency SLA",
+      "budget cap",
+      "compliance requirements"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Architect"
+    ],
+    "artifacts": [
+      "constraint_profile.md"
+    ],
+    "execution_intent": "Capture constraint profile; rank fixed vs negotiable; record in decisions.md.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-008",
+    "name": "Assumptions Register",
+    "trigger_signals": [
+      "scoping-testing",
+      "quality concerns",
+      "testing needed before shipping",
+      "ambiguous requirements"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Architect"
+    ],
+    "artifacts": [
+      "assumptions.md",
+      "assumption_tests.md"
+    ],
+    "execution_intent": "Record assumptions with validation plan and expiry; escalate if assumption implies one-way door.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Clarify & Bound",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-009",
+    "name": "Risk Register + Mitigation Plan",
+    "trigger_signals": [
+      "scoping-testing",
+      "ambiguous requirements",
+      "reliability concerns"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Architect"
+    ],
+    "artifacts": [
+      "risk_register.md"
+    ],
+    "execution_intent": "Maintain risk register with mitigations, owners, and triggers; update on cadence.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Clarify & Bound",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-010",
+    "name": "Access & Permissions Readiness Checklist",
+    "trigger_signals": [
+      "testing engagement",
+      "quality concerns",
+      "unclear inputs/outputs",
+      "access issues"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Builder"
+    ],
+    "artifacts": [
+      "access_checklist.md",
+      "access_smoketests/",
+      "network_requirements.md"
+    ],
+    "execution_intent": "Produce least-privilege access checklist and smoke tests for read/write boundaries.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-011",
+    "name": "Data Contract Freeze (Schemas + Samples)",
+    "trigger_signals": [
+      "schema engagement",
+      "data contract needed",
+      "unclear inputs/outputs"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "data_contract.yaml",
+      "sample_payloads/",
+      "schema_validators/"
+    ],
+    "execution_intent": "Freeze versioned data contract with schemas, sample payloads, constraints, validation rules.",
+    "reversibility": "mixed",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs"
+    ]
+  },
+  {
+    "id": "RIU-012",
+    "name": "PII/Compliance Triage (Controls Plan)",
+    "trigger_signals": [
+      "quality concerns",
+      "discovery engagement",
+      "compliance/audit requirements",
+      "unclear inputs/outputs"
+    ],
+    "agent_types": [
+      "Architect",
+      "Human:Delivery",
+      "Validator"
+    ],
+    "artifacts": [
+      "compliance_triage.md",
+      "data_minimization_plan.md",
+      "audit_logging_requirements.md"
+    ],
+    "execution_intent": "Classify sensitivity, define minimization/redaction, document audit logging requirements.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Interfaces & Inputs"
+    ]
+  },
+  {
+    "id": "RIU-013",
+    "name": "Source-of-Truth Inventory",
+    "trigger_signals": [
+      "scoping engagement",
+      "security concerns",
+      "unclear inputs/outputs",
+      "ambiguous requirements"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Researcher"
+    ],
+    "artifacts": [
+      "source_of_truth_inventory.md"
+    ],
+    "execution_intent": "Create source-of-truth map listing systems, owners, fields, cadence, trust level.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-014",
+    "name": "Data Sampling + Edge-Case Catalog",
+    "trigger_signals": [
+      "testing-data",
+      "quality concerns",
+      "testing needed before shipping",
+      "unclear inputs/outputs"
+    ],
+    "agent_types": [
+      "Builder",
+      "Validator"
+    ],
+    "artifacts": [
+      "edge_case_catalog.md",
+      "edge_case_samples/",
+      "edge_case_tests/"
+    ],
+    "execution_intent": "Collect representative samples; catalog edge cases; convert into tests.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-015",
+    "name": "Contract for Outputs (API/Events/Files)",
+    "trigger_signals": [
+      "schema engagement",
+      "API needed",
+      "unclear inputs/outputs",
+      "production deployment",
+      "ONE-WAY DOOR risk"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "output_contract.yaml",
+      "consumer_expectations.md"
+    ],
+    "execution_intent": "Define output contract with schema, semantics, idempotency, SLAs, versioning.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-016",
+    "name": "API Contract Review + Versioning Plan",
+    "trigger_signals": [
+      "quality concerns",
+      "API engagement",
+      "API interface needed",
+      "unclear inputs/outputs"
+    ],
+    "agent_types": [
+      "Architect",
+      "Validator"
+    ],
+    "artifacts": [
+      "api_contract_review.md",
+      "versioning_plan.md"
+    ],
+    "execution_intent": "Review API contract; define compatibility + versioning rules.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-017",
+    "name": "Connector Spec (Source/Target)",
+    "trigger_signals": [
+      "integration engagement",
+      "requirements needed",
+      "spec/requirements document",
+      "testing before shipping",
+      "unclear inputs/outputs"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "connector_spec.md",
+      "mapping_rules.yaml",
+      "connector_tests/"
+    ],
+    "execution_intent": "Define connector spec with auth, pagination, rate limits, retries, mapping, error handling.",
+    "reversibility": "mixed",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-018",
+    "name": "Schema Mapping Table (Source\u2192Target)",
+    "trigger_signals": [
+      "schema engagement",
+      "testing engagement",
+      "data contract needed",
+      "testing before shipping",
+      "unclear inputs/outputs"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "schema_mapping.csv",
+      "transform_rules.yaml",
+      "mapping_tests/"
+    ],
+    "execution_intent": "Create mapping table with transforms/defaults/provenance; validate with samples.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs"
+    ]
+  },
+  {
+    "id": "RIU-019",
+    "name": "Data Lineage Sketch (Minimal)",
+    "trigger_signals": [
+      "scoping engagement",
+      "data engagement",
+      "unclear inputs/outputs",
+      "ambiguous requirements"
+    ],
+    "agent_types": [
+      "Architect",
+      "Researcher"
+    ],
+    "artifacts": [
+      "data_lineage.md",
+      "lineage_diagram.md"
+    ],
+    "execution_intent": "Produce minimal lineage diagram + narrative (source\u2192processing\u2192sink) including owners.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-020",
+    "name": "Baseline Behavior Snapshot",
+    "trigger_signals": [
+      "testing-schema",
+      "quality concerns",
+      "core behavior/logic changes needed"
+    ],
+    "agent_types": [
+      "Researcher",
+      "Validator"
+    ],
+    "artifacts": [
+      "baseline_report.md",
+      "baseline_outputs/",
+      "baseline_metrics.json"
+    ],
+    "execution_intent": "Capture baseline outputs + metrics for representative cases; store as golden artifacts.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Core Logic",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-021",
+    "name": "Golden Set + Offline Evaluation Harness",
+    "trigger_signals": [
+      "evaluation engagement",
+      "quality concerns",
+      "reliability concerns",
+      "core behavior/logic changes"
+    ],
+    "agent_types": [
+      "Architect",
+      "Validator"
+    ],
+    "artifacts": [
+      "golden_set.jsonl",
+      "eval_runner/",
+      "eval_report.md"
+    ],
+    "execution_intent": "Build golden cases, expected doc families, and offline metrics runner.",
+    "reversibility": "two_way",
+    "journey_stage": "retrieval",
+    "workstreams": [
+      "Quality & Safety",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-022",
+    "name": "Prompt Interface Contract",
+    "trigger_signals": [
+      "schema engagement",
+      "prompting engagement",
+      "data contract needed",
+      "core behavior/logic changes",
+      "unclear inputs/outputs"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "prompt_contract.md",
+      "output_schema.json",
+      "prompt_templates/"
+    ],
+    "execution_intent": "Define prompt interface with variables, constraints, required schema, failure handling.",
+    "reversibility": "mixed",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Core Logic",
+      "Interfaces & Inputs"
+    ]
+  },
+  {
+    "id": "RIU-023",
+    "name": "Deterministic-First Pipeline Split",
+    "trigger_signals": [
+      "quality concerns",
+      "schema engagement",
+      "core behavior/logic changes",
+      "reliability concerns"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "pipeline_split.md",
+      "deterministic_modules/",
+      "llm_modules/",
+      "fallback_rules.yaml"
+    ],
+    "execution_intent": "Split pipeline into deterministic and LLM stages; add guards + fallbacks.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Core Logic",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-024",
+    "name": "Sidecar Augmentation Pattern",
+    "trigger_signals": [
+      "schema engagement",
+      "docs engagement",
+      "data contract needed",
+      "core behavior/logic changes",
+      "production deployment"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "sidecar_schema.json",
+      "sidecar_writer/",
+      "sidecar_reader/"
+    ],
+    "execution_intent": "Generate adjacent sidecar artifacts keyed by doc_id/entity_id with computed signals + reason codes.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Core Logic",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-025",
+    "name": "Freshness/Staleness Rules (Deterministic)",
+    "trigger_signals": [
+      "testing-schema",
+      "testing before shipping",
+      "reliability concerns",
+      "core behavior/logic changes"
+    ],
+    "agent_types": [
+      "Builder",
+      "Architect"
+    ],
+    "artifacts": [
+      "freshness_rules.yaml",
+      "orphan_detector/",
+      "staleness_tests/"
+    ],
+    "execution_intent": "Implement freshness classes + downrank/omit rules; orphan detection via last-seen snapshots.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-026",
+    "name": "Hybrid Similarity (Enums + Embeddings)",
+    "trigger_signals": [
+      "need similar past cases",
+      "hard to route/triage",
+      "embedding/semantic similarity search",
+      "nearest-neighbor retrieval",
+      "keyword search fails"
+    ],
+    "agent_types": [
+      "Builder",
+      "Architect"
+    ],
+    "artifacts": [
+      "similarity_index/",
+      "neighbor_service/",
+      "reason_codes.md"
+    ],
+    "execution_intent": "Return neighbors using hybrid similarity + reason codes; avoid LLM prose by default.",
+    "reversibility": "two_way",
+    "journey_stage": "retrieval",
+    "workstreams": [
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-027",
+    "name": "Reranking Layer (Post-Retrieval)",
+    "trigger_signals": [
+      "retrieval engagement",
+      "ranking engagement",
+      "core behavior/logic changes",
+      "reliability concerns",
+      "search/retrieval quality issues"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "reranker_module/",
+      "explainability_rules.md",
+      "rerank_eval.md"
+    ],
+    "execution_intent": "Apply reranking using deterministic signals + optional model scoring; include explanations.",
+    "reversibility": "two_way",
+    "journey_stage": "retrieval",
+    "workstreams": [
+      "Core Logic",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-028",
+    "name": "Schema-Constrained Generation",
+    "trigger_signals": [
+      "quality-testing",
+      "schema engagement",
+      "data contract needed",
+      "core behavior/logic changes",
+      "reliability concerns"
+    ],
+    "agent_types": [
+      "Builder",
+      "Validator"
+    ],
+    "artifacts": [
+      "output_schema.json",
+      "validator/",
+      "repair_rules.md"
+    ],
+    "execution_intent": "Enforce JSON schema outputs with validation, retries, and partial repair.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Core Logic",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-029",
+    "name": "Tool-Calling Safety Envelope",
+    "trigger_signals": [
+      "agent-design",
+      "quality concerns",
+      "reliability concerns",
+      "core behavior/logic changes",
+      "compliance/audit requirements"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder",
+      "Validator"
+    ],
+    "artifacts": [
+      "tool_allowlist.yaml",
+      "tool_limits.md",
+      "tool_audit_requirements.md"
+    ],
+    "execution_intent": "Define tool allowlist, rate limits, redaction, and audit requirements.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-032",
+    "name": "Extraction Pattern (Structured from Unstructured)",
+    "trigger_signals": [
+      "schema engagement",
+      "quality concerns",
+      "data contract needed",
+      "core behavior/logic changes",
+      "reliability concerns"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "extraction_schema.json",
+      "extractor/",
+      "extraction_eval.jsonl"
+    ],
+    "execution_intent": "Implement extraction with schema constraints, confidence, and fallbacks; produce eval set.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Core Logic",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-033",
+    "name": "Classification Pattern (Soft Labels)",
+    "trigger_signals": [
+      "schema engagement",
+      "data contract needed",
+      "core behavior/logic changes",
+      "classification needed"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "label_schema.json",
+      "classifier/",
+      "abstain_rules.md"
+    ],
+    "execution_intent": "Implement soft classification with confidence + abstain; log uncertainty.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-034",
+    "name": "Ranking Explanation Rules (Reason Codes)",
+    "trigger_signals": [
+      "quality-ranking",
+      "schema engagement",
+      "core behavior/logic changes",
+      "reliability concerns"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "reason_codes.md",
+      "explainability_rules.yaml"
+    ],
+    "execution_intent": "Define deterministic reason codes and attach to ranked outputs.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Core Logic",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-035",
+    "name": "Caching Strategy + Invalidation Plan",
+    "trigger_signals": [
+      "schema-performance",
+      "quality concerns",
+      "core behavior/logic changes",
+      "production deployment",
+      "latency constraints"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder",
+      "Monitor"
+    ],
+    "artifacts": [
+      "cache_plan.md",
+      "invalidation_rules.yaml"
+    ],
+    "execution_intent": "Define caching layers, TTLs, invalidation triggers, and tradeoffs.",
+    "reversibility": "mixed",
+    "journey_stage": "retrieval",
+    "workstreams": [
+      "Core Logic",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-060",
+    "name": "Deployment Readiness Envelope",
+    "trigger_signals": [
+      "deployment engagement",
+      "quality concerns",
+      "deploy/operationalize needed",
+      "production deployment",
+      "reliability concerns"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "deployment_envelope.md",
+      "env_matrix.md",
+      "release_gates.md"
+    ],
+    "execution_intent": "Define deployment envelope with envs, configs, secrets, migrations, rollback, release gates.",
+    "reversibility": "mixed",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-061",
+    "name": "Observability Baseline",
+    "trigger_signals": [
+      "observability engagement",
+      "quality concerns",
+      "spec/requirements document needed",
+      "dashboards/visibility needed",
+      "production deployment"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder",
+      "Monitor"
+    ],
+    "artifacts": [
+      "observability_baseline.md",
+      "dashboards/",
+      "alerts.md",
+      "logging_spec.md"
+    ],
+    "execution_intent": "Define minimum observability with logs, metrics, traces, dashboards, alerts, ownership.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-062",
+    "name": "Incident Containment & Recovery Plan",
+    "trigger_signals": [
+      "change-mgmt",
+      "quality concerns",
+      "runbooks/operational procedure needed",
+      "production deployment",
+      "stakeholder alignment needed"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Architect",
+      "Debugger"
+    ],
+    "artifacts": [
+      "incident_runbook.md",
+      "kill_switch.md",
+      "customer_comms_templates.md"
+    ],
+    "execution_intent": "Create incident runbook with kill switches, rollback, comms templates, escalation owners.",
+    "reversibility": "mixed",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Adoption & Change",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-063",
+    "name": "Performance & Load Characterization",
+    "trigger_signals": [
+      "testing-performance",
+      "quality concerns",
+      "testing before shipping",
+      "production deployment",
+      "reliability concerns"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder",
+      "Monitor"
+    ],
+    "artifacts": [
+      "perf_envelope.md",
+      "load_tests/",
+      "bottleneck_report.md"
+    ],
+    "execution_intent": "Define performance envelope, load tests, bottleneck analysis, scaling assumptions.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-064",
+    "name": "Feature Flags + Kill Switch Integration",
+    "trigger_signals": [
+      "quality concerns",
+      "deployment engagement",
+      "production deployment",
+      "reliability concerns",
+      "system integration needed"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "flags.yaml",
+      "kill_switch.md",
+      "rollout_plan.md"
+    ],
+    "execution_intent": "Implement feature flags for risky paths and kill switch for critical flows.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-065",
+    "name": "Config Management + Environment Parity",
+    "trigger_signals": [
+      "deployment engagement",
+      "requirements engagement",
+      "spec/requirements document needed",
+      "production deployment"
+    ],
+    "agent_types": [
+      "Builder"
+    ],
+    "artifacts": [
+      "config_spec.md",
+      "env_parity_checks/",
+      "config_templates/"
+    ],
+    "execution_intent": "Centralize configs; define env parity checks; document differences explicitly.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-066",
+    "name": "Secrets Handling + Rotation Expectations",
+    "trigger_signals": [
+      "testing-retrieval",
+      "quality concerns",
+      "playbook needed",
+      "testing before shipping",
+      "production deployment"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder",
+      "Validator"
+    ],
+    "artifacts": [
+      "secrets_plan.md",
+      "rotation_playbook.md",
+      "secret_smoketests/"
+    ],
+    "execution_intent": "Define secrets storage, access, rotation, and smoke tests.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-067",
+    "name": "Database Migration Safety Wrapper",
+    "trigger_signals": [
+      "quality concerns",
+      "data engagement",
+      "migration needed",
+      "production deployment",
+      "reliability concerns"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "migration_plan.md",
+      "backfill_scripts/",
+      "compatibility_matrix.md"
+    ],
+    "execution_intent": "Stage migrations with backfill strategy, compat matrix, and rollback path.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-068",
+    "name": "Canary Rollout + Error Budget Gate",
+    "trigger_signals": [
+      "quality concerns",
+      "incident-response",
+      "production deployment",
+      "reliability concerns"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder",
+      "Monitor"
+    ],
+    "artifacts": [
+      "canary_plan.md",
+      "error_budget.md",
+      "rollback_criteria.md"
+    ],
+    "execution_intent": "Implement canary with error budget gates and objective rollback criteria.",
+    "reversibility": "mixed",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-069",
+    "name": "Runbook (Day-2 Operations)",
+    "trigger_signals": [
+      "change-mgmt",
+      "deployment engagement",
+      "runbooks/operational procedure needed",
+      "production deployment",
+      "stakeholder alignment needed"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Builder",
+      "Narrator"
+    ],
+    "artifacts": [
+      "runbook.md",
+      "known_issues.md"
+    ],
+    "execution_intent": "Write runbook covering deploy, rollback, troubleshooting, on-call actions, known issues.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-070",
+    "name": "SLO/SLI Definition + Alert Thresholds",
+    "trigger_signals": [
+      "quality concerns",
+      "monitoring engagement",
+      "production deployment",
+      "reliability concerns",
+      "ONE-WAY DOOR risk"
+    ],
+    "agent_types": [
+      "Architect",
+      "Monitor"
+    ],
+    "artifacts": [
+      "slo_sli.md",
+      "alert_thresholds.md"
+    ],
+    "execution_intent": "Define SLIs/SLOs and alert thresholds tied to error budgets.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-080",
+    "name": "Contract Tests (Input/Output)",
+    "trigger_signals": [
+      "testing-schema",
+      "testing before shipping",
+      "reliability concerns",
+      "unclear inputs/outputs"
+    ],
+    "agent_types": [
+      "Builder",
+      "Validator"
+    ],
+    "artifacts": [
+      "contract_tests/",
+      "fixtures/",
+      "ci_gate.md"
+    ],
+    "execution_intent": "Implement contract tests with fixtures and CI enforcement.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Interfaces & Inputs"
+    ]
+  },
+  {
+    "id": "RIU-081",
+    "name": "End-to-End Smoke Tests (Critical Path)",
+    "trigger_signals": [
+      "testing-deployment",
+      "quality concerns",
+      "runbooks needed",
+      "testing before shipping",
+      "reliability concerns"
+    ],
+    "agent_types": [
+      "Builder",
+      "Human:Delivery",
+      "Validator"
+    ],
+    "artifacts": [
+      "smoke_tests/",
+      "smoke_test_runbook.md"
+    ],
+    "execution_intent": "Create minimal e2e smoke tests and run pre/post deploy.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-082",
+    "name": "LLM Safety Guardrails (Content + Tool Use)",
+    "trigger_signals": [
+      "agent-design-scoping",
+      "quality concerns",
+      "reliability concerns",
+      "core behavior/logic changes",
+      "compliance/audit requirements"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder",
+      "Validator"
+    ],
+    "artifacts": [
+      "llm_guardrails.md",
+      "policy_rules.yaml",
+      "evidence_requirements.md"
+    ],
+    "execution_intent": "Define policy constraints, evidence requirements, refusal rules, tool bounds; enforce via validators.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-083",
+    "name": "Red Team Scenarios (Abuse + Failure)",
+    "trigger_signals": [
+      "quality concerns",
+      "docs engagement",
+      "reliability concerns"
+    ],
+    "agent_types": [
+      "Validator",
+      "Architect"
+    ],
+    "artifacts": [
+      "redteam_scenarios.md",
+      "redteam_results.md",
+      "mitigations.md"
+    ],
+    "execution_intent": "Define red-team scenarios and run as pre-launch gate; document mitigations.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-084",
+    "name": "Data Quality Checks (Nulls, Duplicates, Ranges)",
+    "trigger_signals": [
+      "quality-schema",
+      "data engagement",
+      "reliability concerns",
+      "unclear inputs/outputs"
+    ],
+    "agent_types": [
+      "Builder",
+      "Validator"
+    ],
+    "artifacts": [
+      "data_quality_rules.yaml",
+      "dq_checks/",
+      "anomaly_report.md"
+    ],
+    "execution_intent": "Add data quality checks and thresholds; surface anomalies loudly or as warnings.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Interfaces & Inputs"
+    ]
+  },
+  {
+    "id": "RIU-085",
+    "name": "Cost/Latency Budget Envelope",
+    "trigger_signals": [
+      "quality concerns",
+      "cost concerns",
+      "reliability concerns",
+      "production deployment",
+      "latency constraints"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder",
+      "Monitor"
+    ],
+    "artifacts": [
+      "budget_envelope.md",
+      "cost_guards/",
+      "latency_alerts.md"
+    ],
+    "execution_intent": "Define cost/latency budgets; implement guards and alerts with fallbacks.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-086",
+    "name": "Regression Suite (Golden + Metamorphic)",
+    "trigger_signals": [
+      "testing-evaluation",
+      "quality concerns",
+      "reliability concerns"
+    ],
+    "agent_types": [
+      "Architect",
+      "Validator"
+    ],
+    "artifacts": [
+      "regression_suite/",
+      "invariants.md"
+    ],
+    "execution_intent": "Add metamorphic tests and invariants alongside golden cases.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-087",
+    "name": "Human Review Gate (One-Way Doors)",
+    "trigger_signals": [
+      "scoping-deployment",
+      "quality concerns",
+      "reliability concerns",
+      "ambiguous requirements"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Architect",
+      "Validator"
+    ],
+    "artifacts": [
+      "one_way_door_gate.md"
+    ],
+    "execution_intent": "Define review checklist for one-way doors; require sign-off recorded in decisions.md.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-088",
+    "name": "Privacy Redaction Pipeline",
+    "trigger_signals": [
+      "testing-schema",
+      "runbooks needed",
+      "testing before shipping",
+      "reliability concerns",
+      "production deployment"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder",
+      "Validator"
+    ],
+    "artifacts": [
+      "redaction_rules.yaml",
+      "redaction_tests/",
+      "privacy_runbook.md"
+    ],
+    "execution_intent": "Implement redaction/minimization for logs/prompts/stored artifacts; verify with tests.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-100",
+    "name": "Capability Statement (What/Why/How)",
+    "trigger_signals": [
+      "change-mgmt",
+      "stakeholder alignment needed"
+    ],
+    "agent_types": [
+      "Narrator",
+      "Human:Delivery"
+    ],
+    "artifacts": [
+      "capability_statement.md"
+    ],
+    "execution_intent": "Write capability statement addressing what (solution), why (value), how (approach).",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-101",
+    "name": "Customer Workshop Design (Discovery/Alignment)",
+    "trigger_signals": [
+      "change-mgmt",
+      "scoping engagement",
+      "stakeholder alignment needed",
+      "ambiguous requirements"
+    ],
+    "agent_types": [
+      "Narrator",
+      "Architect"
+    ],
+    "artifacts": [
+      "workshop_agenda.md",
+      "workshop_materials/",
+      "follow_up_plan.md"
+    ],
+    "execution_intent": "Design workshop agenda, materials, and follow-up plan.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Adoption & Change",
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-102",
+    "name": "Enablement Pack (Docs/Examples/How-To)",
+    "trigger_signals": [
+      "change-mgmt",
+      "stakeholder alignment needed",
+      "training needed"
+    ],
+    "agent_types": [
+      "Narrator",
+      "Builder"
+    ],
+    "artifacts": [
+      "enablement_pack/",
+      "examples/",
+      "troubleshooting.md"
+    ],
+    "execution_intent": "Create enablement materials with docs, examples, troubleshooting, and support contacts.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-103",
+    "name": "Training Session Design + Delivery",
+    "trigger_signals": [
+      "change-mgmt",
+      "stakeholder alignment needed",
+      "training needed"
+    ],
+    "agent_types": [
+      "Narrator",
+      "Human:Delivery"
+    ],
+    "artifacts": [
+      "training_agenda.md",
+      "training_exercises/",
+      "training_followup.md"
+    ],
+    "execution_intent": "Design training session with exercises, Q&A, and follow-up support.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-104",
+    "name": "Handoff Bundle (Restartability)",
+    "trigger_signals": [
+      "change-mgmt",
+      "scoping engagement",
+      "stakeholder alignment needed",
+      "ambiguous requirements"
+    ],
+    "agent_types": [
+      "Narrator",
+      "Builder"
+    ],
+    "artifacts": [
+      "handoff_bundle/",
+      "decisions.md",
+      "open_questions.md",
+      "next_steps.md"
+    ],
+    "execution_intent": "Package all artifacts, decisions, open questions, and next steps for clean handoff.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Adoption & Change",
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-105",
+    "name": "Executive Update (Status/Risks/Decisions)",
+    "trigger_signals": [
+      "change-mgmt",
+      "stakeholder alignment needed"
+    ],
+    "agent_types": [
+      "Narrator",
+      "Human:Delivery"
+    ],
+    "artifacts": [
+      "executive_update.md"
+    ],
+    "execution_intent": "Generate executive summary with status, risks, decisions, and asks.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-120",
+    "name": "Integration Mode Selection (Batch vs Stream vs Hybrid)",
+    "trigger_signals": [
+      "integration engagement",
+      "latency constraints",
+      "volume requirements"
+    ],
+    "agent_types": [
+      "Architect"
+    ],
+    "artifacts": [
+      "integration_mode.md",
+      "tradeoff_analysis.md"
+    ],
+    "execution_intent": "Evaluate tradeoffs and recommend integration mode with rationale.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-140",
+    "name": "Competitive/Alternatives Scan (Landscape)",
+    "trigger_signals": [
+      "competitive analysis needed",
+      "alternatives evaluation",
+      "market research"
+    ],
+    "agent_types": [
+      "Researcher",
+      "Narrator"
+    ],
+    "artifacts": [
+      "competitive_scan.md",
+      "alternatives_matrix.md"
+    ],
+    "execution_intent": "Research competitive solutions, alternatives, and market landscape; document findings.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Clarify & Bound",
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-201",
+    "name": "Competitive/Alternatives Research",
+    "trigger_signals": [
+      "competitive analysis",
+      "alternatives needed",
+      "reference games",
+      "market positioning"
+    ],
+    "agent_types": [
+      "Researcher"
+    ],
+    "artifacts": [
+      "competitive_analysis.md",
+      "feature_comparison.md"
+    ],
+    "execution_intent": "Conduct systematic research on competitors/alternatives with feature comparison.",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-231",
+    "name": "Document Chunking Strategy",
+    "trigger_signals": [
+      "document processing",
+      "RAG implementation",
+      "chunking needed"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "chunking_strategy.md",
+      "chunk_validator/"
+    ],
+    "execution_intent": "Define chunking strategy with size, overlap, and semantic boundaries.",
+    "reversibility": "two_way",
+    "journey_stage": "retrieval",
+    "workstreams": [
+      "Core Logic",
+      "Interfaces & Inputs"
+    ]
+  },
+  {
+    "id": "RIU-232",
+    "name": "Deduplication System",
+    "trigger_signals": [
+      "duplicate data",
+      "deduplication needed",
+      "data quality issues"
+    ],
+    "agent_types": [
+      "Builder",
+      "Validator"
+    ],
+    "artifacts": [
+      "dedup_strategy.md",
+      "dedup_rules.yaml",
+      "dedup_tests/"
+    ],
+    "execution_intent": "Implement deduplication with similarity threshold and conflict resolution.",
+    "reversibility": "two_way",
+    "journey_stage": "retrieval",
+    "workstreams": [
+      "Core Logic",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-250",
+    "name": "Security Review Packet",
+    "trigger_signals": [
+      "security review needed",
+      "compliance requirements",
+      "threat modeling"
+    ],
+    "agent_types": [
+      "Architect",
+      "Validator"
+    ],
+    "artifacts": [
+      "security_review_packet/",
+      "threat_model.md",
+      "data_flow_diagram.md",
+      "permissions_matrix.md"
+    ],
+    "execution_intent": "Compile security review packet with threat model, data flows, permissions matrix, mitigations.",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Quality & Safety",
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-252",
+    "name": "Model Evaluation & Selection",
+    "trigger_signals": [
+      "model selection needed",
+      "evaluation required",
+      "CLEAR framework"
+    ],
+    "agent_types": [
+      "Architect",
+      "Researcher"
+    ],
+    "artifacts": [
+      "model_evaluation.md",
+      "selection_rationale.md"
+    ],
+    "execution_intent": "Evaluate models across cost, latency, quality dimensions; document selection rationale.",
+    "reversibility": "mixed",
+    "journey_stage": "retrieval",
+    "workstreams": [
+      "Core Logic",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-326",
+    "name": "Threat Model + Attack Surface Map",
+    "trigger_signals": [
+      "threat modeling",
+      "security concerns",
+      "attack vectors"
+    ],
+    "agent_types": [
+      "Architect",
+      "Validator"
+    ],
+    "artifacts": [
+      "threat_model.md",
+      "attack_surface_map.md",
+      "mitigations.md"
+    ],
+    "execution_intent": "Create threat model with attack vectors, mitigations, and residual risks.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-327",
+    "name": "AuthN/AuthZ Integration",
+    "trigger_signals": [
+      "authentication needed",
+      "authorization needed",
+      "security requirements",
+      "user management"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder",
+      "Validator"
+    ],
+    "artifacts": [
+      "auth_design.md",
+      "auth_implementation/",
+      "auth_tests/"
+    ],
+    "execution_intent": "Design and implement AuthN/AuthZ with appropriate tier, protocol, and security measures.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-330",
+    "name": "Error Messaging Standards",
+    "trigger_signals": [
+      "error messages",
+      "user experience",
+      "support burden"
+    ],
+    "agent_types": [
+      "Narrator",
+      "Builder"
+    ],
+    "artifacts": [
+      "error_standards.md",
+      "error_templates/"
+    ],
+    "execution_intent": "Define error message standards with actionable guidance and appropriate detail levels.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Adoption & Change",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-413",
+    "name": "Customer Value Demo Creation",
+    "trigger_signals": [
+      "demo needed",
+      "value demonstration",
+      "stakeholder presentation"
+    ],
+    "agent_types": [
+      "Narrator",
+      "Builder"
+    ],
+    "artifacts": [
+      "demo_script.md",
+      "demo_environment/",
+      "demo_data/"
+    ],
+    "execution_intent": "Create demo showcasing value with customer data (if available) or realistic synthetic data.",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-500",
+    "name": "Multimodal Data Pipeline Design",
+    "trigger_signals": [
+      "multiple data types",
+      "image processing",
+      "audio processing",
+      "video processing",
+      "multimodal",
+      "cross-modal"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "multimodal_pipeline_design.md",
+      "modality_handlers/",
+      "cross_modal_validation.md"
+    ],
+    "execution_intent": "Design pipeline architecture for multimodal ingestion, processing, and output with modality-specific handling and cross-modal validation.",
+    "reversibility": "one_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-501",
+    "name": "Image/Vision Processing Integration",
+    "trigger_signals": [
+      "image processing",
+      "vision model",
+      "image analysis",
+      "OCR",
+      "visual content"
+    ],
+    "agent_types": [
+      "Builder",
+      "Validator"
+    ],
+    "artifacts": [
+      "image_pipeline.md",
+      "image_preprocessor/",
+      "vision_model_integration.md",
+      "image_validation_tests/"
+    ],
+    "execution_intent": "Implement image processing pipeline with format handling, preprocessing, model integration, and output validation.",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Core Logic",
+      "Interfaces & Inputs"
+    ]
+  },
+  {
+    "id": "RIU-502",
+    "name": "Audio Processing Integration",
+    "trigger_signals": [
+      "audio processing",
+      "transcription",
+      "speech-to-text",
+      "voice",
+      "audio content"
+    ],
+    "agent_types": [
+      "Builder",
+      "Monitor"
+    ],
+    "artifacts": [
+      "audio_pipeline.md",
+      "audio_preprocessor/",
+      "transcription_integration.md",
+      "audio_validation_tests/"
+    ],
+    "execution_intent": "Implement audio processing pipeline with format handling, transcription integration, and quality validation.",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Core Logic",
+      "Interfaces & Inputs"
+    ]
+  },
+  {
+    "id": "RIU-503",
+    "name": "Cross-Modal Validation Pattern",
+    "trigger_signals": [
+      "cross-modal validation",
+      "multimodal consistency",
+      "modality alignment",
+      "caption validation"
+    ],
+    "agent_types": [
+      "Validator",
+      "Debugger"
+    ],
+    "artifacts": [
+      "cross_modal_validation.md",
+      "consistency_checks/",
+      "disagreement_handling.md"
+    ],
+    "execution_intent": "Implement cross-modal validation with consistency checks, confidence scoring, and disagreement handling.",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Quality & Safety",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-504",
+    "name": "AI Video Generation Model Selection",
+    "trigger_signals": [
+      "video generation",
+      "text-to-video",
+      "image-to-video",
+      "AI video",
+      "Seedance",
+      "Kling",
+      "Veo",
+      "Runway",
+      "Sora"
+    ],
+    "agent_types": [
+      "Researcher",
+      "Architect"
+    ],
+    "artifacts": [
+      "video_model_selection.md",
+      "model_benchmark_matrix.md",
+      "integration_plan.md"
+    ],
+    "execution_intent": "Evaluate video generation options (Seedance, Kling, Veo, Runway, Sora) against task requirements, produce selection matrix with cost/quality/latency benchmarks and integration path.",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-505",
+    "name": "Voice Input Modality Selection",
+    "trigger_signals": [
+      "voice input",
+      "speech-to-text",
+      "voice interface",
+      "Wispr Flow",
+      "Whisper",
+      "speech recognition",
+      "dictation"
+    ],
+    "agent_types": [
+      "Researcher",
+      "Architect"
+    ],
+    "artifacts": [
+      "voice_input_selection.md",
+      "privacy_assessment.md",
+      "integration_plan.md"
+    ],
+    "execution_intent": "Evaluate voice input options against privacy requirements, API availability, latency needs, and cost constraints. Produce selection with integration path or monitoring plan for API-pending services.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs"
+    ]
+  },
+  {
+    "id": "RIU-510",
+    "name": "Multi-Agent Workflow Design",
+    "trigger_signals": [
+      "multi-agent",
+      "agent coordination",
+      "workflow orchestration",
+      "complex workflow",
+      "agent handoff"
+    ],
+    "agent_types": [
+      "Architect",
+      "Orchestrator"
+    ],
+    "artifacts": [
+      "multi_agent_design.md",
+      "agent_handoff_protocol.md",
+      "workflow_state_schema.json",
+      "failure_isolation.md"
+    ],
+    "execution_intent": "Design multi-agent workflow with clear handoffs, state management, and failure isolation.",
+    "reversibility": "one_way",
+    "journey_stage": "orchestration",
+    "workstreams": [
+      "Core Logic",
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-511",
+    "name": "Agent State Management Pattern",
+    "trigger_signals": [
+      "agent state",
+      "checkpointing",
+      "session persistence",
+      "state recovery",
+      "long-running agent"
+    ],
+    "agent_types": [
+      "Builder",
+      "Monitor"
+    ],
+    "artifacts": [
+      "state_management.md",
+      "checkpoint_schema.json",
+      "recovery_procedures.md",
+      "state_validators/"
+    ],
+    "execution_intent": "Implement state management with checkpointing, recovery, and state validation.",
+    "reversibility": "two_way",
+    "journey_stage": "orchestration",
+    "workstreams": [
+      "Core Logic",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-512",
+    "name": "Agent Failure Recovery Pattern",
+    "trigger_signals": [
+      "agent failure",
+      "graceful degradation",
+      "retry logic",
+      "fallback",
+      "fault tolerance"
+    ],
+    "agent_types": [
+      "Architect",
+      "Debugger",
+      "Orchestrator"
+    ],
+    "artifacts": [
+      "failure_recovery.md",
+      "retry_policy.yaml",
+      "fallback_agents.md",
+      "degraded_modes.md"
+    ],
+    "execution_intent": "Implement failure recovery with retry logic, fallback agents, and degraded operation modes.",
+    "reversibility": "two_way",
+    "journey_stage": "orchestration",
+    "workstreams": [
+      "Quality & Safety",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-513",
+    "name": "Inter-Agent Communication Protocol",
+    "trigger_signals": [
+      "agent communication",
+      "message passing",
+      "inter-agent",
+      "agent protocol"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "communication_protocol.md",
+      "message_schema.json",
+      "protocol_validators/",
+      "communication_tests/"
+    ],
+    "execution_intent": "Define communication protocol with message schemas, validation, and audit trail.",
+    "reversibility": "one_way",
+    "journey_stage": "orchestration",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-514",
+    "name": "Agent Capability Boundary Enforcement",
+    "trigger_signals": [
+      "agent boundaries",
+      "capability limits",
+      "action validation",
+      "scope enforcement",
+      "agent constraints"
+    ],
+    "agent_types": [
+      "Architect",
+      "Validator"
+    ],
+    "artifacts": [
+      "capability_boundaries.md",
+      "action_allowlist.yaml",
+      "boundary_validators/",
+      "violation_handling.md"
+    ],
+    "execution_intent": "Implement capability boundaries with allowlists, action validation, and boundary violation handling.",
+    "reversibility": "one_way",
+    "journey_stage": "orchestration",
+    "workstreams": [
+      "Quality & Safety",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-520",
+    "name": "Prompt Version Control & Lifecycle",
+    "trigger_signals": [
+      "prompt versioning",
+      "prompt management",
+      "prompt lifecycle",
+      "prompt changes",
+      "prompt deployment"
+    ],
+    "agent_types": [
+      "Builder",
+      "Architect"
+    ],
+    "artifacts": [
+      "prompt_versioning.md",
+      "prompt_registry/",
+      "prompt_changelog.md",
+      "prompt_rollback.md"
+    ],
+    "execution_intent": "Implement prompt versioning with change tracking, A/B testing support, and rollback capability.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Core Logic",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-521",
+    "name": "LLM Model Version Management",
+    "trigger_signals": [
+      "model versioning",
+      "model upgrade",
+      "model migration",
+      "model deprecation",
+      "LLM version"
+    ],
+    "agent_types": [
+      "Architect",
+      "Monitor"
+    ],
+    "artifacts": [
+      "model_version_registry.md",
+      "compatibility_matrix.md",
+      "migration_plan.md",
+      "model_fallback.yaml"
+    ],
+    "execution_intent": "Implement model version tracking with compatibility testing, migration planning, and fallback configuration.",
+    "reversibility": "mixed",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-522",
+    "name": "Token Budget Management",
+    "trigger_signals": [
+      "token budget",
+      "LLM cost",
+      "token optimization",
+      "cost management",
+      "usage limits"
+    ],
+    "agent_types": [
+      "Monitor",
+      "Validator"
+    ],
+    "artifacts": [
+      "token_budget.md",
+      "cost_attribution.md",
+      "optimization_strategies.md",
+      "budget_alerts.yaml"
+    ],
+    "execution_intent": "Implement token budget tracking with alerts, optimization strategies, and cost attribution.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-523",
+    "name": "LLM Response Caching Strategy",
+    "trigger_signals": [
+      "LLM caching",
+      "response cache",
+      "semantic cache",
+      "repeated queries",
+      "latency optimization"
+    ],
+    "agent_types": [
+      "Builder",
+      "Monitor"
+    ],
+    "artifacts": [
+      "caching_strategy.md",
+      "cache_config.yaml",
+      "invalidation_rules.md",
+      "cache_metrics.md"
+    ],
+    "execution_intent": "Implement semantic caching with similarity matching, TTL management, and cache invalidation.",
+    "reversibility": "two_way",
+    "journey_stage": "retrieval",
+    "workstreams": [
+      "Core Logic",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-524",
+    "name": "LLM Output Quality Monitoring",
+    "trigger_signals": [
+      "output quality",
+      "quality monitoring",
+      "LLM drift",
+      "response quality",
+      "quality degradation"
+    ],
+    "agent_types": [
+      "Monitor",
+      "Validator"
+    ],
+    "artifacts": [
+      "quality_monitoring.md",
+      "sampling_strategy.md",
+      "quality_scores.md",
+      "drift_alerts.yaml"
+    ],
+    "execution_intent": "Implement automated quality monitoring with sampling, scoring, and drift detection.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-530",
+    "name": "AI System Risk Classification",
+    "trigger_signals": [
+      "risk classification",
+      "EU AI Act",
+      "AI regulation",
+      "compliance requirement",
+      "high-risk AI"
+    ],
+    "agent_types": [
+      "Architect",
+      "Validator",
+      "Human:Delivery"
+    ],
+    "artifacts": [
+      "risk_classification.md",
+      "regulatory_mapping.md",
+      "compliance_requirements.md"
+    ],
+    "execution_intent": "Classify AI system risk level per EU AI Act and applicable frameworks with documentation.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-531",
+    "name": "Algorithmic Bias Detection",
+    "trigger_signals": [
+      "bias detection",
+      "fairness",
+      "discrimination",
+      "protected attributes",
+      "algorithmic bias"
+    ],
+    "agent_types": [
+      "Validator",
+      "Debugger"
+    ],
+    "artifacts": [
+      "bias_detection.md",
+      "fairness_metrics.md",
+      "bias_test_datasets/",
+      "remediation_tracking.md"
+    ],
+    "execution_intent": "Implement bias detection with test datasets, fairness metrics, and remediation tracking.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-532",
+    "name": "AI Explainability Framework",
+    "trigger_signals": [
+      "explainability",
+      "AI transparency",
+      "decision explanation",
+      "interpretability",
+      "right to explanation"
+    ],
+    "agent_types": [
+      "Architect",
+      "Narrator"
+    ],
+    "artifacts": [
+      "explainability_framework.md",
+      "explanation_templates/",
+      "technical_explanations.md",
+      "user_explanations.md"
+    ],
+    "execution_intent": "Implement explainability with appropriate techniques, user-facing explanations, and audit documentation.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-533",
+    "name": "Fundamental Rights Impact Assessment (FRIA)",
+    "trigger_signals": [
+      "FRIA",
+      "fundamental rights",
+      "human rights",
+      "impact assessment",
+      "high-risk AI"
+    ],
+    "agent_types": [
+      "Architect",
+      "Validator",
+      "Human:Delivery"
+    ],
+    "artifacts": [
+      "fria_report.md",
+      "rights_mapping.md",
+      "stakeholder_input.md",
+      "mitigation_measures.md"
+    ],
+    "execution_intent": "Conduct FRIA with stakeholder input, rights mapping, and mitigation documentation.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-534",
+    "name": "AI Audit Trail Requirements",
+    "trigger_signals": [
+      "audit trail",
+      "logging requirements",
+      "compliance logging",
+      "accountability",
+      "audit requirements"
+    ],
+    "agent_types": [
+      "Architect",
+      "Validator"
+    ],
+    "artifacts": [
+      "audit_trail_requirements.md",
+      "retention_policy.md",
+      "access_controls.md",
+      "retrieval_procedures.md"
+    ],
+    "execution_intent": "Define audit trail requirements with retention periods, access controls, and retrieval procedures.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-535",
+    "name": "AI System Documentation Package",
+    "trigger_signals": [
+      "AI documentation",
+      "compliance documentation",
+      "system documentation",
+      "technical documentation",
+      "audit documentation"
+    ],
+    "agent_types": [
+      "Builder",
+      "Narrator"
+    ],
+    "artifacts": [
+      "documentation_package/",
+      "technical_specification.md",
+      "risk_assessment.md",
+      "operational_procedures.md",
+      "compliance_evidence.md"
+    ],
+    "execution_intent": "Compile documentation package with technical specs, risk assessments, and operational procedures.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Adoption & Change",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-540",
+    "name": "Validation Gate Design",
+    "trigger_signals": [
+      "quality gate",
+      "validation checkpoint",
+      "approval gate",
+      "review required",
+      "quality check"
+    ],
+    "agent_types": [
+      "Validator",
+      "Human:Delivery"
+    ],
+    "artifacts": [
+      "validation_gate.md",
+      "criteria_checklist.md",
+      "evidence_requirements.md",
+      "gate_results/"
+    ],
+    "execution_intent": "Design validation gate with criteria, evidence requirements, and pass/fail handling.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-541",
+    "name": "Compliance Audit Preparation",
+    "trigger_signals": [
+      "audit preparation",
+      "compliance audit",
+      "evidence gathering",
+      "audit readiness",
+      "regulatory audit"
+    ],
+    "agent_types": [
+      "Validator",
+      "Researcher"
+    ],
+    "artifacts": [
+      "audit_preparation.md",
+      "evidence_inventory.md",
+      "gap_analysis.md",
+      "remediation_tracker.md"
+    ],
+    "execution_intent": "Prepare audit package with evidence collection, gap analysis, and remediation tracking.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-542",
+    "name": "Observability Stack Design",
+    "trigger_signals": [
+      "observability design",
+      "monitoring stack",
+      "metrics design",
+      "logging design",
+      "tracing design"
+    ],
+    "agent_types": [
+      "Monitor",
+      "Architect"
+    ],
+    "artifacts": [
+      "observability_design.md",
+      "metrics_catalog.md",
+      "logging_spec.md",
+      "tracing_spec.md",
+      "dashboard_specs/",
+      "alerting_rules.yaml"
+    ],
+    "execution_intent": "Design observability stack with metrics, logs, traces, dashboards, and alerting.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-543",
+    "name": "Drift Detection Configuration",
+    "trigger_signals": [
+      "drift detection",
+      "model drift",
+      "data drift",
+      "behavior drift",
+      "distribution shift"
+    ],
+    "agent_types": [
+      "Monitor",
+      "Debugger"
+    ],
+    "artifacts": [
+      "drift_detection.md",
+      "drift_metrics.yaml",
+      "detection_thresholds.md",
+      "response_procedures.md"
+    ],
+    "execution_intent": "Configure drift detection for data, model, and behavior with alerting and response procedures.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Quality & Safety",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-550",
+    "name": "No-Code AI App Generation",
+    "trigger_signals": [
+      "no-code",
+      "low-code",
+      "AI app builder",
+      "Lovable",
+      "v0.dev",
+      "vibe coding",
+      "natural language to app"
+    ],
+    "agent_types": [
+      "Researcher",
+      "Architect"
+    ],
+    "artifacts": [
+      "nocode_platform_selection.md",
+      "capability_boundary_map.md",
+      "escape_hatch_strategy.md"
+    ],
+    "execution_intent": "Evaluate no-code AI app builders against requirements (complexity, customization, hosting, cost), produce selection with capability boundaries and escape-hatch strategy for when no-code hits limits.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Core Logic",
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-121",
+    "name": "Webhook Reliability Pattern (Retries + Idempotency)",
+    "trigger_signals": [
+      "webhooks",
+      "event-driven",
+      "real-time updates",
+      "retry logic",
+      "idempotency"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder",
+      "Debugger"
+    ],
+    "artifacts": [
+      "webhook_spec.md",
+      "retry_policy.md",
+      "idempotency_design.md",
+      "webhook_tests/"
+    ],
+    "execution_intent": "Implement retry policy, idempotency keys, signature verification, replay handling.",
+    "reversibility": "mixed",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-122",
+    "name": "Batch Pipeline Safety Pattern (Checkpointing)",
+    "trigger_signals": [
+      "batch processing",
+      "data pipeline",
+      "checkpointing",
+      "resumability",
+      "idempotent writes"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "batch_semantics.md",
+      "checkpointing_design.md",
+      "batch_tests/"
+    ],
+    "execution_intent": "Add checkpointing/resumability; define rerun semantics and idempotent writes.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-200",
+    "name": "Customer Problem Narrative (JTBD + Constraints)",
+    "trigger_signals": [
+      "customer problem",
+      "JTBD",
+      "problem narrative",
+      "symptom mapping",
+      "root cause"
+    ],
+    "agent_types": [
+      "Researcher",
+      "Narrator"
+    ],
+    "artifacts": [
+      "customer_narrative.md",
+      "jtbd_analysis.md",
+      "symptom_map.md"
+    ],
+    "execution_intent": "Synthesize a JTBD narrative and symptom map from notes; confirm with customer.",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-290",
+    "name": "Internal Demo Narrative (Problem\u2192Value\u2192Limits)",
+    "trigger_signals": [
+      "demo",
+      "internal alignment",
+      "value proposition",
+      "limitations",
+      "next decisions"
+    ],
+    "agent_types": [
+      "Narrator"
+    ],
+    "artifacts": [
+      "demo_narrative.md",
+      "value_proposition.md",
+      "limitations.md",
+      "next_decisions.md"
+    ],
+    "execution_intent": "Create demo narrative with limitations and next decisions; avoid hype.",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-320",
+    "name": "Third-Party API Integration Pattern",
+    "trigger_signals": [
+      "third-party API",
+      "external integration",
+      "rate limiting",
+      "circuit breaker",
+      "fallback handling"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "api_integration_design.md",
+      "circuit_breaker_config.yaml",
+      "rate_limit_strategy.md",
+      "fallback_procedures.md"
+    ],
+    "execution_intent": "Design integration with circuit breakers, rate limiting, fallback handling, and monitoring.",
+    "reversibility": "mixed",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-321",
+    "name": "Database Migration Strategy",
+    "trigger_signals": [
+      "database migration",
+      "schema change",
+      "data migration",
+      "zero downtime",
+      "rollback plan"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder",
+      "Debugger"
+    ],
+    "artifacts": [
+      "migration_strategy.md",
+      "rollback_plan.md",
+      "validation_tests/",
+      "migration_monitoring.md"
+    ],
+    "execution_intent": "Design migration strategy with rollback plan, validation, and monitoring.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Ops & Delivery",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-322",
+    "name": "Authentication/Authorization Integration",
+    "trigger_signals": [
+      "authentication",
+      "authorization",
+      "SSO",
+      "OAuth",
+      "SAML",
+      "session management"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder",
+      "Validator"
+    ],
+    "artifacts": [
+      "auth_integration_design.md",
+      "session_management.md",
+      "token_handling.md",
+      "security_checklist.md"
+    ],
+    "execution_intent": "Design auth integration with session management, token handling, and security best practices.",
+    "reversibility": "one_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-323",
+    "name": "Message Queue Integration Pattern",
+    "trigger_signals": [
+      "message queue",
+      "async processing",
+      "SQS",
+      "Kafka",
+      "RabbitMQ",
+      "consumer pattern"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "queue_integration_design.md",
+      "consumer_pattern.md",
+      "error_handling.md",
+      "queue_monitoring.md"
+    ],
+    "execution_intent": "Design queue integration with consumer patterns, error handling, and monitoring.",
+    "reversibility": "mixed",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-324",
+    "name": "Caching Strategy Design",
+    "trigger_signals": [
+      "caching",
+      "performance",
+      "cache invalidation",
+      "TTL",
+      "cache warming",
+      "stale data"
+    ],
+    "agent_types": [
+      "Architect",
+      "Builder"
+    ],
+    "artifacts": [
+      "caching_strategy.md",
+      "invalidation_rules.md",
+      "ttl_configuration.yaml",
+      "cache_monitoring.md"
+    ],
+    "execution_intent": "Design caching strategy with invalidation, TTL, and cache warming.",
+    "reversibility": "two_way",
+    "journey_stage": "retrieval",
+    "workstreams": [
+      "Core Logic",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-400",
+    "name": "KB Content Audit (Coverage + Gaps)",
+    "trigger_signals": [
+      "knowledge base",
+      "content audit",
+      "coverage gaps",
+      "duplication",
+      "stale content",
+      "KB quality"
+    ],
+    "agent_types": [
+      "Researcher",
+      "Validator"
+    ],
+    "artifacts": [
+      "kb_audit_report.md",
+      "coverage_analysis.md",
+      "duplication_report.md",
+      "staleness_analysis.md",
+      "prioritized_fixes.md"
+    ],
+    "execution_intent": "Audit KB for coverage, duplication, staleness, and structure; propose prioritized fixes.",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Quality & Safety",
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-401",
+    "name": "Taxonomy Design",
+    "trigger_signals": [
+      "taxonomy",
+      "classification",
+      "categorization",
+      "organizing",
+      "ontology",
+      "hierarchy",
+      "domain model"
+    ],
+    "agent_types": [
+      "Architect",
+      "Researcher"
+    ],
+    "artifacts": [
+      "taxonomy.yaml",
+      "category_definitions.md",
+      "naming_conventions.md"
+    ],
+    "execution_intent": "Design a hierarchical taxonomy that organizes a domain into clean, non-overlapping categories with consistent naming, clear boundaries, and a structure that supports routing, retrieval, and assessment.",
+    "reversibility": "two_way",
+    "journey_stage": "foundation",
+    "workstreams": [
+      "Clarify & Bound",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-108",
+    "name": "Agent Security & Access Control",
+    "trigger_signals": [
+      "security",
+      "permissions",
+      "access control",
+      "identity",
+      "authentication",
+      "authorization",
+      "guardrails",
+      "policy",
+      "least privilege",
+      "agent identity"
+    ],
+    "agent_types": [
+      "Architect",
+      "Validator"
+    ],
+    "artifacts": [
+      "security_policy.md",
+      "agent_identity_config.yaml",
+      "guardrail_implementation.py",
+      "access_control_matrix.md"
+    ],
+    "execution_intent": "Implement least privilege, identity verification, policy enforcement, and guardrails.",
+    "reversibility": "one_way",
+    "journey_stage": "orchestration",
+    "workstreams": [
+      "Quality & Safety",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-109",
+    "name": "Business Plan Creation",
+    "trigger_signals": [
+      "business plan",
+      "strategic plan",
+      "product strategy",
+      "go-to-market plan",
+      "market analysis",
+      "competitive analysis",
+      "business model",
+      "revenue model",
+      "funding requirements"
+    ],
+    "agent_types": [
+      "Human:Delivery",
+      "Orchestrator",
+      "Researcher",
+      "Architect",
+      "Narrator",
+      "Validator"
+    ],
+    "artifacts": [
+      "convergence_brief.md",
+      "comparable_organizations.md",
+      "market_research.md",
+      "strategic_framework.md",
+      "product_strategy.md",
+      "business_plan_draft.md",
+      "validation_report.md"
+    ],
+    "execution_intent": "End-to-end business plan creation through 8-phase process:\n1. Discovery: Customer interview \u2192 convergence brief\n2. Comparable Research: Find 2-3 organizations with financial data\n3. Market Research: Size, trends, segments, competition\n4. Strategic Framework: Revenue model, org structure, financials\n5. Product Strategy: Offerings, pricing, go-to-market\n6. Document Assembly: Executive summary, plan, appendix\n7. Quality Validation: Score 75+, gap identification\n8. Customer Review: Feedback, iteration, approval\n\nValidated with Rossi Mission (Feb 2026) - \"very well received\"\n",
+    "reversibility": "mixed",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Clarify & Bound",
+      "Interfaces & Inputs",
+      "Core Logic",
+      "Quality & Safety",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-106",
+    "name": "Comparable Organization Research",
+    "trigger_signals": [
+      "comparable organizations",
+      "case studies",
+      "who else does this",
+      "market validation",
+      "proven models",
+      "similar businesses"
+    ],
+    "agent_types": [
+      "Researcher"
+    ],
+    "artifacts": [
+      "comparable_organizations.md",
+      "financial_benchmarks.md"
+    ],
+    "execution_intent": "Find and analyze comparable organizations:\n1. Search for 2-3 organizations solving same problem at scale\n2. Extract financial data (Form 990, public filings, reports)\n3. Benchmark key metrics (revenue, costs, model, growth)\n4. Validate customer's model against comparables (or identify gaps)\n\nBreakthrough example: Creative Growth Art Center (Rossi Mission)\n- Form 990: $3.26M revenue, 140 artists, 50/50 split, 50 years\n- Proved nonprofit artist collective model works at scale\n- Replaced weak analogies (Supreme, St\u00fcssy) with credible comparable\n",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Interfaces & Inputs",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-107",
+    "name": "Financial Crisis Detection",
+    "trigger_signals": [
+      "cash flow",
+      "runway",
+      "funding requirements",
+      "when do we run out of money",
+      "burn rate",
+      "reserve buffer"
+    ],
+    "agent_types": [
+      "Architect"
+    ],
+    "artifacts": [
+      "cash_flow_model.xlsx",
+      "crisis_analysis.md",
+      "funding_requirements.md"
+    ],
+    "execution_intent": "Analyze cash flow to identify future crises:\n1. Build 3-year cash flow model (monthly Year 1, quarterly Year 2-3)\n2. Identify months with negative cash (crises)\n3. Calculate reserve buffer needed (3-month minimum)\n4. Recommend funding ask increase (if needed)\n\nRossi example: Month 17 crisis detected\n- Cash flow modeling showed negative cash in Month 17\n- Led to funding ask increase ($150K \u2192 $185-200K)\n- 3-month reserve buffer added\n",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Core Logic",
+      "Quality & Safety"
+    ]
+  },
+  {
+    "id": "RIU-600",
+    "name": "Multi-Brand AI Strategy Framework",
+    "trigger_signals": [
+      "multi-brand organization",
+      "brand autonomy",
+      "shared platform",
+      "federated AI governance",
+      "brand-specific AI needs"
+    ],
+    "agent_types": [
+      "Architect",
+      "Researcher",
+      "Human:Delivery"
+    ],
+    "artifacts": [
+      "multi_brand_strategy.md",
+      "brand_landscape_map.md",
+      "shared_vs_specific_capabilities.md",
+      "federated_governance_model.md",
+      "per_brand_convergence_briefs/"
+    ],
+    "execution_intent": "Design multi-brand AI strategy using LVMH maison autonomy pattern:\n1. Map brand landscape (customers, operations, price points, culture)\n2. Define shared platform capabilities vs brand-specific use cases\n3. Design federated governance (centralized platform + decentralized execution)\n4. Establish cross-brand learning mechanisms without forced uniformity\n5. Create per-brand convergence briefs with shared constraint profile\n",
+    "reversibility": "one_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Clarify & Bound",
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-601",
+    "name": "AI Operating Model Design",
+    "trigger_signals": [
+      "operating model",
+      "AI team structure",
+      "decision rights",
+      "center of excellence",
+      "budget allocation"
+    ],
+    "agent_types": [
+      "Architect",
+      "Human:Delivery"
+    ],
+    "artifacts": [
+      "operating_model.md",
+      "decision_rights_matrix.md",
+      "team_topology.md",
+      "budget_allocation_model.md"
+    ],
+    "execution_intent": "Design AI operating model:\n1. Define Center of Excellence (CoE) vs federated team structure\n2. Map decision rights (platform = central, use cases = federated)\n3. Design budget allocation model (shared platform + brand-specific)\n4. Establish reporting lines and escalation paths\n5. Define \"Office of AI\" role and boundaries\n",
+    "reversibility": "one_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Clarify & Bound",
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-602",
+    "name": "AI Use Case Prioritization Matrix",
+    "trigger_signals": [
+      "use case prioritization",
+      "which AI project first",
+      "portfolio management",
+      "too many AI ideas"
+    ],
+    "agent_types": [
+      "Architect",
+      "Researcher",
+      "Human:Delivery"
+    ],
+    "artifacts": [
+      "use_case_inventory.md",
+      "prioritization_matrix.xlsx",
+      "ranked_use_cases.md",
+      "responsible_ai_assessment.md"
+    ],
+    "execution_intent": "Build prioritization framework:\n1. Collect candidate use cases (from all brands/departments)\n2. Score each on: business impact (1-10), feasibility (1-10), risk (1-10), alignment (1-10)\n3. Apply WSJF (Weighted Shortest Job First) for sequencing\n4. Plot on Eisenhower matrix (urgent/important)\n5. Apply responsible AI assessment (may reprioritize based on hidden complexity)\n6. Present ranked list with ONE-WAY DOOR flags\n",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Clarify & Bound"
+    ]
+  },
+  {
+    "id": "RIU-603",
+    "name": "Employee AI Adoption Program",
+    "trigger_signals": [
+      "AI adoption",
+      "employee resistance",
+      "behavior change",
+      "training program",
+      "champions program",
+      "change management"
+    ],
+    "agent_types": [
+      "Narrator",
+      "Researcher",
+      "Human:Delivery"
+    ],
+    "artifacts": [
+      "persona_map.md",
+      "adoption_playbook.md",
+      "recipe_library/",
+      "champions_program.md",
+      "adoption_metrics.md",
+      "behavior_change_dashboard.md"
+    ],
+    "execution_intent": "Design adoption program focused on behavior change:\n1. Map employee personas (store associate, manager, merchandiser, corporate)\n2. Identify per-persona incentives, constraints, and pain points\n3. Design \"recipes\" (5-minute live workflows) per persona\n4. Create champions program (peer adoption, not top-down mandate)\n5. Define adoption metrics: behavior change, not just login counts\n6. Measure: confidence improvement, time-to-decision, CSAT impact\n7. Apply LVMH pattern: dashboard use as KPI, non-adoption halts initiatives\n",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-604",
+    "name": "AI ROI Quantification Framework",
+    "trigger_signals": [
+      "ROI quantification",
+      "business case",
+      "CFO presentation",
+      "budget justification",
+      "cost reduction",
+      "total cost of ownership"
+    ],
+    "agent_types": [
+      "Architect",
+      "Researcher",
+      "Human:Delivery"
+    ],
+    "artifacts": [
+      "roi_framework.md",
+      "baseline_metrics.md",
+      "three_bucket_model.xlsx",
+      "budget_trajectory.md",
+      "tco_comparison.md"
+    ],
+    "execution_intent": "Build CFO-ready ROI framework:\n1. Establish pre-AI baseline (current costs, error rates, cycle times)\n2. Define three-bucket model:\n   - Bucket 1: Cost Reduction (40%) \u2014 direct operational savings\n   - Bucket 2: Productivity Gains (35%) \u2014 time freed, error reduction\n   - Bucket 3: Cost Avoidance (25%) \u2014 risk prevented, incidents avoided\n3. Calculate risk-adjusted NPV per bucket\n4. Model multi-horizon benefits (0-12 mo vs 12+ mo compounding)\n5. Show budget shrinking trajectory (Year 1 investment \u2192 Year 3 reduction)\n6. Compare: one agentic system vs tool sprawl TCO\n",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Clarify & Bound",
+      "Ops & Delivery"
+    ]
+  },
+  {
+    "id": "RIU-605",
+    "name": "Cross-Brand Knowledge Transfer",
+    "trigger_signals": [
+      "cross-brand learning",
+      "knowledge sharing",
+      "pattern replication",
+      "best practices transfer"
+    ],
+    "agent_types": [
+      "Researcher",
+      "Narrator",
+      "Human:Delivery"
+    ],
+    "artifacts": [
+      "cross_brand_pattern_library.md",
+      "brand_learning_catalog.md",
+      "transfer_playbook.md",
+      "quarterly_review_template.md"
+    ],
+    "execution_intent": "Design cross-brand learning system:\n1. Catalog successful AI patterns per brand (use cases, metrics, lessons learned)\n2. Abstract patterns from brand-specific context (what's transferable vs unique)\n3. Create shared pattern library (like Palette's knowledge library)\n4. Establish cross-brand learning cadence (quarterly reviews)\n5. Enable \"opt-in replication\" \u2014 brands choose what to adopt\n",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Adoption & Change",
+      "Core Logic"
+    ]
+  },
+  {
+    "id": "RIU-606",
+    "name": "Brand Safety for AI-Generated Content",
+    "trigger_signals": [
+      "brand safety",
+      "AI-generated content",
+      "customer-facing AI",
+      "content moderation",
+      "brand voice"
+    ],
+    "agent_types": [
+      "Architect",
+      "Validator",
+      "Human:Delivery"
+    ],
+    "artifacts": [
+      "brand_safety_policy.md",
+      "guardrail_configuration.yaml",
+      "brand_voice_guide_per_brand/",
+      "incident_response_plan.md",
+      "red_team_test_cases/"
+    ],
+    "execution_intent": "Design brand safety framework:\n1. Define brand voice per brand (tone, vocabulary, prohibitions)\n2. Implement content guardrails (Bedrock Guardrails / equivalent)\n3. Create brand-specific denied topics and word filters\n4. Build review workflow for generated content before public exposure\n5. Establish incident response for brand safety breaches\n6. Test with adversarial inputs (red-teaming per brand)\n",
+    "reversibility": "one_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Quality & Safety",
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-607",
+    "name": "Context Compaction for Long Engagements",
+    "trigger_signals": [
+      "context window limit",
+      "session break",
+      "multi-phase engagement",
+      "context compaction",
+      "memory flush"
+    ],
+    "agent_types": [
+      "Narrator",
+      "Validator"
+    ],
+    "artifacts": [
+      "context_compaction_protocol.md",
+      "continuation_note_template.md",
+      "memory_flush_checklist.md"
+    ],
+    "execution_intent": "Implement context compaction protocol with structured memory flush, daily logging, and actionable continuation notes that preserve engagement state across sessions.",
+    "reversibility": "two_way",
+    "journey_stage": "specialization",
+    "workstreams": [
+      "Ops & Delivery",
+      "Adoption & Change"
+    ]
+  },
+  {
+    "id": "RIU-608",
+    "name": "Workflow Definition for Multi-Agent Engagements",
+    "trigger_signals": [
+      "multi-agent engagement",
+      "workflow formalization",
+      "quality gates",
+      "agent assignment",
+      "engagement phases"
+    ],
+    "agent_types": [
+      "Orchestrator",
+      "Validator"
+    ],
+    "artifacts": [
+      "workflow_definition.yaml",
+      "phase_gate_spec.md",
+      "agent_assignment_matrix.md"
+    ],
+    "execution_intent": "Define typed workflow format (YAML) with phases, agent assignments, quality gates, decision checkpoints, and memory update expectations. Make implicit workflows explicit and auditable.",
+    "reversibility": "two_way",
+    "journey_stage": "orchestration",
+    "workstreams": [
+      "Ops & Delivery",
+      "Core Logic"
+    ]
+  }
+]

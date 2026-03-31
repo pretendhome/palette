@@ -1,0 +1,34 @@
+# Rossi Mission — Workspace Configuration
+# Created: 2026-03-29
+
+workspace:
+  id: "rossi"
+  name: "Rossi Mission"
+  description: "Graffiti art gallery & streetwear brand — fundability and grant readiness"
+  user_name: "Sahar"
+  user_role: "owner"
+  operator_name: "Mical"
+  domain: "retail-grants-business-planning"
+  primary_frontend: "web"
+
+frx:
+  greeting_style: "operator"
+  startup_artifact: "decision_board_snapshot"
+  show_top_blockers: true
+  nudge_threshold_days: 14
+  max_nudges: 3
+
+artifacts:
+  defaults:
+    - "decision_board"
+    - "evidence_gap_summary"
+    - "action_plan"
+    - "funding_readiness_brief"
+
+retrieval:
+  static_knowledge_pack: "core"
+  live_retrieval_enabled: false
+
+governance:
+  risk_posture: "medium"
+  require_owd_confirmation: true

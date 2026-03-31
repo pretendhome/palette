@@ -1,0 +1,50 @@
+learner_lens:
+  identity: {}
+  goals: []
+  state:
+    taught_concepts:
+      - one_way_door
+      - blocked_action
+    verified_concepts:
+      - one_way_door
+    stage_counts:
+      orient: 2
+      retain: 0
+      verify: 1
+    concept_progress:
+      - concept_id: one_way_door
+        concept_label: one way door
+        source_type: project_state
+        stage: verify
+        times_taught: 1
+        last_question: What is a one-way door?
+        last_taught_at: '2026-03-30T22:29:15.799Z'
+        last_verified_at: '2026-03-30T22:29:15.808Z'
+        last_verification_answer: It is a decision that is hard to reverse.
+      - concept_id: blocked_action
+        concept_label: blocked action
+        source_type: project_state
+        stage: orient
+        times_taught: 1
+        last_question: why is this blocked
+        last_taught_at: '2026-03-30T23:48:19.703Z'
+    last_taught_concept: blocked_action
+    last_taught_at: '2026-03-30T23:48:19.703Z'
+  teaching_moments:
+    - concept_id: one_way_door
+      concept_label: one way door
+      question: What is a one-way door?
+      taught_at: '2026-03-30T22:29:15.799Z'
+      stage: orient
+      source_type: project_state
+      sources: []
+      verified: true
+      verified_at: '2026-03-30T22:29:15.808Z'
+      verification_answer: It is a decision that is hard to reverse.
+    - concept_id: blocked_action
+      concept_label: blocked action
+      question: why is this blocked
+      taught_at: '2026-03-30T23:48:19.703Z'
+      stage: orient
+      source_type: project_state
+      sources: []

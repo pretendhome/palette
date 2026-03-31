@@ -1,0 +1,221 @@
+metadata:
+  workspace_id: oil-investor
+  last_updated: '2026-03-31'
+  entry_count: 21
+feedback:
+  - id: CS-OIL-001-1774933722588
+    type: concept_exposure
+    concept_id: OIL-001
+    term: spread
+    depth: full
+    question: What is the difference between WTI and Brent crude oil, and why does the spread matter?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-002-1774933722588
+    type: concept_exposure
+    concept_id: OIL-002
+    term: crack spread
+    depth: full
+    question: What is the 3-2-1 crack spread and why do refiners watch it?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-003-1774933722589
+    type: concept_exposure
+    concept_id: OIL-003
+    term: upstream
+    depth: full
+    question: How does oil price sensitivity differ between upstream, midstream, and downstream companies?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-004-1774933722589
+    type: concept_exposure
+    concept_id: OIL-004
+    term: prices
+    depth: full
+    question: What are the break-even prices for US shale producers by basin?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-006-1774933722589
+    type: concept_exposure
+    concept_id: OIL-006
+    term: status
+    depth: full
+    question: What is the EIA Weekly Petroleum Status Report and why does it move oil prices?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-001-1774965155098
+    type: concept_exposure
+    concept_id: OIL-001
+    term: matter
+    depth: brief
+    question: What is the difference between WTI and Brent crude oil, and why does the spread matter?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-003-1774965155098
+    type: concept_exposure
+    concept_id: OIL-003
+    term: differ
+    depth: brief
+    question: How does oil price sensitivity differ between upstream, midstream, and downstream companies?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-004-1774965155099
+    type: concept_exposure
+    concept_id: OIL-004
+    term: prices
+    depth: brief
+    question: What are the break-even prices for US shale producers by basin?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-006-1774965155099
+    type: concept_exposure
+    concept_id: OIL-006
+    term: status
+    depth: brief
+    question: What is the EIA Weekly Petroleum Status Report and why does it move oil prices?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-007-1774965155100
+    type: concept_exposure
+    concept_id: OIL-007
+    term: differ
+    depth: full
+    question: Who are the top integrated oil majors (supermajors) and how do they differ from independents?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: KLC-ME-006
+    type: kl_candidate
+    question: View on peak oil demand timeline and energy transition exposure
+    answer: I believe peak demand is 2035+ — I am long-term bullish on oil
+    source_type: workspace_resolution
+    workspace_id: oil-investor
+    domain: oil-energy-investment
+    generated_at: '2026-03-31'
+    status: candidate
+    evidence_bar: workspace_validated
+    original_evidence_id: ME-006
+    priority: low
+    tags:
+      - oil-energy-investment
+      - auto-generated
+      - evidence-resolution
+  - id: CS-OIL-001-1774969390471
+    type: concept_exposure
+    concept_id: OIL-001
+    term: spread
+    depth: brief
+    question: What is the difference between WTI and Brent crude oil, and why does the spread matter?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-002-1774969390472
+    type: concept_exposure
+    concept_id: OIL-002
+    term: crack spread
+    depth: brief
+    question: What is the 3-2-1 crack spread and why do refiners watch it?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-003-1774969390474
+    type: concept_exposure
+    concept_id: OIL-003
+    term: upstream
+    depth: brief
+    question: How does oil price sensitivity differ between upstream, midstream, and downstream companies?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-004-1774969390474
+    type: concept_exposure
+    concept_id: OIL-004
+    term: prices
+    depth: brief
+    question: What are the break-even prices for US shale producers by basin?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-006-1774969390475
+    type: concept_exposure
+    concept_id: OIL-006
+    term: status
+    depth: brief
+    question: What is the EIA Weekly Petroleum Status Report and why does it move oil prices?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-002-1774969390493
+    type: concept_exposure
+    concept_id: OIL-002
+    term: crack spread
+    depth: brief
+    question: What is the 3-2-1 crack spread and why do refiners watch it?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-005-1774969390493
+    type: concept_exposure
+    concept_id: OIL-005
+    term: natural
+    depth: full
+    question: What is the Henry Hub natural gas benchmark and how does it relate to oil and LNG pricing?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-008-1774969390494
+    type: concept_exposure
+    concept_id: OIL-008
+    term: industry
+    depth: brief
+    question: What is capital discipline in US shale and how did it change the industry post-2020?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-011-1774969390495
+    type: concept_exposure
+    concept_id: OIL-011
+    term: ebitda
+    depth: full
+    question: What is EBITDAX and when should it be used instead of EBITDA for oil and gas companies?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration
+  - id: CS-OIL-025-1774969390496
+    type: concept_exposure
+    concept_id: OIL-025
+    term: data sources
+    depth: brief
+    question: What are the essential data sources an oil investor needs and how often are they updated?
+    workspace_id: oil-investor
+    detected_at: '2026-03-31'
+    status: candidate
+    source_type: chain_narration

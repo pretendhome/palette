@@ -1,0 +1,192 @@
+project_state:
+  id: rossi-mission
+  name: Rossi — Graffiti Art Gallery & Streetwear Brand
+  owner: sahar
+  operator: mical
+  created_at: '2026-02-01'
+  last_updated: '2026-03-30'
+  objective: Get Rossi to fundable status (79/100 → 95/100) and submit first grant applications
+  health_score: 79
+  health_label: CONDITIONAL FAIL
+  target_score: 95
+  known_facts:
+    - id: KF-001
+      fact: 791 Valencia Street, San Francisco
+      source: rossi_bridge.py
+    - id: KF-002
+      fact: Graffiti art gallery + streetwear brand
+      source: rossi_bridge.py
+    - id: KF-003
+      fact: 50/50 profit split with artists
+      source: rossi_bridge.py
+    - id: KF-004
+      fact: 'Current fundability score: 79/100 (CONDITIONAL FAIL)'
+      source: rossi_bridge.py
+    - id: KF-005
+      fact: 'Current revenue model: 64% retail, 6% grants — retail-heavy, needs flip'
+      source: FINAL_DELIVERY_SUMMARY.md
+    - id: KF-006
+      fact: 'Target revenue model: 45% retail, 26% grants (Creative Growth model)'
+      source: FINAL_DELIVERY_SUMMARY.md
+    - id: KF-007
+      fact: 'Comparable validated: Creative Growth Art Center (Oakland) — 50 years, 140 artists, $3.26M revenue, 50/50 split, Form 990 confirmed'
+      source: VALIDATED_COMPARABLES_RESEARCH.md
+    - id: KF-008
+      fact: 'Organizational structure: Fiscal sponsorship hybrid (501(c)(3) + LLC)'
+      source: decisions.md (OWD, 2026-02-06)
+    - id: KF-009
+      fact: 'Governance: Dual-board (artist advisory + governing board)'
+      source: decisions.md (OWD, 2026-02-06)
+    - id: KF-010
+      fact: 'Revenue: 7-stream diversification model'
+      source: decisions.md (OWD, 2026-02-06)
+    - id: KF-011
+      fact: 'Partner criteria: Stüssy International Tribe model'
+      source: decisions.md (OWD, 2026-02-06)
+    - id: KF-012
+      fact: 'Expansion order: LA/Oakland (Year 2), NYC/Seattle (Year 3)'
+      source: decisions.md (OWD, 2026-02-06)
+    - id: KF-013
+      fact: Funding ask must increase from $150K to $185-200K (covers Months 1-3 burn of $8-10K/month)
+      source: rossi_bridge.py
+    - id: KF-014
+      fact: 'MQ x Tie One Drop Package: 22 documents, validation score 87/100, revenue forecast $34K-$62K'
+      source: decisions.md (2026-02-11)
+    - id: KF-015
+      fact: Rossi Telegram bot operational on Hostinger VPS — relay pipeline working
+      source: ROSSI_BOT_READINESS_REVIEW.md
+    - id: KF-016
+      fact: All major research and architecture deliverables complete (~80 hours, 30+ artifacts)
+      source: STATUS.md
+    - id: KF-AUTO-c84a
+      fact: 'Decision OD-001 resolved: Flip revenue model from retail-heavy (64%) to grant-heavy (45% retail / 26% grants)? -> Approved existing OD-001'
+      source: OWD approval 028f3020-1186-4427-865f-a668992cb83c
+    - id: KF-AUTO-a726
+      fact: 'User demonstrated mastery of concept: one way door'
+      source: Enablement verification
+  missing_evidence:
+    - id: ME-001
+      what: 12 months trailing actuals from Square/Shopify POS
+      detail: Monthly revenue by category, transaction count, average order value, top 10 artists
+      why: Cannot validate $500K Year 1 projection without baseline — transforms projections from theoretical to validated
+      who_resolves: owner
+      priority: critical
+      status: unresolved
+      identified_at: '2026-02-15'
+      unblocks:
+        - OD-001
+        - BA-001
+        - BA-002
+    - id: ME-002
+      what: Named advisory board members (3-5 with relevant credentials)
+      detail: Names, credentials, willingness to serve
+      why: Funders require governance visibility — current plan lacks named advisors
+      who_resolves: owner
+      priority: moderate
+      status: unresolved
+      identified_at: '2026-02-15'
+      unblocks:
+        - BA-002
+    - id: ME-003
+      what: 2-3 documented artist success stories (career-launch case studies)
+      detail: Artist name, before/after career trajectory, Rossi's role in their growth
+      why: Artist pipeline thesis (Chito, Barry McGee model) is derived from others — need proof from Rossi's own roster
+      who_resolves: owner
+      priority: moderate
+      status: unresolved
+      identified_at: '2026-02-20'
+      unblocks: []
+    - id: ME-004
+      what: Monthly cash flow timing model (burn rate vs grant arrival schedule)
+      detail: Month-by-month projections showing when grants arrive vs when expenses hit
+      why: Grants arrive 60-90 days after award — Months 1-3 burn $8-10K/month with no grant revenue, risk of insolvency
+      who_resolves: operator
+      priority: moderate
+      status: unresolved
+      identified_at: '2026-02-20'
+      unblocks: []
+    - id: ME-005
+      what: Visual credentials — photos, show documentation, press clippings
+      detail: Gallery photos, exhibition history, press coverage
+      why: No visual evidence of gallery operations or artist work to include in applications
+      who_resolves: owner
+      priority: low
+      status: unresolved
+      identified_at: '2026-03-01'
+      unblocks: []
+  open_decisions:
+    - id: OD-002
+      decision: Which 2-3 artists to document for pipeline validation?
+      options: []
+      who_decides: owner
+      blocked_by: []
+      status: open
+      identified_at: '2026-02-20'
+      unblocks: []
+      impact: Proves artist career-launch thesis with real evidence
+    - id: OD-003
+      decision: MQ x Tie One Drop — 6 pending decisions (drop date, format, editions, pricing, narrative, revenue allocation)
+      options: []
+      who_decides: owner
+      blocked_by: []
+      status: open
+      identified_at: '2026-02-11'
+      unblocks: []
+      impact: Unlocks $34K-$62K revenue event
+  blocked_actions:
+    - id: BA-001
+      action: Submit grant applications ($250K+ target)
+      blocked_by:
+        - ME-001
+        - OD-001
+      unblocks:
+        - fundability_improvement
+      impact: Primary funding stream
+    - id: BA-002
+      action: Finalize business plan for underwriter review
+      blocked_by:
+        - ME-001
+        - ME-002
+        - OD-001
+      unblocks:
+        - fundability_improvement
+      impact: Fundability score increase to 85+
+    - id: BA-003
+      action: Invite Rossi team to Telegram bot
+      blocked_by:
+        - readiness_gaps
+      unblocks:
+        - direct_owner_interaction
+      impact: Direct owner interaction with system
+  known_unknowns:
+    - Actual monthly cash flow timing (burn rate vs grant arrival lag)
+    - Whether artist pipeline thesis has any informal validation from Rossi's own experience
+    - Grant application status — have any prior submissions been made?
+    - Whether owner (Sahar) has capacity to supply missing evidence in the near term
+    - Actual current monthly revenue run rate ($150K? $400K? Unknown.)
+  resolved_decisions:
+    - id: RD-001
+      decision: Organizational structure
+      resolution: Fiscal sponsorship hybrid (501(c)(3) + LLC)
+      resolved_at: '2026-02-06'
+    - id: RD-002
+      decision: Governance model
+      resolution: Dual-board (artist advisory + governing board)
+      resolved_at: '2026-02-06'
+    - id: RD-003
+      decision: Revenue diversification
+      resolution: 7-stream model
+      resolved_at: '2026-02-06'
+    - id: RD-004
+      decision: Partner selection criteria
+      resolution: Stüssy International Tribe model
+      resolved_at: '2026-02-06'
+    - id: RD-005
+      decision: Expansion sequence
+      resolution: LA/Oakland Year 2, NYC/Seattle Year 3
+      resolved_at: '2026-02-06'
+    - id: OD-001
+      decision: Flip revenue model from retail-heavy (64%) to grant-heavy (45% retail / 26% grants)?
+      resolution: Approved existing OD-001
+      resolved_at: '2026-03-30'
+      request_id: 028f3020-1186-4427-865f-a668992cb83c

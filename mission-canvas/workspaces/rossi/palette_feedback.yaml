@@ -1,0 +1,15 @@
+metadata:
+  workspace_id: rossi
+  last_updated: '2026-03-31'
+  entry_count: 1
+feedback:
+- id: MS-one_way_door
+  type: mastery_signal
+  concept_id: one_way_door
+  workspace_id: rossi
+  times_taught: 1
+  verified_at: '2026-03-30'
+  signal: user_demonstrated_understanding
+  source_type: project_state
+  status: ingested
+  ingested_at: '2026-03-31'

@@ -1,0 +1,26 @@
+.env.production
+pilot-output/
+node_modules/
+
+# Private lens files — NEVER commit these
+lens.yaml
+*.lens.yaml
+
+# Environment files with secrets
+joseph.env
+*.env.local
+
+# Runtime workspace state — ephemeral, changes every query
+workspaces/*/sessions/
+workspaces/*/learner_lens.yaml
+workspaces/*/palette_feedback.yaml
+workspaces/*/alerts/
+workspaces/*/monitors/
+workspaces/*/artifacts/
+
+# Debug traces
+raptor-to-debug
+
+# Logs
+file_access.log
+anonymous_feedback.jsonl

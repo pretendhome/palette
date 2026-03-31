@@ -1,0 +1,90 @@
+project_state:
+  id: fde-toolkit-active
+  name: FDE Toolkit — Project  North Star  Integration
+  owner: sahar
+  operator: mical
+  created_at: '2026-03-30'
+  last_updated: '2026-03-30'
+  objective: Unify Palette, Canvas, and Enablement into a high-velocity implementation flywheel.
+  target_score: 90
+  target_health: 90
+  health_score: 65 # Initial state with gaps
+  health_label: NEEDS ATTENTION
+
+  known_facts:
+    - id: KF-001
+      fact: Mission Canvas V0.3 engine is stable and tested (254+ tests).
+      source: Integration Report
+    - id: KF-002
+      fact: Palette contains 121 RIUs and 168 KL entries.
+      source: Manifest V2.2
+    - id: KF-003
+      fact: Unified Product Thesis proposal is published and accepted.
+      source: UNIFIED_PRODUCT_THESIS.md
+    - id: KF-004
+      fact: Date standardization (getISODate) is applied across all mutation points.
+      source: Task #26
+    - id: KF-005
+      fact: Critical nudge bypass logic is live.
+      source: Task #26
+
+  missing_evidence:
+    - id: ME-001
+      what: Palette enrichment pipeline automated integration.
+      priority: critical
+      status: open
+      identified_at: '2026-03-30'
+      who_resolves: developer
+      unblocks: [OD-001, BA-001]
+      impact: Flywheel return path remains manual/staging-only.
+    - id: ME-002
+      what: Unified learner system (Codex/Kiro merge) verification.
+      priority: critical
+      status: open
+      identified_at: '2026-03-30'
+      who_resolves: architect
+      unblocks: [BA-002]
+      impact: Inconsistent teaching decisions and data drift.
+    - id: ME-003
+      what: Voxtral WebGPU STT browser integration contract.
+      priority: moderate
+      status: open
+      identified_at: '2026-03-30'
+      who_resolves: builder
+      unblocks: [BA-003]
+      impact: Voice-first primary frontend remains on Whisper fallback.
+
+  open_decisions:
+    - id: OD-001
+      decision: Should we automate Palette ingestion (auto-promote) or require human review for all candidates?
+      options: [Full Auto, Hybrid, Human-in-loop]
+      identified_at: '2026-03-30'
+      impact: Affects intelligence layer velocity vs. data quality.
+    - id: OD-002
+      decision: Deprecate client-side localStorage state entirely?
+      options: [Immediate kill, Gradual migration, Dual-path support]
+      identified_at: '2026-03-30'
+      impact: Reduces code complexity (Risk-2).
+
+  blocked_actions:
+    - id: BA-001
+      action: Ship live flywheel return path.
+      blocked_by: [ME-001, OD-001]
+      unblocks: [goal-001]
+    - id: BA-002
+      action: Deploy Round 2 unified learner system.
+      blocked_by: [ME-002]
+      unblocks: [goal-001]
+
+  resolved_decisions: []
+
+  known_unknowns:
+    - "Optimal threshold for cross-workspace knowledge promotion."
+    - "Voxtral inference latency on consumer-grade WebGPU."
+
+  goals:
+    - id: goal-001
+      summary: Active flywheel with zero manual data bridges.
+      status: in_progress
+
+  learner_lens: {}

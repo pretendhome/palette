@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "workspace": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9_-]+$" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "user_name": { "type": "string" },
+        "user_role": { "type": "string", "enum": ["owner", "operator", "advisor", "analyst"] },
+        "operator_name": { "type": "string" },
+        "domain": { "type": "string" },
+        "primary_frontend": { "type": "string", "enum": ["web", "voice", "telegram"] }
+      },
+      "additionalProperties": false
+    },
+    "frx": {
+      "type": "object",
+      "properties": {
+        "greeting_style": { "type": "string", "enum": ["operator", "executive", "casual"] },
+        "startup_artifact": { "type": "string" },
+        "show_top_blockers": { "type": "boolean" },
+        "nudge_threshold_days": { "type": "integer", "minimum": 1 },
+        "max_nudges": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "artifacts": {
+      "type": "object",
+      "properties": {
+        "defaults": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "retrieval": {
+      "type": "object",
+      "properties": {
+        "static_knowledge_pack": { "type": "string" },
+        "live_retrieval_enabled": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "risk_posture": { "type": "string", "enum": ["low", "medium", "high"] },
+        "require_owd_confirmation": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

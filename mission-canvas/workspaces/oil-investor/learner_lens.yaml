@@ -1,0 +1,180 @@
+learner_lens:
+  identity: {}
+  goals: []
+  state:
+    taught_concepts:
+      - OIL-001
+      - OIL-002
+      - OIL-003
+      - OIL-004
+      - OIL-006
+      - OIL-008
+      - OIL-009
+      - OIL-015
+      - OIL-016
+      - OIL-018
+      - OIL-022
+      - OIL-027
+      - OIL-028
+      - OIL-007
+      - OIL-010
+      - OIL-014
+      - OIL-017
+      - OIL-019
+      - OIL-020
+      - OIL-024
+      - OIL-025
+      - OIL-005
+      - OIL-011
+      - OIL-026
+    verified_concepts: []
+    stage_counts:
+      orient: 0
+      retain: 0
+      verify: 0
+    concept_progress:
+      - concept_id: OIL-001
+        concept_label: OIL-001
+        source_type: chain_narration
+        stage: orient
+        times_taught: 3
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-002
+        concept_label: OIL-002
+        source_type: chain_narration
+        stage: orient
+        times_taught: 3
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-003
+        concept_label: OIL-003
+        source_type: chain_narration
+        stage: orient
+        times_taught: 3
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-004
+        concept_label: OIL-004
+        source_type: chain_narration
+        stage: orient
+        times_taught: 3
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-006
+        concept_label: OIL-006
+        source_type: chain_narration
+        stage: orient
+        times_taught: 3
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-008
+        concept_label: OIL-008
+        source_type: chain_narration
+        stage: orient
+        times_taught: 3
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-009
+        concept_label: OIL-009
+        source_type: chain_narration
+        stage: orient
+        times_taught: 3
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-015
+        concept_label: OIL-015
+        source_type: chain_narration
+        stage: orient
+        times_taught: 3
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-016
+        concept_label: OIL-016
+        source_type: chain_narration
+        stage: orient
+        times_taught: 3
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-018
+        concept_label: OIL-018
+        source_type: chain_narration
+        stage: orient
+        times_taught: 3
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-022
+        concept_label: OIL-022
+        source_type: chain_narration
+        stage: orient
+        times_taught: 3
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-027
+        concept_label: OIL-027
+        source_type: chain_narration
+        stage: orient
+        times_taught: 3
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-028
+        concept_label: OIL-028
+        source_type: chain_narration
+        stage: orient
+        times_taught: 3
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-007
+        concept_label: OIL-007
+        source_type: chain_narration
+        stage: orient
+        times_taught: 1
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-010
+        concept_label: OIL-010
+        source_type: chain_narration
+        stage: orient
+        times_taught: 1
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-014
+        concept_label: OIL-014
+        source_type: chain_narration
+        stage: orient
+        times_taught: 1
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-017
+        concept_label: OIL-017
+        source_type: chain_narration
+        stage: orient
+        times_taught: 1
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-019
+        concept_label: OIL-019
+        source_type: chain_narration
+        stage: orient
+        times_taught: 1
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-020
+        concept_label: OIL-020
+        source_type: chain_narration
+        stage: orient
+        times_taught: 1
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-024
+        concept_label: OIL-024
+        source_type: chain_narration
+        stage: orient
+        times_taught: 1
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-025
+        concept_label: OIL-025
+        source_type: chain_narration
+        stage: orient
+        times_taught: 2
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-005
+        concept_label: OIL-005
+        source_type: chain_narration
+        stage: orient
+        times_taught: 1
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-011
+        concept_label: OIL-011
+        source_type: chain_narration
+        stage: orient
+        times_taught: 1
+        last_taught_at: '2026-03-31'
+      - concept_id: OIL-026
+        concept_label: OIL-026
+        source_type: chain_narration
+        stage: orient
+        times_taught: 1
+        last_taught_at: '2026-03-31'
+  teaching_moments: []

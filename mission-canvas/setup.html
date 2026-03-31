@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MissionCanvas | New Workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      background: #0a0a0f;
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+    code, pre, .mono { font-family: 'IBM Plex Mono', monospace; }
+
+    /* Layout */
+    .shell { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    /* Header */
+    .topbar { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2.5rem; }
+    .brand { font-size: 1.4rem; font-weight: 700; color: #fff; text-decoration: none; }
+    .topbar-sub { color: #666; font-size: 0.85rem; }
+
+    /* Steps indicator */
+    .steps-bar { display: flex; gap: 0; margin-bottom: 2rem; }
+    .step-dot {
+      flex: 1; text-align: center; padding: 0.75rem 0.5rem;
+      font-size: 0.8rem; color: #555; position: relative;
+      border-bottom: 2px solid #1a1a2e;
+      transition: all 0.3s;
+    }
+    .step-dot.active { color: #4cc9f0; border-color: #4cc9f0; font-weight: 600; }
+    .step-dot.done { color: #7cff8f; border-color: #7cff8f; }
+    .step-num {
+      display: inline-block; width: 24px; height: 24px; line-height: 24px;
+      border-radius: 50%; font-size: 0.75rem; font-weight: 600;
+      background: #1a1a2e; color: #555; margin-right: 0.4rem;
+      transition: all 0.3s;
+    }
+    .step-dot.active .step-num { background: #4cc9f0; color: #0a0a0f; }
+    .step-dot.done .step-num { background: #7cff8f; color: #0a0a0f; }
+
+    /* Panels */
+    .step-panel { display: none; animation: fadeIn 0.3s ease; }
+    .step-panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(18, 28, 40, 0.96), rgba(10, 16, 24, 0.98));
+      border: 1px solid rgba(69, 118, 163, 0.35);
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    h2 { font-size: 1.25rem; color: #fff; margin-bottom: 0.5rem; }
+    .hint { color: #888; font-size: 0.85rem; margin-bottom: 1.25rem; }
+
+    /* Form elements */
+    .field { margin-bottom: 1.25rem; }
+    label { display: block; font-size: 0.85rem; color: #aaa; margin-bottom: 0.4rem; font-weight: 500; }
+    input[type="text"], textarea, select {
+      width: 100%; padding: 0.65rem 0.85rem;
+      background: #0d111b; border: 1px solid #2a2a3e;
+      border-radius: 8px; color: #e0e0e0; font-size: 0.9rem;
+      font-family: inherit; outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus, select:focus { border-color: #4cc9f0; }
+    textarea { resize: vertical; min-height: 80px; }
+    .slug-preview {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem;
+      color: #4cc9f0; margin-top: 0.3rem;
+    }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 500px) { .field-row { grid-template-columns: 1fr; } }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.7rem 1.5rem; border: 1px solid #4cc9f0;
+      background: rgba(76, 201, 240, 0.1); color: #4cc9f0;
+      border-radius: 8px; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; font-family: inherit;
+    }
+    .btn:hover { background: rgba(76, 201, 240, 0.2); transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .btn-primary {
+      background: #4cc9f0; color: #0a0a0f; border-color: #4cc9f0;
+    }
+    .btn-primary:hover { background: #6dd5f3; }
+    .btn-row { display: flex; gap: 1rem; margin-top: 1.5rem; }
+
+    /* Subscription grid */
+    .sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
+    .sub-item {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.7rem 1rem; background: #0d111b;
+      border: 1px solid #1a1a2e; border-radius: 8px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .sub-item:hover { border-color: #4cc9f0; }
+    .sub-item.checked { border-color: #4cc9f0; background: rgba(76, 201, 240, 0.08); }
+    .sub-item input[type="checkbox"] { accent-color: #4cc9f0; }
+    .sub-name { font-size: 0.9rem; color: #e0e0e0; }
+    .sub-vendor { font-size: 0.7rem; color: #666; }
+
+    /* Key input (optional expandable) */
+    .key-section { margin-top: 1.25rem; }
+    .key-toggle {
+      font-size: 0.8rem; color: #4cc9f0; cursor: pointer;
+      background: none; border: none; font-family: inherit;
+      padding: 0; text-decoration: underline;
+    }
+    .key-fields { display: none; margin-top: 1rem; }
+    .key-fields.visible { display: block; }
+    .key-field { margin-bottom: 0.75rem; }
+    .key-field label { font-size: 0.8rem; }
+    .key-field input {
+      width: 100%; padding: 0.5rem 0.75rem;
+      background: #0d111b; border: 1px solid #1a1a2e;
+      border-radius: 6px; color: #e0e0e0; font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem; outline: none;
+    }
+    .security-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.3rem 0.8rem; background: rgba(124, 255, 143, 0.08);
+      border: 1px solid rgba(124, 255, 143, 0.2); border-radius: 6px;
+      font-size: 0.75rem; color: #7cff8f; margin-top: 0.75rem;
+    }
+
+    /* Config tabs */
+    .config-tabs { display: flex; gap: 0; margin-bottom: 0; }
+    .config-tab {
+      padding: 0.6rem 1.2rem; background: transparent;
+      border: 1px solid #1a1a2e; border-bottom: none;
+      color: #666; font-size: 0.8rem; cursor: pointer;
+      font-family: inherit; font-weight: 500;
+      border-radius: 8px 8px 0 0; transition: all 0.2s;
+    }
+    .config-tab.active { background: #0d111b; color: #4cc9f0; border-color: #2a2a3e; }
+    .config-block {
+      background: #0d111b; border: 1px solid #2a2a3e;
+      border-radius: 0 8px 8px 8px; padding: 1rem;
+      position: relative;
+    }
+    .config-block pre {
+      color: #c8d6e5; font-size: 0.8rem; line-height: 1.5;
+      white-space: pre-wrap; word-break: break-all;
+      margin: 0;
+    }
+    .copy-btn {
+      position: absolute; top: 0.5rem; right: 0.5rem;
+      padding: 0.35rem 0.75rem; font-size: 0.7rem;
+      background: rgba(76, 201, 240, 0.1); border: 1px solid #4cc9f0;
+      color: #4cc9f0; border-radius: 6px; cursor: pointer;
+      font-family: inherit;
+    }
+    .copy-btn:hover { background: rgba(76, 201, 240, 0.2); }
+    .copy-btn.copied { background: rgba(124, 255, 143, 0.15); border-color: #7cff8f; color: #7cff8f; }
+
+    /* Instructions */
+    .instructions {
+      margin-top: 1rem; padding: 1rem;
+      background: rgba(76, 201, 240, 0.04);
+      border: 1px solid rgba(76, 201, 240, 0.12);
+      border-radius: 8px; font-size: 0.82rem; line-height: 1.6; color: #aaa;
+    }
+    .instructions strong { color: #e0e0e0; }
+    .instructions code {
+      background: rgba(76, 201, 240, 0.08); padding: 0.1rem 0.4rem;
+      border-radius: 4px; font-size: 0.78rem;
+    }
+
+    /* Summary / launch */
+    .summary-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .summary-item { padding: 1rem; background: #0d111b; border-radius: 8px; border: 1px solid #1a1a2e; }
+    .summary-label { font-size: 0.75rem; color: #666; margin-bottom: 0.3rem; }
+    .summary-value { font-size: 1rem; color: #fff; font-weight: 600; }
+    .summary-value.health { color: #ffb86c; }
+
+    .launch-chips { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.5rem; }
+    .chip {
+      padding: 0.6rem 1.1rem; background: rgba(76, 201, 240, 0.06);
+      border: 1px solid rgba(76, 201, 240, 0.2); border-radius: 20px;
+      color: #4cc9f0; font-size: 0.85rem; cursor: pointer;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .chip:hover { background: rgba(76, 201, 240, 0.15); }
+
+    /* Error/success messages */
+    .msg { padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.85rem; margin-top: 1rem; display: none; }
+    .msg.error { display: block; background: rgba(255, 125, 125, 0.1); border: 1px solid rgba(255, 125, 125, 0.3); color: #ff7d7d; }
+    .msg.success { display: block; background: rgba(124, 255, 143, 0.08); border: 1px solid rgba(124, 255, 143, 0.2); color: #7cff8f; }
+
+    /* Timer */
+    .timer { position: fixed; bottom: 1rem; right: 1.5rem; font-size: 0.75rem; color: #444; font-family: 'IBM Plex Mono', monospace; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="/">MissionCanvas</a>
+      <div class="topbar-sub">New Workspace Setup</div>
+    </header>
+
+    <!-- Steps bar -->
+    <div class="steps-bar">
+      <div class="step-dot active" data-step="1"><span class="step-num">1</span>Create</div>
+      <div class="step-dot" data-step="2"><span class="step-num">2</span>Connect</div>
+      <div class="step-dot" data-step="3"><span class="step-num">3</span>Configure</div>
+      <div class="step-dot" data-step="4"><span class="step-num">4</span>Launch</div>
+    </div>
+
+    <!-- STEP 1: Create Workspace -->
+    <div class="step-panel active" id="step1">
+      <div class="panel">
+        <h2>Create your workspace</h2>
+        <p class="hint">A workspace is your dedicated decision environment. Everything you discuss, decide, and learn stays here.</p>
+
+        <div class="field">
+          <label for="wsName">Workspace name</label>
+          <input type="text" id="wsName" placeholder="e.g. Energy Portfolio, AI Strategy, Market Entry" />
+          <div class="slug-preview" id="slugPreview"></div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="userName">Your name</label>
+            <input type="text" id="userName" placeholder="e.g. Alex" />
+          </div>
+          <div class="field">
+            <label for="userRole">Your role</label>
+            <select id="userRole">
+              <option value="owner">Owner / Decision maker</option>
+              <option value="operator">Operator / Executor</option>
+              <option value="advisor">Advisor / Consultant</option>
+              <option value="analyst">Analyst / Researcher</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="domain">Domain</label>
+            <select id="domain">
+              <option value="general">General</option>
+              <option value="oil-energy-investment">Oil & Energy</option>
+              <option value="ai-strategy">AI Strategy</option>
+              <option value="saas-product">SaaS Product</option>
+              <option value="retail-business">Retail / Small Business</option>
+              <option value="real-estate">Real Estate</option>
+              <option value="healthcare">Healthcare</option>
+              <option value="fintech">Fintech</option>
+              <option value="education">Education</option>
+              <option value="consulting">Consulting</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="riskPosture">Risk posture</label>
+            <select id="riskPosture">
+              <option value="low">Low — conservative, safety-first</option>
+              <option value="medium" selected>Medium — balanced</option>
+              <option value="high">High — move fast, iterate</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="objective">What are you trying to figure out?</label>
+          <textarea id="objective" placeholder="Describe the decision, problem, or project you need help with. Be specific — this becomes your workspace objective."></textarea>
+        </div>
+
+        <div id="step1Msg" class="msg"></div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btnCreate" disabled>Create Workspace</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Connect Subscriptions -->
+    <div class="step-panel" id="step2">
+      <div class="panel">
+        <h2>Connect your AI subscriptions</h2>
+        <p class="hint">Palette works with every model. Check the ones you already pay for — your workspace will use them.</p>
+
+        <div class="sub-grid" id="subGrid">
+          <label class="sub-item"><input type="checkbox" value="claude" checked /><div><div class="sub-name">Claude</div><div class="sub-vendor">Anthropic</div></div></label>
+          <label class="sub-item"><input type="checkbox" value="chatgpt" /><div><div class="sub-name">ChatGPT</div><div class="sub-vendor">OpenAI</div></div></label>
+          <label class="sub-item"><input type="checkbox" value="gemini" /><div><div class="sub-name">Gemini</div><div class="sub-vendor">Google</div></div></label>
+          <label class="sub-item"><input type="checkbox" value="perplexity" /><div><div class="sub-name">Perplexity</div><div class="sub-vendor">Perplexity AI</div></div></label>
+          <label class="sub-item"><input type="checkbox" value="kiro" /><div><div class="sub-name">Kiro</div><div class="sub-vendor">AWS</div></div></label>
+          <label class="sub-item"><input type="checkbox" value="mistral" /><div><div class="sub-name">Mistral / Le Chat</div><div class="sub-vendor">Mistral AI</div></div></label>
+          <label class="sub-item"><input type="checkbox" value="cursor" /><div><div class="sub-name">Cursor</div><div class="sub-vendor">Anysphere</div></div></label>
+          <label class="sub-item"><input type="checkbox" value="windsurf" /><div><div class="sub-name">Windsurf</div><div class="sub-vendor">Codeium</div></div></label>
+          <label class="sub-item"><input type="checkbox" value="openrouter" /><div><div class="sub-name">OpenRouter</div><div class="sub-vendor">Multi-model router</div></div></label>
+        </div>
+
+        <div class="key-section">
+          <button class="key-toggle" id="keyToggle">I want to add API keys for direct integration</button>
+          <div class="key-fields" id="keyFields">
+            <div class="key-field">
+              <label>Anthropic API Key</label>
+              <input type="password" data-key="ANTHROPIC_API_KEY" placeholder="sk-ant-..." />
+            </div>
+            <div class="key-field">
+              <label>OpenAI API Key</label>
+              <input type="password" data-key="OPENAI_API_KEY" placeholder="sk-..." />
+            </div>
+            <div class="key-field">
+              <label>Google AI API Key</label>
+              <input type="password" data-key="GOOGLE_API_KEY" placeholder="AIza..." />
+            </div>
+            <div class="key-field">
+              <label>Perplexity API Key</label>
+              <input type="password" data-key="PERPLEXITY_API_KEY" placeholder="pplx-..." />
+            </div>
+            <div class="key-field">
+              <label>OpenRouter API Key</label>
+              <input type="password" data-key="OPENROUTER_API_KEY" placeholder="sk-or-..." />
+            </div>
+            <div class="key-field">
+              <label>Mistral API Key</label>
+              <input type="password" data-key="MISTRAL_API_KEY" placeholder="" />
+            </div>
+          </div>
+          <div class="security-badge">Keys never leave your device — they go directly into your local MCP config</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn" id="btnBackToCreate" style="opacity:0.6">Back</button>
+          <button class="btn" id="btnSkipSubs">Skip for now</button>
+          <button class="btn btn-primary" id="btnSubs">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: Configure MCP -->
+    <div class="step-panel" id="step3">
+      <div class="panel">
+        <h2>Connect to your AI client</h2>
+        <p class="hint">Copy the config below into your preferred AI tool. This tells it how to reach your workspace.</p>
+
+        <div class="config-tabs">
+          <button class="config-tab active" data-target="claude-desktop">Claude Desktop</button>
+          <button class="config-tab" data-target="claude-code">Claude Code</button>
+          <button class="config-tab" data-target="cursor">Cursor / Other</button>
+        </div>
+
+        <div class="config-block">
+          <button class="copy-btn" id="btnCopy">Copy</button>
+          <pre><code id="configCode"></code></pre>
+        </div>
+
+        <div class="instructions" id="configInstructions"></div>
+
+        <div class="btn-row">
+          <button class="btn" id="btnBackToSubs" style="opacity:0.6">Back</button>
+          <button class="btn btn-primary" id="btnToLaunch">I've pasted it — let's go</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: Launch -->
+    <div class="step-panel" id="step4">
+      <div class="panel">
+        <h2>Your workspace is live</h2>
+        <p class="hint">Start asking questions — through your AI client (MCP) or the web interface below.</p>
+
+        <div class="summary-grid" id="summaryGrid"></div>
+
+        <h2 style="font-size:1rem; margin-bottom:0.75rem;">Try these first</h2>
+        <div class="launch-chips">
+          <a class="chip" id="chipBrief">How are we doing?</a>
+          <a class="chip" id="chipGaps">What's blocking us?</a>
+          <a class="chip" id="chipDecisions">What decisions are pending?</a>
+        </div>
+
+        <div class="btn-row">
+          <a class="btn btn-primary" id="btnOpenWeb" href="#">Open Web Interface</a>
+          <a class="btn" href="/">All Workspaces</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timer" id="timer"></div>
+
+  <script src="setup.js"></script>
+</body>
+</html>

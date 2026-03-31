@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Project State Schema",
+  "description": "Schema for validating project_state.yaml files",
+  "type": "object",
+  "properties": {
+    "project_state": {
+      "type": "object",
+      "properties": {
+        "id": {"type": "string"},
+        "name": {"type": "string"},
+        "owner": {"type": "string"},
+        "operator": {"type": "string"},
+        "created_at": {"type": "string"},
+        "last_updated": {"type": "string"},
+        "objective": {"type": "string"},
+        "health_score": {"type": "number"},
+        "health_label": {"type": "string"},
+        "target_score": {"type": "number"},
+        "known_facts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "fact": {"type": "string"},
+              "source": {"type": "string"}
+            },
+            "required": ["id", "fact"]
+          }
+        },
+        "missing_evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "what": {"type": "string"},
+              "detail": {"type": "string"},
+              "why": {"type": "string"},
+              "who_resolves": {"type": "string"},
+              "priority": {"type": "string", "enum": ["critical", "moderate", "low"]},
+              "status": {"type": "string", "enum": ["resolved", "unresolved"]},
+              "identified_at": {"type": "string"},
+              "unblocks": {"type": "array", "items": {"type": "string"}}
+            },
+            "required": ["id", "what", "who_resolves", "priority", "status"]
+          }
+        },
+        "open_decisions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "decision": {"type": "string"},
+              "options": {"type": "array", "items": {"type": "string"}},
+              "who_decides": {"type": "string"},
+              "blocked_by": {"type": "array", "items": {"type": "string"}},
+              "status": {"type": "string", "enum": ["resolved", "open"]},
+              "identified_at": {"type": "string"},
+              "unblocks": {"type": "array", "items": {"type": "string"}},
+              "impact": {"type": "string"}
+            },
+            "required": ["id", "decision", "who_decides", "status"]
+          }
+        },
+        "blocked_actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "action": {"type": "string"},
+              "blocked_by": {"type": "array", "items": {"type": "string"}},
+              "unblocks": {"type": "array", "items": {"type": "string"}},
+              "impact": {"type": "string"}
+            },
+            "required": ["id", "action", "blocked_by"]
+          }
+        },
+        "known_unknowns": {"type": "array", "items": {"type": "string"}},
+        "resolved_decisions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "decision": {"type": "string"},
+              "resolution": {"type": "string"},
+              "resolved_at": {"type": "string"}
+            },
+            "required": ["id", "decision", "resolution", "resolved_at"]
+          }
+        }
+      },
+      "required": ["id", "name", "owner", "operator", "health_score", "health_label", "target_score"]
+    }
+  },
+  "required": ["project_state"]
+}

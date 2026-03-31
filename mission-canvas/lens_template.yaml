@@ -1,0 +1,63 @@
+# lens.yaml — LOCAL ONLY — NEVER upload this file
+# This file contains your full private investment context.
+# It stays on YOUR laptop. Only the sanitized profile.md goes to the VPS.
+#
+# How to create: Run Claude CLI in this directory and say:
+#   "Help me create my investor lens"
+# Claude will interview you and populate this file.
+
+lens:
+  # ── Identity (private — never leaves laptop) ──
+  full_name: ""
+  email: ""
+  phone: ""
+  location: ""          # Full address stays local
+  date_of_birth: ""
+
+  # ── Investment Profile (sanitized version goes to VPS) ──
+  alias: ""             # Display name for VPS (first name or alias)
+  city_only: ""         # City only, no street (e.g. "London")
+  domain: ""            # e.g. "oil & gas", "AI investments", "real estate"
+  role: ""              # e.g. "energy sector investor", "fund manager"
+  risk_posture: ""      # low / medium / high / aggressive
+  investment_horizon: "" # e.g. "3-5 years", "12-18 months"
+  business_structure: "" # LLC, fund, personal, trust
+
+  # ── Portfolio Overview (private — ranges only go to VPS) ──
+  portfolio:
+    total_value: ""     # Exact — STAYS LOCAL
+    total_range: ""     # Range for VPS — e.g. "$500K-1M"
+    positions:          # Exact positions — STAYS LOCAL
+      - ticker: ""
+        shares: 0
+        avg_cost: 0.0
+        current_value: 0.0
+        sector: ""
+    exposure_summary: "" # Abstract for VPS — e.g. "upstream-heavy, evaluating midstream"
+    concentration_risk: "" # Abstract — e.g. "single-sector concentrated"
+
+  # ── Investment Thesis (sanitized version goes to VPS) ──
+  thesis:
+    core_view: ""       # e.g. "positioned for Hormuz crisis refining supercycle"
+    time_sensitive: ""   # e.g. "OPEC+ decision in Q2 2026"
+    sectors_bullish: [] # e.g. ["refining", "midstream infrastructure"]
+    sectors_bearish: [] # e.g. ["upstream E&P at current prices"]
+    key_catalysts: []   # e.g. ["Hormuz escalation", "OPEC+ supply decision"]
+    hedging_approach: "" # e.g. "considering options on USO"
+
+  # ── Private Files (local paths — NEVER sent anywhere) ──
+  local_files:
+    deal_memos: []      # e.g. ["/Users/joseph/Documents/deals/memo-xyz.pdf"]
+    financials: []      # e.g. ["/Users/joseph/Documents/portfolio/q1-2026.xlsx"]
+    contracts: []       # e.g. ["/Users/joseph/Documents/contracts/"]
+    research: []        # e.g. ["/Users/joseph/Documents/research/"]
+
+  # ── Monitoring Preferences ──
+  monitors:
+    energy_markets: true
+    ai_investments: true
+    custom_queries: []  # e.g. ["Hormuz strait shipping insurance rates"]
+
+  # ── Created ──
+  created_at: ""
+  last_updated: ""
