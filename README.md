@@ -14,7 +14,7 @@ A governed system that maps enterprise AI problems to competency areas, structur
 [![Integrity](https://img.shields.io/badge/integrity-8%2F8_passing-brightgreen)]()
 [![SLOs](https://img.shields.io/badge/SLOs-7%2F7_passing-brightgreen)]()
 [![RIUs](https://img.shields.io/badge/RIUs-121-blue)]()
-[![Knowledge](https://img.shields.io/badge/knowledge-167_entries-blue)]()
+[![Knowledge](https://img.shields.io/badge/knowledge-168_entries-blue)]()
 [![Recipes](https://img.shields.io/badge/recipes-69-blue)]()
 [![License](https://img.shields.io/badge/license-private-lightgrey)]()
 
@@ -24,14 +24,14 @@ A governed system that maps enterprise AI problems to competency areas, structur
 
 ## What Is Palette?
 
-Palette is a knowledge architecture that maps 121 enterprise AI competency areas across 6 structured data layers, maintains a 167-entry sourced knowledge library with evidence tiers and learning progressions, and evaluates understanding through governed assessment tooling. It was distilled from 8 years of knowledge engineering and 250+ enterprise enablement sessions — real questions from real practitioners — then systematically refined, source-verified, and indexed.
+Palette is a knowledge architecture that maps 121 enterprise AI competency areas across 6 structured data layers, maintains a 168-entry sourced knowledge library with evidence tiers and learning progressions, and evaluates understanding through governed assessment tooling. It was distilled from 8 years of knowledge engineering and 250+ enterprise enablement sessions — real questions from real practitioners — then systematically refined, source-verified, and indexed.
 
 **The thesis**: competency in AI is not a binary. It's a progression — foundation → retrieval → orchestration → specialization — and each stage requires different knowledge, different assessment, and different tooling. Palette structures that progression and scales it through intelligent automation.
 
 ### Key Capabilities
 
 - **Competency Taxonomy** — 121 validated problem-solution nodes (RIUs) mapping enterprise AI challenges to measurable skill areas, with maturity classification (UNVALIDATED → WORKING → PRODUCTION)
-- **Knowledge Library** — 167 entries with sourced evidence tiers (Tier 1: Google/Anthropic/OpenAI/AWS; Tier 2: NIST/peer-reviewed; Tier 3: validated open-source) and learning progressions
+- **Knowledge Library** — 168 entries with sourced evidence tiers (Tier 1: Google/Anthropic/OpenAI/AWS; Tier 2: NIST/peer-reviewed; Tier 3: validated open-source) and learning progressions
 - **Assessment & Governance** — Every decision classified as `ship` / `ship_with_risks` / `ship_with_convergence` / `block` with explicit ONE-WAY DOOR / TWO-WAY DOOR reversibility gates
 - **Multi-Agent Evaluation** — 12 specialized agents with promotion/demotion logic, quality gates, GO/NO-GO verdicts, and automated integrity checks
 - **Integrity Engine** — 8 consistency checks across 6 data layers, catching structural gaps, regressions, and terminology drift in real time
@@ -46,7 +46,7 @@ Palette is a knowledge architecture that maps 121 enterprise AI competency areas
 | Component | Specification |
 |:--|:--|
 | Competency Areas (RIUs) | 121 (81 internal, 40 service-routed) |
-| Knowledge Entries | 167 with verified source citations and evidence tiers |
+| Knowledge Entries | 168 with verified source citations and evidence tiers |
 | Integration Recipes | 69 (auth, endpoints, cost, quality tier) |
 | Service Routing | 106 services across 40 routing profiles |
 | People Signals | 21 profiles, 33 tools tracked |
@@ -75,7 +75,7 @@ Palette is a knowledge architecture that maps 121 enterprise AI competency areas
 │  │  └──────────┘ └──────────┘ └──────────┘            │    │
 │  │  ┌──────────┐ ┌──────────┐ ┌──────────┐            │    │
 │  │  │Knowledge │ │Signals   │ │Overrides │            │    │
-│  │  │167 entries│ │21 people │ │19 maps   │            │    │
+│  │  │168 entries│ │21 people │ │19 maps   │            │    │
 │  │  └──────────┘ └──────────┘ └──────────┘            │    │
 │  └─────────────────────────────────────────────────────┘    │
 │                                                              │
@@ -114,7 +114,7 @@ Palette is a knowledge architecture that maps 121 enterprise AI competency areas
 | Risk score | **2** (down from 14) | — |
 | Avg completeness | **81.8/100** | ≥ 40 |
 | Routing↔Recipe match | **106/106** | ≥ 95% |
-| Knowledge coverage | **167/167** (100%) | ≥ 50% |
+| Knowledge coverage | **168/168** (100%) | ≥ 50% |
 | Terminology drift clusters | **15** (3 high, 9 medium, 3 low) | — |
 | Traverse health | **121/121 healthy** | — |
 
@@ -307,6 +307,17 @@ print(f'Completeness: {r.completeness.total}/100')
 | Phase 2 | Done | RIU classification, cost enrichment, repo cleanup |
 | Phase 3 | Done | Integrity engine, audit system, regression/SLO, drift detection, 49 recipes, 167 knowledge entries, override registry, governance decision contract |
 | Phase 4 | Next | Assessment quality audit, operational monitoring, multi-agent coordination bus |
+
+---
+
+## Connected Systems
+
+Palette is the intelligence layer in a three-system flywheel:
+
+- **[Mission Canvas](https://github.com/pretendhome/pretendhome/tree/main/missioncanvas-site)** — Voice-first execution platform. Speak a question, get Palette intelligence back with coaching signals and workspace health.
+- **[Enablement](https://github.com/pretendhome/enablement)** — Competency-based developer education and certification built on Palette's knowledge architecture.
+
+Doing teaches, learning improves doing, both feed the intelligence layer.
 
 ---
 
