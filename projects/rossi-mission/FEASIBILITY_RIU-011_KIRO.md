@@ -63,9 +63,9 @@ The server has an `OPENCLAW_UPSTREAM_MODE` env var. When set to `'missioncanvas'
 **Effort**: Medium. The SDK has `PaletteContext.load()` and `GraphQuery` — wire them into the adapter.
 **Classification**: 🔄 TWO-WAY DOOR
 
-### Gap 2: 5 keyword routes → 120 RIU taxonomy
+### Gap 2: 5 keyword routes → 121 RIU taxonomy
 **Current**: 5 routes matched by keyword arrays.
-**Needed**: Full taxonomy matching using trigger_signals from all 120 RIUs.
+**Needed**: Full taxonomy matching using trigger_signals from all 121 RIUs.
 **Effort**: Medium. Load `palette_taxonomy_v1.3.yaml`, match against trigger_signals.
 **Classification**: 🔄 TWO-WAY DOOR
 
@@ -98,7 +98,7 @@ Modify `openclaw_adapter_core.mjs` → `palette_local_router.mjs`:
 ```
 1. On startup: load taxonomy YAML, load KL YAML
 2. On request: extract trigger signals from input.objective + input.context
-3. Match against all 120 RIUs (not just 5 keyword routes)
+3. Match against all 121 RIUs (not just 5 keyword routes)
 4. Select top 1-5 by match strength
 5. Map to agent types from RIU definitions
 6. Check OWD conditions (keep existing term matching + add RIU reversibility field)

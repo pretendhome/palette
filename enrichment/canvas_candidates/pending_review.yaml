@@ -1,0 +1,99 @@
+metadata:
+  generated_at: '2026-03-31T00:05:01Z'
+  last_updated: '2026-03-31T00:05:01Z'
+  entry_count: 6
+kl_candidates: []
+intelligence_signals:
+- id: CS-OIL-001-1774914499664
+  type: concept_exposure
+  workspace_id: oil-investor
+  queued_at: '2026-03-31T00:05:01Z'
+  payload:
+    id: CS-OIL-001-1774914499664
+    type: concept_exposure
+    concept_id: OIL-001
+    term: spread
+    depth: full
+    question: What is the difference between WTI and Brent crude oil, and why does the spread matter?
+    workspace_id: oil-investor
+    detected_at: '2026-03-30'
+    status: ingested
+    source_type: chain_narration
+    ingested_at: '2026-03-31'
+- id: CS-OIL-003-1774914499665
+  type: concept_exposure
+  workspace_id: oil-investor
+  queued_at: '2026-03-31T00:05:01Z'
+  payload:
+    id: CS-OIL-003-1774914499665
+    type: concept_exposure
+    concept_id: OIL-003
+    term: upstream
+    depth: full
+    question: How does oil price sensitivity differ between upstream, midstream, and downstream companies?
+    workspace_id: oil-investor
+    detected_at: '2026-03-30'
+    status: ingested
+    source_type: chain_narration
+    ingested_at: '2026-03-31'
+- id: CS-OIL-004-1774914499665
+  type: concept_exposure
+  workspace_id: oil-investor
+  queued_at: '2026-03-31T00:05:01Z'
+  payload:
+    id: CS-OIL-004-1774914499665
+    type: concept_exposure
+    concept_id: OIL-004
+    term: prices
+    depth: full
+    question: What are the break-even prices for US shale producers by basin?
+    workspace_id: oil-investor
+    detected_at: '2026-03-30'
+    status: ingested
+    source_type: chain_narration
+    ingested_at: '2026-03-31'
+- id: CS-OIL-006-1774914499673
+  type: concept_exposure
+  workspace_id: oil-investor
+  queued_at: '2026-03-31T00:05:01Z'
+  payload:
+    id: CS-OIL-006-1774914499673
+    type: concept_exposure
+    concept_id: OIL-006
+    term: status
+    depth: full
+    question: What is the EIA Weekly Petroleum Status Report and why does it move oil prices?
+    workspace_id: oil-investor
+    detected_at: '2026-03-30'
+    status: ingested
+    source_type: chain_narration
+    ingested_at: '2026-03-31'
+- id: CS-OIL-008-1774914499673
+  type: concept_exposure
+  workspace_id: oil-investor
+  queued_at: '2026-03-31T00:05:01Z'
+  payload:
+    id: CS-OIL-008-1774914499673
+    type: concept_exposure
+    concept_id: OIL-008
+    term: capital
+    depth: full
+    question: What is capital discipline in US shale and how did it change the industry post-2020?
+    workspace_id: oil-investor
+    detected_at: '2026-03-30'
+    status: ingested
+    source_type: chain_narration
+    ingested_at: '2026-03-31'
+- id: MS-one_way_door
+  type: mastery_signal
+  workspace_id: rossi
+  queued_at: '2026-03-31T00:05:01Z'
+  payload:
+    id: MS-one_way_door
+    type: mastery_signal
+    concept_id: one_way_door
+    workspace_id: rossi
+    times_taught: 1
+    verified_at: '2026-03-30'
+    signal: user_demonstrated_understanding
+    source_type: project_state

@@ -49,7 +49,7 @@ The engine already exists and is live at `missioncanvas-site/`:
 server.mjs          (716 lines)  — HTTP server, routing, sessions, commit, governance
 openclaw_adapter_core.mjs (339)  — 121-RIU scoring, KL lookup, convergence scoring
 palette_routes.json              — Full v1.3 taxonomy (121 RIUs, trigger signals)
-palette_knowledge.json           — 162 knowledge library entries with RIU mappings
+palette_knowledge.json           — 168 knowledge library entries with RIU mappings
 ```
 
 What the engine does:
@@ -351,7 +351,7 @@ Say "brief me" for the full market context, or ask anything.
 | Component | Status | Lines |
 |-----------|--------|-------|
 | 121-RIU taxonomy routing | Live, tested | 339 |
-| Knowledge library (162 entries, gap detection) | Live, tested | — |
+| Knowledge library (168 entries, gap detection) | Live, tested | — |
 | One-way-door gate (real, 10 states) | Live, tested | ~80 |
 | Session state (history, routing influence) | Live, 16 tests | ~30 |
 | Convergence scoring (explore/converge/commit) | Live | ~60 |

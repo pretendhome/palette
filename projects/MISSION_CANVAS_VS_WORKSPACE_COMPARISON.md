@@ -18,7 +18,7 @@ Mission Canvas and Agentic Workspace are the same product for different users.
 | **Entry point** | localhost:8787 web UI | ./start.sh → terminal voice bridge |
 | **Backend** | missioncanvas-site/server.mjs | missioncanvas-site/server.mjs |
 | **Routing** | openclaw_adapter_core.mjs (121 RIUs) | openclaw_adapter_core.mjs (121 RIUs) |
-| **Knowledge** | palette_knowledge.json (162 entries) | palette_knowledge.json (162 + oil entries) |
+| **Knowledge** | palette_knowledge.json (168 entries) | palette_knowledge.json (168 + oil entries) |
 | **OWD gate** | /confirm-one-way-door | /confirm-one-way-door |
 | **Session state** | sessionStore in server.mjs | sessionStore in server.mjs |
 | **Project state** | project_state.yaml (Rossi) | project_state.yaml (oil investor) |
@@ -37,7 +37,7 @@ Everything we shipped in the last 2 days is directly reusable:
 |---|---|---|---|
 | Full 121-RIU taxonomy routing | 339 | Shipped, 99 tests | Direct — same router |
 | OWD confirmation gate | ~80 | Shipped, tested | Direct — same gate |
-| KL integration (162 entries) | ~50 | Shipped, tested | Direct + oil entries added |
+| KL integration (168 entries) | ~50 | Shipped, tested | Direct + oil entries added |
 | Session state | ~30 | Shipped, 16 tests | Direct — same store |
 | Idempotency + trace logging | ~40 | Shipped by Claude | Direct — same middleware |
 | fetch_signals (PII scrubbing) | 166 | Reviewed, approved | Direct — same tool |
