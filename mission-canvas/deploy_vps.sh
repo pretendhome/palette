@@ -109,7 +109,7 @@ UNIT"
 
 # Create env file template
 ssh "$VPS" "cat > $VPS_DIR/joseph.env << 'ENV'
-JOSEPH_BOT_TOKEN=8748740444:AAE7mncPmZFZs45xxVgKAF1xMoFvDOxOBjQ
+JOSEPH_BOT_TOKEN=<your-telegram-bot-token>
 MC_SERVER=http://localhost:8787
 MC_WORKSPACE=oil-investor
 # PERPLEXITY_API_KEY=pplx-xxx

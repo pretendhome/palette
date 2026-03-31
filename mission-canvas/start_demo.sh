@@ -32,7 +32,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 # Check required vars
 if [ -z "$JOSEPH_BOT_TOKEN" ]; then
     echo -e "${RED}ERROR: JOSEPH_BOT_TOKEN not set${NC}"
-    echo "  export JOSEPH_BOT_TOKEN=\"8748740444:AAE7mncPmZFZs45xxVgKAF1xMoFvDOxOBjQ\""
+    echo "  export JOSEPH_BOT_TOKEN=\"<your-telegram-bot-token>\""
     exit 1
 fi
 
