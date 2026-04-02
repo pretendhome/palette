@@ -1,146 +1,125 @@
-# Job Search Assistant — Setup Guide
+# Job Search Tool — Setup Guide
 
-An AI-powered job search tool that finds real jobs, scores them against your profile, and tracks your pipeline. First time you run it, it reads your resume and builds your profile. After that, it searches the internet for matching jobs and ranks them by fit. There's a free option (Option B) and a more powerful option that requires a Claude Pro subscription (Option A).
-
----
-
-## What you need
-
-- A computer (Mac, Windows, or Linux)
-- A Claude account — Option A (Claude Code) requires a paid plan (Pro at $20/month or Max). Option B (claude.ai) works with the free tier.
+An AI-powered job search tool that finds real jobs online, scores them against your profile, and tracks your pipeline. First time you run it, it reads your resume and builds your profile. After that, it searches the internet for matching jobs and ranks them by fit.
 
 ---
 
-## Option A: Claude Code (full experience — recommended)
+## Option A: Claude Code (recommended)
 
-Claude Code is a command-line tool that runs on your computer. It gives you the `/job-search` command which has the full NSA methodology built in.
+Searches the internet for you, saves your profile across sessions, tracks your pipeline. Requires a Claude Pro subscription ($20/month).
 
-### Step 1: Install Node.js
+### Setup (one time, ~10 minutes)
 
-Claude Code requires Node.js 18 or higher.
+**1. Install Node.js**
 
-**Mac:**
+Mac — open Terminal (search "Terminal" in Spotlight) and run:
 ```bash
 brew install node
 ```
-
-If you don't have Homebrew, install it first:
+If that fails, install Homebrew first:
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-**Windows:**
-Download and run the installer from https://nodejs.org (choose the LTS version).
+Windows — download and run the installer from https://nodejs.org (choose LTS).
 
-**Linux:**
-```bash
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt-get install -y nodejs
-```
-
-### Step 2: Install Claude Code
-
-Open a terminal (Mac: Terminal app, Windows: PowerShell, Linux: any terminal) and run:
-
+**2. Install Claude Code**
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
 
-### Step 3: Download the job search command
+**3. Download the job search tool**
 
-Create the folder and download the command file directly from GitHub:
-
-**Mac/Linux:**
+Mac/Linux:
 ```bash
 mkdir -p ~/.claude/commands
 curl -o ~/.claude/commands/job-search.md https://raw.githubusercontent.com/pretendhome/palette/main/skills/talent/job-search-command.md
 ```
 
-**Windows (PowerShell):**
+Windows (PowerShell):
 ```powershell
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\commands"
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/pretendhome/palette/main/skills/talent/job-search-command.md" -OutFile "$env:USERPROFILE\.claude\commands\job-search.md"
 ```
 
-### Step 4: Start Claude Code
-
+**4. Start Claude Code**
 ```bash
 claude
 ```
+First time: it will ask you to log in with your Claude account.
 
-It will ask you to log in with your Claude account the first time.
+**5. Run the tool**
 
-### Step 5: Use it
+Type `/job-search` and hit enter. Have your resume ready (file on your computer or text to paste).
 
-Once Claude Code is running, type:
+### What to expect
+
+- **First run**: It asks for your resume, then 5 quick questions. Takes ~5 minutes. Saves your profile locally.
+- **Permission prompts**: Claude Code will ask your permission before searching the web or saving files. This is normal — just say yes (or type `y`). You can also type "always allow" so it stops asking.
+- **After setup**: `/job-search find` to search, `/job-search score` to evaluate a posting, `/job-search pipeline` to track.
+
+### Example output
 
 ```
-/job-search
-```
-
-**First time**: It will ask for your resume (paste the text or give a file path), then ask a few questions to build your profile. This takes about 5 minutes. Your profile is saved locally on your computer at `~/.job-search/profile.yaml`.
-
-**After setup, you can:**
-- `/job-search find` — search the internet for jobs matching your profile, scored and ranked
-- `/job-search score` — paste a job posting URL and get a detailed fit breakdown
-- `/job-search pipeline` — view and manage your tracked opportunities
-- `/job-search update` — edit your profile (new skills, change target roles, etc.)
-
-**Example results:**
-```
-| # | Score | Company    | Role              | Location | Key Match          | Key Gap       |
-|---|-------|------------|-------------------|----------|--------------------|---------------|
-| 1 | 92%   | Anthropic  | Solutions Engineer| SF       | AI systems, Python | Startup exp   |
-| 2 | 87%   | Databricks | Field Engineer    | Remote   | Data + enablement  | Spark depth   |
-| 3 | 78%   | Stripe     | Technical PM      | SF       | Cross-functional   | Payments exp  |
+| # | Score | Verdict        | Company    | Role               | Location | Top Match          | Top Gap        |
+|---|-------|----------------|------------|--------------------|----------|--------------------|----------------|
+| 1 | 91    | STRONG FIT     | Anthropic  | Solutions Engineer | SF       | AI systems, Python | Startup exp    |
+| 2 | 83    | WORTH APPLYING | Databricks | Field Engineer     | Remote   | Data + enablement  | Spark depth    |
+| 3 | 71    | STRETCH        | Stripe     | Technical PM       | SF       | Cross-functional   | Payments exp   |
 ```
 
 ---
 
-## Option B: Claude.ai (simpler setup, no install needed)
+## Option B: Claude.ai (free, no install)
 
-If you don't want to install anything, you can use Claude directly at https://claude.ai. The web version can't save your profile or search the internet for you, but it can still score jobs and help with prep.
+Can't search for you or save your profile, but scores job postings you paste in. Works with the free Claude account.
 
-### Step 1: Go to claude.ai and log in (or create a free account)
+**1.** Go to https://claude.ai and log in (or create a free account)
 
-### Step 2: Start a new conversation and paste this prompt:
+**2.** Start a new conversation and paste this (replace `[PASTE YOUR RESUME HERE]` with your actual resume text):
 
 ```
-You are my job search assistant. I'm going to paste my resume below,
-then I'll paste job postings for you to evaluate.
+You are my job search assistant. Score job postings I give you against my resume.
 
-For each job posting, score it against my resume on these dimensions
-(weighted average, 0-100):
-- Title match (20%) — how close to my experience level and function?
-- Skills match (25%) — what % of required skills do I have?
-- Experience level (15%) — am I in the sweet spot, over, or under?
-- Domain/industry (15%) — is this my industry or adjacent?
-- Location (10%) — does it match my constraints?
-- Differentiator (15%) — does this role benefit from what makes me unique?
+For each posting, score these dimensions (weighted average, 0-100):
+- Title match (20%): how close to my target level and function?
+- Skills match (25%): what % of their required skills do I have?
+- Experience level (15%): am I in the sweet spot, over, or underqualified?
+- Domain fit (15%): is this my industry or adjacent?
+- Location (10%): does it work for me?
+- Differentiator (15%): does this role benefit from what makes me unique?
 
-Give me: overall score, verdict (STRONG FIT / WORTH APPLYING / STRETCH / PASS),
-top 3 strengths for this role, top 3 gaps to address.
+Give me: score, verdict (STRONG FIT / WORTH APPLYING / STRETCH / PASS),
+top 3 strengths, top 3 gaps. Be honest — don't inflate scores.
 
-Be honest. Don't inflate scores.
-
-Here is my resume:
+My resume:
 [PASTE YOUR RESUME HERE]
 ```
 
-### Step 3: Paste job postings
-
-Each time you find a job posting, paste the URL or text into the conversation and Claude will score it against your resume.
+**3.** Each time you find a job posting, paste it into the conversation and ask Claude to score it.
 
 ---
 
 ## Tips
 
-- **Set up your profile first.** The tool gets better the more it knows about you. Spend 5 minutes on the initial setup — it's worth it.
-- **Run `/job-search find` weekly.** New jobs get posted constantly. Make it a habit.
-- **Score before you apply.** Don't waste time on <65% matches. Discipline > volume.
-- **Use it between JSC meetings.** Run a search, bring the top results to the group, discuss which ones are worth pursuing.
-- **Your profile stays on YOUR computer.** Nothing is uploaded or shared. The file is at `~/.job-search/profile.yaml` — you can read it, edit it, or delete it anytime.
-- **Option A remembers you across sessions.** Option B (claude.ai) starts fresh each time — you'll need to re-paste your resume.
+- **Run `/job-search find` weekly.** New jobs post constantly.
+- **Score before you apply.** Below 65 = pass. Discipline beats volume.
+- **Bring results to JSC meetings.** Run a search before the meeting, bring your top 5, discuss with the group.
+- **Your data stays on your computer.** Profile at `~/.job-search/profile.yaml`, pipeline at `~/.job-search/pipeline.csv`. Nothing is uploaded. Delete anytime.
+- **Option A remembers you.** Option B starts fresh each conversation — re-paste your resume each time.
+- **Update your profile as you learn.** After Listening Tour conversations or CMF work, run `/job-search update` to sharpen your targeting.
+
+---
+
+## Troubleshooting
+
+**"command not found" when running `claude`**: Node.js or Claude Code didn't install correctly. Try `node --version` to check Node is installed, then re-run `npm install -g @anthropic-ai/claude-code`.
+
+**"/job-search not found" inside Claude Code**: The command file isn't in the right place. Check that `~/.claude/commands/job-search.md` exists. Re-run the curl command from step 3.
+
+**"Permission denied" errors**: Claude Code asks before doing things (searching, saving files). Type `y` to allow, or "always allow" to stop being asked.
+
+**Can't read my resume file**: Try pasting the text directly instead. Some PDF formats are harder to parse than others.
 
 ---
 
