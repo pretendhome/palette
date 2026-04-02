@@ -55,7 +55,7 @@ const PEERS_BROKER_URL = process.env.PALETTE_PEERS_BROKER_URL || 'http://127.0.0
 const PEERS_IDENTITY = 'missioncanvas.site';
 const RESOLVER_URL = process.env.RESOLVER_URL || 'http://localhost:8788';
 const OKA_ENV_PATH = path.join(__dirname, 'oka.env');
-const OKA_PROMPT_PATH = path.join(__dirname, 'oka_system_prompt_codex.md');
+const OKA_PROMPT_PATH = path.join(__dirname, 'oka_system_prompt_active.md');
 const OKA_FALLBACK_PROMPT_PATH = path.join(__dirname, 'oka_system_prompt.md');
 
 function loadDotEnvFile(filePath) {
@@ -382,14 +382,48 @@ function normalizeOkaText(text) {
     .trim();
 }
 
+function detectTiredOrFrustrated(message, history) {
+  const lower = String(message || '').toLowerCase();
+  // Direct signals
+  if (/\b(stop|quit|done|tired|bored|hate|stupid|can'?t|i give up|no more|leave me)\b/i.test(lower)) return 'stop';
+  if (/\b(hard|frustrated|angry|mad|annoyed|ugh|argh|i don'?t know|i don'?t get it)\b/i.test(lower)) return 'frustrated';
+  // Short consecutive answers suggest fatigue
+  const recentUser = (history || []).filter(h => h.role === 'user').slice(-3);
+  if (recentUser.length >= 3 && recentUser.every(h => String(h.content || '').trim().length < 6)) return 'low_energy';
+  return null;
+}
+
 function buildOkaFallback(message, history) {
   const lower = String(message || '').toLowerCase();
   const { phase } = buildOkaSessionGuide(history);
-  if (lower.includes('stop')) return { response: 'Okay. We can stop right here. I am still with you when you want me again.', phase };
+  const tired = detectTiredOrFrustrated(message, history);
+
+  // Tired/frustrated — reduce demand immediately
+  if (tired === 'stop') return { response: 'Okay. We can stop right here. I am still here when you want me again.', phase };
+  if (tired === 'frustrated') return { response: 'That is a hard one. Want to take a breath? Or we could do something totally different.', phase };
+  if (tired === 'low_energy') return { response: 'Want a water break? Or we could just chat about something fun for a bit.', phase };
+
+  // Curated Nora-safe fallbacks
+  if (lower.includes('stop') || lower.includes('done')) return { response: 'Okay. We did good work today. I am here whenever you want to come back.', phase };
+  if (lower.includes('break') || lower.includes('water')) return { response: 'Good idea. Go get some water. Your brain has been working hard. I will be right here.', phase };
   if (lower.includes('math')) return { response: 'Nice. Let us do one in our heads. What is 17 plus 8?', phase };
-  if (lower.includes('history')) return { response: 'Cool. If you could time travel to one moment in the past, where would you go first?', phase };
-  if (lower.includes('dragon') || lower.includes('fairy')) return { response: 'Okay. A dragon finds a hidden doorway in the forest. What is on the other side?', phase };
-  return { response: 'I heard you. Want to keep going, want a clue, or want something fun?', phase };
+  if (lower.includes('history') || lower.includes('past')) return { response: 'Cool. If you could time travel to one moment in the past, where would you go?', phase };
+  if (lower.includes('dragon') || lower.includes('fairy') || lower.includes('story')) return { response: 'Okay. A dragon finds a hidden doorway in the forest. What is on the other side?', phase };
+  if (lower.includes('space') || lower.includes('moon') || lower.includes('star')) return { response: 'The Moon is about 240 thousand miles away. If you could fly there, what would you bring?', phase };
+  if (lower.includes('draw') || lower.includes('art') || lower.includes('picture')) return { response: 'I love that you draw. What is the last thing you drew that you were really proud of?', phase };
+  if (lower.includes('brain') || lower.includes('dyslexia')) return { response: 'Want to know something cool about how your brain works? Your thinking engine is in the top 2 percent. That is really rare.', phase };
+  if (lower.includes('italian') || lower.includes('italiano')) return { response: 'Italian is so much simpler to read. Every letter makes one sound. English is the weird one, not you.', phase };
+  if (lower.includes('harry potter') || lower.includes('book')) return { response: 'Harry Potter is a great goal. When you are ready, we can start small. One page at a time.', phase };
+  if (lower.includes('sound') || lower.includes('game')) return { response: 'Let us do a sound game. I will say a word and you tell me the first sound you hear. Ready? Cat.', phase };
+  if (lower.includes('hello') || lower.includes('hi ') || lower === 'hi') return { response: 'Hey! Good to see you. Want to do something fun, or just chat?', phase };
+
+  // Safe generic fallbacks
+  const generics = [
+    'I heard you. Want to keep going, or want something fun?',
+    'What sounds good right now? Math, a story, or something else?',
+    'I am here. Want a challenge, a game, or just to talk?'
+  ];
+  return { response: generics[Math.floor(Math.random() * generics.length)], phase };
 }
 
 async function callOpenAIResponses({ systemPrompt, history, message }) {
@@ -454,27 +488,55 @@ async function callPerplexityOka({ systemPrompt, history, message }) {
   return normalizeOkaText(extractTextFromGateway(data));
 }
 
+// Response length guard — truncate to ~4 spoken sentences max
+function guardResponseLength(text) {
+  const sentences = String(text || '').split(/(?<=[.!?])\s+/);
+  if (sentences.length <= 5) return text;
+  return sentences.slice(0, 4).join(' ');
+}
+
 async function generateOkaReply(message, history = []) {
+  // Check for tired/frustrated BEFORE calling the model
+  const tired = detectTiredOrFrustrated(message, history);
+  if (tired === 'stop') {
+    return { response: 'Okay. We can stop right here. I am still here when you want me again.', provider: 'safeguard', phase: 'done' };
+  }
+
   const sessionGuide = buildOkaSessionGuide(history);
-  const systemPrompt = [
+
+  // Build system prompt with session guidance and safe-mode if frustrated
+  const promptParts = [
     OKA_SYSTEM_PROMPT.trim(),
     '',
     '## Current Session Guidance',
     `Current phase: ${sessionGuide.phase}`,
     sessionGuide.guidance,
-    'Keep the next reply voice-first and natural. Prefer short spoken sentences.'
-  ].join('\n');
+    'Keep the next reply voice-first and natural. Prefer short spoken sentences. Maximum 4 sentences.'
+  ];
+
+  if (tired === 'frustrated') {
+    promptParts.push('');
+    promptParts.push('## SAFE MODE ACTIVE');
+    promptParts.push('Nora sounds frustrated. Immediately reduce demand. Do NOT continue skill work. Offer a break, a breath, a low-demand topic, a story, or ask if she wants to stop. Do not correct anything this turn. Be warm and gentle.');
+  }
+  if (tired === 'low_energy') {
+    promptParts.push('');
+    promptParts.push('## LOW ENERGY DETECTED');
+    promptParts.push('Nora seems low energy. Switch to something easy and fun, or suggest a water break. Keep it very light.');
+  }
+
+  const systemPrompt = promptParts.join('\n');
 
   try {
-    const response = await callOpenAIResponses({ systemPrompt, history, message });
-    if (response) return { response, provider: 'openai', phase: sessionGuide.phase };
+    const raw = await callOpenAIResponses({ systemPrompt, history, message });
+    if (raw) return { response: guardResponseLength(raw), provider: 'openai', phase: sessionGuide.phase };
   } catch (err) {
     trace('oka_chat', null, 'openai_unavailable', { error: err.message });
   }
 
   try {
-    const response = await callPerplexityOka({ systemPrompt, history, message });
-    if (response) return { response, provider: 'perplexity', phase: sessionGuide.phase };
+    const raw = await callPerplexityOka({ systemPrompt, history, message });
+    if (raw) return { response: guardResponseLength(raw), provider: 'perplexity', phase: sessionGuide.phase };
   } catch (err) {
     trace('oka_chat', null, 'perplexity_unavailable', { error: err.message });
   }
