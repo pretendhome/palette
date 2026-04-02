@@ -1,13 +1,13 @@
 # Job Search Assistant — Setup Guide
 
-A free AI-powered job search co-pilot that follows the Never Search Alone methodology. It helps you work through each phase — from self-discovery through negotiation — one step at a time.
+An AI-powered job search tool that finds real jobs, scores them against your profile, and tracks your pipeline. First time you run it, it reads your resume and builds your profile. After that, it searches the internet for matching jobs and ranks them by fit. There's a free option (Option B) and a more powerful option that requires a Claude Pro subscription (Option A).
 
 ---
 
 ## What you need
 
 - A computer (Mac, Windows, or Linux)
-- A Claude account (free at claude.ai, or a paid plan)
+- A Claude account — Option A (Claude Code) requires a paid plan (Pro at $20/month or Max). Option B (claude.ai) works with the free tier.
 
 ---
 
@@ -46,22 +46,20 @@ Open a terminal (Mac: Terminal app, Windows: PowerShell, Linux: any terminal) an
 npm install -g @anthropic-ai/claude-code
 ```
 
-### Step 3: Create the job search command
+### Step 3: Download the job search command
 
-Create a folder for the command file:
+Create the folder and download the command file directly from GitHub:
 
+**Mac/Linux:**
 ```bash
 mkdir -p ~/.claude/commands
+curl -o ~/.claude/commands/job-search.md https://raw.githubusercontent.com/pretendhome/palette/main/skills/talent/job-search-command.md
 ```
 
-Then create the command file. Copy the file I'll send you (`job-search.md`) into that folder:
-
-```bash
-# Mac/Linux
-cp job-search.md ~/.claude/commands/job-search.md
-
-# Windows (PowerShell)
-Copy-Item job-search.md -Destination "$env:USERPROFILE\.claude\commands\job-search.md"
+**Windows (PowerShell):**
+```powershell
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\commands"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/pretendhome/palette/main/skills/talent/job-search-command.md" -OutFile "$env:USERPROFILE\.claude\commands\job-search.md"
 ```
 
 ### Step 4: Start Claude Code
@@ -80,60 +78,69 @@ Once Claude Code is running, type:
 /job-search
 ```
 
-Then just start talking. Tell it where you are in your search. It will figure out the right next step.
+**First time**: It will ask for your resume (paste the text or give a file path), then ask a few questions to build your profile. This takes about 5 minutes. Your profile is saved locally on your computer at `~/.job-search/profile.yaml`.
 
-**Examples of what to say:**
-- "I just got laid off and I don't know where to start"
-- "I haven't done my Mnookin Two-Pager yet — can you walk me through it?"
-- "I've done 8 listening tour conversations — here's what I'm hearing..."
-- "Here's my CMF statement — can you help me sharpen it?"
-- "I have an interview at [company] next week — help me prep"
-- "I got an offer — help me think through negotiation"
+**After setup, you can:**
+- `/job-search find` — search the internet for jobs matching your profile, scored and ranked
+- `/job-search score` — paste a job posting URL and get a detailed fit breakdown
+- `/job-search pipeline` — view and manage your tracked opportunities
+- `/job-search update` — edit your profile (new skills, change target roles, etc.)
+
+**Example results:**
+```
+| # | Score | Company    | Role              | Location | Key Match          | Key Gap       |
+|---|-------|------------|-------------------|----------|--------------------|---------------|
+| 1 | 92%   | Anthropic  | Solutions Engineer| SF       | AI systems, Python | Startup exp   |
+| 2 | 87%   | Databricks | Field Engineer    | Remote   | Data + enablement  | Spark depth   |
+| 3 | 78%   | Stripe     | Technical PM      | SF       | Cross-functional   | Payments exp  |
+```
 
 ---
 
 ## Option B: Claude.ai (simpler setup, no install needed)
 
-If you don't want to install anything, you can use Claude directly at https://claude.ai and paste the methodology as context.
+If you don't want to install anything, you can use Claude directly at https://claude.ai. The web version can't save your profile or search the internet for you, but it can still score jobs and help with prep.
 
 ### Step 1: Go to claude.ai and log in (or create a free account)
 
 ### Step 2: Start a new conversation and paste this prompt:
 
 ```
-You are my job search co-pilot. Follow the Never Search Alone (NSA)
-methodology by Phyl Terry. Help me work through these phases in order:
+You are my job search assistant. I'm going to paste my resume below,
+then I'll paste job postings for you to evaluate.
 
-1. Self-Discovery (Mnookin Two-Pager, Gratitude House)
-2. Listening Tour (15 conversations, pattern extraction)
-3. Candidate-Market Fit — a clear, narrow statement of who I am for the market
-4. Resume & LinkedIn Rehab — every word supports my CMF
-5. Strategic Networking — Boss the Process (write my own job description, show it to hiring managers)
-6. Interviewing — prep, practice, debrief after each one
-7. Negotiation — Four Legs: compensation, budget, resources, support
+For each job posting, score it against my resume on these dimensions
+(weighted average, 0-100):
+- Title match (20%) — how close to my experience level and function?
+- Skills match (25%) — what % of required skills do I have?
+- Experience level (15%) — am I in the sweet spot, over, or under?
+- Domain/industry (15%) — is this my industry or adjacent?
+- Location (10%) — does it match my constraints?
+- Differentiator (15%) — does this role benefit from what makes me unique?
 
-Key rules:
-- Don't let me skip ahead. Phases 1-3 are what make 5-7 work.
-- Be honest. If my CMF is too vague, say so.
-- Never fabricate claims or inflate numbers on my behalf.
-- Narrow CMF = more opportunities, not fewer.
-- Slow down to go faster.
+Give me: overall score, verdict (STRONG FIT / WORTH APPLYING / STRETCH / PASS),
+top 3 strengths for this role, top 3 gaps to address.
 
-I'm ready to start. Ask me where I am in my search.
+Be honest. Don't inflate scores.
+
+Here is my resume:
+[PASTE YOUR RESUME HERE]
 ```
 
-### Step 3: Start talking
+### Step 3: Paste job postings
 
-Same as above — tell it where you are and it will guide you.
+Each time you find a job posting, paste the URL or text into the conversation and Claude will score it against your resume.
 
 ---
 
 ## Tips
 
-- **Be honest with it.** The more real you are about where you're stuck, the better it can help. It's not judging you.
-- **Use it between JSC meetings.** Do the exercises (Two-Pager, Listening Tour planning, CMF drafting) with Claude, then bring the output to the group for feedback.
-- **It remembers within a conversation** but starts fresh each time. If you're working on something over multiple sessions, paste in your Two-Pager or CMF draft at the start so it has context.
-- **It won't replace the JSC.** The group gives you peer accountability and perspectives that AI cannot. Use Claude for the exercises and prep work. Use the group for honesty and support.
+- **Set up your profile first.** The tool gets better the more it knows about you. Spend 5 minutes on the initial setup — it's worth it.
+- **Run `/job-search find` weekly.** New jobs get posted constantly. Make it a habit.
+- **Score before you apply.** Don't waste time on <65% matches. Discipline > volume.
+- **Use it between JSC meetings.** Run a search, bring the top results to the group, discuss which ones are worth pursuing.
+- **Your profile stays on YOUR computer.** Nothing is uploaded or shared. The file is at `~/.job-search/profile.yaml` — you can read it, edit it, or delete it anytime.
+- **Option A remembers you across sessions.** Option B (claude.ai) starts fresh each time — you'll need to re-paste your resume.
 
 ---
 
