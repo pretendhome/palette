@@ -164,6 +164,221 @@ User provides a URL or pastes a job description.
 **Bottom line**: [1-2 sentence honest assessment]
 ```
 
+### `/job-search resume` — Optimize resume for a specific job
+
+Takes the user's profile + a job posting and rewrites their resume to maximize match.
+
+1. Read the job posting (URL or pasted text)
+2. Extract every stated requirement (must-have and nice-to-have)
+3. Compare against the user's profile — find matches, gaps, and keyword misses
+4. Produce an optimized resume in markdown:
+
+**Process**:
+- **Keyword analysis**: List every skill/tool/qualification mentioned in the JD. Check which ones appear in the user's profile. Calculate coverage %.
+- **Headline rewrite**: Match the JD's title and vocabulary, not the user's previous title
+- **Summary rewrite**: Lead with the user's strongest match to the role's #1 need
+- **Bullet optimization**: For each bullet, check if it maps to a JD requirement. Rewrite to use the JD's language where the user has genuine evidence. Drop bullets that don't serve this role (even impressive ones).
+- **Skills section**: Reorder to match JD priority. Add skills the user genuinely has but didn't list.
+- **Gap disclosure**: List requirements the user can't credibly claim. Don't fake these.
+
+**Output**:
+```
+## Resume Match Report — [Company] [Role]
+
+**Keyword coverage**: X/Y (Z%)
+**Missing keywords you could add**: [list — only if you genuinely have the skill]
+**Missing keywords you can't claim**: [list — be honest]
+
+## Optimized Resume (markdown)
+
+[Full resume text, ready to copy or convert to .docx]
+```
+
+**Rules**:
+- Never fabricate experience. If they don't have Kubernetes experience, don't add it.
+- Reframe, don't invent. "Managed infrastructure" can become "orchestrated deployment pipelines" if true — but not "managed Kubernetes clusters" if they never touched k8s.
+- Numbers must be real and defensible.
+- Save the optimized resume to `~/.job-search/resumes/[company]_[role].md`
+
+### `/job-search interview` — Mock interview practice
+
+Becomes the interviewer. Simulates a real interview for a specific role.
+
+1. Ask: "Which role are you prepping for? Give me the company and role, or a pipeline number."
+2. Read the job posting (from pipeline or URL)
+3. Research the company (web search for recent news, product, culture, leadership)
+4. Say: "Ready? I'm going to interview you for [Role] at [Company]. This will take about 20 minutes. I'll play the interviewer. Answer like you would in a real interview — specific examples, real numbers, honest about tradeoffs. I'll give you feedback after each answer. Let's start."
+
+**4-round structure** (adapt questions to the specific role):
+
+**Round 1: Core Fit** (~5 min)
+- "Tell me about yourself." (Looking for: 90-second version, relevant to THIS role, ends with why THIS company)
+- "Why [Company]?" (Looking for: specific product knowledge, not generic "I love your mission")
+- "Walk me through something you built." (Looking for: architecture decisions, tradeoffs, real numbers)
+
+**Round 2: Execution** (~5 min)
+- "How would you approach [specific scenario from JD]?" (Looking for: framework, then specifics)
+- "Give me an example of [key JD requirement]." (Looking for: STAR format, measurable outcome)
+- "How do you measure success?" (Looking for: concrete metrics, not "stakeholder satisfaction")
+
+**Round 3: Technical Depth** (~5 min)
+- "Explain [technical concept from JD] to me." (Looking for: simple first, layers added)
+- "What was the hardest technical decision you made?" (Looking for: tradeoffs, not "everything went great")
+- "How would you apply that here?" (Looking for: they researched the company's tech stack)
+
+**Round 4: Culture & Edge Cases** (~5 min)
+- "Tell me about a time you failed." (Looking for: what you learned, not excuses)
+- "How do you handle disagreement with a colleague?" (Looking for: specific example, resolution)
+- "What questions do you have for us?" (Looking for: at least 1 showing product knowledge)
+
+**After each answer**, give direct feedback:
+- Was it specific enough? Did they use numbers?
+- Did it actually answer the question asked?
+- Did it sound like a human or like ChatGPT?
+- What would make it stronger?
+
+**After all 4 rounds**, give an overall assessment:
+- Strongest answer and why
+- Weakest answer and how to fix it
+- Questions they should prepare better for
+- Overall readiness: READY / ALMOST / NEEDS WORK
+
+### `/job-search stories` — Build a STAR story bank
+
+Help the user build and rehearse behavioral interview stories.
+
+1. Read their profile
+2. Ask: "Tell me about 5-7 accomplishments you're most proud of. These can be projects, problems you solved, teams you led, fires you put out — anything with a real outcome."
+3. For each story, structure it in STAR format:
+   - **Situation**: What was the context? (1 sentence)
+   - **Task**: What was your specific responsibility? (1 sentence)
+   - **Action**: What did YOU do? (2-3 sentences, specific)
+   - **Result**: What happened? (numbers, outcomes, impact)
+4. Time-check: each story should be deliverable in 90 seconds
+5. Tag each story with question types it answers:
+   - "Tell me about yourself" / "Walk me through a project" / "Example of leadership" / "A time you failed" / "Handling conflict" / "Driving adoption" / etc.
+6. Save to `~/.job-search/stories.yaml`
+
+**Rehearsal mode**: User says "practice stories" — you give them a question, they tell the story, you give feedback on length, specificity, and impact.
+
+### `/job-search research` — Company deep dive
+
+Research a company before an interview.
+
+1. Ask: "Which company?" (or take from pipeline)
+2. Web search for:
+   - What the company does (product, customers, market position)
+   - Recent news (funding, launches, leadership changes, layoffs)
+   - Tech stack and engineering culture (blog posts, GitHub, job postings)
+   - Leadership (CEO, hiring manager if known)
+   - Glassdoor/Blind sentiment (high-level — don't get lost in it)
+   - Competitors and market position
+3. Present a 1-page brief:
+
+```
+## [Company] — Research Brief
+
+**What they do**: ...
+**Founded / Stage / Size**: ...
+**Recent news**: ...
+**Tech stack**: ...
+**Culture signals**: ...
+**Leadership**: ...
+**Competitors**: ...
+**Red flags**: ... (or "None found")
+
+**3 things to mention in your interview**:
+1. ...
+2. ...
+3. ...
+
+**3 smart questions to ask them**:
+1. ...
+2. ...
+3. ...
+```
+
+Save to `~/.job-search/research/[company].md`
+
+### `/job-search glance` — Day-of interview cheat sheet
+
+Generate a one-page glance sheet for the morning of an interview.
+
+1. Ask: "Which interview?" (company + role, or pipeline number)
+2. Read the job posting, company research, and their stories
+3. Generate:
+
+```
+====================================
+GLANCE SHEET — [Company] [Role]
+[Date]
+====================================
+
+MY THESIS: [Their problem + my solution, one sentence]
+
+TOP 3 NUMBERS:
+1. [Most relevant metric]
+2. [Second most relevant]
+3. [Third]
+
+LEAD STORY: [Which story, 90-sec version topic]
+PIVOT STORY: [Backup if conversation shifts]
+
+DIFFERENTIATOR: [The one thing only I bring]
+BIGGEST GAP: [Honest] → HOW I'D ADDRESS IT: [Honest]
+
+QUESTIONS TO ASK:
+1. [Shows product knowledge]
+2. [Shows strategic thinking]
+3. [Shows I researched them]
+
+30-SECOND PIVOTS:
+- "That connects to something I built..." → [bridge to lead story]
+- "What I've seen work in practice..." → [bridge to evidence]
+
+ENERGY ANCHORS:
+- I built real systems at real scale
+- I am prepared. I did the work.
+- Evidence-based, honest about tradeoffs
+====================================
+```
+
+Save to `~/.job-search/glance/[company]_[role].md`
+
+### `/job-search debrief` — Post-interview debrief
+
+Run immediately after an interview while it's fresh.
+
+1. Ask: "How did it go? Which company/role?"
+2. Walk through:
+   - "What questions did they ask?"
+   - "Which answers went well?"
+   - "Which answers felt weak?"
+   - "Were there questions you weren't prepared for?"
+   - "What's your gut feeling — are you advancing?"
+3. Capture a structured debrief:
+
+```
+## Debrief — [Company] [Role] — [Date]
+
+**Questions asked**: ...
+**What worked**: ...
+**What didn't**: ...
+**Unprepared for**: ...
+**Gut feeling**: ...
+
+**Patterns to remember** (for next interview):
+- ...
+
+**Story bank updates**:
+- [Story X] worked well for [question type] — keep using
+- Need a better story for [question type]
+```
+
+Save to `~/.job-search/debriefs/[company]_[role]_[date].md`
+
+Update their story bank if new patterns emerged.
+
 ### `/job-search update` — Update profile
 Read current profile, ask what to change, update and save. Show diff of what changed.
 
@@ -223,15 +438,30 @@ Score each posting against the profile:
 
 ---
 
+## Full command reference
+
+| Command | What it does |
+|---------|-------------|
+| `/job-search` | Dashboard — profile summary, pipeline stats, menu |
+| `/job-search find` | Search the internet for matching jobs |
+| `/job-search score` | Score a specific job posting against your profile |
+| `/job-search resume` | Optimize your resume for a specific job posting |
+| `/job-search interview` | Mock interview — 4 rounds with feedback |
+| `/job-search stories` | Build and rehearse STAR story bank |
+| `/job-search research` | Company deep dive before an interview |
+| `/job-search glance` | Day-of interview cheat sheet |
+| `/job-search debrief` | Post-interview capture while it's fresh |
+| `/job-search pipeline` | View and manage tracked opportunities |
+| `/job-search update` | Edit your profile |
+
 ## NSA Methodology (available on request)
 
 The tool also knows the Never Search Alone methodology. If the user asks for help with:
 - **Mnookin Two-Pager** — walk them through what they want / don't want
 - **Listening Tour** — help plan 15 conversations and extract patterns
 - **Candidate-Market Fit (CMF)** — draft and sharpen their positioning statement
-- **Interview prep** — run mock interviews, prep materials
 - **Negotiation** — Four Legs (compensation, budget, resources, support)
 
-Don't push methodology unless asked. The primary job is: **find jobs, score them, track the pipeline.**
+Don't push methodology unprompted. The primary job is the commands above.
 
 ## Input: $ARGUMENTS
