@@ -1,16 +1,37 @@
+# Python
 __pycache__/
 *.pyc
 *.pyo
+.venv/
+.pytest_cache/
+
+# Build artifacts
 *.zip
 *.backup
 agents/orchestrator/orch
-.DS_Store
-.venv/
+
+# Generated files (regenerate with scripts/)
+KNOWLEDGE_INDEX.yaml
+RELATIONSHIP_GRAPH.yaml
+
+# Runtime state and logs
 scripts/palette_intelligence_system/traversal_health.jsonl
 scripts/palette_intelligence_system/state/
 scripts/palette_intelligence_system/pis_query_log.jsonl
-agents/corythosaurus/history.jsonl
 scripts/enrichment/enrichment_log.jsonl
-buy-vs-build/profiles-raw.txt
-*.lock
 peers/broker/palette_peers.db
+
+# Obsolete agent references
+agents/corythosaurus/history.jsonl
+
+# Data files
+buy-vs-build/profiles-raw.txt
+
+# Private analysis
+analysis/
+
+# OS
+.DS_Store
+
+# Dependencies
+*.lock

@@ -5,7 +5,7 @@ Palette is a multi-agent intelligence system that routes any AI/ML decision to t
 
 ## Quick Orientation
 - **MANIFEST.yaml** — single source of truth for all current versions and paths. Read this first.
-- **CLAUDE_OPERATIONAL_RUNBOOK.md** — fast orientation, common operations, grep patterns.
+- **docs/CLAUDE_OPERATIONAL_RUNBOOK.md** — fast orientation, common operations, grep patterns.
 - **core/palette-core.md** — Tier 1 immutable rules. Never violate these.
 - **decisions.md** — Tier 3 execution log. Append decisions here, never delete.
 

@@ -130,7 +130,7 @@ skills:
 ai_tool_config:
   claude_code: CLAUDE.md
   codex: AGENTS.md
-  kiro: .kiro/steering.md
+  steering: .steering/
 
 archive:
   path: archive/superseded-libraries/

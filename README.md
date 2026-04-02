@@ -218,10 +218,13 @@ palette/
 ├── CLAUDE.md                           # Claude Code project instructions
 ├── AGENTS.md                           # OpenAI Codex project instructions
 ├── MANIFEST.yaml                       # Single source of truth for versions/paths
-├── .claude-code/                       # Claude Code self-reflection
-├── .codex/                             # OpenAI Codex self-reflection
-├── .kiro/                              # Kiro self-reflection + steering
-├── .perplexity/                        # Perplexity self-reflection
+├── .steering/                          # AI agent self-reflection and steering
+│   ├── claude-code/                    # Claude Code context
+│   ├── codex/                          # OpenAI Codex context
+│   ├── gemini/                         # Gemini context
+│   ├── kiro/                           # Kiro steering + audits
+│   ├── mistral/                        # Mistral context
+│   └── perplexity/                     # Perplexity context
 ├── core/                               # Governance tiers
 │   ├── palette-core.md                 # Tier 1 — Immutable rules
 │   ├── assumptions.md                  # Tier 2 — Experimental assumptions
@@ -231,18 +234,15 @@ palette/
 ├── buy-vs-build/
 │   ├── integrations/                   # 69 integration recipes
 │   ├── service-routing/v1.0/           # 106 services, 40 routing profiles
-│   ├── people-library/v1.1/            # 21 profiles, 33 tools tracked
-│   └── PALETTE_INTELLIGENCE_SYSTEM_v1.0.md
-├── mission-canvas/                     # Voice-first execution platform (UX)
+│   └── people-library/v1.1/           # 21 profiles, 33 tools tracked
+├── mission-canvas/                     # Voice-first execution platform
 │   ├── index.html                      # Unified voice UI
 │   ├── server.mjs                      # API server (10 endpoints)
-│   ├── convergence_chain.mjs           # Workspace state engine
-│   ├── workspace_coaching.mjs          # Learner lens coaching
 │   ├── workspaces/                     # Workspace configs + state
 │   └── competitions/                   # Multi-agent design competitions
 ├── agents/                             # 12 specialized agents
 │   ├── resolver/                       # Intent resolution
-│   ├── researcher/                     # Research (Perplexity Sonar API primary)
+│   ├── researcher/                     # Research (Perplexity Sonar primary)
 │   ├── architect/                      # System design
 │   ├── builder/                        # Implementation
 │   ├── debugger/                       # Failure diagnosis
@@ -250,27 +250,29 @@ palette/
 │   ├── validator/                      # Quality gates
 │   ├── monitor/                        # Signal monitoring
 │   ├── orchestrator/                   # Workflow routing
-│   ├── business-plan-creation/         # Multi-agent business plan workflow
-│   ├── health/                         # System integrity checklist
-│   └── total-health/                   # Cross-layer audit + optimization
-├── peers/                              # Governed message bus
-│   └── broker/                         # Multi-agent communication broker
+│   ├── business-plan-creation/         # Multi-agent business plan
+│   ├── health/                         # System integrity (7 sections)
+│   └── total-health/                   # Cross-layer audit (12 sections)
+├── peers/                              # Governed multi-agent message bus
 ├── skills/                             # Validated domain frameworks
 │   ├── retail-ai/                      # Enterprise AI strategy
-│   ├── talent/                         # Interview prep + application system
-│   ├── education/                      # Adaptive learning for special needs
-│   ├── travel/                         # Multi-leg family route planning
-│   ├── enablement/                     # Agentic enablement coaching
-│   └── lenses/                         # Role lens creation methodology
-├── scripts/palette_intelligence_system/
-│   ├── integrity.py                    # 8 consistency checks across 6 layers
-│   ├── audit_system.py                 # Severity-ranked findings
-│   ├── regression.py                   # Baseline snapshots + 7 SLOs
-│   ├── drift.py                        # Terminology inconsistency detection
-│   ├── para_decision.py                # Governance decision engine
-│   ├── traverse.py                     # Structured decision packets
-│   └── test_*.py                       # Tests
-└── docs/                               # Architecture guides, audit reports
+│   ├── talent/                         # Interview prep + applications
+│   ├── education/                      # Adaptive learning
+│   ├── travel/                         # Route planning + booking
+│   ├── enablement/                     # Agentic coaching
+│   └── lenses/                         # Role lens methodology
+├── sdk/                                # Agent SDK (Python)
+├── scripts/                            # Integrity, audit, regression, drift
+├── lenses/                             # 24 role-based context overlays
+├── docs/                               # All documentation
+│   ├── audits/                         # Dated audit and stress test reports
+│   ├── onboarding/                     # Agent onboarding guides
+│   ├── product/                        # Product thinking and specs
+│   ├── research/                       # Research outputs
+│   └── architecture/                   # System architecture docs
+├── assets/                             # Brand, one-pager, UX reports
+├── bridges/                            # Telegram bridge interfaces
+└── legal/                              # Trademarks and IP
 ```
 
 ---
