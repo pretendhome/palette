@@ -323,7 +323,7 @@ print(f'Completeness: {r.completeness.total}/100')
 
 Palette is the intelligence layer in a three-system flywheel:
 
-- **[Mission Canvas](https://github.com/pretendhome/pretendhome/tree/main/missioncanvas-site)** — Voice-first execution platform. Speak a question, get Palette intelligence back with coaching signals and workspace health.
+- **[Mission Canvas](mission-canvas/)** — Voice-first execution platform. Speak a question, get Palette intelligence back with coaching signals and workspace health.
 - **[Enablement](https://github.com/pretendhome/enablement)** — Competency-based developer education and certification built on Palette's knowledge architecture.
 
 Doing teaches, learning improves doing, both feed the intelligence layer.

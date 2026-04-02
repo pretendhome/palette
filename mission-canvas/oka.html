@@ -199,6 +199,11 @@
       white-space: pre-wrap;
     }
 
+    .oka-keyword {
+      color: #1a6dcc;
+      font-weight: 700;
+    }
+
     .oka-transcript {
       min-height: 90px;
       padding: 14px 16px;
@@ -382,7 +387,7 @@
           <div class="oka-response-text">Hey Nora. Want to start with something fun?</div>
         </div>
         <div class="oka-turn-label">You said</div>
-        <div id="okaTranscript" class="oka-transcript">Tap the big button and talk. No typing. No reading tests.</div>
+        <div id="okaTranscript" class="oka-transcript">Tap the big button or press spacebar to talk. No typing. No reading tests.</div>
       </div>
 
       <div class="oka-mic-wrap">
@@ -444,7 +449,11 @@
       const state = loadState();
       let recognition = null;
       let isListening = false;
+      let stoppedByUser = false;
+      let silenceTimer = null;
+      let collectedText = '';
       let currentUtterance = null;
+      const SILENCE_DELAY_MS = 2500;
       let timerHandle = null;
 
       syncUi();
@@ -454,6 +463,14 @@
       refs.mic.addEventListener('click', function () {
         if (isListening) stopListening();
         else startListening();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.code === 'Space' && e.target === document.body) {
+          e.preventDefault();
+          if (isListening) stopListening();
+          else startListening();
+        }
       });
 
       refs.replay.addEventListener('click', function () {
@@ -517,13 +534,11 @@
         recognition.continuous = false;
         recognition.interimResults = true;
 
-        let finalText = '';
-
         recognition.onstart = function () {
           isListening = true;
           refs.mic.classList.add('is-listening');
-          refs.status.textContent = 'Listening... tap again when you are done.';
-          finalText = '';
+          refs.status.textContent = 'Listening... tap or press spacebar when done.';
+          collectedText = '';
           stopSpeaking();
         };
 
@@ -531,27 +546,28 @@
           let interim = '';
           for (let i = event.resultIndex; i < event.results.length; i += 1) {
             const chunk = event.results[i][0].transcript;
-            if (event.results[i].isFinal) finalText += chunk + ' ';
+            if (event.results[i].isFinal) collectedText += chunk + ' ';
             else interim += chunk;
           }
-          const text = (finalText + interim).trim();
-          refs.transcript.textContent = text || 'Listening...';
+          refs.transcript.textContent = (collectedText + interim).trim() || 'Listening...';
         };
 
         recognition.onerror = function () {
           isListening = false;
           refs.mic.classList.remove('is-listening');
-          refs.status.textContent = 'I missed that. Tap and try again.';
+          refs.status.textContent = 'I missed that. Tap or press spacebar to try again.';
         };
 
         recognition.onend = function () {
-          const message = (refs.transcript.textContent || '').trim();
+          var message = collectedText.trim();
           isListening = false;
           refs.mic.classList.remove('is-listening');
-          if (message && message !== 'Listening...') {
+          collectedText = '';
+          if (message) {
+            refs.transcript.textContent = message;
             submitMessage(message);
           } else {
-            refs.status.textContent = 'Tap to talk when you are ready.';
+            refs.status.textContent = 'Tap or press spacebar to talk when you are ready.';
           }
         };
       }
@@ -623,9 +639,12 @@
 
       function setAssistant(text) {
         const clean = stripCitations(text || '');
-        refs.response.textContent = clean;
+        const plain = clean.replace(/\*\*(.*?)\*\*/g, '$1');
+        var rendered = clean.replace(/\*\*(.*?)\*\*/g, '<span style="color:#1a6dcc;font-weight:bold">$1</span>');
+        rendered = rendered.replace(/\b([a-zA-Z](?:-[a-zA-Z]){2,})\b/g, '<span style="color:#8b0000;font-weight:bold">$1</span>');
+        refs.response.innerHTML = '<div class="oka-response-text">' + rendered + '</div>';
         refs.status.textContent = 'Your turn.';
-        speakText(clean);
+        speakText(plain);
       }
 
       function fallbackResponse(message) {
@@ -643,11 +662,32 @@
       function speakText(text) {
         if (!window.speechSynthesis || !text) return;
         stopSpeaking();
-        const utter = new SpeechSynthesisUtterance(text);
-        utter.rate = 0.96;
-        utter.pitch = 1.08;
-        currentUtterance = utter;
-        window.speechSynthesis.speak(utter);
+        // Split on letter-spelling patterns like f-e-r-r-y
+        var parts = text.split(/(\b[a-zA-Z](?:-[a-zA-Z]){2,}\b)/g);
+        parts.forEach(function (part) {
+          if (/^[a-zA-Z](-[a-zA-Z]){2,}$/.test(part)) {
+            // Spell out each letter slowly with pauses
+            var letters = part.split('-');
+            letters.forEach(function (letter, i) {
+              var u = new SpeechSynthesisUtterance(letter.toUpperCase());
+              u.rate = 0.1;
+              u.pitch = 1.08;
+              window.speechSynthesis.speak(u);
+              if (i < letters.length - 1) {
+                var pause = new SpeechSynthesisUtterance(',');
+                pause.rate = 0.1;
+                pause.volume = 0;
+                window.speechSynthesis.speak(pause);
+              }
+            });
+          } else if (part.trim()) {
+            var u = new SpeechSynthesisUtterance(part);
+            u.rate = 0.96;
+            u.pitch = 1.08;
+            window.speechSynthesis.speak(u);
+          }
+        });
+        currentUtterance = true;
       }
 
       function stopSpeaking() {
