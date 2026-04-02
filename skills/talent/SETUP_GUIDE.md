@@ -70,7 +70,46 @@ Type `/job-search` and hit enter. Have your resume ready (file on your computer 
 
 ---
 
-## Option B: Claude.ai (free, no install)
+## Option B: Claude Cowork (easiest setup — no terminal needed)
+
+If you have the Claude Desktop app on Mac or Windows with a Pro, Max, or Team plan, Cowork is the easiest path. No terminal, no install commands.
+
+**1.** Make sure you have the latest Claude Desktop app (download from https://claude.ai/download)
+
+**2.** Create a folder on your computer for the job search tool. For example:
+- Mac: `~/Documents/job-search/`
+- Windows: `Documents\job-search\`
+
+**3.** Download the tool file into that folder:
+- Go to: https://raw.githubusercontent.com/pretendhome/palette/main/skills/talent/job-search-command.md
+- Right-click → "Save As" → save it as `job-search-command.md` in your job-search folder
+- Also save your resume (PDF, Word, or text) in the same folder
+
+**4.** Open Claude Desktop and start a Cowork session. Point it at your job-search folder.
+
+**5.** Tell Claude:
+
+```
+Read the file job-search-command.md and follow those instructions.
+Set me up — my resume is in this folder.
+```
+
+Claude will read the tool instructions, read your resume, and walk you through setup.
+
+**After setup, you can say things like:**
+- "Find jobs that match my profile"
+- "Score this job posting: [paste URL]"
+- "Optimize my resume for this job: [paste URL]"
+- "Run a mock interview for [company] [role]"
+- "Research [company] before my interview"
+- "Give me a glance sheet for my interview tomorrow"
+- "Debrief — I just finished an interview at [company]"
+
+Everything saves in your job-search folder. Claude Cowork remembers your context within a project.
+
+---
+
+## Option C: Claude.ai (free, no install)
 
 Can't search for you or save your profile, but scores job postings you paste in. Works with the free Claude account.
 
@@ -106,7 +145,7 @@ My resume:
 - **Score before you apply.** Below 65 = pass. Discipline beats volume.
 - **Bring results to JSC meetings.** Run a search before the meeting, bring your top 5, discuss with the group.
 - **Your data stays on your computer.** Profile at `~/.job-search/profile.yaml`, pipeline at `~/.job-search/pipeline.csv`. Nothing is uploaded. Delete anytime.
-- **Option A remembers you.** Option B starts fresh each conversation — re-paste your resume each time.
+- **Options A and B remember you.** Option C starts fresh each conversation — re-paste your resume each time.
 - **Update your profile as you learn.** After Listening Tour conversations or CMF work, run `/job-search update` to sharpen your targeting.
 
 ---
