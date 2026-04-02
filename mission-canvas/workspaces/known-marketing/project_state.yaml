@@ -1,0 +1,239 @@
+project_state:
+  id: known-marketing
+  name: Known Dating App — Marketing & Growth
+  owner: agnes
+  operator: mical
+  created_at: '2026-04-01'
+  last_updated: '2026-04-01'
+  objective: Build and execute marketing strategy to grow Known from SF waitlist to multi-city launch — improve sales, company image, and market calibration
+  health_score: 60
+  health_label: IMPROVING
+  target_score: 80
+
+  known_facts:
+    - id: KF-001
+      fact: Known raised $9.7M seed from Forerunner Ventures, NFX, Pear VC, and Coelius Capital (Dec 2025)
+      source: TechCrunch, Dec 19 2025
+    - id: KF-002
+      fact: 80% of introductions led to in-person dates in SF beta
+      source: TechCrunch / Known press
+    - id: KF-003
+      fact: Average voice onboarding is 26 minutes — users open up more through voice than text
+      source: TechCrunch / Known press
+    - id: KF-004
+      fact: Founded by Celeste Amadon (CEO) and Asher Allen — both Stanford dropouts
+      source: LinkedIn / TechCrunch
+    - id: KF-005
+      fact: Agnes Bori is EA and marketing lead — SFSU marketing degree, 5 years C-level EA experience
+      source: LinkedIn
+    - id: KF-006
+      fact: Currently in waitlist/apply mode — SF only as of March 2026
+      source: known.com
+    - id: KF-007
+      fact: Built on Vercel — 2-3 App Store submissions per week
+      source: Vercel developer spotlight
+    - id: KF-008
+      fact: Bumble paying users dropped 16% in Q3 2025 — market incumbents struggling
+      source: Bumble earnings Q3 2025
+    - id: KF-009
+      fact: Hinge founder left to start Overtone — AI-first dating backed by Match Group
+      source: Industry press
+    - id: KF-010
+      fact: Beta pricing at $30 per successful date — aligns revenue with user success
+      source: TechCrunch
+    - id: KF-011
+      fact: Incumbent pricing for premium tiers (Tinder Platinum, HingeX, Bumble Premium+) ranges from $50 to $80/mo in 2026.
+      source: Market Map 2026
+    - id: KF-012
+      fact: Growth strategy prioritizes Organic Voice Loops (TikTok/Reels) and Referral-led city seeding.
+      source: Growth Channels Strategy
+    - id: KF-013
+      fact: Proposed CAC guardrail is $15 per user to maintain date-aligned unit economics.
+      source: Pricing Research Report
+    - id: KF-014
+      fact: Expansion criteria established focusing on "Date Density" and gender-balanced waitlist unlocks.
+      source: Growth Channels Strategy
+
+  missing_evidence:
+    - id: ME-001
+      what: Current waitlist size and waitlist-to-accepted conversion rate
+      detail: Total waitlist volume, weekly growth, acceptance rate, and time-to-accept by cohort
+      why: Cannot forecast launch scale or choose channels intelligently without knowing top-of-funnel and activation reality
+      who_resolves: owner
+      priority: critical
+      status: unresolved
+      identified_at: '2026-04-01'
+      unblocks:
+        - OD-001
+        - BA-001
+        - BA-002
+    - id: ME-002
+      what: Current user acquisition cost in SF beta
+      detail: CAC by channel, if any paid acquisition exists, plus referral and community-acquisition cost proxy
+      why: Growth-channel decisions are guesswork without even a directional CAC baseline
+      who_resolves: owner
+      priority: critical
+      status: resolved
+      identified_at: '2026-04-01'
+      resolution: Directional guardrail set at $15 based on $30 date revenue. Actual channel CAC still pending owner confirmation.
+      unblocks:
+        - OD-001
+        - OD-004
+        - BA-002
+        - BA-004
+    - id: ME-003
+      what: Current gender split and marketplace balance
+      detail: Active-user ratio, date completion by segment, and any waitlist imbalance
+      why: Marketplace imbalance is a structural dating-app risk and affects both launch quality and expansion choices
+      who_resolves: owner
+      priority: critical
+      status: unresolved
+      identified_at: '2026-04-01'
+      unblocks:
+        - OD-003
+        - BA-003
+    - id: ME-004
+      what: Expansion shortlist and city-readiness criteria
+      detail: Candidate cities, launch sequence, community density assumptions, and local partnerships if any
+      why: Geographic marketing cannot be sequenced without a real city hypothesis
+      who_resolves: owner
+      priority: moderate
+      status: resolved
+      identified_at: '2026-04-01'
+      resolution: LA, NYC, and Austin identified as Tier 1 candidates. Readiness criteria tied to gender-balanced waitlist releases.
+      unblocks:
+        - OD-003
+        - BA-003
+    - id: ME-005
+      what: Current content and social operating strategy
+      detail: Existing channels, posting cadence, creator strategy, PR strategy, and what has already been tested
+      why: Channel prioritization and narrative discipline depend on knowing what is already in market
+      who_resolves: owner
+      priority: moderate
+      status: unresolved
+      identified_at: '2026-04-01'
+      unblocks:
+        - OD-001
+        - BA-001
+    - id: ME-006
+      what: Retention and repeat behavior after first successful date
+      detail: Do users churn, re-enter, refer friends, or convert into repeat paid behavior after a successful intro?
+      why: Pricing and brand promises are fragile until post-date behavior is understood
+      who_resolves: owner
+      priority: moderate
+      status: unresolved
+      identified_at: '2026-04-01'
+      unblocks:
+        - OD-002
+        - OD-004
+        - BA-004
+
+  open_decisions:
+    - id: OD-001
+      decision: Primary growth channel — paid social vs organic TikTok vs guerrilla vs referral?
+      options:
+        - Organic short-form plus founder/social proof
+        - Referral-led city seeding
+        - Paid social with tight CAC guardrails
+        - PR and community events first
+      who_decides: owner
+      blocked_by:
+        - ME-001
+        - ME-002
+        - ME-005
+      status: open
+      identified_at: '2026-04-01'
+      unblocks:
+        - BA-001
+        - BA-002
+      impact: Defines the first real growth engine and how marketing dollars are allocated
+    - id: OD-002
+      decision: Pricing model at scale — per-date vs subscription vs freemium?
+      options:
+        - Preserve per-successful-date pricing
+        - Hybrid subscription plus success fee
+        - Freemium acquisition with paid success unlock
+      who_decides: owner
+      blocked_by:
+        - ME-006
+      status: open
+      identified_at: '2026-04-01'
+      unblocks:
+        - BA-004
+      impact: One-way door decision that sets revenue logic and public trust expectations
+    - id: OD-003
+      decision: Next city after SF — LA, NYC, Austin, or another hub?
+      options:
+        - LA
+        - NYC
+        - Austin
+        - stay in SF longer
+      who_decides: owner
+      blocked_by:
+        - ME-003
+        - ME-004
+      status: open
+      identified_at: '2026-04-01'
+      unblocks:
+        - BA-003
+      impact: Determines geo narrative, local partnerships, and launch sequencing
+    - id: OD-004
+      decision: What should the headline message be — voice depth, real-date outcomes, or anti-swipe fatigue?
+      options:
+        - Lead with voice depth
+        - Lead with outcome rate / dates
+        - Lead with anti-swipe positioning
+      who_decides: owner
+      blocked_by:
+        - ME-002
+        - ME-006
+      status: open
+      identified_at: '2026-04-01'
+      unblocks:
+        - BA-004
+      impact: Shapes creative, landing page story, and channel fit
+
+  blocked_actions:
+    - id: BA-001
+      action: Produce 90-day channel plan and content calendar
+      blocked_by:
+        - ME-005
+        - OD-001
+      unblocks:
+        - execution_readiness
+      impact: Cannot operationalize weekly marketing execution without a channel thesis and current-content baseline
+    - id: BA-002
+      action: Set CAC guardrails and paid test budget
+      blocked_by:
+        - ME-001
+        - ME-002
+        - OD-001
+      unblocks:
+        - paid_acquisition_tests
+      impact: Budget deployment should not begin without baseline funnel and CAC evidence
+    - id: BA-003
+      action: Build next-city launch playbook
+      blocked_by:
+        - ME-003
+        - ME-004
+        - OD-003
+      unblocks:
+        - expansion_readiness
+      impact: Geo sequencing and marketplace balance are prerequisites for localized launch work
+    - id: BA-004
+      action: Finalize pricing narrative and growth story for launch
+      blocked_by:
+        - ME-002
+        - ME-006
+        - OD-002
+        - OD-004
+      unblocks:
+        - launch_story
+      impact: Public positioning should not harden before pricing and retention assumptions are tested
+
+  known_unknowns:
+    - Whether the 80% intro-to-date rate persists outside the earliest SF cohort
+    - Whether voice onboarding is a durable moat or mainly a novelty catalyst
+    - Whether Known is strongest as a premium niche brand or a broader category challenger
+    - How much of the current demand is founder/press-driven versus repeatable channel-driven growth
+  resolved_decisions: []

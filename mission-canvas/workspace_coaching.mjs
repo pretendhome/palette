@@ -7,12 +7,16 @@ import { load as loadYAML, dump as dumpYAML } from 'js-yaml';
 import { lookupWorkspaceKnowledge } from './convergence_chain.mjs';
 
 const EXPLANATION_PATTERNS = [
-  { type: 'what_is', regex: /\bwhat(?:'s| is)\b/i },
-  { type: 'why', regex: /\bwhy(?:'s| is| does| do)\b/i },
-  { type: 'how', regex: /\bhow(?: do| does| can)\b/i },
+  { type: 'what_is', regex: /\bwhat(?:'s| is| are| should| would)\b/i },
+  { type: 'why', regex: /\bwhy(?:'s| is| does| do| would| should)\b/i },
+  { type: 'how', regex: /\bhow\b(?:\s+(?:do|does|can|should|would|are|is|much|many|long|often))\b/i },
+  { type: 'should', regex: /\bshould (?:we|i|known|the|our)\b/i },
   { type: 'explain', regex: /\bexplain\b/i },
   { type: 'teach', regex: /\bteach me\b/i },
-  { type: 'meaning', regex: /\bwhat does .* mean\b/i }
+  { type: 'meaning', regex: /\bwhat does .* mean\b/i },
+  { type: 'who', regex: /\bwho (?:is|are|founded|leads|runs)\b/i },
+  { type: 'tell', regex: /\btell me\b/i },
+  { type: 'describe', regex: /\b(?:describe|summarize|draft|give me)\b/i }
 ];
 
 const PROJECT_CONCEPTS = [
@@ -69,7 +73,7 @@ function normalizeQuestion(text) {
 function extractConcept(text) {
   const normalized = normalizeQuestion(text);
   let concept = normalized
-    .replace(/^(what(?:'s| is)|why(?:'s| is| does| do)|how(?: do| does| can)|explain|teach me)\s+/i, '')
+    .replace(/^(what(?:'s| is| are| should| would)|why(?:'s| is| does| do| would| should)|how\s+(?:do|does|can|should|would|are|is|much|many|long|often)|should (?:we|i|known|the|our)|explain|teach me|tell me|describe|summarize|draft|give me)\s+/i, '')
     .replace(/\?+$/g, '')
     .replace(/^the\s+/i, '')
     .replace(/^(a|an)\s+/i, '')
@@ -190,17 +194,25 @@ function summarizeWorkspaceImpact(projectState) {
   return 'It affects how the workspace decides what is safe to do next.';
 }
 
+function truncate(text, maxSentences = 3) {
+  if (!text) return '';
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+  return sentences.slice(0, maxSentences).join(' ').trim();
+}
+
 function buildKnowledgeCoaching(workspace, objective, concept, existingMoment) {
   const matches = lookupWorkspaceKnowledge(workspace.knowledgeLibrary || [], objective, 3);
   if (!matches.length) return null;
 
   const entry = matches[0];
   const stage = chooseStage(existingMoment);
+  const fullAnswer = entry.answer || entry.answer_preview || '';
+  const shortAnswer = truncate(fullAnswer, 3);
   const answer = stage === 'retain'
-    ? `We covered ${entry.question || concept} before. Here is the short version: ${entry.answer || entry.answer_preview || ''}`
+    ? `We covered ${entry.question || concept} before. Short version: ${truncate(fullAnswer, 2)}`
     : stage === 'verify'
-      ? `Quick verification pass on ${entry.question || concept}: ${entry.answer || entry.answer_preview || ''}`
-      : (entry.answer || entry.answer_preview || '');
+      ? `Verification: ${truncate(fullAnswer, 2)}`
+      : shortAnswer;
 
   return {
     concept_id: entry.id || concept.toLowerCase().replace(/[^a-z0-9]+/g, '_'),
@@ -243,21 +255,13 @@ function buildProjectConceptCoaching(projectConcept, existingMoment) {
 
 function buildBrief(workspaceName, coaching) {
   const lines = [
-    '## Coaching',
-    `**Concept**: ${coaching.concept_label}`,
-    `**Stage**: ${coaching.stage.toUpperCase()}`,
     coaching.answer,
     '',
-    `**Why it matters here**: ${coaching.why_it_matters}`,
-    `**Check**: ${coaching.verification_prompt}`,
-    '',
-    `Workspace: ${workspaceName}`
+    `**Why it matters**: ${coaching.why_it_matters}`
   ];
   if (coaching.sources.length) {
-    lines.push('', '**Sources**:');
-    coaching.sources.forEach((source) => {
-      lines.push(`- ${source.title}${source.url ? ` — ${source.url}` : ''}`);
-    });
+    const topSource = coaching.sources[0];
+    lines.push(`Source: ${topSource.title}${topSource.url ? ` — ${topSource.url}` : ''}`);
   }
   return lines.join('\n');
 }

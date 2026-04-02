@@ -25,6 +25,8 @@ FILES=(
     workspace_coaching.mjs
     joseph_bridge.py
     monitor_daemon.py
+    market_stress.py
+    resolver_service.py
     mcp_server.mjs
     start_demo.sh
     start_mcp.sh
@@ -101,6 +103,23 @@ WorkingDirectory=$VPS_DIR
 ExecStart=/usr/bin/python3 monitor_daemon.py
 Restart=always
 RestartSec=30
+EnvironmentFile=$VPS_DIR/joseph.env
+
+[Install]
+WantedBy=multi-user.target
+UNIT"
+
+ssh "$VPS" "cat > /etc/systemd/system/resolver-service.service << 'UNIT'
+[Unit]
+Description=Palette Resolver Service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=$VPS_DIR
+ExecStart=/usr/bin/python3 resolver_service.py
+Restart=always
+RestartSec=5
 EnvironmentFile=$VPS_DIR/joseph.env
 
 [Install]

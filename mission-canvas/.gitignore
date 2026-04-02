@@ -8,6 +8,8 @@ lens.yaml
 
 # Environment files with secrets
 joseph.env
+oka.env
+oka.env.save
 *.env.local
 
 # Runtime workspace state — ephemeral, changes every query

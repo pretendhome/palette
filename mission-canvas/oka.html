@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Oka</title>
+  <style>
+    :root {
+      --bg-top: #fff3de;
+      --bg-bottom: #ffe2d7;
+      --panel: rgba(255, 251, 244, 0.92);
+      --panel-strong: rgba(255, 248, 238, 0.98);
+      --text: #51362f;
+      --text-soft: #82655c;
+      --accent: #f08b58;
+      --accent-2: #8fce9d;
+      --accent-3: #7ab6ff;
+      --danger: #dc7e7e;
+      --shadow: rgba(129, 84, 49, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Avenir Next", "Nunito", "Trebuchet MS", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.55), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,0.4), transparent 32%),
+        linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .oka-shell {
+      width: min(920px, 100%);
+      display: grid;
+      gap: 16px;
+    }
+
+    .oka-topbar,
+    .oka-card,
+    .oka-bubble,
+    .oka-mic-wrap {
+      background: var(--panel);
+      border-radius: 28px;
+      box-shadow: 0 18px 50px var(--shadow);
+      border: 1px solid rgba(255,255,255,0.45);
+    }
+
+    .oka-topbar {
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .oka-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .oka-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 35% 32%, #fff 0 10%, transparent 11%),
+        radial-gradient(circle at 65% 32%, #fff 0 10%, transparent 11%),
+        radial-gradient(circle at 39% 34%, #32221e 0 4%, transparent 5%),
+        radial-gradient(circle at 61% 34%, #32221e 0 4%, transparent 5%),
+        radial-gradient(circle at 50% 55%, #3d2822 0 9%, transparent 10%),
+        radial-gradient(circle at 50% 62%, #2b1a16 0 4%, transparent 5%),
+        linear-gradient(180deg, #f3c38f, #d7925f);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .oka-avatar::before,
+    .oka-avatar::after {
+      content: "";
+      position: absolute;
+      top: -8px;
+      width: 24px;
+      height: 30px;
+      background: #c98653;
+      border-radius: 18px 18px 8px 8px;
+    }
+
+    .oka-avatar::before { left: 8px; transform: rotate(-14deg); }
+    .oka-avatar::after { right: 8px; transform: rotate(14deg); }
+
+    .oka-brand-copy h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      line-height: 0.95;
+    }
+
+    .oka-brand-copy p {
+      margin: 6px 0 0;
+      font-size: 1rem;
+      color: var(--text-soft);
+    }
+
+    .oka-statusline {
+      display: grid;
+      justify-items: end;
+      gap: 8px;
+      min-width: 240px;
+    }
+
+    .oka-pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .oka-pill {
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.65);
+      color: var(--text-soft);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .oka-pill strong { color: var(--text); }
+
+    .oka-progress {
+      width: min(360px, 100%);
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.55);
+      overflow: hidden;
+    }
+
+    .oka-progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+      transition: width 0.3s ease;
+    }
+
+    .oka-main {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 16px;
+    }
+
+    .oka-card {
+      padding: 22px;
+    }
+
+    .oka-card h2 {
+      margin: 0 0 10px;
+      font-size: 1.45rem;
+    }
+
+    .oka-card p {
+      margin: 0;
+      font-size: 1.02rem;
+      line-height: 1.55;
+      color: var(--text-soft);
+    }
+
+    .oka-bubble {
+      padding: 20px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .oka-turn-label {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-soft);
+      font-weight: 800;
+    }
+
+    .oka-response {
+      font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+      line-height: 1.5;
+      min-height: 120px;
+    }
+
+    .oka-response-text {
+      white-space: pre-wrap;
+    }
+
+    .oka-transcript {
+      min-height: 90px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.68);
+      border-radius: 20px;
+      font-size: 1rem;
+      line-height: 1.45;
+      color: var(--text-soft);
+    }
+
+    .oka-mic-wrap {
+      padding: 20px;
+      display: grid;
+      justify-items: center;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .oka-mic {
+      width: min(250px, 56vw);
+      aspect-ratio: 1;
+      border: 0;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 35% 28%, rgba(255,255,255,0.95), transparent 24%),
+        linear-gradient(180deg, #ffbb7c, #f08b58);
+      box-shadow: 0 22px 60px rgba(240, 139, 88, 0.32);
+      color: #4d2f28;
+      font: inherit;
+      font-size: clamp(1.35rem, 3.4vw, 1.9rem);
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .oka-mic:hover { transform: translateY(-1px); }
+
+    .oka-mic.is-listening {
+      background:
+        radial-gradient(circle at 35% 28%, rgba(255,255,255,0.95), transparent 24%),
+        linear-gradient(180deg, #9dd8a8, #63b57b);
+      box-shadow: 0 22px 70px rgba(99, 181, 123, 0.35);
+      animation: okaPulse 1.5s ease-in-out infinite;
+    }
+
+    .oka-mic.is-thinking {
+      background:
+        radial-gradient(circle at 35% 28%, rgba(255,255,255,0.95), transparent 24%),
+        linear-gradient(180deg, #9bc8ff, #6caaf6);
+      box-shadow: 0 22px 70px rgba(108, 170, 246, 0.32);
+    }
+
+    @keyframes okaPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    .oka-mic-sub {
+      text-align: center;
+      color: var(--text-soft);
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .oka-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .oka-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.72);
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .oka-btn:disabled {
+      cursor: default;
+      opacity: 0.5;
+    }
+
+    .oka-choices {
+      display: grid;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .oka-choice {
+      border: 0;
+      border-radius: 18px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.7);
+      color: var(--text);
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .oka-timerbar {
+      width: 100%;
+      display: grid;
+      gap: 8px;
+    }
+
+    .oka-timertrack {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.65);
+      overflow: hidden;
+    }
+
+    .oka-timerfill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      transition: width 1s linear;
+    }
+
+    .oka-small {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    .oka-hidden { display: none !important; }
+
+    @media (max-width: 820px) {
+      .oka-main {
+        grid-template-columns: 1fr;
+      }
+
+      .oka-statusline {
+        justify-items: start;
+        min-width: 0;
+      }
+
+      .oka-pill-row {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="oka-shell">
+    <section class="oka-topbar">
+      <div class="oka-brand">
+        <div class="oka-avatar" aria-hidden="true"></div>
+        <div class="oka-brand-copy">
+          <h1>Oka</h1>
+          <p>Your dog friend for talking, learning, and taking it one step at a time.</p>
+        </div>
+      </div>
+      <div class="oka-statusline">
+        <div class="oka-pill-row">
+          <div class="oka-pill"><strong id="okaPhase">Start</strong></div>
+          <div class="oka-pill">Time <strong id="okaTimer">0:00</strong></div>
+          <div class="oka-pill">Breaks <strong id="okaBreaks">2</strong></div>
+        </div>
+        <div class="oka-progress" aria-hidden="true">
+          <div id="okaSessionProgress" class="oka-progress-fill"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="oka-main">
+      <div class="oka-bubble">
+        <div class="oka-turn-label">Oka says</div>
+        <div id="okaResponse" class="oka-response">
+          <div class="oka-response-text">Hey Nora. Want to start with something fun?</div>
+        </div>
+        <div class="oka-turn-label">You said</div>
+        <div id="okaTranscript" class="oka-transcript">Tap the big button and talk. No typing. No reading tests.</div>
+      </div>
+
+      <div class="oka-mic-wrap">
+        <button id="okaMic" class="oka-mic" type="button" aria-label="Start talking to Oka">Talk to Oka</button>
+        <div id="okaStatus" class="oka-mic-sub">Tap once to start. Tap again to stop.</div>
+
+        <div class="oka-card" style="width:100%;">
+          <h2 id="okaPromptTitle">Start strong</h2>
+          <p id="okaPromptText">We will start with a confidence moment, do one small skill thing, then finish on something that feels good.</p>
+        </div>
+
+        <div class="oka-choices">
+          <button class="oka-choice" type="button" data-seed="Ask me a fun history question.">History question</button>
+          <button class="oka-choice" type="button" data-seed="Give me an oral math challenge.">Math challenge</button>
+          <button class="oka-choice" type="button" data-seed="Tell me a dragon story starter.">Dragon story</button>
+        </div>
+
+        <div class="oka-controls">
+          <button id="okaReplay" class="oka-btn" type="button">Say it again</button>
+          <button id="okaBreak" class="oka-btn" type="button">Water break</button>
+          <button id="okaReset" class="oka-btn" type="button">New session</button>
+        </div>
+
+        <div class="oka-timerbar">
+          <div class="oka-small">Session energy</div>
+          <div class="oka-timertrack"><div id="okaTimerFill" class="oka-timerfill"></div></div>
+          <div class="oka-small" id="okaTimerHint">Keep it light. Oka will suggest water around 10 and 20 minutes.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const API_BASE = '';
+      const STORAGE_KEY = 'oka-session-v1';
+      const SESSION_MAX_MS = 30 * 60 * 1000;
+      const BREAK_MARKS_MS = [10 * 60 * 1000, 20 * 60 * 1000];
+
+      const refs = {
+        mic: document.getElementById('okaMic'),
+        status: document.getElementById('okaStatus'),
+        response: document.getElementById('okaResponse'),
+        transcript: document.getElementById('okaTranscript'),
+        phase: document.getElementById('okaPhase'),
+        timer: document.getElementById('okaTimer'),
+        breaks: document.getElementById('okaBreaks'),
+        sessionProgress: document.getElementById('okaSessionProgress'),
+        timerFill: document.getElementById('okaTimerFill'),
+        timerHint: document.getElementById('okaTimerHint'),
+        promptTitle: document.getElementById('okaPromptTitle'),
+        promptText: document.getElementById('okaPromptText'),
+        replay: document.getElementById('okaReplay'),
+        breakBtn: document.getElementById('okaBreak'),
+        reset: document.getElementById('okaReset'),
+        choices: Array.from(document.querySelectorAll('.oka-choice'))
+      };
+
+      const state = loadState();
+      let recognition = null;
+      let isListening = false;
+      let currentUtterance = null;
+      let timerHandle = null;
+
+      syncUi();
+      initSpeech();
+      startTimer();
+
+      refs.mic.addEventListener('click', function () {
+        if (isListening) stopListening();
+        else startListening();
+      });
+
+      refs.replay.addEventListener('click', function () {
+        speakText(stripCitations(state.lastAssistant || 'Hey Nora. Want to start with something fun?'));
+      });
+
+      refs.breakBtn.addEventListener('click', function () {
+        setAssistant('Want a water break? Your brain has been working hard. We can come right back after a sip.');
+      });
+
+      refs.reset.addEventListener('click', function () {
+        resetState();
+        syncUi();
+        setAssistant('Fresh start. Want a history question, some math, or a dragon idea?');
+      });
+
+      refs.choices.forEach(function (button) {
+        button.addEventListener('click', function () {
+          submitMessage(button.getAttribute('data-seed') || '');
+        });
+      });
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) return JSON.parse(raw);
+        } catch {}
+        return {
+          session_id: crypto.randomUUID ? crypto.randomUUID() : ('oka-' + Date.now()),
+          started_at: Date.now(),
+          history: [],
+          lastAssistant: '',
+          breaksTriggered: [],
+          phase: 'Start'
+        };
+      }
+
+      function persist() {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+      }
+
+      function resetState() {
+        state.session_id = crypto.randomUUID ? crypto.randomUUID() : ('oka-' + Date.now());
+        state.started_at = Date.now();
+        state.history = [];
+        state.lastAssistant = '';
+        state.breaksTriggered = [];
+        state.phase = 'Start';
+        persist();
+      }
+
+      function initSpeech() {
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) {
+          refs.status.textContent = 'This browser does not support tap-to-talk. You can still use the quick buttons.';
+          refs.mic.disabled = true;
+          return;
+        }
+        recognition = new SR();
+        recognition.lang = 'en-US';
+        recognition.continuous = false;
+        recognition.interimResults = true;
+
+        let finalText = '';
+
+        recognition.onstart = function () {
+          isListening = true;
+          refs.mic.classList.add('is-listening');
+          refs.status.textContent = 'Listening... tap again when you are done.';
+          finalText = '';
+          stopSpeaking();
+        };
+
+        recognition.onresult = function (event) {
+          let interim = '';
+          for (let i = event.resultIndex; i < event.results.length; i += 1) {
+            const chunk = event.results[i][0].transcript;
+            if (event.results[i].isFinal) finalText += chunk + ' ';
+            else interim += chunk;
+          }
+          const text = (finalText + interim).trim();
+          refs.transcript.textContent = text || 'Listening...';
+        };
+
+        recognition.onerror = function () {
+          isListening = false;
+          refs.mic.classList.remove('is-listening');
+          refs.status.textContent = 'I missed that. Tap and try again.';
+        };
+
+        recognition.onend = function () {
+          const message = (refs.transcript.textContent || '').trim();
+          isListening = false;
+          refs.mic.classList.remove('is-listening');
+          if (message && message !== 'Listening...') {
+            submitMessage(message);
+          } else {
+            refs.status.textContent = 'Tap to talk when you are ready.';
+          }
+        };
+      }
+
+      function startListening() {
+        if (!recognition) return;
+        try {
+          recognition.start();
+        } catch {
+          refs.status.textContent = 'Tap again in a second.';
+        }
+      }
+
+      function stopListening() {
+        if (!recognition) return;
+        recognition.stop();
+      }
+
+      async function submitMessage(message) {
+        if (!message) return;
+        refs.transcript.textContent = message;
+        refs.status.textContent = 'Oka is thinking...';
+        refs.mic.classList.add('is-thinking');
+
+        try {
+          const response = await fetch(API_BASE + '/v1/missioncanvas/oka-chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              message: message,
+              session_id: state.session_id,
+              history: state.history
+            })
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.message || 'Oka request failed');
+
+          if (Array.isArray(data.history)) state.history = data.history;
+          else {
+            state.history.push({ role: 'user', content: message });
+            state.history.push({ role: 'assistant', content: data.response || '' });
+          }
+
+          state.phase = data.phase || inferPhase();
+          state.lastAssistant = data.response || '';
+          persist();
+          syncUi();
+          setAssistant(data.response || 'I am here.');
+        } catch (_err) {
+          const fallback = fallbackResponse(message);
+          state.history.push({ role: 'user', content: message });
+          state.history.push({ role: 'assistant', content: fallback });
+          state.phase = inferPhase();
+          state.lastAssistant = fallback;
+          persist();
+          syncUi();
+          setAssistant(fallback);
+        } finally {
+          refs.mic.classList.remove('is-thinking');
+        }
+      }
+
+      function inferPhase() {
+        const turns = state.history.filter(function (item) { return item.role === 'user'; }).length;
+        if (turns <= 1) return 'Confidence';
+        if (turns <= 4) return 'Skill';
+        return 'Confidence close';
+      }
+
+      function setAssistant(text) {
+        const clean = stripCitations(text || '');
+        refs.response.textContent = clean;
+        refs.status.textContent = 'Your turn.';
+        speakText(clean);
+      }
+
+      function fallbackResponse(message) {
+        const lower = String(message || '').toLowerCase();
+        if (lower.includes('math')) return 'Nice. Let us do one in our heads. What is 17 plus 8?';
+        if (lower.includes('dragon')) return 'Okay. A dragon finds a hidden doorway in the forest. What is on the other side?';
+        if (lower.includes('history')) return 'Cool. If you could time travel to one moment in the past, where would you go first?';
+        return 'I heard you. Want to keep going, or want a clue, or want something fun?';
+      }
+
+      function stripCitations(text) {
+        return String(text || '').replace(/\[\d+(?:\]\[?\d*)*\]/g, '').replace(/\s+/g, ' ').trim();
+      }
+
+      function speakText(text) {
+        if (!window.speechSynthesis || !text) return;
+        stopSpeaking();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 0.96;
+        utter.pitch = 1.08;
+        currentUtterance = utter;
+        window.speechSynthesis.speak(utter);
+      }
+
+      function stopSpeaking() {
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+        currentUtterance = null;
+      }
+
+      function startTimer() {
+        if (timerHandle) clearInterval(timerHandle);
+        timerHandle = setInterval(function () {
+          const elapsed = Date.now() - state.started_at;
+          updateTimerUi(elapsed);
+          maybeTriggerBreak(elapsed);
+        }, 1000);
+      }
+
+      function updateTimerUi(elapsed) {
+        const minutes = Math.floor(elapsed / 60000);
+        const seconds = Math.floor((elapsed % 60000) / 1000);
+        refs.timer.textContent = minutes + ':' + String(seconds).padStart(2, '0');
+        refs.breaks.textContent = String(Math.max(0, BREAK_MARKS_MS.length - state.breaksTriggered.length));
+        const progress = Math.min(100, (elapsed / SESSION_MAX_MS) * 100);
+        refs.sessionProgress.style.width = progress + '%';
+        refs.timerFill.style.width = progress + '%';
+      }
+
+      function maybeTriggerBreak(elapsed) {
+        for (const mark of BREAK_MARKS_MS) {
+          if (elapsed >= mark && !state.breaksTriggered.includes(mark)) {
+            state.breaksTriggered.push(mark);
+            persist();
+            refs.timerHint.textContent = 'Water break time if you want one.';
+            setAssistant('Want a water break? Your brain has been working hard.');
+            break;
+          }
+        }
+      }
+
+      function syncUi() {
+        refs.phase.textContent = state.phase || inferPhase();
+        refs.promptTitle.textContent = state.phase === 'Skill' ? 'One small skill step' : 'Start strong';
+        refs.promptText.textContent =
+          state.phase === 'Skill'
+            ? 'Short skill work. If it gets annoying, Oka will give a clue or switch.'
+            : 'Start with confidence. Then one small challenge. Then end feeling good.';
+        updateTimerUi(Date.now() - state.started_at);
+      }
+    })();
+  </script>
+</body>
+</html>

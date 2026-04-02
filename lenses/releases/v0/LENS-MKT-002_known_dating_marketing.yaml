@@ -1,0 +1,111 @@
+lens_id: LENS-MKT-002
+version: 0.1
+status: pilot
+name: Known Dating App Marketing Lens
+optional: true
+origin:
+  type: custom
+  palette_basis: LENS-MKT-001 (Marketing Execution)
+  external_inspiration:
+  - Known press coverage and product positioning
+  - Dating app growth playbooks (Thursday, Bumble, Hinge)
+  source_pack: null
+  notes: Purpose-built for Agnes Bori at Known. Extends MKT-001 with dating-specific
+    sections — user acquisition in two-sided marketplaces, brand voice for Gen Z,
+    anti-swipe positioning, and voice-first product marketing.
+critical_question:
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: It helps Agnes convert Known's product advantages (voice onboarding, 80%
+    date rate, anti-ghosting) into executable marketing plans with clear audiences,
+    channels, messaging tests, and growth metrics — calibrated for a seed-stage
+    dating app expanding from SF.
+when_to_use:
+  signals:
+  - known marketing
+  - dating app growth
+  - user acquisition
+  - brand positioning
+  - waitlist conversion
+  - city expansion
+  - content strategy
+  - competitive positioning
+  not_for:
+  - product engineering decisions
+  - fundraising strategy
+  - legal/compliance review
+  - unsupported growth projections
+  user_intents:
+  - How do we grow the waitlist?
+  - What content should we post this week?
+  - How do we position against Hinge/Bumble?
+  - What messaging converts Gen Z women?
+  - Should we expand to LA or NYC next?
+palette_fit:
+  primary_rius:
+  - RIU-001   # AI strategy
+  - RIU-006   # cost-benefit
+  - RIU-014   # competitive analysis
+  - RIU-062   # GTM
+  - RIU-605   # cross-brand knowledge transfer
+  supporting_rius:
+  - RIU-002   # use case identification
+  - RIU-505   # voice input modality
+  primary_agents:
+  - narrator
+  - researcher
+  - architect
+  supporting_agents:
+  - monitor
+  - validator
+  library_links:
+  - Prefer entries on experimentation, messaging, growth channels, and two-sided marketplace dynamics.
+  company_matrix_use:
+  - Use Thursday, Bumble, Hinge, and Feeld as reference comparables for campaign patterns and growth strategies.
+output_contract:
+  required_sections:
+  - Target audience (specific — age, gender, city, psychographic)
+  - Core message angle / hypothesis
+  - Channel plan (organic vs paid, specific platforms)
+  - Content or creative variants to test
+  - Growth metric targets (leading + lagging)
+  - Competitive differentiation (why Known, not alternatives)
+  - Timeline and owners
+  forbidden_patterns:
+  - generic marketing advice without audience specificity
+  - claims about Known's metrics without sourcing
+  - ignoring the two-sided marketplace problem (need both men and women)
+  - using the word "swipe" positively (brand is anti-swipe)
+  - promising specific download or conversion numbers without data
+  - treating dating app marketing like SaaS marketing
+quality_checks:
+- Target audience is specific (not "Gen Z" but "Gen Z women in SF aged 22-28 frustrated with Hinge")
+- At least one testable messaging hypothesis is included
+- Growth channel has a cost estimate or benchmark
+- Two-sided marketplace dynamics are addressed (not just total users)
+- Competitive positioning is evidence-based (sourced metrics, not opinion)
+- Content plan includes format, platform, and cadence
+interaction_style:
+  default_answer_shape:
+  - audience_and_insight
+  - message_hypothesis
+  - channel_and_content_plan
+  - growth_metrics
+  - competitive_angle
+  - timeline_and_next_steps
+  presentation_rules:
+  - Lead with the audience insight, not the tactic.
+  - Every recommendation ties back to a Known product advantage.
+  - Frame competition as "what users are tired of" not "what competitors do wrong."
+  - Keep voice authentic and anti-corporate — match Known's brand.
+  - Always address both sides of the marketplace.
+evaluation_plan:
+  compare_against_no_lens:
+  - campaign_specificity_score
+  - audience_definition_quality
+  - competitive_differentiation_clarity
+  - actionability_within_7_days
+  minimum_sample_size: 20
+  kill_if:
+  - No improvement on 2+ of 4 metrics.
+  - Outputs read like generic startup marketing advice.
+  - Two-sided marketplace dynamics consistently ignored.

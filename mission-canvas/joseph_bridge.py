@@ -18,6 +18,7 @@ Commands:
   /gaps       — missing evidence list
   /decisions  — open decisions (blocked vs ready)
   /health     — health score breakdown
+  /stress     — market stress probability (CAPE + Buffett + P/S)
   /research   — research a question with Perplexity
   /alerts     — show recent monitor alerts
   /monitors   — show active monitors
@@ -55,6 +56,8 @@ MAX_HISTORY     = 20
 SESSION_LOG     = os.environ.get("MC_SESSION_LOG", "joseph_session.jsonl")
 CHAT_ID_FILE    = os.environ.get("MC_CHAT_ID_FILE",
                                  os.path.join(os.path.dirname(__file__) or ".", "joseph_chat_ids.json"))
+
+RESOLVER_URL    = os.environ.get("RESOLVER_URL", "http://localhost:8788")
 
 TELEGRAM = f"https://api.telegram.org/bot{BOT_TOKEN}"
 PERPLEXITY_URL = "https://api.perplexity.ai/chat/completions"
@@ -167,22 +170,140 @@ def perplexity_research(query: str, context: str = "") -> str:
         return ""
 
 
-# ── Research routing ─────────────────────────────────────────────────────────
+# ── Monitor intent detection ──────────────────────────────────────────────────
 
-# Patterns that indicate a research question (not workspace state)
-_RESEARCH_PATTERNS = [
-    r'(is|are)\s+\w+.*\b(good|bad|worth|viable|promising)\b.*\b(investment|buy|stock|company)',
-    r'\b(invest|investing|investment)\b.*\b(in|into)\b',
-    r'\b(valuation|funding|ipo|series [a-e]|revenue|market cap)\b',
-    r'\b(compare|versus|vs\.?)\b.*\b(company|stock|fund|etf)\b',
-    r'\b(what is|tell me about|who is|explain)\b.*\b(company|startup|fund|firm|ceo|founder)\b',
-    r'\b(news|latest|update|happening)\b.*\b(market|oil|energy|ai|tech|crypto)\b',
-    r'\b(price|trading|shares|stock|equity)\b.*\b(today|now|current|latest)\b',
-    r'\b(opec|hormuz|sanctions|tariff|regulation)\b',
-    r'\b(anthropic|openai|lovable|perplexity|cursor|runway|braintrust)\b',
+# Patterns that indicate the user wants to CREATE a monitor/alert (not research)
+_MONITOR_REQUEST_PATTERNS = [
+    r'\b(ping|alert|notify|tell|text|message|flag)\b.*\b(me|us)\b.*\b(when|if|second|moment|once|as soon)\b',
+    r'\b(watch|monitor|track)\b.*\b(for|when|if)\b',
+    r'\b(let me know|heads up|keep.*(eye|watch))\b.*\b(when|if|on)\b',
+    r'\b(set\s*(up\s+)?(an?\s+)?alert|create\s*(a\s+)?monitor|add\s*(a\s+)?watch)\b',
 ]
 
-# Patterns that indicate a workspace question (convergence chain)
+
+def is_monitor_request(text: str) -> bool:
+    """Check if the user is asking to set up a monitoring alert."""
+    q = text.lower().strip()
+    for pattern in _MONITOR_REQUEST_PATTERNS:
+        if re.search(pattern, q):
+            return True
+    return False
+
+
+def create_monitor_from_request(text: str, workspace_id: str) -> str:
+    """Parse a natural-language monitoring request and create a monitor YAML.
+
+    Returns a confirmation message for the user.
+    """
+    q = text.lower()
+    now = datetime.datetime.now()
+    monitor_id = f"user-{now.strftime('%Y%m%d-%H%M%S')}"
+
+    # ── Extract schedule urgency ──
+    # "the second", "immediately", "as soon as" → fast (15 min)
+    # "daily" → 1440 min, "hourly" → 60 min, default → 30 min
+    if re.search(r'(the second|immediately|right away|as soon as|instant)', q):
+        schedule = 15
+    elif re.search(r'\bdaily\b', q):
+        schedule = 1440
+    elif re.search(r'\bhourly\b', q):
+        schedule = 60
+    else:
+        schedule = 30
+
+    # ── Extract threshold if present ──
+    threshold_match = re.search(r'(\d+(?:\.\d+)?)\s*%', q)
+    threshold = threshold_match.group(1) + "%" if threshold_match else None
+
+    direction = "either direction"
+    if re.search(r'\b(drop|fall|crash|decline|down)\b', q) and not re.search(r'\b(rise|up|rally|gain)\b', q):
+        direction = "downward"
+    elif re.search(r'\b(rise|up|rally|gain|surge)\b', q) and not re.search(r'\b(drop|fall|crash|decline|down)\b', q):
+        direction = "upward"
+
+    # ── Extract what to monitor ──
+    # Strip the intent verbs to isolate the subject
+    subject = re.sub(r'^.*?\b(when|if|that|second|moment|once)\b\s*', '', q, count=1).strip()
+    # Clean trailing punctuation
+    subject = re.sub(r'[.!?]+$', '', subject).strip()
+    if not subject or len(subject) < 3:
+        subject = re.sub(r'\b(ping|alert|notify|tell|watch|monitor|track|me|us)\b', '', q).strip()
+
+    # Build human-readable name
+    name = subject[:60].strip().title() if subject else "Custom Alert"
+    if threshold:
+        name = f"{name} ({threshold})"
+
+    # ── Build search queries ──
+    search_queries = [
+        f"{subject} latest significant change today",
+        f"{subject} breaking news price movement",
+    ]
+    if threshold:
+        search_queries.append(f"{subject} {threshold} move change")
+
+    # ── Build system prompt ──
+    system_lines = [
+        "You are a real-time market monitor. Your ONLY job is to detect whether a specific condition has been met.",
+        f"Condition: {subject}",
+    ]
+    if threshold:
+        system_lines.append(f"Threshold: {threshold} move {direction}")
+    system_lines += [
+        "",
+        "If the condition has NOT been met, respond with exactly: NO_TRIGGER",
+        "If the condition HAS been met or is very close, respond with a brief factual report including specific numbers, percentages, and time.",
+        "Do NOT include general market commentary. Only report if the specific trigger condition is met.",
+    ]
+
+    monitor_data = {
+        "monitor": {
+            "id": monitor_id,
+            "name": name,
+            "description": f"User-requested alert: {text[:200]}",
+            "enabled": True,
+            "schedule_minutes": schedule,
+            "search_queries": search_queries,
+            "system_prompt": "\n".join(system_lines),
+            "filter_keywords": [],
+            "notify_channels": ["telegram"],
+            "context": {
+                "workspace_id": workspace_id,
+                "relevance_threshold": "high",
+                "max_alerts_per_run": 1,
+                "trigger_condition": text[:300],
+                "threshold": threshold,
+                "direction": direction,
+            },
+            "last_run": None,
+            "last_alert_count": 0,
+            "total_alerts": 0,
+        }
+    }
+
+    # ── Save to workspace monitors dir ──
+    monitors_dir = Path(WORKSPACES_DIR) / workspace_id / "monitors"
+    monitors_dir.mkdir(parents=True, exist_ok=True)
+    monitor_path = monitors_dir / f"{monitor_id}.yaml"
+    with open(monitor_path, "w") as f:
+        yaml.dump(monitor_data, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
+
+    # ── Confirmation ──
+    confirm_lines = [
+        f"*Monitor created:* {name}",
+        f"Checking every {schedule} minutes",
+    ]
+    if threshold:
+        confirm_lines.append(f"Trigger: {threshold} move {direction}")
+    confirm_lines.append(f"\nUse /monitors to see all active monitors.")
+    return "\n".join(confirm_lines)
+
+
+# ── Intent routing ───────────────────────────────────────────────────────────
+# Primary: Resolver service (LLM-based cluster → RIU → grounded prompt)
+# Fallback: regex workspace patterns (if resolver is down)
+
+# Fast-path patterns for workspace questions (fallback only)
 _WORKSPACE_PATTERNS = [
     r'(should i|do i|trim|sell|buy|add|hold|exit)',
     r'(what.*focus|what.*first|what.*priority|where.*start)',
@@ -193,21 +314,43 @@ _WORKSPACE_PATTERNS = [
     r'(brief|health|score|nudge)',
 ]
 
-def is_research_question(text: str) -> bool:
-    """Check if this looks like a research/investment question vs workspace query."""
-    q = text.lower().strip()
-    for pattern in _RESEARCH_PATTERNS:
-        if re.search(pattern, q):
-            return True
-    return False
-
 def is_workspace_question(text: str) -> bool:
-    """Check if this matches workspace state patterns."""
+    """Check if this matches workspace state patterns (fallback)."""
     q = text.lower().strip()
     for pattern in _WORKSPACE_PATTERNS:
         if re.search(pattern, q):
             return True
     return False
+
+
+def call_resolver(text: str, session_id: str = "", context: str = "") -> dict | None:
+    """Call the Resolver service. Returns parsed response or None if unavailable."""
+    try:
+        with httpx.Client(timeout=15.0) as client:
+            resp = client.post(
+                f"{RESOLVER_URL}/resolve",
+                json={"input": text, "session_id": session_id, "context": context},
+            )
+            if resp.status_code == 200:
+                return resp.json()
+    except Exception as e:
+        print(f"[resolver] unavailable: {e}", flush=True)
+    return None
+
+
+def format_resolver_response(result: dict, question: str) -> str:
+    """Format a resolver result as a Telegram-friendly message."""
+    status = result.get("status")
+
+    if status == "resolved":
+        prompt = result.get("grounded_prompt", "")
+        return prompt or "I'm not sure how to help with that."
+
+    if status == "clarify":
+        return result.get("question", "Could you tell me more?")
+
+    if status == "out_of_scope":
+        return result.get("message", "I'm not sure how to help with that.")
 
 
 # ── Alert & Monitor helpers ──────────────────────────────────────────────────
@@ -345,42 +488,68 @@ def mc_ask(question: str, workspace_id: str) -> str:
 
 
 def smart_answer(question: str, workspace_id: str) -> str:
-    """Smart routing: research questions → Perplexity, workspace questions → chain, hybrid → both."""
-    is_research = is_research_question(question)
-    is_workspace = is_workspace_question(question)
+    """Smart routing — three tiers:
+       1. Monitor requests → create monitor (pattern match, instant)
+       2. Resolver service → LLM-based intent classification → grounded prompt
+       3. Fallback → regex workspace detection + Perplexity default
+    """
 
-    # Pure research question — go to Perplexity
-    if is_research and not is_workspace and PERPLEXITY_KEY:
-        # Load workspace context for better answers
-        try:
-            ws_config = load_yaml_file(Path(WORKSPACES_DIR) / workspace_id / "config.yaml")
-            context = ws_config.get("workspace", {}).get("description", "")
-        except Exception:
-            context = ""
-        answer = perplexity_research(question, context)
-        if answer:
-            # Log the research to workspace session
-            log_exchange(0, f"[research] {question}", answer[:600])
-            return answer
+    # 1. Monitor/alert requests — pattern match, no LLM needed
+    if is_monitor_request(question):
+        return create_monitor_from_request(question, workspace_id)
 
-    # Workspace question or Perplexity unavailable — use chain
-    if is_workspace or not PERPLEXITY_KEY:
+    # 2. Resolver service — the primary brain
+    #    Classifies intent via cluster → RIU → knowledge library → grounded prompt
+    session_id = str(workspace_id)  # one session per workspace for multi-turn
+    try:
+        ws_config = load_yaml_file(Path(WORKSPACES_DIR) / workspace_id / "config.yaml")
+        ws_context = ws_config.get("workspace", {}).get("description", "")
+    except Exception:
+        ws_context = ""
+
+    resolver_result = call_resolver(question, session_id, ws_context)
+
+    if resolver_result:
+        status = resolver_result.get("status")
+
+        if status == "resolved":
+            # Resolver matched with confidence — use the grounded prompt
+            grounded = resolver_result.get("grounded_prompt", "")
+            knowledge = resolver_result.get("knowledge", {})
+            agent = resolver_result.get("suggested_agent", "")
+
+            # If the suggested agent is "researcher" → enhance with Perplexity
+            if agent == "researcher" and PERPLEXITY_KEY:
+                research = perplexity_research(grounded or question, ws_context)
+                if research:
+                    formatted = format_resolver_response(resolver_result, question)
+                    return f"{research}\n\n---\n{formatted}"
+
+            # For all other agents → return the grounded prompt + metadata
+            return format_resolver_response(resolver_result, question)
+
+        if status == "clarify":
+            # Resolver needs more info — pass the question to the user
+            return format_resolver_response(resolver_result, question)
+
+        if status == "out_of_scope":
+            # Resolver couldn't match — try Perplexity as fallback
+            if PERPLEXITY_KEY:
+                answer = perplexity_research(question, ws_context)
+                if answer:
+                    return answer
+            return format_resolver_response(resolver_result, question)
+
+    # 3. Fallback — resolver unavailable, use regex + Perplexity
+    if is_workspace_question(question):
         return mc_ask(question, workspace_id)
 
-    # Ambiguous — try chain first, enhance with Perplexity if thin
-    chain_answer = mc_ask(question, workspace_id)
-    if chain_answer and len(chain_answer) > 100:
-        return chain_answer
-
-    # Chain gave a thin answer — try Perplexity
     if PERPLEXITY_KEY:
-        research = perplexity_research(question)
-        if research:
-            if chain_answer:
-                return f"{chain_answer}\n\n---\n*Research:*\n{research}"
-            return research
+        answer = perplexity_research(question, ws_context)
+        if answer:
+            return answer
 
-    return chain_answer or "I couldn't find a good answer. Try rephrasing or use /research for a web search."
+    return mc_ask(question, workspace_id)
 
 
 def load_yaml_file(path: Path) -> dict:
@@ -432,6 +601,28 @@ def mc_add_fact(fact: str, source: str, workspace_id: str) -> str:
     return result.get("error", "Failed to add fact.")
 
 
+def _cmd_stress() -> str:
+    """Run the market stress model: fetch current metrics via Perplexity, compute risk."""
+    from market_stress import fetch_current_metrics, compute_stress, format_stress_report
+
+    if not PERPLEXITY_KEY:
+        return "Market stress requires Perplexity API. Set PERPLEXITY_API_KEY."
+
+    metrics = fetch_current_metrics(PERPLEXITY_KEY)
+    if not metrics:
+        return (
+            "Couldn't fetch current market metrics. "
+            "Try `/research current Shiller PE CAPE, Buffett Indicator, S&P 500 P/S ratio`"
+        )
+
+    result = compute_stress(
+        cape=metrics["cape"],
+        buffett=metrics["buffett"],
+        ps_ratio=metrics["ps_ratio"],
+    )
+    return format_stress_report(result)
+
+
 def mc_create_workspace(workspace_id: str, name: str, objective: str, user_name: str = "User") -> str:
     """Create a new workspace."""
     result = mc_post("create-workspace", {
@@ -480,23 +671,43 @@ def set_workspace(chat_id: int, ws_id: str) -> None:
 def cmd_start(chat_id: int) -> None:
     ws = get_workspace(chat_id)
     has_pplx = " + Perplexity research" if PERPLEXITY_KEY else ""
+
+    # Load workspace config for personalized greeting
+    ws_config_path = Path(WORKSPACES_DIR) / ws / "config.yaml"
+    ws_user_name = None
+    ws_description = None
+    if ws_config_path.exists():
+        try:
+            cfg = load_yaml_file(ws_config_path)
+            ws_info = cfg.get("workspace", {})
+            ws_user_name = ws_info.get("user_name")
+            ws_description = ws_info.get("description")
+        except Exception:
+            pass
+
+    greeting = f"Hi {ws_user_name}! " if ws_user_name else ""
+    desc_line = f"_{ws_description}_\n\n" if ws_description else ""
+
     send(chat_id,
         f"*Mission Canvas*{has_pplx}\n\n"
-        f"Connected to workspace: `{ws}`\n\n"
-        "*Commands:*\n"
-        "`/brief` \u2014 daily brief (health, blockers, nudges)\n"
+        f"{greeting}Connected to workspace: `{ws}`\n"
+        f"{desc_line}"
+        "*What you can do:*\n"
+        "`/brief` \u2014 weekly brief (health, blockers, what needs attention)\n"
         "`/gaps` \u2014 what's missing / what's blocking us\n"
-        "`/decisions` \u2014 open decisions\n"
+        "`/decisions` \u2014 open decisions that need your input\n"
         "`/health` \u2014 health score breakdown\n"
-        "`/research <query>` \u2014 research with Perplexity\n"
-        "`/alerts` \u2014 recent monitor alerts\n"
-        "`/monitors` \u2014 active monitors\n"
-        "`/resolve <ID> <answer>` \u2014 resolve an evidence gap\n"
-        "`/fact <fact> | <source>` \u2014 add a known fact\n"
-        "`/workspace <id>` \u2014 switch workspace\n"
-        "`/help` \u2014 this menu\n\n"
-        "Or just ask me anything \u2014 I'll figure out if it's a workspace "
-        "question or research question. Voice messages work too."
+        "`/research <query>` \u2014 research a question\n"
+        "`/resolve <ID> <answer>` \u2014 answer an evidence gap\n"
+        "`/fact <fact> | <source>` \u2014 add something you know\n"
+        "`/help` \u2014 full command list\n\n"
+        "Or just type a question in plain English \u2014 "
+        "I'll figure out what you need. Voice messages work too.\n\n"
+        "*Try these to get started:*\n"
+        "\u2022 `/brief` \u2014 see where things stand\n"
+        "\u2022 `/gaps` \u2014 see what information is missing\n"
+        "\u2022 _\"How should we position Known against Hinge?\"_\n"
+        "\u2022 _\"What growth channel should we prioritize?\"_"
     )
 
 
@@ -510,6 +721,7 @@ def cmd_help(chat_id: int) -> None:
         "`/gaps` \u2014 evidence gaps & blockers\n"
         "`/decisions` \u2014 open decisions\n"
         "`/health` \u2014 health score\n"
+        "`/stress` \u2014 market stress probability (CAPE + Buffett + P/S)\n"
         "`/resolve ME-001 The answer is...` \u2014 resolve a gap\n"
         "`/fact Revenue is $400K/yr | Square POS data` \u2014 add a fact\n\n"
         "*Research & Alerts:*\n"
@@ -567,6 +779,13 @@ def handle_message(chat_id: int, text: str) -> None:
             result = mc_health(ws)
             send(chat_id, result)
             log_exchange(chat_id, "/health", result)
+            return
+
+        if text.startswith("/stress"):
+            typing(chat_id)
+            result = _cmd_stress()
+            send(chat_id, result)
+            log_exchange(chat_id, "/stress", result)
             return
 
         if text.startswith("/resolve "):

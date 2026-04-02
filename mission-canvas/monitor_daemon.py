@@ -153,6 +153,13 @@ def run_monitor(monitor: dict, workspace_dir: Path) -> list[dict]:
         print(f"[monitor] '{name}' — no significant results", flush=True)
         return []
 
+    # Trigger-based monitors: check for NO_TRIGGER response
+    # User-created monitors (id starts with "user-") use system prompts that
+    # instruct Perplexity to respond with "NO_TRIGGER" if the condition isn't met.
+    if "NO_TRIGGER" in content:
+        print(f"[monitor] '{name}' — condition not met (NO_TRIGGER)", flush=True)
+        return []
+
     # Create alert
     now = datetime.datetime.now()
     alert_id = f"alert-{now.strftime('%Y%m%d-%H%M%S')}-{monitor_id}"

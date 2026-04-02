@@ -1,0 +1,483 @@
+metadata:
+  version: "1.1"
+  generated_date: "2026-04-01"
+  domain: dating-app-marketing
+  total_entries: 17
+  source_document: known-marketing/project_state.yaml + competitive_update_2026-04-01.md + growth_channels_strategy.md + pricing_research_report.md + risk_register.md + voice_brand_playbook.md
+  evidence_bar: Workspace facts only. Strong on Known positioning, moderate on competitor comparisons, weak where incumbent internal metrics are unknown.
+  categories:
+    market_calibration: 2
+    positioning: 1
+    pricing: 1
+    growth_operations: 5
+    brand: 3
+    metrics: 2
+    expansion: 2
+    risk_management: 1
+
+library_questions:
+  - id: KNOWN-MKT-KL-001
+    question: How should Known position itself against Hinge, Bumble, Thursday, and Overtone?
+    answer: "Known should not position as 'another dating app with AI.' It should position against swipe fatigue and low-intent matching. The clearest wedge is: voice-first onboarding, one-person-at-a-time introductions, and a business model tied to successful dates rather than endless engagement. Against Hinge and Bumble, the contrast is depth and outcome quality. Against Thursday, the contrast is guided intimacy rather than event scarcity. Against Overtone, the contrast is that Known already has early behavioral proof points in market, including an 80% intro-to-date rate in the SF beta and a 26-minute onboarding flow that suggests unusually high user intent."
+    problem_type: Competitive_Positioning
+    related_rius:
+      - RIU-109
+      - RIU-014
+    difficulty: medium
+    industries:
+      - Consumer Apps
+      - Dating
+      - Growth Marketing
+    tags:
+      - known
+      - hinge
+      - bumble
+      - thursday
+      - overtone
+      - positioning
+      - voice-first
+      - market-calibration
+    sources:
+      - title: Known workspace facts (TechCrunch / Known press)
+        url: https://www.known.app/
+      - title: Bumble investor relations
+        url: https://ir.bumble.com/
+      - title: Overtone launch coverage context
+        url: https://www.matchgroup.com/
+    journey_stage: foundation
+
+  - id: KNOWN-MKT-KL-002
+    question: What should a competitive matrix for Known optimize for?
+    answer: "The matrix should optimize for decision usefulness, not category completeness. The most important columns are: target user frustration, match mechanism, time-to-date, trust/intimacy signal, monetization logic, launch-mode requirements, and proof strength. For Known, the strategic question is not 'who has the most features?' It is 'which alternative owns the same job-to-be-done for dating-fatigued users who want fewer, better introductions?' That means Hinge, Bumble, Thursday, and Overtone matter more than generic social apps."
+    problem_type: Market_Calibration
+    related_rius:
+      - RIU-109
+      - RIU-001
+    difficulty: low
+    industries:
+      - Consumer Apps
+      - Dating
+      - Growth Marketing
+    tags:
+      - competitive-matrix
+      - market-calibration
+      - go-to-market
+      - job-to-be-done
+    sources:
+      - title: Known marketing workspace wire contract
+        url: https://known.app/
+      - title: Known workspace project state
+        url: https://known.app/
+    journey_stage: build
+
+  - id: KNOWN-MKT-KL-003
+    question: What is the strongest messaging contrast for Known versus swipe-based apps?
+    answer: "The strongest contrast is not 'better matching algorithm.' It is 'higher-intent connection design.' Swipe apps optimize volume, optionality, and lightweight engagement. Known can credibly argue for fewer introductions, more signal before the introduction, and accountability around the outcome. Messaging should lead with the emotional and behavioral difference: you speak, you reveal more, and the system is built to get you to a real date faster. The 80% intro-to-date beta claim is the sharpest proof point available right now, but it should be paired with caution because retention, gender balance, and CAC are still unresolved evidence gaps."
+    problem_type: Brand_Narrative
+    related_rius:
+      - RIU-014
+      - RIU-109
+    difficulty: medium
+    industries:
+      - Consumer Apps
+      - Dating
+      - Brand Strategy
+    tags:
+      - messaging
+      - swipe-fatigue
+      - voice
+      - narrative
+      - date-rate
+    sources:
+      - title: Known workspace facts (TechCrunch / Known press)
+        url: https://www.known.app/
+      - title: Known project state evidence gaps
+        url: https://www.known.app/
+    journey_stage: build
+
+  - id: KNOWN-MKT-KL-004
+    question: How should Known think about pricing compared with subscription-based incumbents?
+    answer: "Known's per-successful-date pricing is strategically interesting because it aligns revenue with the user outcome instead of time spent in the app. That creates a narrative advantage over subscription incumbents, but it is also a one-way door because public pricing shapes trust and future unit economics. Before scaling this positioning, Known needs evidence on retention after first date, repeat usage behavior, and the current waitlist-to-date funnel. The right message today is 'aligned incentives,' not 'final pricing model proven.'"
+    problem_type: Pricing_Strategy
+    related_rius:
+      - RIU-109
+      - RIU-512
+    difficulty: medium
+    industries:
+      - Consumer Apps
+      - Dating
+      - Monetization
+    tags:
+      - pricing
+      - per-date
+      - subscription
+      - monetization
+      - aligned-incentives
+      - one-way-door
+    sources:
+      - title: Known workspace facts (TechCrunch / Known press)
+        url: https://www.known.app/
+      - title: Known marketing wire contract spec
+        url: https://known.app/
+    journey_stage: operate
+
+  - id: KNOWN-MKT-KL-005
+    question: What is Known's north star metric and what KPIs should we track weekly?
+    answer: "Known's north star metric is 'Date Density' — dates per 1,000 active users in a city. This measures the core product promise. Weekly KPIs to track: 1) Waitlist growth rate and waitlist-to-accepted conversion, 2) Voice onboarding completion rate, 3) Intro-to-date conversion rate (target: maintain 80%), 4) CAC by channel (guardrail: under $15), 5) Viral coefficient (goal: >0.4 from referrals), 6) Gender ratio of active users (target: 45/55 or better), 7) Repeat date rate (users returning for second intro). The one metric to watch every morning is intro-to-date conversion — if it drops below 70%, the product promise is eroding."
+    problem_type: Growth_Metrics
+    related_rius:
+      - RIU-062
+      - RIU-014
+    difficulty: medium
+    industries:
+      - Consumer Apps
+      - Dating
+      - Growth Marketing
+    tags:
+      - north-star
+      - KPI
+      - metrics
+      - weekly
+      - tracking
+      - date-density
+      - conversion
+    sources:
+      - title: Growth Channels Strategy
+        url: https://known.app/
+      - title: Known workspace project state
+        url: https://known.app/
+    journey_stage: operate
+
+  - id: KNOWN-MKT-KL-006
+    question: What are Known's unit economics, CAC, and LTV targets?
+    answer: "Known's unit economics are anchored to the $30 per-successful-date revenue model. CAC guardrail is $15 per user — this gives a 2:1 first-date LTV-to-CAC ratio. If a user goes on 2 dates/month, monthly LTV is $60 — higher than the average Hinge/Tinder subscriber. Channel CAC benchmarks for dating apps: organic/viral $1-5, referral $5-15, influencer $10-30, paid social $15-40, Google Ads $20-60. Known should prioritize channels under $15 CAC. Current status: actual channel-level CAC data is still pending (ME-002 partially resolved with guardrail, awaiting real data from owner). LTV-to-CAC ratio target at scale: 3:1 or better."
+    problem_type: Unit_Economics
+    related_rius:
+      - RIU-006
+      - RIU-062
+    difficulty: medium
+    industries:
+      - Consumer Apps
+      - Dating
+      - Growth Marketing
+    tags:
+      - CAC
+      - LTV
+      - unit-economics
+      - cost-per-acquisition
+      - budget
+      - revenue
+      - per-date
+    sources:
+      - title: Pricing Research Report
+        url: https://known.app/
+      - title: Growth Channels Strategy
+        url: https://known.app/
+    journey_stage: operate
+
+  - id: KNOWN-MKT-KL-007
+    question: What should Known's content strategy and content calendar look like?
+    answer: "Known's content calendar follows a weekly rhythm: Monday — data point (80% stat, 26-min insight) on Twitter/X for credibility. Tuesday — anonymized user story on TikTok/Reels for emotional connection. Wednesday — swipe culture commentary on TikTok/Reels for problem awareness. Thursday — behind-the-scenes voice AI content on Instagram Stories for transparency. Friday — weekend date prompt across all platforms for engagement. Saturday — intentional silence (Known is about quality, not volume). Sunday — founder voice note on Instagram/TikTok for authenticity. Content rules: never post more than once per day, every post must sound natural read aloud, no stock photos ever, numbers over adjectives, respond to every comment for the first 1000 followers. Current status: ME-005 (content operating strategy) is unresolved — Agnes needs to confirm what content is already in market before finalizing."
+    problem_type: Content_Strategy
+    related_rius:
+      - RIU-014
+      - RIU-062
+    difficulty: medium
+    industries:
+      - Consumer Apps
+      - Dating
+      - Growth Marketing
+    tags:
+      - content
+      - calendar
+      - TikTok
+      - Instagram
+      - social-media
+      - posting
+      - strategy
+      - weekly
+    sources:
+      - title: Voice Brand Playbook
+        url: https://known.app/
+      - title: Growth Channels Strategy
+        url: https://known.app/
+    journey_stage: build
+
+  - id: KNOWN-MKT-KL-008
+    question: What is Known's waitlist strategy and what conversion rate should we target?
+    answer: "Known currently operates in waitlist/apply mode in SF only. The waitlist serves two purposes: 1) quality control — maintaining marketplace balance and user quality, 2) demand signal — demonstrating product-market fit to investors and press. Industry benchmarks for waitlist conversion: 30-50% is strong for consumer apps. Known should target 40%+ waitlist-to-accepted conversion to maintain healthy growth while filtering for quality. Gender-balanced waitlist releases are critical — only unlock a city when the gender split is within 45/55 ratio. Current status: ME-001 (waitlist size, growth rate, acceptance rate, time-to-accept by cohort) is unresolved and CRITICAL — Agnes needs to get this data from the product team. Without it, we cannot forecast launch scale or choose growth channels. The waitlist itself is a marketing asset: scarcity creates desire."
+    problem_type: Growth_Strategy
+    related_rius:
+      - RIU-062
+      - RIU-014
+    difficulty: medium
+    industries:
+      - Consumer Apps
+      - Dating
+      - Growth Marketing
+    tags:
+      - waitlist
+      - conversion
+      - funnel
+      - signup
+      - gating
+      - scarcity
+      - email
+      - nurture
+    sources:
+      - title: Known workspace project state
+        url: https://known.app/
+      - title: Growth Channels Strategy
+        url: https://known.app/
+    journey_stage: build
+
+  - id: KNOWN-MKT-KL-009
+    question: What is Known's brand personality and brand voice?
+    answer: "Known sounds like your most honest friend who happens to be great at dating. Not a tech company. Not a dating coach. Not a therapist. Tone: warm but direct, confident without bragging, playful but never cheesy, anti-hype — understate and let numbers do the work. Brand personality in three words: honest, warm, intentional. The one-liner: 'You talk. We listen. You meet one real person.' Words to use freely: voice, conversation, real, actual, meet, date, person, connect, honest, genuine. Words to never say: swipe, algorithm, AI-powered, disrupting, find your person. Key brand rule: every piece of content must be speakable — if it doesn't sound natural read aloud, rewrite it. Numbers over adjectives: '80% go on dates' beats 'the best dating app.'"
+    problem_type: Brand_Identity
+    related_rius:
+      - RIU-014
+      - RIU-109
+    difficulty: low
+    industries:
+      - Consumer Apps
+      - Dating
+      - Brand Strategy
+    tags:
+      - brand
+      - personality
+      - voice
+      - tone
+      - identity
+      - guidelines
+      - vocabulary
+    sources:
+      - title: Voice Brand Playbook
+        url: https://known.app/
+    journey_stage: foundation
+
+  - id: KNOWN-MKT-KL-010
+    question: Should Known run a referral program and what should the incentive be?
+    answer: "Yes — referral is a P1 channel. Known's 80% date rate is the best referral trigger in dating. Recommended incentive: 'Invite a friend, get your next date free' ($30 value). This is double-sided: referrer gets a free Date Token, referee gets priority waitlist access. The referral should trigger at the moment of delight — right after a successful date, prompt the user to invite a friend. Target viral coefficient: >0.4 (every 10 users bring in 4+ new users). Cost per referral lead at $30 value is within the $15 CAC guardrail if even half of referred users convert to a paid date. Make sharing seamless via voice notes or pre-filled messages. Current status: referral program is not yet live — it depends on resolving OD-001 (primary growth channel decision)."
+    problem_type: Growth_Channel
+    related_rius:
+      - RIU-062
+      - RIU-014
+    difficulty: low
+    industries:
+      - Consumer Apps
+      - Dating
+      - Growth Marketing
+    tags:
+      - referral
+      - viral
+      - incentive
+      - word-of-mouth
+      - invite
+      - growth
+      - program
+    sources:
+      - title: Growth Channels Strategy
+        url: https://known.app/
+    journey_stage: build
+
+  - id: KNOWN-MKT-KL-011
+    question: How should Known approach PR and press coverage?
+    answer: "Known already has strong press foundation — TechCrunch covered the $9.7M seed and the voice-first model. PR strategy should lead positioning, then social amplifies. Recommended approach: 1) Pitch founder stories to relationship/lifestyle press (not just tech), 2) Lead with the 80% stat and the 26-minute onboarding contrast versus swiping, 3) Position Celeste Amadon as the anti-dating-app founder (Stanford dropout building what dating should have been), 4) Target press around city launches for local coverage, 5) Pitch think-pieces on 'voice-first connection design' to build category. Do NOT pitch: 'AI dating app' (crowded narrative, Overtone will own it), feature tours, or pricing details until pricing model is validated. PR should come before paid — earned media builds credibility that makes paid social convert better."
+    problem_type: PR_Strategy
+    related_rius:
+      - RIU-014
+      - RIU-062
+    difficulty: medium
+    industries:
+      - Consumer Apps
+      - Dating
+      - Growth Marketing
+    tags:
+      - PR
+      - press
+      - media
+      - coverage
+      - earned-media
+      - publicity
+      - TechCrunch
+      - founder
+    sources:
+      - title: Competitive Update 2026-04-01
+        url: https://known.app/
+      - title: Voice Brand Playbook
+        url: https://known.app/
+    journey_stage: build
+
+  - id: KNOWN-MKT-KL-012
+    question: How should Known approach city expansion and what does a new city launch look like?
+    answer: "Expansion criteria focus on 'Date Density' and gender-balanced waitlist unlocks. Tier 1 candidates: LA, NYC, Austin. The launch playbook has three phases: 1) Waitlist Collection — run 'Voice of the City' ads to gauge demand and build the waitlist, 2) Gender-Balanced Unlocking — only open the city when the gender split is within 45/55 ratio, 3) Local 'Founding Members' — hand-pick the first 500 users via manual voice audition to set the brand tone. The next city should favor markets where social proof spreads locally, dating fatigue is legible, and event/community amplification can complement the product story. This likely favors dense, narrative-rich urban markets. Localization needs: local venue partnerships for date spots, city-specific content, and community ambassador program. Current blockers: ME-003 (gender balance data) and ME-004 (expansion shortlist — partially resolved)."
+    problem_type: Expansion_Strategy
+    related_rius:
+      - RIU-062
+      - RIU-014
+    difficulty: medium
+    industries:
+      - Consumer Apps
+      - Dating
+      - Growth Marketing
+    tags:
+      - expansion
+      - expand
+      - city
+      - cities
+      - new-city
+      - launch
+      - LA
+      - NYC
+      - Austin
+      - localization
+      - playbook
+      - geography
+      - next-city
+    sources:
+      - title: Growth Channels Strategy
+        url: https://known.app/
+      - title: Competitive Update 2026-04-01
+        url: https://known.app/
+    journey_stage: build
+
+  - id: KNOWN-MKT-KL-013
+    question: How does Known handle gender balance and marketplace dynamics?
+    answer: "Gender imbalance is the #1 structural risk for Known (R-001 in risk register). Most dating apps skew 60-70% male, which degrades the experience for everyone. Known's mitigation: strict gender-balanced waitlist releases — only unlock a city when the gender split is within 45/55 ratio. For messaging, target women with safety, depth, and control narratives (voice reveals personality before photos, one person at a time creates focus). Target men with high match potential, voice features that create real connection, and the 80% date rate. The one-at-a-time model helps because it prevents the 'abundance illusion' that makes users less serious. Current status: ME-003 (actual gender split and marketplace balance) is CRITICAL and unresolved — we do not know the current ratio. Until this is resolved, expansion is blocked."
+    problem_type: Marketplace_Balance
+    related_rius:
+      - RIU-014
+      - RIU-062
+    difficulty: high
+    industries:
+      - Consumer Apps
+      - Dating
+      - Growth Marketing
+    tags:
+      - gender
+      - balance
+      - marketplace
+      - ratio
+      - male
+      - female
+      - two-sided
+      - risk
+    sources:
+      - title: Risk Register
+        url: https://known.app/
+      - title: Growth Channels Strategy
+        url: https://known.app/
+    journey_stage: operate
+
+  - id: KNOWN-MKT-KL-014
+    question: What should Known's marketing budget be and what seasonal trends matter?
+    answer: "For a seed-stage dating app with $9.7M raised, a reasonable monthly marketing budget is $15K-30K, with 60-70% on organic/community and 30-40% on paid tests. The $15 CAC guardrail means a $15K paid budget could acquire ~1,000 users/month. Seasonal trends in dating app downloads: January is the biggest month ('cuffing season' resolution + New Year fresh starts), with a secondary peak in September (back-to-school, fall dating). Summer (June-August) typically sees lower engagement. Valentine's Day week is high-awareness but high-competition — better for PR than paid. For Known specifically, launch timing should target January or September peaks. Budget allocation: P0 organic voice loops (TikTok/Reels), P1 referral program, P2 'swipe fatigue' paid social, P3 community guerrilla events."
+    problem_type: Budget_Planning
+    related_rius:
+      - RIU-062
+      - RIU-006
+    difficulty: medium
+    industries:
+      - Consumer Apps
+      - Dating
+      - Growth Marketing
+    tags:
+      - budget
+      - spending
+      - seasonal
+      - trends
+      - January
+      - timing
+      - allocation
+      - paid
+      - monthly
+    sources:
+      - title: Growth Channels Strategy
+        url: https://known.app/
+      - title: Pricing Research Report
+        url: https://known.app/
+    journey_stage: operate
+
+  - id: KNOWN-MKT-KL-015
+    question: How should Known talk about safety and build trust with new users?
+    answer: "Known should NOT talk about safety the way every other app does (generic 'we take safety seriously' language). Instead, lead with structural design choices that create safety as a byproduct: 1) Voice-first onboarding means users reveal more about themselves before matching — harder for bots and bad actors, 2) One-person-at-a-time introductions mean users invest attention — less room for spam or mass-messaging, 3) 24-hour action windows create accountability — no ghosting after weeks of texting, 4) Per-date pricing means Known's incentive is successful dates, not keeping users trapped. For privacy: Known should implement zero-trust voice storage with self-destruct voice messages after match (R-004 in risk register). Trust messaging: 'We built Known so you'd feel safe enough to be honest.' Not: 'We have advanced safety features.'"
+    problem_type: Trust_Building
+    related_rius:
+      - RIU-014
+      - RIU-109
+    difficulty: medium
+    industries:
+      - Consumer Apps
+      - Dating
+      - Brand Strategy
+    tags:
+      - safety
+      - trust
+      - privacy
+      - security
+      - new-users
+      - onboarding
+      - credibility
+    sources:
+      - title: Risk Register
+        url: https://known.app/
+      - title: Voice Brand Playbook
+        url: https://known.app/
+    journey_stage: build
+
+  - id: KNOWN-MKT-KL-016
+    question: How should Known message the 26-minute voice onboarding without scaring people?
+    answer: "The 26-minute onboarding is Known's biggest differentiator AND biggest conversion risk. Messaging strategy: 1) Never call it '26 minutes of questions' — call it '26 minutes of real conversation,' 2) Frame it as investment vs. cost: 'You spend 90 minutes a day swiping. We ask for 26 minutes once — and 80% of the time, you go on an actual date,' 3) Use social proof: highlight that users average 26 minutes voluntarily — some go over an hour because they're having a real conversation, 4) Contrast with the alternative: '26 minutes or 26 days of texting someone who ghosts you,' 5) In ads, show the experience — someone laughing, being genuine, surprised by their own honesty. The onboarding IS the product experience. It is not a barrier to entry — it is the first moment of connection."
+    problem_type: Conversion_Messaging
+    related_rius:
+      - RIU-505
+      - RIU-014
+    difficulty: medium
+    industries:
+      - Consumer Apps
+      - Dating
+      - Brand Strategy
+    tags:
+      - onboarding
+      - 26-minutes
+      - voice
+      - conversion
+      - messaging
+      - fear
+      - friction
+      - length
+    sources:
+      - title: Voice Brand Playbook
+        url: https://known.app/
+      - title: TechCrunch Known coverage
+        url: https://techcrunch.com/2025/12/19/known-uses-voice-ai-to-help-you-go-on-more-in-person-dates/
+    journey_stage: build
+
+  - id: KNOWN-MKT-KL-017
+    question: How should Known use the 80% intro-to-date conversion rate in marketing?
+    answer: "The 80% stat is Known's sharpest proof point. How to use it: 1) Lead with it in every channel — '80% of our intros turn into actual dates' is the single most compelling claim Known has, 2) Context it against the industry: dating app average match-to-date rate is 5-15%, so Known is 5-16x better, 3) Use it in the TikTok 'The Math' script: '90 minutes of swiping, one date a month. 26 minutes of talking, 80% go on an actual date,' 4) Pair it with the per-date pricing: 'We only charge when it works — and it works 80% of the time.' Cautions: 1) This is beta SF data — it may not hold at scale, in new cities, or with different demographics. Flag it as 'SF beta' until proven elsewhere, 2) Do not say '80% success rate' — say '80% of intros lead to in-person dates.' The date is the outcome, not the relationship, 3) Monitor this number weekly — if it drops below 70%, pause marketing that references it. Current status: the stat is the strongest positioning asset but retention (ME-006) and gender balance (ME-003) could erode it."
+    problem_type: Proof_Point_Strategy
+    related_rius:
+      - RIU-014
+      - RIU-109
+    difficulty: low
+    industries:
+      - Consumer Apps
+      - Dating
+      - Growth Marketing
+    tags:
+      - 80-percent
+      - conversion
+      - date-rate
+      - proof-point
+      - stat
+      - intro-to-date
+      - marketing-claim
+      - evidence
+    sources:
+      - title: TechCrunch Known coverage
+        url: https://techcrunch.com/2025/12/19/known-uses-voice-ai-to-help-you-go-on-more-in-person-dates/
+      - title: Competitive Update 2026-04-01
+        url: https://known.app/
+    journey_stage: foundation

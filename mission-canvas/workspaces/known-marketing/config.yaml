@@ -1,0 +1,51 @@
+# Known Marketing — Workspace Configuration
+# Created: 2026-04-01
+# Owner: Agnes Bori (EA & Marketing, Known dating app)
+
+workspace:
+  id: "known-marketing"
+  name: "Known Marketing"
+  description: "Marketing strategy, brand positioning, and growth for Known — the voice-first dating app"
+  user_name: "Agnes"
+  user_role: "owner"
+  domain: "dating-app-marketing"
+  primary_frontend: "telegram"
+
+frx:
+  greeting_style: "direct"
+  startup_artifact: "weekly_brief"
+  show_top_blockers: true
+  nudge_threshold_days: 7
+  max_nudges: 5
+
+artifacts:
+  defaults:
+    - "weekly_brief"
+    - "campaign_plan"
+    - "competitive_update"
+    - "content_calendar"
+    - "growth_report"
+
+retrieval:
+  static_knowledge_pack: "known_v1"
+  live_retrieval_enabled: false
+
+governance:
+  risk_posture: "medium"
+  require_owd_confirmation: true
+
+subscriptions:
+  perplexity:
+    enabled: false
+    use_for: "competitive research, market trends, press monitoring"
+  claude:
+    enabled: true
+    use_for: "campaign planning, messaging, content strategy"
+  telegram:
+    enabled: true
+    bot: "@agi_palette_bot"
+    use_for: "quick queries, alerts, weekly updates"
+
+monitors:
+  - dating-market
+  - known-brand

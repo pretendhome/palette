@@ -353,8 +353,8 @@
   </header>
 
   <div class="stage" id="stage">
-    <div class="question" id="questionText">Who are you?</div>
-    <div class="subtitle">Tap the mic and ask</div>
+    <div class="question" id="questionText">Mission Canvas</div>
+    <div class="subtitle">Tap the mic or type a question</div>
 
     <div class="mic-orb" id="micOrb">
       <canvas id="vizCanvas"></canvas>
@@ -399,7 +399,7 @@ let headerTapCount = 0;
 let headerTapTimer = null;
 
 // Offline fallback answer (from Codex)
-const FALLBACK_ANSWER = 'I am Mission Canvas. I translate messy human intent into structured decisions. I surface what is known, what is missing, what is blocked, and what should happen next. Palette is the intelligence layer behind me, and I can hand work back toward Claude or Codex on the backend when needed.';
+const FALLBACK_ANSWER = 'I\'m Mission Canvas — your voice interface to Palette intelligence. Ask me anything about your workspace, or just say what you\'re trying to do.';
 
 // ── DOM refs ──
 const shell      = document.getElementById('shell');
@@ -418,6 +418,22 @@ const vizCtx     = vizCanvas.getContext('2d');
 
 // Enable debug mode
 if (DEBUG) shell.classList.add('debug-mode');
+
+// Load Voxtral WebGPU in the background (non-blocking)
+loadVoxtralWebGPU().then(loaded => {
+  if (loaded) {
+    console.log('Voxtral WebGPU ready for voice input');
+    if (!DEBUG) {
+      // In production, prefer Voxtral WebGPU over native SpeechRecognition
+      // by setting useServerSTT to false only if Voxtral is available
+      // This ensures we use the best available method
+    }
+  } else {
+    console.log('Voxtral WebGPU not available, using fallback methods');
+  }
+}).catch(error => {
+  console.error('Voxtral WebGPU initialization failed:', error);
+});
 
 // Double-tap header to toggle debug (from Codex crew feedback)
 document.getElementById('header').addEventListener('click', () => {
@@ -492,6 +508,107 @@ function drawViz() {
 // ── Speech recognition ──
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let finalTx = '', interimTx = '';
+let mediaRecorder = null;
+let audioChunks = [];
+const useServerSTT = !SR; // Fallback to server-side Whisper for Firefox/Chromium
+
+// ── Voxtral WebGPU STT (browser-native GPU-accelerated) ──
+let voxtralProcessor = null;
+let voxtralModel = null;
+let voxtralAudioContext = null;
+let voxtralAudioStream = null;
+let voxtralMediaRecorder = null;
+let voxtralAudioChunks = [];
+let voxtralProcessing = false;
+
+async function loadVoxtralWebGPU() {
+  try {
+    // Check for WebGPU support
+    if (!navigator.gpu) {
+      console.log('WebGPU not supported, falling back to other methods');
+      return false;
+    }
+    
+    // Load Transformers.js and Voxtral model
+    const { pipeline, env } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.12.0');
+    
+    // Use WebGPU backend
+    env.allowLocalModels = false;
+    env.backends.onnx.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/';
+    
+    // Load the Voxtral model (optimized for WebGPU)
+    voxtralProcessor = await pipeline('automatic-speech-recognition', 'Xenova/voxtral-mini-webgpu');
+    
+    console.log('Voxtral WebGPU loaded successfully');
+    return true;
+  } catch (error) {
+    console.error('Failed to load Voxtral WebGPU:', error);
+    return false;
+  }
+}
+
+async function startVoxtralTranscription(audioStream) {
+  if (!voxtralProcessor || voxtralProcessing) return;
+  
+  voxtralProcessing = true;
+  voxtralAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+  voxtralAudioStream = audioStream;
+  
+  try {
+    // Create media recorder for audio capture
+    voxtralMediaRecorder = new MediaRecorder(audioStream, { mimeType: 'audio/wav' });
+    voxtralAudioChunks = [];
+    
+    voxtralMediaRecorder.ondataavailable = async (event) => {
+      if (event.data.size > 0) {
+        voxtralAudioChunks.push(event.data);
+        
+        // Process audio chunks in real-time
+        const audioBlob = new Blob(voxtralAudioChunks, { type: 'audio/wav' });
+        const audioBuffer = await audioBlob.arrayBuffer();
+        
+        // Transcribe using Voxtral WebGPU
+        const result = await voxtralProcessor(audioBuffer, {
+          chunk_length_s: 5,
+          stride_length_s: 1,
+          return_timestamps: true,
+          language: 'english'
+        });
+        
+        if (result?.text) {
+          finalTx = result.text;
+          liveTx.textContent = finalTx;
+          liveTx.classList.add('active');
+        }
+      }
+    };
+    
+    voxtralMediaRecorder.start(1000); // Process every 1 second
+    
+  } catch (error) {
+    console.error('Voxtral transcription error:', error);
+    stopVoxtralTranscription();
+  }
+}
+
+function stopVoxtralTranscription() {
+  if (voxtralMediaRecorder && voxtralMediaRecorder.state !== 'inactive') {
+    voxtralMediaRecorder.stop();
+  }
+  
+  if (voxtralAudioStream) {
+    voxtralAudioStream.getTracks().forEach(track => track.stop());
+    voxtralAudioStream = null;
+  }
+  
+  if (voxtralAudioContext) {
+    voxtralAudioContext.close().catch(() => {});
+    voxtralAudioContext = null;
+  }
+  
+  voxtralProcessing = false;
+  voxtralAudioChunks = [];
+}
 
 function makeSR() {
   if (!SR) return null;
@@ -527,12 +644,7 @@ function makeSR() {
 }
 
 async function startRec(btn) {
-  if (!SR) { toast('Speech not supported — use Chrome or Edge'); return; }
-
   finalTx = ''; interimTx = '';
-  recognition = makeSR();
-  if (!recognition) return;
-
   recording = true;
   btn.classList.add('recording');
   liveTx.textContent = '';
@@ -541,7 +653,28 @@ async function startRec(btn) {
   try {
     micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
     initAudioViz(micStream);
-    recognition.start();
+
+    // Priority 1: Voxtral WebGPU (if available and loaded)
+    if (voxtralProcessor) {
+      liveTx.textContent = 'Listening with Voxtral WebGPU...';
+      await startVoxtralTranscription(micStream);
+      return;
+    }
+
+    // Priority 2: Native SpeechRecognition (Chrome)
+    if (!useServerSTT && SR) {
+      recognition = makeSR();
+      if (recognition) recognition.start();
+      return;
+    }
+
+    // Priority 3: Server-side Whisper transcription (fallback)
+    audioChunks = [];
+    mediaRecorder = new MediaRecorder(micStream, { mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/ogg' });
+    mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) audioChunks.push(e.data); };
+    mediaRecorder.start();
+    liveTx.textContent = 'Listening...';
+
   } catch (e) {
     toast('Could not access microphone');
     stopRec();
@@ -554,7 +687,39 @@ function stopRec() {
   bottomMic.classList.remove('recording');
   liveTx.classList.remove('active');
 
+  // Stop Voxtral WebGPU transcription if active
+  if (voxtralProcessing) {
+    stopVoxtralTranscription();
+    const transcript = liveTx.textContent.trim();
+    if (transcript) send(transcript);
+    liveTx.textContent = '';
+  }
+
   if (recognition) { try { recognition.stop(); } catch {} recognition = null; }
+
+  if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+    mediaRecorder.stop();
+    mediaRecorder.onstop = async () => {
+      const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType });
+      audioChunks = [];
+      mediaRecorder = null;
+      if (blob.size < 1000) { liveTx.textContent = ''; return; } // Too short
+      liveTx.textContent = 'Transcribing...';
+      try {
+        const resp = await fetch(`${API}/v1/missioncanvas/transcribe`, { method: 'POST', body: blob });
+        const data = await resp.json();
+        liveTx.textContent = '';
+        if (data.transcript) send(data.transcript);
+        else liveTx.textContent = 'No speech detected';
+      } catch (e) {
+        toast('Transcription failed');
+        liveTx.textContent = '';
+      }
+    };
+  } else {
+    mediaRecorder = null;
+  }
+
   if (micStream) { micStream.getTracks().forEach(t => t.stop()); micStream = null; }
   if (audioCtx) { audioCtx.close().catch(() => {}); audioCtx = null; analyser = null; }
 
@@ -562,7 +727,7 @@ function stopRec() {
 }
 
 function toggleMic(btn) {
-  if (recording) { const t = stopRec(); if (t) send(t); }
+  if (recording) { stopRec(); if (!useServerSTT) { const t = liveTx.textContent.trim(); if (t) send(t); } }
   else startRec(btn);
 }
 
@@ -734,7 +899,8 @@ function scroll() {
 function speak(text) {
   if (!window.speechSynthesis) return;
   speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text.slice(0, 2000));
+  const spoken = text.replace(/\[\d+(?:\]\[?\d*)*\]/g, '').replace(/\s{2,}/g, ' ');
+  const u = new SpeechSynthesisUtterance(spoken.slice(0, 2000));
   u.rate = 1.0; u.pitch = 1.0;
   const voices = speechSynthesis.getVoices();
   const pref = voices.find(v =>
@@ -853,7 +1019,7 @@ async function send(text) {
       const identity = whoData.answer || '';
       // Route narration
       const chain = routeData.convergence_chain || {};
-      const narration = chain.narration || routeData.action_brief_markdown || '';
+      const narration = chain.narration || routeData.voice_summary || routeData.action_brief_markdown || '';
       // Combine
       const parts = [identity];
       if (narration) parts.push('\n\n' + clean(narration));
@@ -902,7 +1068,7 @@ async function send(text) {
 
     const data = await resp.json();
     const chain = data.convergence_chain || {};
-    const answer = clean(chain.narration || data.action_brief_markdown || 'I heard you. Let me think about that.');
+    const answer = clean(chain.narration || data.voice_summary || data.action_brief_markdown || 'I heard you. Let me think about that.');
 
     // Coaching hints
     const coachingHints = extractCoaching(data);

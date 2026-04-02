@@ -53,6 +53,43 @@ const ALLOW_ORIGIN = process.env.ALLOW_ORIGIN || '*';
 const DECISIONS_LOG_PATH = process.env.MISSIONCANVAS_DECISIONS_LOG_PATH || '';
 const PEERS_BROKER_URL = process.env.PALETTE_PEERS_BROKER_URL || 'http://127.0.0.1:7899';
 const PEERS_IDENTITY = 'missioncanvas.site';
+const RESOLVER_URL = process.env.RESOLVER_URL || 'http://localhost:8788';
+const OKA_ENV_PATH = path.join(__dirname, 'oka.env');
+const OKA_PROMPT_PATH = path.join(__dirname, 'oka_system_prompt_codex.md');
+const OKA_FALLBACK_PROMPT_PATH = path.join(__dirname, 'oka_system_prompt.md');
+
+function loadDotEnvFile(filePath) {
+  const env = {};
+  try {
+    const raw = readFileSync(filePath, 'utf-8');
+    for (const line of raw.split(/\r?\n/)) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const idx = trimmed.indexOf('=');
+      if (idx === -1) continue;
+      const key = trimmed.slice(0, idx).trim();
+      let value = trimmed.slice(idx + 1).trim();
+      if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+        value = value.slice(1, -1);
+      }
+      env[key] = value;
+    }
+  } catch { /* oka.env optional in repo runtime */ }
+  return env;
+}
+
+const okaEnv = loadDotEnvFile(OKA_ENV_PATH);
+const OKA_MODEL = okaEnv.OKA_MODEL || process.env.OKA_MODEL || 'gpt-5.4';
+const OKA_OPENAI_API_KEY = okaEnv.OPENAI_API_KEY || process.env.OPENAI_API_KEY || '';
+const OKA_PERPLEXITY_API_KEY = okaEnv.PERPLEXITY_API_KEY || process.env.PERPLEXITY_API_KEY || '';
+const OKA_PERPLEXITY_MODEL = okaEnv.OKA_PERPLEXITY_MODEL || process.env.OKA_PERPLEXITY_MODEL || 'sonar';
+const OKA_SYSTEM_PROMPT = (() => {
+  try { return readFileSync(OKA_PROMPT_PATH, 'utf-8'); }
+  catch {
+    try { return readFileSync(OKA_FALLBACK_PROMPT_PATH, 'utf-8'); }
+    catch { return 'You are Oka, a warm voice-first learning companion for Nora.'; }
+  }
+})();
 
 // ── Workspace store (loaded on first access per workspace_id) ──
 const WORKSPACES_DIR = path.join(__dirname, 'workspaces');
@@ -318,6 +355,133 @@ function buildIdentityAnswer(question) {
   ].join(' ');
 }
 
+function buildOkaSessionGuide(history) {
+  const turns = (history || []).filter((item) => item && item.role === 'user').length;
+  if (turns <= 1) {
+    return {
+      phase: 'Confidence',
+      guidance: 'Start with a strength, curiosity, oral math, history, dragons, or another confidence-building entry point.'
+    };
+  }
+  if (turns <= 4) {
+    return {
+      phase: 'Skill',
+      guidance: 'Use one small oral skill challenge with layered hints. Keep it light. If frustration rises, switch.'
+    };
+  }
+  return {
+    phase: 'Confidence close',
+    guidance: 'Close on a strength, celebration, or interest-based moment. Do not end on frustration.'
+  };
+}
+
+function normalizeOkaText(text) {
+  return String(text || '')
+    .replace(/\[\d+(?:\]\[?\d*)*\]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function buildOkaFallback(message, history) {
+  const lower = String(message || '').toLowerCase();
+  const { phase } = buildOkaSessionGuide(history);
+  if (lower.includes('stop')) return { response: 'Okay. We can stop right here. I am still with you when you want me again.', phase };
+  if (lower.includes('math')) return { response: 'Nice. Let us do one in our heads. What is 17 plus 8?', phase };
+  if (lower.includes('history')) return { response: 'Cool. If you could time travel to one moment in the past, where would you go first?', phase };
+  if (lower.includes('dragon') || lower.includes('fairy')) return { response: 'Okay. A dragon finds a hidden doorway in the forest. What is on the other side?', phase };
+  return { response: 'I heard you. Want to keep going, want a clue, or want something fun?', phase };
+}
+
+async function callOpenAIResponses({ systemPrompt, history, message }) {
+  if (!OKA_OPENAI_API_KEY) throw new Error('OPENAI_API_KEY not configured for Oka');
+  const input = [
+    { role: 'system', content: systemPrompt }
+  ];
+  for (const item of history || []) {
+    if (!item || !item.role || !item.content) continue;
+    input.push({
+      role: item.role === 'assistant' ? 'assistant' : 'user',
+      content: String(item.content)
+    });
+  }
+  input.push({ role: 'user', content: String(message || '') });
+
+  const res = await fetch('https://api.openai.com/v1/responses', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${OKA_OPENAI_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: OKA_MODEL,
+      input
+    })
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.error?.message || `OpenAI returned ${res.status}`);
+  }
+  return normalizeOkaText(extractTextFromGateway(data));
+}
+
+async function callPerplexityOka({ systemPrompt, history, message }) {
+  if (!OKA_PERPLEXITY_API_KEY) throw new Error('PERPLEXITY_API_KEY not configured for Oka fallback');
+  const messages = [{ role: 'system', content: systemPrompt }];
+  for (const item of history || []) {
+    if (!item || !item.role || !item.content) continue;
+    messages.push({
+      role: item.role === 'assistant' ? 'assistant' : 'user',
+      content: String(item.content)
+    });
+  }
+  messages.push({ role: 'user', content: String(message || '') });
+
+  const res = await fetch('https://api.perplexity.ai/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${OKA_PERPLEXITY_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: OKA_PERPLEXITY_MODEL,
+      messages
+    })
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.error?.message || `Perplexity returned ${res.status}`);
+  }
+  return normalizeOkaText(extractTextFromGateway(data));
+}
+
+async function generateOkaReply(message, history = []) {
+  const sessionGuide = buildOkaSessionGuide(history);
+  const systemPrompt = [
+    OKA_SYSTEM_PROMPT.trim(),
+    '',
+    '## Current Session Guidance',
+    `Current phase: ${sessionGuide.phase}`,
+    sessionGuide.guidance,
+    'Keep the next reply voice-first and natural. Prefer short spoken sentences.'
+  ].join('\n');
+
+  try {
+    const response = await callOpenAIResponses({ systemPrompt, history, message });
+    if (response) return { response, provider: 'openai', phase: sessionGuide.phase };
+  } catch (err) {
+    trace('oka_chat', null, 'openai_unavailable', { error: err.message });
+  }
+
+  try {
+    const response = await callPerplexityOka({ systemPrompt, history, message });
+    if (response) return { response, provider: 'perplexity', phase: sessionGuide.phase };
+  } catch (err) {
+    trace('oka_chat', null, 'perplexity_unavailable', { error: err.message });
+  }
+
+  return { ...buildOkaFallback(message, history), provider: 'local_fallback' };
+}
+
 async function fetchJson(url, payload, headers = {}) {
   const mergedHeaders = { 'Content-Type': 'application/json', ...headers };
   const res = await fetch(url, {
@@ -330,6 +494,21 @@ async function fetchJson(url, payload, headers = {}) {
     throw new Error(`OpenClaw upstream ${res.status}`);
   }
   return await res.json();
+}
+
+async function callResolver(text, sessionId = '', context = '') {
+  try {
+    const resp = await fetch(`${RESOLVER_URL}/resolve`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ input: text, session_id: sessionId, context }),
+      signal: AbortSignal.timeout(15000)
+    });
+    if (resp.ok) return await resp.json();
+  } catch (e) {
+    trace('resolver', '', 'unavailable', { error: e.message });
+  }
+  return null;
 }
 
 async function proxyToOpenClaw(payload) {
@@ -396,6 +575,30 @@ async function serveStatic(req, res) {
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end(html);
     return;
+  }
+
+  // Oka — Nora's voice learning companion
+  if (reqPath === '/oka' || reqPath === '/oka/') {
+    const okaPath = path.resolve(__dirname, 'oka.html');
+    if (existsSync(okaPath)) {
+      const html = await readFile(okaPath, 'utf-8');
+      applyCors(res);
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(html);
+      return;
+    }
+  }
+
+  // Nora intake page
+  if (reqPath === '/nora-intake' || reqPath === '/nora-intake/') {
+    const intakePath = path.resolve(__dirname, 'nora-intake.html');
+    if (existsSync(intakePath)) {
+      const html = await readFile(intakePath, 'utf-8');
+      applyCors(res);
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(html);
+      return;
+    }
   }
 
   // Check if first path segment is a workspace ID: /rossi or /rossi/something
@@ -833,6 +1036,86 @@ async function processRoute(payload) {
     }
   }
 
+  // Resolver service — LLM-based intent classification → grounded prompt
+  const objective = payload.input?.objective || '';
+  if (objective) {
+    const wsDesc = workspace?.config?.workspace?.description || '';
+    const resolverResult = await callResolver(objective, sessionId, wsDesc);
+    if (resolverResult) {
+      const rStatus = resolverResult.status;
+      if (rStatus === 'resolved') {
+        trace('route', payload.request_id, 'resolver_resolved', {
+          riu_id: resolverResult.riu_id,
+          confidence: resolverResult.confidence,
+          agent: resolverResult.suggested_agent
+        });
+        const resolverResponse = {
+          request_id: payload.request_id,
+          source: 'resolver',
+          status: 'ok',
+          convergence_chain: {
+            narration: resolverResult.grounded_prompt || ''
+          },
+          voice_summary: resolverResult.grounded_prompt || '',
+          action_brief_markdown: resolverResult.grounded_prompt || '',
+          routing: {
+            selected_rius: [{
+              riu_id: resolverResult.riu_id,
+              name: resolverResult.knowledge?.question || '',
+              why_now: `Resolver match (${resolverResult.confidence}%)`
+            }]
+          },
+          session: {
+            id: sessionId,
+            turn: session.history.length + 1,
+            current_mode: 'converge',
+            committed_route: session.committed_route || null,
+            prior_turns: session.history.map(h => ({ objective: h.input.objective, riu_id: h.riu_id }))
+          }
+        };
+        session.history.push({
+          input: { objective },
+          riu_id: resolverResult.riu_id || 'RESOLVER',
+          timestamp: new Date().toISOString()
+        });
+        if (session.history.length > 20) session.history.shift();
+        persistSession(sessionId, session);
+        processedRequests.set(payload.request_id, { result: resolverResponse, timestamp: Date.now() });
+        return resolverResponse;
+      }
+      if (rStatus === 'clarify') {
+        trace('route', payload.request_id, 'resolver_clarify', { turn: resolverResult.turn });
+        const clarifyResponse = {
+          request_id: payload.request_id,
+          source: 'resolver',
+          status: 'needs_convergence',
+          convergence_chain: {
+            narration: resolverResult.question || 'Could you tell me more?'
+          },
+          voice_summary: resolverResult.question || 'Could you tell me more?',
+          action_brief_markdown: resolverResult.question || 'Could you tell me more?',
+          session: {
+            id: sessionId,
+            turn: session.history.length + 1,
+            current_mode: 'explore',
+            committed_route: session.committed_route || null,
+            prior_turns: session.history.map(h => ({ objective: h.input.objective, riu_id: h.riu_id }))
+          }
+        };
+        session.history.push({
+          input: { objective },
+          riu_id: 'RESOLVER:clarify',
+          timestamp: new Date().toISOString()
+        });
+        if (session.history.length > 20) session.history.shift();
+        persistSession(sessionId, session);
+        processedRequests.set(payload.request_id, { result: clarifyResponse, timestamp: Date.now() });
+        return clarifyResponse;
+      }
+      // out_of_scope → fall through to existing logic
+    }
+  }
+
   // Project state injection
   const clientProjectState = payload.project_state || null;
   if (clientProjectState) {
@@ -1073,6 +1356,42 @@ const server = createServer(async (req, res) => {
           'What should I do next?',
           'Show me the decisions.'
         ]
+      });
+      return;
+    }
+
+    if (req.method === 'POST' && req.url === '/v1/missioncanvas/oka-chat') {
+      const payload = await readBody(req);
+      if (payload.__parse_error__) {
+        json(res, 400, { status: 'error', message: 'Invalid JSON' });
+        return;
+      }
+
+      const sessionId = String(payload.session_id || makeRequestId());
+      const message = String(payload.message || '').trim();
+      const history = Array.isArray(payload.history) ? payload.history.slice(-12) : [];
+
+      if (!message) {
+        json(res, 400, { status: 'error', message: 'message is required' });
+        return;
+      }
+
+      const result = await generateOkaReply(message, history);
+      const updatedHistory = [
+        ...history.map((item) => ({ role: item.role === 'assistant' ? 'assistant' : 'user', content: String(item.content || '') })),
+        { role: 'user', content: message },
+        { role: 'assistant', content: result.response }
+      ].slice(-14);
+
+      trace('oka_chat', sessionId, 'outbound', { provider: result.provider, phase: result.phase });
+
+      json(res, 200, {
+        status: 'ok',
+        session_id: sessionId,
+        response: result.response,
+        phase: result.phase,
+        provider: result.provider,
+        history: updatedHistory
       });
       return;
     }
@@ -1593,6 +1912,19 @@ const server = createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === 'POST' && req.url === '/v1/missioncanvas/nora-intake-save') {
+      const payload = await readBody(req);
+      if (payload.__parse_error__) { json(res, 400, { status: 'error' }); return; }
+      const savePath = path.join(__dirname, 'nora-intake-answers.json');
+      try {
+        writeFileSync(savePath, JSON.stringify(payload, null, 2), 'utf-8');
+        json(res, 200, { status: 'saved' });
+      } catch (e) {
+        json(res, 500, { status: 'error', message: e.message });
+      }
+      return;
+    }
+
     if (req.method === 'POST' && req.url === '/v1/missioncanvas/add-fact') {
       const payload = await readBody(req);
       if (payload.__parse_error__) {
@@ -1687,6 +2019,54 @@ const server = createServer(async (req, res) => {
 
       trace('update_profile', null, 'updated', { workspace_id, length: profile.length });
       json(res, 200, { status: 'updated', message: 'Profile saved.', workspace_id });
+      return;
+    }
+
+    // ── Server-side transcription (cross-browser voice support) ──
+    if (req.method === 'POST' && req.url === '/v1/missioncanvas/transcribe') {
+      const chunks = [];
+      for await (const chunk of req) chunks.push(chunk);
+      const audioBuffer = Buffer.concat(chunks);
+
+      if (audioBuffer.length < 100) {
+        json(res, 400, { status: 'error', message: 'No audio data received' });
+        return;
+      }
+
+      try {
+        const { execSync } = await import('node:child_process');
+        const tmpWav = `/tmp/mc_transcribe_${Date.now()}.wav`;
+        const tmpWebm = `${tmpWav}.webm`;
+
+        // Write the raw audio (webm from MediaRecorder)
+        writeFileSync(tmpWebm, audioBuffer);
+
+        // Convert to wav with ffmpeg
+        execSync(`ffmpeg -y -i ${tmpWebm} -ar 16000 -ac 1 ${tmpWav} 2>/dev/null`, { timeout: 10000 });
+
+        // Transcribe with Whisper
+        const tmpDir = `/tmp/mc_whisper_${Date.now()}`;
+        execSync(`mkdir -p ${tmpDir}`);
+        execSync(`whisper ${tmpWav} --model base --output_format txt --output_dir ${tmpDir} --language en 2>/dev/null`, { timeout: 30000 });
+
+        // Read the transcript
+        const txtFile = `${tmpDir}/${path.basename(tmpWav, '.wav')}.txt`;
+        let transcript = '';
+        try { transcript = readFileSync(txtFile, 'utf-8').trim(); } catch {}
+
+        // Cleanup
+        try { unlinkSync(tmpWebm); unlinkSync(tmpWav); unlinkSync(txtFile); require('node:fs').rmdirSync(tmpDir); } catch {}
+
+        if (!transcript) {
+          json(res, 200, { status: 'ok', transcript: '', message: 'No speech detected' });
+          return;
+        }
+
+        trace('transcribe', null, 'whisper', { length: audioBuffer.length, transcript_length: transcript.length });
+        json(res, 200, { status: 'ok', transcript });
+      } catch (err) {
+        json(res, 500, { status: 'error', message: `Transcription failed: ${err.message}` });
+      }
       return;
     }
 

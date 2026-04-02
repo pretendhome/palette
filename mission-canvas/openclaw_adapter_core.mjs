@@ -175,6 +175,42 @@ export function makeBrief(input, candidates, oneWay, lensId = null, klEntries = 
   return lines.join('\n');
 }
 
+/**
+ * Generate a concise voice-friendly summary from route data.
+ * This is the "response translator" — structured routing → conversational answer.
+ */
+export function makeVoiceSummary(input, candidates, oneWay, klEntries = []) {
+  const top = candidates[0].riu;
+  const parts = [];
+
+  // Lead with what we matched
+  parts.push(`I'd route this to ${top.name.toLowerCase()}.`);
+
+  // One sentence on what that means
+  const intent = top.execution_intent || '';
+  const firstSentence = (intent.match(/^[^.!?]+[.!?]/) || [intent.slice(0, 120)])[0];
+  if (firstSentence) parts.push(firstSentence.trim());
+
+  // One-way door warning
+  if (oneWay) {
+    parts.push('This looks like a one-way door — I\'ll need your confirmation before executing.');
+  }
+
+  // Knowledge support (brief)
+  if (klEntries.length > 0) {
+    parts.push(`I have ${klEntries.length} knowledge ${klEntries.length === 1 ? 'entry' : 'entries'} that can help.`);
+  }
+
+  // If multiple strong candidates, mention alternatives
+  const strong = candidates.filter(c => c.strength === 'STRONG' || c.strength === 'MODERATE');
+  if (strong.length > 1) {
+    const alt = strong[1].riu.name;
+    parts.push(`I also considered ${alt.toLowerCase()} — want me to explore that angle instead?`);
+  }
+
+  return parts.join(' ');
+}
+
 // Compute convergence score from input fields.
 // Determines UX mode: explore (<50), converge (50-94), converge (>=95 — commit requires explicit intent).
 export function computeConvergenceScore(input, hasPersona = false) {
@@ -235,6 +271,7 @@ export function localRouteResponse(payload, source = 'palette_local') {
   const klEntries = lookupKnowledge(matchedRIUs);
 
   const brief = makeBrief(input, candidates, oneWay, lensId, klEntries);
+  const voiceSummary = makeVoiceSummary(input, candidates, oneWay, klEntries);
 
   // Check convergence completeness
   const missing = [];
@@ -328,6 +365,7 @@ export function localRouteResponse(payload, source = 'palette_local') {
       mini_brief: `${c.riu.execution_intent.slice(0, 120)}`,
       matched_signals: c.matched
     })) : undefined,
+    voice_summary: voiceSummary,
     action_brief_markdown: brief,
     decision_log_payload: `Route=${top.riu.id}; Agents=${top.riu.agent_types.join(',')}; OWD=${oneWay}; Lens=${lensId || 'none'}; Score=${top.score}; KL=${klEntries.length}; Mode=${convergenceResult.mode}`,
     knowledge_gap: {
