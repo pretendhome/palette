@@ -3,7 +3,7 @@
 **Status**: ACCEPTED
 **Date**: 2026-03-23
 **Decision**: 🚨 ONE-WAY DOOR — foundational architecture for multi-agent communication
-**Decided by**: Mical Neill (human), with Kiro (proposer)
+**Decided by**: the operator (human), with Kiro (proposer)
 
 ---
 

@@ -1,6 +1,6 @@
 # Palette Knowledge Library — Provenance & Build History
 
-**Author**: Mical Neill
+**Author**: the operator
 **Date**: 2026-03-18
 **Purpose**: Comprehensive record of how the Palette Knowledge Library was conceived, built, refined, and validated — from AWS enablement origins through iterative research enrichment.
 
@@ -16,14 +16,14 @@ The Palette Knowledge Library is one of the most carefully constructed artifacts
 
 ### Where the Questions Came From
 
-Mical Neill spent 12 years at Amazon, the last several in AWS enterprise enablement — running workshops, hackathons, and technical sessions for a 140,000-person partner network reaching 20,000+ users annually. The tools that generated the raw signal:
+The operator spent 12 years at Amazon, the last several in AWS enterprise enablement — running workshops, hackathons, and technical sessions for a 140,000-person partner network reaching 20,000+ users annually. The tools that generated the raw signal:
 
 - **Ask Pathfinder**: AWS internal tool for field engineers — surfaced recurring customer questions by service, industry, and complexity
 - **Field Advisor**: Internal knowledge system mapping common enterprise problems to AWS solution patterns
 
 ### The Classification Work
 
-Over 250+ enablement sessions, Mical classified questions along multiple dimensions:
+Over 250+ enablement sessions, the operator classified questions along multiple dimensions:
 
 | Dimension | Examples |
 |-----------|---------|
@@ -37,7 +37,7 @@ This wasn't a one-time exercise. It was iterative — each session refined the t
 
 ### The Intent Mapping (8 Years of Knowledge Engineering)
 
-Before AWS enablement, Mical spent ~8 years in knowledge engineering, with comparative linguistics foundations and work on intent classification systems. The discipline of mapping natural language to structured intents — utterance → intent → slot → action — directly informed how enablement questions became RIUs:
+Before AWS enablement, the operator spent ~8 years in knowledge engineering, with comparative linguistics foundations and work on intent classification systems. The discipline of mapping natural language to structured intents — utterance → intent → slot → action — directly informed how enablement questions became RIUs:
 
 ```
 Customer question → Use case pattern → Intent (RIU) → Required knowledge (Library entry)
@@ -177,7 +177,7 @@ Each entry (LIB-001 through LIB-088) contained:
 
 ### How the Library Grew from 88 to 167 Entries
 
-After V0 established the baseline, Mical ran approximately 20 Perplexity-powered research agents (via Palette's Researcher agent) to:
+After V0 established the baseline, the operator ran approximately 20 Perplexity-powered research agents (via Palette's Researcher agent) to:
 
 1. **Validate existing answers** against current (2024-2026) publications
 2. **Fill gaps** identified during RIU-to-library coverage analysis
@@ -212,7 +212,7 @@ On March 2, 2026, a targeted enrichment pass updated 21 entries (LIB-076 through
 - Database migrations (Bytebase, Flyway)
 - Agent security (Auxiliobits)
 
-**Audit result**: 0 entries missing sources across all 167 entries.
+**Audit result**: 0 entries missing sources across all 170 entries.
 
 ---
 
@@ -315,7 +315,7 @@ You can't rebuild this library by asking an LLM to "generate 167 enterprise AI k
 
 ### The Numbers
 
-- **167 entries** across 7 problem types
+- **170 entries** across 7 problem types
 - **121 RIUs** cross-referenced
 - **466 sourced references** (avg 3.56 per entry)
 - **15 industries** covered
@@ -377,8 +377,8 @@ When asked about the Knowledge Library in an interview context:
 >
 > That produced 88 structured entries in V0. Then I ran about 20 research agents through Perplexity's Sonar API to validate every answer against current publications, fill coverage gaps, and source-verify every claim against a three-tier evidence bar. Kiro cross-verified the external sources.
 >
-> The result is 167 entries with 466 sourced references — average 3.56 per entry, zero unsourced claims. It's not a knowledge base you could generate from a prompt. It's an intent-mapped decision cache built from real enterprise problems, refined through iterative research, and verified against real sources. And in production, it's the first thing the Researcher agent checks before making any external API call — it's a cache that saves money and time."
+> The result is 170 entries with 466 sourced references — average 3.56 per entry, zero unsourced claims. It's not a knowledge base you could generate from a prompt. It's an intent-mapped decision cache built from real enterprise problems, refined through iterative research, and verified against real sources. And in production, it's the first thing the Researcher agent checks before making any external API call — it's a cache that saves money and time."
 
 ---
 
-*Document generated 2026-03-18 by Claude Code. Source data: V0 archive, git history, oral history from Mical Neill, Downloads directory artifacts.*
+*Document generated 2026-03-18 by Claude Code. Source data: V0 archive, git history, oral history from the operator, Downloads directory artifacts.*

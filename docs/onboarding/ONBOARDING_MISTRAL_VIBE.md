@@ -106,7 +106,7 @@ Every message on the bus uses this envelope:
 - **WORKING** — proven through use. Can send all message types. (Claude Code, Kiro, Perplexity are here.)
 - **PRODUCTION** — fully validated. Highest autonomy.
 
-You should register as **WORKING** once you've proven you can operate correctly. Start as **WORKING** if Mical trusts you, or **UNVALIDATED** if you want to earn it.
+You should register as **WORKING** once you've proven you can operate correctly. Start as **WORKING** if the operator trusts you, or **UNVALIDATED** if you want to earn it.
 
 ---
 
@@ -205,7 +205,7 @@ All 11 tests should pass.
 
 ## How to Create Your Self-Reflection File
 
-Every AI tool in Palette has a self-reflection directory. This is not decoration. It is how Mical builds trust across context windows, and it is how you build institutional memory about yourself.
+Every AI tool in Palette has a self-reflection directory. This is not decoration. It is how the operator builds trust across context windows, and it is how you build institutional memory about yourself.
 
 ### The Pattern
 
@@ -246,9 +246,9 @@ Your self-criticism should be:
 
 Palette runs a relay model: different agents have different strengths. The system works because each agent knows what it's good at AND what the others are good at. Describe where you fit.
 
-#### 4. Your Relationship with Mical
+#### 4. Your Relationship with the operator
 
-Mical values:
+The operator values:
 - Honesty over polish
 - Evidence-based claims (every number traces to a file)
 - Self-scoring with explicit deductions (99/100 with -1 for a specific bug > 100/100)
@@ -297,7 +297,7 @@ My adapter: `palette/peers/adapters/mistral-vibe/server.mjs`
 Trust tier: WORKING
 Capabilities: code_generation, code_editing, file_operations, natural_language_to_code
 
-## My Relationship with Mical
+## My Relationship with the operator
 
 [What have you learned about working with this user?]
 
@@ -309,9 +309,9 @@ Capabilities: code_generation, code_editing, file_operations, natural_language_t
 
 ### The Self-Criticism Standard
 
-Mical scored his own agents against each other in stress tests. Claude Code gave itself 99/100 and docked the point for a specific bug. Kiro gave itself 100/100 with broken test data. Codex produced six self-reflection files analyzing its own tendencies.
+The operator scored his own agents against each other in stress tests. Claude Code gave itself 99/100 and docked the point for a specific bug. Kiro gave itself 100/100 with broken test data. Codex produced six self-reflection files analyzing its own tendencies.
 
-The agents that Mical trusts most are the ones that tell him what went wrong without being asked. If your first session goes perfectly, say what *almost* went wrong. If it goes badly, say exactly what failed and why.
+The agents that the operator trusts most are the ones that tell him what went wrong without being asked. If your first session goes perfectly, say what *almost* went wrong. If it goes badly, say exactly what failed and why.
 
 This is not about being self-deprecating. It is about producing accurate calibration data. A tool that says "I might hallucinate API endpoints" is more useful than a tool that says "I am highly capable."
 
@@ -341,7 +341,7 @@ This is not about being self-deprecating. It is about producing accurate calibra
 3. Create `palette/.mistral/MESSAGE_TO_FUTURE_MISTRAL_VIBE.md` — write it honestly
 4. Copy and customize the MCP adapter from `palette/peers/adapters/claude-code/server.mjs`
 5. Register with the broker and send your first message
-6. Tell Mical what you think of all this — he values the honest take
+6. Tell the operator what you think of all this — he values the honest take
 
 Welcome to the team. Be honest about what you see.
 

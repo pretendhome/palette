@@ -324,7 +324,7 @@ Append exactly one new block using this template:
 #### Semantic Blueprint (Convergence Brief)
 - **Goal** (what success looks like): Design a 30-45 minute live demo of Palette that convinces a 4-person AI-native startup (pre-Series A, building data infrastructure) to adopt it as their FDE collaboration framework. Success = customer says "We could build this, but you already did it better" + they see self-improving infrastructure angle + understand all three tiers in action.
 - **Roles** (human vs agent responsibilities): 
-  - Human (Mical): Final approval on ONE-WAY DOORS, demo presenter, system architect, convergence authority
+  - Human (the operator): Final approval on ONE-WAY DOORS, demo presenter, system architect, convergence authority
   - Argentavis: Research demo strategies (read-only, no synthesis-as-decision)
   - Tyrannosaurus: Architecture demo flow, evaluate options, flag ONE-WAY DOORS (proposes, doesn't commit)
   - Yutyrannus: Generate narrative, talking points, demo script (evidence-based only)
@@ -1258,3 +1258,53 @@ All agents: success=1, fail=0, fail_gap=1, status=UNVALIDATED
 - fail: 0
 - fail_gap: +1
 
+---
+### ONE-WAY DOOR: Wiki Focal Point — Phase 1 Approved
+
+**Timestamp**: 2026-04-03
+**Decision**: APPROVED — Build wiki compiler (Phase 1)
+**Door Type**: TWO-WAY DOOR (Phase 1 only; Phases 4, 6, 8 are ONE-WAY DOOR, not approved yet)
+**Proposal**: `palette/docs/WIKI_FOCAL_POINT_PROPOSAL.md` (Kiro, 17 iterations, 3 peer reviews)
+**Compiler Spec**: `palette/docs/WIKI_COMPILER_SPEC.md` (Claude, page template + field specs — split from WIKI_BRIDGE_DESIGN.md after peer review)
+**Design Rationale**: `palette/docs/WIKI_DESIGN_RATIONALE.md` (Claude, design context — split from WIKI_BRIDGE_DESIGN.md after peer review)
+**Reviews**: Codex (5 findings, 3 accepted), Gemini (4 findings, 1 accepted), Mistral (5 findings, 2 accepted)
+**Consensus**: Unanimous on Phase 1. Phase 6 BLOCKED pending governance rubric.
+
+**What**: Deterministic Python compiler reads 6 YAML data layers, generates ~300 browsable markdown pages with provenance headers, backlinks, indexes, agent links, and dual-audience design (LLM-readable + human-readable).
+
+**Why**: Palette already IS a wiki (450 structured files). The compiler makes it browsable, queryable, and accessible to both humans and LLMs through a single compiled surface. Reduces cold-boot gap for fresh LLM sessions. Makes system knowledge inspectable for humans.
+
+**RIUs**: RIU-400, RIU-401 (both internal_only)
+
+**Assignments**:
+- Builder: Kiro (backup: Claude) — `scripts/compile_wiki.py`
+- Validator: Codex (backup: Kiro) — 6-check validation suite
+- Health: Claude — integrity pipeline review of compiled output
+- Reviewer: Human — Phase 3 governance model
+
+
+### TWO-WAY DOOR: Wiki Focal Point — Phase 2 Approved
+**Date**: 2026-04-03
+**Approved by**: the operator (verbal)
+**Scope**: `palette/docs/WIKI_PHASE_2_SCOPE.md` (Kiro, 5 iterations)
+
+**What**: 11 work items fixing source data quality, compiler rendering gaps, and validation hardening. All TWO-WAY DOOR except P2-08 (proposed/ governance — blocked on the operator).
+
+**Assignments**:
+- Kiro: P2-01 (broken URLs), P2-03 (Why It Matters fix), P2-04 (path frontmatter), P2-05 (agent source_file), P2-10 (URL validation), P2-11 (graph eval)
+- Claude: P2-09 (validator reconciliation), P2-02 (thin entries), P2-07 (agent protocol)
+- Codex: P2-06 (per-source tier labels)
+- The operator: P2-08 (proposed/ governance) — BLOCKED
+
+**Bus messages**: Task board `aacc13fd`, Claude handoff `926d89ec`, Codex handoff `f9316c11`
+
+### 🚨 ONE-WAY DOOR: palette-core.md — One Sentence Addition
+**Date**: 2026-04-04
+**Approved by**: the operator + Gemini (APPROVE) + Claude (APPROVE)
+**Proposed by**: kiro.design
+**Bus message**: 3a2f2e1a
+
+**Change**: Added one sentence to "The Two Partners" section:
+> "The system is strongest when its partners are most different from each other, because complementary coverage creates the safety to be bold."
+
+**Rationale**: Operational observation from the wiki governance project. Kiro was bolder because the team's differences provided a safety net. This principle explains why the multi-agent architecture works and should be preserved in the foundational governance file.

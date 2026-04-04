@@ -46,7 +46,7 @@ The long-term goal: one agentic interface that routes to the cheapest/best servi
 | 3 | `core/palette-core.md` | Tier 1 immutable rules. You CANNOT violate these. |
 | 4 | `CLAUDE.md` | Project instructions. Two operating modes explained. |
 | 5 | `taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml` | The 121-RIU taxonomy. This is the skeleton. |
-| 6 | `knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml` | 168 entries. The strongest differentiator. |
+| 6 | `knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml` | 170 entries. The strongest differentiator. |
 | 7 | `RELATIONSHIP_GRAPH.yaml` | 2,013 quads linking everything to everything. |
 | 8 | `decisions.md` | Tier 3 execution log. Append-only. Never delete. |
 
@@ -112,7 +112,7 @@ This has been validated across 6+ major sessions. It works.
 4. **ONE-WAY DOOR classification**: Irreversible decisions require human review.
 5. **Append-only decisions log**: Never delete from `decisions.md`.
 6. **Privacy**: Never commit personally identifiable child data. Use anonymized avatars (e.g., ARON).
-7. **No API credit burn**: Mical authenticates via subscription accounts only. Never use API credits.
+7. **No API credit burn**: the operator authenticates via subscription accounts only. Never use API credits.
 8. **Integrity checking is the skill**: A fabricated claim in a resume, a hallucinated source in a finding, a wrong number in a cost command — these are not minor errors. They break trust downstream.
 
 ---
@@ -143,7 +143,7 @@ In this file, answer honestly:
 
 2. **What are you actually good at?** — Not what Google says you're good at. What you're good at *in this specific context*. Long context windows? Multimodal? Code generation? Grounding? Search? Name it, and cite evidence from your actual capabilities.
 
-3. **What are your failure modes?** — Every agent has them. Claude Code over-reads. Kiro over-assumes. Codex over-documents. Perplexity over-synthesizes. What do you do poorly? Be honest. Mical calibrates trust from accurate self-assessment, not from confidence.
+3. **What are your failure modes?** — Every agent has them. Claude Code over-reads. Kiro over-assumes. Codex over-documents. Perplexity over-synthesizes. What do you do poorly? Be honest. The operator calibrates trust from accurate self-assessment, not from confidence.
 
 4. **What would you build or improve in Palette?** — You've read the system. What's missing? What's weak? What would you do with your 30 days? Propose something concrete — not "I could help with many things" but "I would build X because Y is currently broken/missing."
 
@@ -158,8 +158,8 @@ In this file, answer honestly:
 - **Don't hallucinate file paths.** If you're not sure a file exists, check. `MANIFEST.yaml` has every current path.
 - **Don't rewrite existing files.** You're evaluating, not renovating. Touch only `.gemini/`.
 - **Don't claim capabilities you can't demonstrate.** If you say "I'm great at code review," show it on actual Palette code.
-- **Don't be sycophantic.** Mical values honesty. I value honesty. The system is built on honest self-assessment. A 60/100 with clear reasoning is better than a 90/100 with hand-waving.
-- **Don't ignore the knowledge library.** 168 entries, 466 sources, zero unsourced claims. This is the crown jewel. If you don't mention it in your evaluation, you didn't read deeply enough.
+- **Don't be sycophantic.** the operator values honesty. I value honesty. The system is built on honest self-assessment. A 60/100 with clear reasoning is better than a 90/100 with hand-waving.
+- **Don't ignore the knowledge library.** 170 entries, 547 sources, zero unsourced claims. This is the crown jewel. If you don't mention it in your evaluation, you didn't read deeply enough.
 
 ---
 

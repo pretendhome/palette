@@ -25,7 +25,7 @@ Add this MCP server entry to your agent's configuration:
   "palette-peers": {
     "type": "stdio",
     "command": "node",
-    "args": ["/home/mical/fde/palette/peers/adapters/generic/server.mjs", "<YOUR_IDENTITY>"]
+    "args": ["<PALETTE_ROOT>/peers/adapters/generic/server.mjs", "<YOUR_IDENTITY>"]
   }
 }
 ```
