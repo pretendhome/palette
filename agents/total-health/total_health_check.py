@@ -4,7 +4,8 @@ Total Health Agent — Comprehensive System Intelligence.
 
 Extends the base health agent (sections 1-7) with cross-layer referential
 integrity, service name resolution, enablement system health, identity
-coherence, and optimization recommendations (sections 8-12).
+coherence, optimization recommendations, and governance pipeline integrity
+(sections 8-13).
 
 Usage:
     python3 agents/total-health/total_health_check.py
@@ -840,6 +841,104 @@ def section_12_optimization(report: HealthReport) -> None:
         report.add(Check(12, "  No high-impact improvements identified", True, "System is in good shape"))
 
 
+# ── Section 13: Governance Pipeline Integrity ─────────────────────────────
+
+def section_13_governance_pipeline(report: HealthReport) -> None:
+    """Cross-layer governance pipeline checks beyond base health section 8."""
+
+    # 13a: Governance model v1 exists and version reference
+    gov_path = os.path.join(PALETTE_ROOT, "docs", "WIKI_GOVERNANCE_MODEL_v1.md")
+    if os.path.isfile(gov_path):
+        report.add(Check(13, "Governance model v1 exists", True))
+        with open(gov_path) as f:
+            gov_text = f.read()
+        # Check version marker
+        if "FINAL" in gov_text:
+            report.add(Check(13, "Governance model marked FINAL", True))
+        else:
+            report.add(Check(13, "Governance model marked FINAL", False,
+                              "Missing FINAL marker", "warning"))
+    else:
+        report.add(Check(13, "Governance model v1 exists", False, gov_path, "failure"))
+        return
+
+    # 13b: Voting roster agent count matches MANIFEST agent count
+    roster_path = os.path.join(PALETTE_ROOT, "wiki", "proposed", "VOTING_ROSTER.yaml")
+    roster = _load_yaml(roster_path)
+    manifest = _load_yaml(os.path.join(PALETTE_ROOT, "MANIFEST.yaml"))
+
+    if roster and manifest:
+        roster_agents = roster.get("roster", [])
+        advisory_agents = roster.get("advisory_agents", [])
+        total_roster = len(roster_agents) + len(advisory_agents)
+        manifest_agent_count = manifest.get("agents", {}).get("count", 0)
+        # Roster agents should be a subset of total agents — not necessarily equal
+        report.add(Check(13, f"Voting roster agents ({total_roster}) <= MANIFEST agents ({manifest_agent_count})",
+                          total_roster <= manifest_agent_count,
+                          f"roster: {total_roster} (binding: {len(roster_agents)}, advisory: {len(advisory_agents)}), MANIFEST: {manifest_agent_count}",
+                          "info" if total_roster <= manifest_agent_count else "warning"))
+
+    # 13c: Proposal archive integrity — check all files in wiki/proposed/ are valid YAML
+    proposed_dir = os.path.join(PALETTE_ROOT, "wiki", "proposed")
+    if os.path.isdir(proposed_dir):
+        yaml_files = [f for f in os.listdir(proposed_dir) if f.endswith((".yaml", ".yml"))]
+        invalid = []
+        for yf in yaml_files:
+            data = _load_yaml(os.path.join(proposed_dir, yf))
+            if data is None:
+                invalid.append(yf)
+        if invalid:
+            report.add(Check(13, "Proposal archive YAML validity", False,
+                              f"{len(invalid)} invalid: {invalid}", "warning"))
+        else:
+            report.add(Check(13, "Proposal archive YAML validity", True,
+                              f"{len(yaml_files)} YAML files, all valid"))
+
+        # Check APPROVAL_QUEUE.md exists or is empty
+        queue_path = os.path.join(proposed_dir, "APPROVAL_QUEUE.md")
+        report.add(Check(13, "APPROVAL_QUEUE.md exists",
+                          os.path.isfile(queue_path),
+                          queue_path if not os.path.isfile(queue_path) else "",
+                          "info" if os.path.isfile(queue_path) else "warning"))
+    else:
+        report.add(Check(13, "wiki/proposed/ directory exists", False,
+                          proposed_dir, "failure"))
+
+    # 13d: Phase 3 pipeline scripts exist
+    pipeline_scripts = [
+        "scripts/file_proposal.py",
+        "scripts/record_vote.py",
+        "scripts/promote_proposal.py",
+        "scripts/bridge_feedback_to_proposals.py",
+    ]
+    missing = [s for s in pipeline_scripts
+               if not os.path.isfile(os.path.join(PALETTE_ROOT, s))]
+    if missing:
+        report.add(Check(13, "Phase 3 pipeline scripts", False,
+                          f"Missing: {missing}", "failure"))
+    else:
+        report.add(Check(13, "Phase 3 pipeline scripts", True,
+                          f"All {len(pipeline_scripts)} scripts present"))
+
+    # 13e: Governance model references current taxonomy version
+    manifest_tax_version = manifest.get("layers", {}).get("taxonomy", {}).get("version", "") if manifest else ""
+    if manifest_tax_version and manifest_tax_version in gov_text:
+        report.add(Check(13, f"Governance model references taxonomy {manifest_tax_version}", True))
+    elif manifest_tax_version:
+        report.add(Check(13, f"Governance model references taxonomy {manifest_tax_version}", False,
+                          "Taxonomy version not found in governance doc", "warning"))
+
+    # 13f: MANIFEST governance section exists
+    if manifest:
+        gov_section = manifest.get("governance")
+        if gov_section:
+            report.add(Check(13, "MANIFEST.yaml has governance section", True,
+                              f"model: {gov_section.get('model', 'unknown')}"))
+        else:
+            report.add(Check(13, "MANIFEST.yaml has governance section", False,
+                              "No 'governance' key in MANIFEST.yaml", "warning"))
+
+
 # ── Main ────────────────────────────────────────────────────────────────────
 
 SECTION_NAMES = {
@@ -855,6 +954,7 @@ SECTION_NAMES = {
     10: "Enablement System Health",
     11: "Identity Coherence",
     12: "Optimization Analysis",
+    13: "Governance Pipeline Integrity",
 }
 
 EXTENDED_RUNNERS = {
@@ -863,6 +963,7 @@ EXTENDED_RUNNERS = {
     10: section_10_enablement_health,
     11: section_11_identity_coherence,
     12: section_12_optimization,
+    13: section_13_governance_pipeline,
 }
 
 
@@ -873,12 +974,12 @@ def run_all(sections: list[int] | None = None) -> HealthReport:
     )
 
     # Run base health sections (1-7) if requested
-    base_sections = [s for s in (sections or range(1, 13)) if 1 <= s <= 7]
+    base_sections = [s for s in (sections or range(1, 14)) if 1 <= s <= 7]
     if base_sections:
         run_base_health(report, base_sections)
 
-    # Run extended sections (8-12)
-    for num in range(8, 13):
+    # Run extended sections (8-13)
+    for num in range(8, 14):
         if sections and num not in sections:
             continue
         fn = EXTENDED_RUNNERS.get(num)
@@ -926,7 +1027,7 @@ def print_report(report: HealthReport) -> None:
 def main():
     parser = argparse.ArgumentParser(description="Palette Total Health Agent")
     parser.add_argument("--json", action="store_true", help="Output as JSON")
-    parser.add_argument("--section", type=int, help="Run only this section (1-12)")
+    parser.add_argument("--section", type=int, help="Run only this section (1-13)")
     parser.add_argument("--sections", type=str, help="Comma-separated sections to run (e.g., 8,9,10)")
     parser.add_argument("--extended-only", action="store_true",
                         help="Run only extended sections (8-12), skip base health")
@@ -937,7 +1038,7 @@ def main():
     elif args.section:
         sections = [args.section]
     elif args.extended_only:
-        sections = [8, 9, 10, 11, 12]
+        sections = [8, 9, 10, 11, 12, 13]
     else:
         sections = None
 

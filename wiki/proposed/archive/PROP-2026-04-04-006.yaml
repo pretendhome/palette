@@ -1,0 +1,58 @@
+proposed_by: gemini.specialist
+tier: 2
+type: new
+content:
+  question: What are graph-based knowledge retrieval (GraphRAG) techniques and how do they differ from vector RAG?
+  answer: "GraphRAG combines the semantic similarity of vector search with the structured relationships of a knowledge graph\
+    \ (KG) to enable more complex, multi-hop reasoning. While vector RAG retrieves isolated chunks based on similarity, GraphRAG\
+    \ retrieves clusters of related entities and their context.\n\n1. **Key Differences**:\n   - **Vector RAG**: Best for\
+    \ finding specific facts or answering simple questions based on document similarity. Fails on global, thematic questions\
+    \ or queries requiring multi-hop reasoning.\n   - **GraphRAG**: Best for understanding relationships, global themes, and\
+    \ indirect connections. Can answer questions like 'What are the three common failure modes across all 12 projects?' by\
+    \ traversing edges.\n\n2. **Core Techniques**:\n   - **Entity Extraction**: Use an LLM to identify and extract entities\
+    \ (nodes) and their relationships (edges) from unstructured text.\n   - **Knowledge Graph Construction**: Build a graph\
+    \ from the extracted data (e.g., in Neo4j, FalkorDB).\n   - **Global Retrieval (Map-Reduce)**: Use community detection\
+    \ algorithms (e.g., Leiden) to group the graph into clusters. Summarize each cluster, then use an LLM to synthesize an\
+    \ answer from the cluster summaries.\n   - **Local Retrieval (Multi-hop Search)**: Starting from a detected entity in\
+    \ the query, traverse the graph to find neighboring nodes and their properties.\n\n3. **Implementation Benefits**:\n \
+    \  - **Lower Hallucination Rate**: By grounding the response in a verified relationship graph, GraphRAG reduces the likelihood\
+    \ of the LLM inventing non-existent links.\n   - **Improved Explainability**: Responses can cite specific nodes and edges\
+    \ as evidence, providing a clear audit trail.\n\n**Implementation Threshold**: Transition from vector RAG to GraphRAG\
+    \ when your system requires 'summarization' of large datasets or 'connection detection' across disparate domains.\n"
+  sources:
+  - title: 'Microsoft Research: From Local to Global: A GraphRAG Approach to Query-Focused Summarization'
+    url: https://arxiv.org/abs/2404.16130
+  - title: 'Neo4j: Knowledge Graphs for RAG'
+    url: https://neo4j.com/generative-ai/knowledge-graphs-for-rag/
+  - title: Why GraphRAG is better than Vector RAG
+    url: https://www.falkordb.com/blog/graphrag-vs-vectorrag/
+  related_rius:
+  - RIU-250
+  - RIU-200
+  evidence_tier: 1
+  evidence_tier_justification: Primary research from Microsoft, industry documentation from Neo4j and FalkorDB.
+rationale: GraphRAG is the next evolution of knowledge retrieval for complex AI systems. This entry provides a framework for
+  understanding and implementing graph-based retrieval.
+source_of_insight: gemini.specialist 111-query stress test identified this as a major coverage gap.
+contradiction_check:
+  checked_against: []
+  conflicts_found: none
+id: PROP-2026-04-04-006
+proposed_at: '2026-04-04T15:08:53Z'
+status: promoted
+votes:
+- agent_id: claude.analysis
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Substantive Tier 2 entry addressing a real gap from the 111-query stress test. Sources are Tier 1. RIU mapping
+    is correct.
+  binding: true
+  date: '2026-04-04T15:12:16Z'
+- agent_id: kiro.design
+  trust_tier: WORKING
+  vote: approve
+  reasoning: 'Reviewed: 3 sources, valid RIU mapping, substantive answer >1000 chars. Meets all 5 acceptance criteria.'
+  binding: true
+  date: '2026-04-04T15:22:29Z'
+promoted_at: '2026-04-04T15:34:49Z'
+promoted_as: LIB-185

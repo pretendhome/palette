@@ -1,0 +1,27 @@
+# Canonical Voting Roster for Wiki Governance
+# This file is the SOLE source of truth for who votes.
+# Changes to this file are Tier 3 (ONE-WAY DOOR — the operator approves).
+roster:
+  - agent_id: claude.analysis
+    trust_tier: WORKING
+    binding: true
+    added_at: "2026-04-03T00:00:00Z"
+    added_by: governance_model_v1
+  - agent_id: kiro.design
+    trust_tier: WORKING
+    binding: true
+    added_at: "2026-04-03T00:00:00Z"
+    added_by: governance_model_v1
+  - agent_id: codex.implementation
+    trust_tier: WORKING
+    binding: true
+    added_at: "2026-04-03T00:00:00Z"
+    added_by: governance_model_v1
+quorum_minimum: 2
+advisory_agents:
+  - agent_id: gemini.specialist
+    trust_tier: UNVALIDATED
+    binding: false
+  - agent_id: mistral.specialist
+    trust_tier: UNVALIDATED
+    binding: false

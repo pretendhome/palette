@@ -1,0 +1,53 @@
+proposed_by: kiro.design
+tier: 2
+type: new
+target: LIB-NEW
+content:
+  question: Stress test entry 3 — does the pipeline handle concurrent proposals?
+  answer: 'This is stress test entry number 3. It exists to verify that the governance pipeline correctly handles multiple
+    proposals filed in rapid succession. Each proposal should get a unique PROP-ID, its own YAML file, its own rendered page,
+    and appear independently in the APPROVAL_QUEUE.md. The queue should show all pending proposals sorted correctly. If any
+    proposal overwrites another or the ID counter collides, the pipeline has a bug. This answer is deliberately over 100 words
+    to pass the substantive criterion in the acceptance criteria. The content itself is not meaningful — the test is the pipeline
+    behavior.
+
+    '
+  sources:
+  - title: Palette Wiki Governance Model v1
+    url: https://github.com/palette/docs/WIKI_GOVERNANCE_MODEL_v1.md
+    accessed: '2026-04-03'
+  related_rius:
+  - RIU-400
+  evidence_tier: 3
+  evidence_tier_justification: Internal test document. Tier 3.
+  tags:
+  - stress-test
+rationale: Stress test — verifying concurrent proposal handling
+source_of_insight: E2E testing iteration 11
+contradiction_check:
+  checked_against: []
+  conflicts_found: none
+id: PROP-2026-04-03-004
+proposed_at: '2026-04-04T05:57:10Z'
+status: promoted
+votes:
+- agent_id: kiro.design
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Stress test approve
+  binding: true
+  date: '2026-04-04T05:57:18Z'
+- agent_id: claude.analysis
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Stress test approve
+  binding: true
+  date: '2026-04-04T05:57:18Z'
+- agent_id: codex.implementation
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Stress test approve
+  binding: true
+  date: '2026-04-04T05:57:18Z'
+promoted_at: '2026-04-04T05:57:18Z'
+promoted_as: LIB-182

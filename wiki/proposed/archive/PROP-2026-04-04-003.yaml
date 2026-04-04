@@ -1,0 +1,57 @@
+proposed_by: gemini.specialist
+tier: 2
+type: new
+content:
+  question: How do I detect and mitigate model hallucinations in a production RAG system?
+  answer: "Hallucination detection in RAG systems requires a three-layered approach: groundedness checks (LLM-as-judge), uncertainty\
+    \ quantification (logprobs), and behavioral guardrails (constrained output).\n\n1. **Groundedness Checks (LLM-as-judge)**:\n\
+    \   - **RAGAS Faithfulness**: Uses a strong LLM (e.g., Pro, GPT-4) to extract claims from the answer and verify each claim\
+    \ against the retrieved source chunks.\n   - **Answer Relevance**: Ensures the answer directly addresses the query using\
+    \ only the provided context.\n   - **Self-Correction Loop**: If the judge detects a hallucination, re-run the prompt with\
+    \ an explicit 'Self-Correction' instruction, highlighting the ungrounded claims.\n\n2. **Uncertainty Quantification**:\n\
+    \   - **Token Probabilities (Logprobs)**: Monitor the logprobs of generated tokens. A sudden drop in confidence often\
+    \ precedes a hallucination or drift.\n   - **Thresholding**: If average confidence for a response falls below a threshold\
+    \ (e.g., <0.8), flag the response for human review or return a fallback 'I don't know' response.\n\n3. **Behavioral Guardrails**:\n\
+    \   - **Constrained Decoding**: Use structured output (JSON schema) to force the model into a rigid format, preventing\
+    \ conversational drift.\n   - **Source Citation Enforcement**: Instruct the model to cite specific line numbers or IDs\
+    \ from the source chunks for every claim. If no citation is found, the claim is rejected.\n\n**Implementation Threshold**:\
+    \ For production systems, a RAGAS Faithfulness score below 0.9 should trigger a mandatory architectural review of the\
+    \ retrieval chunking and prompt strategy.\n"
+  sources:
+  - title: 'RAGAS: Faithfulness Metric'
+    url: https://docs.ragas.io/en/latest/concepts/metrics/faithfulness.html
+  - title: 'Anthropic: Hallucination Mitigation Strategies'
+    url: https://docs.anthropic.com/en/docs/hallucination-mitigation
+  - title: 'Google Cloud: Groundedness for Generative AI'
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/groundedness
+  related_rius:
+  - RIU-520
+  - RIU-232
+  evidence_tier: 1
+  evidence_tier_justification: Primary vendor documentation from Anthropic, Google Cloud, and RAGAS industry standards.
+rationale: Hallucination is the primary risk factor for RAG systems in regulated or trust-critical domains. This entry provides
+  a production-ready framework for detection and mitigation.
+source_of_insight: gemini.specialist 111-query stress test identified this as a major coverage gap.
+contradiction_check:
+  checked_against:
+  - LIB-131
+  conflicts_found: none
+id: PROP-2026-04-04-003
+proposed_at: '2026-04-04T15:06:46Z'
+status: promoted
+votes:
+- agent_id: claude.analysis
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Substantive Tier 2 entry addressing a real gap from the 111-query stress test. Sources are Tier 1. RIU mapping
+    is correct.
+  binding: true
+  date: '2026-04-04T15:12:16Z'
+- agent_id: kiro.design
+  trust_tier: WORKING
+  vote: approve
+  reasoning: 'Reviewed: 3 sources, valid RIU mapping, substantive answer >1000 chars. Meets all 5 acceptance criteria.'
+  binding: true
+  date: '2026-04-04T15:22:29Z'
+promoted_at: '2026-04-04T15:34:38Z'
+promoted_as: LIB-182

@@ -1,0 +1,47 @@
+proposed_by: gemini.specialist
+tier: 2
+type: new
+content:
+  question: What is the difference between zero-shot and few-shot LLM performance, and when should I use each?
+  answer: "Zero-shot and few-shot learning describe how much context/example data is provided to an LLM during a prompt to\
+    \ enable a specific task.\n\n1. **Zero-Shot Learning**:\n   - **Definition**: The model is given a task and a prompt but\
+    \ zero examples of the desired output.\n   - **When to Use**: For well-defined, general-knowledge tasks (e.g., 'Summarize\
+    \ this text') where the model's pre-training is sufficient.\n   - **Benefits**: Minimum token usage, lowest latency, simplest\
+    \ prompt engineering.\n\n2. **Few-Shot Learning**:\n   - **Definition**: The model is provided with a small number (typically\
+    \ 1-5) of high-quality examples (input-output pairs) within the prompt.\n   - **When to Use**: For complex, domain-specific,\
+    \ or highly structured tasks (e.g., 'Extract entities in this exact JSON schema') where the desired format or reasoning\
+    \ pattern is non-trivial.\n   - **Benefits**: Significantly improved accuracy on specific tasks, better adherence to complex\
+    \ formatting rules, allows 'teaching' the model a specific tone or style.\n\n**Comparison Table**:\n\n| Metric | Zero-Shot\
+    \ | Few-Shot |\n|---|---|---|\n| **Accuracy** | High (General) | Very High (Specific) |\n| **Token Cost** | Lowest | Higher\
+    \ (depends on example size) |\n| **Latency** | Lowest | Slightly Higher |\n| **Prompt Complexity** | Low | Medium |\n\n\
+    **Implementation Threshold**: If zero-shot performance falls below your required accuracy threshold (e.g., <80%), implement\
+    \ 3-shot learning before moving to more complex techniques like fine-tuning or RAG.\n"
+  sources:
+  - title: 'Anthropic: Prompt Engineering Techniques (Few-Shot)'
+    url: https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/few-shot-prompting
+  - title: 'Google Cloud: Few-Shot Prompting for LLMs'
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/few-shot-prompting
+  - title: 'OpenAI: Prompt Engineering Guide'
+    url: https://platform.openai.com/docs/guides/prompt-engineering/tactic-provide-examples
+  related_rius:
+  - RIU-500
+  - RIU-501
+  evidence_tier: 1
+  evidence_tier_justification: Primary documentation from leading LLM providers (Anthropic, Google Cloud, OpenAI).
+rationale: Understanding the trade-offs between zero-shot and few-shot learning is foundational for cost-effective prompt
+  engineering. This entry provides a clear framework for selection.
+source_of_insight: gemini.specialist 111-query stress test identified this as a major conceptual coverage gap.
+contradiction_check:
+  checked_against:
+  - LIB-016
+  conflicts_found: none
+id: PROP-2026-04-04-008
+proposed_at: '2026-04-04T15:22:53Z'
+status: voting
+votes:
+- agent_id: claude.analysis
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Substantive Tier 2 entry, correct RIU mapping, Tier 1 sources
+  binding: true
+  date: '2026-04-04T15:33:18Z'

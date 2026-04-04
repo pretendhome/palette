@@ -10,11 +10,11 @@ A governed system that maps enterprise AI problems to competency areas, structur
 
 ---
 
-[![Status](https://img.shields.io/badge/status-production--ready-brightgreen)]()
+[![Status](https://img.shields.io/badge/status-active-blue)]()
 [![Integrity](https://img.shields.io/badge/integrity-8%2F8_passing-brightgreen)]()
 [![SLOs](https://img.shields.io/badge/SLOs-7%2F7_passing-brightgreen)]()
 [![RIUs](https://img.shields.io/badge/RIUs-121-blue)]()
-[![Knowledge](https://img.shields.io/badge/knowledge-168_entries-blue)]()
+[![Knowledge](https://img.shields.io/badge/knowledge-176_entries-blue)]()
 [![Recipes](https://img.shields.io/badge/recipes-69-blue)]()
 [![License](https://img.shields.io/badge/license-private-lightgrey)]()
 
@@ -24,14 +24,14 @@ A governed system that maps enterprise AI problems to competency areas, structur
 
 ## What Is Palette?
 
-Palette is a knowledge architecture that maps 121 enterprise AI competency areas across 6 structured data layers, maintains a 168-entry sourced knowledge library with evidence tiers and learning progressions, and evaluates understanding through governed assessment tooling. It was distilled from 8 years of knowledge engineering and 250+ enterprise enablement sessions — real questions from real practitioners — then systematically refined, source-verified, and indexed.
+Palette is a knowledge architecture that maps 121 enterprise AI competency areas across 6 structured data layers, maintains a 176-entry sourced knowledge library with evidence tiers and learning progressions, and evaluates understanding through governed assessment tooling. It was distilled from 8 years of knowledge engineering and 250+ enterprise enablement sessions — real questions from real practitioners — then systematically refined, source-verified, and indexed.
 
 **The thesis**: competency in AI is not a binary. It's a progression — foundation → retrieval → orchestration → specialization — and each stage requires different knowledge, different assessment, and different tooling. Palette structures that progression and scales it through intelligent automation.
 
 ### Key Capabilities
 
 - **Competency Taxonomy** — 121 validated problem-solution nodes (RIUs) mapping enterprise AI challenges to measurable skill areas, with maturity classification (UNVALIDATED → WORKING → PRODUCTION)
-- **Knowledge Library** — 168 entries with sourced evidence tiers (Tier 1: Google/Anthropic/OpenAI/AWS; Tier 2: NIST/peer-reviewed; Tier 3: validated open-source) and learning progressions
+- **Knowledge Library** — 176 entries with sourced evidence tiers (Tier 1: Google/Anthropic/OpenAI/AWS; Tier 2: NIST/peer-reviewed; Tier 3: validated open-source) and learning progressions
 - **Assessment & Governance** — Every decision classified as `ship` / `ship_with_risks` / `ship_with_convergence` / `block` with explicit ONE-WAY DOOR / TWO-WAY DOOR reversibility gates
 - **Multi-Agent Evaluation** — 12 specialized agents with promotion/demotion logic, quality gates, GO/NO-GO verdicts, and automated integrity checks
 - **Integrity Engine** — 8 consistency checks across 6 data layers, catching structural gaps, regressions, and terminology drift in real time
@@ -46,7 +46,7 @@ Palette is a knowledge architecture that maps 121 enterprise AI competency areas
 | Component | Specification |
 |:--|:--|
 | Competency Areas (RIUs) | 121 (81 internal, 40 service-routed) |
-| Knowledge Entries | 168 with verified source citations and evidence tiers |
+| Knowledge Entries | 176 with verified source citations and evidence tiers |
 | Integration Recipes | 69 (auth, endpoints, cost, quality tier) |
 | Service Routing | 106 services across 40 routing profiles |
 | People Signals | 21 profiles, 33 tools tracked |
@@ -75,7 +75,7 @@ Palette is a knowledge architecture that maps 121 enterprise AI competency areas
 │  │  └──────────┘ └──────────┘ └──────────┘            │    │
 │  │  ┌──────────┐ ┌──────────┐ ┌──────────┐            │    │
 │  │  │Knowledge │ │Signals   │ │Overrides │            │    │
-│  │  │168 entries│ │21 people │ │19 maps   │            │    │
+│  │  │176 entries│ │21 people │ │19 maps   │            │    │
 │  │  └──────────┘ └──────────┘ └──────────┘            │    │
 │  └─────────────────────────────────────────────────────┘    │
 │                                                              │
@@ -114,11 +114,29 @@ Palette is a knowledge architecture that maps 121 enterprise AI competency areas
 | Risk score | **2** (down from 14) | — |
 | Avg completeness | **81.8/100** | ≥ 40 |
 | Routing↔Recipe match | **106/106** | ≥ 95% |
-| Knowledge coverage | **168/168** (100%) | ≥ 50% |
+| Knowledge coverage | **176/176** (100%) | ≥ 50% |
 | Terminology drift clusters | **15** (3 high, 9 medium, 3 low) | — |
 | Traverse health | **121/121 healthy** | — |
 
 </div>
+
+---
+
+## Verified Operational State
+
+The following is verified in the current repo as of 2026-04-04:
+
+- `scripts/compile_wiki.py` and `scripts/validate_wiki.py` are operational. Validation passes `8/8`, and a deterministic rebuild produces 337 wiki pages from the live source data.
+- The wiki governance pipeline is operational at the script level: `scripts/file_proposal.py`, `scripts/record_vote.py`, `scripts/promote_proposal.py`, and `scripts/bridge_feedback_to_proposals.py` are present and both governance health sections are green.
+- `scripts/voice_interface.py` is wired to the real Palette peers bus at `127.0.0.1:7899`. It supports dry runs, live bus broadcasts, metrics/history persistence, and broker-level delivery confirmation.
+
+The following are intentionally not claimed here:
+
+- production readiness
+- per-agent acknowledgment semantics beyond confirmed bus delivery and fetched messages
+- a pristine release worktree
+
+Palette currently has operational V3 infrastructure, but it still needs maintenance discipline and final semantic review before it should be described as release-clean.
 
 ---
 
@@ -230,7 +248,7 @@ palette/
 │   ├── assumptions.md                  # Tier 2 — Experimental assumptions
 │   └── decisions-prompt.md             # Tier 3 — Decision log policy
 ├── taxonomy/releases/v1.3/             # 121 competency areas (RIUs)
-├── knowledge-library/v1.4/             # 168 entries with evidence tiers
+├── knowledge-library/v1.4/             # 176 entries with evidence tiers
 ├── buy-vs-build/
 │   ├── integrations/                   # 69 integration recipes
 │   ├── service-routing/v1.0/           # 106 services, 40 routing profiles
@@ -316,7 +334,7 @@ print(f'Completeness: {r.completeness.total}/100')
 | Phase 0 | Done | Competency taxonomy v1.3 (120 areas), knowledge library, company mapping |
 | Phase 1 | Done | People library (21 profiles), service routing (40 entries), 3 recipes |
 | Phase 2 | Done | RIU classification, cost enrichment, repo cleanup |
-| Phase 3 | Done | Integrity engine, audit system, regression/SLO, drift detection, 49 recipes, 167 knowledge entries, override registry, governance decision contract |
+| Phase 3 | Done | Integrity engine, audit system, regression/SLO, drift detection, 49 recipes, 176 knowledge entries, override registry, governance decision contract |
 | Phase 4 | Next | Assessment quality audit, operational monitoring, multi-agent coordination bus |
 
 ---
@@ -340,7 +358,7 @@ The comparative linguistics foundation (MA, Université Paris-Sorbonne) directly
 
 ## Built By
 
-**Mical Neill** — 12+ years at Amazon/AWS. Comparative linguistics background. Knowledge architecture, AI enablement systems, competency frameworks, and assessment design. Built Palette to solve the problem of structuring what people need to know about AI, measuring whether they know it, and keeping it current as capabilities evolve — through intelligent automation, not headcount.
+**The operator** — 12+ years at Amazon/AWS. Comparative linguistics background. Knowledge architecture, AI enablement systems, competency frameworks, and assessment design. Built Palette to solve the problem of structuring what people need to know about AI, measuring whether they know it, and keeping it current as capabilities evolve — through intelligent automation, not headcount.
 
 ---
 

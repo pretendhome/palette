@@ -1,5 +1,94 @@
 # Palette Scripts
 
+## `voice_interface.py`
+
+**Purpose**: Unified operator interface for broadcasting one message to the live Palette peers bus.
+
+### What It Actually Does
+
+- Registers `voice.interface` on the peers bus
+- Sends broadcasts to `http://127.0.0.1:7899/send` using the current wire contract
+- Persists agent configuration, conversation history, and metrics under `~/.palette/voice/`
+- Supports text input, optional Whisper-based transcription, dry runs, and summary views
+- Fails gracefully when the bus is offline or unreachable
+
+### What It Does Not Prove By Itself
+
+- that every configured agent is online
+- that every target agent acknowledged or processed the message
+- end-to-end production readiness
+
+### Current Default Agents
+
+Configuration is stored in `~/.palette/voice/agents.yaml`. The current default roster is:
+
+- `claude.analysis`
+- `kiro.design`
+- `codex.implementation`
+- `gemini.specialist` disabled by default
+- `mistral-vibe.builder` disabled by default
+
+### Usage
+
+```bash
+# List configured agents
+python3 palette/scripts/voice_interface.py --list-agents
+
+# Show current status and metrics
+python3 palette/scripts/voice_interface.py --summary
+
+# Dry run: prove target preparation only
+python3 palette/scripts/voice_interface.py --text-input "test message" --dry-run
+
+# Live broadcast to the peers bus
+python3 palette/scripts/voice_interface.py --text-input "your message here"
+
+# Process audio file through Whisper, then broadcast
+python3 palette/scripts/voice_interface.py --audio-file path/to/audio.wav
+
+# Reset metrics
+python3 palette/scripts/voice_interface.py --reset-metrics
+
+# Agent management
+python3 palette/scripts/voice_interface.py --add-agent agent-name
+python3 palette/scripts/voice_interface.py --enable-agent agent-name
+python3 palette/scripts/voice_interface.py --disable-agent agent-name
+python3 palette/scripts/voice_interface.py --remove-agent agent-name
+```
+
+### Delivery Semantics
+
+- `dry run`: no message is sent; only the intended bus action is shown
+- `broadcast sent`: the peers bus accepted the message
+- `live response`: only the bus-facing result shown by the script is confirmed
+- `error`: the bus was unreachable or returned an error
+
+The script is intentionally conservative in its wording. Broker acceptance is not the same as verified receipt by every target agent.
+
+### Architecture
+
+```
+Voice Input or Text Input
+  -> optional Whisper transcription
+  -> peers bus registration (voice.interface)
+  -> POST /send with to_agent: "all"
+  -> local history + metrics update
+  -> user-facing summary
+```
+
+### Related Governance / Wiki Scripts
+
+These scripts are part of the current verified V3 operational surface:
+
+- `file_proposal.py` — file a proposal into `wiki/proposed/`
+- `record_vote.py` — record binding or advisory votes
+- `promote_proposal.py` — promote approved proposals into the canonical knowledge library
+- `bridge_feedback_to_proposals.py` — turn workspace feedback into governance-ready artifacts
+- `compile_wiki.py` — compile the browsable wiki from canonical data
+- `validate_wiki.py` — validate the compiled wiki with 8 checks
+
+---
+
 ## `sync-impressions.py`
 
 **Purpose**: Aggregate agent impressions from implementation decision logs to global agent maturity tracker.

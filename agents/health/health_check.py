@@ -2,7 +2,7 @@
 """
 Health Agent — System-wide integrity checklist.
 
-Runs all 7 sections of the health checklist, reports pass/fail for each,
+Runs all 8 sections of the health checklist, reports pass/fail for each,
 and outputs a structured report. The reflection question at the end is
 designed to be answered by an LLM reviewing the output.
 
@@ -269,7 +269,7 @@ def section_4_cleanliness(report: HealthReport) -> None:
                      "people-library", "__pycache__", ".venv",
                      "docs", "research", "assets", "legal", "lenses",
                      "knowledge-library", "taxonomy", "buy-vs-build",
-                     "fixtures", "bridges"}
+                     "fixtures", "bridges", "mission-canvas"}
     # Files where names are legitimate: generated indexes, graph data, changelogs, audit reports
     excluded_files = {"CHANGELOG.md", "RELATIONSHIP_GRAPH.yaml", "KNOWLEDGE_INDEX.yaml",
                       "decisions.md", "README.md"}
@@ -558,6 +558,85 @@ def section_7_repo_mirror(report: HealthReport) -> None:
         report.add(Check(7, "Untracked files check", False, str(e), "warning"))
 
 
+# ── Section 8: Governance Pipeline Health ────────────────────────────────────
+
+def section_8_governance_pipeline(report: HealthReport) -> None:
+    """Check governance pipeline artifacts and integrity."""
+
+    # 8.1 VOTING_ROSTER.yaml exists and is valid
+    roster_path = os.path.join(PALETTE_ROOT, "wiki", "proposed", "VOTING_ROSTER.yaml")
+    if os.path.isfile(roster_path):
+        report.add(Check(8, "VOTING_ROSTER.yaml exists", True))
+        try:
+            with open(roster_path) as f:
+                roster = yaml.safe_load(f)
+            # Must have roster list
+            agents = roster.get("roster", [])
+            if not agents:
+                report.add(Check(8, "Voting roster has agents", False,
+                                  "roster key is empty or missing", "failure"))
+            else:
+                report.add(Check(8, "Voting roster has agents", True,
+                                  f"{len(agents)} agents"))
+            # quorum_minimum >= 2
+            quorum = roster.get("quorum_minimum", 0)
+            ok = isinstance(quorum, int) and quorum >= 2
+            report.add(Check(8, "Quorum minimum >= 2", ok,
+                              f"quorum_minimum={quorum}",
+                              "info" if ok else "failure"))
+            # Binding agents count
+            binding = [a for a in agents if a.get("binding")]
+            report.add(Check(8, "Binding agents >= quorum", len(binding) >= quorum,
+                              f"{len(binding)} binding, quorum={quorum}",
+                              "info" if len(binding) >= quorum else "failure"))
+        except Exception as e:
+            report.add(Check(8, "VOTING_ROSTER.yaml valid YAML", False, str(e), "failure"))
+    else:
+        report.add(Check(8, "VOTING_ROSTER.yaml exists", False,
+                          roster_path, "failure"))
+
+    # 8.2 Governance model v1 exists
+    gov_path = os.path.join(PALETTE_ROOT, "docs", "WIKI_GOVERNANCE_MODEL_v1.md")
+    if os.path.isfile(gov_path):
+        report.add(Check(8, "Governance model v1 exists", True))
+        # Check it contains key sections
+        with open(gov_path) as f:
+            content = f.read()
+        for marker in ["## 1. Three Tiers", "## 10. Operational Metrics", "FINAL"]:
+            if marker in content:
+                report.add(Check(8, f"Governance model contains '{marker}'", True))
+            else:
+                report.add(Check(8, f"Governance model contains '{marker}'", False,
+                                  "Missing expected section marker", "warning"))
+    else:
+        report.add(Check(8, "Governance model v1 exists", False,
+                          gov_path, "failure"))
+
+    # 8.3 wiki/proposed/ directory structure
+    proposed_dir = os.path.join(PALETTE_ROOT, "wiki", "proposed")
+    if os.path.isdir(proposed_dir):
+        report.add(Check(8, "wiki/proposed/ directory exists", True))
+    else:
+        report.add(Check(8, "wiki/proposed/ directory exists", False,
+                          proposed_dir, "failure"))
+
+    # 8.4 Phase 3 pipeline scripts exist and are importable
+    pipeline_scripts = [
+        "scripts/file_proposal.py",
+        "scripts/record_vote.py",
+        "scripts/promote_proposal.py",
+        "scripts/bridge_feedback_to_proposals.py",
+    ]
+    for script in pipeline_scripts:
+        spath = os.path.join(PALETTE_ROOT, script)
+        name = os.path.basename(script)
+        if os.path.isfile(spath):
+            report.add(Check(8, f"Pipeline script {name} exists", True))
+        else:
+            report.add(Check(8, f"Pipeline script {name} exists", False,
+                              spath, "failure"))
+
+
 # ── Reflection Question ─────────────────────────────────────────────────────
 
 REFLECTION = """
@@ -597,6 +676,7 @@ def run_all(sections: list[int] | None = None) -> HealthReport:
         5: ("Data Quality", section_5_data_quality),
         6: ("Governance", section_6_governance),
         7: ("Repo Mirror Sync", section_7_repo_mirror),
+        8: ("Governance Pipeline", section_8_governance_pipeline),
     }
 
     for num, (label, fn) in runners.items():
@@ -624,6 +704,7 @@ def print_report(report: HealthReport) -> None:
         5: "Data Quality",
         6: "Governance",
         7: "Repo Mirror Sync",
+        8: "Governance Pipeline",
     }
 
     for check in report.checks:
@@ -643,7 +724,7 @@ def print_report(report: HealthReport) -> None:
 def main():
     parser = argparse.ArgumentParser(description="Palette Health Agent")
     parser.add_argument("--json", action="store_true", help="Output as JSON")
-    parser.add_argument("--section", type=int, help="Run only this section (1-7)")
+    parser.add_argument("--section", type=int, help="Run only this section (1-8)")
     args = parser.parse_args()
 
     sections = [args.section] if args.section else None

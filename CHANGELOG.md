@@ -9,6 +9,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] — 2026-04-04
+
+### Added — Wiki Focal Point (Phases 1-3)
+
+- **Wiki Compiler** (`scripts/compile_wiki.py`): Deterministic Python compiler reads 6 YAML data layers and generates 332 browsable markdown pages with provenance headers, cross-references, agent backlinks, and indexes. 8/8 validation checks pass.
+- **Wiki Validator** (`scripts/validate_wiki.py`): 8-check validation suite — orientation test, coverage check, broken backlinks, orphan detection, adversarial test, deterministic rebuild, dual-experience test, source cross-check.
+- **Governance Model v1** (`docs/WIKI_GOVERNANCE_MODEL_v1.md`): 527-line governance document. Three tiers (Obviously Right / Two-Way Door / One-Way Door). Unanimous consensus with veto escalation. Gradient descent resolution for disagreements. Trust-weighted voting. Precedent accumulation. 10 edge case scenarios. Sunset clause after 20 proposals.
+- **Governance Pipeline**: `file_proposal.py`, `record_vote.py`, `promote_proposal.py`, `bridge_feedback_to_proposals.py` — full proposal lifecycle from filing through voting to promotion or rejection.
+- **Voting Roster** (`wiki/proposed/VOTING_ROSTER.yaml`): Machine-readable canonical roster. 3 binding agents (WORKING), 2 advisory (UNVALIDATED).
+- **Approval Queue** (`wiki/proposed/APPROVAL_QUEUE.md`): Auto-generated human-readable queue of pending proposals.
+- **Workspace KL Governance**: Lighter W1/W2/W3 tiers for workspace-specific knowledge with promotion path to canonical KL.
+
+### Changed
+
+- **Knowledge Library**: 168 → 170 entries. LIB-178 (crack spread) and LIB-179 (hallucination detection) promoted through governance pipeline.
+- **Sources**: 466 → 547. 25 broken URLs fixed (8 internal://, 17 file:// to dead paths).
+- **Wiki pages**: 329 → 332. Path files now have frontmatter. Agent pages have source_file/hash and Protocol sections.
+- **Compiler**: "Why It Matters" duplication fixed (90/168 → 0). Evidence links render local paths as inline code. URL scheme validation warns on internal/file URLs. Proposed entries compiled with PROPOSED banner. proposed/ directory preserved across recompiles.
+- **Validator**: Source cross-check added (check #8). Governance artifacts excluded. Path frontmatter handled in dual-experience test.
+- **Health checks**: Section 8 (Governance Pipeline) added to health_check.py. Section 13 added to total_health_check.py.
+- **palette-core.md**: Added "The system is strongest when its partners are most different from each other, because complementary coverage creates the safety to be bold."
+
+### Fixed
+
+- 25 broken source URLs in knowledge library (old Myth-Fall-Game paths → current locations)
+- 90/168 "Why It Matters" sections duplicating Definition opening
+- 14 path files missing frontmatter
+- 12 agent pages missing source_file field
+- 6 thin KL entries enriched (LIB-076 through LIB-080, LIB-177)
+- PROP-ID counter checking archive to prevent duplicates
+- Compiler preserving proposed/ directory across recompiles
+- validate_palette_state.py skipping ARCHIVED implementations
+- Orchestrator guard in .kiro/steering/assumptions.md
+- Stale counts across 11+ living documents (167→170 entries, 466→547 sources)
+
+### Added — Governance Research & Design
+
+- `docs/WIKI_FOCAL_POINT_PROPOSAL.md` — 17 iterations, 3 peer reviews
+- `docs/WIKI_COMPILER_SPEC.md` — Page template, field specs, rendering rules
+- `docs/WIKI_DESIGN_RATIONALE.md` — Design context
+- `docs/WIKI_PHASE_2_SCOPE.md` — 5 iterations, 11 work items
+- `docs/WIKI_PHASE_3_PLAN.md` — Implementation plan
+- `docs/WIKI_PROPOSED_GOVERNANCE_RESEARCH.md` — 5 governance patterns researched
+- `docs/WIKI_BRIDGE_REVIEW_KIRO.md` — Kiro's review of Claude's bridge design
+
+---
+
+## [Previous — Unreleased]
+
 ### Added
 
 - **Voice Summary Engine** (`mission-canvas/openclaw_adapter_core.mjs`): `makeVoiceSummary()` generates conversational voice-friendly responses from structured route data. Translates routing → natural language with one-way door warnings, knowledge support counts, and alternative suggestions.
@@ -60,7 +109,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **IntegrityGate Defensive Guards**: All 4 check methods now guard against None data and None results. Passing None PIS data returns an explicit warning instead of crashing with AttributeError.
 
-- **Health Check Accuracy**: Fixed knowledge library entry counting (was matching sub-entries inside YAML string literals). Fixed taxonomy counting key. Added word-boundary matching for personal name detection to eliminate false positives (e.g., "reliability" no longer matches "Elia"). Self-matching patterns constructed dynamically.
+- **Health Check Accuracy**: Fixed knowledge library entry counting (was matching sub-entries inside YAML string literals). Fixed taxonomy counting key. Added word-boundary matching for personal name detection to eliminate false positives (e.g., "reliability" no longer matches a substring of a personal name). Self-matching patterns constructed dynamically.
 
 - **Health Check Scope**: Operational code scan now excludes content/documentation directories (docs, research, assets, knowledge-library, taxonomy, lenses, bridges, buy-vs-build) where names and paths are legitimate. Hardcoded path check excludes bridges (VPS deployment).
 

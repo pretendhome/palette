@@ -1,5 +1,5 @@
 # Palette Manifest — Single Source of Truth
-# Updated: 2026-03-26
+# Updated: 2026-04-04
 # Purpose: One file to orient any agent, tool, or human on what's current.
 
 system:
@@ -27,7 +27,7 @@ layers:
     version: v1.4
     path: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
     generated: 2026-02-05
-    entries: 168
+    entries: 176
     unit: LIB entry
     status: current
 
@@ -67,11 +67,19 @@ layers:
   lenses:
     version: v0
     path: lenses/releases/v0/
-    entries: 23
+    entries: 26
     unit: role lens
     status: pilot
     creation_skill: skills/lenses/lens-creation-methodology.md
     categories: [technical, product_strategy, organizational, gtm_commercial, specialized]
+
+  wiki:
+    path: wiki/
+    compiler: scripts/compile_wiki.py
+    validator: scripts/validate_wiki.py
+    pages: 337
+    validation: "8/8 PASS"
+    status: current
 
 agents:
   path: agents/
@@ -107,6 +115,13 @@ governance:
   tier_2: core/assumptions.md
   tier_3: decisions.md
   decision_prompt: core/decisions-prompt.md
+  model: docs/WIKI_GOVERNANCE_MODEL_v1.md
+  voting_roster: wiki/proposed/VOTING_ROSTER.yaml
+  pipeline:
+    file_proposal: scripts/file_proposal.py
+    record_vote: scripts/record_vote.py
+    promote_proposal: scripts/promote_proposal.py
+    bridge_feedback: scripts/bridge_feedback_to_proposals.py
 
 scripts:
   integrity: "python3 -m scripts.palette_intelligence_system.integrity --checks-only"

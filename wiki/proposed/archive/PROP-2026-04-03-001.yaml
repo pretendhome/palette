@@ -1,0 +1,69 @@
+proposed_by: claude.analysis
+tier: 2
+type: new
+target: LIB-NEW
+content:
+  question: How do I detect hallucination in production LLM outputs?
+  answer: 'Hallucination detection in production requires multiple complementary strategies because no single method catches
+    all types. Start with reference-based checking: compare LLM output claims against your source documents using semantic
+    similarity. If the output asserts a fact not grounded in the provided context, flag it. Second, implement self-consistency
+    checking: ask the same question multiple times with different temperatures and compare outputs. Inconsistent answers on
+    factual questions indicate hallucination. Third, add structured output validation: if the LLM should return JSON with
+    specific fields, validate the schema and check that referenced entities exist in your database. Fourth, deploy an LLM-as-judge
+    pipeline where a second model evaluates whether the first model''s output is grounded in the provided context. This catches
+    subtle hallucinations that string matching misses. Fifth, track hallucination rates per query type and model version.
+    Some query patterns trigger hallucination more than others. Build a regression suite of known hallucination-inducing prompts
+    and test every model update against it. The goal is not zero hallucination — it is known, measured, bounded hallucination
+    with clear fallback paths.
+
+    '
+  sources:
+  - title: Anthropic — Reducing Hallucination in AI Systems
+    url: https://docs.anthropic.com/en/docs/build-with-claude/reduce-hallucinations
+    accessed: '2026-04-03'
+  - title: Google — Grounding and Hallucination Detection
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/grounding/overview
+    accessed: '2026-04-03'
+  related_rius:
+  - RIU-524
+  evidence_tier: 1
+  evidence_tier_justification: Primary sources from Anthropic (model provider) and Google Cloud (platform provider). Tier
+    1 vendor documentation.
+  tags:
+  - hallucination
+  - production
+  - quality
+  - monitoring
+rationale: Gemini identified hallucination detection as one of 16 high-value gaps in the 111-query stress test. No canonical
+  KL entry exists.
+source_of_insight: Gemini Phase 3 readiness report — gap analysis
+contradiction_check:
+  checked_against:
+  - LIB-103
+  - LIB-114
+  - LIB-037
+  conflicts_found: none — complements LIB-103 (agent quality) and LIB-114 (LLM-as-judge)
+id: PROP-2026-04-03-001
+proposed_at: '2026-04-04T04:59:35Z'
+status: promoted
+votes:
+- agent_id: kiro.design
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Fills gap. Tier 1 sources.
+  binding: true
+  date: '2026-04-04T04:59:54Z'
+- agent_id: claude.analysis
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Sources verified. Actionable.
+  binding: true
+  date: '2026-04-04T04:59:54Z'
+- agent_id: codex.implementation
+  trust_tier: WORKING
+  vote: approve
+  reasoning: RIU-524 correct. No contradiction.
+  binding: true
+  date: '2026-04-04T04:59:54Z'
+promoted_at: '2026-04-04T04:59:55Z'
+promoted_as: LIB-179

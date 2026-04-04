@@ -103,6 +103,9 @@ def check_implementation_modules() -> None:
         "fde/decisions.md",
     ]
     for impl in sorted(p for p in impl_root.iterdir() if p.is_dir() and not p.name.startswith("_")):
+        # Skip archived implementations
+        if (impl / "ARCHIVED").exists() or (impl / ".archived").exists():
+            continue
         for rel in required:
             path = impl / rel
             if not path.exists():

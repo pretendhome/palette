@@ -22,7 +22,7 @@ Palette is not one thing. It is three tightly coupled systems that share a commo
 
 **Components**:
 - **Taxonomy** — 121 classified problem types (RIUs) across 6 workstreams, each with reversibility classification, failure modes, and agent assignments
-- **Knowledge Library** — 168 sourced entries with 466 citations, three-tier evidence bar, journey stage progression
+- **Knowledge Library** — 176 sourced entries with 565 citations, three-tier evidence bar, journey stage progression
 - **Service Routing** — 40 routed RIUs with ranked external service recommendations, cost logic, and integration paths
 - **Integration Recipes** — 69 service-specific recipes with auth, rate limits, code examples, and evaluation verdicts
 - **People & Company Signals** — 21 active profiles, 43 tracked tools, signal quality ratings, cluster analysis
@@ -104,7 +104,7 @@ An FDE toolkit would be templates, research notes, and scripts for running enabl
 2. **A machine-readable intelligence layer** — The SDK, wire contract, and integrity engine teach machines how to route decisions. That is not helping a human do FDE work faster. It is codifying the expert's judgment into executable logic.
 3. **A pedagogical system** — The curriculum, constellations, and learning paths codify how to teach AI adoption, not just how to do it.
 
-The honest framing: **Palette is an AI decision intelligence system that was built and validated through FDE work.** The FDE context is the proving ground — it is where the 250+ sessions, 168 knowledge entries, and 121 RIUs came from. But the architecture is domain-portable. Swap the knowledge library and retrain the taxonomy, and it works for healthcare AI adoption, fintech AI adoption, or manufacturing AI adoption.
+The honest framing: **Palette is an AI decision intelligence system that was built and validated through FDE work.** The FDE context is the proving ground — it is where the 250+ sessions, 176 knowledge entries, and 121 RIUs came from. But the architecture is domain-portable. Swap the knowledge library and retrain the taxonomy, and it works for healthcare AI adoption, fintech AI adoption, or manufacturing AI adoption.
 
 "I built it as proof that I can ship what I advise" — that remains the strongest interview framing. What changed is the scale of what was shipped.
 
@@ -115,7 +115,7 @@ The honest framing: **Palette is an AI decision intelligence system that was bui
 | Metric | Value |
 |--------|-------|
 | Taxonomy RIUs | 121 (was 117) |
-| Knowledge library entries | 168 |
+| Knowledge library entries | 176 |
 | Integration recipes | 69 |
 | Service routing entries | 40 (80 internal_only, 40 both) |
 | People profiles | 21 active |
@@ -131,4 +131,4 @@ The honest framing: **Palette is an AI decision intelligence system that was bui
 
 ---
 
-*Built by Mical Neill. Architecture, orchestration, and finishing by Claude Code. Scaffolding and content by Kiro. Creative design by Codex. Research by Perplexity.*
+*Built by the operator. Architecture, orchestration, and finishing by Claude Code. Scaffolding and content by Kiro. Creative design by Codex. Research by Perplexity.*

@@ -1,0 +1,106 @@
+---
+source_file: MANIFEST.yaml
+source_id: architect
+source_hash: sha256:ecb8fdccd3681609
+compiled_at: 2026-04-04T15:44:26Z
+compiler_version: 1.0.0
+type: agent
+tags: [agent, architect]
+related: [RIU-001, RIU-003, RIU-004, RIU-005, RIU-006, RIU-007, RIU-008, RIU-009, RIU-011, RIU-012, RIU-015, RIU-016, RIU-017, RIU-018, RIU-019, RIU-021, RIU-022, RIU-023, RIU-024, RIU-025]
+DO_NOT_EDIT: This file is auto-generated. Edit the source YAML and recompile.
+---
+
+# Architect
+
+system design and tradeoff evaluation
+
+## Handles
+
+- [RIU-001: Convergence Brief (Semantic Blueprint)](../rius/RIU-001.md)
+- [RIU-003: Decision Log + One-Way Door Registry](../rius/RIU-003.md)
+- [RIU-004: Problem → Workstream Decomposition](../rius/RIU-004.md)
+- [RIU-005: Scope Freeze + Phased Delivery Contract](../rius/RIU-005.md)
+- [RIU-006: Success Metrics Charter](../rius/RIU-006.md)
+- [RIU-007: Constraint Profile Capture](../rius/RIU-007.md)
+- [RIU-008: Assumptions Register](../rius/RIU-008.md)
+- [RIU-009: Risk Register + Mitigation Plan](../rius/RIU-009.md)
+- [RIU-011: Data Contract Freeze (Schemas + Samples)](../rius/RIU-011.md)
+- [RIU-012: PII/Compliance Triage (Controls Plan)](../rius/RIU-012.md)
+- [RIU-015: Contract for Outputs (API/Events/Files)](../rius/RIU-015.md)
+- [RIU-016: API Contract Review + Versioning Plan](../rius/RIU-016.md)
+- [RIU-017: Connector Spec (Source/Target)](../rius/RIU-017.md)
+- [RIU-018: Schema Mapping Table (Source→Target)](../rius/RIU-018.md)
+- [RIU-019: Data Lineage Sketch (Minimal)](../rius/RIU-019.md)
+- [RIU-021: Golden Set + Offline Evaluation Harness](../rius/RIU-021.md)
+- [RIU-022: Prompt Interface Contract](../rius/RIU-022.md)
+- [RIU-023: Deterministic-First Pipeline Split](../rius/RIU-023.md)
+- [RIU-024: Sidecar Augmentation Pattern](../rius/RIU-024.md)
+- [RIU-025: Freshness/Staleness Rules (Deterministic)](../rius/RIU-025.md)
+- [RIU-026: Hybrid Similarity (Enums + Embeddings)](../rius/RIU-026.md)
+- [RIU-027: Reranking Layer (Post-Retrieval)](../rius/RIU-027.md)
+- [RIU-029: Tool-Calling Safety Envelope](../rius/RIU-029.md)
+- [RIU-032: Extraction Pattern (Structured from Unstructured)](../rius/RIU-032.md)
+- [RIU-033: Classification Pattern (Soft Labels)](../rius/RIU-033.md)
+- [RIU-034: Ranking Explanation Rules (Reason Codes)](../rius/RIU-034.md)
+- [RIU-035: Caching Strategy + Invalidation Plan](../rius/RIU-035.md)
+- [RIU-060: Deployment Readiness Envelope](../rius/RIU-060.md)
+- [RIU-061: Observability Baseline](../rius/RIU-061.md)
+- [RIU-062: Incident Containment & Recovery Plan](../rius/RIU-062.md)
+- [RIU-063: Performance & Load Characterization](../rius/RIU-063.md)
+- [RIU-064: Feature Flags + Kill Switch Integration](../rius/RIU-064.md)
+- [RIU-066: Secrets Handling + Rotation Expectations](../rius/RIU-066.md)
+- [RIU-067: Database Migration Safety Wrapper](../rius/RIU-067.md)
+- [RIU-068: Canary Rollout + Error Budget Gate](../rius/RIU-068.md)
+- [RIU-070: SLO/SLI Definition + Alert Thresholds](../rius/RIU-070.md)
+- [RIU-082: LLM Safety Guardrails (Content + Tool Use)](../rius/RIU-082.md)
+- [RIU-083: Red Team Scenarios (Abuse + Failure)](../rius/RIU-083.md)
+- [RIU-085: Cost/Latency Budget Envelope](../rius/RIU-085.md)
+- [RIU-086: Regression Suite (Golden + Metamorphic)](../rius/RIU-086.md)
+- [RIU-087: Human Review Gate (One-Way Doors)](../rius/RIU-087.md)
+- [RIU-088: Privacy Redaction Pipeline](../rius/RIU-088.md)
+- [RIU-101: Customer Workshop Design (Discovery/Alignment)](../rius/RIU-101.md)
+- [RIU-107: Financial Crisis Detection](../rius/RIU-107.md)
+- [RIU-108: Agent Security & Access Control](../rius/RIU-108.md)
+- [RIU-109: Business Plan Creation](../rius/RIU-109.md)
+- [RIU-120: Integration Mode Selection (Batch vs Stream vs Hybrid)](../rius/RIU-120.md)
+- [RIU-121: Webhook Reliability Pattern (Retries + Idempotency)](../rius/RIU-121.md)
+- [RIU-122: Batch Pipeline Safety Pattern (Checkpointing)](../rius/RIU-122.md)
+- [RIU-231: Document Chunking Strategy](../rius/RIU-231.md)
+- [RIU-250: Security Review Packet](../rius/RIU-250.md)
+- [RIU-252: Model Evaluation & Selection](../rius/RIU-252.md)
+- [RIU-320: Third-Party API Integration Pattern](../rius/RIU-320.md)
+- [RIU-321: Database Migration Strategy](../rius/RIU-321.md)
+- [RIU-322: Authentication/Authorization Integration](../rius/RIU-322.md)
+- [RIU-323: Message Queue Integration Pattern](../rius/RIU-323.md)
+- [RIU-324: Caching Strategy Design](../rius/RIU-324.md)
+- [RIU-326: Threat Model + Attack Surface Map](../rius/RIU-326.md)
+- [RIU-327: AuthN/AuthZ Integration](../rius/RIU-327.md)
+- [RIU-401: Taxonomy Design](../rius/RIU-401.md)
+- [RIU-500: Multimodal Data Pipeline Design](../rius/RIU-500.md)
+- [RIU-504: AI Video Generation Model Selection](../rius/RIU-504.md)
+- [RIU-505: Voice Input Modality Selection](../rius/RIU-505.md)
+- [RIU-510: Multi-Agent Workflow Design](../rius/RIU-510.md)
+- [RIU-512: Agent Failure Recovery Pattern](../rius/RIU-512.md)
+- [RIU-513: Inter-Agent Communication Protocol](../rius/RIU-513.md)
+- [RIU-514: Agent Capability Boundary Enforcement](../rius/RIU-514.md)
+- [RIU-520: Prompt Version Control & Lifecycle](../rius/RIU-520.md)
+- [RIU-521: LLM Model Version Management](../rius/RIU-521.md)
+- [RIU-530: AI System Risk Classification](../rius/RIU-530.md)
+- [RIU-532: AI Explainability Framework](../rius/RIU-532.md)
+- [RIU-533: Fundamental Rights Impact Assessment (FRIA)](../rius/RIU-533.md)
+- [RIU-534: AI Audit Trail Requirements](../rius/RIU-534.md)
+- [RIU-542: Observability Stack Design](../rius/RIU-542.md)
+- [RIU-550: No-Code AI App Generation](../rius/RIU-550.md)
+- [RIU-600: Multi-Brand AI Strategy Framework](../rius/RIU-600.md)
+- [RIU-601: AI Operating Model Design](../rius/RIU-601.md)
+- [RIU-602: AI Use Case Prioritization Matrix](../rius/RIU-602.md)
+- [RIU-604: AI ROI Quantification Framework](../rius/RIU-604.md)
+- [RIU-606: Brand Safety for AI-Generated Content](../rius/RIU-606.md)
+
+## Protocol
+
+- SDK module: `agents/architect/architect.py`
+
+## Provenance
+
+Agent: architect. Role: system design and tradeoff evaluation.

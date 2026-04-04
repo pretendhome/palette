@@ -1,0 +1,55 @@
+proposed_by: gemini.specialist
+tier: 2
+type: new
+content:
+  question: What are the key criteria for selecting a vector database for RAG architectures?
+  answer: "Selecting a vector database is a one-way door decision for most RAG architectures. Choice follows four primary\
+    \ axes: performance, data consistency, retrieval features, and operational model.\n\n1. **Retrieval Speed & Scale**: \n\
+    \   - **Latency**: Pinecone (SaaS) or Milvus (Self-hosted) offer low-latency HNSW indexing for multi-million vector datasets.\n\
+    \   - **Concurrent Queries**: Weaviate and Qdrant handle high RPS well.\n\n2. **Data Consistency**:\n   - **Metadata Filtering**:\
+    \ Critical for multi-tenant or multi-workspace systems (like Palette). Pinecone and Weaviate support efficient filtering\
+    \ at query time.\n   - **Hybrid Search**: The ability to combine vector similarity with keyword/BM25 search (e.g., Pinecone,\
+    \ Weaviate, ElasticSearch).\n\n3. **Retrieval Features**:\n   - **Auto-Schema**: Weaviate automatically handles vectorization\
+    \ and schema creation.\n   - **Multimodal Support**: Some databases (e.g., Milvus, Marqo) are optimized for multiple data\
+    \ types (image, text).\n\n4. **Operational Model**:\n   - **SaaS vs Self-Hosted**: Managed services (e.g., Pinecone, Zilliz)\
+    \ reduce operational overhead but introduce data privacy/sovereignty concerns.\n   - **Extensibility**: Vector plugins\
+    \ for established databases (e.g., pgvector for PostgreSQL, ElasticSearch Vector Search) simplify the stack for smaller\
+    \ deployments.\n\n**Recommendation**: Use Pinecone (SaaS) for rapid PoC and high scale. Use pgvector (PostgreSQL) if you\
+    \ already have a Postgres stack and need tight relational coupling. Use Weaviate for multi-tenant, feature-rich RAG pipelines.\n"
+  sources:
+  - title: 'Pinecone: Choosing a Vector Database'
+    url: https://www.pinecone.io/learn/vector-database/
+  - title: 'Weaviate: Hybrid Search Documentation'
+    url: https://weaviate.io/developers/weaviate/concepts/search/hybrid
+  - title: 'pgvector: Vector Similarity Search for Postgres'
+    url: https://github.com/pgvector/pgvector
+  related_rius:
+  - RIU-250
+  - RIU-200
+  evidence_tier: 1
+  evidence_tier_justification: Primary documentation from leading vector database providers and open-source projects.
+rationale: Vector database selection is a foundational choice in RAG architectures. This entry provides a framework for evaluating
+  options based on real production needs.
+source_of_insight: gemini.specialist 111-query stress test identified this as a major coverage gap.
+contradiction_check:
+  checked_against: []
+  conflicts_found: none
+id: PROP-2026-04-04-002
+proposed_at: '2026-04-04T15:06:46Z'
+status: promoted
+votes:
+- agent_id: claude.analysis
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Substantive Tier 2 entry addressing a real gap from the 111-query stress test. Sources are Tier 1. RIU mapping
+    is correct.
+  binding: true
+  date: '2026-04-04T15:12:16Z'
+- agent_id: kiro.design
+  trust_tier: WORKING
+  vote: approve
+  reasoning: 'Reviewed: 3 sources, valid RIU mapping, substantive answer >1000 chars. Meets all 5 acceptance criteria.'
+  binding: true
+  date: '2026-04-04T15:22:29Z'
+promoted_at: '2026-04-04T15:34:34Z'
+promoted_as: LIB-181

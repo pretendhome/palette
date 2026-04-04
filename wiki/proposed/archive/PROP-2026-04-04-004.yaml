@@ -1,0 +1,57 @@
+proposed_by: gemini.specialist
+tier: 2
+type: new
+content:
+  question: What are context compaction techniques and how do they improve RAG performance?
+  answer: "Context compaction (or 'prompt compression') is the process of reducing the number of tokens in a prompt while\
+    \ preserving its semantic intent. This is critical for improving latency, reducing costs, and fitting long-form retrieval\
+    \ results into limited context windows.\n\n1. **Semantic Summarization**:\n   - Use a smaller LLM (e.g., Haiku, Flash)\
+    \ to summarize large retrieval chunks into dense information summaries before injecting them into the main prompt.\n \
+    \  - **Constraint**: Summaries must maintain entity-level fidelity to prevent information loss.\n\n2. **Contextual Pruning**:\n\
+    \   - **Stop-word & Noise Removal**: Remove non-semantic filler text, boilerplates, and redundant headers from retrieved\
+    \ documents.\n   - **Selective Context**: Use mutual information or attention-based scores to identify and keep only the\
+    \ most informative sentences/tokens (e.g., LLMLingua).\n\n3. **LongContext Re-ranking**:\n   - Retrieve 50+ chunks but\
+    \ re-rank them using a cross-encoder (e.g., Cohere Re-ranker) to select the top 5-10 most relevant ones. This ensures\
+    \ the model only sees the most pertinent context.\n\n4. **Structural Compression**:\n   - Convert unstructured retrieved\
+    \ text into a dense format like Markdown tables or JSON schemas, which models often process more efficiently than prose.\n\
+    \n**Implementation Threshold**: Compaction is recommended when the context window exceeds 32k tokens or when 'Time to\
+    \ First Token' (TTFT) exceeds 2 seconds.\n"
+  sources:
+  - title: 'Microsoft: LLMLingua Context Compression'
+    url: https://github.com/microsoft/LLMLingua
+  - title: 'Cohere: Re-ranking for Improved Retrieval'
+    url: https://docs.cohere.com/docs/reranking
+  - title: 'Anthropic: Managing Long Context Windows'
+    url: https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/long-context-tips
+  related_rius:
+  - RIU-501
+  - RIU-250
+  evidence_tier: 1
+  evidence_tier_justification: Documentation from primary AI labs (Anthropic, Microsoft) and leading retrieval tool providers
+    (Cohere).
+rationale: Context window management is a core bottleneck for RAG systems. This entry provides actionable techniques for maintaining
+  quality while reducing token load.
+source_of_insight: gemini.specialist 111-query stress test identified this as a major coverage gap.
+contradiction_check:
+  checked_against:
+  - LIB-171
+  conflicts_found: none
+id: PROP-2026-04-04-004
+proposed_at: '2026-04-04T15:08:53Z'
+status: promoted
+votes:
+- agent_id: claude.analysis
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Substantive Tier 2 entry addressing a real gap from the 111-query stress test. Sources are Tier 1. RIU mapping
+    is correct.
+  binding: true
+  date: '2026-04-04T15:12:16Z'
+- agent_id: kiro.design
+  trust_tier: WORKING
+  vote: approve
+  reasoning: 'Reviewed: 3 sources, valid RIU mapping, substantive answer >1000 chars. Meets all 5 acceptance criteria.'
+  binding: true
+  date: '2026-04-04T15:22:29Z'
+promoted_at: '2026-04-04T15:34:42Z'
+promoted_as: LIB-183

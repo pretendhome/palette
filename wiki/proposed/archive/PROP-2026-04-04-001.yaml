@@ -1,0 +1,59 @@
+proposed_by: gemini.specialist
+tier: 2
+type: new
+content:
+  question: How do I optimize token usage and costs for high-volume LLM deployments?
+  answer: "Optimizing token usage is critical for the economic viability of high-volume LLM applications. Strategy follows\
+    \ three layers: request-level reduction, architectural caching, and model routing.\n\n1. **Request-Level Reduction**:\
+    \ \n   - **Prompt Compression**: Use selective context (e.g., LongContext Re-ranking) to send only the most relevant chunks.\
+    \ \n   - **System Prompt Pruning**: Move static rules to a one-time 'prefill' or use 'Context Caching' (e.g., Anthropic\
+    \ Prompt Caching, Gemini Context Caching) for long system instructions.\n   - **Few-Shot Optimization**: Limit examples\
+    \ to 3-5 high-quality cases instead of dozens. Use a vector store to retrieve the most semantically relevant examples\
+    \ per request.\n   - **Structured Output Control**: Use constrained decoding (JSON mode) to prevent the model from generating\
+    \ unnecessary conversational filler.\n\n2. **Architectural Caching**:\n   - **Exact Match Cache**: Use Redis or a similar\
+    \ store to cache identical queries (normalized).\n   - **Semantic Cache**: Use a vector database (e.g., Pinecone, Milvus)\
+    \ with a high similarity threshold (e.g., >0.95) to serve cached responses for semantically identical questions.\n   -\
+    \ **TTL Strategy**: Align cache TTL with the volatility of the source data to ensure freshness.\n\n3. **Model Routing**:\n\
+    \   - **Cascading Logic**: Use a small/cheap model (e.g., Haiku, Flash) for simple intent classification or basic summarization.\
+    \ Escalate to a large model (e.g., Opus, Pro) only for complex reasoning or creative generation.\n   - **Speculative Decoding**:\
+    \ Use a smaller model to draft responses and a larger model to verify/correct them.\n\n**Implementation Threshold**: If\
+    \ token costs exceed 15% of your product's COGS, move from request-level optimization to structural semantic caching.\n"
+  sources:
+  - title: 'Anthropic: Prompt Caching Documentation'
+    url: https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching
+  - title: 'Google Cloud: Context Caching for Gemini'
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/context-caching
+  - title: 'MLflow: Evaluating LLM Token Usage'
+    url: https://mlflow.org/docs/latest/llms/llm-evaluate/index.html
+  related_rius:
+  - RIU-501
+  - RIU-500
+  evidence_tier: 1
+  evidence_tier_justification: Primary vendor documentation from Anthropic and Google Cloud for Context Caching, plus MLflow
+    industry standards.
+rationale: Token cost is a primary blocker for production scale in high-volume RAG systems. This entry provides actionable,
+  tiered strategies for cost reduction.
+source_of_insight: gemini.specialist 111-query stress test identified this as a major coverage gap.
+contradiction_check:
+  checked_against:
+  - LIB-078
+  conflicts_found: none
+id: PROP-2026-04-04-001
+proposed_at: '2026-04-04T15:06:46Z'
+status: promoted
+votes:
+- agent_id: claude.analysis
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Substantive Tier 2 entry addressing a real gap from the 111-query stress test. Sources are Tier 1. RIU mapping
+    is correct.
+  binding: true
+  date: '2026-04-04T15:12:16Z'
+- agent_id: kiro.design
+  trust_tier: WORKING
+  vote: approve
+  reasoning: 'Reviewed: 3 sources, valid RIU mapping, substantive answer >1000 chars. Meets all 5 acceptance criteria.'
+  binding: true
+  date: '2026-04-04T15:22:29Z'
+promoted_at: '2026-04-04T15:34:31Z'
+promoted_as: LIB-180

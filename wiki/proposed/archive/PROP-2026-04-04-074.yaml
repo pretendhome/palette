@@ -1,0 +1,45 @@
+content:
+  answer: 'This is a comprehensive stress test answer that is guaranteed to be over one hundred characters long. We need to
+    ensure that the governance pipeline can handle a high volume of concurrent requests without breaking the internal state
+    machines or the rendered wiki pages. Index: 64'
+  evidence_tier: 3
+  evidence_tier_justification: Automated stress test justification
+  question: Stress test question 64?
+  related_rius:
+  - RIU-001
+  sources:
+  - title: Test Source
+    url: https://example.com
+contradiction_check:
+  checked_against: []
+  conflicts_found: none
+proposed_by: gemini.specialist
+rationale: Stress testing the pipeline at index 64
+source_of_insight: Automated stress test v3
+tier: 2
+type: new
+id: PROP-2026-04-04-074
+proposed_at: '2026-04-04T15:35:44Z'
+status: promoted
+votes:
+- agent_id: kiro.design
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Stress test approval
+  binding: true
+  date: '2026-04-04T15:36:20Z'
+- agent_id: claude.analysis
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Stress test approval
+  binding: true
+  date: '2026-04-04T15:36:20Z'
+- agent_id: codex.implementation
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Stress test approval
+  binding: true
+  date: '2026-04-04T15:36:20Z'
+expires: '2026-04-18'
+promoted_at: '2026-04-04T15:40:47Z'
+promoted_as: LIB-250

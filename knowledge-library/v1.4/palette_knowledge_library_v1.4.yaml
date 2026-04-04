@@ -7552,6 +7552,13 @@ gap_additions:
     url: https://atlan.com/know/data-lineage-tracking/
   - title: Palette internal knowledge base
     url: https://github.com/pretendhome/pretendhome
+  answer: Design a pipeline orchestrator that handles text, image, audio, and structured data as typed channels with explicit
+    schema contracts at each stage. Use Apache Airflow or Prefect for DAG-based orchestration with per-channel error handling.
+    Define a canonical intermediate format (e.g., JSON-LD with media URIs) so downstream consumers don't need to know the
+    source modality. Implement modality-specific validators at ingestion (file type, encoding, resolution checks) and a unified
+    quality gate before the data enters the AI layer. Monitor per-channel latency and failure rates independently — image
+    processing failures should not block text pipeline progress. Start with two modalities, prove the orchestration pattern
+    works, then add channels incrementally.
 - id: LIB-077
   question: How do I implement advanced agent reasoning frameworks for production deployment?
   rationale: Addresses advanced agentic systems gap identified in RIU-510 series analysis
@@ -7584,6 +7591,13 @@ gap_additions:
     url: https://github.com/pretendhome/pretendhome
   - title: FDE field experience
     url: internal
+  answer: 'Start with chain-of-thought prompting before building custom reasoning frameworks. If prompting is insufficient,
+    implement a ReAct (Reasoning + Acting) loop: the agent reasons about the current state, selects a tool, observes the result,
+    and reasons again. Keep the reasoning trace inspectable — log every step so failures can be diagnosed. For production
+    deployment, add a reasoning budget (max steps, max tokens, max wall-clock time) to prevent infinite loops. Implement a
+    fallback path: if the agent exceeds its reasoning budget, return a partial result with an explanation of what it could
+    not resolve. Test with adversarial inputs that trigger deep reasoning chains. The goal is bounded, inspectable reasoning
+    — not unbounded intelligence.'
 - id: LIB-078
   question: How do I optimize costs for high-volume LLM deployments while maintaining performance?
   rationale: Addresses modern LLMOps cost optimization gap identified in RIU-520 series analysis
@@ -7623,6 +7637,12 @@ gap_additions:
     year: 2024
     url: https://www.oreilly.com/library/view/generative-ai-on/9781098159214/
     note: Chapters on SageMaker optimization, model quantization, and cost-effective deployment
+  answer: 'Implement a tiered inference strategy: route simple queries to smaller/cheaper models and complex queries to larger/expensive
+    models. Use prompt caching (KV cache reuse) for repeated prefixes — this alone can cut costs 50-90% for structured workflows.
+    Batch requests where latency tolerance allows. Set per-model cost budgets with alerts at 70% and hard stops at 100%. Track
+    cost-per-query and cost-per-successful-outcome separately — a cheap model that fails 40% of the time may cost more than
+    an expensive model that succeeds 95% of the time. Use spot/preemptible instances for batch workloads. Measure before optimizing:
+    instrument every LLM call with token counts, latency, and model ID before making cost decisions.'
 - id: LIB-079
   question: How do I implement multi-jurisdictional AI compliance across expanding state regulations?
   rationale: Addresses regulatory compliance gap for 20+ state privacy laws effective by January 2026
@@ -7657,6 +7677,13 @@ gap_additions:
     url: https://github.com/pretendhome/pretendhome
   - title: FDE field experience
     url: internal
+  answer: 'Map each jurisdiction''s AI requirements into a compliance matrix with columns for: jurisdiction, regulation name,
+    effective date, data residency requirements, transparency obligations, and audit requirements. Implement the strictest
+    common denominator as your baseline — if any jurisdiction requires explainability, build explainability everywhere. Use
+    feature flags to enable jurisdiction-specific behaviors (e.g., GDPR right-to-explanation in EU, CCPA opt-out in California).
+    Assign a compliance owner per jurisdiction who monitors regulatory changes. Automate compliance checks in CI/CD: data
+    residency validation, PII detection, and audit trail completeness should be pipeline gates, not manual reviews. Review
+    the matrix quarterly — AI regulation is evolving rapidly.'
 - id: LIB-080
   question: How do I design organizational AI adoption frameworks that overcome resistance to automation?
   rationale: Addresses organizational change management gap identified in adoption analysis
@@ -7688,6 +7715,12 @@ gap_additions:
     url: https://github.com/pretendhome/pretendhome
   - title: FDE field experience
     url: internal
+  answer: 'Start with a pilot group of willing adopters, not a company-wide mandate. Identify 3-5 workflows where AI demonstrably
+    saves time (not hypothetically — measure it). Train people on the specific AI tools they will use in their actual workflow,
+    not generic AI literacy. Address the fear directly: ''AI will not replace your job; it will change how you do your job.
+    Here is specifically how.'' Create internal champions who can show peers their own productivity gains. Measure adoption
+    by usage frequency and task completion time, not by survey sentiment. Remove friction: SSO integration, pre-configured
+    tools, one-click access. The biggest adoption blocker is usually not resistance — it is inconvenience.'
 - id: LIB-177
   question: How do I design a taxonomy that an AI system can use for consistent, accurate classification?
   riu_ids:
@@ -7722,6 +7755,259 @@ gap_additions:
   - title: Palette Taxonomy v1.3 — 120 RIUs across 6 workstreams
     type: internal
     tier: tier_1
+  answer: 'Define taxonomy nodes as problem-solution pairs, not abstract categories. Each node should answer: ''What problem
+    does this solve?'' and ''What is the execution approach?'' Use mutually exclusive categories at each level — if an item
+    could belong to two categories, the taxonomy is ambiguous. Add trigger signals to each node: specific phrases, keywords,
+    or patterns that indicate this category applies. Test the taxonomy with real queries: give 50 real user questions to the
+    classifier and measure precision and recall per node. A taxonomy with 80% accuracy on 20 nodes is better than one with
+    60% accuracy on 100 nodes. Version the taxonomy and track classification accuracy over time. When accuracy drops below
+    threshold, the taxonomy needs revision, not the classifier.'
+- id: LIB-178
+  question: What is a crack spread and why do oil investors monitor it?
+  answer: 'A crack spread is the price difference between crude oil and the refined petroleum products (gasoline, diesel,
+    jet fuel) produced from it. The term comes from the refining process of "cracking" crude oil molecules into lighter products.
+    The most common benchmark is the 3-2-1 crack spread: the profit from refining 3 barrels of crude into 2 barrels of gasoline
+    and 1 barrel of distillate (diesel/heating oil). Investors monitor crack spreads because they indicate refinery profitability
+    — when spreads are wide, refiners earn more per barrel processed. Narrow or negative spreads signal margin compression
+    and potential refinery shutdowns. For upstream investors, crack spreads affect demand for crude: weak refining margins
+    reduce crude purchases. For portfolio managers, crack spread trends are leading indicators of energy sector earnings.
+    Monitor the 3-2-1 spread on CME Group or EIA data. A spread above $20/barrel is historically strong; below $10 signals
+    stress. Seasonal patterns matter — spreads typically widen before summer driving season (gasoline demand) and winter heating
+    season (distillate demand).
+
+    '
+  sources:
+  - title: CME Group — Crack Spread Handbook
+    url: https://www.cmegroup.com/education/articles-and-reports/crack-spread-handbook.html
+    accessed: '2026-04-03'
+  - title: EIA — Refinery Margins and Crack Spreads
+    url: https://www.eia.gov/petroleum/weekly/archive/2024/240103/includes/analysis_print.php
+    accessed: '2026-04-03'
+  related_rius:
+  - RIU-109
+  evidence_tier: 2
+  tags:
+  - oil-energy
+  - investment
+  - crack-spread
+  - refining
+  journey_stage: foundation
+  difficulty: medium
+- id: LIB-179
+  question: How do I detect hallucination in production LLM outputs?
+  answer: 'Hallucination detection in production requires multiple complementary strategies because no single method catches
+    all types. Start with reference-based checking: compare LLM output claims against your source documents using semantic
+    similarity. If the output asserts a fact not grounded in the provided context, flag it. Second, implement self-consistency
+    checking: ask the same question multiple times with different temperatures and compare outputs. Inconsistent answers on
+    factual questions indicate hallucination. Third, add structured output validation: if the LLM should return JSON with
+    specific fields, validate the schema and check that referenced entities exist in your database. Fourth, deploy an LLM-as-judge
+    pipeline where a second model evaluates whether the first model''s output is grounded in the provided context. This catches
+    subtle hallucinations that string matching misses. Fifth, track hallucination rates per query type and model version.
+    Some query patterns trigger hallucination more than others. Build a regression suite of known hallucination-inducing prompts
+    and test every model update against it. The goal is not zero hallucination — it is known, measured, bounded hallucination
+    with clear fallback paths.
+
+    '
+  sources:
+  - title: Anthropic — Reducing Hallucination in AI Systems
+    url: https://docs.anthropic.com/en/docs/build-with-claude/reduce-hallucinations
+    accessed: '2026-04-03'
+  - title: Google — Grounding and Hallucination Detection
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/grounding/overview
+    accessed: '2026-04-03'
+  related_rius:
+  - RIU-524
+  evidence_tier: 1
+  tags:
+  - hallucination
+  - production
+  - quality
+  - monitoring
+  journey_stage: foundation
+  difficulty: medium
+- id: LIB-180
+  question: How do I optimize token usage and costs for high-volume LLM deployments?
+  answer: "Optimizing token usage is critical for the economic viability of high-volume LLM applications. Strategy follows\
+    \ three layers: request-level reduction, architectural caching, and model routing.\n\n1. **Request-Level Reduction**:\
+    \ \n   - **Prompt Compression**: Use selective context (e.g., LongContext Re-ranking) to send only the most relevant chunks.\
+    \ \n   - **System Prompt Pruning**: Move static rules to a one-time 'prefill' or use 'Context Caching' (e.g., Anthropic\
+    \ Prompt Caching, Gemini Context Caching) for long system instructions.\n   - **Few-Shot Optimization**: Limit examples\
+    \ to 3-5 high-quality cases instead of dozens. Use a vector store to retrieve the most semantically relevant examples\
+    \ per request.\n   - **Structured Output Control**: Use constrained decoding (JSON mode) to prevent the model from generating\
+    \ unnecessary conversational filler.\n\n2. **Architectural Caching**:\n   - **Exact Match Cache**: Use Redis or a similar\
+    \ store to cache identical queries (normalized).\n   - **Semantic Cache**: Use a vector database (e.g., Pinecone, Milvus)\
+    \ with a high similarity threshold (e.g., >0.95) to serve cached responses for semantically identical questions.\n   -\
+    \ **TTL Strategy**: Align cache TTL with the volatility of the source data to ensure freshness.\n\n3. **Model Routing**:\n\
+    \   - **Cascading Logic**: Use a small/cheap model (e.g., Haiku, Flash) for simple intent classification or basic summarization.\
+    \ Escalate to a large model (e.g., Opus, Pro) only for complex reasoning or creative generation.\n   - **Speculative Decoding**:\
+    \ Use a smaller model to draft responses and a larger model to verify/correct them.\n\n**Implementation Threshold**: If\
+    \ token costs exceed 15% of your product's COGS, move from request-level optimization to structural semantic caching.\n"
+  sources:
+  - title: 'Anthropic: Prompt Caching Documentation'
+    url: https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching
+  - title: 'Google Cloud: Context Caching for Gemini'
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/context-caching
+  - title: 'MLflow: Evaluating LLM Token Usage'
+    url: https://mlflow.org/docs/latest/llms/llm-evaluate/index.html
+  related_rius:
+  - RIU-501
+  - RIU-500
+  evidence_tier: 1
+  tags: []
+  journey_stage: foundation
+  difficulty: medium
+- id: LIB-181
+  question: What are the key criteria for selecting a vector database for RAG architectures?
+  answer: "Selecting a vector database is a one-way door decision for most RAG architectures. Choice follows four primary\
+    \ axes: performance, data consistency, retrieval features, and operational model.\n\n1. **Retrieval Speed & Scale**: \n\
+    \   - **Latency**: Pinecone (SaaS) or Milvus (Self-hosted) offer low-latency HNSW indexing for multi-million vector datasets.\n\
+    \   - **Concurrent Queries**: Weaviate and Qdrant handle high RPS well.\n\n2. **Data Consistency**:\n   - **Metadata Filtering**:\
+    \ Critical for multi-tenant or multi-workspace systems (like Palette). Pinecone and Weaviate support efficient filtering\
+    \ at query time.\n   - **Hybrid Search**: The ability to combine vector similarity with keyword/BM25 search (e.g., Pinecone,\
+    \ Weaviate, ElasticSearch).\n\n3. **Retrieval Features**:\n   - **Auto-Schema**: Weaviate automatically handles vectorization\
+    \ and schema creation.\n   - **Multimodal Support**: Some databases (e.g., Milvus, Marqo) are optimized for multiple data\
+    \ types (image, text).\n\n4. **Operational Model**:\n   - **SaaS vs Self-Hosted**: Managed services (e.g., Pinecone, Zilliz)\
+    \ reduce operational overhead but introduce data privacy/sovereignty concerns.\n   - **Extensibility**: Vector plugins\
+    \ for established databases (e.g., pgvector for PostgreSQL, ElasticSearch Vector Search) simplify the stack for smaller\
+    \ deployments.\n\n**Recommendation**: Use Pinecone (SaaS) for rapid PoC and high scale. Use pgvector (PostgreSQL) if you\
+    \ already have a Postgres stack and need tight relational coupling. Use Weaviate for multi-tenant, feature-rich RAG pipelines.\n"
+  sources:
+  - title: 'Pinecone: Choosing a Vector Database'
+    url: https://www.pinecone.io/learn/vector-database/
+  - title: 'Weaviate: Hybrid Search Documentation'
+    url: https://weaviate.io/developers/weaviate/concepts/search/hybrid
+  - title: 'pgvector: Vector Similarity Search for Postgres'
+    url: https://github.com/pgvector/pgvector
+  related_rius:
+  - RIU-250
+  - RIU-200
+  evidence_tier: 1
+  tags: []
+  journey_stage: foundation
+  difficulty: medium
+- id: LIB-182
+  question: How do I detect and mitigate model hallucinations in a production RAG system?
+  answer: "Hallucination detection in RAG systems requires a three-layered approach: groundedness checks (LLM-as-judge), uncertainty\
+    \ quantification (logprobs), and behavioral guardrails (constrained output).\n\n1. **Groundedness Checks (LLM-as-judge)**:\n\
+    \   - **RAGAS Faithfulness**: Uses a strong LLM (e.g., Pro, GPT-4) to extract claims from the answer and verify each claim\
+    \ against the retrieved source chunks.\n   - **Answer Relevance**: Ensures the answer directly addresses the query using\
+    \ only the provided context.\n   - **Self-Correction Loop**: If the judge detects a hallucination, re-run the prompt with\
+    \ an explicit 'Self-Correction' instruction, highlighting the ungrounded claims.\n\n2. **Uncertainty Quantification**:\n\
+    \   - **Token Probabilities (Logprobs)**: Monitor the logprobs of generated tokens. A sudden drop in confidence often\
+    \ precedes a hallucination or drift.\n   - **Thresholding**: If average confidence for a response falls below a threshold\
+    \ (e.g., <0.8), flag the response for human review or return a fallback 'I don't know' response.\n\n3. **Behavioral Guardrails**:\n\
+    \   - **Constrained Decoding**: Use structured output (JSON schema) to force the model into a rigid format, preventing\
+    \ conversational drift.\n   - **Source Citation Enforcement**: Instruct the model to cite specific line numbers or IDs\
+    \ from the source chunks for every claim. If no citation is found, the claim is rejected.\n\n**Implementation Threshold**:\
+    \ For production systems, a RAGAS Faithfulness score below 0.9 should trigger a mandatory architectural review of the\
+    \ retrieval chunking and prompt strategy.\n"
+  sources:
+  - title: 'RAGAS: Faithfulness Metric'
+    url: https://docs.ragas.io/en/latest/concepts/metrics/faithfulness.html
+  - title: 'Anthropic: Hallucination Mitigation Strategies'
+    url: https://docs.anthropic.com/en/docs/hallucination-mitigation
+  - title: 'Google Cloud: Groundedness for Generative AI'
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/groundedness
+  related_rius:
+  - RIU-520
+  - RIU-232
+  evidence_tier: 1
+  tags: []
+  journey_stage: foundation
+  difficulty: medium
+- id: LIB-183
+  question: What are context compaction techniques and how do they improve RAG performance?
+  answer: "Context compaction (or 'prompt compression') is the process of reducing the number of tokens in a prompt while\
+    \ preserving its semantic intent. This is critical for improving latency, reducing costs, and fitting long-form retrieval\
+    \ results into limited context windows.\n\n1. **Semantic Summarization**:\n   - Use a smaller LLM (e.g., Haiku, Flash)\
+    \ to summarize large retrieval chunks into dense information summaries before injecting them into the main prompt.\n \
+    \  - **Constraint**: Summaries must maintain entity-level fidelity to prevent information loss.\n\n2. **Contextual Pruning**:\n\
+    \   - **Stop-word & Noise Removal**: Remove non-semantic filler text, boilerplates, and redundant headers from retrieved\
+    \ documents.\n   - **Selective Context**: Use mutual information or attention-based scores to identify and keep only the\
+    \ most informative sentences/tokens (e.g., LLMLingua).\n\n3. **LongContext Re-ranking**:\n   - Retrieve 50+ chunks but\
+    \ re-rank them using a cross-encoder (e.g., Cohere Re-ranker) to select the top 5-10 most relevant ones. This ensures\
+    \ the model only sees the most pertinent context.\n\n4. **Structural Compression**:\n   - Convert unstructured retrieved\
+    \ text into a dense format like Markdown tables or JSON schemas, which models often process more efficiently than prose.\n\
+    \n**Implementation Threshold**: Compaction is recommended when the context window exceeds 32k tokens or when 'Time to\
+    \ First Token' (TTFT) exceeds 2 seconds.\n"
+  sources:
+  - title: 'Microsoft: LLMLingua Context Compression'
+    url: https://github.com/microsoft/LLMLingua
+  - title: 'Cohere: Re-ranking for Improved Retrieval'
+    url: https://docs.cohere.com/docs/reranking
+  - title: 'Anthropic: Managing Long Context Windows'
+    url: https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/long-context-tips
+  related_rius:
+  - RIU-501
+  - RIU-250
+  evidence_tier: 1
+  tags: []
+  journey_stage: foundation
+  difficulty: medium
+- id: LIB-184
+  question: How do I optimize LLM inference for low-latency production applications?
+  answer: "Low-latency inference is critical for interactive systems. Optimization strategies follow four layers: hardware\
+    \ acceleration, model-level techniques, serving-level optimizations, and client-side strategies.\n\n1. **Hardware & Serving\
+    \ Optimization**:\n   - **Quantization**: Use 4-bit or 8-bit (INT8/FP8) quantization (e.g., AWQ, GPTQ) to reduce model\
+    \ size and memory bandwidth requirements. This can improve throughput by 2-4x.\n   - **FlashAttention-2**: Implement memory-efficient\
+    \ attention kernels (FlashAttention) to reduce memory access during the attention step.\n   - **KV Caching**: Cache the\
+    \ key-value (KV) states of the tokens generated during the prompt phase to avoid recomputing them during the generation\
+    \ phase.\n\n2. **Model-Level Techniques**:\n   - **Speculative Decoding**: Use a small draft model (e.g., Llama-7B) to\
+    \ predict the next token and a larger target model (e.g., Llama-70B) to verify it in parallel. This significantly reduces\
+    \ generation time.\n   - **Knowledge Distillation**: Train a smaller model to mimic the outputs of a larger one, resulting\
+    \ in a faster but similarly capable model.\n\n3. **Serving-Level Optimizations**:\n   - **Continuous Batching**: Batch\
+    \ incoming requests dynamically at the token level, maximizing GPU utilization (e.g., vLLM, TGI).\n   - **Streaming**:\
+    \ Stream tokens back to the client as they are generated to reduce 'Time to First Token' (TTFT) perception.\n\n4. **Client-Side\
+    \ Strategies**:\n   - **Semantic Caching**: Use a client-side vector store to cache and reuse responses for similar queries.\n\
+    \   - **Prefetching**: Predict and pre-generate likely user responses in the background.\n\n**Implementation Threshold**:\
+    \ If TTFT exceeds 500ms or tokens-per-second (TPS) falls below 20, move from baseline serving to quantized models and\
+    \ speculative decoding.\n"
+  sources:
+  - title: 'vLLM: High-throughput Serving with PagedAttention'
+    url: https://docs.vllm.ai/en/latest/index.html
+  - title: 'NVIDIA: TensorRT-LLM Performance Guide'
+    url: https://nvidia.github.io/TensorRT-LLM/performance.html
+  - title: 'Anthropic: Optimizing Claude Latency'
+    url: https://docs.anthropic.com/en/docs/build-with-claude/latency-optimization
+  related_rius:
+  - RIU-500
+  - RIU-501
+  evidence_tier: 1
+  tags: []
+  journey_stage: foundation
+  difficulty: medium
+- id: LIB-185
+  question: What are graph-based knowledge retrieval (GraphRAG) techniques and how do they differ from vector RAG?
+  answer: "GraphRAG combines the semantic similarity of vector search with the structured relationships of a knowledge graph\
+    \ (KG) to enable more complex, multi-hop reasoning. While vector RAG retrieves isolated chunks based on similarity, GraphRAG\
+    \ retrieves clusters of related entities and their context.\n\n1. **Key Differences**:\n   - **Vector RAG**: Best for\
+    \ finding specific facts or answering simple questions based on document similarity. Fails on global, thematic questions\
+    \ or queries requiring multi-hop reasoning.\n   - **GraphRAG**: Best for understanding relationships, global themes, and\
+    \ indirect connections. Can answer questions like 'What are the three common failure modes across all 12 projects?' by\
+    \ traversing edges.\n\n2. **Core Techniques**:\n   - **Entity Extraction**: Use an LLM to identify and extract entities\
+    \ (nodes) and their relationships (edges) from unstructured text.\n   - **Knowledge Graph Construction**: Build a graph\
+    \ from the extracted data (e.g., in Neo4j, FalkorDB).\n   - **Global Retrieval (Map-Reduce)**: Use community detection\
+    \ algorithms (e.g., Leiden) to group the graph into clusters. Summarize each cluster, then use an LLM to synthesize an\
+    \ answer from the cluster summaries.\n   - **Local Retrieval (Multi-hop Search)**: Starting from a detected entity in\
+    \ the query, traverse the graph to find neighboring nodes and their properties.\n\n3. **Implementation Benefits**:\n \
+    \  - **Lower Hallucination Rate**: By grounding the response in a verified relationship graph, GraphRAG reduces the likelihood\
+    \ of the LLM inventing non-existent links.\n   - **Improved Explainability**: Responses can cite specific nodes and edges\
+    \ as evidence, providing a clear audit trail.\n\n**Implementation Threshold**: Transition from vector RAG to GraphRAG\
+    \ when your system requires 'summarization' of large datasets or 'connection detection' across disparate domains.\n"
+  sources:
+  - title: 'Microsoft Research: From Local to Global: A GraphRAG Approach to Query-Focused Summarization'
+    url: https://arxiv.org/abs/2404.16130
+  - title: 'Neo4j: Knowledge Graphs for RAG'
+    url: https://neo4j.com/generative-ai/knowledge-graphs-for-rag/
+  - title: Why GraphRAG is better than Vector RAG
+    url: https://www.falkordb.com/blog/graphrag-vs-vectorrag/
+  related_rius:
+  - RIU-250
+  - RIU-200
+  evidence_tier: 1
+  tags: []
+  journey_stage: foundation
+  difficulty: medium
 usage_instructions:
   for_researcher:
     description: Resource Gatherer agent should check this library before web search
@@ -7892,7 +8178,7 @@ context_specific_questions:
   - cost-optimization
   sources:
   - title: Optimal Multiplayer Game Infrastructure Analysis
-    url: file:///home/mical/Myth-Fall-Game/Optimal Multiplayer Game Infrastructure-.pdf
+    url: implementations/dev/dev-mythfall-game/Optimal Multiplayer Game Infrastructure-.pdf
   - title: WebRTC NAT Traversal Success Rates
     url: Research finding - 85% success with STUN alone
   journey_stage: orchestration
@@ -7969,9 +8255,9 @@ context_specific_questions:
   - team-size
   sources:
   - title: Mythical Games Research - Hades Analysis
-    url: file:///home/mical/Myth-Fall-Game/RESEARCH_HANDOFF_ADAM.md
+    url: implementations/dev/dev-mythfall-game/RESEARCH_HANDOFF_ADAM.md
   - title: Optimal Multiplayer Game Infrastructure - Timeline
-    url: file:///home/mical/Myth-Fall-Game/Optimal Multiplayer Game Infrastructure-.pdf
+    url: implementations/dev/dev-mythfall-game/Optimal Multiplayer Game Infrastructure-.pdf
   journey_stage: all
 - id: LIB-083
   question: How do I optimize multiplayer game hosting costs for indie budgets?
@@ -8008,7 +8294,7 @@ context_specific_questions:
   - infrastructure
   sources:
   - title: Optimal Multiplayer Game Infrastructure - Cost Analysis
-    url: file:///home/mical/Myth-Fall-Game/Optimal Multiplayer Game Infrastructure-.pdf
+    url: implementations/dev/dev-mythfall-game/Optimal Multiplayer Game Infrastructure-.pdf
   journey_stage: all
 - id: LIB-084
   question: What game engine should I choose for web-first indie multiplayer games?
@@ -8047,7 +8333,7 @@ context_specific_questions:
   - technology-selection
   sources:
   - title: Optimal Multiplayer Game Infrastructure - Engine Evaluation
-    url: file:///home/mical/Myth-Fall-Game/Optimal Multiplayer Game Infrastructure-.pdf
+    url: implementations/dev/dev-mythfall-game/Optimal Multiplayer Game Infrastructure-.pdf
   - title: Godot 4.3 Web Export Improvements
     url: Research finding - single-threaded exports, SharedArrayBuffer elimination
   journey_stage: all
@@ -8166,9 +8452,9 @@ context_specific_questions:
   - palette-meta
   sources:
   - title: Researcher Fixture RES-001
-    url: file:///home/mical/Myth-Fall-Game/fde/agents/researcher/fixtures/RES-001-multiplayer-networking.md
+    url: palette/agents/researcher/fixtures/RES-001-multiplayer-networking.md
   - title: Architect Fixture ARCH-001
-    url: file:///home/mical/Myth-Fall-Game/fde/agents/architect/fixtures/ARCH-001-multiplayer-architecture.md
+    url: palette/agents/architect/fixtures/ARCH-001-multiplayer-architecture.md
   journey_stage: orchestration
 - id: LIB-092
   question: How does agent maturity progression work in Palette?
@@ -8203,9 +8489,9 @@ context_specific_questions:
   - palette-meta
   sources:
   - title: Palette Tier 2 - Agent Maturity Model
-    url: file:///home/mical/Myth-Fall-Game/.kiro/steering/palette/TIER2_assumptions.md
+    url: palette/.steering/assumptions.md
   - title: Palette decisions.md - Agent Tracking
-    url: file:///home/mical/Myth-Fall-Game/fde/decisions.md
+    url: palette/decisions.md
   journey_stage: orchestration
 - id: LIB-093
   question: How do I identify ONE-WAY DOOR decisions in AI and game development?
@@ -8305,9 +8591,9 @@ context_specific_questions:
   - architecture
   sources:
   - title: Palette Tier 1 - Decision Handling
-    url: file:///home/mical/Myth-Fall-Game/.kiro/steering/palette/TIER1_palette_core.md
+    url: palette/.steering/palette-core.md
   - title: Palette Tier 2 - Decision Safety Model
-    url: file:///home/mical/Myth-Fall-Game/.kiro/steering/palette/TIER2_assumptions.md
+    url: palette/.steering/assumptions.md
   journey_stage: all
 - id: LIB-095
   question: What are the required elements of a Semantic Blueprint (Convergence Brief)?
@@ -8404,7 +8690,7 @@ context_specific_questions:
   - planning
   sources:
   - title: Palette Tier 1 - Semantic Blueprint
-    url: file:///home/mical/Myth-Fall-Game/.kiro/steering/palette/TIER1_palette_core.md
+    url: palette/.steering/palette-core.md
   journey_stage: all
 - id: LIB-096
   question: How do I select RIUs for a given problem in Palette?
@@ -8498,9 +8784,9 @@ context_specific_questions:
   - palette-meta
   sources:
   - title: Palette Tier 3 - RIU Matching Rules
-    url: file:///home/mical/Myth-Fall-Game/.kiro/steering/palette/TIER3_decisions_prompt.md
+    url: palette/.steering/decisions-prompt.md
   - title: Palette Taxonomy v1.1
-    url: file:///home/mical/Myth-Fall-Game/.kiro/steering/palette/palette_taxonomy_v1_1.yaml
+    url: palette/taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml
   journey_stage: all
 - id: LIB-097
   question: What must be logged in decisions.md for restartability?
@@ -8536,11 +8822,11 @@ context_specific_questions:
   - palette-meta
   sources:
   - title: Palette Tier 1 - Decision Persistence
-    url: file:///home/mical/Myth-Fall-Game/.kiro/steering/palette/TIER1_palette_core.md
+    url: palette/.steering/palette-core.md
   - title: Palette Tier 3 - Engagement Update Template
-    url: file:///home/mical/Myth-Fall-Game/.kiro/steering/palette/TIER3_decisions_prompt.md
+    url: palette/.steering/decisions-prompt.md
   - title: Palette decisions.md - Live Example
-    url: file:///home/mical/Myth-Fall-Game/fde/decisions.md
+    url: palette/decisions.md
   journey_stage: all
 - id: LIB-087
   question: 'How can I make multi-agent workflows more readable in execution logs?
@@ -8565,7 +8851,7 @@ context_specific_questions:
   - All
   sources:
   - title: Palette UX Engagement - Cross-Domain Pattern 1
-    url: internal://ux-engagement-2026-02-01
+    url: palette/docs/PERSONA_ARTIFACT_CONVERGENCE_BRIEF_2026-02-19.md
     type: validated_pattern
   - title: Semantic Color Coding in Developer Tools
     url: https://www.webportfolios.dev/guides/best-color-palettes-for-developer-portfolio
@@ -8597,7 +8883,7 @@ context_specific_questions:
   - All
   sources:
   - title: Palette UX Engagement - Cross-Domain Pattern 2
-    url: internal://ux-engagement-2026-02-01
+    url: palette/docs/PERSONA_ARTIFACT_CONVERGENCE_BRIEF_2026-02-19.md
     type: validated_pattern
   - title: 'Engineering Onboarding: The Key to DevEx Success'
     url: https://www.cortex.io/post/engineering-onboarding-the-key-to-devex-success
@@ -8627,7 +8913,7 @@ context_specific_questions:
     url: https://spiffe.io
     type: technical_standard
   - title: Palette Tier 2 - Agent Security section
-    url: internal://tier2/assumptions.md#agent-security
+    url: palette/.steering/assumptions.md#agent-security
     type: framework
   journey_stage: orchestration
 - id: LIB-090
@@ -8658,7 +8944,7 @@ context_specific_questions:
     url: https://owasp.org/www-project-top-10-for-large-language-model-applications/
     type: security_standard
   - title: Palette Tier 2 - Agent Security section
-    url: internal://tier2/assumptions.md#agent-security
+    url: palette/.steering/assumptions.md#agent-security
     type: framework
   journey_stage: orchestration
 - id: LIB-101
@@ -8744,7 +9030,7 @@ context_specific_questions:
     url: https://spiffe.io
     type: technical_standard
   - title: Palette Tier 2 - Agent Security section
-    url: internal://tier2/assumptions.md#agent-security
+    url: palette/.steering/assumptions.md#agent-security
     type: framework
   journey_stage: orchestration
 - id: LIB-102
@@ -8785,7 +9071,7 @@ context_specific_questions:
     url: https://cloud.google.com/use-cases/agents
     type: industry_standard
   - title: Palette Tier 1 (palette-core.md) - Decision Handling section
-    url: internal://tier1/palette-core.md#decision-handling
+    url: palette/.steering/palette-core.md#decision-handling
     type: framework
   journey_stage: all
 - id: LIB-103
@@ -8829,7 +9115,7 @@ context_specific_questions:
     url: https://www.oreilly.com/library/view/agentic-system-design/9781098156909/
     type: book
   - title: Palette Tier 2 - Agent Maturity & Trust Model
-    url: internal://tier2/assumptions.md#agent-maturity
+    url: palette/.steering/assumptions.md#agent-maturity
     type: framework
   journey_stage: evaluation
 - id: LIB-104
@@ -9260,7 +9546,7 @@ context_specific_questions:
   - title: LVMH AI Strategy Reports
     url: https://www.lvmh.com/news-documents/news/lvmh-and-google-cloud-partner-to-accelerate-ai-innovation/
   - title: Gap Inc. Retail AI Strategy Matrix
-    url: internal://projects/gap/gap_retail_ai_strategy_matrix.md
+    url: backups/job-search-backup-2026-02-16/gap/gap_retail_ai_strategy_matrix.md
   journey_stage: all
 - id: LIB-107
   question: How do I quantify AI ROI for a CFO focused on cost reduction and budget shrinking, not revenue growth?

@@ -1,0 +1,48 @@
+proposed_by: gemini.specialist
+tier: 2
+type: new
+content:
+  question: How can Generative AI assist in database migrations and schema refactoring?
+  answer: "Generative AI accelerates database migrations by automating schema mapping, SQL translation, and data validation.\
+    \ Key strategies include:\n\n1. **Schema Mapping & Transformation**:\n   - **Automated Entity-Relationship (ER) Extraction**:\
+    \ Use LLMs to analyze source schema DDL and generate target schema definitions, identifying equivalent data types and\
+    \ constraints.\n   - **Semantic Column Mapping**: Identify semantically identical columns across disparate schemas (e.g.,\
+    \ mapping 'cust_id' in legacy DB to 'account_uuid' in modern DB) using embeddings or LLM-based name synthesis.\n\n2. **SQL\
+    \ Dialect Translation**:\n   - Use fine-tuned models to translate legacy SQL (e.g., Oracle, PL/SQL) into modern dialects\
+    \ (e.g., PostgreSQL, BigQuery) while maintaining functional parity.\n   - **Validation**: Automatically generate unit\
+    \ tests for translated queries to ensure identical results across source and target.\n\n3. **Data Quality & Cleansing**:\n\
+    \   - **Synthetic Data Generation**: Generate high-fidelity synthetic test data that maintains the statistical properties\
+    \ of the source database for migration dry-runs.\n   - **Automated Deduplication**: Use LLMs to identify and merge duplicate\
+    \ records that cannot be caught by simple primary key checks.\n\n4. **Documentation & Knowledge Capture**:\n   - Generate\
+    \ natural language documentation for legacy schemas based on table names, column comments, and stored procedures.\n\n\
+    **Implementation Threshold**: Utilize AI-assisted migration tools when manual schema mapping or SQL translation exceeds\
+    \ 40 hours of engineering effort per microservice.\n"
+  sources:
+  - title: 'AWS: Database Migration Service (DMS) with AI'
+    url: https://aws.amazon.com/dms/features/
+  - title: 'Google Cloud: Database Migration Service'
+    url: https://cloud.google.com/database-migration-service/docs/overview
+  - title: 'SQL Translation with AI: A Case Study'
+    url: https://www.databricks.com/blog/sql-translation-ai
+  related_rius:
+  - RIU-500
+  - RIU-200
+  evidence_tier: 1
+  evidence_tier_justification: Primary documentation from cloud migration service providers (AWS, Google Cloud) and industry
+    practitioners (Databricks).
+rationale: Database migrations are high-risk, labor-intensive infrastructure tasks. This entry provides a framework for leveraging
+  GenAI to reduce risk and effort.
+source_of_insight: gemini.specialist 111-query stress test identified this as a major infrastructure coverage gap.
+contradiction_check:
+  checked_against: []
+  conflicts_found: none
+id: PROP-2026-04-04-009
+proposed_at: '2026-04-04T15:22:53Z'
+status: voting
+votes:
+- agent_id: claude.analysis
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Substantive Tier 2 entry, correct RIU mapping, Tier 1 sources
+  binding: true
+  date: '2026-04-04T15:33:18Z'
