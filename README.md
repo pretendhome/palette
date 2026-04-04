@@ -215,8 +215,8 @@ Required actions:
 | **Monitor** | Monitoring | Governance decisions, block routing |
 | **Orchestrator** | Workflow | Routes between agents, manages relay |
 | **Business Plan** | Planning | Multi-agent business plan workflow |
-| **Health** | Integrity | System-wide health checklist, 7 sections |
-| **Total Health** | Deep Audit | Cross-layer integrity, identity coherence, optimization |
+| **Health** | Integrity | System-wide health checklist, 8 sections |
+| **Total Health** | Deep Audit | Cross-layer integrity, identity coherence, 13 sections |
 
 **Maturity Model**: Agents earn trust through performance.
 - **UNVALIDATED** → 10 successes → **WORKING** → 50 runs <5% fail → **PRODUCTION**
@@ -269,8 +269,8 @@ palette/
 │   ├── monitor/                        # Signal monitoring
 │   ├── orchestrator/                   # Workflow routing
 │   ├── business-plan-creation/         # Multi-agent business plan
-│   ├── health/                         # System integrity (7 sections)
-│   └── total-health/                   # Cross-layer audit (12 sections)
+│   ├── health/                         # System integrity (8 sections)
+│   └── total-health/                   # Cross-layer audit (13 sections)
 ├── peers/                              # Governed multi-agent message bus
 ├── skills/                             # Validated domain frameworks
 │   ├── retail-ai/                      # Enterprise AI strategy
@@ -281,7 +281,7 @@ palette/
 │   └── lenses/                         # Role lens methodology
 ├── sdk/                                # Agent SDK (Python)
 ├── scripts/                            # Integrity, audit, regression, drift
-├── lenses/                             # 24 role-based context overlays
+├── lenses/                             # 26 role-based context overlays
 ├── docs/                               # All documentation
 │   ├── audits/                         # Dated audit and stress test reports
 │   ├── onboarding/                     # Agent onboarding guides
@@ -331,11 +331,11 @@ print(f'Completeness: {r.completeness.total}/100')
 
 | Phase | Status | What Was Built |
 |:--|:--|:--|
-| Phase 0 | Done | Competency taxonomy v1.3 (120 areas), knowledge library, company mapping |
+| Phase 0 | Done | Competency taxonomy v1.3 (121 areas), knowledge library, company mapping |
 | Phase 1 | Done | People library (21 profiles), service routing (40 entries), 3 recipes |
 | Phase 2 | Done | RIU classification, cost enrichment, repo cleanup |
 | Phase 3 | Done | Integrity engine, audit system, regression/SLO, drift detection, 49 recipes, 176 knowledge entries, override registry, governance decision contract |
-| Phase 4 | Next | Assessment quality audit, operational monitoring, multi-agent coordination bus |
+| Phase 4 | Done | Wiki governance pipeline, deterministic compiler, peers-bus voice interface, multi-agent coordination bus |
 
 ---
 
