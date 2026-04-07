@@ -462,6 +462,35 @@ Some factors affect your candidacy regardless of how good your application is. F
 - **Seniority mismatch** (applying to a level that doesn't match your trajectory)
 - **Hard-gate requirements** (e.g., "7 years in X" where you have 0 years in X specifically)
 
+### MANDATORY: Posting Verification Protocol
+
+**Every job MUST be verified as currently open before scoring.** Stale index entries on Indeed, LinkedIn, NAIS, and Google are common — positions filled months ago still appear in search results.
+
+**Verification steps (ALL required):**
+1. Check the employer's OWN careers page — is the role listed there NOW?
+2. If found only on aggregators (Indeed, LinkedIn, Glassdoor), check the posting date and whether the employer page confirms it
+3. If the employer page doesn't list it, mark as **UNVERIFIED** and do NOT include in scored results
+4. For roles found on job boards with "apply" links that 403 or redirect to homepage — mark **EXPIRED**
+
+**Scoring rules:**
+- Only VERIFIED roles get a fit score
+- UNVERIFIED roles go in a "Monitor" section with no score
+- Never present an unverified role as a top recommendation
+
+### Callback Likelihood (the real metric)
+
+Fit score alone is misleading. A 75% fit with 20 applicants is better than a 90% fit with 500. After scoring fit, estimate **callback likelihood** — the realistic probability of getting to interview.
+
+**Callback formula:**
+- Start with fit score as base probability
+- Multiply by applicant pool factor: <50 applicants = 1.0x, 50-200 = 0.5x, 200-500 = 0.3x, 500+ = 0.1x
+- Multiply by structural factor: no blockers = 1.0x, one soft blocker = 0.7x, one hard blocker = 0.3x, nationality disadvantage = 0.5x
+- Multiply by insider factor: no insider advantage = 0.8x, known referral = 1.5x, internal candidate = 2.0x
+
+**Example**: UNESCO P-4 — fit 64%, pool ~300 applicants (0.3x), Italian over-representation (0.5x), no UN insider (0.8x) = 64 × 0.3 × 0.5 × 0.8 = **~8% callback likelihood**
+
+This is the number that matters for time allocation.
+
 ---
 
 ## Interaction style
