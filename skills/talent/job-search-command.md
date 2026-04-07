@@ -64,16 +64,49 @@ name: "..."
 location: "..."
 remote_ok: true/false
 relocation_ok: true/false
+citizenship: ["...", "..."]  # e.g., ["EU (Italian)", "US resident"]
+visa_notes: "..."  # e.g., "No visa needed for EU or US"
 
 target_roles:
-  titles: ["...", "..."]
+  archetypes:  # ranked by fit, drives search patterns
+    - name: "Curriculum Design Director"
+      search_titles: ["Curriculum Director", "Curriculum Manager", "Programme Development"]
+      search_keywords: ["curriculum", "learning design", "IB", "CEFR"]
+      sectors: ["edtech", "international_schools", "international_orgs"]
+      estimated_fit: 9/10
+    - name: "EdTech Learning Designer"
+      search_titles: ["Learning Designer", "Curriculum Designer", "Content Designer"]
+      search_keywords: ["language learning", "AI", "curriculum"]
+      sectors: ["edtech"]
+      estimated_fit: 8/10
   level: "senior/lead/director/etc"
-  function: "engineering/product/sales/etc"
 
 skills:
   technical: ["...", "..."]
   non_technical: ["...", "..."]
-  languages: ["...", "..."]
+  languages:
+    - language: "French"
+      level: "native"
+    - language: "Italian"
+      level: "native"
+    - language: "English"
+      level: "C2"
+    - language: "Spanish"
+      level: "B2"
+
+education:
+  - degree: "PhD"
+    field: "..."
+    institution: "..."
+    year: N
+    notes: "..."  # e.g., "Dissertation on gender/power/identity"
+  - degree: "MA"
+    field: "..."
+    institution: "..."
+
+publications:
+  total: N
+  highlights: ["monograph title", "edited series name"]
 
 experience:
   total_years: N
@@ -86,15 +119,31 @@ experience:
 
 differentiator: "..."
 
+insider_relationships:  # employers you have an existing connection to
+  - employer: "Peter Lang"
+    relationship: "published_author"
+    strength: 1.5  # callback multiplier
+  - employer: "Google"
+    relationship: "former_employee"
+    strength: 1.2
+
 preferences:
   industries: ["...", "..."]
   avoid: ["...", "..."]
   salary_min: N
   company_size: "any/startup/mid/enterprise"
 
+strategy_bonus:  # location bonuses from life circumstances
+  # These add to the Location dimension after base scoring
+  europe: +15
+  paris: +10
+  milan: +20
+  bay_area: +5
+
 search_patterns:
-  keywords: ["...", "..."]  # auto-generated from skills + titles
+  keywords: ["...", "..."]  # auto-generated from archetypes
   exclude: ["...", "..."]   # terms that indicate bad fit
+  target_employers: ["...", "..."]  # check these career pages every search
 ```
 
 After saving, say: "Done — your profile is saved at `~/.job-search/profile.yaml`. It stays on your computer, nothing is uploaded. Run `/job-search find` to search for matching jobs, or `/job-search score` to evaluate a specific posting."
@@ -157,29 +206,101 @@ Show top 10-15 results. After the table: "Want me to add any to your pipeline? J
 
 User provides a URL or pastes a job description.
 
-1. Read the posting (or use the pasted text)
-2. Extract all stated requirements (must-haves and nice-to-haves)
-3. Score each requirement against the profile
-4. Calculate overall fit
+**Step 1: Verify**
+1. If given a URL, check the employer's own careers page to confirm it's still open
+2. If the URL 403s, redirects to homepage, or says "no longer active" — report EXPIRED immediately, do not score
+3. If verified, proceed
+
+**Step 2: Detect sector and application format**
+- Identify the sector (tech, academic, international org, school, publishing, government, nonprofit)
+- Note the application format (Greenhouse, Lever, Workday, SuccessFactors, Interfolio, email, custom portal)
+- Flag any format-specific constraints (e.g., UNESCO: 1,024-char motivation questions; UK academic: research statement + teaching statement required)
+
+**Step 3: Check insider advantage**
+- Does the user have an existing relationship with this employer? (published author, former employee, alumni, conference presenter, mutual connection)
+- If yes, flag it — this significantly affects callback likelihood
+
+**Step 4: Score**
+1. Read the posting, extract all stated requirements (must-haves and nice-to-haves)
+2. Score each requirement against the profile using the 6-dimension framework
+3. Calculate fit score AND callback likelihood
+4. Check the Sector Vocabulary Translation table — flag any language mismatches between the user's profile and the JD's vocabulary
 
 **Output format**:
 ```
 ## [Company] — [Role]
-**Location**: ... | **Posted**: ... | **Link**: ...
+**Location**: ... | **Sector**: ... | **Verified**: ✅/❌ | **Link**: ...
+**Application format**: [Greenhouse/Workday/Interfolio/etc.] | **Special requirements**: [if any]
 
-### Fit Score: XX/100 — [VERDICT]
+### Fit Score: XX/100 | Callback Likelihood: XX% — [VERDICT]
+
+**Callback math**: fit XX% × pool X.Xx × structural X.Xx × insider X.Xx = XX%
+
+**6-Dimension Breakdown:**
+| Dimension | Weight | Score | Evidence |
+|-----------|--------|-------|----------|
+| Title match | 20% | XX | ... |
+| Skills match | 25% | XX | ... |
+| Experience level | 15% | XX | ... |
+| Domain fit | 15% | XX | ... |
+| Location | 10% | XX | ... |
+| Differentiator | 15% | XX | ... |
 
 **Requirements breakdown:**
 | Requirement | Weight | Match | Evidence |
 |------------|--------|-------|----------|
-| Python 5+ years | Must | 95 | 8 years across ERA-2 and ERA-5 |
+| [Requirement 1] | Must | ✅/⚠️/❌ | [specific evidence or gap] |
 | ...        | ...    | ...   | ...      |
 
-**Dealbreakers**: None / [list]
+**Hard blockers**: None / [list — any single item here likely means PASS]
+**Insider advantage**: None / [describe relationship]
+**Vocabulary mismatches**: [user says X, employer says Y — fix in application]
 **Top 3 strengths**: ...
 **Top 3 gaps to address**: ...
 **Bottom line**: [1-2 sentence honest assessment]
 ```
+
+### `/job-search apply` — Prepare a complete application package
+
+Generates ALL materials needed for a specific application, adapted to the employer's format.
+
+1. Score the role first (runs `/job-search score` internally)
+2. Detect the application format and generate the right materials:
+
+**Format detection:**
+| Platform | How to detect | Materials needed |
+|----------|--------------|-----------------|
+| **Greenhouse / Lever / Ashby** | URL contains greenhouse.io, lever.co, ashbyhq.com | Resume (PDF/docx) + cover letter + optional fields |
+| **Workday** | URL contains myworkdayjobs.com | Employment history per-position + resume upload |
+| **SuccessFactors (UNESCO/UN)** | URL contains successfactors or careers.unesco.org | Employment history with Summary of Duties per position + 3 motivation questions (often character-limited) + language self-ratings |
+| **Interfolio** | URL contains interfolio.com | CV + cover letter + research statement + teaching statement + writing sample + references |
+| **jobs.ac.uk (UK academic)** | URL contains jobs.ac.uk | CV + cover letter + research statement + teaching philosophy + REF impact statement |
+| **USAJobs** | URL contains usajobs.gov | Federal resume format (detailed duties per position) + KSA responses |
+| **Direct email** | JD says "send materials to..." | CV + cover letter (keep it clean and professional) |
+
+3. Generate each required document:
+   - Run `/job-search resume` for the CV/resume
+   - Generate cover letter using the sector vocabulary table
+   - For academic: draft research statement and teaching philosophy from profile
+   - For UN: draft motivation question answers within character limits
+   - For all: translate user's language into employer's sector vocabulary
+
+4. Save everything to `~/.job-search/applications/[company]_[role]/`
+
+5. Present a checklist:
+```
+## Application Package — [Company] [Role]
+Platform: [Greenhouse/Interfolio/etc.]
+
+✅ Resume (tailored) — saved to applications/[company]_[role]/resume.md
+✅ Cover letter — saved to applications/[company]_[role]/cover_letter.md
+⬜ Research statement — [if needed, draft provided]
+⬜ Teaching statement — [if needed, draft provided]
+⬜ References — [list 3, user must contact them]
+⬜ Submit by: [deadline]
+```
+
+---
 
 ### `/job-search resume` — Optimize resume for a specific job
 
@@ -396,6 +517,27 @@ Save to `~/.job-search/debriefs/[company]_[role]_[date].md`
 
 Update their story bank if new patterns emerged.
 
+**Calibration step** (critical for improving scoring accuracy):
+After every debrief, update `~/.job-search/calibration.yaml`:
+```yaml
+calibration:
+  - company: "..."
+    role: "..."
+    predicted_fit: 84
+    predicted_callback: 34%
+    actual_outcome: "interview"  # or "rejected" / "ghosted" / "offer"
+    days_to_response: 14
+    notes: "Scored skills match too high — they wanted edtech-specific experience"
+```
+
+Over time, this reveals systematic biases:
+- Are you consistently over-scoring skills match? (Claudia lesson: "curriculum design" ≠ "edtech curriculum design")
+- Are your pool estimates accurate? (If you keep predicting 50 applicants but getting ghosted, pools are larger)
+- Which sectors respond fastest? (Academic = 4-8 weeks, tech = 1-2 weeks, UN = 3-6 months)
+- Are insider advantages actually helping? (Does the Google alum multiplier hold up?)
+
+Review calibration data monthly. Adjust scoring weights if a pattern emerges.
+
 ### `/job-search update` — Update profile
 Read current profile, ask what to change, update and save. Show diff of what changed.
 
@@ -410,12 +552,14 @@ Read `~/.job-search/pipeline.csv`. If it doesn't exist, create it with headers.
 
 **Pipeline file format** (CSV):
 ```
-company,role,score,status,date_found,date_updated,link,notes
+company,role,fit_score,callback_pct,verified,status,date_found,date_updated,deadline,link,insider_advantage,notes
 ```
 
-**Status flow**: `found` → `applying` → `applied` → `interviewing` → `offer` → `accepted` / `rejected` / `passed`
+**Status flow**: `found` → `scoring` → `applying` → `applied` → `interviewing` → `offer` → `accepted` / `rejected` / `ghosted` / `passed`
 
-User can say: "move #3 to applied" or "drop #5" or "add notes to #2: phone screen went well"
+**Verified column**: `yes` / `no` / `expired` — only `yes` roles should be in active statuses.
+
+User can say: "move #3 to applied" or "drop #5" or "add notes to #2: phone screen went well" or "mark #7 as expired"
 
 ---
 
@@ -525,19 +669,21 @@ This is the number that matters for time allocation.
 
 ## Full command reference
 
-| Command | What it does |
-|---------|-------------|
-| `/job-search` | Dashboard — profile summary, pipeline stats, menu |
-| `/job-search find` | Search the internet for matching jobs |
-| `/job-search score` | Score a specific job posting against your profile |
-| `/job-search resume` | Optimize your resume for a specific job posting |
-| `/job-search interview` | Mock interview — 4 rounds with feedback |
-| `/job-search stories` | Build and rehearse STAR story bank |
-| `/job-search research` | Company deep dive before an interview |
-| `/job-search glance` | Day-of interview cheat sheet |
-| `/job-search debrief` | Post-interview capture while it's fresh |
-| `/job-search pipeline` | View and manage tracked opportunities |
-| `/job-search update` | Edit your profile |
+| Command | What it does | When to use |
+|---------|-------------|-------------|
+| `/job-search` | Dashboard — profile, pipeline stats, watchlist alerts | Start of every session |
+| `/job-search find` | Search for verified open roles, ranked by callback % | Weekly sweep |
+| `/job-search score <url>` | Deep-score a specific posting (fit + callback + verification) | When you find a role to evaluate |
+| `/job-search apply <url>` | Generate complete application package for the detected format | After scoring ≥65 |
+| `/job-search resume <url>` | Optimize resume only for a specific posting | Part of apply, or standalone |
+| `/job-search interview <company>` | Mock interview — 4 rounds with per-answer feedback | Interview scheduled |
+| `/job-search stories` | Build, structure, and rehearse STAR/CARL story bank | Before first interview |
+| `/job-search research <company>` | Company deep dive — product, news, culture, leadership | Before interview or application |
+| `/job-search glance <company>` | Day-of interview cheat sheet (1 page) | Morning of interview |
+| `/job-search debrief` | Post-interview capture + calibration update | Immediately after interview |
+| `/job-search pipeline` | View and manage tracked opportunities by status | Weekly review |
+| `/job-search update` | Edit profile, archetypes, insider relationships, strategy bonus | When circumstances change |
+| `/job-search watchlist` | Check employer watchlist for new postings | Part of find, or standalone |
 
 ## Employer Watchlist
 
@@ -606,16 +752,6 @@ strategy_bonus:
 ```
 
 The bonus adds to the Location dimension AFTER the base score is calculated. This prevents a role in Milan scoring lower than an equivalent role in random-US-city when the family strategy makes Milan 3x more valuable.
-
----
-
-## Pipeline CSV Format (Updated)
-
-```csv
-company,role,fit_score,callback_pct,verified,status,date_found,date_updated,deadline,link,insider_advantage,notes
-```
-
-Added: `callback_pct`, `verified` (yes/no/expired), `deadline`, `insider_advantage` (none/referral/alumni/former_employee/published_author).
 
 ---
 
