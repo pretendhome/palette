@@ -16,8 +16,8 @@ Searched 20+ sources worldwide using the updated 6-dimension scoring:
 
 | Rank | Score | Verdict | Role | Organization | Location | Salary | Deadline | Action |
 |------|-------|---------|------|-------------|----------|--------|----------|--------|
-| 1 | **92** | STRONG FIT | Director of IB Curriculum & Program | Lycée Français SF | San Francisco | $100-130K | Rolling | **APPLY NOW** |
-| 2 | **89** | STRONG FIT | Lecturer in Italian Studies (Permanent) | University of St Andrews | Scotland | £47-58K | **April 17** | **APPLY NOW** |
+| ~~1~~ | ~~92~~ | ~~STRONG FIT~~ | ~~Director of IB Curriculum & Program~~ | ~~Lycée Français SF~~ | ~~San Francisco~~ | ~~$100-130K~~ | ~~Rolling~~ | **EXPIRED — filled April 2025 (Rachel Domenic)** |
+| 1 | **89** | STRONG FIT | Lecturer in Italian Studies (Permanent) | University of St Andrews | Scotland | £47-58K | **April 17** | **APPLY NOW — #1 PRIORITY** |
 | 3 | **82** | WORTH APPLYING | Programme Specialist P-4, Education for Gender Equality | UNESCO | Paris | ~$136K tax-exempt | **April 7 (TODAY)** | Submit today |
 | 4 | **81** | WORTH APPLYING | IBDP Coordinator and Teacher | ICS Milan | Milan, Italy | ~EUR 35-50K | **April 12** | Apply this week |
 | 5 | **80** | WORTH APPLYING | Learning/Curriculum Designer (Italian) | Speak | Remote US | $60-90K | Rolling | Apply |
@@ -37,12 +37,10 @@ Searched 20+ sources worldwide using the updated 6-dimension scoring:
 
 ## THE TOP 4 — WHERE CLAUDIA IS THE OBVIOUS BEST CANDIDATE
 
-### #1: Lycée Français SF — Director of IB Curriculum (92/100)
-**Why this is the best fit in the entire search**: Claudia already runs IB + Italian immersion + Reggio at La Scuola. This is the same model at a French school, with a promotion to Director level. She's bilingual French/Italian. The PYP expansion mandate matches her K-5 build experience exactly. She's already in San Francisco. Every dimension scores near-perfect.
+### ~~#1: Lycée Français SF — Director of IB Curriculum (92/100)~~
+**EXPIRED.** Role filled April 2025 by Rachel Domenic. Stale index entry — verified April 7, 2026 via NAIS and school website.
 
-**One concern**: Salary ($100-130K) may not represent the upgrade she wants. But the title upgrade to Director is career-defining.
-
-### #2: University of St Andrews — Lecturer in Italian Studies (89/100)
+### #1: University of St Andrews — Lecturer in Italian Studies (89/100)
 **Why this is exceptional**: The job description explicitly seeks "transnational/migration approaches" and "intersections of gender, race, ethnicity" in Italian Studies. **This IS her dissertation.** Her monograph, her Aberystwyth conference, her 20+ publications on Mediterranean identity — this role was written for her profile. Permanent position in Scotland. Europe-strategic.
 
 **Deadline: April 17.** This should be her #1 priority this week.
@@ -59,7 +57,7 @@ Searched 20+ sources worldwide using the updated 6-dimension scoring:
 
 With the full search complete, UNESCO P-4 Gender Equality scores **82/100** — higher than the earlier 64-72 range because the dissertation analysis strengthened the gender qualification significantly. But it's still the **#3 fit**, not #1.
 
-The honest assessment: submit today (materials are ready), but invest primary energy in St Andrews (deadline April 17) and Lycée Français (rolling but apply now).
+The honest assessment: submit today (materials are ready), but invest primary energy in St Andrews (deadline April 17) and ICS Milan (deadline April 12).
 
 ---
 
@@ -92,7 +90,7 @@ The honest assessment: submit today (materials are ready), but invest primary en
 
 | Zone | Best Current Fit | Score | Strategic Value |
 |------|-----------------|-------|-----------------|
-| Curriculum/Institutional Design | Lycée Français SF | 92 | Career-defining title upgrade |
+| Curriculum/Institutional Design | ~~Lycée Français SF~~ (FILLED) | ~~92~~ | Monitor for future openings |
 | University | St Andrews | 89 | Perfect research match, permanent, Europe |
 | International Orgs | UNESCO P-4 | 82 | High value but reach on gender requirement |
 | Italy Strategy | ICS Milan | 81 | Family-strategic, deadline April 12 |
