@@ -404,6 +404,8 @@ User can say: "move #3 to applied" or "drop #5" or "add notes to #2: phone scree
 
 ## Scoring Algorithm
 
+### Quick Score (6 dimensions, weighted)
+
 Score each posting against the profile:
 
 | Dimension | Weight | Scoring |
@@ -422,6 +424,43 @@ Score each posting against the profile:
 - 75-84: **WORTH APPLYING** — position against the gaps
 - 65-74: **STRETCH** — only with a warm intro or unique angle
 - Below 65: **PASS** — discipline > volume
+
+### Deep Score: 6-Block Evaluation (for Tier 1-2 roles)
+
+For roles scoring 65+, run the full 6-block evaluation before investing time in application materials. Inspired by career-ops methodology (santifer/career-ops).
+
+**Block A — Role Classification**: Archetype, domain, seniority, location, team size, remote policy. Does this role match the user's target archetype? If no archetype match, it's likely a stretch.
+
+**Block B — JD-to-CV Gap Analysis**: Map EVERY stated requirement to specific evidence in the user's profile. For each requirement: ✅ match, ⚠️ partial, ❌ gap. Flag hard blockers vs. nice-to-haves. A single hard blocker with no bridge = likely PASS.
+
+**Block C — Level Analysis**: Compare detected seniority to user's natural level. Over-qualified? Under-qualified? Sweet spot? Mismatched seniority wastes everyone's time.
+
+**Block D — Compensation Research**: Web search for market rate. Is it worth the user's time? Factor in benefits, equity, location cost-of-living, tax status (especially for international org roles — tax-exempt changes the math significantly).
+
+**Block E — 5 Critical Application Changes**: What specific changes to the user's resume/application would maximize fit? Use the JD's exact vocabulary for genuine experience (reframe, don't invent).
+
+**Block F — STAR/CAR(L) Story Mapping**: Map 5-6 stories from the user's experience to specific JD requirements. For international organizations, use CAR(L) format (Context, Action, Result, Learning). For tech companies, use STAR.
+
+### Multi-Method Validation
+
+For high-stakes applications, run the score through multiple lenses and look for consensus:
+
+| Method | What it catches |
+|--------|----------------|
+| Quick Score (6-dimension) | Broad fit — are you in the right ballpark? |
+| 6-Block Deep Evaluation | Specific gaps — what exactly is missing? |
+| Reviewer Lens | How will the ACTUAL evaluator read this? What vocabulary do they expect? What screening criteria do they use? |
+
+If all three methods agree on PASS — don't apply. If they disagree, investigate why. The most pessimistic score is usually the most honest.
+
+### Structural Factors (can't be fixed by application quality)
+
+Some factors affect your candidacy regardless of how good your application is. Flag these early:
+- **Geographic quotas** (UN system — over/under-represented nationalities)
+- **Internal candidate preference** (many organizations fill 60%+ internally)
+- **Visa/work authorization requirements**
+- **Seniority mismatch** (applying to a level that doesn't match your trajectory)
+- **Hard-gate requirements** (e.g., "7 years in X" where you have 0 years in X specifically)
 
 ---
 

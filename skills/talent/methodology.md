@@ -4,7 +4,7 @@ name: "Talent Skill — Unified Methodology"
 domain: Talent
 for_agents: [Researcher, Architect, Narrator, Validator, Builder]
 status: WORKING
-validated_on: "OpenAI ADM, Perplexity CSM/FDE, Glean (post-mortem), Gap Inc, Mistral TME, Anthropic, iBusiness, FriendliAI"
+validated_on: "OpenAI ADM, Perplexity CSM/FDE, Glean (post-mortem), Gap Inc, Mistral TME, Anthropic, iBusiness, FriendliAI, Claudia Canu Fautré (UNESCO P-4, Babbel, Duolingo, IBO)"
 supersedes: [SKILL-TAL-001, SKILL-TAL-002]
 ---
 
@@ -112,6 +112,22 @@ Research depth scales with domain familiarity:
 - **Unfamiliar domain** (e.g., retail at Gap): 8+ docs, 150KB, deep research
 - **Familiar domain** (e.g., AI SaaS at Glean): 5 docs, 80KB, streamlined
 - Don't over-research familiar domains. Invest research time where knowledge gaps exist.
+
+### Multi-Method Validation (Career-Ops + UNESCO Learnings)
+For high-stakes or ambiguous-fit roles, run the score through multiple methods and look for consensus:
+1. **Palette fit lens** (profile-specific weighted scoring)
+2. **6-Block Deep Evaluation** (JD line-by-line gap analysis, level check, comp research — see `job-search-command.md`)
+3. **Reviewer Lens** (simulate the actual evaluator's perspective — what vocabulary do they expect? what screening criteria do they use?)
+
+If all three agree on PASS — don't apply, even if it's emotionally appealing. If they disagree, investigate why. The most pessimistic score is usually the most honest.
+
+**Structural factors** that can't be fixed by application quality:
+- Geographic quotas (UN system)
+- Internal candidate preference (many orgs fill 60%+ internally)
+- Hard-gate requirements (e.g., "7 years in X" where you have 0)
+- Seniority mismatch
+
+**Validated on UNESCO P-4 (April 2026)**: Three methods scored 64-72. All agreed: reach application. The candidate's instinct to doubt was correct. The right move: submit (materials already built, low marginal cost) but redirect primary energy to higher-fit roles (Babbel 8/10, IBO 9/10 when open). The problem wasn't the candidate — it was the specific role's requirements vs. her actual strengths.
 
 ---
 
