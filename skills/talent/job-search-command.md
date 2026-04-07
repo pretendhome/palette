@@ -113,28 +113,45 @@ Show:
 
 Search the internet for real, current job postings matching the profile.
 
-**Search strategy** — run 3-5 web searches:
-1. Each target title + location on job boards: `"[title]" jobs [location] site:linkedin.com OR site:greenhouse.io OR site:lever.co`
-2. Skills-based: `"[top skill 1]" "[top skill 2]" hiring [location]`
-3. Aggregators: `"[title]" site:builtin.com OR site:startup.jobs OR site:wellfound.com`
-4. If they listed target industries: `"[title]" "[industry]" hiring`
-5. If they listed specific companies: search those career pages directly
+**Search strategy** — employer-first, aggregators for discovery only:
+
+**Phase 1: Direct employer career pages** (highest trust)
+1. If the user has target companies, go to EACH company's career page directly via WebFetch
+2. Search for roles matching the profile on the employer's own site
+3. These results are VERIFIED by default
+
+**Phase 2: Sector-specific job boards** (medium trust)
+4. For each target archetype, search the relevant sector boards:
+   - Academic: jobs.ac.uk, MLA Job List, HigherEdJobs, EURAXESS
+   - International orgs: careers.unesco.org, UNjobs.org, Impactpool.org
+   - EdTech: specific company career pages
+   - Schools: TES, NAIS, ECIS, Search Associates
+   - Tech: Greenhouse boards, Ashby boards, Lever boards
+5. For each result, VERIFY on the employer's own site before scoring
+
+**Phase 3: Aggregators** (lowest trust — discovery only)
+6. LinkedIn, Indeed, Glassdoor, BuiltIn, Wellfound — use these to DISCOVER leads
+7. **NEVER score a role found only on an aggregator.** Always verify on employer's site first.
+8. Aggregators serve stale results — positions filled months ago still appear in search results
 
 **For each result found**:
-1. Try to read the full job posting from the URL
-2. If the URL is blocked or requires login (common for LinkedIn, some Greenhouse pages), extract what you can from the search snippet and note "full posting requires login — verify details before applying"
-3. Score it against the profile (see scoring below)
-4. Flag dealbreakers (location mismatch, visa issue, seniority mismatch)
+1. **VERIFY**: Check the employer's own careers page to confirm the role exists NOW
+2. If verified: read the full posting, extract requirements, score it
+3. If unverified (aggregator-only, 403 errors, redirects to homepage): mark UNVERIFIED, put in Monitor section, do NOT score
+4. If expired (NAIS "no longer active", employer page doesn't list it): mark EXPIRED
+5. Flag dealbreakers (location mismatch, visa issue, seniority mismatch, hard-gate requirements)
 
-**Present as a ranked table**:
+**Present as a ranked table** (sorted by callback likelihood, NOT just fit):
 ```
-| # | Score | Verdict       | Company    | Role              | Location | Top Match        | Top Gap         | Link |
-|---|-------|---------------|------------|-------------------|----------|------------------|-----------------|------|
-| 1 | 91    | STRONG FIT    | ...        | ...               | ...      | ...              | ...             | ...  |
-| 2 | 83    | WORTH APPLYING| ...        | ...               | ...      | ...              | ...             | ...  |
+| # | Callback | Fit | Verdict       | Company    | Role              | Location | Salary   | Deadline | Verified |
+|---|----------|-----|---------------|------------|-------------------|----------|----------|----------|----------|
+| 1 | 49%      | 88  | STRONG FIT    | ...        | ...               | ...      | ...      | ...      | ✅       |
+| 2 | 34%      | 84  | WORTH APPLYING| ...        | ...               | ...      | ...      | ...      | ✅       |
 ```
 
-Show top 10-15 results, sorted by score. After the table: "Want me to add any to your pipeline? Just give me the numbers. Or say `more` to search again with different terms."
+**Callback is the primary sort.** Fit score alone is misleading — a 75% fit with 20 applicants beats a 90% fit with 500.
+
+Show top 10-15 results. After the table: "Want me to add any to your pipeline? Just give me the numbers. Or say `more` to search again with different terms."
 
 ### `/job-search score` — Score a specific posting
 
@@ -521,6 +538,86 @@ This is the number that matters for time allocation.
 | `/job-search debrief` | Post-interview capture while it's fresh |
 | `/job-search pipeline` | View and manage tracked opportunities |
 | `/job-search update` | Edit your profile |
+
+## Employer Watchlist
+
+Maintain `~/.job-search/watchlist.yaml` — employers with no current openings but high expected fit when roles appear.
+
+```yaml
+# Employer Watchlist — check on schedule
+watchlist:
+  - employer: "IBO"
+    url: "ibo.org/careers"
+    expected_fit: 9/10
+    check_frequency: "weekly"
+    last_checked: "2026-04-07"
+    notes: "No curriculum/programme roles open. Join IBEN. Expect May-June postings."
+  - employer: "OECD Education"
+    url: "careers.smartrecruiters.com/OECD"
+    expected_fit: 7/10
+    check_frequency: "weekly"
+    last_checked: "2026-04-07"
+    notes: "Zero education directorate roles. Recurring postings expected."
+```
+
+When user runs `/job-search find`, check watchlist items that are past their `check_frequency` and include any new findings.
+
+---
+
+## Insider Advantage Mapping
+
+Before scoring, check if the user has an existing relationship with the employer:
+- Published author (Peter Lang → Claudia)
+- Former employee (Google → Claudia)
+- Conference presenter at their institution
+- Mutual connection / warm referral
+- Alumni of their degree program
+
+Insider advantage multiplies callback by 1.2-2.0x depending on strength. A published-author relationship with the employer is a 1.5x+ multiplier — flag it prominently.
+
+---
+
+## Sector Vocabulary Translation
+
+Different sectors use different words for the same skills. When scoring and building applications, translate the user's language into the employer's:
+
+| User's Language | UN/Intl Org | EdTech | Academic | School |
+|----------------|-------------|--------|----------|--------|
+| Curriculum design | Normative guidance development | Learning design | Curriculum studies | Curriculum coordination |
+| Programme management | Results-based management | Product management | Programme administration | Programme coordination |
+| Faculty mentoring | Capacity development | Team leadership | Supervision of TAs | Professional development |
+| Built from zero | Established new programme | 0-to-1 product | Founded new initiative | Pioneered new programme |
+| Gender research | Gender mainstreaming / gender-transformative | DEI / inclusive design | Gender studies / feminist theory | Equity & inclusion |
+
+When the tool detects a sector mismatch between the user's vocabulary and the employer's, flag it in Block E (5 Critical Application Changes).
+
+---
+
+## Family/Life Strategy Scoring
+
+The profile can include a `strategy_bonus` section for location preferences driven by life circumstances, not just career:
+
+```yaml
+strategy_bonus:
+  europe: +15  # husband also job searching in Italy
+  paris: +10   # UNESCO/OECD ecosystem
+  milan: +20   # husband's primary target + La Scuola Milan campus
+  bay_area: +5 # current location, no relocation cost
+```
+
+The bonus adds to the Location dimension AFTER the base score is calculated. This prevents a role in Milan scoring lower than an equivalent role in random-US-city when the family strategy makes Milan 3x more valuable.
+
+---
+
+## Pipeline CSV Format (Updated)
+
+```csv
+company,role,fit_score,callback_pct,verified,status,date_found,date_updated,deadline,link,insider_advantage,notes
+```
+
+Added: `callback_pct`, `verified` (yes/no/expired), `deadline`, `insider_advantage` (none/referral/alumni/former_employee/published_author).
+
+---
 
 ## NSA Methodology (available on request)
 
