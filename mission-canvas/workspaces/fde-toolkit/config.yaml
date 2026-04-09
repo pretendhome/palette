@@ -8,7 +8,7 @@ workspace:
   description: "Real-time support for AI implementation, technical sales, and customer success."
   user_name: "Agent"
   user_role: "operator"
-  operator_name: "Mical"
+  operator_name: "the operator"
   domain: "ai-sales-engineering"
   primary_frontend: "voice"
 

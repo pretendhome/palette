@@ -370,9 +370,9 @@ All three specs were completed. A design review request was posted to the Palett
 
 **Rossi bootstrap**: Extracted real data from the Rossi bridge system prompt, deliverables, and decision log into `palette/projects/rossi-mission/project_state.yaml` — 189 lines, 16 known facts, 5 missing evidence items, 3 open decisions, 3 blocked actions, 5 known unknowns, 6 resolved one-way-door decisions.
 
-### Phase 1: Architecture Decisions (from Mical)
+### Phase 1: Architecture Decisions (from the operator)
 
-Mical reviewed the specs and made 4 critical decisions:
+The operator reviewed the specs and made 4 critical decisions:
 
 1. **UX Modes**: Approved as designed (explore / converge / commit)
 2. **Project State**: Client-side (localStorage), NOT server-side YAML — "remember on the local device of the user"
@@ -491,7 +491,7 @@ These decisions are recorded in `~/.claude/projects/-home-mical/memory/project_v
 
 3. **Single session ID** — the web client uses a hardcoded `"missioncanvas-web-session"` session ID. Multi-user support would require auth + unique session IDs.
 
-4. **Decision Board is queryable but not visual** — per Mical's architecture decision, there is no persistent visual panel. State is stored in localStorage and queryable via the query panel or console. A future version could add a visual panel as an opt-in overlay.
+4. **Decision Board is queryable but not visual** — per the operator's architecture decision, there is no persistent visual panel. State is stored in localStorage and queryable via the query panel or console. A future version could add a visual panel as an opt-in overlay.
 
 5. **No mobile optimization** — CSS is desktop-first. The grid layout works on tablets but hasn't been tested on phones.
 
@@ -503,7 +503,7 @@ These decisions are recorded in `~/.claude/projects/-home-mical/memory/project_v
 
 These are NOT committed — they're the natural next work based on V0.2's shape:
 
-1. **Visual UX polish** — Mical is doing browser testing now. Expect feedback on layout, colors, interactions.
+1. **Visual UX polish** — the operator is doing browser testing now. Expect feedback on layout, colors, interactions.
 2. **Decision Board visual mode** — optional visual overlay of project state, gated by a toggle
 3. **Multi-session support** — auth or at minimum a session name selector
 4. **Feedback analytics** — aggregate anonymous_feedback.jsonl into summary stats
@@ -531,7 +531,7 @@ Bootstrap data: `project_state.yaml` — 189 lines of real Rossi data following 
 
 - **Design review request** posted to Palette Peers bus with `requires_ack: true` for Kiro, Codex, and Gemini
 - **V0.2 completion** has not yet been announced to the bus — do this when ready
-- **Mical** is doing UX testing in browser right now
+- **The operator** is doing UX testing in browser right now
 
 ---
 

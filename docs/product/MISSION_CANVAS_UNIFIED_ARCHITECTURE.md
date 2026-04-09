@@ -351,7 +351,7 @@ Say "brief me" for the full market context, or ask anything.
 | Component | Status | Lines |
 |-----------|--------|-------|
 | 121-RIU taxonomy routing | Live, tested | 339 |
-| Knowledge library (168 entries, gap detection) | Live, tested | — |
+| Knowledge library (170 entries, gap detection) | Live, tested | — |
 | One-way-door gate (real, 10 states) | Live, tested | ~80 |
 | Session state (history, routing influence) | Live, 16 tests | ~30 |
 | Convergence scoring (explore/converge/commit) | Live | ~60 |

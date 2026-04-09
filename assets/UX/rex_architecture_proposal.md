@@ -102,7 +102,7 @@ palette/
 - Documentation cross-references will hardcode paths
 - Examples will reference specific file locations
 
-**Approval Required**: YES - Mical must approve before Builder implements
+**Approval Required**: YES - the operator must approve before Builder implements
 
 ---
 
@@ -116,7 +116,7 @@ User discovers improvement opportunity
     ↓
 User creates issue (using template)
     ↓
-Issue triaged by maintainer (Mical or delegate)
+Issue triaged by maintainer (the operator or delegate)
     ↓
 User forks repo, makes changes
     ↓
@@ -211,7 +211,7 @@ PR merged → User acknowledged in CHANGELOG
 **Proposal**: Benevolent Dictator model with clear delegation path
 
 **Roles**:
-1. **Maintainer** (Mical) - Final approval on all contributions, ONE-WAY DOOR decisions
+1. **Maintainer** (the operator) - Final approval on all contributions, ONE-WAY DOOR decisions
 2. **Contributors** (Community) - Submit improvements via PR
 3. **Reviewers** (Future) - Delegated review authority for specific areas (e.g., agent experts)
 
@@ -291,7 +291,7 @@ Orchestrator (Orchestrator):     #F3F4F6  (White/Light Gray - coordinate/neutral
 - Documentation will embed color semantics (e.g., "blue = research")
 - Hard to rebrand after community adoption
 
-**Approval Required**: YES - Mical must approve before Narrator creates assets
+**Approval Required**: YES - the operator must approve before Narrator creates assets
 
 ---
 

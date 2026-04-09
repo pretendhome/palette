@@ -2,7 +2,7 @@ project_state:
   id: rossi-mission
   name: Rossi — Graffiti Art Gallery & Streetwear Brand
   owner: sahar
-  operator: mical
+  operator: the_operator
   created_at: '2026-02-01'
   last_updated: '2026-03-30'
   objective: Get Rossi to fundable status (79/100 → 95/100) and submit first grant applications

@@ -53,7 +53,7 @@
 
 ## Iteration 1: Initial Fit Assessment
 
-### Mical's Profile Strengths (Relevant to This Role)
+### the operator's Profile Strengths (Relevant to This Role)
 
 **Direct Matches**:
 1. ✓ **Built Palette**: 3-tier agentic system, 7 production agents, 105 RIUs
@@ -87,9 +87,9 @@
 **Tier**: 3 (Apply if time permits) - **Borderline**
 
 ### Key Issues:
-1. **Role is internal-focused** (Mical is customer-facing)
-2. **Role is infra/tooling** (Mical is enablement/strategy)
-3. **Role requires hands-on deployment** (Mical's growth edge)
+1. **Role is internal-focused** (the operator is customer-facing)
+2. **Role is infra/tooling** (the operator is enablement/strategy)
+3. **Role requires hands-on deployment** (the operator's growth edge)
 
 ---
 

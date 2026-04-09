@@ -94,7 +94,7 @@ workspace:
   name: "Rossi Mission"
   user_name: "Sahar"
   user_role: "owner"
-  operator_name: "Mical"
+  operator_name: "the operator"
   domain: "retail-grants-business-planning"
   primary_frontend: "web"
 
@@ -226,8 +226,8 @@ The convergence chain test suite covers:
 
 ### Key Decisions Made This Weekend
 
-1. **Unified product**: Mission Canvas and Agentic Workspace are the same product. One engine, workspace configs per client. (Kiro proposed, Mical confirmed)
-2. **Claude leads implementation**: 7-phase plan approved. Kiro owns voice bridge + FRX. (Mical confirmed)
+1. **Unified product**: Mission Canvas and Agentic Workspace are the same product. One engine, workspace configs per client. (Kiro proposed, the operator confirmed)
+2. **Claude leads implementation**: 7-phase plan approved. Kiro owns voice bridge + FRX. (the operator confirmed)
 3. **Architecture**: `./start.sh rossi` for web, `./start.sh oil-investor` for voice CLI. Same engine.
 
 ### Artifacts Created (44 total)

@@ -2,7 +2,7 @@
 
 **Date**: 2026-03-24
 **Auditor**: Kiro
-**Trigger**: Heavy modification day — enablement scaffolding complete (117/117), stress test corrected, Ask Pathfinder rename, Elia session plan, peers bus messaging
+**Trigger**: Heavy modification day — enablement scaffolding complete (117/117), stress test corrected, Ask Pathfinder rename, family member session plan, peers bus messaging
 **Method**: 5-pass sweep (ground truth → active files → historical files → cross-references → validators)
 
 ---
@@ -141,7 +141,7 @@ These files contain dated audit results or interview prep from completed intervi
 
 | File | Purpose | Consistent? |
 |---|---|---|
-| `enablement/agentic-enablement-system/onboarding/elia-session-plan.md` | 1-hour guided onboarding for Elia | ✅ References enablement-coach.md correctly |
+| `enablement/agentic-enablement-system/onboarding/elia-session-plan.md` | 1-hour guided onboarding for a family member | ✅ References enablement-coach.md correctly |
 | `~/.kiro/steering/peers-messaging.md` | How Kiro sends messages via broker | ✅ Matches actual broker API |
 | `enablement/KIRO_STATUS.md` | Updated with corrected KL counts | ✅ 167, 80.2%, F-003 correction documented |
 

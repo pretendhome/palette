@@ -203,7 +203,7 @@ When `status = needs_confirmation`, UI must block execution and present all deci
   "request_id": "7f98f1d8-b7d4-4372-9351-4ebf9f554a50",
   "timestamp": "2026-02-16T22:00:00Z",
   "session_id": "sess_missioncanvas_001",
-  "user": {"id": "mical", "role": "owner"},
+  "user": {"id": "operator", "role": "owner"},
   "input": {
     "objective": "I need a business plan for my store.",
     "context": "Small neighborhood retail space with existing foot traffic.",

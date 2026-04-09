@@ -17,7 +17,7 @@ We have three communication protocols in the system today:
 
 The coaching system we built today added a fourth implicit protocol: coaching_signals flowing from Canvas to UX with their own shape (concept_id, term, depth, explanation).
 
-Mical asked: can the wire contract also carry Enablement ↔ UX communication?
+The operator asked: can the wire contract also carry Enablement ↔ UX communication?
 
 The answer is yes — and the implications are bigger than coaching.
 
@@ -267,7 +267,7 @@ The UX sends all interactions as wire packets. The server is a packet router. Th
 
 ## The Contract Question Answered
 
-Mical asked: can the wire contract carry Enablement ↔ UX communication?
+The operator asked: can the wire contract carry Enablement ↔ UX communication?
 
 **Yes.** The wire contract is domain-agnostic by design. The `payload` and `output` fields carry any content. The structural fields (id, from, to, task, status, blockers, artifacts) provide exactly the traceability and routing that coaching needs.
 

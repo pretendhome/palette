@@ -32,7 +32,7 @@ ls -la /home/mical/palette/LICENSE
 
 **File Contents**:
 - Standard MIT License text
-- Copyright holder: Mical Neill
+- Copyright holder: the operator
 - Year: 2026
 - Grants: Use, modify, distribute, sublicense, sell
 - Warranty: None (as-is)

@@ -15,6 +15,12 @@ skills/talent/
 └── openai-takehome-execution.md     ← Takehome-specific protocol (still valid)
 ```
 
+Related local Talent workspace sources:
+
+- `implementations/talent/talent-job-search/nsa/index.yaml` ← NSA query map and Mical-specific positioning
+- `implementations/talent/talent-job-search/nsa/README.md` ← where to start for NSA questions
+- `implementations/talent/talent-nsa-moderator/` ← full downloaded NSA program corpus and moderator artifacts
+
 ## How It Works
 
 **Everything flows through `profile_id`.**
@@ -28,6 +34,15 @@ A role profile is the lens through which your entire career gets framed. Discove
 | `role-profiles.yaml` | 6 profiles with search patterns, fit lenses, interview playbooks, accumulated learnings |
 | `experience-inventory.yaml` | Structured career data — 5 ERAs, 7 stories, stat verification, bullet variants |
 | `build_resume.py` | Resume builder — each profile selects headline, summary, bullets, Palette framing |
+
+### NSA operating layer
+
+For Never Search Alone requests, the skill should query the local NSA corpus before using general knowledge:
+
+- methodology/process questions → `implementations/talent/talent-job-search/nsa/index.yaml`
+- Mical positioning/CMF questions → `implementations/talent/talent-nsa-moderator/CMF_SYNTHESIS_2026-04-03.md`
+- self-discovery/wants questions → `implementations/talent/talent-nsa-moderator/MNOOKIN_TWO_PAGER_MICAL.md`
+- moderator/JSC questions → `implementations/talent/talent-nsa-moderator/program/MODERATOR_PROGRAM.md`
 
 ### Six Role Profiles:
 

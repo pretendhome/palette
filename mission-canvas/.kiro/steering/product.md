@@ -23,5 +23,5 @@ Mission Canvas is a voice-first implementation machine with a coaching layer. It
 - Break existing test suites (255+ tests)
 - Modify the wire contract schema (7 in, 7 out)
 - Put runtime state in git (sessions, learner_lens, palette_feedback)
-- Duplicate the Palette Knowledge Library (168 entries in palette/knowledge-library/v1.4/)
+- Duplicate the Palette Knowledge Library (170 entries in palette/knowledge-library/v1.4/)
 - Make one-way-door decisions without flagging them

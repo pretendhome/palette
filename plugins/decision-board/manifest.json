@@ -1,0 +1,10 @@
+{
+  "id": "decision-board",
+  "name": "Decision Board",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Turn any note into a lightweight decision surface — what needs deciding, what is unclear, what happens next.",
+  "author": "Mical Neill",
+  "authorUrl": "https://github.com/pretendhome",
+  "isDesktopOnly": false
+}

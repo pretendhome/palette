@@ -164,4 +164,4 @@ My resume:
 
 ## Questions?
 
-Ask Mical in our next JSC meeting or message in our group channel.
+Ask the operator in our next JSC meeting or message in our group channel.

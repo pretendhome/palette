@@ -20,7 +20,7 @@
 - `config.js` — Client configuration
 - `config_schema.json` — Workspace config validation schema
 - `project_state_schema.json` — Project state validation schema
-- `palette_knowledge.json` — Exported Palette KL (read-only, 168 entries)
+- `palette_knowledge.json` — Exported Palette KL (read-only, 170 entries)
 - `palette_routes.json` — Exported Palette routes (read-only, 121 routes)
 
 ## Workspaces (`workspaces/<id>/`)

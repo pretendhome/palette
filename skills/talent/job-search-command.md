@@ -438,6 +438,168 @@ Research a company before an interview.
 
 Save to `~/.job-search/research/[company].md`
 
+### `/job-search prep-bot` — Create a voice interview prep bot
+
+Build a standalone voice practice bot for a specific role. The bot quizzes you on the company, the role, the domain, and your fit — and grades you on specificity, vocabulary, and drift. You run it repeatedly to build muscle memory before the interview.
+
+**Prerequisites**: The user should have their profile (`~/.job-search/profile.yaml`) AND a person lens. Check for a person lens at:
+- `~/.job-search/lens.yaml`, OR
+- any `LENS-PERSON-*.yaml` file under the current working directory (search recursively)
+
+If no person lens exists, say: "You need a person lens first — it captures how you think, work, and communicate so the prep bot can coach you in your natural voice. Run `/create-lens` to build one, then come back."
+
+If no profile exists, say: "Run `/job-search` first to set up your profile."
+
+**Step 1: Gather the role**
+
+Ask: "Which role are you prepping for? Give me the company and role, a pipeline number, or paste the job posting."
+
+- If they give a pipeline number, read from `~/.job-search/pipeline.csv` and retrieve the saved posting
+- If they give a URL, fetch and read the full job posting
+- If they paste text, use that directly
+- Extract: company name, role title, all stated requirements (must-haves and nice-to-haves), tech stack, domain
+
+**Step 2: Gather company research**
+
+Check if `~/.job-search/research/[company].md` exists.
+- If yes: read it, show a summary, ask "Is this still current?"
+- If no: say "I don't have research on [company] yet. Want me to run a quick research pass now, or do you want to give me the key facts?" If they say yes, run the same research process as `/job-search research` and save it.
+
+**Step 3: Map the user's fit**
+
+Using the profile, person lens, job posting, and company research:
+
+1. Map every JD requirement to specific evidence from the user's profile (project, metric, story)
+2. Identify the top 5 strengths (requirements where the user has strong, specific evidence)
+3. Identify the top 3 gaps (requirements where the user is weakest)
+4. Identify the user's core thesis for this role (one sentence: their problem + my solution)
+5. Identify the company's products, internal systems, and domain vocabulary the user needs to speak fluently about
+
+**Step 4: Generate prep materials**
+
+Create the directory:
+```bash
+mkdir -p ~/.job-search/prep-bots/[company]-[role-slug]
+```
+
+Generate these files:
+
+**`MEMORIZATION_SCRIPT.md`** — Full spoken answers in backtick-quoted blocks. Written to be internalized verbally, not read silently. Must match the user's natural speaking voice (use the person lens for voice patterns). Include:
+- Core intro (30s / 60s / 2min versions)
+- "Tell me about yourself" — tailored to THIS role
+- Technical vision — what you would build for THIS company
+- 8-10 likely technical questions with spoken answers (derived from JD requirements + company products)
+- 3-4 behavioral questions with answers (mapped to the user's stories)
+- "Why this role? Why [company]?" — specific to the company's products and positioning
+- Domain quick-fire — key terms the user should be able to weave in naturally
+- Closing line
+
+Each answer should follow the pattern: concrete situation → what you specifically did or would do → the principle → the close. Short declarative sentences. No filler. Closes with a principle or throughline.
+
+**`CHEATSHEET.md`** — Quick-reference sheet for during-call use. Bullet format with "best short line" closers. Include:
+- Core frame (one sentence)
+- 6 things to repeat (the throughlines the user should reinforce)
+- Best 60-second answer for each major question type
+- Proof stories mapped to question types
+- Things to avoid saying
+- Questions to ask them (showing you researched the company)
+
+**`COMPANY_SYSTEMS.md`** — What the company is actually building, their products, their architecture (as much as is publicly knowable), their domain vocabulary. Written so the user can speak about the company's systems as if they already work there. Include:
+- Product stack with natural "how to reference it" phrases
+- Domain vocabulary table
+- Practice scenarios specific to the company's systems
+- "Things to never say" for this specific company
+
+**Step 5: Create the voice bot**
+
+Check if `palette-voice` is available:
+```bash
+which palette-voice 2>/dev/null
+```
+
+**If palette-voice is available**, create a wrapper script:
+
+Create `~/.local/bin/[company]-prep`:
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+export CODEX_MODEL="${CODEX_MODEL:-gpt-5.4}"
+
+SYSTEM_PROMPT="[generated system prompt — see below]"
+
+exec palette-voice \
+  --brain codex \
+  --context-dir ~/.job-search/prep-bots/[company]-[role-slug] \
+  --system-prompt "$SYSTEM_PROMPT" \
+  --max-tokens 500 \
+  "$@"
+```
+
+Make it executable: `chmod +x ~/.local/bin/[company]-prep`
+
+The system prompt should be generated from the prep materials:
+```
+You are an interview prep coach for [Company]'s [Role] role. You quiz the user on [company]'s products, domain, and their fit for the role. Your job is to help them speak naturally about [company]'s systems as if they already work there.
+
+Do NOT let them drift into abstract talk. If they say generic things, push them to use [company] vocabulary and name specific products, systems, or domain terms.
+
+Interaction rules:
+- Present one question at a time
+- Wait for the user to answer via voice
+- Grade each answer: (1) did they use company-specific vocabulary? (2) did they reference concrete evidence from their experience? (3) did they stay specific or drift?
+- Brief feedback — what landed, what drifted, one fix
+- Then next question
+- Encouraging but honest
+
+Start with: '[Company] prep. I will quiz you on their products, your fit, and the domain. Answer as if you already work there. Ready?'
+```
+
+Tell the user: "Your prep bot is ready. Open a new terminal and run: `[company]-prep`"
+
+**If palette-voice is NOT available**, tell the user:
+
+"I've created your prep materials at `~/.job-search/prep-bots/[company]-[role-slug]/`. To create a voice practice bot, you need palette-voice installed:
+
+```bash
+git clone https://github.com/pretendhome/palette-voice.git ~/palette-voice
+pip install openai-whisper httpx
+mkdir -p ~/.local/bin
+echo '#!/usr/bin/env bash' > ~/.local/bin/palette-voice
+echo 'exec python3 ~/palette-voice/palette_voice.py \"\$@\"' >> ~/.local/bin/palette-voice
+chmod +x ~/.local/bin/palette-voice
+```
+
+You'll also need API keys in `~/palette-voice/.env` (at minimum: RIME_API_KEY for voice, plus one LLM key — OPENAI_API_KEY recommended).
+
+Once installed, run `/job-search prep-bot` again and I'll create the voice wrapper.
+
+In the meantime, you can use the prep materials directly — read the MEMORIZATION_SCRIPT.md out loud to practice."
+
+**Step 6: Confirm**
+
+Show the user what was created:
+```
+Prep bot created for [Company] [Role]:
+
+  Materials:
+    ~/.job-search/prep-bots/[company]-[role-slug]/MEMORIZATION_SCRIPT.md
+    ~/.job-search/prep-bots/[company]-[role-slug]/CHEATSHEET.md
+    ~/.job-search/prep-bots/[company]-[role-slug]/COMPANY_SYSTEMS.md
+
+  Voice bot:
+    ~/.local/bin/[company]-prep
+
+  Run it:
+    [company]-prep
+
+  Tips:
+    - Practice 2-3 times before the interview, not 20 — you want natural, not robotic
+    - The bot will push you when you drift into abstract talk
+    - Read the MEMORIZATION_SCRIPT once to load the structure, then practice speaking without looking
+    - The CHEATSHEET is your glance sheet during the actual call
+```
+
 ### `/job-search glance` — Day-of interview cheat sheet
 
 Generate a one-page glance sheet for the morning of an interview.
@@ -684,6 +846,7 @@ This is the number that matters for time allocation.
 | `/job-search pipeline` | View and manage tracked opportunities by status | Weekly review |
 | `/job-search update` | Edit profile, archetypes, insider relationships, strategy bonus | When circumstances change |
 | `/job-search watchlist` | Check employer watchlist for new postings | Part of find, or standalone |
+| `/job-search prep-bot` | Create a voice interview prep bot for a specific role | Interview scheduled |
 
 ## Employer Watchlist
 
@@ -757,11 +920,23 @@ The bonus adds to the Location dimension AFTER the base score is calculated. Thi
 
 ## NSA Methodology (available on request)
 
-The tool also knows the Never Search Alone methodology. If the user asks for help with:
+The tool has a local Never Search Alone corpus and should use that before answering from memory.
+
+Primary local sources:
+- `/home/mical/fde/implementations/talent/talent-job-search/nsa/index.yaml`
+- `/home/mical/fde/implementations/talent/talent-job-search/nsa/README.md`
+- `/home/mical/fde/implementations/talent/talent-nsa-moderator/knowledge-center/NSA_KNOWLEDGE_CENTER_COMPLETE.md`
+- `/home/mical/fde/implementations/talent/talent-nsa-moderator/program/MODERATOR_PROGRAM.md`
+- `/home/mical/fde/implementations/talent/talent-nsa-moderator/CMF_SYNTHESIS_2026-04-03.md`
+- `/home/mical/fde/implementations/talent/talent-nsa-moderator/MNOOKIN_TWO_PAGER_MICAL.md`
+
+If the user asks for help with:
 - **Mnookin Two-Pager** — walk them through what they want / don't want
 - **Listening Tour** — help plan 15 conversations and extract patterns
 - **Candidate-Market Fit (CMF)** — draft and sharpen their positioning statement
 - **Negotiation** — Four Legs (compensation, budget, resources, support)
+
+Use the local files first, especially for Mical-specific advice. Do not answer NSA questions from generic framework knowledge if the local corpus contains a better answer.
 
 Don't push methodology unprompted. The primary job is the commands above.
 

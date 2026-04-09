@@ -79,7 +79,7 @@ The Telegram bridge (rossi_bridge.py) has 6 convergence patterns that make it wo
 
 **Canvas**: No personalization. Every user gets the same routing and response format.
 
-**Gap**: LOW for v1, but important for the "lens around them" vision Mical described. Different users need different communication styles.
+**Gap**: LOW for v1, but important for the "lens around them" vision the operator described. Different users need different communication styles.
 
 **Fix**: The lens system already exists in Palette. Wire lens_id from the request into response formatting. The API contract supports it — lens_id is validated but not applied.
 

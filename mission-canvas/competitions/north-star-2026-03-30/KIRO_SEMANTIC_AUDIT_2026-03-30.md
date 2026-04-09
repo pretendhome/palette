@@ -68,7 +68,7 @@ Six orphaned files totaling ~327KB:
 
 ## Finding 4: FDE Knowledge Library Should Be Deleted (HIGH)
 
-**What**: I created `workspaces/fde-toolkit/fde_knowledge_library_v1.yaml` (15 entries) for task #43. Mical correctly identified this as duplication — the main Palette KL (168 entries) was built for FDEs.
+**What**: I created `workspaces/fde-toolkit/fde_knowledge_library_v1.yaml` (15 entries) for task #43. The operator correctly identified this as duplication — the main Palette KL (168 entries) was built for FDEs.
 
 **Impact**: If left in place, the FDE workspace will use this 15-entry subset instead of the full 168-entry Palette KL. Worse coaching, worse routing.
 

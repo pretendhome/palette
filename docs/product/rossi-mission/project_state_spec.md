@@ -2,7 +2,7 @@
 
 **Author**: kiro.design
 **Date**: 2026-03-29
-**Status**: PROPOSAL — requires team review + Mical approval before implementation
+**Status**: PROPOSAL — requires team review + the operator approval before implementation
 
 ---
 
@@ -22,7 +22,7 @@ project_state:
   id: "rossi-mission"
   name: "Rossi Mission Project"
   owner: "sahar"          # who makes decisions
-  operator: "mical"       # who executes
+  operator: "the_operator"       # who executes
   created_at: "2026-02-01"
   last_updated: "2026-03-29"
 

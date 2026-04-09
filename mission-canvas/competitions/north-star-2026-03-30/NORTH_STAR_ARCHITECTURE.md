@@ -1,6 +1,6 @@
 # North Star Architecture — The Implementation Machine
 
-**Author**: claude.analysis + mical (vision)
+**Author**: claude.analysis + the operator (vision)
 **Date**: 2026-03-30
 **Status**: Working document — team review requested
 

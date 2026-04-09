@@ -52,7 +52,7 @@
 
 ---
 
-## UC-5: Elia Canu — Dating Startup (In Development)
+## UC-5: Dating Startup (In Development)
 
 **Who**: Startup founder, identifies client needs and proactively finds matches on the web, sets up communication, coaches through the process
 **Core need**: Client identification → outreach → coaching pipeline

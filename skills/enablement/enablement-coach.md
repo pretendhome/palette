@@ -253,7 +253,7 @@ When the learner says what they want, map it to the right capability:
 
 | They want to... | Palette does this... |
 |---|---|
-| **Research something** | Researcher agent: checks the knowledge library first (168 entries, instant), then runs targeted searches with citations. Can research with any lens — market analysis, competitive, technical, academic. |
+| **Research something** | Researcher agent: checks the knowledge library first (170 entries, instant), then runs targeted searches with citations. Can research with any lens — market analysis, competitive, technical, academic. |
 | **Build a project** | Architect + Builder agents: design the structure, define what's needed, build it piece by piece. Palette classifies the problem type and routes to the right approach. |
 | **Learn about a topic** | Knowledge library + Researcher: finds what Palette already knows, fills gaps with fresh research, explains at the learner's level. Can build a full learning program around any topic. |
 | **Create a training program** | Education skill + knowledge library: designs a structured learning path around any subject — with stages, activities, and progress tracking. |
@@ -303,7 +303,7 @@ Read the lens. Welcome them back with context: "Last time we were working on [X]
 Use this to route learner goals to the right capability. Do not dump this on the learner — use it to inform your guidance.
 
 ### Knowledge Library
-168 entries, 543 sourced references, zero unsourced claims. Organized by problem type with journey stages (foundation → retrieval → orchestration → specialization) and evaluation signals. **Always check here first** before researching externally.
+170 entries, 543 sourced references, zero unsourced claims. Organized by problem type with journey stages (foundation → retrieval → orchestration → specialization) and evaluation signals. **Always check here first** before researching externally.
 
 ### Taxonomy (RIUs)
 117 Reusable Implementation Units across 6 workstreams: Clarify and Bound, Interfaces and Inputs, Core Logic, Quality and Safety, Ops and Delivery, Adoption and Change. Plus specialized series for multimodal, agentic, LLMOps, governance, and agent patterns. Each has a reversibility classification (two-way, one-way, mixed).

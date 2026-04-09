@@ -7,7 +7,7 @@ workspace:
   description: "Graffiti art gallery & streetwear brand — fundability and grant readiness"
   user_name: "Sahar"
   user_role: "owner"
-  operator_name: "Mical"
+  operator_name: "the operator"
   domain: "retail-grants-business-planning"
   primary_frontend: "web"
 

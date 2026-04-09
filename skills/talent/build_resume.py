@@ -318,7 +318,7 @@ PROFILES = {
             ("Adaptive learning system", "Learning progressions (foundation \u2192 retrieval \u2192 orchestration \u2192 specialization), certification tiers (UNVALIDATED \u2192 WORKING \u2192 PRODUCTION) with rising rigor, staleness detection flagging modules as AI capabilities evolve"),
             ("Assessment pipeline", "3-layer evaluation: automated validators \u2192 AI rubric scoring with calibration exemplars and confidence reporting \u2192 human review escalation. 11 calibration exemplar sets differentiating by quality of thinking"),
             ("Learning analytics", "Coverage reports (134/167 KL utilization = 80.2%), per-dimension competency tracking, threshold engine enforcing mastery on critical modules, disagreement analysis for rubric refinement"),
-            ("Educator tools", "Enablement coach system for non-technical learners: 7-stage guided path, session-based progression, plain-language principles. Elia onboarding: 1-hour guided session plan"),
+            ("Educator tools", "Enablement coach system for non-technical learners: 7-stage guided path, session-based progression, plain-language principles. Family member onboarding: 1-hour guided session plan"),
             ("Content currency & renewal", "Automated staleness detection, versioned curriculum with integrity validators (121/121 pass), cross-module consistency checks"),
         ],
         "palette_tools": "Python, Claude API, Claude Code, Claude.ai (daily usage), Git/GitHub",

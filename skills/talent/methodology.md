@@ -30,6 +30,19 @@ Three files work together:
 - **`role-profiles.yaml`** — 6 role profiles with search patterns, fit lenses, interview playbooks, and accumulated learnings.
 - **`build_resume.py`** — parameterized resume builder. Each profile selects different headline, summary, bullet variants, and Palette framing.
 
+Additional local source layer for job-search strategy:
+- **`/home/mical/fde/implementations/talent/talent-job-search/nsa/index.yaml`** — query map into the local Never Search Alone corpus
+- **`/home/mical/fde/implementations/talent/talent-nsa-moderator/CMF_SYNTHESIS_2026-04-03.md`** — Mical's current candidate-market-fit thesis
+- **`/home/mical/fde/implementations/talent/talent-nsa-moderator/MNOOKIN_TWO_PAGER_MICAL.md`** — Mical's wants / anti-wants / self-discovery
+
+## NSA Pre-Filter
+
+Before investing in a role, check whether it fits the local NSA evidence:
+1. Does it align with the current CMF zones?
+2. Does it avoid the anti-target environments identified in the CMF synthesis?
+3. Is the narrative consistent with the Mnookin two-pager, or is it another one-off story?
+4. If not, stop before resume tailoring and re-evaluate the target.
+
 ## Role Profiles
 
 Every opportunity gets a `profile_id` before any work starts. The profile drives everything downstream.

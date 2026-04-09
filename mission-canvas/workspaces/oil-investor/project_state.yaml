@@ -2,7 +2,7 @@ project_state:
   id: oil-investor
   name: Oil & Energy Investment Portfolio
   owner: investor
-  operator: mical
+  operator: the_operator
   created_at: '2026-03-30'
   last_updated: '2026-03-31'
   objective: Navigate Hormuz crisis positioning — protect capital, capture refining supercycle, evaluate midstream adds before Q2 OPEC+ decision

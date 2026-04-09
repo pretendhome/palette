@@ -1,14 +1,14 @@
-# Experience Inventory — Mical Neill
+# Experience Inventory — Operator Profile
 # The "Knowledge Library" for talent: structured career data that resumes,
 # cover letters, interview answers, and story banks all assemble from.
 # Updated: 2026-03-24
 
 profile:
-  name: "Mical Neill"
+  name: "The Operator"
   location: "San Francisco Bay Area, CA"
-  phone: "(415) 465-0568"
-  email: "micalrneill@gmail.com"
-  linkedin: "linkedin.com/in/mical-neill-79176412"
+  phone: "PHONE_NUMBER"
+  email: "EMAIL_ADDRESS"
+  linkedin: "linkedin.com/in/LINKEDIN_HANDLE"
   portfolio: "github.com/pretendhome/palette"
   visa_sponsorship: false
   available: "2026-05-01"
@@ -101,7 +101,7 @@ eras:
           - "Source conflicts (Provider A says 10pm, Provider B says 11pm) → source-priority rules + recency weighting"
           - "47 different category schemes → hierarchical ontology accommodating granular (200+) and coarse (10) taxonomies"
         italy_launch:
-          led_by: "Mical (fluent Italian, lived in Milan 6 years)"
+          led_by: "the operator (fluent Italian, lived in Milan 6 years)"
           challenges: "New provider integrations, Italian-specific entity resolution rules, Italian business naming conventions, Italian commercial category patterns"
           outcome: "Proved architecture was generalizable — same graph schema onboards new locales via config, not rebuild"
     annotation_teams:
