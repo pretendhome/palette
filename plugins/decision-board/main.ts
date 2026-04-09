@@ -210,7 +210,20 @@ class BoardView extends ItemView {
 		const hdr = sec.createDiv({ cls: "db-list-header" });
 		hdr.createEl("label", { text: `${title} (${items.length})` });
 		const addBtn = hdr.createEl("button", { text: "+", cls: "db-add-btn clickable-icon" });
-		addBtn.addEventListener("click", () => { items.push(""); this.render(); });
+		addBtn.addEventListener("click", () => {
+			items.push("");
+			const row = list.createDiv({ cls: "db-list-item" });
+			const inp = row.createEl("input", { cls: "db-input" }) as HTMLInputElement;
+			inp.type = "text"; inp.value = ""; inp.placeholder = "Add item...";
+			inp.addEventListener("blur", async () => {
+				if (inp.value !== items[items.length - 1]) { items[items.length - 1] = inp.value; await write(this.app, file, state); }
+			});
+			inp.addEventListener("keydown", (e: KeyboardEvent) => { if (e.key === "Enter") inp.blur(); });
+			const del = row.createEl("button", { text: "×", cls: "db-del-btn clickable-icon" });
+			del.addEventListener("click", async () => { items.splice(items.length - 1, 1); await write(this.app, file, state); });
+			hdr.querySelector("label")!.textContent = `${title} (${items.length})`;
+			inp.focus();
+		});
 
 		const list = sec.createDiv({ cls: "db-list" });
 		items.forEach((item, i) => {
