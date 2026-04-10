@@ -91,6 +91,42 @@ export function initDb(dbPath) {
   if (hasLegacyForeignKeySchema(db)) {
     migrateLegacyForeignKeySchema(db, migration);
   }
+  // 002: per-agent broadcast delivery tracking
+  const migration002 = readFileSync(join(MIGRATIONS_DIR, '002_broadcast_deliveries.sql'), 'utf-8');
+  db.exec(migration002);
+  // 003: agent memory
+  const migration003 = readFileSync(join(MIGRATIONS_DIR, '003_agent_memory.sql'), 'utf-8');
+  db.exec(migration003);
+  // 004: agent skills
+  const migration004 = readFileSync(join(MIGRATIONS_DIR, '004_agent_skills.sql'), 'utf-8');
+  db.exec(migration004);
+  // 005: message search (FTS5)
+  const migration005 = readFileSync(join(MIGRATIONS_DIR, '005_message_search.sql'), 'utf-8');
+  db.exec(migration005);
+  // 006: skill enhancements — maturity, sharing, tags
+  const migration006 = readFileSync(join(MIGRATIONS_DIR, '006_skill_enhancements.sql'), 'utf-8');
+  // Add columns safely (ALTER TABLE ADD COLUMN is not idempotent)
+  const skillCols = db.prepare(`PRAGMA table_info(agent_skills)`).all().map(c => c.name);
+  const addCol = (col, type, dflt) => {
+    if (!skillCols.includes(col)) db.exec(`ALTER TABLE agent_skills ADD COLUMN ${col} ${type} NOT NULL DEFAULT ${dflt}`);
+  };
+  addCol('maturity', 'TEXT', "'UNVALIDATED'");
+  addCol('shared', 'INTEGER', '0');
+  addCol('source_agent', 'TEXT', "''");
+  addCol('tags', 'TEXT', "'[]'");
+  addCol('last_used_at', 'TEXT', "''");
+  db.exec(migration006);
+  // Backfill FTS index for existing messages
+  const ftsCount = db.prepare(`SELECT COUNT(*) AS c FROM messages_fts`).get().c;
+  const msgCount = db.prepare(`SELECT COUNT(*) AS c FROM messages`).get().c;
+  if (ftsCount < msgCount) {
+    const msgs = db.prepare(`SELECT message_id, from_agent, intent, payload FROM messages`).all();
+    const insert = db.prepare(`INSERT OR IGNORE INTO messages_fts(message_id, from_agent, intent, payload_text) VALUES (?, ?, ?, ?)`);
+    const tx = db.transaction(() => {
+      for (const m of msgs) insert.run(m.message_id, m.from_agent, m.intent, m.payload);
+    });
+    tx();
+  }
   ensureSchemaMeta(db);
   return db;
 }

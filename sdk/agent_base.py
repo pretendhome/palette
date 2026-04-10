@@ -52,6 +52,12 @@ from scripts.palette_intelligence_system.loader import load_all
 from scripts.palette_intelligence_system.traverse import traverse
 from palette.sdk.integrity_gate import IntegrityGate
 from palette.sdk.graph_query import GraphQuery
+from palette.sdk.prompt_cache import (
+    PromptBundle,
+    PromptSection,
+    build_prompt_bundle,
+    packet_payload_to_section,
+)
 
 
 @dataclass
@@ -271,6 +277,43 @@ class AgentBase:
             json.dump(fallback.to_wire(), sys.stdout, indent=2)
         sys.stdout.write("\n")
         sys.stdout.flush()
+
+    def build_prompt_bundle(
+        self,
+        packet: HandoffPacket,
+        *,
+        system_prompt: str = "",
+        stable_sections: list[PromptSection] | None = None,
+        volatile_sections: list[PromptSection] | None = None,
+    ) -> PromptBundle:
+        """Construct a cache-friendly prompt bundle.
+
+        Stable material goes first and should change rarely:
+        - agent identity
+        - system prompt / operating instructions
+
+        Volatile material goes last and can churn every turn:
+        - task
+        - RIU ids
+        - payload
+        - trace/session identifiers
+        """
+
+        base_stable = [
+            PromptSection("Agent", self.agent_name),
+            PromptSection("System Prompt", system_prompt),
+        ]
+        base_volatile = [
+            PromptSection("Task", packet.task, cacheable=False),
+            packet_payload_to_section("RIU IDs", packet.riu_ids, cacheable=False),
+            packet_payload_to_section("Payload", packet.payload, cacheable=False),
+            PromptSection("Trace ID", packet.trace_id, cacheable=False),
+        ]
+
+        return build_prompt_bundle(
+            [*base_stable, *(stable_sections or [])],
+            [*base_volatile, *(volatile_sections or [])],
+        )
 
     # ── Stage 4: Verification ──────────────────────────────────────────
 

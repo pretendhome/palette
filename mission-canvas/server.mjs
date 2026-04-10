@@ -375,6 +375,304 @@ function buildOkaSessionGuide(history) {
   };
 }
 
+const OKA_WORD_BANK = {
+  '3_letter': [
+    { text: 'cat', hint: 'Listen... **c** says /k/.', focus: 'c' },
+    { text: 'dog', hint: 'Listen... **d** says /d/.', focus: 'd' },
+    { text: 'sun', hint: 'Listen... **s** says /s/.', focus: 's' },
+    { text: 'map', hint: 'Listen... the middle sound is /a/.', focus: 'a' },
+    { text: 'bed', hint: 'Listen... **b** says /b/.', focus: 'b' },
+    { text: 'pig', hint: 'Listen... **p** says /p/.', focus: 'p' },
+    { text: 'fox', hint: 'Listen... **f** says /f/.', focus: 'f' },
+    { text: 'gem', hint: 'Listen... **g** here says /j/.', focus: 'g' },
+    { text: 'fin', hint: 'Listen... **f** says /f/.', focus: 'f' },
+    { text: 'hop', hint: 'Listen... **h** says /h/.', focus: 'h' },
+    { text: 'jet', hint: 'Listen... **j** says /j/.', focus: 'j' },
+    { text: 'web', hint: 'Listen... **w** says /w/.', focus: 'w' }
+  ],
+  '4_letter': [
+    { text: 'ship', hint: 'Listen... **sh** says /sh/.', focus: 'sh' },
+    { text: 'frog', hint: 'Listen... **fr** starts it.', focus: 'fr' },
+    { text: 'lamp', hint: 'Listen... the middle sound is /a/.', focus: 'a' },
+    { text: 'nest', hint: 'Listen... **n** says /n/.', focus: 'n' },
+    { text: 'stop', hint: 'Listen... **st** starts it.', focus: 'st' },
+    { text: 'milk', hint: 'Listen... the middle sound is /i/.', focus: 'i' },
+    { text: 'star', hint: 'Listen... **st** starts it.', focus: 'st' },
+    { text: 'wing', hint: 'Listen... **w** says /w/.', focus: 'w' },
+    { text: 'fire', hint: 'Listen... **f** says /f/.', focus: 'f' },
+    { text: 'cave', hint: 'Listen... **c** says /k/.', focus: 'c' },
+    { text: 'moon', hint: 'Listen... **m** says /m/.', focus: 'm' },
+    { text: 'tree', hint: 'Listen... **tr** starts it.', focus: 'tr' }
+  ],
+  '5_letter': [
+    { text: 'planet', hint: 'Listen... **pl** starts it.', focus: 'pl' },
+    { text: 'dragon', hint: 'Listen... **dr** starts it.', focus: 'dr' },
+    { text: 'basket', hint: 'Listen... the first part is **bas**.', focus: 'bas' },
+    { text: 'sunset', hint: 'Listen... the first part is **sun**.', focus: 'sun' },
+    { text: 'forest', hint: 'Listen... the first part is **for**.', focus: 'for' },
+    { text: 'castle', hint: 'Listen... **c** says /k/.', focus: 'c' },
+    { text: 'magic', hint: 'Listen... the first part is **mag**.', focus: 'mag' },
+    { text: 'river', hint: 'Listen... **r** says /r/.', focus: 'r' },
+    { text: 'brave', hint: 'Listen... **br** starts it.', focus: 'br' },
+    { text: 'quest', hint: 'Listen... **qu** says /kw/.', focus: 'qu' }
+  ],
+  red_word: [
+    { text: 'said', hint: 'This is a red word. It says **said**.', focus: 'said', irregular: true },
+    { text: 'does', hint: 'This red word says **does**.', focus: 'does', irregular: true },
+    { text: 'could', hint: 'This red word says **could**.', focus: 'could', irregular: true },
+    { text: 'would', hint: 'This red word says **would**.', focus: 'would', irregular: true },
+    { text: 'their', hint: 'This red word says **their**.', focus: 'their', irregular: true },
+    { text: 'where', hint: 'This red word says **where**.', focus: 'where', irregular: true }
+  ]
+};
+
+const OKA_BAND_ORDER = ['3_letter', '4_letter', '5_letter', 'red_word'];
+
+function normalizeOkaWord(text) {
+  return String(text || '').toLowerCase().replace(/[^a-z]/g, '');
+}
+
+function createOkaReadingState(raw = {}) {
+  const band = OKA_BAND_ORDER.includes(raw.current_band) ? raw.current_band : '3_letter';
+  return {
+    mode: raw.mode === 'reading' ? 'reading' : 'companion',
+    current_band: band,
+    current_word: normalizeOkaWord(raw.current_word || ''),
+    stage: raw.stage === 'after_hint' ? 'after_hint' : 'awaiting_attempt',
+    recent_results: Array.isArray(raw.recent_results) ? raw.recent_results.slice(-6) : [],
+    hint_count: Number.isFinite(raw.hint_count) ? raw.hint_count : 0,
+    response_times_ms: Array.isArray(raw.response_times_ms) ? raw.response_times_ms.slice(-8) : [],
+    trouble_patterns: raw.trouble_patterns && typeof raw.trouble_patterns === 'object' ? raw.trouble_patterns : {},
+    frustration_flag: Boolean(raw.frustration_flag),
+    writing_enabled: Boolean(raw.writing_enabled),
+    current_hint: String(raw.current_hint || ''),
+    current_irregular: Boolean(raw.current_irregular),
+    streak: Number.isFinite(raw.streak) ? raw.streak : 0
+  };
+}
+
+function recordOkaReadingResult(state, result, word, responseTimeMs = null) {
+  state.recent_results = [...state.recent_results, result].slice(-6);
+  if (typeof responseTimeMs === 'number' && Number.isFinite(responseTimeMs)) {
+    state.response_times_ms = [...state.response_times_ms, responseTimeMs].slice(-8);
+  }
+  if (result === 'correct_first_try') state.streak += 1;
+  else if (result === 'correct_after_hint') state.streak = Math.max(1, state.streak);
+  else state.streak = 0;
+  if ((result === 'incorrect_after_hint' || result === 'hint_used') && word?.focus) {
+    state.trouble_patterns[word.focus] = (state.trouble_patterns[word.focus] || 0) + 1;
+  }
+}
+
+function adjustOkaBand(state, { easier = false } = {}) {
+  let idx = OKA_BAND_ORDER.indexOf(state.current_band);
+  if (idx < 0) idx = 0;
+  if (easier) return OKA_BAND_ORDER[Math.max(0, idx - 1)];
+  const recent = state.recent_results.slice(-3);
+  if (recent.length === 3 && recent.every((item) => item === 'correct_first_try')) {
+    return OKA_BAND_ORDER[Math.min(OKA_BAND_ORDER.length - 1, idx + 1)];
+  }
+  const struggle = recent.filter((item) => item === 'incorrect_after_hint').length >= 2;
+  if (struggle) return OKA_BAND_ORDER[Math.max(0, idx - 1)];
+  return state.current_band;
+}
+
+function pickOkaWord(state, { easier = false } = {}) {
+  state.current_band = adjustOkaBand(state, { easier });
+  const pool = OKA_WORD_BANK[state.current_band] || OKA_WORD_BANK['3_letter'];
+  const normalizedCurrent = normalizeOkaWord(state.current_word);
+  const candidates = pool.filter((item) => normalizeOkaWord(item.text) !== normalizedCurrent);
+  const choicePool = candidates.length ? candidates : pool;
+  return choicePool[Math.floor(Math.random() * choicePool.length)];
+}
+
+function classifyOkaReadingAttempt(message, targetWord) {
+  const lower = String(message || '').toLowerCase().trim();
+  const normalizedMessage = normalizeOkaWord(message);
+  const normalizedTarget = normalizeOkaWord(targetWord?.text);
+  if (!normalizedTarget) return 'no_attempt';
+  if (!normalizedMessage) return 'no_attempt';
+  if (/\b(i don'?t know|not sure|help|clue|hint|pass)\b/i.test(lower)) return 'no_attempt';
+  // Exact match
+  if (normalizedMessage === normalizedTarget) return 'correct';
+  // Target word appears anywhere in the speech (handles "it says cat", "I said cat", etc.)
+  if (lower.includes(normalizedTarget) || lower.split(/\s+/).includes(normalizedTarget)) return 'correct';
+  // Spaced-out letters: "c a t" → "cat"
+  const collapsed = lower.replace(/\s+/g, '');
+  if (collapsed === normalizedTarget) return 'correct';
+  return 'incorrect';
+}
+
+function buildOkaReadingPrompt(word) {
+  return word?.irregular
+    ? 'Here is a red word. Try this one.'
+    : 'Try this one.';
+}
+
+function detectOkaCompanionIntent(message) {
+  const lower = String(message || '').toLowerCase();
+  if (/\b(math|history|past|dragon|fairy|story|space|moon|star|draw|art|picture|brain|dyslexia|italian|book|harry potter|chat)\b/i.test(lower)) {
+    return true;
+  }
+  return false;
+}
+
+function buildOkaCompanionShortcut(message, history = []) {
+  const { phase } = buildOkaSessionGuide(history);
+  const lower = String(message || '').toLowerCase();
+  if (lower.includes('math')) {
+    return {
+      response: 'Nice. Let us do one in our heads. What is 17 plus 8?',
+      phase: 'Confidence'
+    };
+  }
+  if (lower.includes('dragon') || lower.includes('fairy') || lower.includes('story')) {
+    return {
+      response: 'Okay. A dragon finds a hidden doorway in the forest. What is on the other side?',
+      phase: 'Confidence'
+    };
+  }
+  if (lower.includes('history') || lower.includes('past')) {
+    return {
+      response: 'Cool. If you could time travel to one moment in the past, where would you go?',
+      phase: 'Confidence'
+    };
+  }
+  if (lower.includes('space') || lower.includes('moon') || lower.includes('star')) {
+    return {
+      response: 'Space time. If you could visit the Moon, what is the first thing you would look for?',
+      phase: 'Confidence'
+    };
+  }
+  return buildOkaFallback(message, history);
+}
+
+function processOkaReadingTurn(message, rawState = {}, history = []) {
+  const state = createOkaReadingState(rawState);
+  state.mode = 'reading';
+  const tired = detectTiredOrFrustrated(message, history);
+  if (tired === 'stop') {
+    state.mode = 'companion';
+    return {
+      response: 'Okay. We can stop right here. I am still here when you want me again.',
+      phase: 'done',
+      provider: 'reading_engine',
+      mode: 'companion',
+      reading_state: state,
+      focus_word: null
+    };
+  }
+
+  if (tired === 'frustrated') {
+    const easierWord = pickOkaWord(state, { easier: true });
+    state.current_word = normalizeOkaWord(easierWord.text);
+    state.current_hint = '';
+    state.current_irregular = Boolean(easierWord.irregular);
+    state.stage = 'awaiting_attempt';
+    state.frustration_flag = true;
+    return {
+      response: 'Let us make it smaller. Try this one.',
+      phase: 'Skill',
+      provider: 'reading_engine',
+      mode: 'reading',
+      reading_state: state,
+      focus_word: easierWord.text,
+      irregular: Boolean(easierWord.irregular),
+      result: 'reset_easier'
+    };
+  }
+
+  let currentWord = null;
+  if (state.current_word) {
+    currentWord = Object.values(OKA_WORD_BANK).flat().find((item) => normalizeOkaWord(item.text) === state.current_word) || null;
+  }
+
+  const wantsReading = /\b(read|word|practice|start|again|next)\b/i.test(String(message || ''));
+  if (!currentWord || wantsReading) {
+    const nextWord = pickOkaWord(state);
+    state.current_word = normalizeOkaWord(nextWord.text);
+    state.current_hint = '';
+    state.current_irregular = Boolean(nextWord.irregular);
+    state.stage = 'awaiting_attempt';
+    state.frustration_flag = false;
+    return {
+      response: buildOkaReadingPrompt(nextWord),
+      phase: 'Skill',
+      provider: 'reading_engine',
+      mode: 'reading',
+      reading_state: state,
+      focus_word: nextWord.text,
+      irregular: Boolean(nextWord.irregular),
+      result: 'prompt'
+    };
+  }
+
+  const attempt = classifyOkaReadingAttempt(message, currentWord);
+  if (attempt === 'correct') {
+    const resultType = state.stage === 'after_hint' ? 'correct_after_hint' : 'correct_first_try';
+    recordOkaReadingResult(state, resultType, currentWord);
+    state.frustration_flag = false;
+    state.current_hint = '';
+    state.stage = 'awaiting_attempt';
+    const nextWord = pickOkaWord(state);
+    state.current_word = normalizeOkaWord(nextWord.text);
+    state.current_irregular = Boolean(nextWord.irregular);
+    const celebrations = state.streak >= 3
+      ? ['You are on fire!', 'Three in a row!', 'Smooth.']
+      : resultType === 'correct_after_hint'
+        ? ['Nice. You got it with the hint.', 'There it is. Good ear.', 'You figured it out.']
+        : ['Nice.', 'You got it.', 'Smooth.', 'Yes!', 'That is right.'];
+    const cheer = celebrations[Math.floor(Math.random() * celebrations.length)];
+    return {
+      response: cheer + ' Try this one.',
+      phase: 'Skill',
+      provider: 'reading_engine',
+      mode: 'reading',
+      reading_state: state,
+      focus_word: nextWord.text,
+      irregular: Boolean(nextWord.irregular),
+      result: resultType
+    };
+  }
+
+  if (state.stage !== 'after_hint') {
+    state.stage = 'after_hint';
+    state.current_hint = currentWord.hint || `Listen... **${currentWord.focus || currentWord.text[0]}**.`;
+    state.hint_count += 1;
+    recordOkaReadingResult(state, 'hint_used', currentWord);
+    return {
+      response: `${state.current_hint} Now try again.`,
+      phase: 'Skill',
+      provider: 'reading_engine',
+      mode: 'reading',
+      reading_state: state,
+      focus_word: currentWord.text,
+      irregular: Boolean(currentWord.irregular),
+      hint: state.current_hint,
+      result: 'hint_used'
+    };
+  }
+
+  recordOkaReadingResult(state, 'incorrect_after_hint', currentWord);
+  state.stage = 'awaiting_attempt';
+  state.current_hint = '';
+  const easierWord = pickOkaWord(state, { easier: true });
+  state.current_word = normalizeOkaWord(easierWord.text);
+  state.current_irregular = Boolean(easierWord.irregular);
+  state.frustration_flag = true;
+  return {
+    response: `That word is **${currentWord.text}**. Nice try. Here is an easier one.`,
+    phase: 'Skill',
+    provider: 'reading_engine',
+    mode: 'reading',
+    reading_state: state,
+    focus_word: easierWord.text,
+    irregular: Boolean(easierWord.irregular),
+    answered_word: currentWord.text,
+    result: 'incorrect_after_hint'
+  };
+}
+
 function normalizeOkaText(text) {
   return String(text || '')
     .replace(/\[\d+(?:\]\[?\d*)*\]/g, '')
@@ -385,7 +683,7 @@ function normalizeOkaText(text) {
 function detectTiredOrFrustrated(message, history) {
   const lower = String(message || '').toLowerCase();
   // Direct signals
-  if (/\b(stop|quit|done|tired|bored|hate|stupid|can'?t|i give up|no more|leave me)\b/i.test(lower)) return 'stop';
+  if (/\b(stop|quit|done|tired|bored|hate|stupid|can'?t|i give up|no more|leave me|don'?t want|want to stop|enough|go away)\b/i.test(lower)) return 'stop';
   if (/\b(hard|frustrated|angry|mad|annoyed|ugh|argh|i don'?t know|i don'?t get it)\b/i.test(lower)) return 'frustrated';
   // Short consecutive answers suggest fatigue
   const recentUser = (history || []).filter(h => h.role === 'user').slice(-3);
@@ -542,6 +840,41 @@ async function generateOkaReply(message, history = []) {
   }
 
   return { ...buildOkaFallback(message, history), provider: 'local_fallback' };
+}
+
+async function generateOkaTurn({ message, history = [], readingState = null }) {
+  const state = createOkaReadingState(readingState || {});
+  const lower = String(message || '').toLowerCase();
+  const companionIntent = detectOkaCompanionIntent(message);
+  const explicitReadingIntent = /\b(read|word|sound it out|practice)\b/i.test(lower);
+  if (companionIntent && !explicitReadingIntent) {
+    state.mode = 'companion';
+    state.current_hint = '';
+    state.frustration_flag = false;
+    const shortcut = buildOkaCompanionShortcut(message, history);
+    return {
+      response: shortcut.response,
+      phase: shortcut.phase,
+      provider: 'local_companion',
+      mode: 'companion',
+      reading_state: state,
+      focus_word: null,
+      irregular: false,
+      result: null
+    };
+  }
+  const readingIntent = state.mode === 'reading' || explicitReadingIntent;
+  if (readingIntent) {
+    return processOkaReadingTurn(message, state, history);
+  }
+  return {
+    ...(await generateOkaReply(message, history)),
+    mode: 'companion',
+    reading_state: state,
+    focus_word: null,
+    irregular: false,
+    result: null
+  };
 }
 
 async function fetchJson(url, payload, headers = {}) {
@@ -1438,7 +1771,8 @@ const server = createServer(async (req, res) => {
         return;
       }
 
-      const result = await generateOkaReply(message, history);
+      const readingState = payload.reading_state && typeof payload.reading_state === 'object' ? payload.reading_state : null;
+      const result = await generateOkaTurn({ message, history, readingState });
       const updatedHistory = [
         ...history.map((item) => ({ role: item.role === 'assistant' ? 'assistant' : 'user', content: String(item.content || '') })),
         { role: 'user', content: message },
@@ -1453,7 +1787,13 @@ const server = createServer(async (req, res) => {
         response: result.response,
         phase: result.phase,
         provider: result.provider,
-        history: updatedHistory
+        history: updatedHistory,
+        mode: result.mode || 'companion',
+        reading_state: result.reading_state || null,
+        focus_word: result.focus_word || null,
+        irregular: Boolean(result.irregular),
+        hint: result.hint || '',
+        result: result.result || null
       });
       return;
     }

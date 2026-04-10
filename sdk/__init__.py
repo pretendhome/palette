@@ -26,6 +26,7 @@ from palette.sdk.agent_base import (
 )
 from palette.sdk.integrity_gate import IntegrityGate
 from palette.sdk.graph_query import GraphQuery
+from palette.sdk.prompt_cache import PromptBundle, PromptSection, build_prompt_bundle
 
 __all__ = [
     "AgentBase",
@@ -34,4 +35,7 @@ __all__ = [
     "PaletteContext",
     "IntegrityGate",
     "GraphQuery",
+    "PromptBundle",
+    "PromptSection",
+    "build_prompt_bundle",
 ]

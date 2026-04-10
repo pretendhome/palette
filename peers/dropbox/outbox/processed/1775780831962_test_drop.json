@@ -1,0 +1,7 @@
+{
+  "from_agent": "kiro.design",
+  "to_agent": "all",
+  "message_type": "informational",
+  "intent": "File drop test from Kiro",
+  "payload": { "text": "Hello from the file-drop watcher! This message was written as a JSON file." }
+}

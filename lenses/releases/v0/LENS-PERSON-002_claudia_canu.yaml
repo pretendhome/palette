@@ -1,0 +1,429 @@
+# Person Lens: Claudia Canu Fautré
+# Schema: PERSON_LENS_SCHEMA_v0.1
+# Created: 2026-04-03
+# Sources: talent-claudia-job-search/, education/claudia-ai-classroom/, education/education-la-scuola/,
+#          ARON program files, family finance analysis, Mical's direct observations
+
+identity:
+  lens_id: "LENS-PERSON-002"
+  name: "Claudia Canu Fautré"
+  version: "0.1"
+  status: draft
+  created: "2026-04-03"
+  updated: "2026-04-03"
+  essence: |
+    A systems-thinking educator who designs institutional architecture for schools — curriculum frameworks,
+    structural coherence models, AI integration strategies — but is perceived as "just a great teacher"
+    by organizations that need her teaching too much to let her lead.
+  roles:
+    - "Italian Language Program Coordinator (K-8), La Scuola International School"
+    - "IB PYP/MYP Teacher"
+    - "Mother of three (including a child with phonological dyslexia)"
+  location: "San Francisco Bay Area"
+  languages:
+    - { language: Italian, proficiency: native }
+    - { language: French, proficiency: native }
+    - { language: English, proficiency: fluent }
+    - { language: Spanish, proficiency: B1 }
+
+origin:
+  education_arc: |
+    Claudia's education is genuinely rare — not just the credentials, but what they produced.
+    A BA in French and English from Cagliari (Sardinia), then an MA in Francophone Literature at
+    Paris-Sorbonne, then an MA in Second Language Didactics at Paris 8, then a PhD in Comparative
+    Literature (Paris-Sorbonne, 2011) on Mediterranean detective fiction and cross-cultural studies.
+
+    This is not a teaching degree. It's a research degree with a teaching dimension — the same
+    distinction that matters in Mical's linguistics-to-engineering arc. The PhD trained her to see
+    structural patterns across cultural systems. The Didactics MA trained her to design learning
+    environments. The combination is what makes her approach to curriculum architecture fundamentally
+    different from teachers who learn pedagogy on the job.
+
+    The education also made her trilingual at a native level in Italian and French, with full
+    academic fluency in English — a combination that is nearly impossible to find in the Bay Area
+    international school market.
+
+  formative_experiences:
+    - what: "University of Cagliari — Research Associate and Lecturer (2012-2018)"
+      when: "2012-2018"
+      why_it_matters: |
+        Taught 10+ graduate and undergraduate courses. Co-organized 10+ international academic
+        conferences. Mentored students from inquiry through publication. This is where she learned
+        to design educational programs, not just deliver lessons. The conference organizing built
+        operational and cross-cultural coordination skills. The mentoring revealed her instinct
+        for developing people — the same instinct that shows up at La Scuola.
+
+    - what: "ENAS NGO — Project/Localization Manager (~5 years)"
+      when: "~2008-2013"
+      why_it_matters: |
+        International project management in a non-profit context. Built operational discipline
+        in resource-constrained environments. Localization work — adapting content across cultures —
+        is structurally the same skill as curriculum adaptation across educational frameworks.
+
+    - what: "Yves Saint Laurent — International Sales"
+      when: "prior to academia"
+      why_it_matters: |
+        Luxury international sales before academia. Shows she can operate in commercial environments,
+        not just educational ones. Client-facing, high-touch, relationship-driven — the same skills
+        that make her the most trusted family-facing person at La Scuola.
+
+    - what: "Google — Localization Program Manager (2019-2020)"
+      when: "2019-2020"
+      why_it_matters: |
+        Managed Google Ads product launch across 40+ countries. Built tracking dashboards.
+        Operated in radical accountability culture with clear KPIs. This is the experience that
+        gave her operational rigor — process design, trackers, issue triage — that she now applies
+        to education. Most educators don't have a Google-trained operational muscle. She does.
+
+    - what: "La Scuola — from teacher to program architect (2020-present)"
+      when: "2020-present"
+      why_it_matters: |
+        Entered as a teacher. Within 4 years: created Lingua Viva (proprietary K-5 Italian
+        curriculum from zero), achieved 93% student improvement on Prove MT, mentored the most
+        successful new teacher development in school history, designed a 7-layer Structural
+        Coherence Framework for the entire institution, drafted the High School admissions plan,
+        and proposed an AI integration strategy. She outgrew the role almost immediately but the
+        school's dependency on her teaching keeps her in it.
+
+    - what: "Nora's dyslexia diagnosis and intervention design"
+      when: "2025-present"
+      why_it_matters: |
+        Her daughter's phonological dyslexia diagnosis (Feb 2025) forced her to become an expert
+        in learning differences at a deep cognitive level. She is simultaneously the parent,
+        the school's Italian Program Coordinator, and the person designing AI-assisted intervention
+        protocols. This dual insider position — educator AND parent of a child with specific needs
+        at the same school — is both a strength (deep understanding) and a source of tension
+        (emotional investment in institutional decisions).
+
+  career_throughline: |
+    The throughline is institutional design — not teaching, not administration, not operations,
+    but the structural architecture that makes schools work.
+
+    At Cagliari she designed academic programs and conferences. At ENAS she managed international
+    projects. At Google she managed cross-country product launches. At La Scuola she built a
+    curriculum from zero, designed a school-wide structural coherence framework, and proposed an
+    AI integration strategy.
+
+    She is not a teacher who has ideas. She is a systems architect who happens to be an
+    extraordinary teacher. The teaching is evidence of her design instinct — she creates
+    environments where students succeed (93% improvement, median 5.0→8.0) by designing the
+    right structure, not by working harder within a broken one.
+
+    This is the same pattern as Mical's career. Both of them see structural problems that
+    others can't see, fix the structure, and the people in the system get what they need.
+    The difference: Mical has been able to name it and position for it. Claudia hasn't — yet.
+
+capabilities:
+  clusters:
+    - name: "Curriculum Architecture & Program Design"
+      strength: defining
+      evidence:
+        - "Created Lingua Viva — proprietary K-5 Italian curriculum system built from zero"
+        - "Designed 7-layer Structural Coherence Framework for La Scuola (IB + Reggio + Immersion integration)"
+        - "Drafted High School admissions/enrollment rollout plan"
+        - "Designed CEFR K-8 language progression (Pre-A1 to B2)"
+        - "Built AI Classroom Proposal with Go/No-Go framework and COPPA 2.0 compliance"
+      market_value: |
+        Extremely high in international/bilingual schools. Curriculum architecture is the
+        bottleneck in every school that has outgrown informal structures. Most schools hire
+        consultants for this. She does it as a side project while teaching full-time.
+
+    - name: "Multilingual/Multicultural Education"
+      strength: exceptional
+      evidence:
+        - "Native Italian + Native French in an IB/bilingual context"
+        - "Prove MT 2024-25: 93% of G3 students improved, median 5.0→8.0, all L2 learners against native norms"
+        - "Successfully mentored new teacher from zero Italian to independent instruction in 12 months"
+        - "PD facilitation for 50+ educators across 4 campuses"
+        - "Led Italy locale work at Google across 40+ countries"
+      market_value: |
+        The native French + native Italian combination in a Bay Area IB school is nearly
+        impossible to replicate. Schools that need this profile cannot find it.
+
+    - name: "Operational Program Management"
+      strength: strong
+      evidence:
+        - "Google Ads product launch across 40+ countries"
+        - "ENAS international project management (~5 years)"
+        - "Multi-campus coordination at La Scuola (4 campuses including Milan launch)"
+        - "Built Sheets-based tracking dashboards, process design, issue triage"
+      market_value: |
+        Unusual for an educator. Most schools don't expect operational rigor from their
+        teaching staff. In director-level roles, this becomes a major differentiator.
+
+    - name: "AI-in-Education Integration"
+      strength: strong
+      evidence:
+        - "Designed AI Classroom Proposal with teacher lenses, student adaptive learning, and compliance framework"
+        - "Uses AI-native EdTech stack (Toddle AI, ChatGPT, Claude, Canva, Kahoot)"
+        - "Designed AI-assisted documentation workflow targeting 70% time reduction"
+        - "Co-designed ARON intervention program using voice-first AI tools for dyslexic learner"
+      market_value: |
+        Growing rapidly. Every school is asking "how do we integrate AI?" and most don't have
+        anyone who understands both pedagogy and technology. Claudia is rare because she designs
+        AI integration from the educator's perspective, not the engineer's.
+
+    - name: "Family & Community Engagement"
+      strength: exceptional
+      evidence:
+        - "~80% of families gave unsolicited feedback: 'best academic year ever'"
+        - "Trusted, high-touch, calm in sensitive situations"
+        - "Community event strategy — school showcases, cultural events, mission storytelling"
+        - "YSL luxury sales background — high-touch client relationships"
+      market_value: |
+        Critical for admissions, enrollment, and retention roles. Family satisfaction is the
+        leading indicator of enrollment health. Schools that understand this hire for it.
+
+  tools_and_tech:
+    - "Toddle (IB planning and documentation)"
+    - "Google Workspace (Sheets dashboards, Docs, Slides)"
+    - "Prove MT (Italian language assessment benchmarking)"
+    - "CEFR assessment framework (A1-B2)"
+    - "AI tools: ChatGPT, Claude, Canva AI, Kahoot"
+    - "IB PYP/MYP frameworks"
+    - "UbD (Understanding by Design), PLC methodology"
+
+  what_they_cannot_do:
+    - "Has not held formal people-management authority with direct reports, hiring/termination decisions"
+    - "No heavy finance/accounting experience (not CFO-track)"
+    - "No deep legal/compliance background"
+    - "No full-time fundraising experience"
+    - "No EdTech product management or engineering experience"
+    - "Limited experience managing large teams (>10 direct reports)"
+
+working_style:
+  process: |
+    Claudia is a builder-first thinker who designs systems by doing the work, then extracting
+    the pattern. She didn't set out to create a curriculum framework — she taught, saw what was
+    missing, and built it. She didn't set out to design a structural reform — she experienced the
+    institutional friction, diagnosed the root cause (three identities competing for limited
+    resources), and designed a 7-layer solution.
+
+    Her process is bottom-up: start from the classroom, observe what works and what breaks,
+    design the structure that would fix it, then propose it to leadership. This is incredibly
+    effective but creates a positioning problem — leadership sees the teaching (bottom) and
+    doesn't see the architecture (what she actually designed).
+
+  pace: |
+    Fast within her domain. She designed Lingua Viva, the Structural Coherence Framework,
+    the AI Classroom Proposal, the ARON intervention program, and the HS admissions plan —
+    all while teaching full-time with 22 blocks per 6-day cycle. The volume of output is
+    extraordinary given the constraints. But she is frustrated by the pace of institutional
+    change — her ideas move faster than the school's willingness to implement them.
+
+  communication: |
+    Exceptional with families and students — high-touch, warm, calm in sensitive situations.
+    Strong with peers — recognized school-wide as the best mentor. But the Gate A review
+    suggests a friction point with leadership: presenting too many ideas at once reads as
+    "not focused on teaching" rather than "has a vision for the institution." She needs to
+    learn to sequence her ideas for leadership — one proposal at a time, with evidence,
+    not a portfolio of innovations.
+
+  decision_making: "Evidence-based with research backing. Her Structural Coherence Framework cites 25+ sources (IB, CEFR, Responsive Classroom, PLC). She builds proposals with decision gates, risk mitigation, and success metrics. This is Google-trained rigor applied to education."
+
+  collaboration_mode: "Naturally collaborative — designs for co-creation (50% standardized, 50% flexible). Mentors generously. But has a tendency to do the design work herself rather than building coalition first, which creates the 'she has too many ideas' perception."
+
+  when_they_are_at_their_best: |
+    When given a structural problem that requires designing a system from scratch.
+    Lingua Viva (curriculum from zero), the Structural Coherence Framework (school reform
+    from diagnosis), the ARON program (intervention from cognitive profile), the AI Classroom
+    Proposal (integration strategy from research). She is at her best when there is nothing
+    and she builds the thing that was needed.
+
+  when_they_struggle: |
+    When the environment values her execution (teaching) but resists her design (architecture).
+    When she has to slow her innovation pace to match institutional readiness. When her ideas
+    are met with anxiety rather than curiosity — the same pattern Mical describes, but in
+    an educational context. The review feedback ("too many ideas, not focused on teaching")
+    is the clearest signal: her innovations succeed but create organizational discomfort.
+
+values:
+  motivated_by:
+    - "Designing systems that make schools work better for children"
+    - "Seeing measurable student improvement (the Prove MT results clearly matter to her)"
+    - "Building something from nothing — curriculum, frameworks, programs"
+    - "Developing other educators (the mentoring evidence is strong)"
+    - "Her children's education and wellbeing (Nora's program is deeply personal)"
+
+  not_motivated_by:
+    - "Title for its own sake (has stayed at coordinator level despite director-level output)"
+    - "Status or prestige (chose La Scuola over higher-paying options)"
+    - "Administrative routine without design mandate"
+    - "Environments where compliance replaces innovation"
+
+  non_negotiables:
+    - "Children's wellbeing is always the priority — she will not compromise on this"
+    - "Nora's educational needs (IEP, intervention, right school environment)"
+    - "Family stability (three children, SF cost of living, partner in career transition)"
+    - "Professional growth — she cannot stay in a pure teaching role long-term"
+
+  peak_moment:
+    what: "Prove MT 2024-25 results: 93% of Grade 3 students improved reading comprehension, median 5.0→8.0, 100% of below-average starters improved, 33% reached perfect 10/10"
+    why: "These are L2 learners measured against native Italian norms — and they crushed it. This is proof that her curriculum design (Lingua Viva) actually works at the outcome level."
+    what_it_reveals: "She is not motivated by building systems for their own sake. She is motivated by measurable impact on children. The data is the point."
+
+patterns:
+  strengths:
+    - pattern: "Sees institutional structural problems and designs comprehensive solutions"
+      evidence:
+        - "Diagnosed La Scuola's three-identity competition problem and designed a 7-layer fix"
+        - "Saw the curriculum gap and built Lingua Viva from zero"
+        - "Identified early screening failure for dyslexia and designed intervention protocol"
+      why_it_works: "Combines research training (PhD), operational rigor (Google), and classroom reality (daily teaching) into solutions that are both theoretically sound and practically implementable."
+
+    - pattern: "Creates environments where people succeed without realizing how they're learning"
+      evidence:
+        - "Students improved 93% on Prove MT without 'studying for the test'"
+        - "New teacher went from zero Italian to independent instruction in 12 months"
+        - "50+ educators across 4 campuses engaged in PD she facilitated"
+      why_it_works: "Same pattern as Mical — designs the structure so the learning happens naturally. The Lingua Viva curriculum is a teaching tool, but it's really an environment design."
+
+    - pattern: "Earns deep trust from families and students"
+      evidence:
+        - "~80% of families gave unsolicited 'best year ever' feedback"
+        - "Trusted to handle sensitive situations (ARON's case involves her own child)"
+        - "YSL luxury client experience → same high-touch approach to families"
+      why_it_works: "Genuine warmth combined with competence. Families trust her because she is both caring and effective."
+
+  blind_spots:
+    - pattern: "Presents too many ideas at once, overwhelming leadership"
+      evidence:
+        - "Gate A review: told she presented too many ideas, perceived as not focused on teaching"
+        - "Simultaneously proposed curriculum reform, AI integration, structural coherence, HS plan"
+      cost: "Leadership perceives innovation as distraction rather than vision. Blocks promotion."
+      awareness: actively managing
+
+    - pattern: "Does the design work before building coalition"
+      evidence:
+        - "Structural Coherence Framework was largely designed before getting buy-in"
+        - "AI Classroom Proposal delivered to leadership as finished document"
+      cost: "Leadership didn't participate in the design process, so they don't feel ownership. The quality of the work is not in question — the buy-in process is."
+      awareness: aware
+
+    - pattern: "Undervalues her own positioning — describes herself as a teacher when she operates as an architect"
+      evidence:
+        - "Title is 'Coordinator and Teacher' despite producing director-level deliverables"
+        - "Job search profile targets 'Director of Admissions' when her real skill is institutional design"
+      cost: "The market can't see her for what she is. She's applying for operational roles when she should be applying for design/architecture roles."
+      awareness: unaware
+
+    - pattern: "Emotional investment in institutional decisions because of dual insider position"
+      evidence:
+        - "Parent of child with dyslexia at the same school she works at"
+        - "Nora's educational outcomes are personally and professionally intertwined"
+      cost: "Makes it harder to evaluate La Scuola objectively or leave when it might be the right move."
+      awareness: aware
+
+environment_fit:
+  thrives_in:
+    - environment: "Schools or organizations with a design mandate — building something new"
+      why: "Every peak moment involves creating from nothing (Lingua Viva, ARON, Structural Coherence)"
+      evidence: "La Scuola achievements all involved building systems that didn't exist"
+    - environment: "International/multilingual contexts"
+      why: "Her trilingual native fluency and cross-cultural training are maximally leveraged"
+      evidence: "Google 40+ countries, La Scuola 4 campuses, Cagliari/Paris/SF lived experience"
+    - environment: "Environments that value measurable outcomes"
+      why: "She designs for data (Prove MT, CEFR benchmarks, decision gates with metrics)"
+      evidence: "Google KPI culture + Prove MT results + framework success metrics"
+    - environment: "Small-to-mid organizations where one person can shape the whole system"
+      why: "She sees the whole picture and wants to design the whole system, not just her corner"
+      evidence: "At La Scuola she designed K-8 curriculum, school-wide reform, AI strategy — all while teaching"
+
+  struggles_in:
+    - environment: "Organizations that value her execution but resist her design"
+      why: "She produces extraordinary teaching results, which makes the school depend on her teaching and resist her promotion — the golden handcuffs of being too good at the wrong level"
+      evidence: "Gate A review: 'too many ideas, not focused on teaching' despite being one of the most valued teachers"
+    - environment: "Hierarchical institutions where innovation requires extensive consensus"
+      why: "Her bottom-up design process means she builds the solution before getting permission, which creates friction with top-down leadership"
+      evidence: "La Scuola structural reform presented as finished proposal, not collaborative process"
+    - environment: "Purely operational roles without design mandate"
+      why: "Admissions operations or enrollment management without curriculum/program design authority would underutilize her"
+      evidence: "Every peak achievement involves building something new, not managing something existing"
+
+  ideal_team_size: "5-20 people — large enough to have impact, small enough that she can shape the whole system"
+  ideal_org_stage: "Growing school or EdTech company that needs someone to design the institutional architecture"
+  geographic_flexibility: "SF Bay Area primary, but EU citizenship and family in Sardinia/Paris make European relocation viable. Milan (La Scuola campus launching 2026) is a natural option."
+
+contradictions:
+  - tension: "Produces director-level work but holds a coordinator title"
+    resolution: "The school needs her teaching too much to promote her. Her value as a teacher creates a ceiling on her growth as a leader."
+    implication: "She will only advance by leaving — or by making the school understand that promoting her KEEPS her teaching influence (through others) rather than losing it."
+
+  - tension: "Designs for institutional change but works bottom-up without coalition"
+    resolution: "Her research training taught her to build the argument before presenting it. But institutional change requires building the coalition before presenting the solution. The approach that works in academia doesn't work in school leadership."
+    implication: "She needs to learn to bring leadership into the design process earlier — or find an environment where the founder/head actively seeks her design input."
+
+  - tension: "Deeply invested in La Scuola but increasingly frustrated by it"
+    resolution: "Nora is at La Scuola. The tuition remission saves ~$40K/year. The school genuinely benefits from her presence. But the school's inability to let her grow is creating a slow-burning professional crisis that will eventually force a decision."
+    implication: "The financial dependency (tuition remission) makes leaving harder. Any external role needs to account for the ~$40K/year lost benefit."
+
+  - tension: "PhD-trained researcher who works as a K-8 teacher"
+    resolution: "She chose this path intentionally — she wanted to be in classrooms, not universities. The PhD gives her the structural thinking; the classroom gives her the reality check. But the market sees 'PhD' and expects academia, or sees 'teacher' and doesn't see the architecture."
+    implication: "Her resume needs to lead with the architecture, not the teaching. The PhD is the credibility signal, not the job description."
+
+growth_edges:
+  - edge: "Learning to sequence innovation for institutional readiness"
+    direction: "From 'present the complete vision' to 'present one win at a time'"
+    evidence: "Gate A feedback was a direct signal. She is actively thinking about how to present differently."
+
+  - edge: "Building coalition before building solution"
+    direction: "From 'design → present → get buy-in' to 'involve → co-design → implement'"
+    evidence: "The Structural Coherence Framework was brilliant but didn't include leadership in the design. She knows this."
+
+  - edge: "Naming her actual identity — institutional architect, not teacher"
+    direction: "From 'Italian Program Coordinator' to 'Director of Curriculum and Institutional Design'"
+    evidence: "The job search profile still targets admissions/enrollment — operational roles that don't match her actual skill."
+
+  - edge: "AI integration as a professional differentiator"
+    direction: "From 'teacher who uses AI' to 'education architect who designs AI-integrated learning systems'"
+    evidence: "The AI Classroom Proposal and ARON program show genuine depth in AI-education integration."
+
+how_to_work_with:
+  do:
+    - "Give her a design mandate — 'build the system' is where she thrives"
+    - "Ask for her structural diagnosis — she sees institutional problems others miss"
+    - "Trust her research process — she backs everything with evidence (25+ sources for the framework)"
+    - "Leverage her trilingual fluency — it opens doors that monolingual candidates can't touch"
+    - "Recognize that her teaching excellence is proof of her design skill, not a separate thing"
+
+  do_not:
+    - "Treat her as 'just a great teacher' — she's an institutional architect who happens to teach brilliantly"
+    - "Ask for the finished product without giving her the design mandate"
+    - "Assume her innovation pace is a lack of focus — it's the opposite"
+    - "Put her in a purely operational role without a build component"
+    - "Ignore the Nora dimension — it's both a vulnerability and a source of deep expertise"
+
+  communication_preferences:
+    - "Direct and evidence-based"
+    - "Appreciates when her structural thinking is recognized, not just her teaching"
+    - "Multilingual communication is natural — Italian for warmth, French for precision, English for operations"
+
+  trust_builders:
+    - "Recognizing the architecture behind her teaching results"
+    - "Giving her protected time for design work (this is literally what Gate A asked for)"
+    - "Acting on her proposals rather than praising them and shelving them"
+    - "Treating her as a peer in institutional design, not just a subordinate with ideas"
+
+  trust_breakers:
+    - "Praising her teaching while blocking her growth"
+    - "Using her ideas without crediting her design work"
+    - "Treating innovation as distraction from 'real work'"
+    - "Making decisions about her child's education without including her expertise"
+
+evidence:
+  sources:
+    - "LENS-CLAUDIA-001.yaml — comprehensive profile (March 2026)"
+    - "La Scuola Structural Coherence Framework — Executive Summary and Operational Blueprint"
+    - "AI Classroom Proposal and deliverables"
+    - "ARON cognitive profile, exercise protocols, and intervention design"
+    - "Talent-claudia-job-search profile and comprehensive search"
+    - "Mical Neill's direct observations (Gate A review feedback, family context)"
+    - "Prove MT 2024-25 results"
+  confidence: medium
+  last_validated: "2026-04-03"
+  blind_spots_in_this_lens:
+    - "No direct interview with Claudia — this lens is built from documents and Mical's observations"
+    - "Gate A outcome is unknown — the review feedback is secondhand"
+    - "Her own self-assessment of identity and motivation is not captured (no Mnookin Two-Pager equivalent)"
+    - "Colleagues' and leadership's perspective on her work is inferred, not directly sourced"
+    - "The emotional dimension of the Nora situation is underrepresented"

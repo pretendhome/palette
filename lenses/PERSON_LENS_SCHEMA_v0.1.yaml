@@ -1,0 +1,144 @@
+# Person Lens Schema v0.1
+# A structured portrait of a real person — for self-understanding, collaboration, and career guidance.
+#
+# Design principles:
+#   1. Structure what can be structured, narrate what can't
+#   2. Honest assessment over flattering portrait — include contradictions and growth edges
+#   3. Evidence-based — every claim should trace to observable behavior, not speculation
+#   4. Useful — an agent, collaborator, or the person themselves should be able to act on this
+#   5. Living document — updated as understanding deepens
+#
+# Format: YAML with typed fields + narrative blocks (|) where reduction to fields would lose meaning
+# Validation: Fields marked (required) must be present. Fields marked (optional) enrich but aren't blocking.
+
+schema:
+  version: "0.1"
+  type: person_lens
+  description: "Structured portrait of a real person for AI-assisted collaboration, self-discovery, and career guidance"
+
+sections:
+
+  # --- IDENTITY ---
+  # Who this person is in one screen. Should be readable in 30 seconds.
+  identity:
+    lens_id: "string (required) — LENS-PERSON-NNN format"
+    name: "string (required)"
+    version: "string (required)"
+    status: "enum: draft | working | validated (required)"
+    created: "date (required)"
+    updated: "date (required)"
+    essence: "string (required) — one sentence capturing the core of who this person is"
+    roles: "list[string] (required) — current roles/titles, not aspirational"
+    location: "string (required)"
+    languages: "list[object] (optional) — language + proficiency level"
+
+  # --- ORIGIN ---
+  # Where they come from. Not a resume — the formative experiences that explain WHY they are who they are.
+  origin:
+    education_arc: "narrative | block (required) — not degrees, but what the education actually did to them"
+    formative_experiences: "list[object] (required) — experiences that shaped their working identity"
+    # Each formative_experience:
+    #   what: string — what happened
+    #   when: string — approximate period
+    #   why_it_matters: string — how it shaped them
+    career_throughline: "narrative | block (required) — the thread that connects everything, even if it wasn't visible at the time"
+
+  # --- CAPABILITIES ---
+  # What they can actually do. Structured as clusters with evidence.
+  capabilities:
+    clusters: "list[object] (required) — skill clusters, not individual skills"
+    # Each cluster:
+    #   name: string — cluster name
+    #   strength: enum: foundational | strong | exceptional | defining
+    #   evidence: list[string] — specific proof points (not claims)
+    #   market_value: string — how the market sees this cluster (may differ from self-assessment)
+    tools_and_tech: "list[string] (optional) — concrete tools, not buzzwords"
+    what_they_cannot_do: "list[string] (required) — honest gaps, not weaknesses-as-strengths"
+
+  # --- WORKING STYLE ---
+  # How they actually operate. Observable patterns, not aspirational statements.
+  working_style:
+    process: "narrative | block (required) — how they approach problems (iterative? planned? intuitive?)"
+    pace: "string (required) — how fast they move and why"
+    communication: "narrative | block (required) — how they communicate, what works, what doesn't"
+    decision_making: "string (required) — how they make decisions under uncertainty"
+    collaboration_mode: "string (required) — how they work with others"
+    when_they_are_at_their_best: "narrative | block (required) — specific conditions"
+    when_they_struggle: "narrative | block (required) — specific conditions"
+
+  # --- VALUES ---
+  # What actually drives them. Not what they say — what their behavior reveals.
+  values:
+    motivated_by: "list[string] (required) — what makes them work hardest"
+    not_motivated_by: "list[string] (required) — what they don't care about despite external signals"
+    non_negotiables: "list[string] (required) — lines they won't cross"
+    peak_moment: "object (optional) — the professional moment where they felt most alive"
+    #   what: string
+    #   why: string
+    #   what_it_reveals: string
+
+  # --- PATTERNS ---
+  # Recurring behaviors observed across multiple contexts. Both strengths and blind spots.
+  patterns:
+    strengths: "list[object] (required)"
+    # Each strength:
+    #   pattern: string — the recurring behavior
+    #   evidence: list[string] — where it showed up (minimum 2 contexts)
+    #   why_it_works: string
+    blind_spots: "list[object] (required)"
+    # Each blind_spot:
+    #   pattern: string — the recurring behavior
+    #   evidence: list[string] — where it showed up
+    #   cost: string — what it has cost them
+    #   awareness: enum: unaware | aware | actively managing
+
+  # --- ENVIRONMENT FIT ---
+  # Where they thrive vs. where they wilt. Based on observed evidence, not preferences.
+  environment_fit:
+    thrives_in: "list[object] (required)"
+    # Each:
+    #   environment: string
+    #   why: string
+    #   evidence: string
+    struggles_in: "list[object] (required)"
+    # Each:
+    #   environment: string
+    #   why: string
+    #   evidence: string
+    ideal_team_size: "string (optional)"
+    ideal_org_stage: "string (optional)"
+    geographic_flexibility: "string (optional)"
+
+  # --- CONTRADICTIONS ---
+  # The tensions that make them human. Things that seem contradictory but coexist.
+  # This section is what separates a person lens from a resume.
+  contradictions: "list[object] (required — minimum 2)"
+  # Each:
+  #   tension: string — the apparent contradiction
+  #   resolution: string — how it actually makes sense
+  #   implication: string — what this means for working with them
+
+  # --- GROWTH EDGES ---
+  # Where they are actively evolving. Not weaknesses to fix — frontiers of development.
+  growth_edges: "list[object] (optional)"
+  # Each:
+  #   edge: string — what's developing
+  #   direction: string — where it's heading
+  #   evidence: string — what shows this is active growth, not stagnation
+
+  # --- HOW TO WORK WITH THIS PERSON ---
+  # Practical guidance for any agent, colleague, or collaborator.
+  how_to_work_with:
+    do: "list[string] (required) — what works"
+    do_not: "list[string] (required) — what fails or causes friction"
+    communication_preferences: "list[string] (optional)"
+    trust_builders: "list[string] (required) — what builds trust with them"
+    trust_breakers: "list[string] (required) — what destroys trust"
+
+  # --- EVIDENCE ---
+  # What this lens is based on. Transparency about confidence.
+  evidence:
+    sources: "list[string] (required) — what data informed this lens"
+    confidence: "enum: low | medium | high (required)"
+    last_validated: "date (required)"
+    blind_spots_in_this_lens: "list[string] (optional) — what we might be getting wrong"

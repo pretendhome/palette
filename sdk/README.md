@@ -57,6 +57,40 @@ if __name__ == "__main__":
 - `GraphQuery` — queryable interface to the 1,800+ quad relationship graph
 - Methods: `query(s, p, o)`, `objects_for()`, `subjects_for()`, `neighbors()`, `summary()`
 
+### `prompt_cache.py`
+- `PromptSection` — named prompt chunks marked stable vs volatile by placement
+- `PromptBundle` — deterministic stable prefix + volatile suffix with hashes
+- `build_prompt_bundle()` — constructs cache-friendly prompt layouts
+
+## Prompt Cache Preservation
+
+Palette does not yet have a unified runtime prompt layer, but the SDK now has a
+shared pattern for preserving cacheable prompt prefixes:
+
+- Put long-lived instructions first
+- Keep task/session payloads at the end
+- Hash the stable prefix separately so callers can detect churn
+
+Example:
+
+```python
+from palette.sdk import AgentBase, HandoffPacket
+
+agent = AgentBase()
+packet = HandoffPacket(task="Evaluate guardrails", payload={"service": "bedrock"})
+bundle = agent.build_prompt_bundle(
+    packet,
+    system_prompt="You are a read-only research agent."
+)
+
+print(bundle.stable_hash)
+print(bundle.stable_prefix)
+print(bundle.volatile_suffix)
+```
+
+This is intentionally low-level. It gives future agent runners a shared
+contract for prompt-cache preservation without forcing a provider-specific API.
+
 ## Error Handling
 
 `PaletteContext.load()` never crashes. On failure:

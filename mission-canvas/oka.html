@@ -300,6 +300,102 @@
       width: 100%;
     }
 
+    .oka-reading-card {
+      padding: 18px 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .oka-reading-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .oka-reading-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.72);
+      color: var(--text-soft);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .oka-reading-word {
+      border-radius: 24px;
+      padding: 20px 16px;
+      background: rgba(255,255,255,0.76);
+      text-align: center;
+      font-size: clamp(2.5rem, 7vw, 4.25rem);
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #7047d5;
+      min-height: 102px;
+      display: grid;
+      place-items: center;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.55);
+    }
+
+    .oka-reading-word.is-red {
+      color: #cb3c3c;
+    }
+
+    .oka-reading-word.is-match {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 18px 36px rgba(122, 182, 255, 0.26);
+      animation: okaWordCelebrate 0.55s ease;
+    }
+
+    .oka-reading-word.is-try-again {
+      animation: okaWordNudge 0.4s ease;
+      box-shadow: 0 0 0 4px rgba(240, 139, 88, 0.18);
+    }
+
+    .oka-reading-card.is-success {
+      box-shadow: 0 0 0 4px rgba(143, 206, 157, 0.22), 0 22px 48px rgba(99, 181, 123, 0.14);
+    }
+
+    .oka-reading-card.is-warm {
+      box-shadow: 0 0 0 4px rgba(240, 139, 88, 0.16), 0 22px 48px rgba(240, 139, 88, 0.12);
+    }
+
+    @keyframes okaWordCelebrate {
+      0% { transform: scale(1) translateY(0); }
+      45% { transform: scale(1.12) translateY(-4px); }
+      100% { transform: scale(1.08) translateY(-2px); }
+    }
+
+    @keyframes okaWordNudge {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      50% { transform: translateX(6px); }
+      75% { transform: translateX(-4px); }
+      100% { transform: translateX(0); }
+    }
+
+    .oka-choice.is-primary {
+      background: linear-gradient(180deg, rgba(140, 111, 233, 0.18), rgba(112, 71, 213, 0.12)), rgba(255,255,255,0.82);
+      border: 2px solid rgba(112, 71, 213, 0.22);
+    }
+
+    .oka-reading-hint {
+      min-height: 28px;
+      font-size: 1rem;
+      line-height: 1.4;
+      color: var(--text-soft);
+    }
+
+    .oka-reading-hint strong {
+      color: var(--text);
+    }
+
     .oka-choice {
       border: 0;
       border-radius: 18px;
@@ -387,20 +483,29 @@
           <div class="oka-response-text">Hey Nora. Want to start with something fun?</div>
         </div>
         <div class="oka-turn-label">You said</div>
-        <div id="okaTranscript" class="oka-transcript">Tap the big button or press spacebar to talk. No typing. No reading tests.</div>
+        <div id="okaTranscript" class="oka-transcript">Tap the big button or press spacebar to talk.</div>
       </div>
 
       <div class="oka-mic-wrap">
         <button id="okaMic" class="oka-mic" type="button" aria-label="Start talking to Oka">Talk to Oka</button>
         <div id="okaStatus" class="oka-mic-sub">Tap once to start. Tap again to stop.</div>
 
+        <div id="okaReadingCard" class="oka-card oka-reading-card oka-hidden">
+          <div class="oka-reading-top">
+            <div class="oka-reading-tag">One word</div>
+            <div id="okaReadingBand" class="oka-reading-tag">3 letters</div>
+          </div>
+          <div id="okaFocusWord" class="oka-reading-word">cat</div>
+          <div id="okaHint" class="oka-reading-hint"></div>
+        </div>
+
         <div class="oka-card" style="width:100%;">
           <h2 id="okaPromptTitle">Start strong</h2>
-          <p id="okaPromptText">We will start with a confidence moment, do one small skill thing, then finish on something that feels good.</p>
+          <p id="okaPromptText">Start with something fun, or tap Try a word when you want one small reading step.</p>
         </div>
 
         <div class="oka-choices">
-          <button class="oka-choice" type="button" data-seed="Ask me a fun history question.">History question</button>
+          <button class="oka-choice is-primary" type="button" data-seed="Let us read a word.">Try a word</button>
           <button class="oka-choice" type="button" data-seed="Give me an oral math challenge.">Math challenge</button>
           <button class="oka-choice" type="button" data-seed="Tell me a dragon story starter.">Dragon story</button>
         </div>
@@ -443,6 +548,10 @@
         replay: document.getElementById('okaReplay'),
         breakBtn: document.getElementById('okaBreak'),
         reset: document.getElementById('okaReset'),
+        readingCard: document.getElementById('okaReadingCard'),
+        readingBand: document.getElementById('okaReadingBand'),
+        focusWord: document.getElementById('okaFocusWord'),
+        hint: document.getElementById('okaHint'),
         choices: Array.from(document.querySelectorAll('.oka-choice'))
       };
 
@@ -504,7 +613,26 @@
           history: [],
           lastAssistant: '',
           breaksTriggered: [],
-          phase: 'Start'
+          phase: 'Start',
+          mode: 'companion',
+          readingState: {
+            mode: 'companion',
+            current_band: '3_letter',
+            current_word: '',
+            stage: 'awaiting_attempt',
+            recent_results: [],
+            hint_count: 0,
+            response_times_ms: [],
+            trouble_patterns: {},
+            frustration_flag: false,
+            writing_enabled: false,
+            current_hint: '',
+            current_irregular: false,
+            streak: 0
+          },
+          currentFocusWord: '',
+          currentIrregular: false,
+          lastResult: null
         };
       }
 
@@ -519,6 +647,25 @@
         state.lastAssistant = '';
         state.breaksTriggered = [];
         state.phase = 'Start';
+        state.mode = 'companion';
+        state.currentFocusWord = '';
+        state.currentIrregular = false;
+        state.lastResult = null;
+        state.readingState = {
+          mode: 'companion',
+          current_band: '3_letter',
+          current_word: '',
+          stage: 'awaiting_attempt',
+          recent_results: [],
+          hint_count: 0,
+          response_times_ms: [],
+          trouble_patterns: {},
+          frustration_flag: false,
+          writing_enabled: false,
+          current_hint: '',
+          current_irregular: false,
+          streak: 0
+        };
         persist();
       }
 
@@ -599,7 +746,8 @@
             body: JSON.stringify({
               message: message,
               session_id: state.session_id,
-              history: state.history
+              history: state.history,
+              reading_state: state.readingState
             })
           });
           const data = await response.json();
@@ -613,6 +761,11 @@
 
           state.phase = data.phase || inferPhase();
           state.lastAssistant = data.response || '';
+          state.mode = data.mode || 'companion';
+          state.readingState = data.reading_state || state.readingState;
+          state.currentFocusWord = data.focus_word || '';
+          state.currentIrregular = Boolean(data.irregular);
+          state.lastResult = data.result || null;
           persist();
           syncUi();
           setAssistant(data.response || 'I am here.');
@@ -644,6 +797,7 @@
         rendered = rendered.replace(/\b([a-zA-Z](?:-[a-zA-Z]){2,})\b/g, '<span style="color:#8b0000;font-weight:bold">$1</span>');
         refs.response.innerHTML = '<div class="oka-response-text">' + rendered + '</div>';
         refs.status.textContent = 'Your turn.';
+        renderReadingCard();
         speakText(plain);
       }
 
@@ -728,12 +882,65 @@
 
       function syncUi() {
         refs.phase.textContent = state.phase || inferPhase();
-        refs.promptTitle.textContent = state.phase === 'Skill' ? 'One small skill step' : 'Start strong';
+        if (state.mode === 'reading') {
+          refs.promptTitle.textContent = 'One word at a time';
+          refs.promptText.textContent = 'Try first. If it gets hard, Oka gives one clue and then backs off fast.';
+        } else {
+          refs.promptTitle.textContent = state.phase === 'Skill' ? 'One small skill step' : 'Start strong';
         refs.promptText.textContent =
-          state.phase === 'Skill'
-            ? 'Short skill work. If it gets annoying, Oka will give a clue or switch.'
-            : 'Start with confidence. Then one small challenge. Then end feeling good.';
+            state.phase === 'Skill'
+              ? 'Short skill work. If it gets annoying, Oka will give a clue or switch.'
+              : 'Start with something fun, or tap Try a word when you want one small reading step.';
+        }
         updateTimerUi(Date.now() - state.started_at);
+        renderReadingCard();
+      }
+
+      function renderReadingCard() {
+        if (!state.currentFocusWord) {
+          refs.readingCard.classList.add('oka-hidden');
+          refs.hint.textContent = '';
+          refs.readingCard.classList.remove('is-success', 'is-warm');
+          refs.focusWord.classList.remove('is-match', 'is-try-again');
+          return;
+        }
+        refs.readingCard.classList.remove('oka-hidden');
+        refs.focusWord.textContent = state.currentFocusWord;
+        refs.focusWord.classList.toggle('is-red', Boolean(state.currentIrregular));
+        refs.readingBand.textContent = formatBand(state.readingState && state.readingState.current_band);
+        const hintText = state.readingState && state.readingState.current_hint ? stripCitations(state.readingState.current_hint).replace(/\*\*/g, '') : '';
+        refs.hint.textContent = hintText || '';
+        if (state.lastResult === 'correct_first_try' || state.lastResult === 'correct_after_hint') {
+          refs.readingCard.classList.remove('is-warm');
+          refs.readingCard.classList.add('is-success');
+          refs.focusWord.classList.remove('is-try-again');
+          refs.focusWord.classList.add('is-match');
+          setTimeout(function () {
+            refs.focusWord.classList.remove('is-match');
+            refs.readingCard.classList.remove('is-success');
+          }, 700);
+        } else if (state.lastResult === 'hint_used' || state.lastResult === 'incorrect_after_hint' || state.lastResult === 'reset_easier') {
+          refs.readingCard.classList.remove('is-success');
+          refs.readingCard.classList.add('is-warm');
+          refs.focusWord.classList.remove('is-match');
+          refs.focusWord.classList.add('is-try-again');
+          setTimeout(function () {
+            refs.focusWord.classList.remove('is-try-again');
+            refs.readingCard.classList.remove('is-warm');
+          }, 650);
+        } else {
+          refs.focusWord.classList.remove('is-match');
+          refs.focusWord.classList.remove('is-try-again');
+          refs.readingCard.classList.remove('is-success', 'is-warm');
+        }
+      }
+
+      function formatBand(band) {
+        if (band === '3_letter') return '3 letters';
+        if (band === '4_letter') return '4 letters';
+        if (band === '5_letter') return '5 letters';
+        if (band === 'red_word') return 'Red word';
+        return 'Reading';
       }
     })();
   </script>

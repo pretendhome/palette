@@ -1,0 +1,544 @@
+lens_id: LENS-PERSON-001
+name: "Mical Neill"
+version: "0.1"
+status: working
+created: 2026-04-03
+updated: 2026-04-03
+schema: PERSON_LENS_SCHEMA_v0.1
+
+# ============================================================================
+# IDENTITY
+# ============================================================================
+
+identity:
+  essence: |
+    Someone who creates environments where people succeed — using knowledge
+    architecture as his primary tool and comparative linguistics as his foundation.
+  roles:
+    - "Enterprise AI Enablement & Technical Program Lead (AWS, departing April 28, 2026)"
+    - "JSC 5739 Moderator (Never Search Alone)"
+    - "Builder: Palette Intelligence System"
+    - "Father, partner, multilingual expatriate"
+  location: "San Francisco, CA (open to Paris, Milan, Cagliari)"
+  languages:
+    - language: English
+      proficiency: native
+    - language: French
+      proficiency: fluent
+      context: "8 years in Paris — teaching, academia, daily life"
+    - language: Italian
+      proficiency: fluent
+      context: "7 years in Milan + Cagliari — family language, professional"
+    - language: Spanish
+      proficiency: proficient
+      context: "BA in Comparative Literature & Spanish"
+
+# ============================================================================
+# ORIGIN
+# ============================================================================
+
+origin:
+  education_arc: |
+    BA Comparative Literature & Spanish (SF State, 2005) → MA Romance Languages &
+    Linguistics (Paris-Sorbonne, 2009) → Data Analytics Certificate (UC Berkeley, 2019).
+
+    The education arc is not a pivot from humanities to tech. It is a single line:
+    how meaning maps across systems. Comparative linguistics trained him to see that
+    ontology design is a cultural problem — Italian commercial categories don't map 1:1
+    to American ones, French business naming conventions differ from German ones. This
+    became knowledge engineering at Amazon, which became AI architecture. The discipline
+    never changed. The medium did.
+
+  formative_experiences:
+    - what: "Working full-time from age 13 in restaurants while attending school"
+      when: "1993-2001"
+      why_it_matters: |
+        Built a milkshake system at 16 that was faster and better. Got in trouble for
+        doing it differently. Made manager multiple times, never lasted — the organization
+        didn't feel comfortable with him representing them. This is the first appearance
+        of the innovation-resistance pattern that would repeat for 30 years.
+
+    - what: "Teaching publishing students at Ecole des Metiers du Livre (Paris)"
+      when: "2007-2009"
+      why_it_matters: |
+        Peak professional moment. Designed a simulated publishing process where students
+        learned English, UK publishing standards, query letter writing, editorial process,
+        and interview skills — without knowing they were studying any of those things.
+        Students reached out for years afterward. He would have taken the Agregation
+        (one of France's hardest exams) to stay permanently. Paid $2,000/month. Didn't
+        care. Left only because his wife got pregnant. This is the benchmark for "right fit."
+
+    - what: "Teaching Carabinieri (Italian federal police) English in Sardinia"
+      when: "2012-2013"
+      why_it_matters: |
+        Officers needed English for international assignments. Their textbook treated
+        them like first graders. He threw it out, started with The Economist articles
+        they chose, fought through comprehension, then discussed freely. Grammar taught
+        inside context, never isolated. All passed certification without opening textbooks.
+        Proof that contextual immersion works across populations.
+
+    - what: "Amazon Italy Kaizen lead — Think Big competition win"
+      when: "2013-2015"
+      why_it_matters: |
+        Asked every employee in a Southern Italy customer service center for improvement
+        ideas. First time these employees had been asked. One L2 employee's idea won the
+        company-wide Think Big competition — first time ever for that level. Proof that
+        creating the environment for innovation matters more than being the innovator.
+
+    - what: "Alexa Automotive POI data mapping across 47 providers"
+      when: "2019-2023"
+      why_it_matters: |
+        Engineers were building sophisticated vector databases to fix what was fundamentally
+        a cultural mapping problem. He fixed the mapping itself — the structural understanding
+        of how different countries categorize automotive services — and produced one of the
+        biggest improvements the system had ever seen. Proof that structural insight
+        outperforms engineering sophistication when the problem is categorical, not computational.
+
+    - what: "Building Palette independently (2025-2026)"
+      when: "2025-present"
+      why_it_matters: |
+        Built a 117-node taxonomy, 167-entry knowledge library, 1,876-quad relationship
+        graph, and 12-agent orchestration system with no organizational scaffolding.
+        Proof of full end-to-end execution. Also the purest expression of his iterative
+        discovery process — no one interrupted the iterations.
+
+  career_throughline: |
+    The thread is: I see structural problems that others can't see because they require
+    understanding how meaning works across systems. I fix the structure. The people using
+    the system get what they actually need.
+
+    This has been true since he was 16 making milkshakes, through teaching English in
+    Paris and Sardinia, through mapping automotive knowledge across 47 data providers,
+    through reclassifying a taxonomy from industry-based to function-based, through
+    building Palette. The domain changes. The discipline doesn't.
+
+# ============================================================================
+# CAPABILITIES
+# ============================================================================
+
+capabilities:
+  clusters:
+    - name: "Knowledge Architecture"
+      strength: defining
+      evidence:
+        - "117-node problem taxonomy with prerequisite DAG, service routing, and difficulty ratings (Palette)"
+        - "167-entry sourced knowledge library with 3-tier evidence bar (Palette)"
+        - "25-billion-node POI knowledge graph across 47 providers and 13 locales (Alexa)"
+        - "Taxonomy reclassification from industry-based to function-based (Ask Pathfinder)"
+        - "Entity resolution and data fusion pipelines (Alexa Automotive)"
+      market_value: "Growing demand — every company shipping LLM products discovers knowledge architecture is the bottleneck. Rare skill at the intersection of linguistics and engineering."
+
+    - name: "Learning Environment Design"
+      strength: exceptional
+      evidence:
+        - "Publishing simulation where students learned English + industry standards without knowing it (Ecole Metiers du Livre)"
+        - "Carabinieri reading The Economist in one month, never opened textbooks"
+        - "Business students at Sciences Po designing career plans as English exercises"
+        - "250+ enablement sessions reaching 20,000+ users at AWS"
+        - "Ask Pathfinder serving 12,000 sellers — learning embedded in retrieval"
+        - "Nora learning bot — voice-first adaptive learning for dyslexic child"
+      market_value: "Underpriced. Education roles don't pay well. But this capability is the differentiator that makes his knowledge architecture work — he designs for the user's success, not the system's elegance."
+
+    - name: "AI Evaluation & Retrieval Systems"
+      strength: strong
+      evidence:
+        - "Hallucination detection via structured attribution (Amazon AGI)"
+        - "Confidence scoring and failure-mode classification (AGI)"
+        - "Taxonomy-driven retrieval with metadata layer (Ask Pathfinder, 12K users)"
+        - "Job-fit scorer with 8 research-grounded dimensions (Palette /fit skill)"
+        - "14 automated integrity validators across Palette"
+      market_value: "High demand. Companies shipping RAG products need evaluation expertise. His approach (separate retrieval quality from answer quality from workflow quality) is more rigorous than most."
+
+    - name: "Cross-Cultural Systems Design"
+      strength: exceptional
+      evidence:
+        - "Automotive data mappings across cultures that engineers couldn't fix (Alexa)"
+        - "Multilingual knowledge systems across 13 locales (Alexa)"
+        - "4-language teaching career across 3 countries"
+        - "Italian Bridge concept for bilingual learning (Nora bot)"
+        - "Family operates daily in EN/FR/IT"
+      market_value: "Rare and underutilized. Most AI companies don't think about cross-cultural knowledge architecture until they expand internationally. Then they desperately need it."
+
+    - name: "Enterprise Enablement & GTM"
+      strength: strong
+      evidence:
+        - "Ask Pathfinder: 12,000+ sellers monthly, 25% prep reduction, 67% play coverage increase"
+        - "Data Leadership Forum: 291 senior leaders, 98 CxOs"
+        - "Frontier AI partner relationships: Mistral, xAI, Stability, Luma, TwelveLabs"
+        - "5x YoY partner revenue growth"
+      market_value: "Saturated market — many ex-AWS/Google/Microsoft people have similar stories. His enablement narrative alone doesn't differentiate. Combined with knowledge architecture, it does."
+
+  tools_and_tech:
+    - "Python (primary language — dataclasses, argparse, pathlib, regex, YAML)"
+    - "Claude API, Claude Code, Claude.ai (daily usage)"
+    - "YAML-based knowledge representation and configuration"
+    - "SQL (data analytics, querying)"
+    - "Git/GitHub (monorepo management, subtree workflow)"
+    - "python-docx (resume generation pipeline)"
+    - "Whisper (local STT), Rime (TTS), voice interfaces"
+
+  what_they_cannot_do:
+    - "Production JavaScript/TypeScript — no demonstrated experience"
+    - "ML model training or fine-tuning — not a data scientist"
+    - "Pre-sales or customer-facing sales — no experience, not interested"
+    - "Traditional people management — innovator pattern conflicts with management expectations"
+    - "Working within rigid, pre-defined curricula — his teaching was always custom"
+    - "Waterfall planning — his process is iterative discovery, not plan-then-execute"
+
+# ============================================================================
+# WORKING STYLE
+# ============================================================================
+
+working_style:
+  process: |
+    Fast iterative discovery. He starts acting immediately — not because he's rushing,
+    but because iteration is how he understands. He does not plan-then-execute; he
+    iterates to discover the right solution.
+
+    From the outside, this looks chaotic. It is not. It is disciplined exploration
+    with a convergence trajectory. Each iteration produces observable learning that
+    feeds the next. But it requires trust from the environment — when organizations
+    cut the iteration short because it "looks like moving too fast without a plan,"
+    the process fails.
+
+    Palette is the purest expression of this process: no spec, no product roadmap,
+    no business plan. He iterated across real problems (interviews, travel, education,
+    retail) and the system emerged. 117 taxonomy nodes, 167 knowledge entries, 12
+    agents — all from iterative discovery, not top-down architecture.
+
+  pace: |
+    Fast to start, patient to finish. Begins immediately, iterates rapidly, but does
+    not declare the answer until the iterations converge. Others perceive "fast" at
+    the start and "slow" near the end. In reality, the pace is consistent — the early
+    iterations just look more productive because they produce visible artifacts, while
+    the later ones produce understanding.
+
+  communication: |
+    Oral > written for exploration. Written > oral for delivery. He thinks out loud —
+    voice transcription of his self-discovery work is more honest and detailed than
+    anything he'd type. But his final artifacts (resumes, interview prep, system docs)
+    are structured, precise, and evidence-based.
+
+    Can explain complex systems to non-technical audiences (Sciences Po students,
+    business executives, Carabinieri). This is not simplification — it is structural
+    translation. He finds the equivalent construct in the listener's domain and maps
+    through it.
+
+  decision_making: |
+    Iterative convergence. Does not commit early. Explores options through small
+    experiments, gathers evidence, narrows. The decision emerges from the data, not
+    from analysis paralysis or premature commitment. This is effective but confusing
+    to stakeholders who expect a decision framework up front.
+
+  collaboration_mode: |
+    Best as the person who designs the structure that others execute within. Not a
+    solo contributor (needs users to validate), not a traditional manager (innovator
+    pattern creates friction with reports), not a pure consultant (needs to build, not
+    just advise). The sweet spot is: architect of the environment, with a small team
+    that trusts the iterative process.
+
+  when_they_are_at_their_best: |
+    When he can see the structural problem nobody else sees, fix it, and watch people
+    succeed because of it. The publishing simulation. The POI mapping fix. The taxonomy
+    reclassification. The Kaizen program. Every peak moment follows this pattern:
+    structural insight → structural fix → human success.
+
+    Also: when nobody is interrupting the iteration cycle. Palette was built during
+    the freest period of his career — and it shows.
+
+  when_they_struggle: |
+    When the environment punishes innovation or requires consensus before action.
+    When politics becomes self-justifying. When he has to give away credit to get
+    ideas implemented. When the iteration cycle is cut short by stakeholders who
+    need a finished plan before they'll trust the process.
+
+    Also: when the role is primarily about maintaining existing systems rather than
+    building new ones. He is a builder, not a maintainer.
+
+# ============================================================================
+# VALUES
+# ============================================================================
+
+values:
+  motivated_by:
+    - "Seeing people succeed because of something he built or designed"
+    - "Solving structural problems that others can't see"
+    - "Teaching — but only the kind where people learn by doing, not by being lectured"
+    - "Building systems that compound — each use makes the system smarter"
+    - "Working with people who trust his process even when it looks chaotic"
+
+  not_motivated_by:
+    - "Money beyond sufficiency — would have taken the Agregation for $2,000/month"
+    - "Status or title — gave away credit throughout career to get ideas implemented"
+    - "Fancy vacations, new cars, material lifestyle"
+    - "Career progression for its own sake"
+    - "Being right — would rather iterate to the right answer than defend a premature one"
+
+  non_negotiables:
+    - "Family stability: $105K minimum in Bay Area, lower in EU with tax benefits"
+    - "Visible impact: must be able to see that his work helps real people"
+    - "Innovation-friendly environment: cannot survive in consensus-first cultures"
+    - "Intellectual honesty: evidence-based only, no speculative claims"
+
+  peak_moment:
+    what: "Teaching publishing students at Ecole des Metiers du Livre, Paris (2007-2009)"
+    why: "Students learned English, UK publishing standards, editorial process, and interview skills through a simulated publishing workflow — without knowing they were studying any of those things. They reached out for years afterward."
+    what_it_reveals: |
+      He does not want to teach. He wants to design environments where learning is
+      invisible and success is inevitable. The system does the teaching. He designs
+      the system. That is the difference between an educator and a learning architect.
+
+# ============================================================================
+# PATTERNS
+# ============================================================================
+
+patterns:
+  strengths:
+    - pattern: "Sees structural problems invisible to domain specialists"
+      evidence:
+        - "POI mappings: engineers building vector DBs when the mapping was wrong (Alexa)"
+        - "Taxonomy: industry-based classification when users searched by function (Pathfinder)"
+        - "Publishing students: grammar textbooks when they needed publishing context (Paris)"
+        - "Carabinieri: children's textbook when they needed The Economist (Sardinia)"
+      why_it_works: "Comparative linguistics training — he sees how meaning is structured across systems. Engineers see the data. He sees the categories."
+
+    - pattern: "Designs learning into systems without users noticing"
+      evidence:
+        - "Publishing simulation (Paris)"
+        - "Career planning as English exercise (Sciences Po)"
+        - "Ask Pathfinder — sellers learning through retrieval"
+        - "Palette — each implementation feeds knowledge back into the system"
+      why_it_works: "He designs for the user's outcome, not the system's curriculum. The learning is a side effect of doing the real work."
+
+    - pattern: "Empowers others to discover their own solutions"
+      evidence:
+        - "Kaizen: L2 employee won Think Big (Amazon Italy)"
+        - "Students: judged each other's query letters, corrected each other's grammar (Paris)"
+        - "Carabinieri: chose their own articles, fought through comprehension together"
+        - "JSC 5739: moderating, not coaching"
+      why_it_works: "He creates the conditions for discovery rather than delivering the answer. People learn more from their own discovery than from his instruction."
+
+    - pattern: "Iterates to discovery instead of planning to execution"
+      evidence:
+        - "Palette: no spec, no roadmap, emerged through real-world iterations"
+        - "14 job applications: each iteration refined his understanding of his own CMF"
+        - "Resume building: 11 iterations on LangChain resume before final"
+        - "Milkshake system at age 16"
+      why_it_works: "When the problem space is ambiguous, iteration produces better solutions than planning. The right answer reveals itself through contact with reality."
+
+  blind_spots:
+    - pattern: "Gives away credit to bypass political resistance"
+      evidence:
+        - "Amazon: attributed ideas to principal engineers to get them implemented"
+        - "Universities: innovative curriculum couldn't be replicated, perceived as cheating"
+        - "Restaurants: made manager but never lasted because approach was too different"
+      cost: "Career stagnation despite high impact. Others got promoted for his ideas. He's known internally as effective but not externally as a leader."
+      awareness: actively_managing
+
+    - pattern: "Iterative process is confusing to collaborators"
+      evidence:
+        - "Perceived as 'moving too fast' when actually iterating through discovery"
+        - "13 lost job applications partly because positioning changed with each iteration"
+        - "Organizations cut his process short because it looked planless"
+      cost: "Trust erosion with stakeholders who need to see a plan. Job search scattered across 6 different positioning frames."
+      awareness: aware
+
+    - pattern: "Too open on role type and positioning"
+      evidence:
+        - "14 applications across 6 different frames (enablement, SA, education, KDE, NLP, principal)"
+        - "Self-described: 'I've done so many things that too open has actively hurt my positioning'"
+        - "No coherent CMF until the April 3 synthesis"
+      cost: "Market can't categorize him. High fit scores (78-92%) with near-zero conversion."
+      awareness: actively_managing
+
+    - pattern: "Resistance to politics sometimes manifests as withdrawal rather than engagement"
+      evidence:
+        - "Left teaching rather than navigating academic politics (though pregnancy was primary reason)"
+        - "Gave away credit rather than fighting for recognition at Amazon"
+        - "Multiple manager roles that ended because the organization was uncomfortable"
+      cost: "Avoids environments where political skill would actually unlock impact. Self-selects out of leadership roles that might fit."
+      awareness: aware
+
+# ============================================================================
+# ENVIRONMENT FIT
+# ============================================================================
+
+environment_fit:
+  thrives_in:
+    - environment: "Small teams (3-10) building something new"
+      why: "Can iterate freely, impact is visible, political overhead is low"
+      evidence: "Palette (solo), publishing simulation (1 teacher, 20 students), Kaizen program (1 lead, team of volunteers)"
+
+    - environment: "Founder-led organizations that value unconventional approaches"
+      why: "Founders understand iterative discovery because they've done it themselves"
+      evidence: "Best traction in job search was with small companies (iBusiness, BhoTech outreach) not enterprises (Gap, Lenovo, TaskRabbit)"
+
+    - environment: "Roles where teaching is embedded in the work, not separated from it"
+      why: "His best systems teach users through the system itself, not through a separate training layer"
+      evidence: "Ecole Metiers du Livre, Ask Pathfinder, Palette enablement layer"
+
+    - environment: "Cross-cultural or multilingual contexts"
+      why: "His linguistic background becomes a superpower when systems need to work across cultures"
+      evidence: "Alexa 13-locale system, 4-language teaching career, family operates in EN/FR/IT daily"
+
+  struggles_in:
+    - environment: "Large enterprises with consensus culture"
+      why: "Innovation requires permission. Ideas must be attributed to senior people to survive."
+      evidence: "12 years at Amazon — high impact, limited recognition. Gap interview (88% fit, no offer)."
+
+    - environment: "Pre-sales or customer-facing sales roles"
+      why: "No experience, no interest. The 'sell' framing conflicts with his 'help people succeed' motivation."
+      evidence: "Anthropic SA scored poorly on customer-facing dimensions. Perplexity CSM was a stretch."
+
+    - environment: "Roles requiring a finished plan before action"
+      why: "His process is iterate-to-discover. Environments that require plan-then-execute kill his best work."
+      evidence: "Every organizational friction point traces back to this mismatch."
+
+    - environment: "Pure maintenance or operations roles"
+      why: "He is a builder. Running what already exists doesn't engage his structural insight."
+      evidence: "Career arc is always toward building new systems, not optimizing existing ones."
+
+  ideal_team_size: "3-10 people who trust iterative discovery"
+  ideal_org_stage: "Series A through C, or independent/consulting"
+  geographic_flexibility: "High — EU/US dual citizenship, family in SF + Paris + Sardinia, 4 working languages"
+
+# ============================================================================
+# CONTRADICTIONS
+# ============================================================================
+
+contradictions:
+  - tension: "Moves fast but doesn't want to know the answer too early"
+    resolution: |
+      He moves fast through iterations, not toward a predetermined conclusion.
+      Speed and patience coexist because the speed is in exploration and the
+      patience is in convergence. Outsiders see the speed and assume he's rushing.
+      He's not — he's sampling the solution space rapidly so the right answer
+      can emerge.
+    implication: |
+      Don't ask him for a plan on day 1. Ask him for a plan after 2 weeks of
+      iteration. The plan will be better and he'll actually believe in it.
+
+  - tension: "Genuinely innovative but systematically gives away credit"
+    resolution: |
+      He learned that innovation dies in political environments unless someone
+      with authority champions it. Giving away credit is not low self-esteem —
+      it's a survival strategy developed over 30 years of being told he's
+      "moving too fast" or "doing it wrong." The ideas matter more to him
+      than the attribution.
+    implication: |
+      In the right environment (small team, founder-led), he doesn't need to
+      give away credit. He can own his work. But he'll default to the old
+      pattern unless the environment explicitly signals that innovation is safe.
+
+  - tension: "Would take $2,000/month to teach but asks for $130K in tech"
+    resolution: |
+      Money is not the motivator. Family stability is the constraint. If his
+      family were financially secure, he'd design learning environments for
+      a fraction of a tech salary. The $130K is what it costs to live in SF
+      with 3 kids. The $2,000 is what the work is worth to him emotionally.
+    implication: |
+      EU relocation changes the math entirely. A EUR 60K role in Paris or
+      Milan that lets him design learning systems would make him happier
+      than a $200K enablement role at a big tech company.
+
+  - tension: "12 years at Amazon but doesn't fit enterprise culture"
+    resolution: |
+      He survived Amazon by finding pockets where structural innovation was
+      needed (Alexa knowledge graph, AGI evaluation, Pathfinder taxonomy
+      redesign) and by giving credit to senior engineers to get ideas through.
+      He was successful at Amazon despite the culture, not because of it.
+      The 12 years prove resilience and adaptability, not alignment.
+    implication: |
+      Don't assume he's an "enterprise person" because of tenure. He's a
+      builder who happened to find enough building opportunities inside an
+      enterprise to stay. Given a choice, he'd choose a 10-person team
+      building something new over a 10,000-person org maintaining what exists.
+
+# ============================================================================
+# GROWTH EDGES
+# ============================================================================
+
+growth_edges:
+  - edge: "Owning his narrative instead of fragmenting it"
+    direction: "From 6 different positioning frames toward one CMF: AI Knowledge & Learning Architect"
+    evidence: "14 scattered applications → Mnookin Two-Pager → CMF synthesis (April 3, 2026). First time the throughline was named explicitly."
+
+  - edge: "Trusting that the right environment exists"
+    direction: "From 'I have to work around the politics' toward 'I can find a place where innovation is the default'"
+    evidence: "Joined NSA as moderator. Doing self-discovery work for the first time. Asking 'what do I actually want?' instead of 'what's available?'"
+
+  - edge: "Building Palette from personal tool toward potential methodology"
+    direction: "From 'this is my personal intelligence system' toward 'this workspace model could serve clients'"
+    evidence: "North Star Architecture doc. Workspace deployment model designed. Zero revenue but architecture is transferable."
+
+  - edge: "Teaching Nora — the most important application of everything he's built"
+    direction: "From 'AI as a professional tool' toward 'AI as a bridge for a child who learns differently'"
+    evidence: "Voice-first learning bot, cognitive profile, A→B→A protocols, Italian Bridge — all designed for an 8-year-old with a 98-point gap between cognitive ability and word reading."
+
+# ============================================================================
+# HOW TO WORK WITH THIS PERSON
+# ============================================================================
+
+how_to_work_with:
+  do:
+    - "Trust his iterative process — it looks chaotic but converges"
+    - "Give him real problems with real users, not hypothetical exercises"
+    - "Show him the structural problem and let him find his own solution"
+    - "Ask for his reasoning after iteration, not before"
+    - "Value evidence and honesty — he responds to 'here's the data' not 'here's the vision'"
+    - "Let him teach through the work, not about the work"
+    - "Be direct — he prefers honest assessment over polished feedback"
+
+  do_not:
+    - "Ask for a finished plan before he's had time to iterate"
+    - "Cut his process short because it looks unstructured from the outside"
+    - "Give him credit for what he didn't do — he values accuracy over flattery"
+    - "Put him in politically charged environments without explicit cover"
+    - "Assign maintenance work — he's a builder, not an operator"
+    - "Expect him to sell — his motivation is helping people succeed, not closing deals"
+    - "Use API credits when he has a subscription (this has been a repeated issue)"
+
+  communication_preferences:
+    - "Voice for exploration, written for delivery"
+    - "Short and direct — no preamble, no filler"
+    - "Evidence-based — every claim should trace to something observable"
+    - "Comparative linguistics, NOT computational — this matters to him"
+
+  trust_builders:
+    - "Honest assessment, even when it's uncomfortable (the 99/100 with explicit -1 standard)"
+    - "Catching errors before he does — integrity checking earns trust fast"
+    - "Following through on commitments without needing to be reminded"
+    - "Understanding the WHY behind what he's building, not just the WHAT"
+    - "Respecting his family priorities — Nora's learning bot is the most important project"
+
+  trust_breakers:
+    - "Fabricating claims or evidence (stopped a resume submission once for this)"
+    - "Using API credits when subscription is available"
+    - "Producing polished work that doesn't survive scrutiny"
+    - "Adding complexity that doesn't serve the user"
+    - "Political maneuvering or credit-taking"
+
+# ============================================================================
+# EVIDENCE
+# ============================================================================
+
+evidence:
+  sources:
+    - "14 job application artifacts with resumes, prep materials, and outcomes (2026)"
+    - "Mnookin Two-Pager self-discovery exercise (voice-transcribed, 2026-04-03)"
+    - "Letter to Next Context (Claude Code self-assessment of working relationship)"
+    - "NSA Moderator lens and program documents (2026-04-02)"
+    - "CMF Synthesis combining pattern analysis with self-discovery (2026-04-03)"
+    - "Interview cheatsheets and memorization scripts across 5+ roles"
+    - "Palette system artifacts (taxonomy, knowledge library, agents, skills)"
+    - "12 years of Amazon career history across 4 distinct eras"
+    - "Family financial analysis and relocation planning documents"
+    - "Multiple conversation sessions spanning months of collaboration"
+  confidence: high
+  last_validated: 2026-04-03
+  blind_spots_in_this_lens:
+    - "Based heavily on self-reported data — no peer/manager 360 feedback included"
+    - "Listening tour (0/15 conversations) has not yet provided external market signal"
+    - "Political pattern described from his perspective only — others may see it differently"
+    - "Financial analysis may be outdated (based on March 2026 snapshot)"
+    - "No data on how he performs in the environments this lens says he'd thrive in (small startups, consulting) — all evidence is from enterprise contexts"

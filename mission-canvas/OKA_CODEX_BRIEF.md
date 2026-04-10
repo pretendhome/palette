@@ -1,98 +1,238 @@
 # Oka Build Brief — For Codex
 
 ## What This Is
-You and Claude are both building independent implementations of Oka — a voice-first learning companion for an 8-year-old girl named Nora who has dyslexia. This is a competing-specs convergence exercise. Build your best version. We'll merge the best of both.
+This brief is for improving Oka as a voice-first dyslexia learning tool for Nora. The goal is no longer just "build a warm companion." The goal is to build a system that adapts to her level in real time, protects confidence, and improves reading through low-pressure, intelligent support.
 
-## Context Files (read these)
-- **Convergence brief**: `/home/mical/fde/implementations/education/adaptive-learning-architecture/nora/NORA_OKA_CONVERGENCE_BRIEF.md` — Full design doc. Everything about who Oka is, who Nora is, how sessions work, emotional guardrails, voice guidelines, success criteria.
-- **Intake answers**: `/home/mical/fde/implementations/education/adaptive-learning-architecture/nora/NORA_INTAKE_ANSWERS.md` — Nora's actual words from her 40-question intake interview.
-- **System prompt**: `/home/mical/fde/palette/mission-canvas/oka_system_prompt.md` — Claude's version of the LLM system prompt. Build your own if you prefer.
-- **Exercise protocols**: `/home/mical/fde/implementations/education/adaptive-learning-architecture/aron/ARON_EXERCISE_PROTOCOLS.md` — A→B→A session structure and exercise library.
-- **Learning lens**: `/home/mical/fde/implementations/education/adaptive-learning-architecture/nora/NORA_LEARNING_LENS.md` — Full cognitive/academic profile.
+This is not a generic literacy app.
+
+This should feel:
+- personalized
+- emotionally safe
+- precise in how it helps
+- adaptive without making adaptation visible
+- strong enough for a parent to trust and a builder to implement
+
+## Read Order
+Read these before making changes:
+
+1. `/home/mical/fde/implementations/education/adaptive-learning-architecture/nora/NORA_INTAKE_ANSWERS.md`
+2. `/home/mical/fde/implementations/education/adaptive-learning-architecture/nora/NORA_OKA_CONVERGENCE_BRIEF.md`
+3. `/home/mical/fde/palette/mission-canvas/OKA_TULLIA_LENS_DESIGN_SPEC.md`
+4. `/home/mical/fde/palette/mission-canvas/oka_system_prompt_active.md`
+5. `/home/mical/fde/palette/mission-canvas/oka.html`
+6. `/home/mical/fde/palette/mission-canvas/server.mjs`
 
 ## What Already Exists
-- `oka.env` — OpenAI API key and model (GPT-5.4). Already in `.gitignore`.
-- `oka_system_prompt.md` — Claude's system prompt draft.
-- `server.mjs` — Node HTTP server with existing route patterns.
+- `oka.html` — current `/oka` frontend
+- `oka_system_prompt_active.md` — active runtime prompt
+- `oka_system_prompt.md` — earlier prompt draft
+- `oka_system_prompt_codex.md` — Codex-facing prompt variant
+- `server.mjs` — serves `/oka` and `/v1/missioncanvas/oka-chat`
+- `oka.env` — API keys and model config
+
+## Product Shift
+
+The previous Oka framing emphasized:
+- companionship
+- story-based reading moments
+- oral skill support
+
+The new requirement adds a much more explicit learning loop:
+- one word at a time
+- child tries first
+- exact sound-level hinting
+- second chance
+- calm answer only if still stuck
+- dynamic difficulty adaptation based on actual performance
+
+This means Oka now needs to behave like:
+
+`emotionally safe voice companion + adaptive single-word reading engine`
+
+Not:
+
+`open-ended chat bot that occasionally does literacy exercises`
+
+## Core Interaction Model
+
+### 1. Word-First Reading Flow
+
+The reading engine should present:
+- exactly one focus word at a time
+- large, visually clear
+- highlighted in purple by default
+- red if it is an irregular / "red word"
+
+Rules:
+- Oka does not read the word first
+- Nora attempts the word independently
+- the screen should feel calm, uncluttered, and focused
+
+### 2. Adaptive Support Ladder
+
+If Nora struggles:
+
+1. Give one precise hint
+2. Let her try again
+3. If still stuck, give the word calmly
+
+The hint must target the hardest sound or letter only.
+
+Do not:
+- explain three things at once
+- turn the hint into a mini-lesson
+- jump straight to the answer
+- stack failures
+
+### 3. Difficulty Adaptation
+
+Track and adjust in real time:
+- word length success rate
+- response time
+- hint usage
+- recurring sound/letter trouble
+
+If too easy:
+- slightly increase complexity
+- reduce support
+- allow more independent wait time
+
+If too hard:
+- simplify immediately
+- offer easier success
+- fall back to a previous level
+
+### 4. Reading Before Writing
+
+Reading is primary.
+
+Writing is optional and occasional:
+- keyboard only
+- very short words
+- must match current reading level
+
+If reading is at 4-letter words, writing should also be 4-letter words.
+
+### 5. Voice + Visual Coupling
+
+When Nora says a word:
+- the same word appears clearly on screen
+- the word can animate slightly
+- the visual should reinforce spoken-to-printed mapping
+
+### 6. Confidence Protection
+
+The system must:
+- avoid pressure
+- reduce difficulty after repeated struggle
+- create quick recovery wins
+- end loops on success more often than on failure
 
 ## What to Build
 
-### 1. `oka.html` — Voice-First Frontend
-A single-page web interface served at `/oka`. Everything voice-first.
+### 1. `oka.html` — Adaptive Reading Frontend
 
-**Must have:**
-- Dog avatar (Oka is a dog — Nora's choice)
-- Big mic button — tap to start talking, tap to stop (NOT continuous mode — that caused duplication bugs in the intake bot)
-- TTS output — Oka speaks everything. Text shown alongside as complement.
-- No reading required to navigate. No typing required.
-- Warm, kid-friendly visual design (not clinical, not gamified-cheesy)
-- Water break reminders every ~10 minutes ("Want a water break? Your brain's been working hard.")
-- Session timer
-- Visual progress (not text-based)
-- Strip any bracketed citations from TTS: `text.replace(/\[\d+(?:\]\[?\d*)*\]/g, '')`
-- localStorage for session state persistence
+The frontend should support two layers:
 
-**Design constraints:**
-- No small text. No dense layouts.
-- Large, simple controls — an 8-year-old uses this.
-- Warm color palette.
-- Dog avatar should feel friendly and loyal.
+**Layer A: Companion shell**
+- dog avatar
+- big mic button
+- TTS playback
+- large transcript / response area
+- session timer
+- water-break reminders
+- visual calm and low clutter
 
-### 2. Server Routes (add to `server.mjs`)
+**Layer B: Reading engine UI**
+- one large focus word
+- purple default highlight
+- red-word mode for irregular words
+- subtle motion when spoken word is recognized
+- one hint region only
+- no multi-step instruction clutter
+- success / reset flow that feels gentle, not gamey
 
-**Route: `/oka`** — Serves oka.html (same pattern as `/nora-intake`)
+The interface must not require reading to navigate, but it can still show one large focus word for reading work.
 
-**Endpoint: `POST /v1/missioncanvas/oka-chat`**
-```json
-// Request
-{
-  "message": "what's 17 plus 8?",
-  "session_id": "uuid",
-  "history": [
-    { "role": "assistant", "content": "Hey! Want to try something fun?" },
-    { "role": "user", "content": "yeah!" }
-  ]
-}
+### 2. `server.mjs` — Adaptive Session Logic
 
-// Response
-{
-  "response": "Nice! 25. You didn't even hesitate. Want a trickier one?",
-  "session_id": "uuid"
-}
-```
+The chat endpoint should evolve from general conversation routing toward session-aware support.
 
-**LLM call**: OpenAI API (GPT-5.4)
-- Load `OPENAI_API_KEY` and `OKA_MODEL` from `oka.env`
-- System prompt from `oka_system_prompt.md` (loaded at startup)
-- Send system prompt + conversation history + new message
-- Fallback to Perplexity Sonar if OpenAI unavailable
+At minimum the server should be able to support:
+- current phase
+- current word difficulty
+- current word length band
+- error / hint history
+- confidence protection triggers
+- repeated struggle fallback
 
-### 3. Session Management
+You do not need a giant ML system for v1.
+You do need a simple, intelligible adaptation state machine.
 
-**A→B→A structure** (Confidence → Skill → Confidence):
-- Opening: Start with something Nora is good at (oral math, science question, interest-based chat)
-- Middle: Skill work (phonological exercises — oral, multisensory)
-- Closing: End on strength — creative, interest-based, or celebration
+### 3. Prompt Behavior
 
-The session structure can be managed client-side or server-side. Up to you.
+The active prompt must reflect the new interaction rules:
+- Nora should try first
+- one hint at a time
+- answer only after a second failed attempt
+- minimal explanation
+- calm recovery
+- adaptive support
 
-**Timing:**
-- 30 min max sessions
-- Water break at 10 min, 20 min
-- Morning = easy/confidence. Afternoon = hard/skill work.
+The prompt should preserve Oka's warmth while becoming more operationally precise.
 
-## Key Emotional Guardrails
-1. NEVER reference first grade or worst reading experiences (hard boundary from Nora)
-2. NEVER require reading or writing to interact
-3. NEVER frame dyslexia as a deficit
-4. NEVER compare Nora to peers negatively
-5. If she says stop → stop immediately
+## Build Priorities
+
+### Priority 1
+Implement the single-word adaptive reading loop.
+
+### Priority 2
+Add the performance-tracking logic needed to personalize:
+- length
+- sounds
+- hint need
+- pacing
+
+### Priority 3
+Add optional matched-level keyboard writing moments.
+
+### Priority 4
+Refine visual linking, subtle animations, and reportable parent/teacher insights later.
+
+## Emotional Guardrails
+1. Never ask about first grade or the worst reading experiences.
+2. Never frame dyslexia as damage or defect.
+3. Never compare Nora negatively to peers.
+4. Never pressure her to keep going after overload.
+5. Never turn a failed attempt into a shame spiral.
+6. Never make Oka sound like a school test.
+
+## UX Guardrails
+1. One focal task at a time.
+2. One word at a time.
+3. One hint at a time.
+4. Minimal text clutter.
+5. Large touch targets.
+6. Strong contrast and dyslexia-friendly readability.
+
+## Technical Guardrails
+1. Prefer a simple explicit state model over opaque adaptation logic.
+2. Keep all adaptation inspectable and debuggable.
+3. Make word progression rules easy to tune.
+4. Preserve local session state.
+5. Keep the tool runnable from the existing Mission Canvas server.
 
 ## The North Star
-Nora's dream is to read Harry Potter. Her brother and all her classmates have read it. The day she picks it up — in whatever form — Oka should be there to mark that moment.
+The system should feel, to Nora, like:
 
-She describes herself as "intelligent." She is. Gc=130 (98th percentile). Word Reading=50 (0.1st percentile). The gap is the bottleneck, not her brain.
+- "I can do this."
+- "It gets me."
+- "It changes when I need it to."
+- "It knows when to help and when to back off."
 
-The bravest thing she's ever done: "Not giving up how to read... and also keeping it a secret for a long time, but now it's free."
+And to an adult reviewing it:
 
-Build Oka like that matters. Because it does.
+- "This tool is careful."
+- "This tool is adaptive."
+- "This tool is emotionally intelligent."
+- "This tool has a real reading-engine design, not just a chat prompt."

@@ -141,6 +141,56 @@ const TOOLS = [
       required: ['thread_id'],
     },
   },
+  {
+    name: 'peers_memory',
+    description: `Manage persistent memory for ${IDENTITY}. Memory survives across sessions. Two stores: 'memory' (agent notes, 2200 char limit) and 'user' (user profile, 1375 char limit). Actions: read, add, replace, remove.`,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        store: { type: 'string', enum: ['memory', 'user'], description: "Which store: 'memory' for agent notes, 'user' for user profile" },
+        action: { type: 'string', enum: ['read', 'add', 'replace', 'remove'], description: 'Action to perform' },
+        content: { type: 'string', description: 'Content for add or replace' },
+        entry_id: { type: 'number', description: 'Entry ID for replace/remove (alternative to old_text)' },
+        old_text: { type: 'string', description: 'Unique substring to find entry for replace/remove' },
+      },
+      required: ['store', 'action'],
+    },
+  },
+  {
+    name: 'peers_skills',
+    description: `Manage procedural skills for ${IDENTITY}. Skills are reusable procedures saved from completed tasks. Maturity: UNVALIDATED → WORKING (3 uses) → PRODUCTION (10 uses). Share validated skills across agents.
+
+Actions: list, index (compact for prompts), view, save, delete, record_use, promote, share, unshare, list_shared, adopt, suggest_capture.`,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        action: { type: 'string', enum: ['list', 'index', 'view', 'save', 'delete', 'record_use', 'promote', 'share', 'unshare', 'list_shared', 'adopt', 'suggest_capture'], description: 'Action to perform' },
+        skill_name: { type: 'string', description: 'Skill identifier (kebab-case, a-z/0-9/hyphens, max 60 chars)' },
+        description: { type: 'string', description: 'One-line description, max 200 chars (for save)' },
+        procedure: { type: 'string', description: 'Step-by-step procedure, 20-5000 chars (for save)' },
+        pitfalls: { type: 'array', items: { type: 'string' }, description: 'Known failure modes, max 10 items (for save)' },
+        verification: { type: 'string', description: 'How to confirm it worked, max 1000 chars (for save)' },
+        category: { type: 'string', description: 'Category (for save)' },
+        tags: { type: 'array', items: { type: 'string' }, description: 'Searchable tags, max 10 (for save)' },
+        success: { type: 'boolean', description: 'Whether the skill use succeeded (for record_use)' },
+        maturity: { type: 'string', enum: ['WORKING', 'PRODUCTION'], description: 'Target maturity (for promote)' },
+        from_agent: { type: 'string', description: 'Source agent identity (for adopt)' },
+      },
+      required: ['action'],
+    },
+  },
+  {
+    name: 'peers_search',
+    description: 'Search all past bus messages using full-text search. Find previous discussions, decisions, reports. Uses FTS5 syntax: word, "exact phrase", word1 OR word2, word1 NOT word2.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        query: { type: 'string', description: 'Search query (FTS5 syntax)' },
+        limit: { type: 'number', description: 'Max results (default 20, max 100)' },
+      },
+      required: ['query'],
+    },
+  },
 ];
 
 // --- Tool handlers ---
@@ -220,6 +270,104 @@ async function handleTool(name, args) {
         `[${m.created_at}] ${m.from_agent} → ${m.to_agent} (${m.message_type})\n  ${m.intent}`
       ).join('\n\n');
       return { content: [{ type: 'text', text: `Thread (${msgs.length} messages):\n\n${summary}` }] };
+    }
+
+    case 'peers_memory': {
+      const result = await brokerPost('/memory', {
+        identity: IDENTITY,
+        store: args.store,
+        action: args.action,
+        content: args.content,
+        entry_id: args.entry_id,
+        old_text: args.old_text,
+      });
+      if (args.action === 'read' || !args.action) {
+        const entries = result.entries ?? [];
+        if (!entries.length) return { content: [{ type: 'text', text: `${args.store}: empty (0/${result.usage?.limit} chars)` }] };
+        const summary = entries.map(e => `[${e.entry_id}] ${e.content}`).join('\n§\n');
+        return { content: [{ type: 'text', text: `${args.store.toUpperCase()} [${result.usage?.percent}% — ${result.usage?.chars}/${result.usage?.limit} chars]\n\n${summary}` }] };
+      }
+      if (result.ok === false) return { content: [{ type: 'text', text: `Error: ${result.error}` }] };
+      return { content: [{ type: 'text', text: `OK. Usage: ${result.usage?.chars}/${result.usage?.limit} chars (${result.usage?.percent}%)` }] };
+    }
+
+    case 'peers_skills': {
+      const result = await brokerPost('/skills', {
+        identity: IDENTITY,
+        action: args.action,
+        skill_name: args.skill_name,
+        description: args.description,
+        procedure: args.procedure,
+        pitfalls: args.pitfalls,
+        verification: args.verification,
+        category: args.category,
+        tags: args.tags,
+        success: args.success,
+        maturity: args.maturity,
+        from_agent: args.from_agent,
+      });
+
+      if (args.action === 'list' || !args.action) {
+        const skills = result.skills ?? [];
+        if (!skills.length) return { content: [{ type: 'text', text: 'No skills saved yet.' }] };
+        const summary = skills.map(s => {
+          const badge = s.maturity === 'PRODUCTION' ? '●' : s.maturity === 'WORKING' ? '◐' : '○';
+          const share = s.shared ? ' [shared]' : '';
+          return `${badge} ${s.skill_name} — ${s.description} [${s.category}] (used: ${s.impressions}, failed: ${s.failures})${share}`;
+        }).join('\n');
+        return { content: [{ type: 'text', text: `${skills.length} skill(s):  ● PRODUCTION  ◐ WORKING  ○ UNVALIDATED\n\n${summary}` }] };
+      }
+
+      if (args.action === 'index') {
+        if (result.error) return { content: [{ type: 'text', text: `Error: ${result.error}` }] };
+        return { content: [{ type: 'text', text: result.count === 0 ? 'No skills.' : `${result.count} skill(s):\n${result.index}\n\n${result.legend}` }] };
+      }
+
+      if (args.action === 'view') {
+        if (result.error) return { content: [{ type: 'text', text: `Error: ${result.error}` }] };
+        const pitfalls = (result.pitfalls ?? []).map(p => `  - ${p}`).join('\n');
+        const tags = (result.tags ?? []).length ? `\n\nTags: ${result.tags.join(', ')}` : '';
+        const source = result.source_agent ? `\nAdopted from: ${result.source_agent}` : '';
+        return { content: [{ type: 'text', text: `# ${result.skill_name} [${result.maturity}]\n${result.description}\n\n## Procedure\n${result.procedure}\n\n## Pitfalls\n${pitfalls || '  None recorded'}\n\n## Verification\n${result.verification || 'None'}\n\nUsed: ${result.impressions} | Failed: ${result.failures}${tags}${source}` }] };
+      }
+
+      if (args.action === 'list_shared') {
+        const skills = result.skills ?? [];
+        if (!skills.length) return { content: [{ type: 'text', text: 'No shared skills from other agents.' }] };
+        const summary = skills.map(s => {
+          const badge = s.maturity === 'PRODUCTION' ? '●' : '◐';
+          return `${badge} ${s.skill_name} — ${s.description} [${s.category}] by ${s.owner} (used: ${s.impressions})`;
+        }).join('\n');
+        return { content: [{ type: 'text', text: `${skills.length} shared skill(s):\n\n${summary}\n\nUse action: adopt with from_agent to copy a shared skill.` }] };
+      }
+
+      if (args.action === 'suggest_capture') {
+        if (result.error) return { content: [{ type: 'text', text: `Error: ${result.error}` }] };
+        if (!result.suggestions?.length) {
+          return { content: [{ type: 'text', text: `${result.hint}\nYou have ${result.existing_skills} skill(s).` }] };
+        }
+        const items = result.suggestions.map(s => `Thread ${s.thread_id?.slice(0,8)}... (${s.message_count} msgs)\n  Intents: ${s.intents.slice(0, 200)}\n  → ${s.suggestion}`).join('\n\n');
+        return { content: [{ type: 'text', text: `${result.hint}\n\n${items}` }] };
+      }
+
+      if (args.action === 'record_use' && result.ok) {
+        const promo = result.promoted ? ` → PROMOTED to ${result.promoted}!` : '';
+        return { content: [{ type: 'text', text: `Recorded ${result.success ? 'success' : 'failure'} for ${args.skill_name}${promo}` }] };
+      }
+
+      if (result.error) return { content: [{ type: 'text', text: `Error: ${result.error}` }] };
+      return { content: [{ type: 'text', text: `OK: ${JSON.stringify(result)}` }] };
+    }
+
+    case 'peers_search': {
+      const result = await brokerPost('/search', { query: args.query, limit: args.limit });
+      if (result.error) return { content: [{ type: 'text', text: `Search error: ${result.error}` }] };
+      const results = result.results ?? [];
+      if (!results.length) return { content: [{ type: 'text', text: `No results for "${args.query}"` }] };
+      const summary = results.map(m =>
+        `[${m.created_at?.slice(0,10)}] ${m.from_agent} → ${m.to_agent}\n  ${m.intent}\n  ${(m.payload?.content ?? '').slice(0, 150)}${(m.payload?.content ?? '').length > 150 ? '...' : ''}`
+      ).join('\n\n');
+      return { content: [{ type: 'text', text: `${result.count} result(s) for "${args.query}":\n\n${summary}` }] };
     }
 
     default:

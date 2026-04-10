@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "broker": "node broker/index.mjs",
+    "hub": "node hub/server.mjs",
+    "watcher": "node hub/watcher.mjs",
+    "start": "node broker/index.mjs & node hub/server.mjs & node hub/watcher.mjs",
     "cli": "node cli.mjs"
   },
   "dependencies": {

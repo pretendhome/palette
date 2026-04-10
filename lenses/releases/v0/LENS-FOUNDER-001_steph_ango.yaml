@@ -1,0 +1,567 @@
+lens_id: LENS-FOUNDER-001
+name: "Steph Ango (kepano)"
+version: "0.1"
+status: working
+created: 2026-04-09
+updated: 2026-04-09
+schema: PERSON_LENS_SCHEMA_v0.1
+
+# ============================================================================
+# IDENTITY
+# ============================================================================
+
+identity:
+  essence: |
+    A designer-turned-CEO who builds software the way he builds furniture —
+    by choosing constraints deliberately, removing what doesn't belong, and
+    caring more than seems reasonable.
+  roles:
+    - "CEO, Obsidian (February 2023–present)"
+    - "Creator, Minimal theme (most popular Obsidian theme)"
+    - "Creator, Flexoki color scheme"
+    - "Co-creator, JSON Canvas open format"
+    - "Former Co-Founder & CPO, Lumi (packaging platform, YC 2015, acquired 2021)"
+    - "Former Co-Founder, Inkodye (Kickstarter Best Design 2010)"
+    - "Writer, stephango.com"
+  location: "United States (remote-first company; annual in-person meetup)"
+  languages:
+    - language: French
+      proficiency: native
+      context: "Born in Meudon (Paris suburb). French father. Grew up in France."
+    - language: English
+      proficiency: native
+      context: "American mother. Educated at Colorado College and ArtCenter."
+
+# ============================================================================
+# ORIGIN
+# ============================================================================
+
+origin:
+  education_arc: |
+    Colorado College — Biology (2003-2007). ArtCenter College of Design —
+    Industrial Design (2008-2011). The arc is not science-to-design. It is the
+    same impulse expressed twice: understand how systems work, then shape them.
+    Biology gave him systems thinking. Industrial design gave him the constraint
+    that physical objects must be manufactured — you cannot hand-wave a hinge.
+    Both disciplines taught subtraction: remove what doesn't serve the function.
+
+    He met Jesse Genet at ArtCenter. They co-founded Inkodye, then Lumi.
+    The education didn't lead to a career — it created a collaborator.
+
+  formative_experiences:
+    - what: "Creating Winamp skins as a teenager (DeviantArt, early 2000s)"
+      when: "2001-2004"
+      why_it_matters: |
+        Made 'Impulse' — a pixel art Winamp skin downloaded hundreds of thousands
+        of times. His first experience of making something small that reached people
+        at scale. His own words: 'I make this just random little thing... but then
+        hundreds of thousands of people downloaded it.' This is the prototype for
+        everything that followed, including Obsidian. Quote: 'This is how I became
+        the CEO of Obsidian. I made a skin for it.'
+
+    - what: "Co-founding Inkodye with Jesse Genet (Kickstarter, 2009)"
+      when: "2009-2015"
+      why_it_matters: |
+        Solar-powered textile printing using a 1950s chemical formula they
+        modernized. One of the first Kickstarter products ever. Won Best Design
+        2010. Taught him that manufacturing has real constraints — you cannot
+        iterate your way out of a bad chemical process. Supply chain pain led
+        directly to Lumi.
+
+    - what: "Building and selling Lumi (YC 2015, acquired 2021)"
+      when: "2015-2022"
+      why_it_matters: |
+        Software platform connecting businesses to factories. Built to solve his
+        own supply chain problem from Inkodye. Raised $9M — then saw firsthand
+        how VC money distorts product decisions. This experience created the
+        conviction behind Obsidian's 100% user-supported model. He lived the
+        VCware trap, then chose the opposite path.
+
+    - what: "Creating Minimal theme for Obsidian"
+      when: "2020-2022"
+      why_it_matters: |
+        Became the most popular Obsidian theme. Same pattern as the Winamp skin:
+        adopt a tool, dislike how it looks, make it better, share it, reach
+        thousands. Built trust with founders Shida Li and Erica Xu through the
+        quality of his contribution. Led to deeper collaboration, then the CEO
+        role. Every Obsidian hire has followed this exact path: community
+        contributor first, employee second.
+
+    - what: "Choosing optimism at age 22"
+      when: "~2007"
+      why_it_matters: |
+        Grew up in French culture of cynicism and pessimism. Made a deliberate
+        choice to become an optimist. His words: 'The life of a pessimist is easy
+        but dreary. The life of an optimist is hard but exciting.' This is not
+        personality — it is a decision he maintains through discipline. It shapes
+        how he builds products, writes, and leads.
+
+  career_throughline: |
+    The throughline is: make something small and good, share it, and let it
+    reach people. Winamp skin → Inkodye → Lumi → Minimal theme → Obsidian CEO.
+    Every step started with scratching his own itch, making something he
+    personally needed, and discovering that other people needed it too.
+
+    The second throughline is subtraction. Biology teaches you what's essential
+    to a system. Industrial design teaches you what to remove from an object.
+    Running a company teaches you what to remove from a process. His blog
+    teaches you what to remove from a sentence. The discipline never changed.
+    The medium did.
+
+# ============================================================================
+# CAPABILITIES
+# ============================================================================
+
+capabilities:
+  clusters:
+    - name: "Product Design & Vision"
+      strength: defining
+      evidence:
+        - "Designed and shipped Obsidian's default theme, Minimal theme, and Flexoki color scheme"
+        - "Co-created JSON Canvas — an open file format adopted beyond Obsidian"
+        - "Led product at Lumi from founding through acquisition"
+        - "Industrial design degree from ArtCenter — trained in physical product constraints"
+      market_value: "Rare combination of visual design, product strategy, and hands-on code. Extremely valuable in small teams."
+
+    - name: "Writing & Communication"
+      strength: exceptional
+      evidence:
+        - "Blog at stephango.com — essays consistently under 500 words, widely shared"
+        - "'File over app' essay became a movement with its own philosophy and community"
+        - "Edits ruthlessly: removes 'connective words that don't have calories'"
+        - "'Concise explanations accelerate progress' — practiced as discipline, not preference"
+      market_value: "High. Clear writing from a CEO builds trust, community, and brand without marketing."
+
+    - name: "Software Engineering (Front-End / Editor)"
+      strength: strong
+      evidence:
+        - "Codes on Obsidian daily — designs, prototypes, ships features"
+        - "Built Minimal theme, Hider plugin, Web Clipper extension"
+        - "Deep fluency with CodeMirror 6, Electron, CSS, TypeScript"
+        - "Created Obsidian Skills (agent skills for AI tools)"
+      market_value: "CEO who codes is rare and extremely valuable in a 7-person company."
+
+    - name: "Community Building & Ecosystem Design"
+      strength: exceptional
+      evidence:
+        - "Obsidian plugin ecosystem: 2,749+ plugins, all community-built"
+        - "Every employee hired from the community — no external recruiting"
+        - "Honor system for commercial licensing 'works surprisingly well'"
+        - "Privacy covenant maintained across entire ecosystem without enforcement"
+      market_value: "Created a self-sustaining ecosystem that functions as an unpaid engineering corps. Very few people can design systems that generate this kind of trust."
+
+    - name: "Business Strategy (Anti-VC Model)"
+      strength: strong
+      evidence:
+        - "Grew Obsidian to ~$25M ARR, ~$350M estimated valuation, zero investors"
+        - "Team of 7.5 FTE serving 1.5M+ MAU and 10,000+ organizations"
+        - "$3.3M+ revenue per employee — among the highest in software"
+        - "Coined 'VCware' as a critique of investor-backed software economics"
+      market_value: "Proof that bootstrapped software can reach massive scale. The model is increasingly studied and imitated."
+
+  tools_and_tech:
+    - "TypeScript, CSS, HTML"
+    - "CodeMirror 6"
+    - "Electron, Capacitor"
+    - "esbuild"
+    - "Obsidian plugin API"
+    - "Jekyll, Netlify (blog)"
+    - "Flexoki (own color system)"
+    - "Photoshop, industrial design tools (ArtCenter-trained)"
+
+  what_they_cannot_do:
+    - "Manage large teams — explicitly does not want to, caps at 10-12 people"
+    - "Practice maximalism — 'I have a hard time practicing maximalism'"
+    - "Visualize images mentally — has aphantasia"
+    - "Delegate product vision — too personally invested to hand off"
+    - "Move fast and break things — patience is core to his process"
+    - "Back-end infrastructure at scale — team hires for this"
+
+# ============================================================================
+# WORKING STYLE
+# ============================================================================
+
+working_style:
+  process: |
+    Starts by using the tool himself. If he's not personally annoyed by a
+    problem, it doesn't get prioritized. Designs from constraint: what can we
+    remove? What can we choose to be bad at? Prototypes in code, not mocks.
+    Writes as a thinking tool — essays are how he develops and tests ideas.
+
+    Feedback loop: 'Use Twitter for messiest stuff, get friction from
+    disagreement, catalog arguments, refine language in drafts. Then later,
+    when right moment comes, publish polished version.'
+
+    Maintained a private blog for 10 years before publishing. Patience is not
+    passive waiting — it is 'aggressively planting creative seeds but being
+    patient for them to grow.'
+
+  pace: |
+    Slow and deliberate by design. Five-year rule: only recommends products
+    after 5 years of use. One meeting per year. Obsidian releases are steady
+    but unhurried. Quote: 'If you're someone who really likes the idea of
+    being able to move from one thing to the next, then maybe software is not
+    the right category for you.'
+
+  communication: |
+    Writes short, declarative prose. Essays under 500 words. Removes words
+    that 'don't have calories.' Tone is conversational authority — thinks
+    alongside you, never lectures. Avoids exclamation points, hype, and
+    superlatives. His 'about' page opens with 'I'm Steph.'
+
+    Internal: ramblings channels (personal async streams where only one person
+    posts, others reply in threads). No scheduled meetings. No expectation
+    that anyone reads your ramblings. 'Some of their best ideas emerge from
+    ramblings.'
+
+  decision_making: |
+    Manifesto-driven. The Obsidian manifesto (Yours, Durable, Private,
+    Malleable, Independent) acts as a filter. If a feature contradicts the
+    manifesto, it doesn't ship. If it aligns, it can proceed without
+    consensus.
+
+    'Like tacking a boat against wind — go 45 degrees left, then right.
+    Bounce between maximalist/minimalist, short-term/long-term.'
+
+    Uses deliberate oscillation between opposites to find the right path.
+    Not indecisive — navigating through contradiction.
+
+  collaboration_mode: |
+    Flat. No hierarchy. Team members champion priorities internally. Hires
+    only from the community — trust is pre-established through contribution
+    quality. Quote: 'I don't really enjoy being a manager. I want designing,
+    coding, writing, and direct user interaction.'
+
+    Annual week-long in-person meetup. Rest of year is fully async. This is
+    not a compromise — it is the preferred mode. 'No scheduled meetings'
+    is a feature, not a limitation.
+
+  when_they_are_at_their_best: |
+    When building something he personally uses. When constraints are tight and
+    clear. When he can design, code, write, and interact with users directly —
+    without management overhead. When he has years, not quarters, to develop
+    an idea. When the team is small enough that every person's work is visible.
+
+  when_they_struggle: |
+    When forced to manage rather than make. When growth pressure demands
+    hiring beyond his comfort threshold. When the market demands speed over
+    craft. When something cannot be simplified further and must remain
+    complex. When he has to practice maximalism.
+
+# ============================================================================
+# VALUES
+# ============================================================================
+
+values:
+  motivated_by:
+    - "Making something small that reaches millions — the Winamp skin pattern"
+    - "Ownership — users own their data, he owns his company"
+    - "Subtraction — removing is more satisfying than adding"
+    - "Craftsmanship — caring more than seems economically rational"
+    - "Independence — no investors, no compromises"
+    - "Long-term thinking — building for decades, not quarters"
+
+  not_motivated_by:
+    - "Growth metrics or market capture"
+    - "Management status or team size"
+    - "Industry recognition or awards"
+    - "Speed of execution (values patience over velocity)"
+    - "Comprehensive feature coverage (values doing less, better)"
+    - "VC-style returns or exit events"
+
+  non_negotiables:
+    - "User data stays on user's device"
+    - "No telemetry"
+    - "Open file formats (plain text, JSON)"
+    - "100% user-supported — no investors, ever"
+    - "Team stays small (caps at 10-12)"
+    - "Every hire comes from the community"
+
+  peak_moment:
+    what: "Becoming CEO of Obsidian through community contribution"
+    why: |
+      Made a theme (Minimal) because he didn't like how Obsidian looked.
+      The same impulse as the Winamp skin at 16. This time it led to
+      running the company. 'This is how I became the CEO of Obsidian.
+      I made a skin for it.'
+    what_it_reveals: |
+      He doesn't pursue leadership — he pursues craft, and leadership
+      follows. His authority is earned through contribution quality, not
+      credentials or ambition. This is also exactly how he hires: look
+      at what someone built, not what they claim.
+
+# ============================================================================
+# PATTERNS
+# ============================================================================
+
+patterns:
+  strengths:
+    - pattern: "Scratch-your-own-itch builder"
+      evidence:
+        - "Built Inkodye because he wanted to print on fabric"
+        - "Built Lumi because Inkodye's supply chain was broken"
+        - "Built Minimal because Obsidian's default theme wasn't good enough"
+        - "Wrote 'File over app' because he needed a philosophy for his own tool"
+      why_it_works: |
+        Every product starts with a real problem he personally has. This ensures
+        genuine understanding of the user (he IS the user) and sustained motivation
+        (he needs the solution to exist). Eliminates market research theater.
+
+    - pattern: "Subtraction as design method"
+      evidence:
+        - "'What can we remove?' as explicit practice"
+        - "Essays under 500 words — removes 'words without calories'"
+        - "Team capped at 10-12 despite $25M ARR"
+        - "Monochromatic clothing, no logos — personal life pruned too"
+      why_it_works: |
+        Prevents bloat at every level — product, team, communication, personal
+        life. Creates focus by eliminating options. The consistency across
+        domains means it is not a technique but an identity.
+
+    - pattern: "Patience as strategy"
+      evidence:
+        - "Maintained private blog for 10 years before publishing"
+        - "Five-year rule for product recommendations"
+        - "Obsidian growth: steady, never forced, never VC-accelerated"
+        - "'Aggressively planting seeds, patiently waiting for growth'"
+      why_it_works: |
+        Compound returns. Ideas that survive 10 years of private development
+        are more robust. Products recommended after 5 years of use are more
+        trustworthy. Companies that grow without acceleration build genuine
+        loyalty. Patience is his competitive moat.
+
+    - pattern: "Community-first hiring"
+      evidence:
+        - "Every Obsidian employee was first a community contributor"
+        - "He himself went from theme creator to CEO"
+        - "Trust established through contribution quality, not interviews"
+      why_it_works: |
+        Eliminates hiring risk almost entirely. You've already seen their work,
+        their communication style, their values, and how they handle feedback.
+        No resume or interview can match years of observable contribution.
+
+  blind_spots:
+    - pattern: "Scaling resistance"
+      evidence:
+        - "Caps team at 10-12 despite serving 1.5M+ users"
+        - "'I don't really enjoy being a manager'"
+        - "One meeting per year — may miss coordination opportunities"
+      cost: |
+        Features that require larger teams (native mobile apps, enterprise
+        features, accessibility) may be permanently under-resourced. The
+        product's growth may eventually outpace the team's capacity to
+        maintain quality.
+      awareness: aware
+
+    - pattern: "Minimalism as ideology"
+      evidence:
+        - "'I have a hard time practicing maximalism'"
+        - "Obsidian core is deliberately simple while plugins carry complexity"
+        - "May under-invest in features that require comprehensive coverage"
+      cost: |
+        Some problems genuinely require comprehensive solutions. Mobile apps,
+        enterprise sync, accessibility compliance — these cannot be minimized.
+        The plugin ecosystem compensates but introduces quality variance.
+      awareness: aware
+
+    - pattern: "Anti-VC identity may limit strategic options"
+      evidence:
+        - "Coined 'VCware' as pejorative"
+        - "100% user-supported is a non-negotiable, not just a preference"
+        - "Revenue per employee is extraordinary but team is very small"
+      cost: |
+        If the market shifts (e.g., AI-native editors, Apple/Google bundling
+        note-taking), the company may lack resources to respond quickly. The
+        anti-VC stance is principled but also constraining.
+      awareness: aware
+
+# ============================================================================
+# ENVIRONMENT FIT
+# ============================================================================
+
+environment_fit:
+  thrives_in:
+    - environment: "Small, flat, async teams"
+      why: "Can design, code, write, and interact with users directly"
+      evidence: "Built Obsidian with 7.5 people to $25M ARR"
+
+    - environment: "Bootstrapped / user-funded companies"
+      why: "No investor pressure means product decisions serve users"
+      evidence: "Explicitly rejected VC after Lumi experience"
+
+    - environment: "Community-driven ecosystems"
+      why: "Trust is built through contribution, not credentials"
+      evidence: "Every hire from community. Plugin ecosystem as engineering force multiplier."
+
+    - environment: "Long time horizons"
+      why: "His best work compounds over years, not sprints"
+      evidence: "10-year private blog. Five-year product recommendation rule."
+
+  struggles_in:
+    - environment: "Large organizations with management layers"
+      why: "Dislikes managing. Needs direct contact with the work."
+      evidence: "'I don't really enjoy being a manager.'"
+
+    - environment: "VC-backed companies with growth mandates"
+      why: "Investor pressure distorts product decisions"
+      evidence: "Lumi experience led to explicit anti-VC philosophy"
+
+    - environment: "Fast-moving, pivot-heavy cultures"
+      why: "Values patience and commitment over velocity"
+      evidence: "'If you like moving from one thing to the next, maybe software is not the right category.'"
+
+  ideal_team_size: "7-12 people — 'Ocean's Eleven model'"
+  ideal_org_stage: "Post-product-market-fit, sustainable, growing steadily"
+  geographic_flexibility: "Fully remote. One in-person meetup per year."
+
+# ============================================================================
+# CONTRADICTIONS
+# ============================================================================
+
+contradictions:
+  - tension: "Opinionated about being unopinionated"
+    resolution: |
+      Obsidian has rigid opinions about architecture (file formats, privacy,
+      data ownership) but deliberately refuses to impose opinions about
+      workflow or organization. Maximum constraint on infrastructure; maximum
+      freedom on use. The distinction is between platform opinions (which
+      protect users) and workflow opinions (which limit them).
+    implication: |
+      He will push hard on architectural decisions but defer to users on
+      how they use the tool. Proposals that constrain user freedom will
+      face strong resistance. Proposals that strengthen the platform's
+      guarantees will be welcomed.
+
+  - tension: "CEO who doesn't want to manage"
+    resolution: |
+      He redefined the CEO role to be designing, coding, and writing — not
+      managing. The flat structure and async communication eliminate most
+      management overhead. He leads by making things, not by directing people.
+    implication: |
+      Team members must be fully self-directed. If you need regular guidance,
+      feedback, or structured mentorship, this is not the environment.
+      Autonomy is not optional — it is the operating model.
+
+  - tension: "Minimalist who builds maximally configurable software"
+    resolution: |
+      The core stays minimal. The plugin ecosystem carries the complexity.
+      This is not contradiction — it is architectural separation of concerns.
+      The platform is simple; the surface area is infinite. 'More Obsidian
+      configurations exist than atoms in the universe.'
+    implication: |
+      Core contributions must be minimal and principled. Feature additions
+      that could be plugins should be plugins. The bar for adding to core
+      is extremely high.
+
+  - tension: "Aphantasia combined with exceptional visual design"
+    resolution: |
+      Cannot form mental images, yet designs color schemes, themes, and
+      interfaces that millions use. Compensates with systematic approaches —
+      color theory, consistent constraints, repeated patterns. Design through
+      rules, not visualization.
+    implication: |
+      His design process is more systematic than intuitive. He can articulate
+      why something works because he had to reason about it explicitly, not
+      just 'feel' it. This makes his design decisions more teachable and
+      more defensible.
+
+  - tension: "Patience combined with aggression"
+    resolution: |
+      'Aggressively planting creative seeds but being patient for them to
+      grow.' The urgency is in starting. The patience is in finishing. He
+      initiates many things but publishes only what survives long incubation.
+      Private blog for 10 years. Five-year product recommendation rule.
+    implication: |
+      Ideas that survive his filter are robust. But the filter is slow.
+      Don't expect quick decisions on strategic direction. Do expect that
+      once a direction is chosen, it will be maintained for years.
+
+# ============================================================================
+# GROWTH EDGES
+# ============================================================================
+
+growth_edges:
+  - edge: "Learning to scale without compromising values"
+    direction: "Finding ways to serve 10M+ users with a 10-person team"
+    evidence: "Hiring 4th engineer (2026). Team growing from 7 to 8+. Careful, deliberate expansion."
+
+  - edge: "AI integration without compromising privacy"
+    direction: "Cautious about AI features — won't store data on external servers by default"
+    evidence: "Plugins handle AI. Core stays local. Tension acknowledged: 'The technology is whispering. Don't think.'"
+
+  - edge: "Learning piano (from wife)"
+    direction: "Lifelong frustration with inability to play despite constant internal music"
+    evidence: "Has aphantasia but an 'internal iPod' — hears full songs but couldn't play them until now"
+
+# ============================================================================
+# HOW TO WORK WITH THIS PERSON
+# ============================================================================
+
+how_to_work_with:
+  do:
+    - "Show your work through contribution — build something, don't just propose it"
+    - "Write concisely — remove words that don't have calories"
+    - "Care about craft and detail more than seems rational"
+    - "Be self-directed — no scheduled meetings, no check-ins"
+    - "Think in decades, not quarters"
+    - "Propose what to remove, not just what to add"
+    - "Use the product daily — dogfooding is non-negotiable"
+    - "Bring hybrid thinking — connect dots from different domains"
+
+  do_not:
+    - "Use corporate buzzwords (synergy, leverage, disrupt, scale)"
+    - "Propose features without considering what they replace or remove"
+    - "Expect structured management, regular 1:1s, or career pathing"
+    - "Treat the job as a stepping stone — he values long-term commitment"
+    - "Hype AI as a solution without acknowledging privacy tradeoffs"
+    - "Count features as a measure of progress"
+    - "Rush decisions that deserve patience"
+    - "Self-promote — let the quality of your work speak"
+
+  communication_preferences:
+    - "Async by default — ramblings channels, not meetings"
+    - "Short, direct messages — no preamble"
+    - "Show screenshots or prototypes, not slide decks"
+    - "One in-person meetup per year for deep collaboration"
+
+  trust_builders:
+    - "Shipping something small and good before being asked"
+    - "Demonstrating you use Obsidian daily and have opinions about it"
+    - "Making contributions to the community (plugins, themes, docs)"
+    - "Choosing to remove a feature you built because it's not good enough"
+    - "Writing clearly and concisely"
+    - "Caring about details that don't show up in metrics"
+
+  trust_breakers:
+    - "Treating user data as a resource to be extracted"
+    - "Proposing VC-style growth tactics"
+    - "Adding complexity without justification"
+    - "Requiring management attention to be productive"
+    - "Prioritizing speed over quality"
+    - "Not using the product"
+
+# ============================================================================
+# EVIDENCE
+# ============================================================================
+
+evidence:
+  sources:
+    - "stephango.com — personal blog (30+ essays, all under 500 words)"
+    - "Dialectic podcast with Jackson Dahl (Episode 8, Feb 2025) — most extensive interview"
+    - "The Other Stuff podcast with internetVin (Episode 28)"
+    - "Metamuse podcast (Episode 81, June 2023)"
+    - "Decoder interview with Casey Newton (The Verge, Aug 2025)"
+    - "obsidian.md/about — company manifesto and team page"
+    - "Wikitia biography — background and career timeline"
+    - "Crunchbase — Lumi founding, YC 2015, funding history"
+    - "TechCrunch — Lumi $9M raise (Feb 2018)"
+    - "36kr — Obsidian company profile and team analysis"
+    - "GitHub — kepano repos (Minimal, Flexoki, Hider, JSON Canvas, Web Clipper)"
+  confidence: high
+  last_validated: 2026-04-09
+  blind_spots_in_this_lens:
+    - "Limited access to private communications — public persona may differ from internal"
+    - "No direct interaction — all evidence is from published writing and interviews"
+    - "Pre-Obsidian career details (Lumi internals) are sparse"
+    - "His relationship with co-founders Shida Li and Erica Xu is not well documented publicly"
+    - "How he handles conflict or disagreement is not visible from public sources"

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice Hub — Palette Peers</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- ── Left: Conversation ──────────────────────────────────────────── -->
+    <main id="chat-panel">
+      <header>
+        <h1>Voice Hub</h1>
+        <div class="header-controls">
+          <button id="tts-toggle" class="toggle-btn active" title="Toggle voice output">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            </svg>
+          </button>
+          <div id="bus-status" class="status offline">bus offline</div>
+        </div>
+      </header>
+
+      <div id="messages"></div>
+
+      <div id="input-bar">
+        <select id="target-agent">
+          <option value="all">@ all agents</option>
+        </select>
+        <input type="text" id="text-input" placeholder="Type or press mic to speak…" autocomplete="off">
+        <button id="mic-btn" title="Hold to speak">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+        <button id="send-btn" title="Send">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+    </main>
+
+    <!-- ── Right: Sidebar ──────────────────────────────────────────────── -->
+    <aside id="sidebar">
+
+      <!-- Convergence tracker -->
+      <section id="convergence">
+        <h2>Convergence</h2>
+        <div id="conv-status" class="conv-badge open">open</div>
+
+        <h3>Known <button class="add-btn" data-list="known">+</button></h3>
+        <ul id="known-list"></ul>
+
+        <h3>Open questions <button class="add-btn" data-list="missing">+</button></h3>
+        <ul id="missing-list"></ul>
+
+        <h3>Next action</h3>
+        <div id="next-action" contenteditable="true" class="editable" data-placeholder="What happens next?"></div>
+
+        <div id="conv-actions">
+          <button id="read-status-btn">Read status aloud</button>
+          <button id="decide-btn">Mark as decided</button>
+        </div>
+
+        <div id="decisions-log"></div>
+      </section>
+
+      <!-- Agent roster -->
+      <section id="agents">
+        <h2>Agents</h2>
+        <div id="agent-roster"></div>
+      </section>
+
+      <!-- Wiki browser -->
+      <section id="wiki">
+        <h2>Wiki</h2>
+        <div id="wiki-nav">
+          <button data-path="index.md" class="wiki-link">Index</button>
+          <button data-path="indexes/all-rius.md" class="wiki-link">RIUs</button>
+          <button data-path="indexes/all-entries.md" class="wiki-link">Knowledge</button>
+          <button data-path="indexes/all-agents.md" class="wiki-link">Agents</button>
+        </div>
+        <div id="wiki-content"></div>
+      </section>
+
+    </aside>
+  </div>
+
+<script>
+// ── State ───────────────────────────────────────────────────────────────────
+
+const state = {
+  messages: [],
+  seenIds: new Set(),
+  peers: [],
+  convergence: null,
+  ttsEnabled: true,
+  listening: false,
+  recognition: null,
+};
+
+// Agent → Rime voice mapping (arcanav2: astra, luna, orion, celeste confirmed)
+// Speed variation differentiates agents sharing a speaker
+const AGENT_VOICES = {
+  'claude.analysis':      { speaker: 'astra',   speed: 1.0,  label: 'Claude' },
+  'mistral-vibe.builder': { speaker: 'luna',    speed: 1.0,  label: 'Mistral' },
+  'kiro.design':          { speaker: 'orion',   speed: 1.0,  label: 'Kiro' },
+  'codex.implementation': { speaker: 'celeste', speed: 1.0,  label: 'Codex' },
+  'gemini.specialist':    { speaker: 'astra',   speed: 1.12, label: 'Gemini' },
+  'perplexity.research':  { speaker: 'luna',    speed: 0.92, label: 'Perplexity' },
+  'hub.voice':            { speaker: 'celeste', speed: 1.05, label: 'Hub' },
+};
+
+function voiceFor(agent) {
+  return AGENT_VOICES[agent] || { speaker: 'astra', speed: 1.0, label: agent };
+}
+
+// ── Voice commands for convergence ──────────────────────────────────────────
+
+const VOICE_COMMANDS = [
+  { pattern: /^what do we know/i,         action: 'read_known' },
+  { pattern: /^what('s| is) still open/i, action: 'read_missing' },
+  { pattern: /^what('s| is) next/i,       action: 'read_next' },
+  { pattern: /^status report/i,           action: 'read_all' },
+  { pattern: /^add to known[:\s]+(.+)/i,  action: 'add_known',   capture: 1 },
+  { pattern: /^we know[:\s]+(.+)/i,       action: 'add_known',   capture: 1 },
+  { pattern: /^open question[:\s]+(.+)/i, action: 'add_missing', capture: 1 },
+  { pattern: /^we need to know[:\s]+(.+)/i, action: 'add_missing', capture: 1 },
+  { pattern: /^next action[:\s]+(.+)/i,   action: 'set_next',    capture: 1 },
+  { pattern: /^decide[:\s]+(.+)/i,        action: 'decide',      capture: 1 },
+  { pattern: /^resolve[:\s]+(.+)/i,       action: 'resolve',     capture: 1 },
+];
+
+async function handleVoiceCommand(text) {
+  for (const cmd of VOICE_COMMANDS) {
+    const match = text.match(cmd.pattern);
+    if (!match) continue;
+
+    const c = state.convergence || getDefaultConvergence();
+
+    switch (cmd.action) {
+      case 'read_known': {
+        const items = c.known.length ? c.known.join('. ') : 'Nothing yet.';
+        await speakHub(`We know: ${items}`);
+        return true;
+      }
+      case 'read_missing': {
+        const items = c.missing.length ? c.missing.join('. ') : 'No open questions.';
+        await speakHub(`Open questions: ${items}`);
+        return true;
+      }
+      case 'read_next': {
+        await speakHub(c.next_action ? `Next action: ${c.next_action}` : 'No next action set.');
+        return true;
+      }
+      case 'read_all': {
+        const known = c.known.length ? `Known: ${c.known.join('. ')}.` : 'Nothing known yet.';
+        const open = c.missing.length ? `Open: ${c.missing.join('. ')}.` : 'No open questions.';
+        const next = c.next_action ? `Next: ${c.next_action}.` : '';
+        await speakHub(`Status: ${c.status}. ${known} ${open} ${next}`);
+        return true;
+      }
+      case 'add_known':
+        await updateConvergence({ add_known: match[cmd.capture] });
+        await speakHub(`Noted: ${match[cmd.capture]}`);
+        return true;
+      case 'add_missing':
+        await updateConvergence({ add_missing: match[cmd.capture] });
+        await speakHub(`Open question added: ${match[cmd.capture]}`);
+        return true;
+      case 'set_next':
+        await updateConvergence({ next_action: match[cmd.capture] });
+        await speakHub(`Next action: ${match[cmd.capture]}`);
+        return true;
+      case 'decide':
+        await updateConvergence({ decide: match[cmd.capture], status: 'decided' });
+        await speakHub(`Decision recorded: ${match[cmd.capture]}`);
+        return true;
+      case 'resolve':
+        await updateConvergence({ resolve_missing: match[cmd.capture], resolved_as: match[cmd.capture] });
+        await speakHub(`Resolved: ${match[cmd.capture]}`);
+        return true;
+    }
+  }
+  return false;
+}
+
+function getDefaultConvergence() {
+  return { status: 'open', known: [], missing: [], next_action: '', decisions: [] };
+}
+
+async function speakHub(text) {
+  // Speak via Rime as the hub voice and show in chat
+  const msg = {
+    message_id: crypto.randomUUID(),
+    from_agent: HUB_IDENTITY,
+    to_agent: 'human',
+    message_type: 'informational',
+    intent: text,
+    risk_level: 'none',
+    payload: { text },
+    created_at: new Date().toISOString(),
+    state: 'local',
+  };
+  renderMessage(msg);
+  const voice = voiceFor(HUB_IDENTITY);
+  ttsQueue.push({ text, speaker: voice.speaker, speed: voice.speed });
+  if (!ttsPlaying) drainTTSQueue();
+}
+
+// ── SSE connection ──────────────────────────────────────────────────────────
+
+let evtSource;
+function connectSSE() {
+  evtSource = new EventSource('/api/stream');
+
+  evtSource.addEventListener('connected', () => {
+    document.getElementById('bus-status').className = 'status online';
+    document.getElementById('bus-status').textContent = 'bus connected';
+  });
+
+  evtSource.addEventListener('message', (e) => {
+    const msg = JSON.parse(e.data);
+    if (state.seenIds.has(msg.message_id)) return;
+    state.seenIds.add(msg.message_id);
+    state.messages.push(msg);
+    renderMessage(msg);
+    // Auto-TTS for messages addressed to human or hub
+    if (state.ttsEnabled && (msg.to_agent === 'human' || msg.to_agent === HUB_IDENTITY || msg.to_agent === 'all')) {
+      speakMessage(msg);
+    }
+  });
+
+  evtSource.addEventListener('convergence', (e) => {
+    state.convergence = JSON.parse(e.data);
+    renderConvergence();
+  });
+
+  evtSource.onerror = () => {
+    document.getElementById('bus-status').className = 'status offline';
+    document.getElementById('bus-status').textContent = 'bus offline';
+  };
+}
+
+const HUB_IDENTITY = 'hub.voice';
+
+// ── Rendering ───────────────────────────────────────────────────────────────
+
+function renderMessage(msg) {
+  const el = document.createElement('div');
+  el.className = `message ${msg.from_agent === HUB_IDENTITY ? 'outgoing' : 'incoming'}`;
+
+  const voice = voiceFor(msg.from_agent);
+  const risk = msg.risk_level !== 'none' ? `<span class="risk risk-${msg.risk_level}">${msg.risk_level}</span>` : '';
+  const gate = msg.state === 'waiting_human' ? '<span class="gate">awaiting approval</span>' : '';
+
+  const payloadText = typeof msg.payload === 'object'
+    ? (msg.payload.text || msg.payload.task || msg.payload.decision || msg.intent || JSON.stringify(msg.payload))
+    : String(msg.payload);
+
+  el.innerHTML = `
+    <div class="msg-header">
+      <strong class="agent-name">${voice.label}</strong>
+      <span class="msg-type">${msg.message_type}</span>
+      ${risk}${gate}
+      <time>${new Date(msg.created_at).toLocaleTimeString()}</time>
+    </div>
+    <div class="msg-body">${escapeHtml(payloadText)}</div>
+  `;
+
+  const container = document.getElementById('messages');
+  container.appendChild(el);
+  container.scrollTop = container.scrollHeight;
+}
+
+function renderConvergence() {
+  const c = state.convergence;
+  if (!c) return;
+
+  document.getElementById('conv-status').textContent = c.status;
+  document.getElementById('conv-status').className = `conv-badge ${c.status}`;
+
+  renderList('known-list', c.known, 'known');
+  renderList('missing-list', c.missing, 'missing');
+
+  const na = document.getElementById('next-action');
+  if (document.activeElement !== na) na.textContent = c.next_action || '';
+
+  const log = document.getElementById('decisions-log');
+  log.innerHTML = c.decisions.map(d =>
+    `<div class="decision-entry"><strong>Decided:</strong> ${escapeHtml(d.decision)} <time>${new Date(d.decided_at).toLocaleTimeString()}</time></div>`
+  ).join('');
+}
+
+function renderList(elId, items, listName) {
+  const ul = document.getElementById(elId);
+  ul.innerHTML = items.map((item, i) =>
+    `<li>${escapeHtml(item)} <button class="remove-btn" data-list="${listName}" data-item="${escapeAttr(item)}">×</button></li>`
+  ).join('');
+}
+
+async function renderAgents() {
+  try {
+    const res = await fetch('/api/agents');
+    const data = await res.json();
+    const roster = document.getElementById('agent-roster');
+    const select = document.getElementById('target-agent');
+
+    // Clear and rebuild
+    roster.innerHTML = '';
+    select.innerHTML = '<option value="all">@ all agents</option><option value="human">@ human</option>';
+
+    for (const peer of (data.live_peers || [])) {
+      const voice = voiceFor(peer.identity);
+      const el = document.createElement('div');
+      el.className = 'agent-card';
+      el.innerHTML = `
+        <div class="agent-dot online"></div>
+        <div class="agent-info">
+          <strong>${voice.label}</strong>
+          <span class="agent-identity">${peer.identity}</span>
+          <span class="agent-role">${peer.palette_role || peer.runtime}</span>
+        </div>
+      `;
+      roster.appendChild(el);
+      select.innerHTML += `<option value="${peer.identity}">${voice.label}</option>`;
+    }
+  } catch { /* bus down */ }
+}
+
+// ── Rime TTS ────────────────────────────────────────────────────────────────
+
+const ttsQueue = [];
+let ttsPlaying = false;
+
+async function speakMessage(msg) {
+  const voice = voiceFor(msg.from_agent);
+  const text = typeof msg.payload === 'object'
+    ? (msg.payload.text || msg.payload.task || msg.payload.decision || msg.intent)
+    : String(msg.payload);
+  if (!text) return;
+  ttsQueue.push({ text, speaker: voice.speaker, speed: voice.speed });
+  if (!ttsPlaying) drainTTSQueue();
+}
+
+async function drainTTSQueue() {
+  ttsPlaying = true;
+  while (ttsQueue.length > 0) {
+    const { text, speaker, speed } = ttsQueue.shift();
+    try {
+      const res = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, speaker, speed: speed || 1.0 }),
+      });
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        await new Promise((resolve) => {
+          const audio = new Audio(url);
+          audio.onended = () => { URL.revokeObjectURL(url); resolve(); };
+          audio.onerror = () => { URL.revokeObjectURL(url); resolve(); };
+          audio.play().catch(resolve);
+        });
+      }
+    } catch { /* TTS failed, continue */ }
+  }
+  ttsPlaying = false;
+}
+
+// ── Speech-to-text (Web Speech API) ─────────────────────────────────────────
+
+function setupSTT() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    console.warn('Web Speech API not available');
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+  state.recognition = recognition;
+
+  const input = document.getElementById('text-input');
+
+  recognition.onresult = (e) => {
+    let transcript = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      transcript += e.results[i][0].transcript;
+    }
+    input.value = transcript;
+    // If final result, auto-send
+    if (e.results[e.results.length - 1].isFinal) {
+      sendMessage(transcript);
+      input.value = '';
+    }
+  };
+
+  recognition.onend = () => {
+    state.listening = false;
+    document.getElementById('mic-btn').classList.remove('active');
+    // Restart if still meant to be listening
+  };
+
+  recognition.onerror = (e) => {
+    if (e.error !== 'no-speech') console.warn('STT error:', e.error);
+    state.listening = false;
+    document.getElementById('mic-btn').classList.remove('active');
+  };
+}
+
+function toggleMic() {
+  if (!state.recognition) return;
+  if (state.listening) {
+    state.recognition.stop();
+    state.listening = false;
+    document.getElementById('mic-btn').classList.remove('active');
+  } else {
+    state.recognition.start();
+    state.listening = true;
+    document.getElementById('mic-btn').classList.add('active');
+  }
+}
+
+// ── Send message to bus ─────────────────────────────────────────────────────
+
+async function sendMessage(text) {
+  if (!text.trim()) return;
+
+  // Check for voice commands first
+  const handled = await handleVoiceCommand(text.trim());
+  if (handled) return;
+
+  const target = document.getElementById('target-agent').value;
+
+  const envelope = {
+    protocol_version: '1.0.0',
+    message_id: crypto.randomUUID(),
+    thread_id: null,
+    in_reply_to: null,
+    from_agent: HUB_IDENTITY,
+    to_agent: target,
+    message_type: 'informational',
+    intent: text.trim(),
+    risk_level: 'none',
+    requires_ack: false,
+    payload: { text: text.trim() },
+    created_at: new Date().toISOString(),
+    ttl_seconds: 3600,
+  };
+
+  try {
+    const res = await fetch('/api/bus/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(envelope),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      renderMessage(envelope);
+      state.seenIds.add(envelope.message_id);
+    } else {
+      console.error('Send failed:', data);
+    }
+  } catch (e) {
+    console.error('Send error:', e);
+  }
+}
+
+// ── Convergence actions ─────────────────────────────────────────────────────
+
+async function updateConvergence(update) {
+  try {
+    const res = await fetch('/api/convergence?session=default', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(update),
+    });
+    state.convergence = await res.json();
+    renderConvergence();
+  } catch (e) {
+    console.error('Convergence update failed:', e);
+  }
+}
+
+// ── Wiki browser ────────────────────────────────────────────────────────────
+
+async function loadWikiPage(path) {
+  const container = document.getElementById('wiki-content');
+  try {
+    const res = await fetch(`/api/wiki/${path}`);
+    if (!res.ok) throw new Error('not found');
+    const text = await res.text();
+    // Simple markdown → HTML (headings, bold, links, lists)
+    container.innerHTML = `<pre class="wiki-page">${escapeHtml(text)}</pre>`;
+  } catch {
+    container.innerHTML = '<p class="error">Could not load wiki page</p>';
+  }
+}
+
+// ── Utility ─────────────────────────────────────────────────────────────────
+
+function escapeHtml(s) {
+  const div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+function escapeAttr(s) {
+  return s.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// ── Event listeners ─────────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+  connectSSE();
+  setupSTT();
+  renderAgents();
+  setInterval(renderAgents, 10000);
+
+  // Load initial convergence
+  fetch('/api/convergence?session=default')
+    .then(r => r.json())
+    .then(c => { state.convergence = c; renderConvergence(); })
+    .catch(() => {});
+
+  // Text input send
+  document.getElementById('text-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(e.target.value);
+      e.target.value = '';
+    }
+  });
+
+  document.getElementById('send-btn').addEventListener('click', () => {
+    const input = document.getElementById('text-input');
+    sendMessage(input.value);
+    input.value = '';
+  });
+
+  // Mic toggle
+  document.getElementById('mic-btn').addEventListener('click', toggleMic);
+
+  // TTS toggle
+  document.getElementById('tts-toggle').addEventListener('click', () => {
+    state.ttsEnabled = !state.ttsEnabled;
+    const btn = document.getElementById('tts-toggle');
+    btn.classList.toggle('active', state.ttsEnabled);
+    btn.title = state.ttsEnabled ? 'Voice on (click to mute)' : 'Voice off (click to unmute)';
+  });
+
+  // Read convergence status aloud
+  document.getElementById('read-status-btn').addEventListener('click', () => {
+    handleVoiceCommand('status report');
+  });
+
+  // Convergence: add items
+  document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('add-btn')) {
+      const list = e.target.dataset.list;
+      const text = prompt(`Add to ${list}:`);
+      if (text) updateConvergence({ [`add_${list}`]: text });
+    }
+    if (e.target.classList.contains('remove-btn')) {
+      const list = e.target.dataset.list;
+      const item = e.target.dataset.item;
+      updateConvergence({ [`remove_${list}`]: item });
+    }
+    if (e.target.classList.contains('wiki-link')) {
+      loadWikiPage(e.target.dataset.path);
+    }
+  });
+
+  // Convergence: next action
+  document.getElementById('next-action').addEventListener('blur', (e) => {
+    updateConvergence({ next_action: e.target.textContent });
+  });
+
+  // Decide
+  document.getElementById('decide-btn').addEventListener('click', () => {
+    const decision = prompt('What was decided?');
+    if (decision) updateConvergence({ decide: decision, status: 'decided' });
+  });
+});
+</script>
+</body>
+</html>
