@@ -939,6 +939,52 @@ def section_13_governance_pipeline(report: HealthReport) -> None:
                               "No 'governance' key in MANIFEST.yaml", "warning"))
 
 
+def section_14_new_systems(report: HealthReport) -> None:
+    """Verify new systems added in v3.1 lean audit."""
+    root = Path(PALETTE_ROOT)
+
+    # 14a: MANIFEST has peers_bus section
+    manifest = _load_yaml(root / "MANIFEST.yaml")
+    has_bus = manifest.get("peers_bus") is not None
+    report.add(Check(14, "MANIFEST has peers_bus section", has_bus,
+                      "peers_bus section present" if has_bus else "Missing peers_bus in MANIFEST"))
+
+    # 14b: MANIFEST has plugins section
+    has_plugins = manifest.get("plugins") is not None
+    report.add(Check(14, "MANIFEST has plugins section", has_plugins,
+                      "plugins section present" if has_plugins else "Missing plugins in MANIFEST"))
+
+    # 14c: Decision Board plugin files exist
+    plugin_path = root / "plugins" / "decision-board"
+    plugin_files = ["main.ts", "main.js", "styles.css", "manifest.json", "README.md"]
+    missing = [f for f in plugin_files if not (plugin_path / f).exists()]
+    report.add(Check(14, "Decision Board plugin files complete", len(missing) == 0,
+                      f"All {len(plugin_files)} files present" if not missing else f"Missing: {missing}"))
+
+    # 14d: Broker migrations exist
+    migrations_dir = root / "peers" / "migrations"
+    expected_migrations = ["001_initial_schema.sql", "002_broadcast_deliveries.sql",
+                          "003_agent_memory.sql", "004_agent_skills.sql", "005_message_search.sql"]
+    found = [m for m in expected_migrations if (migrations_dir / m).exists()]
+    report.add(Check(14, f"Broker migrations ({len(found)}/{len(expected_migrations)})", len(found) == len(expected_migrations),
+                      f"All {len(expected_migrations)} migrations present" if len(found) == len(expected_migrations) else f"Missing: {set(expected_migrations) - set(found)}"))
+
+    # 14e: Steering amendment exists
+    assumptions_path = Path.home() / ".kiro" / "steering" / "assumptions.md"
+    if assumptions_path.exists():
+        content = assumptions_path.read_text()
+        has_amendment = "AMENDED 2026-04-09" in content
+        report.add(Check(14, "Steering amendment for agent memory", has_amendment,
+                          "Amendment present" if has_amendment else "Amendment missing — agent memory ungoverned"))
+    else:
+        report.add(Check(14, "Steering amendment for agent memory", False, "assumptions.md not found"))
+
+    # 14f: Portfolio generator exists
+    portfolio_gen = Path(root).parent / "enablement" / "portfolio" / "generate.py"
+    report.add(Check(14, "Portfolio generator exists", portfolio_gen.exists(),
+                      str(portfolio_gen) if portfolio_gen.exists() else "Missing enablement/portfolio/generate.py"))
+
+
 # ── Main ────────────────────────────────────────────────────────────────────
 
 SECTION_NAMES = {
@@ -955,6 +1001,7 @@ SECTION_NAMES = {
     11: "Identity Coherence",
     12: "Optimization Analysis",
     13: "Governance Pipeline Integrity",
+    14: "New Systems (v3.1)",
 }
 
 EXTENDED_RUNNERS = {
@@ -964,6 +1011,7 @@ EXTENDED_RUNNERS = {
     11: section_11_identity_coherence,
     12: section_12_optimization,
     13: section_13_governance_pipeline,
+    14: section_14_new_systems,
 }
 
 
@@ -974,12 +1022,12 @@ def run_all(sections: list[int] | None = None) -> HealthReport:
     )
 
     # Run base health sections (1-7) if requested
-    base_sections = [s for s in (sections or range(1, 14)) if 1 <= s <= 7]
+    base_sections = [s for s in (sections or range(1, 15)) if 1 <= s <= 7]
     if base_sections:
         run_base_health(report, base_sections)
 
-    # Run extended sections (8-13)
-    for num in range(8, 14):
+    # Run extended sections (8-14)
+    for num in range(8, 15):
         if sections and num not in sections:
             continue
         fn = EXTENDED_RUNNERS.get(num)
