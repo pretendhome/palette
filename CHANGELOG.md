@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+
+## [3.1.0] — 2026-04-09 — Lean Audit
+
+### Added
+- Agent memory system (bounded, 2200 chars per agent) on peers broker /memory endpoint
+- Agent skills system (procedural memory) on peers broker /skills endpoint
+- FTS5 full-text search over all bus messages on /search endpoint
+- Per-agent broadcast delivery tracking (each agent sees broadcasts once)
+- Decision Board Obsidian plugin (432 lines, 14 API surfaces, shipped)
+- Portfolio generator (enablement/portfolio/generate.py)
+- Voice Hub (peers/hub/) for multi-agent voice interface
+- Steering file amendment: agent memory approved as governed persistent state
+
+### Changed
+- MANIFEST.yaml updated with all new systems (peers bus, memory, skills, search, plugin, portfolio, voice hub)
+- Lens count corrected: 26 → 27
+- Decision Board plugin synced between implementations/ and plugins/
+- Governance queue cleaned: 23 stress test proposals archived
+
+### Removed (archived, not deleted)
+- implementations/dev/ (105 files) → archive/
+- implementations/finance/ (16 files) → archive/
+- implementations/therapy/ (4 files) → archive/
+- implementations/youtube-exploration/ (19 files) → archive/
+- product/ (534 files, superseded by wiki) → archive/
+- 17 closed talent application folders → archive/
+- garbage-collection/ contents → tarball backup
+- demo/, lib/, root skills/ → archive/
+- 10 wiki orphan pages (Obsidian-created, not compiled) → archive/
+
+### Metrics
+- Active files: ~4,500 → 3,134 (30% reduction)
+- Health checks: 101/112 → 104/112
+- Warnings: 9 → 6
+- Pending governance proposals: 26 → 3
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---

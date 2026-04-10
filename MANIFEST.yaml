@@ -147,6 +147,52 @@ ai_tool_config:
   codex: AGENTS.md
   steering: .steering/
 
+peers_bus:
+  broker: peers/broker/index.mjs
+  port: 7899
+  adapters:
+    generic: peers/adapters/generic/server.mjs
+    claude: peers/adapters/claude-code/server.mjs
+    gemini: peers/adapters/gemini-cli/server.mjs
+  endpoints:
+    - /health
+    - /register
+    - /send
+    - /fetch
+    - /peek
+    - /search
+    - /memory
+    - /skills
+    - /list-peers
+    - /thread
+    - /approve
+    - /reject
+  persistent_state:
+    agent_memory: "bounded, 2200 chars per agent, auditable"
+    agent_skills: "per-agent procedural memory, versioned"
+    message_search: "FTS5 index, rebuildable from source messages"
+    broadcast_deliveries: "per-agent delivery tracking"
+
+plugins:
+  decision_board:
+    path: plugins/decision-board/
+    version: 0.1.0
+    lines: 432
+    status: shipped
+
+portfolio:
+  generator: ../enablement/portfolio/generate.py
+  templates: ../enablement/portfolio/templates/
+  topics: ../enablement/portfolio/topics/
+  status: active
+
+voice_hub:
+  server: peers/hub/server.mjs
+  watcher: peers/hub/watcher.mjs
+  port: 7890
+  depends: [peers_broker, wiki, rime_api]
+  status: active
+
 archive:
   path: archive/superseded-libraries/
   superseded:
