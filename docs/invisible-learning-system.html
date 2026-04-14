@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Invisible Learning System — Management Behavior Specimen</title>
+  <meta name="description" content="A compact learning architecture specimen showing how one leadership principle becomes behavior through flow-of-work cues, practice artifacts, adaptive coaching, and evidence." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg: #f7f6f3;
+      --surface: #ffffff;
+      --surface-alt: #f1efea;
+      --text: #1b1e2b;
+      --text-soft: #5d6275;
+      --text-faint: #8a90a3;
+      --accent: #635bff;
+      --accent-soft: rgba(99, 91, 255, 0.08);
+      --accent-border: rgba(99, 91, 255, 0.2);
+      --green: #1f9d63;
+      --green-soft: rgba(31, 157, 99, 0.1);
+      --orange: #d97706;
+      --orange-soft: rgba(217, 119, 6, 0.12);
+      --red: #c2410c;
+      --red-soft: rgba(194, 65, 12, 0.11);
+      --border: #e5e1da;
+      --shadow: 0 8px 34px rgba(16, 22, 36, 0.06);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --mono: "IBM Plex Mono", monospace;
+      --max: 1160px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(99, 91, 255, 0.08), transparent 26%),
+        linear-gradient(180deg, #fbfaf7 0%, #f4f1ea 100%);
+      color: var(--text);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .shell {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 24px 80px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .hero {
+      padding: 42px 0 38px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.85fr;
+      gap: 28px;
+      align-items: end;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4.5rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      margin-top: 14px;
+      max-width: 780px;
+    }
+
+    .hero p {
+      margin-top: 18px;
+      max-width: 760px;
+      font-size: 1.02rem;
+      color: var(--text-soft);
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.6);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      border-radius: 22px;
+      padding: 22px;
+      align-self: stretch;
+    }
+
+    .hero-card h2 {
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 10px;
+    }
+
+    .hero-card p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--text-soft);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .stat {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .stat .num {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--accent);
+    }
+
+    .stat .label {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-top: 3px;
+    }
+
+    .section {
+      margin-top: 28px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(255,255,255,0.72);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .section h2 {
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .section-copy {
+      color: var(--text-soft);
+      max-width: 760px;
+      margin-bottom: 22px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .pill {
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .control {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .control label {
+      display: block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .choice-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button.choice {
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font: inherit;
+      font-size: 0.84rem;
+      cursor: pointer;
+      transition: 140ms ease;
+    }
+
+    button.choice.active {
+      background: var(--accent-soft);
+      border-color: var(--accent-border);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .system-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .system-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      min-height: 290px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .system-card h3 {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+    }
+
+    .card-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .card-copy {
+      color: var(--text-soft);
+      font-size: 0.9rem;
+    }
+
+    .artifact-box,
+    .cue-box,
+    .coach-box,
+    .evidence-box {
+      background: var(--surface-alt);
+      border-radius: 14px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      font-size: 0.86rem;
+    }
+
+    .coach-mode {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .coach-box.is-refreshing {
+      animation: coachRefresh 160ms ease;
+    }
+
+    @keyframes coachRefresh {
+      0% { opacity: 0.45; transform: translateY(4px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .mono {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .coach-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .coach-tab {
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.74rem;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--text-soft);
+    }
+
+    .coach-tab.active {
+      color: var(--accent);
+      border-color: var(--accent-border);
+      background: var(--accent-soft);
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .signal {
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 0.87rem;
+    }
+
+    .signal.green {
+      background: var(--green-soft);
+      color: #10643f;
+    }
+
+    .signal.orange {
+      background: var(--orange-soft);
+      color: #9a5806;
+    }
+
+    .signal.red {
+      background: var(--red-soft);
+      color: #8d2d08;
+    }
+
+    .philosophy {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .quote,
+    .method {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .quote blockquote {
+      font-size: 1.22rem;
+      line-height: 1.35;
+      letter-spacing: -0.03em;
+      max-width: 26ch;
+    }
+
+    .quote footer {
+      margin-top: 16px;
+      color: var(--text-faint);
+      font-size: 0.8rem;
+    }
+
+    .method ol {
+      display: grid;
+      gap: 12px;
+      padding-left: 18px;
+      color: var(--text-soft);
+    }
+
+    .method li strong {
+      color: var(--text);
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      font-size: 0.84rem;
+      color: var(--text-faint);
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .system-grid,
+      .philosophy,
+      .controls {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell { padding: 18px 16px 52px; }
+      .section { padding: 20px; border-radius: 20px; }
+      .hero { padding-top: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="eyebrow">Specimen Artifact</div>
+    <section class="hero">
+      <div>
+        <h1>One leadership principle.<br />One real behavior.<br />One learning system.</h1>
+        <p>
+          This is not a course outline or a portfolio card. It is a compact specimen of the kind of learning
+          architecture I build: a flow-of-work cue, a real practice artifact, adaptive coaching that changes
+          with the learner, and evidence that the behavior actually changed.
+        </p>
+        <div class="pill-row">
+          <div class="pill">Invisible Learning</div>
+          <div class="pill">Artifact-Based</div>
+          <div class="pill">Adaptive Coaching</div>
+          <div class="pill">Behavior, Not Completion</div>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <h2>What This Proves</h2>
+        <p>
+          I do not think of learning as content delivery. I think of it as environment design:
+          structure the moment well enough, and people improve almost by surprise.
+        </p>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="num">4</div>
+            <div class="label">System Layers</div>
+          </div>
+          <div class="stat">
+            <div class="num">3</div>
+            <div class="label">Coaching Modes</div>
+          </div>
+          <div class="stat">
+            <div class="num">1</div>
+            <div class="label">Behavior Target</div>
+          </div>
+          <div class="stat">
+            <div class="num">0</div>
+            <div class="label">Slides Required</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section">
+      <h2>Choose The Specimen</h2>
+      <p class="section-copy">
+        The structure stays the same. Only the behavior target changes. That is the point:
+        one architecture, many learning moments.
+      </p>
+
+      <div class="controls">
+        <div class="control">
+          <label>Principle / Behavior Theme</label>
+          <div class="choice-grid" id="scenario-choices"></div>
+        </div>
+        <div class="control">
+          <label>Learner State</label>
+          <div class="choice-grid" id="state-choices"></div>
+        </div>
+      </div>
+
+      <div class="system-grid">
+        <article class="system-card">
+          <h3>1. Flow-Of-Work Cue</h3>
+          <div class="card-title" id="cue-title"></div>
+          <p class="card-copy" id="cue-copy"></p>
+          <div class="cue-box">
+            <div class="mono" id="cue-channel"></div>
+            <div id="cue-message" style="margin-top:10px;"></div>
+          </div>
+        </article>
+
+        <article class="system-card">
+          <h3>2. Practice Artifact</h3>
+          <div class="card-title" id="artifact-title"></div>
+          <p class="card-copy" id="artifact-copy"></p>
+          <div class="artifact-box">
+            <div class="mono">Learner produces</div>
+            <div id="artifact-output" style="margin-top:10px;"></div>
+          </div>
+        </article>
+
+        <article class="system-card">
+          <h3>3. Adaptive Coaching</h3>
+          <div class="card-title" id="coach-title"></div>
+          <p class="card-copy" id="coach-copy"></p>
+          <div class="coach-tabs">
+            <button class="coach-tab active" data-state="stuck">Stuck</button>
+            <button class="coach-tab" data-state="skipping">Skipping</button>
+            <button class="coach-tab" data-state="strong">Strong</button>
+          </div>
+          <div class="coach-mode" id="coach-mode-label"></div>
+          <div class="coach-box" id="coach-response"></div>
+        </article>
+
+        <article class="system-card">
+          <h3>4. Evidence Of Change</h3>
+          <div class="card-title" id="evidence-title"></div>
+          <p class="card-copy" id="evidence-copy"></p>
+          <div class="signal-list" id="signal-list"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Why This Is My Angle</h2>
+      <p class="section-copy">
+        The core pattern in my work is structural. I look for what is mis-shaped underneath the learning problem,
+        fix that environment, and then make the learner’s next move obvious enough that improvement becomes natural.
+      </p>
+
+      <div class="philosophy">
+        <div class="quote">
+          <blockquote>
+            “I love creating environments where people succeed without realizing how they’re learning.”
+          </blockquote>
+          <footer>From my Mnookin two-pager. That is the through-line from Paris teaching to Ask Pathfinder to Palette.</footer>
+        </div>
+
+        <div class="method">
+          <ol>
+            <li><strong>Find the structural mistake.</strong> Do not start by adding more content.</li>
+            <li><strong>Design the right cue.</strong> Put the learning moment where the behavior actually happens.</li>
+            <li><strong>Ask for a real artifact.</strong> If nothing real is produced, the system taught too little.</li>
+            <li><strong>Adapt without becoming opaque.</strong> Coaching changes with the learner, but remains glass-box.</li>
+            <li><strong>Measure changed behavior.</strong> Not completion, not attendance, not satisfaction theater.</li>
+          </ol>
+        </div>
+      </div>
+
+      <p class="footer-note">
+        Honest boundary: this is a specimen, not a claim about Stripe’s current internal systems. The point is to show
+        the architecture I would bring, using the same philosophy I have used in teaching, knowledge systems, and AI-native enablement.
+      </p>
+    </section>
+  </div>
+
+  <script>
+    const scenarios = {
+      feedback: {
+        label: "Direct Feedback",
+        cueTitle: "A manager gets nudged before the conversation, not after the workshop.",
+        cueCopy: "The learning moment happens when the manager is about to avoid, soften, or overcomplicate the feedback.",
+        cueChannel: "Flow-of-work cue · Slack or manager dashboard",
+        cueMessage: "\"Before you start: write the observable behavior, the impact, and the next standard. If you cannot name those three things, you are not ready for the conversation.\"",
+        artifactTitle: "The learner produces a feedback prep note, not a quiz answer.",
+        artifactCopy: "The artifact is small on purpose. It is the minimum structure needed to improve the real behavior.",
+        artifactOutput: "<strong>Feedback Prep Note</strong><br />Behavior: missed decisions in the last two planning meetings<br />Impact: team left unclear on ownership<br />Next standard: close each decision with owner + date",
+        coachTitle: "The system responds differently depending on the learner’s posture.",
+        coachCopy: "Adaptive support is not extra polish. It is how the system avoids flattening different humans into one path.",
+        coach: {
+          stuck: "You are still describing personality instead of behavior. Try this stem: ‘In the last two meetings, I observed…’ Keep it observable enough that another person could have seen it too.",
+          skipping: "You moved straight to the script. Slow down. If the standard is vague, the conversation will drift. Name the exact behavior you want more of before you practice the wording.",
+          strong: "Good. Now increase difficulty: write the same note from the other person’s likely perspective. What would make this feedback feel useful instead of defensive?"
+        },
+        evidenceTitle: "The signal is changed team behavior, not whether the manager finished the module.",
+        evidenceCopy: "A strong learning system makes the evidence legible in the work itself.",
+        signals: [
+          { tone: "green", text: "Managers start naming observable behaviors more often in 1:1 prep notes." },
+          { tone: "orange", text: "Team meetings show faster recovery after disagreement because expectations are clearer." },
+          { tone: "red", text: "If managers still say ‘I’m bad at feedback,’ the system is too abstract and needs a tighter cue." }
+        ]
+      },
+      delegation: {
+        label: "Delegation",
+        cueTitle: "The cue appears when the manager is about to keep the work instead of handing off the outcome.",
+        cueCopy: "The mistake is usually structural: the handoff is underspecified, so the manager compensates by doing it themselves.",
+        cueChannel: "Flow-of-work cue · Weekly planning checkpoint",
+        cueMessage: "\"Write the outcome, the constraints, and the review point. Do not write the method unless safety or compliance requires it.\"",
+        artifactTitle: "The learner produces a delegation brief.",
+        artifactCopy: "A delegation brief makes the hidden handoff logic visible enough to improve.",
+        artifactOutput: "<strong>Delegation Brief</strong><br />Outcome: first draft of partner launch memo by Thursday<br />Constraints: must align to launch narrative + legal review<br />Review point: 20-minute midpoint check on Tuesday",
+        coachTitle: "Coaching changes based on whether the learner is anxious, rushing, or already ready for stretch.",
+        coachCopy: "Same behavior target. Different support.",
+        coach: {
+          stuck: "You are delegating a task, not an outcome. Rewrite the first line so success is visible without mentioning the exact steps.",
+          skipping: "You skipped the review point. That usually means the handoff will either drift or snap back into micromanagement. Add one checkpoint, not five.",
+          strong: "Now raise the difficulty. What context could you transfer that would let this person make one good decision you did not anticipate?"
+        },
+        evidenceTitle: "The signal is managerial leverage.",
+        evidenceCopy: "The learner improved if the team can move without waiting for them.",
+        signals: [
+          { tone: "green", text: "Managers spend more time on work only they can do." },
+          { tone: "orange", text: "Delegated work returns with stronger first drafts because constraints were clearer." },
+          { tone: "red", text: "If delegated work keeps boomeranging back, the system should inspect the handoff template before blaming the learner." }
+        ]
+      },
+      alignment: {
+        label: "Priority Alignment",
+        cueTitle: "The cue appears when a manager’s team is about to absorb changing priorities as noise.",
+        cueCopy: "The hidden problem is often not effort. It is the absence of one visible decision frame everyone can reuse.",
+        cueChannel: "Flow-of-work cue · Weekly staff update",
+        cueMessage: "\"State the top priority, why it changed, and what is explicitly de-prioritized. If you cannot name the tradeoff, the update is not useful yet.\"",
+        artifactTitle: "The learner produces a one-page alignment brief.",
+        artifactCopy: "The artifact forces the manager to connect shifting work back to a stable logic.",
+        artifactOutput: "<strong>Alignment Brief</strong><br />Priority: reduce onboarding time for new users<br />Why now: activation dropped after pricing change<br />Not doing: secondary dashboard redesign until signal recovers",
+        coachTitle: "The system teaches the manager to make tradeoffs visible.",
+        coachCopy: "A reusable alignment pattern is more valuable than a one-time clarification.",
+        coach: {
+          stuck: "You wrote three priorities. That means you have not chosen. Reduce this to one top focus plus one explicit non-goal.",
+          skipping: "You announced the decision without the user signal behind it. Add the evidence that made the old plan less correct.",
+          strong: "Now make it portable: how would you say the same tradeoff in one sentence to your team, your peer group, and your VP?"
+        },
+        evidenceTitle: "The signal is shared recall under pressure.",
+        evidenceCopy: "Alignment is real when people can restate the priority and the tradeoff without reopening the deck.",
+        signals: [
+          { tone: "green", text: "Team members can name the top priority and what moved out of scope." },
+          { tone: "orange", text: "Fewer side projects continue running after a strategy change." },
+          { tone: "red", text: "If priorities still fragment across meetings, the system needs a better cue and a simpler artifact." }
+        ]
+      }
+    };
+
+    const learnerStates = {
+      stuck: "Stuck",
+      skipping: "Skipping Ahead",
+      strong: "Strong"
+    };
+
+    const coachModes = {
+      stuck: "Coaching mode: redirecting",
+      skipping: "Coaching mode: decelerating",
+      strong: "Coaching mode: stretching"
+    };
+
+    let currentScenario = "feedback";
+    let currentCoachState = "stuck";
+
+    function renderChoiceGroup(containerId, options, current, onSelect) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+      Object.entries(options).forEach(([key, value]) => {
+        const btn = document.createElement("button");
+        btn.className = "choice" + (key === current ? " active" : "");
+        btn.textContent = value.label || value;
+        btn.addEventListener("click", () => onSelect(key));
+        container.appendChild(btn);
+      });
+    }
+
+    function renderScenario() {
+      const data = scenarios[currentScenario];
+
+      document.getElementById("cue-title").textContent = data.cueTitle;
+      document.getElementById("cue-copy").textContent = data.cueCopy;
+      document.getElementById("cue-channel").textContent = data.cueChannel;
+      document.getElementById("cue-message").textContent = data.cueMessage;
+
+      document.getElementById("artifact-title").textContent = data.artifactTitle;
+      document.getElementById("artifact-copy").textContent = data.artifactCopy;
+      document.getElementById("artifact-output").innerHTML = data.artifactOutput;
+
+      document.getElementById("coach-title").textContent = data.coachTitle;
+      document.getElementById("coach-copy").textContent = data.coachCopy;
+      const coachResponse = document.getElementById("coach-response");
+      coachResponse.classList.remove("is-refreshing");
+      void coachResponse.offsetWidth;
+      coachResponse.classList.add("is-refreshing");
+      coachResponse.textContent = data.coach[currentCoachState];
+      document.getElementById("coach-mode-label").textContent = coachModes[currentCoachState];
+
+      document.getElementById("evidence-title").textContent = data.evidenceTitle;
+      document.getElementById("evidence-copy").textContent = data.evidenceCopy;
+
+      const signals = document.getElementById("signal-list");
+      signals.innerHTML = "";
+      data.signals.forEach(signal => {
+        const div = document.createElement("div");
+        div.className = `signal ${signal.tone}`;
+        div.textContent = signal.text;
+        signals.appendChild(div);
+      });
+
+      renderChoiceGroup("scenario-choices", scenarios, currentScenario, (key) => {
+        currentScenario = key;
+        renderScenario();
+      });
+
+      renderChoiceGroup("state-choices", learnerStates, currentCoachState, (key) => {
+        currentCoachState = key;
+        renderScenario();
+      });
+
+      document.querySelectorAll(".coach-tab").forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.state === currentCoachState);
+      });
+    }
+
+    document.querySelectorAll(".coach-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        currentCoachState = tab.dataset.state;
+        renderScenario();
+      });
+    });
+
+    renderScenario();
+  </script>
+</body>
+</html>

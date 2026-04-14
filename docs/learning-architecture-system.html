@@ -1,0 +1,1281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Learning architecture, for me, is not content production. It is the design of structures, interfaces, assessments, and coaching loops that make high-quality performance repeatable. This page shows that practice across enterprise enablement, adaptive coaching, and a modular AI-native curriculum system.
+" />
+  <meta property="og:title" content="Learning Architecture for AI-Native Teams" />
+  <meta property="og:description" content="Learning architecture, for me, is not content production. It is the design of structures, interfaces, assessments, and coaching loops that make high-quality performance repeatable. This page shows that practice across enterprise enablement, adaptive coaching, and a modular AI-native curriculum system.
+" />
+  <title>Learning Architecture for AI-Native Teams</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #fafaf8;
+      --surface: #ffffff;
+      --surface-alt: #f4f2ef;
+      --text: #1a1a2e;
+      --text-soft: #5a5a6e;
+      --text-faint: #8a8a9a;
+      --accent: #635bff; /* Stripe purple */
+      --accent-soft: rgba(99,91,255,0.08);
+      --accent-border: rgba(99,91,255,0.2);
+      --green: #27ae60;
+      --orange: #f08b58;
+      --blue: #4a9eff;
+      --warm: #fff3de;
+      --border: #e8e6e1;
+      --shadow: 0 2px 24px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 48px rgba(0,0,0,0.08);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .animate-in {
+      opacity: 0;
+      animation: fadeUp 0.6s ease-out forwards;
+    }
+
+    .animate-in.delay-1 { animation-delay: 0.1s; }
+    .animate-in.delay-2 { animation-delay: 0.2s; }
+    .animate-in.delay-3 { animation-delay: 0.3s; }
+    .animate-in.delay-4 { animation-delay: 0.4s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .animate-in { opacity: 1; animation: none; }
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250,250,248,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+    }
+
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-soft);
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 80px 32px 64px;
+    }
+
+    .hero-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      max-width: 720px;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-soft);
+      max-width: 640px;
+      margin-top: 16px;
+      line-height: 1.65;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 64px 32px;
+    }
+
+    .section-header {
+      margin-bottom: 40px;
+    }
+
+    .section + .section { border-top: 1px solid var(--border); }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .section-desc {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      max-width: 600px;
+      margin-top: 8px;
+    }
+
+    /* ── PROJECT CARDS ── */
+    .project {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 48px;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.25s ease, transform 0.25s ease;
+    }
+
+    .project:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .project-preview {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-preview-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .project-body {
+      padding: 32px;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .tag--green { background: rgba(39,174,96,0.08); color: var(--green); }
+    .tag--orange { background: rgba(240,139,88,0.1); color: #c06a30; }
+    .tag--blue { background: rgba(74,158,255,0.1); color: var(--blue); }
+
+    .project h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+
+    .project-desc {
+      color: var(--text-soft);
+      font-size: 0.92rem;
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    .project-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .detail-block h4 {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+      margin-bottom: 6px;
+    }
+
+    .detail-block ul {
+      list-style: none;
+      font-size: 0.85rem;
+      color: var(--text-soft);
+    }
+
+    .detail-block li {
+      padding: 2px 0;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .detail-block li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    /* ── MOCK PREVIEWS ── */
+
+    /* Dashboard mock */
+    .mock-dashboard {
+      width: 100%;
+      height: 100%;
+      background: #0D0D0D;
+      padding: 24px;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .mock-dash-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mock-dash-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .mock-dash-title span { color: #10A37F; }
+
+    .mock-live {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #10A37F;
+    }
+
+    .mock-live-dot {
+      width: 6px;
+      height: 6px;
+      background: #10A37F;
+      border-radius: 50%;
+      animation: mockPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes mockPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .mock-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .mock-metric {
+      background: #1A1A2E;
+      border-radius: 10px;
+      padding: 14px;
+      border: 1px solid #2D2D3D;
+    }
+
+    .mock-metric-label {
+      font-size: 0.6rem;
+      color: #6E6E80;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .mock-metric-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 4px;
+    }
+
+    .mock-metric-value.green { color: #27AE60; }
+    .mock-metric-value.yellow { color: #F39C12; }
+
+    .mock-charts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .mock-chart {
+      background: #1A1A2E;
+      border-radius: 10px;
+      border: 1px solid #2D2D3D;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .mock-chart-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #B0B0C0;
+    }
+
+    .mock-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .mock-bar {
+      height: 14px;
+      border-radius: 4px;
+      opacity: 0.85;
+    }
+
+    .mock-bubbles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .mock-bubble {
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+
+    .mock-query {
+      background: #1A1A2E;
+      border-radius: 10px;
+      border: 1px solid #2D2D3D;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      grid-column: 1 / -1;
+    }
+
+    .mock-query-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(16,163,127,0.2);
+      flex-shrink: 0;
+    }
+
+    .mock-query-text {
+      font-size: 0.72rem;
+      color: #6E6E80;
+      font-style: italic;
+    }
+
+    /* OKA mock */
+    .mock-oka {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, #fff3de, #ffe2d7);
+      padding: 24px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .mock-oka-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mock-oka-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #f3c38f, #d7925f);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .mock-oka-avatar::before,
+    .mock-oka-avatar::after {
+      content: "";
+      position: absolute;
+      top: -6px;
+      width: 16px;
+      height: 20px;
+      background: #c98653;
+      border-radius: 12px 12px 6px 6px;
+    }
+
+    .mock-oka-avatar::before { left: 6px; transform: rotate(-14deg); }
+    .mock-oka-avatar::after { right: 6px; transform: rotate(14deg); }
+
+    .mock-oka-eyes {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+
+    .mock-oka-eye {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #32221e;
+    }
+
+    .mock-oka-nose {
+      position: absolute;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 6px;
+      border-radius: 50%;
+      background: #3d2822;
+    }
+
+    .mock-oka-name {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #51362f;
+    }
+
+    .mock-oka-sub {
+      font-size: 0.8rem;
+      color: #82655c;
+    }
+
+    .mock-oka-main {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 12px;
+    }
+
+    .mock-oka-card {
+      background: rgba(255,251,244,0.92);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 12px 36px rgba(129,84,49,0.1);
+      border: 1px solid rgba(255,255,255,0.45);
+    }
+
+    .mock-oka-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #82655c;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .mock-oka-response {
+      font-size: 1rem;
+      line-height: 1.55;
+      color: #51362f;
+    }
+
+    .mock-oka-keyword { color: #1a6dcc; font-weight: 700; }
+
+    .mock-oka-focus {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .mock-oka-word {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #7b42c9;
+      letter-spacing: 0.06em;
+    }
+
+    .mock-oka-word.irregular { color: #dc7e7e; }
+
+    .mock-oka-hint {
+      font-size: 0.82rem;
+      color: #82655c;
+      text-align: center;
+    }
+
+    .mock-oka-band {
+      font-size: 0.68rem;
+      background: rgba(255,255,255,0.65);
+      padding: 4px 10px;
+      border-radius: 999px;
+      color: #82655c;
+      font-weight: 700;
+    }
+
+    .mock-oka-mic {
+      display: flex;
+      justify-content: center;
+    }
+
+    .mock-oka-mic-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #ffbb7c, #f08b58);
+      box-shadow: 0 14px 40px rgba(240,139,88,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #4d2f28;
+    }
+
+    /* Convergence Board mock */
+    .mock-obsidian {
+      width: 100%;
+      height: 100%;
+      background: var(--surface-alt, #f4f2ef);
+      padding: 20px;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .mock-obs-modebar {
+      display: flex;
+      gap: 0;
+      background: #e8e6e1;
+      border-radius: 8px;
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .mock-obs-mode {
+      padding: 8px 18px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #5a5a6e;
+      cursor: default;
+    }
+
+    .mock-obs-mode.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .mock-obs-health {
+      display: flex;
+      gap: 8px;
+    }
+
+    .mock-obs-pill {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+
+    .mock-obs-pill.green { background: rgba(39,174,96,0.12); color: #27ae60; }
+    .mock-obs-pill.yellow { background: rgba(243,156,18,0.12); color: #c07b10; }
+    .mock-obs-pill.blue { background: rgba(99,91,255,0.1); color: #635bff; }
+
+    .mock-obs-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .mock-obs-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 14px;
+      border-left: 3px solid var(--accent);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    .mock-obs-card.decided { border-left-color: var(--green); }
+    .mock-obs-card.exploring { border-left-color: var(--orange); }
+
+    .mock-obs-card-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .mock-obs-card-meta {
+      font-size: 0.65rem;
+      color: var(--text-faint);
+    }
+
+    .mock-obs-confidence {
+      margin-top: 8px;
+      height: 4px;
+      border-radius: 2px;
+      background: #e8e6e1;
+      overflow: hidden;
+    }
+
+    .mock-obs-conf-fill {
+      height: 100%;
+      border-radius: inherit;
+    }
+
+    /* Enablement Architecture mock */
+    .mock-enablement {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .mock-en-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+    }
+
+    .mock-en-layers {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .mock-en-arrow {
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.25);
+      line-height: 1;
+      padding: 2px 0;
+    }
+
+    .mock-en-layer {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 12px 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .mock-en-layer-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .mock-en-layer-num.l1 { background: rgba(99,91,255,0.3); color: #a5a0ff; }
+    .mock-en-layer-num.l2 { background: rgba(16,163,127,0.3); color: #5cd9b5; }
+    .mock-en-layer-num.l3 { background: rgba(240,139,88,0.3); color: #f0a878; }
+
+    .mock-en-layer-content {
+      flex: 1;
+    }
+
+    .mock-en-layer-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #e0e0f0;
+    }
+
+    .mock-en-layer-desc {
+      font-size: 0.65rem;
+      color: #7a7a9a;
+      margin-top: 2px;
+    }
+
+    .mock-en-layer-items {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .mock-en-chip {
+      font-size: 0.58rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      color: #a0a0b8;
+      font-weight: 500;
+    }
+
+    /* ── PHILOSOPHY ── */
+    .philosophy {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      margin-bottom: 48px;
+      box-shadow: var(--shadow);
+    }
+
+    .philosophy h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .phil-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .phil-item h4 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .phil-item p {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), var(--green), var(--orange));
+      border-radius: 1px;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 20px;
+      padding-bottom: 28px;
+      position: relative;
+    }
+
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -32px;
+      top: 6px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 3px solid var(--accent);
+      z-index: 1;
+    }
+
+    .timeline-item:last-child::before { border-color: var(--green); }
+
+    .timeline-year {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--accent);
+      min-width: 44px;
+      padding-top: 2px;
+    }
+
+    .timeline-content {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.03);
+    }
+
+    .timeline-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+
+    .timeline-place {
+      font-size: 0.75rem;
+      color: var(--text-faint);
+      margin-bottom: 6px;
+    }
+
+    .timeline-desc {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      line-height: 1.55;
+    }
+
+    /* ── CTA ── */
+    .cta {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 32px 64px;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, var(--accent) 0%, #7c75ff 100%);
+      border-radius: var(--radius);
+      padding: 48px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .cta-box h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .cta-box p {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      max-width: 520px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+
+    .cta-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .cta-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+
+    .cta-link--primary {
+      background: #fff;
+      color: var(--accent);
+    }
+
+    .cta-link--secondary {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 48px 32px;
+      text-align: center;
+      color: var(--text-faint);
+      font-size: 0.82rem;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero { padding: 48px 20px 40px; }
+      .section { padding: 40px 20px; }
+      .hero-stats { gap: 20px; }
+      .hero-stat-num { font-size: 1.6rem; }
+      .mock-metrics { grid-template-columns: repeat(2, 1fr); }
+      .mock-charts { grid-template-columns: 1fr; }
+      .mock-oka-main { grid-template-columns: 1fr; }
+      .mock-obs-cards { grid-template-columns: 1fr; }
+      .project-body { padding: 20px; }
+      .project-details { grid-template-columns: 1fr; }
+      .philosophy { padding: 24px; }
+      .phil-grid { grid-template-columns: 1fr; }
+      .cta-box { padding: 32px 20px; }
+      .cta-box h2 { font-size: 1.3rem; }
+      .nav-links { gap: 14px; }
+      .nav-links a { font-size: 0.75rem; }
+      .timeline { padding-left: 28px; }
+      .timeline-item { flex-direction: column; gap: 4px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.6rem; }
+      .hero-sub { font-size: 0.95rem; }
+      .hero-stats { flex-direction: column; gap: 16px; }
+      .hero-stat { flex-direction: row; align-items: baseline; gap: 10px; }
+      .nav-links { display: none; }
+      .mock-oka-top > div:last-child { display: none; }
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      .nav { display: none; }
+      .cta { display: none; }
+      .project-preview { break-inside: avoid; }
+      .project { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+      .philosophy { break-inside: avoid; }
+      .section + .section { border-top: none; }
+      body { background: #fff; }
+      .hero { padding-top: 20px; }
+      .animate-in { opacity: 1; animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-name">Mical Neill</div>
+    <ul class="nav-links"><li><a href="#project-0">Pathfinder</a></li><li><a href="#project-1">System</a></li><li><a href="#project-2">Coaching</a></li><li><a href="#philosophy">Philosophy</a></li></ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-label animate-in">Learning Architecture</div>
+  <h1 class="animate-in delay-1">I build systems that let other people learn, decide, and deliver without me in the room.</h1>
+  <p class="hero-sub animate-in delay-2">Learning architecture, for me, is not content production. It is the design of structures, interfaces, assessments, and coaching loops that make high-quality performance repeatable. This page shows that practice across enterprise enablement, adaptive coaching, and a modular AI-native curriculum system.
+</p>
+  <div class="hero-stats animate-in delay-3">
+    <div class="hero-stat">
+      <div class="hero-stat-num">20</div>
+      <div class="hero-stat-label">Years Designing Learning</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">121</div>
+      <div class="hero-stat-label">Curriculum Modules</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">3</div>
+      <div class="hero-stat-label">Assessment Layers</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">12K+</div>
+      <div class="hero-stat-label">Users / Month</div>
+    </div></div>
+</section>
+
+
+<section class="section" id="project-0">
+  <div class="section-header">
+    <div class="section-label">Case Study — AWS</div>
+    <div class="section-title">Ask Pathfinder</div>
+    <p class="section-desc">Turning scattered expertise into a system people can actually use at the moment they need it.</p>
+  </div>
+  
+  <div class="project">
+    <div class="project-preview"><div class="project-preview-inner">
+<div class="mock-enablement">
+  <div class="mock-en-title">From Facilitated Knowledge to Self-Serve Performance</div>
+  <div class="mock-en-layers"><div class="mock-en-layer">
+      <div class="mock-en-layer-num l1">1</div>
+      <div class="mock-en-layer-content">
+        <div class="mock-en-layer-name">Source Layer</div>
+        <div class="mock-en-layer-desc">Field content, examples, updates, and raw knowledge spread across teams.</div>
+        <div class="mock-en-layer-items"><span class="mock-en-chip">presentations</span><span class="mock-en-chip">docs</span><span class="mock-en-chip">examples</span><span class="mock-en-chip">partner feedback</span></div>
+      </div>
+    </div><div class="mock-en-arrow">▼ structure</div><div class="mock-en-layer">
+      <div class="mock-en-layer-num l2">2</div>
+      <div class="mock-en-layer-content">
+        <div class="mock-en-layer-name">Semantic Layer</div>
+        <div class="mock-en-layer-desc">Function-based taxonomy, parent-child relationships, and human-curated metadata.</div>
+        <div class="mock-en-layer-items"><span class="mock-en-chip">taxonomy</span><span class="mock-en-chip">metadata</span><span class="mock-en-chip">freshness rules</span><span class="mock-en-chip">competency signals</span></div>
+      </div>
+    </div><div class="mock-en-arrow">▼ usable at scale</div><div class="mock-en-layer">
+      <div class="mock-en-layer-num l3">3</div>
+      <div class="mock-en-layer-content">
+        <div class="mock-en-layer-name">Learning Layer</div>
+        <div class="mock-en-layer-desc">Better discovery, reusable templates, and scalable self-serve enablement.</div>
+        <div class="mock-en-layer-items"><span class="mock-en-chip">12K+ users/mo</span><span class="mock-en-chip">25% faster prep</span><span class="mock-en-chip">67% better coverage</span></div>
+      </div>
+    </div></div>
+</div>
+</div></div>
+    <div class="project-body">
+      <div class="project-tags"><span class="tag">Enablement</span><span class="tag--green tag">Knowledge Architecture</span><span class="tag--orange tag">Metadata</span><span class="tag--blue tag">Scale</span></div>
+      <h3>Ask Pathfinder — High-Touch Expertise Into Scalable Discovery</h3>
+      <p class="project-desc">At AWS, I helped transform high-touch sales enablement into a structured learning and discovery system. The core move was architectural, not cosmetic: reclassify content by function instead of industry, add parent-child content relationships, and layer human-designed metadata over source materials so people could find what mattered quickly and trust what they found.
+</p>
+      <div class="project-details"><div class="detail-block"><h4>What Changed</h4><ul><li>Industry-based organization became function-based classification</li><li>Content relationships became explicit instead of implied</li><li>Metadata carried human judgment, not just automated tags</li></ul></div><div class="detail-block"><h4>Why It Matters</h4><ul><li>People found relevant guidance faster</li><li>Knowledge transferred across use cases instead of staying siloed</li><li>The system scaled without depending on live facilitation</li></ul></div></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="project-1">
+  <div class="section-header">
+    <div class="section-label">Open System — Palette Enablement</div>
+    <div class="section-title">The SDK for People</div>
+    <p class="section-desc">A modular learning system built to help non-experts build real AI capability through artifacts, not slides.</p>
+  </div>
+  
+  <div class="project">
+    <div class="project-preview"><div class="project-preview-inner">
+<div class="mock-obsidian">
+  <div class="mock-obs-modebar"><div class="mock-obs-mode">Orient</div><div class="mock-obs-mode active">Build</div><div class="mock-obs-mode">Verify</div></div>
+  <div class="mock-obs-health"><div class="mock-obs-pill green">121 modules</div><div class="mock-obs-pill blue">5 journeys</div><div class="mock-obs-pill yellow">Artifact-based</div></div>
+  <div class="mock-obs-cards"><div class="mock-obs-card decided">
+      <div class="mock-obs-card-title">RIU-401 Taxonomy Design</div>
+      <div class="mock-obs-card-meta">structure a domain for retrieval</div>
+      <div class="mock-obs-confidence"><div class="mock-obs-conf-fill" style="width:94%;background:#27ae60;"></div></div>
+    </div><div class="mock-obs-card">
+      <div class="mock-obs-card-title">RIU-021 Eval Harness</div>
+      <div class="mock-obs-card-meta">measure model quality with evidence</div>
+      <div class="mock-obs-confidence"><div class="mock-obs-conf-fill" style="width:83%;background:var(--accent);"></div></div>
+    </div><div class="mock-obs-card exploring">
+      <div class="mock-obs-card-title">RIU-510 Workflow Design</div>
+      <div class="mock-obs-card-meta">route work across agents safely</div>
+      <div class="mock-obs-confidence"><div class="mock-obs-conf-fill" style="width:68%;background:#f08b58;"></div></div>
+    </div><div class="mock-obs-card decided">
+      <div class="mock-obs-card-title">RIU-102 Enablement Pack</div>
+      <div class="mock-obs-card-meta">teach the next person clearly</div>
+      <div class="mock-obs-confidence"><div class="mock-obs-conf-fill" style="width:88%;background:#27ae60;"></div></div>
+    </div></div>
+</div>
+</div></div>
+    <div class="project-body">
+      <div class="project-tags"><span class="tag">Curriculum</span><span class="tag--green tag">Assessment</span><span class="tag--orange tag">AI-Native</span><span class="tag--blue tag">Builder of Builders</span></div>
+      <h3>Enablement System — The SDK for People</h3>
+      <p class="project-desc">This system turns a broad AI capability map into structured learning journeys, hands-on modules, and visible progression. Each module is tied to a competency, each competency produces a real artifact, and each artifact can be evaluated by automated checks, AI rubric scoring, and human calibration. The result is a learning architecture that behaves more like a product system than a course catalog.
+</p>
+      <div class="project-details"><div class="detail-block"><h4>System Design</h4><ul><li>121 modules mapped to explicit competency areas</li><li>5 learning journeys instead of one generic track</li><li>Knowledge library and taxonomy share the same backbone</li></ul></div><div class="detail-block"><h4>Assessment</h4><ul><li>Automated checks verify structure and completeness</li><li>AI rubric scoring evaluates reasoning against exemplars</li><li>Human calibration handles edge cases and final trust</li></ul></div><div class="detail-block"><h4>Why It Works</h4><ul><li>The learner makes real things, not quiz selections</li><li>Progress is visible through artifacts</li><li>Quality scales without flattening judgment</li></ul></div></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="project-2">
+  <div class="section-header">
+    <div class="section-label">Case Study — Coaching Loop</div>
+    <div class="section-title">Adaptive Coaching Loop</div>
+    <p class="section-desc">Learning systems should respond to confusion, confidence, and context, not just deliver the next lesson.</p>
+  </div>
+  
+  <div class="project">
+    <div class="project-preview"><div class="project-preview-inner">
+<div class="mock-oka">
+  <div class="mock-oka-top">
+    <div class="mock-oka-avatar"><div class="mock-oka-eyes"><div class="mock-oka-eye"></div><div class="mock-oka-eye"></div></div><div class="mock-oka-nose"></div></div>
+    <div><div class="mock-oka-name">Oka</div><div class="mock-oka-sub">Adaptive learning companion</div></div>
+  </div>
+  <div class="mock-oka-main">
+    <div class="mock-oka-card">
+      <div class="mock-oka-label">Oka says</div>
+      <div class="mock-oka-response">You do not need to know the jargon yet. Let’s start with the part you can already name.</div>
+    </div>
+    <div class="mock-oka-card mock-oka-focus">
+      <div class="mock-oka-band">State: orienting</div>
+      <div class="mock-oka-word">next step</div>
+      <div class="mock-oka-hint">profile → converge → try one artifact → verify → adapt</div>
+    </div>
+  </div>
+  <div class="mock-oka-mic"><div class="mock-oka-mic-btn">Talk</div></div>
+</div>
+</div></div>
+    <div class="project-body">
+      <div class="project-tags"><span class="tag">Coaching</span><span class="tag--green tag">Adaptive UX</span><span class="tag--orange tag">Plain Language</span><span class="tag--blue tag">Governance</span></div>
+      <h3>Adaptive Coaching — Guidance That Changes With The Learner</h3>
+      <p class="project-desc">Beyond curriculum, I design coaching behavior. The agentic enablement system starts with a learner lens, creates a convergence brief, and then runs a coaching loop that adapts to real learner states: stuck, skipping ahead, overwhelmed, or ready to advance. That makes the system useful for actual humans, not just idealized learners.
+</p>
+      <div class="project-details"><div class="detail-block"><h4>Loop</h4><ul><li>Learner lens builds a structured picture of the person</li><li>Convergence brief narrows the right next step</li><li>Coaching loop adapts based on actual friction signals</li></ul></div><div class="detail-block"><h4>Design Principles</h4><ul><li>No CLI required</li><li>No jargon without translation</li><li>Glass-box recommendations the learner can inspect</li></ul></div><div class="detail-block"><h4>Transferable Pattern</h4><ul><li>Works for executives, technical teams, and children</li><li>Useful in chat, web UI, or guided workflow</li><li>The system teaches through interaction, not just content</li></ul></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="journey">
+  <div class="section-header">
+    <div class="section-label">Journey</div>
+    <div class="section-title">The path here</div>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">2006–2013</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Paris teaching and curriculum design</div>
+        <div class="timeline-place">Sciences Po, Nanterre, Ecole des Metiers du Livre</div>
+        <div class="timeline-desc">Designed immersive, domain-shaped learning experiences where language and professional practice were taught together.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2013–2023</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Operational learning and knowledge systems</div>
+        <div class="timeline-place">Amazon</div>
+        <div class="timeline-desc">Built training, classification, and multilingual knowledge structures that scaled across teams, countries, and operating contexts.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2024–2026</div>
+      <div class="timeline-content">
+        <div class="timeline-title">AI-native enablement systems</div>
+        <div class="timeline-place">AWS and independent systems work</div>
+        <div class="timeline-desc">Moved from programs and content into AI-native learning architecture: retrieval, adaptive coaching, modular curriculum, and artifact-based assessment.</div>
+      </div>
+    </div></div>
+</section>
+
+<section class="section" id="philosophy">
+  <div class="section-header">
+    <div class="section-label">Design Philosophy</div>
+    <div class="section-title">How I think about this</div>
+  </div>
+  <div class="philosophy"><div class="phil-grid"><div class="phil-item"><h4>Learning architecture is operating design</h4><p>The goal is not to explain things beautifully in isolation. The goal is to create structures, workflows, and interfaces that help people perform better when the work is real.</p></div><div class="phil-item"><h4>The SDK for people</h4><p>A good learning system gives people reusable primitives: shared language, visible standards, guided sequences, and feedback loops they can use without the original expert present.</p></div><div class="phil-item"><h4>Artifacts beat abstractions</h4><p>If the learner cannot produce something real, the system has not taught enough. Briefs, taxonomies, harnesses, workflows, and enablement packs are the assessment.</p></div><div class="phil-item"><h4>Adaptive does not mean opaque</h4><p>A strong coaching system changes its behavior as the learner changes, but it remains glass-box: the learner can see why the system recommended the next step.</p></div></div></div>
+</section>
+
+<section class="cta">
+  <div class="cta-box">
+    <h2>Want to see the system in action?</h2>
+    <p>Explore the open-source architecture, review a learning path, or reach out to discuss learning systems for AI-native organizations.</p>
+    <div class="cta-links"><a href="mailto:micalrneill@gmail.com" class="cta-link cta-link--primary">micalrneill@gmail.com</a><a href="https://github.com/pretendhome/palette" class="cta-link cta-link--secondary">GitHub — Palette</a><a href="https://github.com/pretendhome/enablement" class="cta-link cta-link--secondary">GitHub — Enablement</a></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>Mical Neill · San Francisco · github.com/pretendhome/palette · github.com/pretendhome/enablement</p>
+</footer>
+
+</body>
+</html>
