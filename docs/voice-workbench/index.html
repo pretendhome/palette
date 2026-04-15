@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice Evaluation Workbench</title>
+  <style>
+    :root {
+      --bg: #0c0f1a;
+      --surface: #141825;
+      --surface-2: #1a1f30;
+      --border: rgba(255,255,255,0.08);
+      --text: #e8ecf4;
+      --text-dim: #7a8194;
+      --text-faint: #4a5068;
+      --accent: #4cc2ff;
+      --accent-dim: rgba(76,194,255,0.12);
+      --green: #7ef0a3;
+      --green-dim: rgba(126,240,163,0.12);
+      --orange: #f0a060;
+      --orange-dim: rgba(240,160,96,0.12);
+      --red: #f08080;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --mono: 'JetBrains Mono', 'SF Mono', monospace;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* Layout */
+    .app {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 32px;
+    }
+    header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+    header p {
+      color: var(--text-dim);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    .badge.connected { background: var(--green-dim); color: var(--green); }
+    .badge.offline { background: var(--orange-dim); color: var(--orange); }
+
+    /* Setup panel */
+    .setup {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 20px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .field label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+    .field select, .field input, .field textarea {
+      width: 100%;
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      font-size: 13px;
+      font-family: var(--font);
+    }
+    .field textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+    .field select:focus, .field input:focus, .field textarea:focus {
+      outline: 1px solid var(--accent);
+      border-color: var(--accent);
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      align-items: end;
+    }
+    button {
+      font-family: var(--font);
+      cursor: pointer;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--surface-2);
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    button:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); }
+    button.primary {
+      background: linear-gradient(135deg, rgba(76,194,255,0.2), rgba(126,240,163,0.15));
+      border-color: rgba(76,194,255,0.4);
+    }
+    button.primary:hover { border-color: var(--accent); }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Locale watchout */
+    .watchout {
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      background: var(--orange-dim);
+      border: 1px solid rgba(240,160,96,0.2);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--orange);
+      display: none;
+    }
+    .watchout.visible { display: block; }
+    .watchout strong { color: var(--text); }
+
+    /* Voice cards grid */
+    .voices {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .voice-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: border-color 0.2s;
+    }
+    .voice-card.selected { border-color: var(--accent); }
+    .voice-card.winner { border-color: var(--green); box-shadow: 0 0 20px rgba(126,240,163,0.08); }
+    .voice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .voice-name {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .voice-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+    .ttfa-badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      color: var(--text-dim);
+    }
+    .ttfa-badge.fast { color: var(--green); background: var(--green-dim); }
+    .ttfa-badge.ok { color: var(--accent); background: var(--accent-dim); }
+    .ttfa-badge.slow { color: var(--orange); background: var(--orange-dim); }
+
+    /* Audio controls */
+    .audio-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .play-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .play-btn.playing { background: var(--accent-dim); border-color: var(--accent); }
+    .audio-bar {
+      flex: 1;
+      height: 4px;
+      background: var(--surface-2);
+      border-radius: 2px;
+      position: relative;
+    }
+    .audio-progress {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+    .audio-time {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      min-width: 36px;
+      text-align: right;
+    }
+
+    /* Scoring */
+    .scoring { margin-bottom: 12px; }
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .score-label {
+      font-size: 12px;
+      min-width: 90px;
+      color: var(--text-dim);
+    }
+    .score-dots {
+      display: flex;
+      gap: 4px;
+    }
+    .score-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      padding: 0;
+    }
+    .score-dot:hover { border-color: var(--accent); }
+    .score-dot.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+    .score-weight {
+      font-size: 10px;
+      color: var(--text-faint);
+      font-family: var(--mono);
+    }
+    .voice-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      margin-top: 8px;
+    }
+    .total-score {
+      font-size: 24px;
+      font-weight: 700;
+      font-family: var(--mono);
+    }
+    .ship-toggle { display: flex; gap: 6px; }
+    .ship-btn { font-size: 11px; padding: 4px 12px; }
+    .ship-btn.ship.active { background: var(--green-dim); color: var(--green); border-color: var(--green); }
+    .ship-btn.not-yet.active { background: rgba(240,128,128,0.12); color: var(--red); border-color: var(--red); }
+
+    /* Notes */
+    .notes-field {
+      width: 100%;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px;
+      font-size: 12px;
+      font-family: var(--font);
+      min-height: 36px;
+      resize: vertical;
+      margin-top: 8px;
+    }
+
+    /* Recommendation panel */
+    .recommendation {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+      display: none;
+    }
+    .recommendation.visible { display: block; }
+    .recommendation h2 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+    .rec-winner {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .rec-rationale {
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .rec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+    .rec-table th {
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      padding: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .rec-table td {
+      padding: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .rec-table .winner-row { color: var(--green); font-weight: 600; }
+    .export-row { display: flex; gap: 8px; }
+
+    /* Acoustic tags */
+    .acoustic-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .acoustic-tag {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .acoustic-tag:hover { border-color: var(--accent); color: var(--text); }
+    .acoustic-tag.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+
+    /* Loading state */
+    .generating .voice-card { opacity: 0.6; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .loading { animation: pulse 1.5s infinite; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .voices { grid-template-columns: 1fr; }
+      .setup { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div>
+      <h1>Voice Evaluation Workbench</h1>
+      <p>Compare, score, and choose the right AI agent voice for each customer journey stage.</p>
+      <p style="color:var(--text-faint);font-size:12px;margin-top:2px">Built by Mical Elia — Sierra Agent Experience Designer application artifact</p>
+    </div>
+    <span class="badge offline" id="tts-status">TTS offline</span>
+  </header>
+
+  <div class="setup">
+    <div class="field">
+      <label>Journey Stage</label>
+      <select id="stage">
+        <option value="acceptance">Acceptance — first-impression trust</option>
+        <option value="resolution">Resolution — clear problem-solving</option>
+        <option value="satisfaction">Satisfaction — confident close</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Persona Target</label>
+      <select id="persona">
+        <option value="warm-guide">Warm Guide</option>
+        <option value="technical-expert">Technical Expert</option>
+        <option value="luxury-concierge">Luxury Concierge</option>
+        <option value="calm-resolver">Calm Resolver</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Language</label>
+      <select id="language">
+        <option value="eng">English</option>
+        <option value="fra">French</option>
+        <option value="por">Portuguese</option>
+        <option value="spa">Spanish</option>
+      </select>
+    </div>
+    <div class="field btn-row">
+      <button class="primary" id="generate-btn" onclick="generateComparison()">Generate Comparison</button>
+      <button onclick="resetAll()">Reset</button>
+    </div>
+    <div class="field" style="grid-column: 1 / -1;">
+      <label>Phrase <span style="color:var(--text-faint)">(default loaded per stage/language, or type custom)</span></label>
+      <textarea id="phrase" placeholder="Custom phrase..."></textarea>
+    </div>
+  </div>
+
+  <div class="watchout" id="watchout"></div>
+
+  <div class="voices" id="voices"></div>
+
+  <div class="recommendation" id="recommendation">
+    <h2>Recommendation</h2>
+    <div class="rec-winner" id="rec-winner"></div>
+    <div class="rec-rationale" id="rec-rationale"></div>
+    <table class="rec-table" id="rec-table">
+      <thead><tr><th>Voice</th><th>Score</th><th>Nat</th><th>Trust</th><th>Culture</th><th>Brand</th><th>Clarity</th><th>Ship?</th></tr></thead>
+      <tbody id="rec-tbody"></tbody>
+    </table>
+    <div class="export-row">
+      <button onclick="exportScorecard()">Export Scorecard (.md)</button>
+      <button onclick="copyScorecard()">Copy to Clipboard</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Data ───────────────────────────────────────────────────────────────────
+
+const VOICES_BY_LANG = {
+  eng: [
+    { id: 'astra',   name: 'Warm Cedar',    desc: 'Warm, grounded, natural breath patterns',   speaker: 'astra' },
+    { id: 'luna',    name: 'Clear Frost',    desc: 'Crisp, confident, even-paced delivery',     speaker: 'luna' },
+    { id: 'orion',   name: 'Soft Linen',     desc: 'Gentle, measured, calm presence',            speaker: 'orion' },
+    { id: 'celeste', name: 'Bright Sage',    desc: 'Articulate, energetic, clear enunciation',   speaker: 'celeste' },
+  ],
+  fra: [
+    { id: 'amarante',  name: 'Amarante',       desc: 'Warm, natural French cadence',              speaker: 'amarante' },
+    { id: 'aurelie',   name: 'Aurélie',        desc: 'Clear, confident, professional tone',       speaker: 'aurelie' },
+    { id: 'destin',    name: 'Destin',          desc: 'Calm, measured, grounded delivery',         speaker: 'destin' },
+    { id: 'solstice',  name: 'Solstice',        desc: 'Expressive, melodic, engaging rhythm',      speaker: 'solstice' },
+  ],
+  spa: [
+    { id: 'aurelio',   name: 'Aurelio',         desc: 'Warm, steady, trustworthy presence',        speaker: 'aurelio' },
+    { id: 'celestino', name: 'Celestino',       desc: 'Clear, articulate, professional tone',      speaker: 'celestino' },
+    { id: 'lark',      name: 'Lark',            desc: 'Light, approachable, natural pacing',       speaker: 'lark' },
+    { id: 'luz',       name: 'Luz',             desc: 'Warm, expressive, empathetic delivery',     speaker: 'luz' },
+  ],
+  por: [
+    { id: 'alzira',    name: 'Alzira',          desc: 'Warm, expressive, natural cadence',         speaker: 'alzira' },
+    { id: 'isadora',   name: 'Isadora',         desc: 'Clear, confident, professional tone',       speaker: 'isadora' },
+    { id: 'celso',     name: 'Celso',            desc: 'Calm, grounded, trustworthy delivery',      speaker: 'celso' },
+    { id: 'sol',       name: 'Sol',              desc: 'Bright, engaging, melodic rhythm',           speaker: 'sol' },
+  ],
+};
+
+function getVoices() {
+  const lang = document.getElementById('language').value;
+  return VOICES_BY_LANG[lang] || VOICES_BY_LANG.eng;
+}
+
+const PHRASES = {
+  acceptance: { eng: "Hi, I'm here to help you get this resolved quickly.", fra: "Bonjour, je suis l\u00e0 pour vous aider \u00e0 r\u00e9gler cela rapidement.", por: "Olá, estou aqui para ajudá-lo a resolver isso rapidamente.", spa: "Hola, estoy aqu\u00ed para ayudarte a resolver esto r\u00e1pidamente." },
+  resolution: { eng: "I found the issue and I'll walk you through the next step.", fra: "J'ai identifi\u00e9 le probl\u00e8me et je vais vous guider pour la suite.", por: "Identifiquei o problema e vou guiá-lo no próximo passo.", spa: "He identificado el problema y te guiar\u00e9 en el siguiente paso." },
+  satisfaction: { eng: "Everything is confirmed, and you're all set.", fra: "Tout est confirm\u00e9, et tout est pr\u00eat de votre c\u00f4t\u00e9.", por: "Está tudo confirmado e tudo pronto.", spa: "Todo est\u00e1 confirmado y ya est\u00e1 listo." },
+};
+
+const WATCHOUTS = {
+  eng: "Calm pacing often matters more than friendliness alone. Over-smiling delivery can reduce credibility in support moments.",
+  fra: "Avoid over-bright enthusiasm. Warmth should still feel composed and credible.",
+  por: "Brazilian vs European Portuguese differ significantly in rhythm and formality. Test both registers.",
+  spa: "Neutral register matters. Literal translation can sound regionally awkward.",
+};
+
+const ACOUSTIC_TAGS = ['breath', 'rhythm', 'stress', 'pitch', 'gravel', 'vocal fry', 'breathiness', 'warm', 'crisp', 'natural pause'];
+
+const RUBRIC = [
+  { id: 'naturalness', label: 'Naturalness', weight: 0.30, hint: 'Fluid, well-paced, non-robotic?' },
+  { id: 'trust',       label: 'Trust',       weight: 0.25, hint: 'Customer comfortable continuing?' },
+  { id: 'cultural',    label: 'Cultural Fit', weight: 0.20, hint: 'Appropriate for this language?' },
+  { id: 'brand',       label: 'Brand Fit',    weight: 0.15, hint: 'Matches persona and stage?' },
+  { id: 'clarity',     label: 'Clarity',      weight: 0.10, hint: 'Easy to understand first listen?' },
+];
+
+// ── State ──────────────────────────────────────────────────────────────────
+
+const state = {
+  voices: {},  // voiceId → { audio, scores, notes, ship, ttfa, acousticTags }
+  ttsAvailable: false,
+};
+
+// ── TTS check ──────────────────────────────────────────────────────────────
+
+const HUB_URL = 'http://localhost:7890';
+
+async function checkTTS() {
+  try {
+    const r = await fetch(`${HUB_URL}/health`);
+    if (r.ok) {
+      state.ttsAvailable = true;
+      document.getElementById('tts-status').className = 'badge connected';
+      document.getElementById('tts-status').textContent = 'TTS live';
+    }
+  } catch {
+    state.ttsAvailable = false;
+    document.getElementById('tts-status').className = 'badge offline';
+    document.getElementById('tts-status').textContent = 'Using cached audio';
+  }
+}
+
+// ── Phrase auto-fill ───────────────────────────────────────────────────────
+
+function updatePhrase() {
+  const stage = document.getElementById('stage').value;
+  const lang = document.getElementById('language').value;
+  document.getElementById('phrase').value = PHRASES[stage]?.[lang] || '';
+  updateWatchout();
+}
+
+function updateWatchout() {
+  const lang = document.getElementById('language').value;
+  const el = document.getElementById('watchout');
+  const langLabel = { eng: 'English', fra: 'French', por: 'Portuguese', spa: 'Spanish' }[lang];
+  el.innerHTML = `<strong>${langLabel} Locale Note:</strong> ${WATCHOUTS[lang]}`;
+  el.classList.add('visible');
+}
+
+// ── Generate comparison ────────────────────────────────────────────────────
+
+async function generateComparison() {
+  const stage = document.getElementById('stage').value;
+  const lang = document.getElementById('language').value;
+  const phrase = document.getElementById('phrase').value.trim();
+  if (!phrase) return;
+
+  const isCustom = phrase !== (PHRASES[stage]?.[lang] || '');
+  const container = document.getElementById('voices');
+  container.innerHTML = '';
+  state.voices = {};
+
+  for (const voice of getVoices()) {
+    state.voices[voice.id] = { scores: {}, notes: '', ship: null, ttfa: null, acousticTags: new Set(), audio: null };
+    const card = createVoiceCard(voice);
+    container.appendChild(card);
+
+    // Load audio
+    loadAudio(voice, stage, lang, phrase, isCustom, card);
+  }
+}
+
+async function loadAudio(voice, stage, lang, phrase, isCustom, card) {
+  const playBtn = card.querySelector('.play-btn');
+  const ttfaBadge = card.querySelector('.ttfa-badge');
+  playBtn.disabled = true;
+  playBtn.classList.add('loading');
+
+  const t0 = performance.now();
+
+  try {
+    let blob;
+    if (!isCustom) {
+      // Try pre-generated audio first
+      const audioPath = `audio/${voice.speaker}_${lang}_${stage}.mp3?v=${Date.now()}`;
+      const res = await fetch(audioPath);
+      if (res.ok) {
+        blob = await res.blob();
+      }
+    }
+
+    if (!blob && state.ttsAvailable) {
+      // Fall back to live TTS — omit lang for non-English so Rime auto-detects accent
+      const body = { text: phrase, speaker: voice.speaker, speed: 1.0 };
+      if (lang === 'eng') body.lang = 'eng';  // only set lang for English; others auto-detect
+      const res = await fetch(`${HUB_URL}/api/tts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) blob = await res.blob();
+    }
+
+    if (!blob && isCustom && !state.ttsAvailable) {
+      throw new Error('Custom phrases require TTS server');
+    }
+
+    const ttfa = Math.round(performance.now() - t0);
+    state.voices[voice.id].ttfa = ttfa;
+    state.voices[voice.id].audio = blob ? URL.createObjectURL(blob) : null;
+
+    if (ttfa < 400) { ttfaBadge.className = 'ttfa-badge fast'; }
+    else if (ttfa < 700) { ttfaBadge.className = 'ttfa-badge ok'; }
+    else { ttfaBadge.className = 'ttfa-badge slow'; }
+    ttfaBadge.textContent = `${ttfa}ms TTFA`;
+
+    playBtn.disabled = false;
+    playBtn.classList.remove('loading');
+  } catch (e) {
+    playBtn.classList.remove('loading');
+    playBtn.textContent = '\u2716';
+    ttfaBadge.textContent = 'failed';
+    ttfaBadge.className = 'ttfa-badge slow';
+  }
+}
+
+// ── Voice card ─────────────────────────────────────────────────────────────
+
+function createVoiceCard(voice) {
+  const card = document.createElement('div');
+  card.className = 'voice-card';
+  card.id = `card-${voice.id}`;
+
+  card.innerHTML = `
+    <div class="voice-header">
+      <span class="voice-name">${voice.name}</span>
+      <span class="ttfa-badge">--</span>
+    </div>
+    <div class="voice-desc">${voice.desc}</div>
+    <div class="audio-row">
+      <button class="play-btn" onclick="playVoice('${voice.id}')" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </button>
+      <div class="audio-bar"><div class="audio-progress" id="progress-${voice.id}"></div></div>
+      <span class="audio-time" id="time-${voice.id}">--</span>
+    </div>
+    <div class="scoring">
+      ${RUBRIC.map(r => `
+        <div class="score-row">
+          <span class="score-label" title="${r.hint}">${r.label}</span>
+          <div class="score-dots">
+            ${[1,2,3,4,5].map(n => `<button class="score-dot" onclick="setScore('${voice.id}','${r.id}',${n})">${n}</button>`).join('')}
+          </div>
+          <span class="score-weight">${Math.round(r.weight*100)}%</span>
+        </div>
+      `).join('')}
+    </div>
+    <div class="acoustic-tags">
+      ${ACOUSTIC_TAGS.map(t => `<span class="acoustic-tag" onclick="toggleAcoustic('${voice.id}','${t}',this)">${t}</span>`).join('')}
+    </div>
+    <div class="voice-total">
+      <span class="total-score" id="total-${voice.id}">--</span>
+      <div class="ship-toggle">
+        <button class="ship-btn ship" onclick="setShip('${voice.id}','ship',this)">Ship</button>
+        <button class="ship-btn not-yet" onclick="setShip('${voice.id}','not-yet',this)">Not yet</button>
+      </div>
+    </div>
+    <textarea class="notes-field" placeholder="Evaluator notes..." oninput="state.voices['${voice.id}'].notes=this.value"></textarea>
+  `;
+  return card;
+}
+
+// ── Playback ───────────────────────────────────────────────────────────────
+
+let currentAudio = null;
+
+function playVoice(voiceId) {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+
+  const url = state.voices[voiceId]?.audio;
+  if (!url) return;
+
+  const audio = new Audio(url);
+  currentAudio = audio;
+
+  const progress = document.getElementById(`progress-${voiceId}`);
+  const timeEl = document.getElementById(`time-${voiceId}`);
+  const btn = document.querySelector(`#card-${voiceId} .play-btn`);
+  btn.classList.add('playing');
+
+  audio.ontimeupdate = () => {
+    if (audio.duration) {
+      progress.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+      timeEl.textContent = `${audio.currentTime.toFixed(1)}s`;
+    }
+  };
+  audio.onended = () => {
+    btn.classList.remove('playing');
+    progress.style.width = '100%';
+    currentAudio = null;
+  };
+  audio.play();
+}
+
+// ── Scoring ────────────────────────────────────────────────────────────────
+
+function setScore(voiceId, dimension, value) {
+  state.voices[voiceId].scores[dimension] = value;
+  // Update dot visuals
+  const card = document.getElementById(`card-${voiceId}`);
+  const rows = card.querySelectorAll('.score-row');
+  rows.forEach(row => {
+    const label = row.querySelector('.score-label').textContent;
+    const rubricItem = RUBRIC.find(r => r.label === label);
+    if (rubricItem && rubricItem.id === dimension) {
+      row.querySelectorAll('.score-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i < value);
+      });
+    }
+  });
+  updateTotal(voiceId);
+  updateRecommendation();
+}
+
+function updateTotal(voiceId) {
+  const scores = state.voices[voiceId].scores;
+  let total = 0;
+  let hasAll = true;
+  for (const r of RUBRIC) {
+    if (scores[r.id]) { total += scores[r.id] * r.weight; }
+    else { hasAll = false; }
+  }
+  const el = document.getElementById(`total-${voiceId}`);
+  el.textContent = hasAll ? total.toFixed(2) : '--';
+}
+
+function setShip(voiceId, value, btn) {
+  state.voices[voiceId].ship = value;
+  const card = document.getElementById(`card-${voiceId}`);
+  card.querySelectorAll('.ship-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updateRecommendation();
+}
+
+function toggleAcoustic(voiceId, tag, el) {
+  const tags = state.voices[voiceId].acousticTags;
+  if (tags.has(tag)) { tags.delete(tag); el.classList.remove('active'); }
+  else { tags.add(tag); el.classList.add('active'); }
+}
+
+// ── Recommendation ─────────────────────────────────────────────────────────
+
+function updateRecommendation() {
+  const panel = document.getElementById('recommendation');
+  const scored = Object.entries(state.voices).filter(([, v]) => {
+    return RUBRIC.every(r => v.scores[r.id]);
+  });
+
+  if (scored.length < 2) { panel.classList.remove('visible'); return; }
+
+  // Calculate totals
+  const results = scored.map(([id, v]) => {
+    const total = RUBRIC.reduce((sum, r) => sum + (v.scores[r.id] || 0) * r.weight, 0);
+    const voice = getVoices().find(vo => vo.id === id);
+    return { id, name: voice.name, total, scores: v.scores, ship: v.ship, ttfa: v.ttfa, notes: v.notes };
+  }).sort((a, b) => b.total - a.total);
+
+  const winner = results[0];
+  const lang = document.getElementById('language').value;
+  const stage = document.getElementById('stage').value;
+  const persona = document.getElementById('persona').selectedOptions[0].text;
+  const langLabel = { eng: 'English', fra: 'French', por: 'Portuguese', spa: 'Spanish' }[lang];
+
+  document.getElementById('rec-winner').textContent = `${winner.name} (${winner.total.toFixed(2)}/5.00)`;
+  document.getElementById('rec-rationale').textContent =
+    `${winner.name} is the strongest choice for ${langLabel} ${stage.charAt(0).toUpperCase() + stage.slice(1)} with a ${persona} persona. ${WATCHOUTS[lang]}`;
+
+  // Mark winner card
+  document.querySelectorAll('.voice-card').forEach(c => c.classList.remove('winner'));
+  const winnerCard = document.getElementById(`card-${winner.id}`);
+  if (winnerCard) winnerCard.classList.add('winner');
+
+  // Build table
+  const tbody = document.getElementById('rec-tbody');
+  tbody.innerHTML = results.map(r => `
+    <tr class="${r.id === winner.id ? 'winner-row' : ''}">
+      <td>${r.name}</td>
+      <td style="font-family:var(--mono);font-weight:700">${r.total.toFixed(2)}</td>
+      ${RUBRIC.map(dim => `<td>${r.scores[dim.id] || '-'}</td>`).join('')}
+      <td>${r.ship === 'ship' ? 'Ship' : r.ship === 'not-yet' ? 'Not yet' : '-'}</td>
+    </tr>
+  `).join('');
+
+  panel.classList.add('visible');
+}
+
+// ── Export ──────────────────────────────────────────────────────────────────
+
+function buildScorecard() {
+  const stage = document.getElementById('stage').selectedOptions[0].text;
+  const persona = document.getElementById('persona').selectedOptions[0].text;
+  const lang = { eng: 'English', fra: 'French', por: 'Portuguese', spa: 'Spanish' }[document.getElementById('language').value];
+  const phrase = document.getElementById('phrase').value;
+
+  let md = `# Voice Evaluation Scorecard\n\n`;
+  md += `**Date:** ${new Date().toISOString().split('T')[0]}\n`;
+  md += `**Stage:** ${stage}\n`;
+  md += `**Persona:** ${persona}\n`;
+  md += `**Language:** ${lang}\n`;
+  md += `**Phrase:** ${phrase}\n\n`;
+  md += `## Scores\n\n`;
+  md += `| Voice | Total | ${RUBRIC.map(r => r.label).join(' | ')} | TTFA | Ship? |\n`;
+  md += `|-------|-------|${RUBRIC.map(() => '------').join('|')}|------|-------|\n`;
+
+  const results = Object.entries(state.voices).map(([id, v]) => {
+    const total = RUBRIC.reduce((sum, r) => sum + (v.scores[r.id] || 0) * r.weight, 0);
+    const voice = getVoices().find(vo => vo.id === id);
+    return { id, name: voice.name, total, scores: v.scores, ship: v.ship, ttfa: v.ttfa, notes: v.notes, acousticTags: v.acousticTags };
+  }).sort((a, b) => b.total - a.total);
+
+  for (const r of results) {
+    md += `| ${r.name} | **${r.total.toFixed(2)}** | ${RUBRIC.map(dim => r.scores[dim.id] || '-').join(' | ')} | ${r.ttfa || '-'}ms | ${r.ship || '-'} |\n`;
+  }
+
+  const winner = results[0];
+  md += `\n## Recommendation\n\n${winner.name} is the strongest choice for ${lang} ${stage} with a ${persona} persona.\n\n`;
+  md += `## Locale Watchout\n\n${WATCHOUTS[document.getElementById('language').value]}\n\n`;
+  md += `## Evaluator Notes\n\n`;
+  for (const r of results) {
+    if (r.notes) md += `- **${r.name}:** ${r.notes}\n`;
+    if (r.acousticTags.size) md += `  - Acoustic: ${[...r.acousticTags].join(', ')}\n`;
+  }
+  return md;
+}
+
+function exportScorecard() {
+  const md = buildScorecard();
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `voice-scorecard-${Date.now()}.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function copyScorecard() {
+  navigator.clipboard.writeText(buildScorecard());
+  const btn = event.target;
+  btn.textContent = 'Copied!';
+  setTimeout(() => btn.textContent = 'Copy to Clipboard', 2000);
+}
+
+// ── Reset ──────────────────────────────────────────────────────────────────
+
+function resetAll() {
+  state.voices = {};
+  document.getElementById('voices').innerHTML = '';
+  document.getElementById('recommendation').classList.remove('visible');
+  updatePhrase();
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+
+document.getElementById('stage').addEventListener('change', updatePhrase);
+document.getElementById('language').addEventListener('change', updatePhrase);
+updatePhrase();
+checkTTS();
+</script>
+</body>
+</html>
