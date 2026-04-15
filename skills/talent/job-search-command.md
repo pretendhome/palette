@@ -48,12 +48,28 @@ Ask these ONE AT A TIME. Wait for each answer before asking the next.
 
 If they struggle with #5, help them: look at their resume for unusual combinations (e.g., "you have both engineering depth AND enterprise sales experience — that's rare"). Don't skip this — it drives the scoring.
 
-### Step 3: Save the profile
+### Step 3: Create the workspace
 
-Create the directory and file:
+Create the full organized workspace:
 ```bash
-mkdir -p ~/.job-search
+mkdir -p ~/.job-search/applications/active
+mkdir -p ~/.job-search/applications/rejected
+mkdir -p ~/.job-search/applications/no-response
+mkdir -p ~/.job-search/trackers
+mkdir -p ~/.job-search/contacts
+mkdir -p ~/.job-search/research
 ```
+
+Tell the user:
+"I've set up your job search workspace at `~/.job-search/`. Here's how it's organized:
+- **applications/active/** — roles where you've been called back and are in process
+- **applications/rejected/** — roles where you interviewed but didn't get the offer (learnings live here)
+- **applications/no-response/** — roles you applied to but never heard back
+- **trackers/** — your pipeline, contacts, and open opportunities ranked by callback probability
+- **contacts/** — people helping you, recruiters, warm intros
+- **research/** — company research briefs
+
+When a role changes status, it moves folders. Everything stays organized automatically."
 
 Save `~/.job-search/profile.yaml`:
 ```yaml
@@ -146,7 +162,79 @@ search_patterns:
   target_employers: ["...", "..."]  # check these career pages every search
 ```
 
-After saving, say: "Done — your profile is saved at `~/.job-search/profile.yaml`. It stays on your computer, nothing is uploaded. Run `/job-search find` to search for matching jobs, or `/job-search score` to evaluate a specific posting."
+### Step 4: Create initial trackers
+
+Create `~/.job-search/trackers/PIPELINE.md`:
+```markdown
+# Job Search Pipeline
+
+**Last Updated**: <today's date>
+
+## Active — Waiting for Response
+| # | Company | Role | Fit | Callback | Status | Applied | Next Action |
+|---|---------|------|-----|----------|--------|---------|-------------|
+
+## Warm Leads — Not Yet Applied
+| # | Company | Role | Source | Est. Fit | Next Action |
+|---|---------|------|--------|----------|-------------|
+
+## Watchlist — Check Periodically
+| Company | Why | Check Frequency | Last Checked |
+|---------|-----|-----------------|--------------|
+
+## Closed — Outcomes
+| Company | Role | Outcome | Date | Learning |
+|---------|------|---------|------|----------|
+```
+
+Create `~/.job-search/trackers/CONTACTS.md`:
+```markdown
+# Contact Board
+
+**Last Updated**: <today's date>
+
+## Active Network — People Helping Now
+| Name | Relationship | Company/Context | What They're Doing For Me | Last Contact | Next Action |
+|------|-------------|-----------------|---------------------------|--------------|-------------|
+
+## Warm Contacts — Introduced But Not Yet Connected
+| Name | Introduced By | Company | Status | Next Action |
+|------|--------------|---------|--------|-------------|
+
+## Recruiters
+| Name | Agency/Company | Last Role Discussed | Last Contact | Status |
+|------|---------------|---------------------|--------------|--------|
+
+## Target Companies — Need a Contact
+| Company | Why | Who To Find | Path In |
+|---------|-----|-------------|---------|
+```
+
+Create `~/.job-search/trackers/OPEN_OPPORTUNITIES.md`:
+```markdown
+# Open Opportunities — Ranked by Callback Probability
+
+**Last Updated**: <today's date>
+**Sort**: Callback probability (descending)
+
+## Applied — Awaiting Response
+| # | Company | Role | Fit | Callback | Type | Location | Applied | Status |
+|---|---------|------|-----|----------|------|----------|---------|--------|
+
+## Not Yet Applied — Warm Leads
+| # | Company | Role | Est. Fit | Source | Path In | Next Action |
+|---|---------|------|----------|--------|---------|-------------|
+
+## Not Yet Applied — Cold / Research
+| # | Company | Role | Est. Fit | Found | Link | Notes |
+|---|---------|------|----------|-------|------|-------|
+
+## Watchlist — No Current Opening
+| Company | Why Watching | Check | Last Checked |
+|---------|------------|-------|--------------|
+```
+
+After saving all files, say: "Done — your workspace is set up at `~/.job-search/`. Your profile, pipeline, contacts, and opportunities tracker are all ready. Everything stays on your computer, nothing is uploaded. Run `/job-search find` to start searching, or `/job-search score` to evaluate a specific posting."
 
 ---
 
@@ -155,8 +243,11 @@ After saving, say: "Done — your profile is saved at `~/.job-search/profile.yam
 ### `/job-search` (no args) — Dashboard
 Show:
 - Profile summary (name, target roles, location, top skills)
-- Pipeline stats if `~/.job-search/pipeline.csv` exists (count by status)
-- Menu: `find`, `score`, `update`, `pipeline`
+- **Pipeline**: Active applications (count + names), warm leads (count), closed (count + last outcome) — from `~/.job-search/trackers/PIPELINE.md`
+- **Contacts**: People actively helping (count) — from `~/.job-search/trackers/CONTACTS.md`
+- **Open opportunities**: Top 3 by callback probability — from `~/.job-search/trackers/OPEN_OPPORTUNITIES.md`
+- **Workspace health**: Any application folders in `active/` with no activity in 7+ days → flag for follow-up
+- Menu: `find`, `score`, `update`, `pipeline`, `contacts`
 
 ### `/job-search find` — Search for jobs
 
@@ -285,15 +376,17 @@ Generates ALL materials needed for a specific application, adapted to the employ
    - For UN: draft motivation question answers within character limits
    - For all: translate user's language into employer's sector vocabulary
 
-4. Save everything to `~/.job-search/applications/[company]_[role]/`
+4. Save everything to `~/.job-search/applications/active/[company-slug]/`
+5. Add to PIPELINE.md and OPEN_OPPORTUNITIES.md with fit score and callback probability
+6. Update CONTACTS.md if a recruiter or referral is involved
 
-5. Present a checklist:
+7. Present a checklist:
 ```
 ## Application Package — [Company] [Role]
 Platform: [Greenhouse/Interfolio/etc.]
 
-✅ Resume (tailored) — saved to applications/[company]_[role]/resume.md
-✅ Cover letter — saved to applications/[company]_[role]/cover_letter.md
+✅ Resume (tailored) — saved to applications/active/[company-slug]/resume.md
+✅ Cover letter — saved to applications/active/[company-slug]/cover_letter.md
 ⬜ Research statement — [if needed, draft provided]
 ⬜ Teaching statement — [if needed, draft provided]
 ⬜ References — [list 3, user must contact them]
@@ -336,7 +429,7 @@ Takes the user's profile + a job posting and rewrites their resume to maximize m
 - Never fabricate experience. If they don't have Kubernetes experience, don't add it.
 - Reframe, don't invent. "Managed infrastructure" can become "orchestrated deployment pipelines" if true — but not "managed Kubernetes clusters" if they never touched k8s.
 - Numbers must be real and defensible.
-- Save the optimized resume to `~/.job-search/resumes/[company]_[role].md`
+- Save the optimized resume to `~/.job-search/applications/active/[company-slug]/resume.md`
 
 ### `/job-search interview` — Mock interview practice
 
@@ -344,8 +437,9 @@ Becomes the interviewer. Simulates a real interview for a specific role.
 
 1. Ask: "Which role are you prepping for? Give me the company and role, or a pipeline number."
 2. Read the job posting (from pipeline or URL)
-3. Research the company (web search for recent news, product, culture, leadership)
-4. Say: "Ready? I'm going to interview you for [Role] at [Company]. This will take about 20 minutes. I'll play the interviewer. Answer like you would in a real interview — specific examples, real numbers, honest about tradeoffs. I'll give you feedback after each answer. Let's start."
+3. **Check for existing prep materials**: Look in `~/.job-search/applications/active/[company-slug]/prep-bot/` for CHEATSHEET.md, COMPANY_PREP.md, and COMPANY_SYSTEMS.md. If they exist, use them to inform your questions and feedback. If they don't exist, offer to run `/job-search prep-bot` first — the mock interview is much more useful when the user has already built their answers.
+4. Research the company (web search for recent news, product, culture, leadership)
+5. Say: "Ready? I'm going to interview you for [Role] at [Company]. This will take about 20 minutes. I'll play the interviewer. Answer like you would in a real interview — specific examples, real numbers, honest about tradeoffs. I'll give you feedback after each answer. Let's start."
 
 **4-round structure** (adapt questions to the specific role):
 
@@ -395,7 +489,7 @@ Help the user build and rehearse behavioral interview stories.
 4. Time-check: each story should be deliverable in 90 seconds
 5. Tag each story with question types it answers:
    - "Tell me about yourself" / "Walk me through a project" / "Example of leadership" / "A time you failed" / "Handling conflict" / "Driving adoption" / etc.
-6. Save to `~/.job-search/stories.yaml`
+6. Save to `~/.job-search/trackers/stories.yaml`
 
 **Rehearsal mode**: User says "practice stories" — you give them a question, they tell the story, you give feedback on length, specificity, and impact.
 
@@ -436,7 +530,7 @@ Research a company before an interview.
 3. ...
 ```
 
-Save to `~/.job-search/research/[company].md`
+Save to `~/.job-search/applications/active/[company-slug]/research.md` (if application exists) or `~/.job-search/research/[company].md` (if just exploring)
 
 ### `/job-search prep-bot` — Create a voice interview prep bot
 
@@ -454,7 +548,7 @@ If no profile exists, say: "Run `/job-search` first to set up your profile."
 
 Ask: "Which role are you prepping for? Give me the company and role, a pipeline number, or paste the job posting."
 
-- If they give a pipeline number, read from `~/.job-search/pipeline.csv` and retrieve the saved posting
+- If they give a pipeline number, read from `~/.job-search/trackers/PIPELINE.md` and retrieve the saved posting
 - If they give a URL, fetch and read the full job posting
 - If they paste text, use that directly
 - Extract: company name, role title, all stated requirements (must-haves and nice-to-haves), tech stack, domain
@@ -475,14 +569,85 @@ Using the profile, person lens, job posting, and company research:
 4. Identify the user's core thesis for this role (one sentence: their problem + my solution)
 5. Identify the company's products, internal systems, and domain vocabulary the user needs to speak fluently about
 
+**Step 3b: Assign experiences to topics (the backbone step)**
+
+This step prevents double-dipping — using the same story in two different cheatsheet sections. Read `ANSWER_BACKBONE.md` and assign one experience per JD topic.
+
+1. List the major topics from the JD (e.g., SQL, dashboards, program execution, AI tools, risk/quality, cross-functional)
+2. For each topic, scan ANSWER_BACKBONE.md for the matching section
+3. Pick the STRONGEST experience for that topic from the available options
+4. Once an experience is assigned to a topic, it is OFF LIMITS for all other topics
+5. If two topics want the same experience, give it to the topic where it's the strongest fit and pick the next-best for the other
+
+Build an assignment table before writing any answers:
+
+```
+TOPIC ASSIGNMENT — [Company] [Role]
+───────────────────────────────────────────
+SQL / Data Analysis        → Foursquare/TripAdvisor provider swap (ERA-2)
+Dashboards / Reporting     → Ask Pathfinder KPI dashboard (ERA-4)
+Program Execution          → Ask Pathfinder consolidation (ERA-4)
+AI Agents / Workflows      → Palette multi-agent system (ERA-5)
+Risk / Quality             → AGI structured attribution (ERA-3)
+Cross-functional           → Data Leadership Forum (ERA-4)
+───────────────────────────────────────────
+CHECK: No experience appears twice ✓
+```
+
+This table is internal — do not include it in the output files. But every cheatsheet section must draw from its assigned experience only.
+
 **Step 4: Generate prep materials**
 
 Create the directory:
 ```bash
-mkdir -p ~/.job-search/prep-bots/[company]-[role-slug]
+mkdir -p ~/.job-search/applications/active/[company-slug]/prep-bot
 ```
 
-Generate these files:
+Generate these files. **CHEATSHEET.md and COMPANY_PREP.md are always generated first, as a pair.** They are the core deliverable. The other files support them.
+
+**`CHEATSHEET.md`** — The actual spoken answers. Not coaching notes, not "say something like this", not frameworks — the words you would say out loud. This is the format the user validated through iterative refinement (iBusiness, Meta) and considers the gold standard for interview prep.
+
+**CRITICAL DISTINCTION**: The cheatsheet contains ANSWERS. Each section is a dense paragraph that IS what you say when asked about that topic. Written at speaking density — semi-memorizable, repeatable in 60 seconds, full of specific evidence. The user reads it, internalizes the structure, and reproduces it in conversation. A separate `COMPANY_PREP.md` file holds the coaching context (what they're testing, risks, question predictions, smart questions to ask). Do not mix coaching into the cheatsheet.
+
+**SOURCE DATA**: Before writing cheatsheet answers, read `ANSWER_BACKBONE.md` — a topic-indexed experience library with verified numbers organized by interview topic (SQL, dashboards, program execution, AI tools, risk/quality, etc.). Each topic has multiple experiences. **Pick one experience per section and never reuse the same experience in two sections.** This prevents the double-dipping problem where SQL and Dashboards tell the same story.
+
+**Format rules**:
+- `## SECTION TITLE` headers — ALL CAPS, no numbering
+- Each section is one dense paragraph (3-8 sentences) that IS the spoken answer
+- Written in first person as if the user is already talking — "I spent 12 years...", "At Alexa we were dealing with..."
+- Every sentence is information-dense — no filler, no "I believe", no preamble
+- Include specific numbers, system names, and evidence (27% of records, 47 providers, 13 locales, 121-node taxonomy)
+- Connect the user's specific experience to the company's specific domain using precise parallels
+- Use the person lens for natural voice — these should sound like the user talking, not like AI writing
+
+**Required sections** (order matters):
+
+1. **`## TELL ME ABOUT YOURSELF`** — The opening answer. 30-60 seconds. Career arc → common thread → 2-3 strongest proof points → why this role. This is the answer to "tell me about yourself" AND the structural backbone every other answer builds on.
+
+2. **`## WHY THIS ROLE / WHY [COMPANY]`** — What fascinates the user about this company's system. Open with the structural insight that shows you understand what they're actually building, not just what the JD says. End with why this domain is interesting to someone with your background.
+
+3. **`## [KEY TOPIC 1]`** through **`## [KEY TOPIC N]`** — One section per major topic the interview will cover. Name these after the actual domain concepts or JD requirements (e.g., "AFFILIATION / SBA ONTOLOGY", "SQL / DATA ANALYSIS", "AI AGENTS / AI-ASSISTED WORKFLOWS"), NOT generic labels like "Technical Depth." Each section: what you did, where, the specific numbers, the closest parallel to their domain, and a closing line. 4-8 sections depending on role complexity.
+
+4. **`## [PALETTE/EXPERIENCE CONNECTION TO COMPANY]`** — How your systems map to theirs. Use explicit A → B parallel structure: "Palette taxonomy → their classification system." End with: "I did not build Palette to demonstrate Palette. I built it to demonstrate the discipline."
+
+5. **`## AVOID SAYING`** — Single paragraph. Items separated by ` · `. Specific to the company and domain.
+
+6. **`## ANCHOR PHRASES`** — Single paragraph. Items separated by ` · `. The 5-8 quotable closer lines the interviewer remembers after the call.
+
+**The test**: Read every section of the cheatsheet out loud. If it sounds like coaching ("They want X", "Do not oversell", "The JD says..."), it belongs in COMPANY_PREP.md, not here. If it sounds like you talking to an interviewer ("At Alexa, we were deciding whether to replace Foursquare...", "I dug into the SQL, decomposed the composite provider ID field..."), it belongs in the cheatsheet.
+
+**Reference implementations**:
+- Cheatsheet: `/home/mical/Desktop/correct prep-format.md` (iBusiness) — canonical example of answers done right
+- Cheatsheet + Prep split: `implementations/talent/applications/no-response/meta-product-ops-contract/` (META_CHEATSHEET.md + META_COMPANY_PREP.md)
+
+**`COMPANY_PREP.md`** — The coaching context that supports the cheatsheet. This is NOT answers — it is the framework around them. Include:
+- What the role actually is (decoded from JD, not just repeated)
+- What the org does and why it matters
+- What they're testing at each interview stage (the hiring signals)
+- Main risks and mitigations (e.g., "too senior", "SQL weaker than JD asks")
+- Questions they're likely to ask (with pointers to which cheatsheet section answers each)
+- Smart questions to ask them (3-5, showing product knowledge and strategic thinking)
+- What to avoid (expanded coaching version)
 
 **`MEMORIZATION_SCRIPT.md`** — Full spoken answers in backtick-quoted blocks. Written to be internalized verbally, not read silently. Must match the user's natural speaking voice (use the person lens for voice patterns). Include:
 - Core intro (30s / 60s / 2min versions)
@@ -496,13 +661,7 @@ Generate these files:
 
 Each answer should follow the pattern: concrete situation → what you specifically did or would do → the principle → the close. Short declarative sentences. No filler. Closes with a principle or throughline.
 
-**`CHEATSHEET.md`** — Quick-reference sheet for during-call use. Bullet format with "best short line" closers. Include:
-- Core frame (one sentence)
-- 6 things to repeat (the throughlines the user should reinforce)
-- Best 60-second answer for each major question type
-- Proof stories mapped to question types
-- Things to avoid saying
-- Questions to ask them (showing you researched the company)
+Note: The MEMORIZATION_SCRIPT and CHEATSHEET cover similar ground but serve different purposes. The cheatsheet is a scannable reference during the call. The memorization script is for verbal rehearsal before the call — longer, with timing markers and multiple-length versions.
 
 **`COMPANY_SYSTEMS.md`** — What the company is actually building, their products, their architecture (as much as is publicly knowable), their domain vocabulary. Written so the user can speak about the company's systems as if they already work there. Include:
 - Product stack with natural "how to reference it" phrases
@@ -530,7 +689,7 @@ SYSTEM_PROMPT="[generated system prompt — see below]"
 
 exec palette-voice \
   --brain codex \
-  --context-dir ~/.job-search/prep-bots/[company]-[role-slug] \
+  --context-dir ~/.job-search/applications/active/[company-slug]/prep-bot \
   --system-prompt "$SYSTEM_PROMPT" \
   --max-tokens 500 \
   "$@"
@@ -559,7 +718,7 @@ Tell the user: "Your prep bot is ready. Open a new terminal and run: `[company]-
 
 **If palette-voice is NOT available**, tell the user:
 
-"I've created your prep materials at `~/.job-search/prep-bots/[company]-[role-slug]/`. To create a voice practice bot, you need palette-voice installed:
+"I've created your prep materials at `~/.job-search/applications/active/[company-slug]/prep-bot/`. To create a voice practice bot, you need palette-voice installed:
 
 ```bash
 git clone https://github.com/pretendhome/palette-voice.git ~/palette-voice
@@ -583,9 +742,10 @@ Show the user what was created:
 Prep bot created for [Company] [Role]:
 
   Materials:
-    ~/.job-search/prep-bots/[company]-[role-slug]/MEMORIZATION_SCRIPT.md
-    ~/.job-search/prep-bots/[company]-[role-slug]/CHEATSHEET.md
-    ~/.job-search/prep-bots/[company]-[role-slug]/COMPANY_SYSTEMS.md
+    ~/.job-search/applications/active/[company-slug]/prep-bot/CHEATSHEET.md        ← your actual answers
+    ~/.job-search/applications/active/[company-slug]/prep-bot/COMPANY_PREP.md      ← coaching context + risks + questions to ask
+    ~/.job-search/applications/active/[company-slug]/prep-bot/MEMORIZATION_SCRIPT.md
+    ~/.job-search/applications/active/[company-slug]/prep-bot/COMPANY_SYSTEMS.md
 
   Voice bot:
     ~/.local/bin/[company]-prep
@@ -594,18 +754,18 @@ Prep bot created for [Company] [Role]:
     [company]-prep
 
   Tips:
+    - The CHEATSHEET has your actual spoken answers — read it, internalize, reproduce
+    - The COMPANY_PREP has the coaching context — risks, what they're testing, questions to ask
     - Practice 2-3 times before the interview, not 20 — you want natural, not robotic
     - The bot will push you when you drift into abstract talk
-    - Read the MEMORIZATION_SCRIPT once to load the structure, then practice speaking without looking
-    - The CHEATSHEET is your glance sheet during the actual call
 ```
 
-### `/job-search glance` — Day-of interview cheat sheet
+### `/job-search glance` — Day-of interview glance sheet
 
-Generate a one-page glance sheet for the morning of an interview.
+A one-page energy/focus sheet for 30 minutes before the call. This is NOT the cheatsheet (CHEATSHEET.md has your full spoken answers). The glance sheet is what you look at while brushing your teeth — thesis, top 3 numbers, lead story, pivots, energy anchors.
 
 1. Ask: "Which interview?" (company + role, or pipeline number)
-2. Read the job posting, company research, and their stories
+2. Read the CHEATSHEET.md and COMPANY_PREP.md if they exist (use them as source). If they don't exist, read the job posting, company research, and stories directly.
 3. Generate:
 
 ```
@@ -643,7 +803,7 @@ ENERGY ANCHORS:
 ====================================
 ```
 
-Save to `~/.job-search/glance/[company]_[role].md`
+Save to `~/.job-search/applications/active/[company-slug]/glance.md`
 
 ### `/job-search debrief` — Post-interview debrief
 
@@ -675,12 +835,12 @@ Run immediately after an interview while it's fresh.
 - Need a better story for [question type]
 ```
 
-Save to `~/.job-search/debriefs/[company]_[role]_[date].md`
+Save to `~/.job-search/applications/active/[company-slug]/debrief_[date].md`
 
 Update their story bank if new patterns emerged.
 
 **Calibration step** (critical for improving scoring accuracy):
-After every debrief, update `~/.job-search/calibration.yaml`:
+After every debrief, update `~/.job-search/trackers/calibration.yaml`:
 ```yaml
 calibration:
   - company: "..."
@@ -705,23 +865,35 @@ Read current profile, ask what to change, update and save. Show diff of what cha
 
 ### `/job-search pipeline` — Track opportunities
 
-Read `~/.job-search/pipeline.csv`. If it doesn't exist, create it with headers.
+Read the three tracker files:
+- `~/.job-search/trackers/PIPELINE.md` — all roles by status
+- `~/.job-search/trackers/CONTACTS.md` — people in the network
+- `~/.job-search/trackers/OPEN_OPPORTUNITIES.md` — ranked by callback probability
 
-**Display** grouped by status:
-- Active: `applying` / `applied` / `interviewing`
-- New: `found` (not yet acted on)
-- Closed: `offer` / `accepted` / `rejected` / `passed`
+**Display** a summary dashboard:
+- Active applications (count + company names)
+- Warm leads (count + sources)
+- Contacts actively helping (count)
+- Closed roles (count + last outcome)
 
-**Pipeline file format** (CSV):
-```
-company,role,fit_score,callback_pct,verified,status,date_found,date_updated,deadline,link,insider_advantage,notes
-```
+**Status management:**
 
-**Status flow**: `found` → `scoring` → `applying` → `applied` → `interviewing` → `offer` → `accepted` / `rejected` / `ghosted` / `passed`
+When the user says "move [company] to [status]", update the tracker AND move the application folder:
+- "Adobe got back to me, phone screen scheduled" → move to `applications/active/` if not already there, update PIPELINE.md status
+- "Stripe rejected me" → move from `applications/active/` to `applications/rejected/`, update PIPELINE.md
+- "Never heard back from Anthropic" → move to `applications/no-response/` if not already there
 
-**Verified column**: `yes` / `no` / `expired` — only `yes` roles should be in active statuses.
+**When adding a new role to the pipeline:**
+1. Add to OPEN_OPPORTUNITIES.md (ranked by callback)
+2. When the user applies, move it to PIPELINE.md "Active" section
+3. Create an application folder at `~/.job-search/applications/active/[company-slug]/`
+4. Save the JD, fit score, and any prep materials there
 
-User can say: "move #3 to applied" or "drop #5" or "add notes to #2: phone screen went well" or "mark #7 as expired"
+**Contact management:**
+
+When the user mentions a new contact: "Luke gave me an intro to David at Glean" → update CONTACTS.md with the new contact, who introduced them, and the next action.
+
+User can say: "show my pipeline", "who's helping me?", "what's still open?", "move #3 to rejected", "add a contact: [name] at [company]"
 
 ---
 
@@ -841,16 +1013,17 @@ This is the number that matters for time allocation.
 | `/job-search interview <company>` | Mock interview — 4 rounds with per-answer feedback | Interview scheduled |
 | `/job-search stories` | Build, structure, and rehearse STAR/CARL story bank | Before first interview |
 | `/job-search research <company>` | Company deep dive — product, news, culture, leadership | Before interview or application |
-| `/job-search glance <company>` | Day-of interview cheat sheet (1 page) | Morning of interview |
+| `/job-search glance <company>` | Day-of glance sheet — thesis, numbers, pivots, energy (1 page, not the cheatsheet) | 30 min before interview |
 | `/job-search debrief` | Post-interview capture + calibration update | Immediately after interview |
-| `/job-search pipeline` | View and manage tracked opportunities by status | Weekly review |
+| `/job-search pipeline` | View and manage pipeline, contacts, opportunities | Weekly review |
+| `/job-search contacts` | View and update contact board | After any meeting or intro |
 | `/job-search update` | Edit profile, archetypes, insider relationships, strategy bonus | When circumstances change |
 | `/job-search watchlist` | Check employer watchlist for new postings | Part of find, or standalone |
-| `/job-search prep-bot` | Create a voice interview prep bot for a specific role | Interview scheduled |
+| `/job-search prep-bot` | Create CHEATSHEET.md (answers) + COMPANY_PREP.md (coaching) + voice bot | Interview scheduled |
 
 ## Employer Watchlist
 
-Maintain `~/.job-search/watchlist.yaml` — employers with no current openings but high expected fit when roles appear.
+Maintain `~/.job-search/trackers/watchlist.yaml` — employers with no current openings but high expected fit when roles appear.
 
 ```yaml
 # Employer Watchlist — check on schedule
@@ -923,12 +1096,13 @@ The bonus adds to the Location dimension AFTER the base score is calculated. Thi
 The tool has a local Never Search Alone corpus and should use that before answering from memory.
 
 Primary local sources:
-- `/home/mical/fde/implementations/talent/talent-job-search/nsa/index.yaml`
-- `/home/mical/fde/implementations/talent/talent-job-search/nsa/README.md`
-- `/home/mical/fde/implementations/talent/talent-nsa-moderator/knowledge-center/NSA_KNOWLEDGE_CENTER_COMPLETE.md`
-- `/home/mical/fde/implementations/talent/talent-nsa-moderator/program/MODERATOR_PROGRAM.md`
-- `/home/mical/fde/implementations/talent/talent-nsa-moderator/CMF_SYNTHESIS_2026-04-03.md`
-- `/home/mical/fde/implementations/talent/talent-nsa-moderator/MNOOKIN_TWO_PAGER_MICAL.md`
+- `/home/mical/fde/implementations/talent/nsa/index.yaml`
+- `/home/mical/fde/implementations/talent/nsa/README.md`
+- `/home/mical/fde/implementations/talent/nsa/knowledge-center/NSA_KNOWLEDGE_CENTER_COMPLETE.md`
+- `/home/mical/fde/implementations/talent/nsa/program/MODERATOR_PROGRAM.md`
+- `/home/mical/fde/implementations/talent/nsa/CMF_SYNTHESIS_2026-04-03.md`
+- `/home/mical/fde/implementations/talent/nsa/MNOOKIN_TWO_PAGER_MICAL.md`
+- `/home/mical/fde/implementations/talent/nsa/listening-tour/LISTENING_TOUR.md`
 
 If the user asks for help with:
 - **Mnookin Two-Pager** — walk them through what they want / don't want

@@ -691,8 +691,107 @@ function detectTiredOrFrustrated(message, history) {
   return null;
 }
 
+// --- Math problem bank for local fallback ---
+const MATH_PROBLEMS = [
+  { q: 'What is 17 plus 8?', a: 25 },
+  { q: 'What is 12 plus 9?', a: 21 },
+  { q: 'What is 25 minus 7?', a: 18 },
+  { q: 'What is 6 times 4?', a: 24 },
+  { q: 'What is 30 minus 13?', a: 17 },
+  { q: 'What is 8 plus 15?', a: 23 },
+  { q: 'What is 9 times 3?', a: 27 },
+  { q: 'What is 50 minus 22?', a: 28 },
+  { q: 'What is 7 times 5?', a: 35 },
+  { q: 'What is 14 plus 19?', a: 33 },
+  { q: 'What is 100 minus 37?', a: 63 },
+  { q: 'What is 11 times 4?', a: 44 },
+  { q: 'What is 45 plus 18?', a: 63 },
+  { q: 'What is 8 times 7?', a: 56 },
+  { q: 'What is 36 minus 19?', a: 17 },
+];
+
+const HISTORY_FACTS = [
+  { fact: 'In ancient Egypt, kids played with toys made of clay and wood — over 4,000 years ago!', question: 'What kind of toy do you think was their favorite?' },
+  { fact: 'The Great Wall of China is so long it would take about 18 months to walk the whole thing!', question: 'If you walked it, what would you pack?' },
+  { fact: 'In ancient Rome, kids went to school but they wrote on wax tablets with a pointy stick instead of paper and pencil.', question: 'Would you rather write on wax or on paper? Why?' },
+  { fact: 'Cleopatra lived closer in time to the Moon landing than to the building of the Great Pyramid!', question: 'Does that surprise you? Why or why not?' },
+  { fact: 'In medieval times, some castles had secret passages hidden behind fireplaces.', question: 'If you found a secret passage in your house, where would you want it to lead?' },
+  { fact: 'The first person to fly solo across the Atlantic Ocean was Amelia Earhart. She was 34 years old.', question: 'What is the bravest thing you have ever done?' },
+  { fact: 'Vikings used to navigate by looking at the sun and the stars. No GPS, no maps.', question: 'Could you find your way home using only the sky?' },
+  { fact: 'In ancient Greece, the Olympics included a race where athletes ran in full armor!', question: 'What sport would you add to the Olympics if you could pick anything?' },
+];
+
+const STORY_STARTERS = [
+  'A girl found a strange key buried in the garden. It was glowing faintly. What does she do with it?',
+  'A boy woke up one morning and realized he could understand what animals were saying. The first thing he heard was his cat complaining about breakfast. What did the cat say?',
+  'There was a door at the back of the library that nobody ever opened. One day, it was unlocked. What was behind it?',
+  'A spaceship landed in the school parking lot during recess. The door opened slowly. Who stepped out?',
+  'The ocean pulled back farther than anyone had ever seen, and sitting on the wet sand was a treasure chest. What was inside?',
+  'A girl was walking home when she noticed her shadow was doing something different from her. What was it doing?',
+];
+
+let mathProblemIndex = 0;
+let historyFactIndex = 0;
+let storyStarterIndex = 0;
+
+function getNextMathProblem() {
+  const p = MATH_PROBLEMS[mathProblemIndex % MATH_PROBLEMS.length];
+  mathProblemIndex++;
+  return p;
+}
+
+function getNextHistoryFact() {
+  const f = HISTORY_FACTS[historyFactIndex % HISTORY_FACTS.length];
+  historyFactIndex++;
+  return f;
+}
+
+function getNextStoryStarter() {
+  const s = STORY_STARTERS[storyStarterIndex % STORY_STARTERS.length];
+  storyStarterIndex++;
+  return s;
+}
+
+// Extract a math problem from the last assistant message
+function findPendingMathAnswer(history) {
+  if (!history || history.length === 0) return null;
+  // Walk backward to find the last assistant message
+  for (let i = history.length - 1; i >= 0; i--) {
+    if (history[i].role !== 'assistant') continue;
+    const text = String(history[i].content || '').toLowerCase();
+    // Look for "what is X plus/minus/times Y" pattern
+    const match = text.match(/what is (\d+)\s*(plus|\+|minus|\-|times|x|×|multiplied by|divided by|÷|\/)\s*(\d+)/i);
+    if (match) {
+      const a = parseInt(match[1]);
+      const op = match[2].toLowerCase();
+      const b = parseInt(match[3]);
+      let answer;
+      if (op === 'plus' || op === '+') answer = a + b;
+      else if (op === 'minus' || op === '-') answer = a - b;
+      else if (op === 'times' || op === 'x' || op === '×' || op === 'multiplied by') answer = a * b;
+      else if (op === 'divided by' || op === '÷' || op === '/') answer = Math.floor(a / b);
+      return { a, op, b, answer, question: match[0] };
+    }
+    break; // only check the most recent assistant message
+  }
+  return null;
+}
+
+// Detect what activity the user is in based on the seed tags in history
+function detectActivityFromHistory(history) {
+  if (!history || history.length === 0) return null;
+  for (let i = history.length - 1; i >= 0; i--) {
+    const content = String(history[i].content || '');
+    if (content.includes('[ACTIVITY:MATH]')) return 'math';
+    if (content.includes('[ACTIVITY:READING]')) return 'reading';
+    if (content.includes('[ACTIVITY:STORY]')) return 'story';
+    if (content.includes('[ACTIVITY:HISTORY]')) return 'history';
+  }
+  return null;
+}
+
 function buildOkaFallback(message, history) {
-  const lower = String(message || '').toLowerCase();
+  const lower = String(message || '').toLowerCase().trim();
   const { phase } = buildOkaSessionGuide(history);
   const tired = detectTiredOrFrustrated(message, history);
 
@@ -704,9 +803,58 @@ function buildOkaFallback(message, history) {
   // Curated Nora-safe fallbacks
   if (lower.includes('stop') || lower.includes('done')) return { response: 'Okay. We did good work today. I am here whenever you want to come back.', phase };
   if (lower.includes('break') || lower.includes('water')) return { response: 'Good idea. Go get some water. Your brain has been working hard. I will be right here.', phase };
-  if (lower.includes('math')) return { response: 'Nice. Let us do one in our heads. What is 17 plus 8?', phase };
-  if (lower.includes('history') || lower.includes('past')) return { response: 'Cool. If you could time travel to one moment in the past, where would you go?', phase };
-  if (lower.includes('dragon') || lower.includes('fairy') || lower.includes('story')) return { response: 'Okay. A dragon finds a hidden doorway in the forest. What is on the other side?', phase };
+
+  // --- Activity-aware responses ---
+  const activity = detectActivityFromHistory(history);
+
+  // MATH: Check if we asked a math question and the user is answering it
+  if (activity === 'math') {
+    const pending = findPendingMathAnswer(history);
+    if (pending) {
+      const userAnswer = parseInt(lower.replace(/[^0-9\-]/g, ''));
+      if (!isNaN(userAnswer)) {
+        if (userAnswer === pending.answer) {
+          const next = getNextMathProblem();
+          return { response: `Yes! ${pending.answer} is right! Great job. Here is the next one. ${next.q}`, phase };
+        } else {
+          return { response: `Hmm, not quite. ${pending.question}... the answer is ${pending.answer}. That is okay! Want to try another one?`, phase };
+        }
+      }
+    }
+    // User said something in math mode but it's not a number — give a new problem
+    const next = getNextMathProblem();
+    return { response: `Let us try this one. ${next.q}`, phase };
+  }
+
+  // HISTORY: Engage with their answer, then give a new fact
+  if (activity === 'history') {
+    if (lower.length > 2) {
+      const next = getNextHistoryFact();
+      return { response: `That is a great answer! Here is another one. ${next.fact} ${next.question}`, phase };
+    }
+    const next = getNextHistoryFact();
+    return { response: `${next.fact} ${next.question}`, phase };
+  }
+
+  // STORY: Continue the story
+  if (activity === 'story') {
+    if (lower.length > 5) {
+      return { response: `Oh wow, I like that! And then... something unexpected happened. A loud noise came from behind them. What was it?`, phase };
+    }
+    const starter = getNextStoryStarter();
+    return { response: starter, phase };
+  }
+
+  // READING: defer to reading engine (should not normally reach here)
+  if (activity === 'reading') {
+    return { response: 'Let us try a word. Say it when you are ready: **jump**', phase };
+  }
+
+  // --- No activity — keyword fallbacks ---
+  if (lower.includes('math')) { const p = getNextMathProblem(); return { response: `Nice. Let us do one. ${p.q}`, phase }; }
+  if (lower.includes('history') || lower.includes('past')) { const f = getNextHistoryFact(); return { response: `${f.fact} ${f.question}`, phase }; }
+  if (lower.includes('story')) { const s = getNextStoryStarter(); return { response: s, phase }; }
+  if (lower.includes('dragon') || lower.includes('fairy')) return { response: 'Okay. A dragon finds a hidden doorway in the forest. What is on the other side?', phase };
   if (lower.includes('space') || lower.includes('moon') || lower.includes('star')) return { response: 'The Moon is about 240 thousand miles away. If you could fly there, what would you bring?', phase };
   if (lower.includes('draw') || lower.includes('art') || lower.includes('picture')) return { response: 'I love that you draw. What is the last thing you drew that you were really proud of?', phase };
   if (lower.includes('brain') || lower.includes('dyslexia')) return { response: 'Want to know something cool about how your brain works? Your thinking engine is in the top 2 percent. That is really rare.', phase };
@@ -716,12 +864,7 @@ function buildOkaFallback(message, history) {
   if (lower.includes('hello') || lower.includes('hi ') || lower === 'hi') return { response: 'Hey! Good to see you. Want to do something fun, or just chat?', phase };
 
   // Safe generic fallbacks
-  const generics = [
-    'I heard you. Want to keep going, or want something fun?',
-    'What sounds good right now? Math, a story, or something else?',
-    'I am here. Want a challenge, a game, or just to talk?'
-  ];
-  return { response: generics[Math.floor(Math.random() * generics.length)], phase };
+  return { response: 'I am here! Pick an activity and let us get going.', phase };
 }
 
 async function callOpenAIResponses({ systemPrompt, history, message }) {
@@ -832,13 +975,9 @@ async function generateOkaReply(message, history = []) {
     trace('oka_chat', null, 'openai_unavailable', { error: err.message });
   }
 
-  try {
-    const raw = await callPerplexityOka({ systemPrompt, history, message });
-    if (raw) return { response: guardResponseLength(raw), provider: 'perplexity', phase: sessionGuide.phase };
-  } catch (err) {
-    trace('oka_chat', null, 'perplexity_unavailable', { error: err.message });
-  }
-
+  // NOTE: Perplexity is a SEARCH engine — it should NEVER be used as a fallback
+  // for Oka. A child typing "24" as a math answer should not trigger a web search
+  // for the TV show "24". Go straight to local fallback instead.
   return { ...buildOkaFallback(message, history), provider: 'local_fallback' };
 }
 

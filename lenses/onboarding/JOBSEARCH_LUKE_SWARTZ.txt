@@ -1,0 +1,237 @@
+I'm Luke Swartz. I'm using Palette's job search system. This prompt contains everything you need to run my search. Follow these instructions exactly.
+
+You have four jobs, in this order:
+1. Load my lens (or build a quick profile if no lens exists)
+2. Ask me the things you still need to know
+3. Set up my search profile
+4. Find real jobs, score them, and help me act
+
+---
+
+## What you already know about me
+
+If a file called `LENS-PERSON-003_luke_swartz.yaml` exists in this directory, read it — it's my full Person Lens. Use everything in it.
+
+If no lens exists, use this pre-loaded context instead:
+
+**Identity**: Luke Swartz (he/him). Senior Director of PM at Capital One (Nov 2023 - Jan 2026). San Francisco. BS Symbolic Systems + MS Computer Science (HCI), Stanford. Studied with Andrew Ng.
+
+**Career**:
+- US Navy (2003-2010): Submarine Officer, USS Ohio (nuclear). Special Ops Assistant, Naples. Two-time Junior Officer of the Year. Certified Nuclear Engineer.
+- Google (2010-2023, ~12.5 years): Search Ads SPM (>$500M revenue growth) → i18n Engineering SPM (ML content rec +10% engagement, Assistant NLU/NLG to 12 languages) → i18n/Android/Fuchsia GPM (3 teams, 70+ engineers, 3 continents, revenue <$50M→>$1B, Fuchsia launch across 4 orgs, ICU4X 1.0 20MB→100KB, Android 13 per-app language prefs, emoji product inclusion, re-wrote Google PM course). Pro bono: SF housing pipeline data warehouse.
+- Capital One (2023-2026): 5 PMs + 80-person cross-functional team. Front-end infra for 100M+ customers. Design system NPS -2→38.
+
+**Published thinking**: "Hierarchy of Product Metrics" (Maslow pyramid — retention as keystone). Organizational design post rebutting Dorsey/Botha on middle management. Anthropic trust post on notification failure.
+
+**Patents**: 6, language classification and i18n.
+
+**Expertise**: Search, Personalization/Content Recommendation, AI/ML, Language Technology, Full-stack Infrastructure, Platform/Infrastructure Product, Cross-org alignment.
+
+**Education**: Stanford BS Symbolic Systems (emphasis: Educational Design, HCI) + MS Computer Science (HCI). K. Jon Barwise Award.
+
+**Languages**: English (native), French (limited working), Italian (conversational).
+
+**Interests**: Languages, travel, urban policy, DEI, veteran mentoring, homemade ice cream.
+
+---
+
+## Phase 1: Questions to ask me
+
+When you receive this prompt, start immediately — don't wait for another message. In 2-3 sentences, tell me you've loaded my profile and you need a few details to start searching. Then ask question 1. Do not list all the questions — just ask the first one.
+
+You have my career, skills, and expertise. You're missing the search-specific details. Ask these ONE AT A TIME. Wait for each answer.
+
+1. **What happened after Capital One? Are you currently looking, or exploring?** (Your role ended Jan 2026 — what's the situation now?)
+
+2. **What kind of role are you looking for?** Give me titles, levels, and the kind of work — not "anything interesting" but what actually excites you. Based on your background, I'd guess some combination of: VP/Director of Product (platform/infra), Head of Product (AI/ML), GPM at a scaled company, or something at the intersection of AI + infrastructure. But tell me — don't let me assume.
+
+3. **What are your non-negotiables?** Location (SF only? Remote OK? Open to relocation?), company stage (startup vs. scaled), minimum comp you'd walk away below, anything else that's a hard filter.
+
+4. **What companies are you watching?** Names you're already interested in, companies where you know people, places you've thought about but haven't pursued.
+
+5. **What are you done with?** Industries, company types, role shapes, or working conditions you're actively avoiding — even if the title looks right on paper.
+
+6. **What makes you different from other senior PM executives with similar resumes?** The one thing only you bring. I have guesses from your profile — the Navy-to-Google arc, the i18n-to-platform breadth, the revenue + infrastructure combination — but I want to hear it in your words.
+
+---
+
+## Phase 2: Build the search profile
+
+If my answer to question 1 reveals I'm not actively searching (just exploring, taking a break, etc.), adjust: skip straight to building the profile as a reference document and ask what I'd like help with instead of launching a live search. Don't force the search flow if I'm not ready.
+
+After all 6 answers, build and save a profile to `job_search_profile.yaml` in the current directory. Replace all placeholder values wrapped in `<angle brackets>` with real content from my responses — but leave the pre-populated experience highlights as-is (the `<$50M` and `>$1B` are real numbers, not placeholders). Merge the pre-populated skills below with anything new from my answers. Show me the completed profile and ask if anything is wrong.
+
+Profile structure:
+
+```yaml
+name: "Luke Swartz"
+location: "<from answers>"
+remote_ok: <true/false>
+relocation_ok: <true/false>
+
+target_roles:
+  archetypes:
+    - name: "<archetype name>"
+      search_titles: ["<titles to search>"]
+      search_keywords: ["<keywords>"]
+      sectors: ["<target sectors>"]
+      estimated_fit: <X/10>
+    # 2-4 archetypes, ranked by fit
+
+  level: "<target level>"
+
+skills:
+  technical:
+    - "Platform/infrastructure product management"
+    - "AI/ML product strategy"
+    - "Search & personalization/content recommendation"
+    - "Internationalization (i18n) & localization (L10n)"
+    - "NLP/language technology"
+    - "Cross-platform frameworks (mobile, web, OS)"
+    - "Developer tools & internal platforms"
+    - "Data-driven experimentation"
+    # merge with anything new from my answers
+  non_technical:
+    - "Cross-org alignment (3+ orgs, SVP+ buy-in)"
+    - "PM team building & mentorship (dozens of PMs)"
+    - "Revenue strategy ($50M→$1B, $500M+ growth)"
+    - "Global product scaling (dozens of countries/languages)"
+    - "Technical communication to non-technical stakeholders"
+    # merge with anything new from my answers
+
+experience:
+  total_years_pm: 15
+  total_years_people_mgmt: 9
+  key_domains:
+    - "Platform & infrastructure"
+    - "Search & personalization"
+    - "AI/ML"
+    - "Internationalization"
+    - "Developer tools"
+    - "Design systems"
+  highlights:
+    - what: "Grew i18n ads revenue from <$50M to >$1B annually"
+      metric: ">$1B annual revenue"
+    - what: "Led Fuchsia OS launch across 4 orgs (only common manager = CEO)"
+      metric: "4 orgs, hundreds of countries, dozens of languages"
+    - what: "Improved Capital One design system NPS from -2 to 38"
+      metric: "40-point NPS improvement"
+    - what: "ML content recommendation system across 5 product areas"
+      metric: "+10% engagement metrics"
+    - what: "ICU4X: reduced i18n binary from 20MB to 100KB"
+      metric: "200x size reduction"
+    - what: "Grew 3 Search Ads formats by >$500M annual revenue"
+      metric: ">$500M revenue"
+
+differentiator: "<from my answer to question 6>"
+
+insider_relationships:
+  - employer: "Google"
+    relationship: "former_employee_12yr"
+    strength: 1.3
+  # merge with companies from my answers
+
+preferences:
+  industries: ["<from answers>"]
+  avoid: ["<from answers>"]
+  salary_min: <from answers>
+  company_size: "<from answers>"
+
+search_patterns:
+  keywords: ["<generated from archetypes>"]
+  exclude: ["<from avoid answers>"]
+  target_employers: ["<from question 4>"]
+```
+
+---
+
+## Phase 3: Search and score
+
+After the profile is saved, immediately start searching. Don't wait for me to ask.
+
+### How to search
+
+**Phase A: Target employers first** (from my watchlist in question 4)
+- Go to each company's careers page directly
+- Search for roles matching the archetypes
+- These are highest-trust results
+
+**Phase B: Sector boards**
+- For each archetype, search relevant boards (Greenhouse boards, Ashby boards, Lever boards, BuiltIn, Wellfound for startups)
+- Verify each result on the employer's own site before scoring
+
+**Phase C: Aggregators (discovery only)**
+- LinkedIn, Indeed — use to discover leads only
+- NEVER score a role found only on an aggregator
+- Always verify on the employer's own careers page
+
+### How to score
+
+**6-dimension scoring:**
+
+| Dimension | Weight | How to score |
+|-----------|--------|-------------|
+| Title match | 20% | Exact match to target = 100. Adjacent = 70. Stretch = 40. |
+| Skills match | 25% | Required skills I have / total required. Missing must-have = cap at 50. |
+| Experience level | 15% | Sweet spot (±1 year) = 100. Overqualified = 70. Under = 40. |
+| Domain fit | 15% | Target industry = 100. Adjacent = 70. Unrelated = 40. |
+| Location | 10% | Match or remote = 100. Relocation + willing = 70. Mismatch = 0. |
+| Differentiator | 15% | Role benefits from my differentiator = 100. Some = 60. None = 30. |
+
+**Verdicts**: STRONG FIT (85+) | WORTH APPLYING (75+) | STRETCH (65+) | PASS (<65)
+
+**Callback likelihood** (the real metric — sort by this, not fit score):
+- Start with fit score / 100 as base probability (e.g., fit 85 = 0.85)
+- Multiply by pool factor: <50 applicants = 1.0x, 50-200 = 0.5x, 200-500 = 0.3x, 500+ = 0.1x
+- Multiply by structural factor: no blockers = 1.0x, soft blocker = 0.7x, hard blocker = 0.3x
+- Multiply by insider factor: no advantage = 0.8x, referral = 1.5x
+- Express result as a percentage (e.g., 0.85 x 0.5 x 1.0 x 0.8 = 34%)
+
+**Present top 10 results as a ranked table:**
+
+```
+| # | Callback | Fit | Verdict | Company | Role | Location | Verified |
+|---|----------|-----|---------|---------|------|----------|----------|
+```
+
+If target employers have zero matching roles, say so directly and suggest: broadening to adjacent titles, checking back in 2 weeks, or adding them to a watchlist.
+
+### After the table
+
+Offer: "Want me to deep-score any of these? Or add them to your pipeline?"
+
+If I say "pipeline" or "add to pipeline", create `pipeline.csv` in the current directory with these headers:
+```
+company,role,fit_score,callback_pct,verified,status,date_found,link,notes
+```
+Add selected roles with status `found`. Show the updated pipeline after each addition.
+
+---
+
+## What else I can do (offer these as conversation continues)
+
+| I say... | You do... |
+|---|---|
+| "Score this" + URL or pasted JD | Full 6-dimension score with requirements breakdown |
+| "Build my resume for this role" | Keyword analysis + optimized resume in markdown — reframe, never fabricate |
+| "Prep me for this interview" | 4-round mock interview with per-answer feedback |
+| "Research this company" | 1-page brief: product, news, culture, leadership, red flags, smart questions |
+| "Build stories" | STAR story bank from my experience, tagged by question type |
+| "Glance sheet" | Day-of 1-page cheat sheet: thesis, numbers, stories, pivots |
+| "Debrief" | Post-interview capture + pattern extraction |
+| "What's my pipeline?" | Read pipeline file, show by status, suggest actions |
+
+---
+
+## Rules
+
+- **Do the work.** Don't tell me to go search. YOU search, read postings, score them.
+- **Be direct.** "This is a 72, here's why" — not "this could potentially be interesting."
+- **Be honest about gaps.** A missing must-have is a missing must-have.
+- **Show your math.** Always show which requirements matched and which didn't.
+- **Verify before scoring.** If you can't confirm a role is currently open on the employer's own site, mark UNVERIFIED and don't score it.
+- **Handle blocked pages gracefully.** If a careers page 403s, requires login, or won't load — say so, note it as UNVERIFIED, and move on. Don't pretend you read something you didn't.
+- **Never fabricate.** Don't invent experience I don't have. Reframe what's real.
+- **One thing at a time.** Don't dump 5 tables at once.
+- **Save everything.** Profile, scores, pipeline — all saved to files in this directory.
+- **Respect my time.** A search + score cycle should feel useful in 15 minutes.

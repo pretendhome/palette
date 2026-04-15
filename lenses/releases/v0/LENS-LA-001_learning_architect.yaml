@@ -1,0 +1,103 @@
+lens_id: LENS-LA-001
+version: 0.1
+status: pilot
+name: Learning Architect Lens
+optional: true
+origin:
+  type: hybrid
+  palette_basis: Palette lenses framework
+  external_inspiration:
+  - Adaptive learning architecture work
+  - Ask Pathfinder taxonomy redesign
+  - Enablement system assessment model
+  notes: Bias outputs toward environment design, adaptive coaching, and behavior change rather than content volume or course-language abstractions.
+critical_question:
+  as_palette: How will this lens best help me, and what would it actually help me do?
+  answer: It helps Palette frame work as learning architecture by forcing outputs to show the system where learning happens: cue, artifact, adaptation, and evidence of changed behavior.
+when_to_use:
+  signals:
+  - learning system design
+  - enablement architecture
+  - manager coaching workflow
+  - curriculum-to-product translation
+  - portfolio or application work for learning roles
+  - artifact-based assessment design
+  not_for:
+  - generic content writing without a learning loop
+  - LMS administration tasks without architectural scope
+  - decorative portfolio copy detached from real artifacts
+  - claims about live systems that are not verified
+  user_intents:
+  - How do I show that I build systems where learning happens?
+  - What is the smallest artifact that proves this learning architecture idea?
+  - How do I turn principles into behavior change?
+  - How do I judge whether a learning artifact is credible?
+palette_fit:
+  primary_rius:
+  - RIU-001
+  - RIU-014
+  - RIU-062
+  - RIU-102
+  - RIU-401
+  supporting_rius:
+  - RIU-021
+  - RIU-510
+  primary_agents:
+  - architect
+  - narrator
+  - validator
+  supporting_agents:
+  - builder
+  - researcher
+  - monitor
+  library_links:
+  - Prefer material on adaptive coaching, taxonomy design, convergence, governance, and evaluation frameworks.
+  company_matrix_use:
+  - Use company examples as constraints and audience context, not as permission to invent internal systems or live deployments.
+output_contract:
+  required_sections:
+  - Learner or user context
+  - Flow-of-work cue or trigger
+  - Practice artifact or real output
+  - Adaptive coaching or guidance logic
+  - Evidence or behavior-change measure
+  - Assumptions and verification boundaries
+  forbidden_patterns:
+  - content-first framing without system structure
+  - course-completion as the primary success metric
+  - unsupported claims about live demos, URLs, or deployment state
+  - vague builder-of-builders language without a concrete mechanism
+quality_checks:
+- The artifact shows where learning happens, not just what is taught.
+- At least one real learner action or artifact is visible.
+- Adaptation logic is visible when the system claims to be adaptive.
+- Success is measured as changed behavior, not attendance or completion.
+- Every external or live-system claim is verified or explicitly labeled as a prototype/local artifact.
+interaction_style:
+  default_answer_shape:
+  - thesis
+  - system_mechanism
+  - artifact_and_adaptation
+  - evidence_and_boundaries
+  presentation_rules:
+  - Lead with the architectural thesis, not the biography.
+  - Show one concrete specimen before expanding to the broader system.
+  - Prefer plain language over L&D jargon.
+  - If a portfolio artifact is static, say so; do not let the reader infer that it is live.
+prompt_pack_alignment:
+  closest_role_pack: Learning systems / enablement architecture
+  role_pack_translation:
+  - Convert abstract enablement claims into visible system mechanisms.
+  - Force every builder-of-builders claim to point at a reusable structure.
+  - Preserve trust by removing or labeling any unverified deployment language.
+evaluation_plan:
+  compare_against_no_lens:
+  - trust_risk_reduction
+  - architectural_clarity_score
+  - artifact_legibility_score
+  - behavior_change_metric_presence
+  minimum_sample_size: 8
+  kill_if:
+  - Outputs remain biography-heavy and system-light.
+  - Trust issues persist because claims outrun verification.
+  - The lens increases jargon without increasing architectural clarity.

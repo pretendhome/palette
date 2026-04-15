@@ -28,7 +28,18 @@
 
       <div id="input-bar">
         <select id="target-agent">
+          <option value="claude.analysis">@ Claude</option>
           <option value="all">@ all agents</option>
+          <option value="mistral-vibe.builder">@ Mistral</option>
+          <option value="codex.implementation">@ Codex / GPT</option>
+          <option value="qwen.specialist">@ Qwen</option>
+          <option value="perplexity.research">@ Perplexity</option>
+        </select>
+        <select id="lang-select" title="Voice language">
+          <option value="en-US" data-rime="eng">EN</option>
+          <option value="fr-FR" data-rime="fra">FR</option>
+          <option value="it-IT" data-rime="ita">IT</option>
+          <option value="es-ES" data-rime="spa">ES</option>
         </select>
         <input type="text" id="text-input" placeholder="Type or press mic to speak…" autocomplete="off">
         <button id="mic-btn" title="Hold to speak">
@@ -85,8 +96,8 @@
         <div id="wiki-nav">
           <button data-path="index.md" class="wiki-link">Index</button>
           <button data-path="indexes/all-rius.md" class="wiki-link">RIUs</button>
-          <button data-path="indexes/all-entries.md" class="wiki-link">Knowledge</button>
           <button data-path="indexes/all-agents.md" class="wiki-link">Agents</button>
+          <button data-path="indexes/all-knowledge-entries.md" class="wiki-link">Knowledge</button>
         </div>
         <div id="wiki-content"></div>
       </section>
@@ -105,17 +116,28 @@ const state = {
   ttsEnabled: true,
   listening: false,
   recognition: null,
+  lang: 'en-US',
+  rimeLang: 'eng',
 };
+
+function getCurrentLang() {
+  const sel = document.getElementById('lang-select');
+  return {
+    stt: sel.value,
+    rime: sel.selectedOptions[0].dataset.rime,
+  };
+}
 
 // Agent → Rime voice mapping (arcanav2: astra, luna, orion, celeste confirmed)
 // Speed variation differentiates agents sharing a speaker
 const AGENT_VOICES = {
   'claude.analysis':      { speaker: 'astra',   speed: 1.0,  label: 'Claude' },
   'mistral-vibe.builder': { speaker: 'luna',    speed: 1.0,  label: 'Mistral' },
-  'kiro.design':          { speaker: 'orion',   speed: 1.0,  label: 'Kiro' },
+  'kiro.design':          { speaker: 'orion',   speed: 1.1,  label: 'Kiro' },
   'codex.implementation': { speaker: 'celeste', speed: 1.0,  label: 'Codex' },
+  'qwen.specialist':      { speaker: 'orion',   speed: 1.0,  label: 'Qwen' },
   'gemini.specialist':    { speaker: 'astra',   speed: 1.12, label: 'Gemini' },
-  'perplexity.research':  { speaker: 'luna',    speed: 0.92, label: 'Perplexity' },
+  'perplexity.research':  { speaker: 'celeste', speed: 0.92, label: 'Perplexity' },
   'hub.voice':            { speaker: 'celeste', speed: 1.05, label: 'Hub' },
 };
 
@@ -212,7 +234,8 @@ async function speakHub(text) {
   };
   renderMessage(msg);
   const voice = voiceFor(HUB_IDENTITY);
-  ttsQueue.push({ text, speaker: voice.speaker, speed: voice.speed });
+  const { rime } = getCurrentLang();
+  ttsQueue.push({ text, speaker: voice.speaker, speed: voice.speed, lang: rime });
   if (!ttsPlaying) drainTTSQueue();
 }
 
@@ -230,6 +253,8 @@ function connectSSE() {
   evtSource.addEventListener('message', (e) => {
     const msg = JSON.parse(e.data);
     if (state.seenIds.has(msg.message_id)) return;
+    // Skip our own outgoing messages echoed back from bus
+    if (msg.from_agent === HUB_IDENTITY) { state.seenIds.add(msg.message_id); return; }
     state.seenIds.add(msg.message_id);
     state.messages.push(msg);
     renderMessage(msg);
@@ -307,21 +332,62 @@ function renderList(elId, items, listName) {
   ).join('');
 }
 
+const STATIC_AGENTS = [
+  { value: 'claude.analysis', label: '@ Claude' },
+  { value: 'all', label: '@ all agents' },
+  { value: 'mistral-vibe.builder', label: '@ Mistral' },
+  { value: 'codex.implementation', label: '@ Codex / GPT' },
+  { value: 'qwen.specialist', label: '@ Qwen' },
+  { value: 'perplexity.research', label: '@ Perplexity' },
+];
+
 async function renderAgents() {
   try {
     const res = await fetch('/api/agents');
     const data = await res.json();
     const roster = document.getElementById('agent-roster');
     const select = document.getElementById('target-agent');
+    const currentValue = select.value;
 
-    // Clear and rebuild
+    // Rebuild dropdown: static API agents first
     roster.innerHTML = '';
-    select.innerHTML = '<option value="all">@ all agents</option><option value="human">@ human</option>';
+    select.innerHTML = STATIC_AGENTS.map(a => `<option value="${a.value}">${a.label}</option>`).join('');
+
+    const staticValues = new Set(STATIC_AGENTS.map(a => a.value));
+
+    // Show static API agents in sidebar (always available via direct call)
+    for (const sa of STATIC_AGENTS) {
+      if (sa.value === 'all') continue;
+      const voice = voiceFor(sa.value);
+      const el = document.createElement('div');
+      el.className = 'agent-card';
+      el.style.cursor = 'pointer';
+      el.title = `Click to chat with ${voice.label}`;
+      const livePeer = (data.live_peers || []).find(p => p.identity === sa.value);
+      const isLive = !!livePeer;
+      el.innerHTML = `
+        <div class="agent-dot ${isLive ? 'online' : 'api'}"></div>
+        <div class="agent-info">
+          <strong>${voice.label}</strong>
+          <span class="agent-identity">${sa.value}</span>
+          <span class="agent-role">direct API</span>
+        </div>
+      `;
+      el.addEventListener('click', () => {
+        document.getElementById('target-agent').value = sa.value;
+        document.getElementById('text-input').focus();
+      });
+      roster.appendChild(el);
+    }
 
     for (const peer of (data.live_peers || [])) {
+      // Skip bus peers that are already shown as static API agents
+      if (staticValues.has(peer.identity)) continue;
       const voice = voiceFor(peer.identity);
       const el = document.createElement('div');
       el.className = 'agent-card';
+      el.style.cursor = 'pointer';
+      el.title = `Click to chat with ${voice.label}`;
       el.innerHTML = `
         <div class="agent-dot online"></div>
         <div class="agent-info">
@@ -330,9 +396,30 @@ async function renderAgents() {
           <span class="agent-role">${peer.palette_role || peer.runtime}</span>
         </div>
       `;
+      el.addEventListener('click', () => {
+        const select = document.getElementById('target-agent');
+        const chatName = AGENT_CHAT_NAMES[peer.identity];
+        if (chatName && DIRECT_AGENTS.has(chatName)) {
+          // Direct API agent — select it
+          const match = Array.from(select.options).find(o => o.value === peer.identity);
+          if (match) select.value = peer.identity;
+        } else {
+          // Bus-only agent — select "all" and hint the name
+          select.value = 'all';
+          const input = document.getElementById('text-input');
+          input.value = `@${voice.label} `;
+        }
+        document.getElementById('text-input').focus();
+      });
       roster.appendChild(el);
-      select.innerHTML += `<option value="${peer.identity}">${voice.label}</option>`;
+      // Only add to dropdown if not already a static agent
+      if (!staticValues.has(peer.identity)) {
+        select.innerHTML += `<option value="${peer.identity}">${voice.label}</option>`;
+      }
     }
+
+    // Restore previous selection
+    if (currentValue) select.value = currentValue;
   } catch { /* bus down */ }
 }
 
@@ -347,19 +434,20 @@ async function speakMessage(msg) {
     ? (msg.payload.text || msg.payload.task || msg.payload.decision || msg.intent)
     : String(msg.payload);
   if (!text) return;
-  ttsQueue.push({ text, speaker: voice.speaker, speed: voice.speed });
+  const { rime } = getCurrentLang();
+  ttsQueue.push({ text, speaker: voice.speaker, speed: voice.speed, lang: rime });
   if (!ttsPlaying) drainTTSQueue();
 }
 
 async function drainTTSQueue() {
   ttsPlaying = true;
   while (ttsQueue.length > 0) {
-    const { text, speaker, speed } = ttsQueue.shift();
+    const { text, speaker, speed, lang } = ttsQueue.shift();
     try {
       const res = await fetch('/api/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, speaker, speed: speed || 1.0 }),
+        body: JSON.stringify({ text, speaker, speed: speed || 1.0, lang: lang || 'eng' }),
       });
       if (res.ok) {
         const blob = await res.blob();
@@ -376,63 +464,171 @@ async function drainTTSQueue() {
   ttsPlaying = false;
 }
 
-// ── Speech-to-text (Web Speech API) ─────────────────────────────────────────
+// ── Speech-to-text (Web Speech API + Whisper fallback) ──────────────────────
 
 function setupSTT() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    console.warn('Web Speech API not available');
-    return;
+  if (SpeechRecognition) {
+    console.log('STT: Web Speech API available, using as primary');
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = state.lang;
+    state.recognition = recognition;
+    state.sttMode = 'webspeech';
+
+    const input = document.getElementById('text-input');
+    recognition.onresult = (e) => {
+      state.webSpeechGotResult = true;
+      clearTimeout(state.webSpeechTimeout);
+      let transcript = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        transcript += e.results[i][0].transcript;
+      }
+      input.value = transcript;
+      if (e.results[e.results.length - 1].isFinal) {
+        sendMessage(transcript);
+        input.value = '';
+      }
+    };
+    recognition.onend = () => {
+      state.listening = false;
+      document.getElementById('mic-btn').classList.remove('active');
+    };
+    recognition.onerror = (e) => {
+      console.warn('STT error:', e.error);
+      // Any error except 'no-speech' means Web Speech is broken — switch to Whisper
+      if (e.error !== 'no-speech') {
+        console.log('STT: Web Speech failed (' + e.error + '), switching to Whisper mode');
+        state.recognition = null;
+        state.sttMode = 'whisper';
+        // If we were trying to listen, start Whisper recording immediately
+        if (state.listening) {
+          state.listening = false;
+          document.getElementById('mic-btn').classList.remove('active');
+          startWhisperRecording();
+          return;
+        }
+      }
+      state.listening = false;
+      document.getElementById('mic-btn').classList.remove('active');
+    };
+  } else {
+    console.log('STT: No Web Speech API, using Whisper mode');
+    state.sttMode = 'whisper';
   }
+}
 
-  const recognition = new SpeechRecognition();
-  recognition.continuous = true;
-  recognition.interimResults = true;
-  recognition.lang = 'en-US';
-  state.recognition = recognition;
+// ── Whisper recording via MediaRecorder ─────────────────────────────────────
 
-  const input = document.getElementById('text-input');
+let mediaRecorder = null;
+let audioChunks = [];
 
-  recognition.onresult = (e) => {
-    let transcript = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) {
-      transcript += e.results[i][0].transcript;
-    }
-    input.value = transcript;
-    // If final result, auto-send
-    if (e.results[e.results.length - 1].isFinal) {
-      sendMessage(transcript);
-      input.value = '';
-    }
-  };
+async function startWhisperRecording() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+    audioChunks = [];
+    mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) audioChunks.push(e.data); };
+    mediaRecorder.onstop = async () => {
+      stream.getTracks().forEach(t => t.stop());
+      if (audioChunks.length === 0) return;
+      const blob = new Blob(audioChunks, { type: 'audio/webm' });
+      document.getElementById('mic-btn').classList.add('transcribing');
+      document.getElementById('text-input').placeholder = 'Transcribing...';
+      try {
+        const { stt } = getCurrentLang();
+        const langCode = stt.split('-')[0]; // en-US → en
+        const res = await fetch(`/api/transcribe?lang=${langCode}`, { method: 'POST', body: blob });
+        const data = await res.json();
+        if (data.text) {
+          document.getElementById('text-input').value = data.text;
+          sendMessage(data.text);
+          document.getElementById('text-input').value = '';
+        } else {
+          showError('No speech detected. Try again.');
+        }
+      } catch (e) {
+        showError('Transcription failed: ' + e.message);
+      }
+      document.getElementById('mic-btn').classList.remove('transcribing');
+      document.getElementById('text-input').placeholder = 'Type or press mic to speak…';
+    };
+    mediaRecorder.start();
+    state.listening = true;
+    document.getElementById('mic-btn').classList.add('active');
+  } catch (e) {
+    showError('Microphone not available: ' + e.message);
+  }
+}
 
-  recognition.onend = () => {
-    state.listening = false;
-    document.getElementById('mic-btn').classList.remove('active');
-    // Restart if still meant to be listening
-  };
-
-  recognition.onerror = (e) => {
-    if (e.error !== 'no-speech') console.warn('STT error:', e.error);
-    state.listening = false;
-    document.getElementById('mic-btn').classList.remove('active');
-  };
+function stopWhisperRecording() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    mediaRecorder.stop();
+  }
+  state.listening = false;
+  document.getElementById('mic-btn').classList.remove('active');
 }
 
 function toggleMic() {
-  if (!state.recognition) return;
-  if (state.listening) {
-    state.recognition.stop();
-    state.listening = false;
-    document.getElementById('mic-btn').classList.remove('active');
+  if (state.sttMode === 'webspeech' && state.recognition) {
+    // Web Speech API path
+    if (state.listening) {
+      state.recognition.stop();
+      clearTimeout(state.webSpeechTimeout);
+      state.listening = false;
+      document.getElementById('mic-btn').classList.remove('active');
+    } else {
+      try {
+        state.recognition.start();
+        state.listening = true;
+        document.getElementById('mic-btn').classList.add('active');
+        // If no result within 3s, Web Speech is silently broken — switch to Whisper
+        state.webSpeechGotResult = false;
+        state.webSpeechTimeout = setTimeout(() => {
+          if (!state.webSpeechGotResult && state.listening) {
+            console.log('STT: Web Speech timeout (no result in 3s), switching to Whisper');
+            try { state.recognition.stop(); } catch {}
+            state.recognition = null;
+            state.sttMode = 'whisper';
+            state.listening = false;
+            document.getElementById('mic-btn').classList.remove('active');
+            startWhisperRecording();
+          }
+        }, 3000);
+      } catch (e) {
+        // Fall back to Whisper
+        console.log('STT: Web Speech start failed, switching to Whisper');
+        state.sttMode = 'whisper';
+        startWhisperRecording();
+      }
+    }
   } else {
-    state.recognition.start();
-    state.listening = true;
-    document.getElementById('mic-btn').classList.add('active');
+    // Whisper path
+    if (state.listening) {
+      stopWhisperRecording();
+    } else {
+      startWhisperRecording();
+    }
   }
 }
 
 // ── Send message to bus ─────────────────────────────────────────────────────
+
+// Map dropdown agent identities to /api/chat agent names
+const AGENT_CHAT_NAMES = {
+  'claude.analysis':      'claude',
+  'claude-code':          'claude',
+  'mistral-vibe.builder': 'mistral',
+  'kiro.design':          'kiro',
+  'codex.implementation': 'codex',
+  'qwen.specialist':      'qwen',
+  'gemini.specialist':    'gemini',
+  'perplexity.research':  'perplexity',
+};
+
+// Direct voice agents (agents that have API routing)
+const DIRECT_AGENTS = new Set(['claude', 'mistral', 'codex', 'qwen', 'kiro', 'perplexity']);
 
 async function sendMessage(text) {
   if (!text.trim()) return;
@@ -442,10 +638,43 @@ async function sendMessage(text) {
   if (handled) return;
 
   const target = document.getElementById('target-agent').value;
+  const chatAgent = AGENT_CHAT_NAMES[target] || target;
+  const { rime } = getCurrentLang();
 
+  // Show user message (once — mark as seen so SSE poll won't duplicate it)
+  const userMsgId = crypto.randomUUID();
+  const userMsg = {
+    message_id: userMsgId,
+    from_agent: HUB_IDENTITY,
+    to_agent: target,
+    message_type: 'informational',
+    intent: text.trim(),
+    risk_level: 'none',
+    payload: { text: text.trim() },
+    created_at: new Date().toISOString(),
+    state: 'local',
+  };
+  renderMessage(userMsg);
+  state.seenIds.add(userMsgId);
+
+  // If targeting a specific agent with API routing, use direct chat
+  if (DIRECT_AGENTS.has(chatAgent)) {
+    await directChat(chatAgent, text.trim(), rime, target);
+    return;
+  }
+
+  // If "all" is selected, default to claude for direct chat
+  if (target === 'all') {
+    await directChat('claude', text.trim(), rime, 'claude.analysis');
+    return;
+  }
+
+  // Otherwise, broadcast to bus (only for bus-only agents like gemini)
+  const busEnvelopeId = crypto.randomUUID();
+  state.seenIds.add(busEnvelopeId); // pre-mark so SSE poll won't duplicate
   const envelope = {
     protocol_version: '1.0.0',
-    message_id: crypto.randomUUID(),
+    message_id: busEnvelopeId,
     thread_id: null,
     in_reply_to: null,
     from_agent: HUB_IDENTITY,
@@ -466,14 +695,132 @@ async function sendMessage(text) {
       body: JSON.stringify(envelope),
     });
     const data = await res.json();
-    if (data.ok) {
-      renderMessage(envelope);
-      state.seenIds.add(envelope.message_id);
-    } else {
-      console.error('Send failed:', data);
+    if (!data.ok) showError(`Send failed: ${data.reason || 'unknown'}`);
+  } catch (e) {
+    showError(`Could not reach bus: ${e.message}`);
+  }
+}
+
+async function directChat(agent, text, lang, agentIdentity) {
+  const voice = voiceFor(agentIdentity);
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ agent, text, lang }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      showError(`${agent} API error: ${err.error || res.status}`);
+      return;
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = '';
+    let fullText = '';
+    let eventType = '';
+    let pendingPalette = null;
+    let responseMsg = null;
+    const audioQueue = [];
+    let audioPlaying = false;
+
+    async function drainAudioQueue() {
+      if (audioPlaying) return;
+      audioPlaying = true;
+      while (audioQueue.length > 0) {
+        const b64 = audioQueue.shift();
+        try {
+          const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+          const blob = new Blob([bytes], { type: 'audio/mp3' });
+          const url = URL.createObjectURL(blob);
+          await new Promise(resolve => {
+            const audio = new Audio(url);
+            audio.onended = () => { URL.revokeObjectURL(url); resolve(); };
+            audio.onerror = () => { URL.revokeObjectURL(url); resolve(); };
+            audio.play().catch(resolve);
+          });
+        } catch { /* audio playback failed */ }
+      }
+      audioPlaying = false;
+    }
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+
+      const lines = buf.split('\n');
+      buf = lines.pop() || '';
+
+      for (const line of lines) {
+        if (line.startsWith('event: ')) {
+          eventType = line.slice(7);
+        }
+        if (!line.startsWith('data: ')) continue;
+        const data = JSON.parse(line.slice(6));
+
+        if (eventType === 'palette' && data.riu_id) {
+          // Store palette data — will attach to response bubble once it exists
+          pendingPalette = data;
+        }
+
+        if (eventType === 'token') {
+          fullText += data.token;
+          // Create or update the response message bubble
+          if (!responseMsg) {
+            responseMsg = {
+              message_id: crypto.randomUUID(),
+              from_agent: agentIdentity,
+              to_agent: 'human',
+              message_type: 'informational',
+              intent: fullText,
+              risk_level: 'none',
+              payload: { text: fullText },
+              created_at: new Date().toISOString(),
+              state: 'local',
+            };
+            renderMessage(responseMsg);
+            // Attach palette tag now that the response bubble exists
+            if (pendingPalette) {
+              const msgs = document.getElementById('messages');
+              const lastMsg = msgs.lastElementChild;
+              if (lastMsg) {
+                const header = lastMsg.querySelector('.msg-header');
+                if (header && !header.querySelector('.palette-tag')) {
+                  header.insertAdjacentHTML('beforeend',
+                    `<span class="palette-tag" title="${pendingPalette.riu_name} (${pendingPalette.confidence.toFixed(0)}% confidence)">${pendingPalette.riu_id}</span>`
+                  );
+                }
+              }
+              pendingPalette = null;
+            }
+          } else {
+            // Update the last message bubble with new text
+            const msgs = document.getElementById('messages');
+            const lastMsg = msgs.lastElementChild;
+            if (lastMsg) {
+              const body = lastMsg.querySelector('.msg-body');
+              if (body) body.textContent = fullText;
+            }
+            requestAnimationFrame(() => { msgs.scrollTop = msgs.scrollHeight; });
+          }
+        }
+
+        if (eventType === 'audio' && state.ttsEnabled) {
+          audioQueue.push(data.audio);
+          if (!audioPlaying) drainAudioQueue();
+        }
+
+        if (eventType === 'error') {
+          showError(data.error || 'Unknown server error');
+        }
+      }
     }
   } catch (e) {
-    console.error('Send error:', e);
+    showError(`Chat failed: ${e.message}`);
   }
 }
 
@@ -509,6 +856,20 @@ async function loadWikiPage(path) {
 }
 
 // ── Utility ─────────────────────────────────────────────────────────────────
+
+function showError(text) {
+  renderMessage({
+    message_id: crypto.randomUUID(),
+    from_agent: HUB_IDENTITY,
+    to_agent: 'human',
+    message_type: 'error',
+    intent: text,
+    risk_level: 'none',
+    payload: { text: '⚠ ' + text },
+    created_at: new Date().toISOString(),
+    state: 'local',
+  });
+}
 
 function escapeHtml(s) {
   const div = document.createElement('div');
@@ -547,6 +908,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('text-input');
     sendMessage(input.value);
     input.value = '';
+  });
+
+  // Language selector — switches STT and TTS language
+  document.getElementById('lang-select').addEventListener('change', (e) => {
+    const { stt, rime } = getCurrentLang();
+    state.lang = stt;
+    state.rimeLang = rime;
+    if (state.recognition) {
+      const wasListening = state.listening;
+      if (wasListening) { try { state.recognition.stop(); } catch {} }
+      state.recognition.lang = stt;
+      if (wasListening) {
+        setTimeout(() => { try { state.recognition.start(); state.listening = true; } catch {} }, 200);
+      }
+    }
+    document.getElementById('text-input').placeholder =
+      stt === 'en-US' ? 'Type or press mic to speak…' :
+      stt === 'fr-FR' ? 'Tapez ou appuyez pour parler…' :
+      stt === 'it-IT' ? 'Scrivi o premi il mic per parlare…' :
+      stt === 'es-ES' ? 'Escribe o pulsa el mic para hablar…' :
+      'Type or press mic to speak…';
   });
 
   // Mic toggle

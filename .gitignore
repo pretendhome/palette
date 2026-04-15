@@ -45,3 +45,4 @@ wiki/Palette.md
 *.db
 # Backup files
 *.bak
+peers/hub/.env

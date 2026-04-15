@@ -25,15 +25,17 @@ When a new role comes in:
 
 ## Source Data
 
-Three files work together:
+Five source files work together:
 - **`experience-inventory.yaml`** — structured career data (ERAs, stats, stories). Never write from scratch — query the inventory.
 - **`role-profiles.yaml`** — 6 role profiles with search patterns, fit lenses, interview playbooks, and accumulated learnings.
+- **`STAR_STORIES.md`** — 10 behavioral stories with 90-second and extended versions, plus a routing table mapping question types to stories.
+- **`ANSWER_BACKBONE.md`** — topic-indexed experience library for building cheatsheet answers. Organized by interview topic (SQL, dashboards, AI agents, etc.), each with multiple experiences and verified numbers. Use this to assign different experiences to different cheatsheet sections — never reuse the same story in two sections. Built from the inventory and stories above.
 - **`build_resume.py`** — parameterized resume builder. Each profile selects different headline, summary, bullet variants, and Palette framing.
 
 Additional local source layer for job-search strategy:
-- **`/home/mical/fde/implementations/talent/talent-job-search/nsa/index.yaml`** — query map into the local Never Search Alone corpus
-- **`/home/mical/fde/implementations/talent/talent-nsa-moderator/CMF_SYNTHESIS_2026-04-03.md`** — Mical's current candidate-market-fit thesis
-- **`/home/mical/fde/implementations/talent/talent-nsa-moderator/MNOOKIN_TWO_PAGER_MICAL.md`** — Mical's wants / anti-wants / self-discovery
+- **`/home/mical/fde/implementations/talent/nsa/index.yaml`** — query map into the local Never Search Alone corpus
+- **`/home/mical/fde/implementations/talent/nsa/CMF_SYNTHESIS_2026-04-03.md`** — Mical's current candidate-market-fit thesis
+- **`/home/mical/fde/implementations/talent/nsa/MNOOKIN_TWO_PAGER_MICAL.md`** — Mical's wants / anti-wants / self-discovery
 
 ## NSA Pre-Filter
 
@@ -212,10 +214,20 @@ Build 5-6 focused documents, NOT 1-2 monolithic ones (Glean learning: modular > 
 |---|---|---|
 | **Fit Analysis** | Score each requirement, identify gaps | 30 min |
 | **Company Research Brief** | Product, market, competitive, culture | 30-60 min |
-| **Interview Cheatsheet** | Facts, numbers, talking points on one page | 15 min |
+| **Interview Cheatsheet** | Actual spoken answers — dense paragraphs per topic (see CHEATSHEET.md format in `job-search-command.md`) | 30 min |
+| **Company Prep** | Coaching context: what they're testing, risks, mitigations, questions to ask (COMPANY_PREP.md) | 15 min |
 | **Behavioral Stories** | 5-7 stories from story bank, tailored to role | 30 min |
 | **Simulation Drills** | 4 rounds of practice scenarios | 60-120 min |
 | **Day-of Protocol** | Energy management, anchor messages, pivots | 15 min |
+
+### Experience Assignment (before writing Cheatsheet + Company Prep)
+Before writing any answers, build an internal assignment table using `ANSWER_BACKBONE.md`:
+1. List the major topics from the JD
+2. For each topic, pick the strongest experience from ANSWER_BACKBONE.md
+3. Once assigned, that experience is off-limits for other sections
+4. Verify: no experience appears in two sections
+
+This step is what prevents double-dipping (e.g., the same Foursquare/TripAdvisor story appearing in both SQL and Dashboards). The cheatsheet and company prep are always generated as a pair — cheatsheet has the spoken answers, company prep has the coaching context.
 
 ### Story Bank Protocol
 1. Select 5-7 stories from `experience-inventory.yaml > stories` matching the role
