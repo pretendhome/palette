@@ -10,6 +10,7 @@
 
 import { createServer } from 'node:http';
 import { readFile, readdir, stat, writeFile, unlink } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { join, extname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
@@ -88,6 +89,23 @@ const AGENT_APIS = {
   perplexity: { provider: 'perplexity', model: 'sonar-pro' },
   // gemini: not wired yet — no API key
 };
+
+// ── Agent steering (loaded once at startup) ─────────────────────────────────
+
+const AGENT_STEERING = {};
+
+async function loadSteering() {
+  const steeringDir = join(__dirname, 'steering');
+  try {
+    const files = await readdir(steeringDir);
+    for (const f of files) {
+      if (!f.endsWith('.md')) continue;
+      const agent = f.replace('.md', '');
+      AGENT_STEERING[agent] = await readFile(join(steeringDir, f), 'utf8');
+    }
+    console.log(`  Steering   ${Object.keys(AGENT_STEERING).join(', ')}`);
+  } catch { /* no steering dir */ }
+}
 
 // ── Hub identity on the bus ─────────────────────────────────────────────────
 
@@ -242,7 +260,7 @@ async function handleRequest(req, res) {
           text: stripMarkdownForTTS(body.text),
           speaker: body.speaker || 'astra',
           modelId: body.model || 'arcanav2',
-          lang: body.lang || 'eng',
+          ...(body.lang ? { lang: body.lang } : {}),
           ...(body.speed && body.speed !== 1.0 ? { speedAlpha: body.speed } : {}),
         }),
       });
@@ -280,26 +298,42 @@ async function handleRequest(req, res) {
       });
       const audio = Buffer.concat(chunks);
 
-      // Write to temp file, run Whisper
-      const tmpPath = `/tmp/hub_stt_${Date.now()}.webm`;
-      await writeFile(tmpPath, audio);
+      // Write to temp file, convert to WAV (Whisper is picky about formats), transcribe
+      const ts = Date.now();
+      const webmPath = `/tmp/hub_stt_${ts}.webm`;
+      const wavPath = `/tmp/hub_stt_${ts}.wav`;
+      await writeFile(webmPath, audio);
 
       const lang = url.searchParams.get('lang') || 'en';
 
+      // Convert WebM → WAV (16kHz mono — optimal for Whisper)
+      await new Promise((resolve) => {
+        const ff = spawn('ffmpeg', ['-y', '-i', webmPath, '-ar', '16000', '-ac', '1', '-f', 'wav', wavPath], {
+          stdio: ['ignore', 'ignore', 'ignore'],
+        });
+        const killTimer = setTimeout(() => { ff.kill('SIGTERM'); resolve(); }, 5000);
+        ff.on('close', () => { clearTimeout(killTimer); resolve(); });
+        ff.on('error', () => { clearTimeout(killTimer); resolve(); });
+      });
+
       const text = await new Promise((resolve) => {
-        const proc = spawn('whisper', [tmpPath, '--model', 'base', '--language', lang, '--output_format', 'txt', '--output_dir', '/tmp'], {
+        const whisperModel = existsSync(join(process.env.HOME, '.cache/whisper/small.pt')) ? 'small' : 'base';
+        const proc = spawn('whisper', [wavPath, '--model', whisperModel, '--language', lang, '--output_format', 'txt', '--output_dir', '/tmp'], {
           stdio: ['ignore', 'pipe', 'pipe'],
         });
-        const killTimer = setTimeout(() => { proc.kill('SIGTERM'); resolve(''); }, 15_000);
+        const killTimer = setTimeout(() => { proc.kill('SIGTERM'); resolve(''); }, 30_000);
+        let stderr = '';
+        proc.stderr.on('data', d => stderr += d);
         proc.on('close', async () => {
           clearTimeout(killTimer);
           try {
-            const txtPath = tmpPath.replace('.webm', '.txt');
+            const txtPath = wavPath.replace('.wav', '.txt');
             const result = await readFile(txtPath, 'utf8');
             unlink(txtPath).catch(() => {});
             resolve(result.trim());
           } catch { resolve(''); }
-          unlink(tmpPath).catch(() => {});
+          unlink(webmPath).catch(() => {});
+          unlink(wavPath).catch(() => {});
         });
         proc.on('error', () => { clearTimeout(killTimer); resolve(''); });
       });
@@ -395,7 +429,9 @@ async function handleRequest(req, res) {
       const langInstruction = lang && lang !== 'eng'
         ? `Respond in the same language the user is speaking. If they speak French, respond in French. If Italian, respond in Italian. If Spanish, respond in Spanish. `
         : '';
-      const systemPrompt = `${langInstruction}Be concise — 2-3 sentences for spoken conversation. Do NOT use markdown formatting (no **bold**, no *italic*, no bullet points, no numbered lists, no headers). Your response will be spoken aloud through a voice synthesizer.${paletteContext}`;
+      const steering = AGENT_STEERING[agent] || '';
+      const voiceInstruction = 'Be concise — 2-3 sentences for spoken conversation. Do NOT use markdown formatting (no **bold**, no *italic*, no bullet points, no numbered lists, no headers). Your response will be spoken aloud through a voice synthesizer.';
+      const systemPrompt = `${steering}\n\n${langInstruction}${voiceInstruction}${paletteContext}`;
 
       let fullText = '';
       let sentenceBuffer = '';
@@ -423,11 +459,11 @@ async function handleRequest(req, res) {
         sentenceBuffer += token;
         res.write(`event: token\ndata: ${JSON.stringify({ token })}\n\n`);
 
-        // Check for sentence boundary
-        const complete = extractCompleteSentences();
-        if (complete) {
+        // Check for sentence boundaries — drain all complete sentences from buffer
+        let complete;
+        while ((complete = extractCompleteSentences()) !== null) {
 
-          // Generate TTS for the complete sentence(s)
+          // Generate TTS for the complete sentence
           try {
             const voice = AGENT_VOICES_MAP[agent] || { speaker: 'astra', speed: 1.0 };
             const audioRes = await fetch(RIME_API, {
@@ -454,31 +490,35 @@ async function handleRequest(req, res) {
         }
       }
 
-      // Flush remaining buffer
+      // Flush remaining buffer — split into sentences for better playback
       if (sentenceBuffer.trim().length > 2) {
-        try {
-          const voice = AGENT_VOICES_MAP[agent] || { speaker: 'astra', speed: 1.0 };
-          const audioRes = await fetch(RIME_API, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'audio/mp3',
-              'Authorization': `Bearer ${RIME_KEY}`,
-            },
-            body: JSON.stringify({
-              text: stripMarkdownForTTS(sentenceBuffer.trim()),
-              speaker: voice.speaker,
-              modelId: 'arcanav2',
-              lang: lang || 'eng',
-              ...(voice.speed && voice.speed !== 1.0 ? { speedAlpha: voice.speed } : {}),
-            }),
-          });
-          if (audioRes.ok) {
-            const audioBuffer = Buffer.from(await audioRes.arrayBuffer());
-            const audioB64 = audioBuffer.toString('base64');
-            res.write(`event: audio\ndata: ${JSON.stringify({ audio: audioB64, format: 'mp3' })}\n\n`);
-          }
-        } catch { /* final TTS failed */ }
+        const voice = AGENT_VOICES_MAP[agent] || { speaker: 'astra', speed: 1.0 };
+        // Split on sentence boundaries for per-sentence TTS
+        const sentences = sentenceBuffer.trim().split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 2);
+        for (const sentence of sentences) {
+          try {
+            const audioRes = await fetch(RIME_API, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'audio/mp3',
+                'Authorization': `Bearer ${RIME_KEY}`,
+              },
+              body: JSON.stringify({
+                text: stripMarkdownForTTS(sentence.trim()),
+                speaker: voice.speaker,
+                modelId: 'arcanav2',
+                lang: lang || 'eng',
+                ...(voice.speed && voice.speed !== 1.0 ? { speedAlpha: voice.speed } : {}),
+              }),
+            });
+            if (audioRes.ok) {
+              const audioBuffer = Buffer.from(await audioRes.arrayBuffer());
+              const audioB64 = audioBuffer.toString('base64');
+              res.write(`event: audio\ndata: ${JSON.stringify({ audio: audioB64, format: 'mp3' })}\n\n`);
+            }
+          } catch { /* TTS failed for this sentence, continue */ }
+        }
       }
 
       res.write(`event: done\ndata: ${JSON.stringify({ text: fullText })}\n\n`);
@@ -780,6 +820,7 @@ async function* callLLM(config, systemPrompt, userText) {
 // ── Start ───────────────────────────────────────────────────────────────────
 
 await loadKeys();
+await loadSteering();
 const server = createServer(handleRequest);
 server.listen(HUB_PORT, '127.0.0.1', async () => {
   console.log(`\n  Voice Hub  http://127.0.0.1:${HUB_PORT}`);

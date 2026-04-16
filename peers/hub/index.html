@@ -298,7 +298,7 @@ function renderMessage(msg) {
       ${risk}${gate}
       <time>${new Date(msg.created_at).toLocaleTimeString()}</time>
     </div>
-    <div class="msg-body">${escapeHtml(payloadText)}</div>
+    <div class="msg-body">${escapeHtml(cleanForDisplay(payloadText))}</div>
   `;
 
   const container = document.getElementById('messages');
@@ -730,20 +730,29 @@ async function directChat(agent, text, lang, agentIdentity) {
     async function drainAudioQueue() {
       if (audioPlaying) return;
       audioPlaying = true;
+      let chunkIndex = 0;
       while (audioQueue.length > 0) {
         const b64 = audioQueue.shift();
+        chunkIndex++;
         try {
           const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
           const blob = new Blob([bytes], { type: 'audio/mp3' });
           const url = URL.createObjectURL(blob);
-          await new Promise(resolve => {
+          console.log(`[TTS] Playing chunk ${chunkIndex}, queue remaining: ${audioQueue.length}`);
+          await new Promise((resolve, reject) => {
             const audio = new Audio(url);
-            audio.onended = () => { URL.revokeObjectURL(url); resolve(); };
-            audio.onerror = () => { URL.revokeObjectURL(url); resolve(); };
-            audio.play().catch(resolve);
+            audio.onended = () => { console.log(`[TTS] Chunk ${chunkIndex} ended`); URL.revokeObjectURL(url); resolve(); };
+            audio.onerror = (e) => { console.error(`[TTS] Chunk ${chunkIndex} error:`, e); URL.revokeObjectURL(url); resolve(); };
+            audio.play().then(() => {
+              console.log(`[TTS] Chunk ${chunkIndex} playing, duration: ${audio.duration}s`);
+            }).catch(e => {
+              console.error(`[TTS] Chunk ${chunkIndex} play failed:`, e);
+              resolve();
+            });
           });
-        } catch { /* audio playback failed */ }
+        } catch (e) { console.error(`[TTS] Chunk ${chunkIndex} exception:`, e); }
       }
+      console.log(`[TTS] Queue drained, ${chunkIndex} chunks played`);
       audioPlaying = false;
     }
 
@@ -803,7 +812,7 @@ async function directChat(agent, text, lang, agentIdentity) {
             const lastMsg = msgs.lastElementChild;
             if (lastMsg) {
               const body = lastMsg.querySelector('.msg-body');
-              if (body) body.textContent = fullText;
+              if (body) body.textContent = cleanForDisplay(fullText);
             }
             requestAnimationFrame(() => { msgs.scrollTop = msgs.scrollHeight; });
           }
@@ -869,6 +878,21 @@ function showError(text) {
     created_at: new Date().toISOString(),
     state: 'local',
   });
+}
+
+function cleanForDisplay(text) {
+  return text
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/__([^_]+)__/g, '$1')
+    .replace(/_([^_]+)_/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/^\s*[-*+]\s+/gm, '• ')
+    .replace(/^\s*\d+\.\s+/gm, '')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/\[\d+\]/g, '')
+    .trim();
 }
 
 function escapeHtml(s) {

@@ -39,6 +39,21 @@ Palette is a knowledge architecture that maps 121 enterprise AI competency areas
 
 ---
 
+## Voice & Multilingual Agent Design
+
+Palette includes specialized tooling for multilingual voice agent evaluation, multi-agent voice coordination, and speech synthesis integration.
+
+### [Voice Evaluation Workbench](voice/workbench/) — [Live Demo](https://pretendhome.github.io/palette/voice-workbench/)
+A multilingual tool for comparing, scoring, and choosing AI agent voices across customer journey stages (Acceptance, Resolution, Satisfaction). Structured rubric (Naturalness, Trust, Cultural Fit, Brand Fit, Clarity), weighted scoring, TTFA measurement, locale-specific watchouts, and exportable decision scorecards. 4 languages, native-speaker voices per language, 3 journey stages.
+
+### [Voice Hub](peers/hub/) — Multi-Agent Voice Interface
+A voice-first interface connecting 5 LLM agents (Claude, Mistral, GPT, Qwen, Perplexity) through voice in 4 languages. Rime Arcana v2 TTS with sentence-boundary streaming, Whisper local STT, and every voice query classified through the 121-node RIU taxonomy before grounding the response in the knowledge library. Governed message bus with risk gates and human checkpoints.
+
+![Voice Hub — 4 agents, 4 languages, one workflow](docs/images/voice-hub-screenshot.png)
+*Research (FR/Perplexity) → Design (EN/Claude) → Build (IT/Codex) → Implement (ES/Qwen) — four agents, four languages, one workflow.*
+
+---
+
 ## System Summary
 
 <div align="center">
