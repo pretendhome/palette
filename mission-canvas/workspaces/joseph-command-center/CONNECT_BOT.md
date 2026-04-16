@@ -1,72 +1,91 @@
-# Connect Joseph Palette Bot — Direct Setup
+# Connect Joseph Palette Bot
 
-No GitHub push needed. The bot connects directly to Telegram from your laptop.
+The bot is already running on the VPS. Joseph just needs to open Telegram.
 
-## Prerequisites
+## Quickest Path (bot is live now)
 
-Make sure you have:
-- Node.js installed
-- Python 3 installed
-- The palette repo cloned locally
+1. Open Telegram
+2. Search for `@joseph_palette_bot`
+3. Send `/start`
+4. That's it — the bot is connected and running on the VPS
 
-## Step 1: Install dependencies
+## Commands
+
+- `/start` — welcome and command list
+- `/brief` — morning brief (futures, pre-market, oil, gold, macro)
+- `/midday` — mid-day pulse (index movers, breaking news, BTC)
+- `/close` — session close (volume, earnings, SMA levels)
+- `/gaps` — missing evidence
+- `/decisions` — open decisions
+- `/health` — health score
+- `/research <question>` — research anything with Perplexity
+- `/help` — full command list
+
+Any other message gets routed through the workspace. Voice messages are transcribed automatically.
+
+## Scheduled Briefs (automated delivery)
+
+| Time (PST) | Brief | Content |
+|---|---|---|
+| 6:00 AM | Morning | Futures, pre-market, earnings, Oil/Gold/USD-JPY/10Y/BTC, Fed, Trump, geo, macro |
+| 12:00 PM | Mid-day | Index pulse, movers, breaking news, BTC |
+| 1:30 PM | Close | Session close, volume, earnings after bell, SMA levels |
+
+These are delivered automatically when the monitor daemon is running.
+
+## If the Bot Stops Responding
+
+Ask Laith to restart it. He runs this from his terminal:
+
+```bash
+ssh root@srv1390882.hstgr.cloud "bash /tmp/start_joseph.sh"
+```
+
+Or if Laith is not available, SSH to the VPS yourself:
+
+```bash
+ssh root@srv1390882.hstgr.cloud
+cd /root/fde/palette/mission-canvas
+source /root/fde/venv/bin/activate
+
+# Kill old processes
+pkill -f joseph_bridge.py
+pkill -f "node server.mjs"
+sleep 2
+
+# Start server
+export PERPLEXITY_API_KEY="<ask Laith for the key>"
+nohup node server.mjs > /tmp/mc-server.log 2>&1 &
+sleep 3
+
+# Start bot
+export JOSEPH_BOT_TOKEN="8748740444:AAHgW3EoRnmTDqNhZ62RYeIOxL-IYcLh4mI"
+export MC_WORKSPACE="joseph-command-center"
+export MC_SERVER="http://localhost:8787"
+nohup python3 joseph_bridge.py > /tmp/joseph-bot.log 2>&1 &
+sleep 3
+
+# Verify
+tail -3 /tmp/joseph-bot.log
+```
+
+You should see: `[mc-bot] starting` and `[mc-bot] server health: ok`
+
+## Running Locally Instead (optional)
+
+If you want to run the bot from your own laptop instead of the VPS:
 
 ```bash
 cd palette/mission-canvas
 npm install
 pip install httpx
-```
 
-## Step 2: Start the MissionCanvas server
-
-```bash
-cd palette/mission-canvas
 node server.mjs &
-```
 
-You should see: `MissionCanvas server running at http://localhost:8787`
-
-## Step 3: Start the Telegram bot
-
-In the same `palette/mission-canvas` directory:
-
-```bash
 export JOSEPH_BOT_TOKEN="8748740444:AAHgW3EoRnmTDqNhZ62RYeIOxL-IYcLh4mI"
 export MC_WORKSPACE="joseph-command-center"
 export MC_SERVER="http://localhost:8787"
 python3 joseph_bridge.py
 ```
 
-You should see the bot start polling.
-
-## Step 4: Open Telegram
-
-Search for `@joseph_palette_bot` and send `/start`.
-
-## Commands
-
-- `/start` — welcome and command list
-- `/brief` — daily brief (priorities, blockers, nudges)
-- `/gaps` — missing evidence
-- `/decisions` — open decisions
-- `/health` — health score
-- `/research` — research a question with Perplexity
-- `/help` — full command list
-
-Any other message gets routed through the workspace. Voice messages are transcribed automatically.
-
-## Stopping
-
-To stop everything:
-
-```bash
-pkill -f joseph_bridge.py
-pkill -f "node server.mjs"
-```
-
-## Troubleshooting
-
-- **"push to GitHub"** — you do NOT need to push anything. The bot connects directly to Telegram via polling. No VPS, no deploy.
-- **Bot not responding** — make sure both `server.mjs` AND `joseph_bridge.py` are running. The bridge needs the server.
-- **Port 8787 in use** — kill the old process: `lsof -i :8787 -t | xargs kill`
-- **Missing httpx** — `pip install httpx`
+Note: scheduled briefs won't fire if your laptop is asleep. Use the VPS for 24/7 delivery.
