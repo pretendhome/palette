@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mical Neill — Learning Architecture</title>
+  <title>Mical Neill — Voice & Agent Experience</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,36 +33,52 @@
     a:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-2px); }
     .link-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; }
     .link-desc { color: #5a5a6e; font-size: 0.9rem; }
-    .tag { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; background: rgba(99,91,255,0.08); color: #635bff; margin-bottom: 8px; }
+    .tag { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; margin-bottom: 8px; }
+    .tag.voice { background: rgba(76,194,255,0.12); color: #0088cc; }
+    .tag.system { background: rgba(99,91,255,0.08); color: #635bff; }
+    .tag.portfolio { background: rgba(126,240,163,0.12); color: #1a8a4a; }
+    .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9a96a8; margin: 32px 0 12px; }
   </style>
 </head>
 <body>
   <div class="shell">
     <h1>Mical Neill</h1>
-    <p class="sub">Learning architecture, AI-enabled systems, and functional design. I build the systems where learning happens.</p>
+    <p class="sub">Agent experience designer. Voice, multilingual, applied linguistics. I build voice agents that sound right across languages — and the evaluation frameworks that prove it.</p>
 
-    <a href="invisible-learning-system.html">
-      <div class="tag">Primary</div>
-      <div class="link-title">Invisible Learning System</div>
-      <div class="link-desc">One leadership principle. One real behavior. One learning system. Cue → artifact → coaching → evidence.</div>
+    <div class="section-label">Voice & Agent Tools</div>
+
+    <a href="voice-workbench/">
+      <div class="tag voice">Try it live</div>
+      <div class="link-title">Voice Evaluation Workbench</div>
+      <div class="link-desc">Compare, score, and choose AI agent voices across 4 languages and 3 customer journey stages. Structured rubric, TTFA measurement, exportable scorecards.</div>
     </a>
 
+    <a href="https://github.com/pretendhome/palette/tree/main/peers/hub">
+      <div class="tag voice">Source</div>
+      <div class="link-title">Voice Hub — Multi-Agent Voice Interface</div>
+      <div class="link-desc">5 LLM agents routable through voice in 4 languages. Rime TTS, Whisper STT, taxonomy-routed retrieval, sentence-boundary streaming, governed message bus.</div>
+    </a>
+
+    <div class="section-label">Intelligence Architecture</div>
+
+    <a href="https://github.com/pretendhome/palette">
+      <div class="tag system">Source</div>
+      <div class="link-title">Palette — Knowledge Architecture</div>
+      <div class="link-desc">121-node taxonomy, 176-entry knowledge library, 12 agents, governance model, wire contracts. The system underneath.</div>
+    </a>
+
+    <div class="section-label">Portfolio & Case Studies</div>
+
     <a href="portfolio.html">
-      <div class="tag">Portfolio</div>
-      <div class="link-title">Learning Architecture Portfolio</div>
+      <div class="tag portfolio">Portfolio</div>
+      <div class="link-title">Design Portfolio</div>
       <div class="link-desc">OKA adaptive learning, engineering dashboards, shipped plugins, enablement architecture, and design philosophy.</div>
     </a>
 
     <a href="learning-architecture-system.html">
-      <div class="tag">Case Study</div>
+      <div class="tag portfolio">Case Study</div>
       <div class="link-title">Learning Architecture for AI-Native Teams</div>
       <div class="link-desc">Ask Pathfinder, adaptive coaching, and modular curriculum design at enterprise scale.</div>
-    </a>
-
-    <a href="https://github.com/pretendhome/palette">
-      <div class="tag">Source</div>
-      <div class="link-title">Palette — Open Source</div>
-      <div class="link-desc">121-node taxonomy, 176-entry knowledge library, 12 agents, governance model. The system underneath.</div>
     </a>
   </div>
 </body>
