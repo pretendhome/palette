@@ -68,6 +68,9 @@ The monorepo (`pretendhome/`) contains `palette/` as a subtree plus `implementat
 
 Skills live in palette. Implementations live in pretendhome. Learnings flow back into skill updates.
 
+### External Repos Governed by Palette
+- **`~/learning-architecture`** (`github.com:lingua-viva/learning-architecture.git`) — Claudia Canu Fautré's public learning design portfolio. Changes governed by Palette education + talent skills. See its `CLAUDE.md` for the connection protocol. Pull both repos before making cross-repo changes.
+
 ## Key Conventions
 - **Glass-box architecture**: Every decision must be traceable. No black boxes.
 - **Convergence protocol**: Agents must converge toward a decision, not cycle indefinitely.
@@ -75,7 +78,6 @@ Skills live in palette. Implementations live in pretendhome. Learnings flow back
 - **ONE-WAY DOOR classification**: Irreversible decisions require human review.
 - **Evidence bar**: Tier 1 sources (Google/Anthropic/OpenAI/AWS/Meta), Tier 2 (NIST/EU/peer-reviewed), Tier 3 (>500-star GitHub).
 - **Privacy**: Never commit personally identifiable child data. Use anonymized avatars (e.g., ARON).
-
 ## Running Tests
 ```bash
 uv run pytest -q scripts/palette_intelligence_system/test_*.py
