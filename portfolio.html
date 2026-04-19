@@ -1,0 +1,1679 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Learning Architecture Portfolio — Mical Neill. 20 years designing learning environments. Builder of builders." />
+  <meta property="og:title" content="Mical Neill — Learning Architecture Portfolio" />
+  <meta property="og:description" content="Hybrid learning designer and product engineer. 20 years from university classrooms to enterprise AI systems." />
+  <meta property="og:type" content="website" />
+  <title>Mical Neill — Learning Architecture Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #fafaf8;
+      --surface: #ffffff;
+      --surface-alt: #f4f2ef;
+      --text: #1a1a2e;
+      --text-soft: #5a5a6e;
+      --text-faint: #8a8a9a;
+      --accent: #635bff; /* Stripe purple */
+      --accent-soft: rgba(99,91,255,0.08);
+      --accent-border: rgba(99,91,255,0.2);
+      --green: #27ae60;
+      --orange: #f08b58;
+      --blue: #4a9eff;
+      --warm: #fff3de;
+      --border: #e8e6e1;
+      --shadow: 0 2px 24px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 48px rgba(0,0,0,0.08);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .animate-in {
+      opacity: 0;
+      animation: fadeUp 0.6s ease-out forwards;
+    }
+
+    .animate-in.delay-1 { animation-delay: 0.1s; }
+    .animate-in.delay-2 { animation-delay: 0.2s; }
+    .animate-in.delay-3 { animation-delay: 0.3s; }
+    .animate-in.delay-4 { animation-delay: 0.4s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .animate-in { opacity: 1; animation: none; }
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250,250,248,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+    }
+
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-soft);
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 80px 32px 64px;
+    }
+
+    .hero-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      max-width: 720px;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-soft);
+      max-width: 640px;
+      margin-top: 16px;
+      line-height: 1.65;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 64px 32px;
+    }
+
+    .section-header {
+      margin-bottom: 40px;
+    }
+
+    .section + .section { border-top: 1px solid var(--border); }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .section-desc {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      max-width: 600px;
+      margin-top: 8px;
+    }
+
+    /* ── PROJECT CARDS ── */
+    .project {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 48px;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.25s ease, transform 0.25s ease;
+    }
+
+    .project:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .project-preview {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-preview-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .project-body {
+      padding: 32px;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .tag--green { background: rgba(39,174,96,0.08); color: var(--green); }
+    .tag--orange { background: rgba(240,139,88,0.1); color: #c06a30; }
+    .tag--blue { background: rgba(74,158,255,0.1); color: var(--blue); }
+
+    .project h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+
+    .project-desc {
+      color: var(--text-soft);
+      font-size: 0.92rem;
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    .project-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .detail-block h4 {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+      margin-bottom: 6px;
+    }
+
+    .detail-block ul {
+      list-style: none;
+      font-size: 0.85rem;
+      color: var(--text-soft);
+    }
+
+    .detail-block li {
+      padding: 2px 0;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .detail-block li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    /* ── MOCK PREVIEWS ── */
+
+    /* Dashboard mock */
+    .mock-dashboard {
+      width: 100%;
+      height: 100%;
+      background: #0D0D0D;
+      padding: 24px;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .mock-dash-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mock-dash-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .mock-dash-title span { color: #10A37F; }
+
+    .mock-live {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #10A37F;
+    }
+
+    .mock-live-dot {
+      width: 6px;
+      height: 6px;
+      background: #10A37F;
+      border-radius: 50%;
+      animation: mockPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes mockPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .mock-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .mock-metric {
+      background: #1A1A2E;
+      border-radius: 10px;
+      padding: 14px;
+      border: 1px solid #2D2D3D;
+    }
+
+    .mock-metric-label {
+      font-size: 0.6rem;
+      color: #6E6E80;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .mock-metric-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 4px;
+    }
+
+    .mock-metric-value.green { color: #27AE60; }
+    .mock-metric-value.yellow { color: #F39C12; }
+
+    .mock-charts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .mock-chart {
+      background: #1A1A2E;
+      border-radius: 10px;
+      border: 1px solid #2D2D3D;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .mock-chart-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #B0B0C0;
+    }
+
+    .mock-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .mock-bar {
+      height: 14px;
+      border-radius: 4px;
+      opacity: 0.85;
+    }
+
+    .mock-bubbles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .mock-bubble {
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+
+    .mock-query {
+      background: #1A1A2E;
+      border-radius: 10px;
+      border: 1px solid #2D2D3D;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      grid-column: 1 / -1;
+    }
+
+    .mock-query-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(16,163,127,0.2);
+      flex-shrink: 0;
+    }
+
+    .mock-query-text {
+      font-size: 0.72rem;
+      color: #6E6E80;
+      font-style: italic;
+    }
+
+    /* OKA mock */
+    .mock-oka {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, #fff3de, #ffe2d7);
+      padding: 24px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .mock-oka-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mock-oka-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #f3c38f, #d7925f);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .mock-oka-avatar::before,
+    .mock-oka-avatar::after {
+      content: "";
+      position: absolute;
+      top: -6px;
+      width: 16px;
+      height: 20px;
+      background: #c98653;
+      border-radius: 12px 12px 6px 6px;
+    }
+
+    .mock-oka-avatar::before { left: 6px; transform: rotate(-14deg); }
+    .mock-oka-avatar::after { right: 6px; transform: rotate(14deg); }
+
+    .mock-oka-eyes {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+
+    .mock-oka-eye {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #32221e;
+    }
+
+    .mock-oka-nose {
+      position: absolute;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 6px;
+      border-radius: 50%;
+      background: #3d2822;
+    }
+
+    .mock-oka-name {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #51362f;
+    }
+
+    .mock-oka-sub {
+      font-size: 0.8rem;
+      color: #82655c;
+    }
+
+    .mock-oka-main {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 12px;
+    }
+
+    .mock-oka-card {
+      background: rgba(255,251,244,0.92);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 12px 36px rgba(129,84,49,0.1);
+      border: 1px solid rgba(255,255,255,0.45);
+    }
+
+    .mock-oka-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #82655c;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .mock-oka-response {
+      font-size: 1rem;
+      line-height: 1.55;
+      color: #51362f;
+    }
+
+    .mock-oka-keyword { color: #1a6dcc; font-weight: 700; }
+
+    .mock-oka-focus {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .mock-oka-word {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #7b42c9;
+      letter-spacing: 0.06em;
+    }
+
+    .mock-oka-word.irregular { color: #dc7e7e; }
+
+    .mock-oka-hint {
+      font-size: 0.82rem;
+      color: #82655c;
+      text-align: center;
+    }
+
+    .mock-oka-band {
+      font-size: 0.68rem;
+      background: rgba(255,255,255,0.65);
+      padding: 4px 10px;
+      border-radius: 999px;
+      color: #82655c;
+      font-weight: 700;
+    }
+
+    .mock-oka-mic {
+      display: flex;
+      justify-content: center;
+    }
+
+    .mock-oka-mic-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #ffbb7c, #f08b58);
+      box-shadow: 0 14px 40px rgba(240,139,88,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #4d2f28;
+    }
+
+    /* Convergence Board mock */
+    .mock-obsidian {
+      width: 100%;
+      height: 100%;
+      background: var(--surface-alt, #f4f2ef);
+      padding: 20px;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .mock-obs-modebar {
+      display: flex;
+      gap: 0;
+      background: #e8e6e1;
+      border-radius: 8px;
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .mock-obs-mode {
+      padding: 8px 18px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #5a5a6e;
+      cursor: default;
+    }
+
+    .mock-obs-mode.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .mock-obs-health {
+      display: flex;
+      gap: 8px;
+    }
+
+    .mock-obs-pill {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+
+    .mock-obs-pill.green { background: rgba(39,174,96,0.12); color: #27ae60; }
+    .mock-obs-pill.yellow { background: rgba(243,156,18,0.12); color: #c07b10; }
+    .mock-obs-pill.blue { background: rgba(99,91,255,0.1); color: #635bff; }
+
+    .mock-obs-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .mock-obs-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 14px;
+      border-left: 3px solid var(--accent);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    .mock-obs-card.decided { border-left-color: var(--green); }
+    .mock-obs-card.exploring { border-left-color: var(--orange); }
+
+    .mock-obs-card-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .mock-obs-card-meta {
+      font-size: 0.65rem;
+      color: var(--text-faint);
+    }
+
+    .mock-obs-confidence {
+      margin-top: 8px;
+      height: 4px;
+      border-radius: 2px;
+      background: #e8e6e1;
+      overflow: hidden;
+    }
+
+    .mock-obs-conf-fill {
+      height: 100%;
+      border-radius: inherit;
+    }
+
+    /* Enablement Architecture mock */
+    .mock-enablement {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .mock-en-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+    }
+
+    .mock-en-layers {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .mock-en-arrow {
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.25);
+      line-height: 1;
+      padding: 2px 0;
+    }
+
+    .mock-en-layer {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 12px 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .mock-en-layer-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .mock-en-layer-num.l1 { background: rgba(99,91,255,0.3); color: #a5a0ff; }
+    .mock-en-layer-num.l2 { background: rgba(16,163,127,0.3); color: #5cd9b5; }
+    .mock-en-layer-num.l3 { background: rgba(240,139,88,0.3); color: #f0a878; }
+
+    .mock-en-layer-content {
+      flex: 1;
+    }
+
+    .mock-en-layer-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #e0e0f0;
+    }
+
+    .mock-en-layer-desc {
+      font-size: 0.65rem;
+      color: #7a7a9a;
+      margin-top: 2px;
+    }
+
+    .mock-en-layer-items {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .mock-en-chip {
+      font-size: 0.58rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      color: #a0a0b8;
+      font-weight: 500;
+    }
+
+    /* ── PHILOSOPHY ── */
+    .philosophy {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      margin-bottom: 48px;
+      box-shadow: var(--shadow);
+    }
+
+    .philosophy h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .phil-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .phil-item h4 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .phil-item p {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), var(--green), var(--orange));
+      border-radius: 1px;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 20px;
+      padding-bottom: 28px;
+      position: relative;
+    }
+
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -32px;
+      top: 6px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 3px solid var(--accent);
+      z-index: 1;
+    }
+
+    .timeline-item:last-child::before { border-color: var(--green); }
+
+    .timeline-year {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--accent);
+      min-width: 44px;
+      padding-top: 2px;
+    }
+
+    .timeline-content {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.03);
+    }
+
+    .timeline-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+
+    .timeline-place {
+      font-size: 0.75rem;
+      color: var(--text-faint);
+      margin-bottom: 6px;
+    }
+
+    .timeline-desc {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      line-height: 1.55;
+    }
+
+    /* ── CTA ── */
+    .cta {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 32px 64px;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, var(--accent) 0%, #7c75ff 100%);
+      border-radius: var(--radius);
+      padding: 48px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .cta-box h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .cta-box p {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      max-width: 520px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+
+    .cta-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .cta-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+
+    .cta-link--primary {
+      background: #fff;
+      color: var(--accent);
+    }
+
+    .cta-link--secondary {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 48px 32px;
+      text-align: center;
+      color: var(--text-faint);
+      font-size: 0.82rem;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero { padding: 48px 20px 40px; }
+      .section { padding: 40px 20px; }
+      .hero-stats { gap: 20px; }
+      .hero-stat-num { font-size: 1.6rem; }
+      .mock-metrics { grid-template-columns: repeat(2, 1fr); }
+      .mock-charts { grid-template-columns: 1fr; }
+      .mock-oka-main { grid-template-columns: 1fr; }
+      .mock-obs-cards { grid-template-columns: 1fr; }
+      .project-body { padding: 20px; }
+      .project-details { grid-template-columns: 1fr; }
+      .philosophy { padding: 24px; }
+      .phil-grid { grid-template-columns: 1fr; }
+      .cta-box { padding: 32px 20px; }
+      .cta-box h2 { font-size: 1.3rem; }
+      .nav-links { gap: 14px; }
+      .nav-links a { font-size: 0.75rem; }
+      .timeline { padding-left: 28px; }
+      .timeline-item { flex-direction: column; gap: 4px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.6rem; }
+      .hero-sub { font-size: 0.95rem; }
+      .hero-stats { flex-direction: column; gap: 16px; }
+      .hero-stat { flex-direction: row; align-items: baseline; gap: 10px; }
+      .nav-links { display: none; }
+      .mock-oka-top > div:last-child { display: none; }
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      .nav { display: none; }
+      .cta { display: none; }
+      .project-preview { break-inside: avoid; }
+      .project { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+      .philosophy { break-inside: avoid; }
+      .section + .section { border-top: none; }
+      body { background: #fff; }
+      .hero { padding-top: 20px; }
+      .animate-in { opacity: 1; animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-name">Mical Neill</div>
+    <ul class="nav-links">
+      <li><a href="#oka">OKA</a></li>
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#convergence">Plugin</a></li>
+      <li><a href="#enablement">Enablement</a></li>
+      <li><a href="#journey">Journey</a></li>
+      <li><a href="#philosophy">Philosophy</a></li>
+      <li><a href="stripe-coach.html" style="color: var(--accent); font-weight: 700;">Principles Coach</a></li>
+      <li><a href="application-friction-log.html" style="color: var(--orange); font-weight: 700;">Friction Log</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-label animate-in">Learning Architecture Portfolio</div>
+  <h1 class="animate-in delay-1">I don't create content.<br>I build the systems where learning happens.</h1>
+  <p class="hero-sub animate-in delay-2">
+    20 years designing learning environments — from university classrooms in Paris to enterprise AI systems at Amazon/AWS to adaptive learning for a child with dyslexia. Builder of builders: creating the tools and standards that empower others to deliver exceptional learning independently.
+  </p>
+  <div style="margin-top: 24px; display: flex; gap: 16px; flex-wrap: wrap;" class="animate-in delay-2">
+    <a href="stripe-coach.html" class="cta-link cta-link--primary" style="background: var(--accent); color: #fff; font-weight: 700; padding: 12px 28px;">
+      Try the Principles Coach &rarr;
+    </a>
+    <a href="application-friction-log.html" class="cta-link cta-link--primary" style="background: var(--bg); color: var(--orange); border: 1.5px solid var(--orange); font-weight: 700;">
+      <span class="status-dot" style="display:inline-block; margin-right:8px; background: var(--orange); box-shadow: 0 0 8px var(--orange);"></span>
+      Application Friction Log
+    </a>
+  </div>
+  <div class="hero-stats animate-in delay-3">
+    <div class="hero-stat">
+      <div class="hero-stat-num">20</div>
+      <div class="hero-stat-label">Years Learning Design</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">10K+</div>
+      <div class="hero-stat-label">Lines Production UI</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">20K+</div>
+      <div class="hero-stat-label">Users Reached / Year</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">121</div>
+      <div class="hero-stat-label">Curriculum Modules</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">4</div>
+      <div class="hero-stat-label">Languages Spoken</div>
+    </div>
+  </div>
+</section>
+
+<!-- OKA -->
+<section class="section" id="oka">
+  <div class="section-header">
+    <div class="section-label">AI-Driven Coaching Interface</div>
+    <div class="section-title">OKA — Adaptive Learning Companion</div>
+    <p class="section-desc">A voice-first learning interface for a child with dyslexia. AI coaching with pedagogical judgment encoded in a state machine.</p>
+  </div>
+
+  <div class="project">
+    <div class="project-preview">
+      <div class="project-preview-inner">
+        <div class="mock-oka">
+          <div class="mock-oka-top">
+            <div class="mock-oka-avatar">
+              <div class="mock-oka-eyes"><div class="mock-oka-eye"></div><div class="mock-oka-eye"></div></div>
+              <div class="mock-oka-nose"></div>
+            </div>
+            <div>
+              <div class="mock-oka-name">Oka</div>
+              <div class="mock-oka-sub">Nora's learning companion</div>
+            </div>
+            <div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+              <div style="font-size:0.65rem;color:#82655c;font-weight:700;">Session Progress</div>
+              <div style="width:120px;height:8px;border-radius:999px;background:rgba(255,255,255,0.55);overflow:hidden;">
+                <div style="width:62%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#f08b58,#8fce9d,#7ab6ff);"></div>
+              </div>
+            </div>
+          </div>
+          <div class="mock-oka-main">
+            <div class="mock-oka-card">
+              <div class="mock-oka-label">Oka says</div>
+              <div class="mock-oka-response">
+                Ooh, cool word from our story — <span class="mock-oka-keyword">dragon</span>. Two parts — dra, gon! Let's sound that one out.
+              </div>
+            </div>
+            <div class="mock-oka-card mock-oka-focus">
+              <div class="mock-oka-band">Band: CVC Blends</div>
+              <div class="mock-oka-word">dragon</div>
+              <div class="mock-oka-hint">try first &rarr; one hint &rarr; second try &rarr; simplify</div>
+            </div>
+          </div>
+          <div class="mock-oka-mic">
+            <div class="mock-oka-mic-btn">Talk</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-tags">
+        <span class="tag">Voice-First UI</span>
+        <span class="tag--green tag">Adaptive State Machine</span>
+        <span class="tag--orange tag">Child-Safe Design</span>
+        <span class="tag--blue tag">Node.js Backend</span>
+      </div>
+      <h3>Pedagogical judgment, encoded in code</h3>
+      <p class="project-desc">
+        OKA is a learning companion for an 8-year-old with dyslexia (98th percentile verbal reasoning, 1st percentile word reading). The interface uses a reading-mode state machine with word bands, adaptive difficulty, frustration detection, a hint ladder (try first &rarr; one hint &rarr; second try &rarr; calm answer &rarr; simplify), and streak-based band progression. The design is warm, voice-first, and audience-aware — rounded corners, CSS-only avatar, calm color palette. Built with a real child. Tested with a real child.
+      </p>
+      <div class="project-details">
+        <div class="detail-block">
+          <h4>Learning Architecture</h4>
+          <ul>
+            <li>Reading-mode state machine with 6 word bands</li>
+            <li>Adaptive difficulty: 3 correct &rarr; advance, 2 struggles &rarr; drop</li>
+            <li>Frustration detection + automatic simplification</li>
+            <li>Trouble pattern tracking per phonological focus</li>
+            <li>Streak-based confidence signaling</li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4>Design Decisions</h4>
+          <ul>
+            <li>Warm peach/cream palette for emotional safety</li>
+            <li>CSS-only avatar (no external assets)</li>
+            <li>Voice button with 3 states (idle/listening/thinking)</li>
+            <li>Purple for decodable words, red for irregular</li>
+            <li>One question at a time — never stack demands</li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4>Technical Stack</h4>
+          <ul>
+            <li>896 lines HTML/CSS/JS (frontend)</li>
+            <li>2,573 lines Node.js (server + state machine)</li>
+            <li>190-line system prompt (coaching personality)</li>
+            <li>Web Speech API for voice input</li>
+            <li>OpenAI GPT for conversational responses</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="section" id="dashboard">
+  <div class="section-header">
+    <div class="section-label">Data Visualization & Functional Beauty</div>
+    <div class="section-title">Engineering Visibility Dashboard</div>
+    <p class="section-desc">A custom-built dark-mode dashboard with interactive data visualization, conversational query interface, and a design system built from CSS variables.</p>
+  </div>
+
+  <div class="project">
+    <div class="project-preview">
+      <div class="project-preview-inner">
+        <div class="mock-dashboard">
+          <div class="mock-dash-header">
+            <div class="mock-dash-title"><span>AI</span> Engineering Visibility</div>
+            <div class="mock-live"><div class="mock-live-dot"></div> Live</div>
+          </div>
+          <div class="mock-metrics">
+            <div class="mock-metric"><div class="mock-metric-label">Total Deployments</div><div class="mock-metric-value">2,847</div></div>
+            <div class="mock-metric"><div class="mock-metric-label">Success Rate</div><div class="mock-metric-value green">94.2%</div></div>
+            <div class="mock-metric"><div class="mock-metric-label">Active Teams</div><div class="mock-metric-value">18</div></div>
+            <div class="mock-metric"><div class="mock-metric-label">Safety Score</div><div class="mock-metric-value yellow">B+</div></div>
+          </div>
+          <div class="mock-charts">
+            <div class="mock-chart">
+              <div class="mock-chart-title">Deployment Volume by Team</div>
+              <div class="mock-bars">
+                <div style="display:flex;align-items:center;gap:8px;"><div class="mock-bar" style="width:92%; background:#10A37F;flex:1;"></div><span style="font-size:0.55rem;color:#6E6E80;white-space:nowrap;">Platform</span></div>
+                <div style="display:flex;align-items:center;gap:8px;"><div class="mock-bar" style="width:78%; background:#27AE60;flex:1;"></div><span style="font-size:0.55rem;color:#6E6E80;white-space:nowrap;">ML Ops</span></div>
+                <div style="display:flex;align-items:center;gap:8px;"><div class="mock-bar" style="width:65%; background:#3498DB;flex:1;"></div><span style="font-size:0.55rem;color:#6E6E80;white-space:nowrap;">Safety</span></div>
+                <div style="display:flex;align-items:center;gap:8px;"><div class="mock-bar" style="width:45%; background:#9B59B6;flex:1;"></div><span style="font-size:0.55rem;color:#6E6E80;white-space:nowrap;">Infra</span></div>
+                <div style="display:flex;align-items:center;gap:8px;"><div class="mock-bar" style="width:30%; background:#F39C12;flex:1;"></div><span style="font-size:0.55rem;color:#6E6E80;white-space:nowrap;">Data</span></div>
+              </div>
+            </div>
+            <div class="mock-chart">
+              <div class="mock-chart-title">Risk Distribution</div>
+              <div class="mock-bubbles">
+                <div class="mock-bubble" style="width:64px;height:64px;background:#10A37F;"></div>
+                <div class="mock-bubble" style="width:44px;height:44px;background:#3498DB;"></div>
+                <div class="mock-bubble" style="width:52px;height:52px;background:#F39C12;"></div>
+                <div class="mock-bubble" style="width:28px;height:28px;background:#E74C3C;"></div>
+                <div class="mock-bubble" style="width:36px;height:36px;background:#9B59B6;"></div>
+              </div>
+            </div>
+            <div class="mock-query">
+              <div class="mock-query-icon"></div>
+              <div class="mock-query-text">Ask about the data... "Which teams have the highest rollback rate?"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-tags">
+        <span class="tag">Custom Design System</span>
+        <span class="tag--green tag">Data Visualization</span>
+        <span class="tag--blue tag">Conversational UI</span>
+      </div>
+      <h3>Reducing cognitive load through design</h3>
+      <p class="project-desc">
+        Built for a takehome project: a full-stack visibility dashboard with custom CSS design system (design tokens via CSS variables), Plotly.js bubble charts and stacked bar charts, a natural language query interface, animated number counters, microinteractions (pulse animations, hover state transitions), loading states, and a responsive grid layout. The conversational component lets users ask questions about the data in natural language.
+      </p>
+      <div class="project-details">
+        <div class="detail-block">
+          <h4>Design System</h4>
+          <ul>
+            <li>CSS custom properties (12 design tokens)</li>
+            <li>Inter typeface with weight scale</li>
+            <li>Dark theme with accent system (#10A37F)</li>
+            <li>Consistent border-radius, shadow, spacing</li>
+            <li>Loading state with spinner animation</li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4>Interactions</h4>
+          <ul>
+            <li>Animated counter on metric cards</li>
+            <li>Plotly.js bubble charts (hover tooltips)</li>
+            <li>Stacked horizontal bar charts</li>
+            <li>Natural language query input</li>
+            <li>Dynamic filter/highlight states</li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4>Technical</h4>
+          <ul>
+            <li>544 lines HTML/CSS/JS (single file)</li>
+            <li>JSON data processing to aggregates</li>
+            <li>Plotly.js for interactive charts</li>
+            <li>Responsive grid layout</li>
+            <li>Zero external dependencies (beyond Plotly)</li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4>Friction Log & Learning</h4>
+          <ul>
+            <li>Friction: High latency on large JSON sets</li>
+            <li>Fix: Offloaded aggregation to pre-processing</li>
+            <li>Friction: Plotly.js resize performance</li>
+            <li>Fix: Debounced resize observer implementation</li>
+            <li>Learning: Functional beauty requires perf</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONVERGENCE BOARD -->
+<section class="section" id="convergence">
+  <div class="section-header">
+    <div class="section-label">Shipped Product — Obsidian Plugin</div>
+    <div class="section-title">Convergence Board</div>
+    <p class="section-desc">A production-grade Obsidian plugin with 2,644 lines of TypeScript and 1,213 lines of CSS. Mobile-responsive, accessible, designed for knowledge workers.</p>
+  </div>
+
+  <div class="project">
+    <div class="project-preview">
+      <div class="project-preview-inner">
+        <div class="mock-obsidian">
+          <div class="mock-obs-modebar">
+            <div class="mock-obs-mode">Explore</div>
+            <div class="mock-obs-mode active">Converge</div>
+            <div class="mock-obs-mode">Commit</div>
+          </div>
+          <div class="mock-obs-health">
+            <div class="mock-obs-pill green">3 Decided</div>
+            <div class="mock-obs-pill yellow">2 Converging</div>
+            <div class="mock-obs-pill blue">5 Exploring</div>
+          </div>
+          <div class="mock-obs-cards">
+            <div class="mock-obs-card decided">
+              <div class="mock-obs-card-title">Use taxonomy-driven routing</div>
+              <div class="mock-obs-card-meta">Decided &middot; 2 days ago</div>
+              <div class="mock-obs-confidence"><div class="mock-obs-conf-fill" style="width:95%;background:var(--green);"></div></div>
+            </div>
+            <div class="mock-obs-card">
+              <div class="mock-obs-card-title">Assessment pipeline: 3-layer</div>
+              <div class="mock-obs-card-meta">Converging &middot; High confidence</div>
+              <div class="mock-obs-confidence"><div class="mock-obs-conf-fill" style="width:82%;background:var(--accent);"></div></div>
+            </div>
+            <div class="mock-obs-card exploring">
+              <div class="mock-obs-card-title">Voice-first vs text-first UX</div>
+              <div class="mock-obs-card-meta">Exploring &middot; 3 options open</div>
+              <div class="mock-obs-confidence"><div class="mock-obs-conf-fill" style="width:40%;background:var(--orange);"></div></div>
+            </div>
+            <div class="mock-obs-card decided">
+              <div class="mock-obs-card-title">Calibration exemplars by quality</div>
+              <div class="mock-obs-card-meta">Decided &middot; 5 days ago</div>
+              <div class="mock-obs-confidence"><div class="mock-obs-conf-fill" style="width:98%;background:var(--green);"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-tags">
+        <span class="tag">TypeScript</span>
+        <span class="tag--green tag">CodeMirror 6</span>
+        <span class="tag--orange tag">Accessible</span>
+        <span class="tag--blue tag">Mobile-Responsive</span>
+      </div>
+      <h3>Product-grade craft in a knowledge tool</h3>
+      <p class="project-desc">
+        A shipped Obsidian plugin that tracks decisions through three convergence modes (Explore &rarr; Converge &rarr; Commit). Built with CodeMirror 6 for inline decorations, EditorSuggest for autocomplete, and a full sidebar with health pills, confidence bars, agent cards, and a message feed. The CSS uses only Obsidian variables (zero hardcoded colors), supports 44px mobile touch targets, focus-visible accessibility, prefers-reduced-motion, and print styles.
+      </p>
+      <div class="project-details">
+        <div class="detail-block">
+          <h4>TypeScript (2,644 lines)</h4>
+          <ul>
+            <li>CodeMirror 6 StateField + Decorations</li>
+            <li>EditorSuggest with fuzzy matching</li>
+            <li>ItemView sidebar (Bus Dashboard)</li>
+            <li>Modal (Vault Overview)</li>
+            <li>PluginSettingTab with validation</li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4>CSS (1,213 lines)</h4>
+          <ul>
+            <li>100% Obsidian CSS variables</li>
+            <li>Mode bar with 3-state visual control</li>
+            <li>Health pills, confidence bars, inline badges</li>
+            <li>44px minimum touch targets (mobile)</li>
+            <li>focus-visible, reduced-motion, print styles</li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4>Design Principles</h4>
+          <ul>
+            <li>Decision visibility at a glance</li>
+            <li>Color-coded states (decided/converging/exploring)</li>
+            <li>Confidence bars show decision maturity</li>
+            <li>Non-destructive: all data lives in markdown</li>
+            <li>Designed for Obsidian's dark and light themes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENABLEMENT -->
+<section class="section" id="enablement">
+  <div class="section-header">
+    <div class="section-label">Builder of Builders</div>
+    <div class="section-title">Enablement Architecture</div>
+    <p class="section-desc">A complete learning infrastructure with curriculum modules, AI-augmented assessment, certification journeys, and an enablement coaching system. Open source.</p>
+  </div>
+
+  <div class="project">
+    <div class="project-preview">
+      <div class="project-preview-inner">
+        <div class="mock-enablement">
+          <div class="mock-en-title">3-Layer Assessment Pipeline</div>
+          <div class="mock-en-layers">
+            <div class="mock-en-layer">
+              <div class="mock-en-layer-num l1">1</div>
+              <div class="mock-en-layer-content">
+                <div class="mock-en-layer-name">Automated Validators</div>
+                <div class="mock-en-layer-desc">Structural checks, threshold engine (89 tests), format validation</div>
+                <div class="mock-en-layer-items">
+                  <span class="mock-en-chip">threshold_engine.py</span>
+                  <span class="mock-en-chip">automated_checks.py</span>
+                  <span class="mock-en-chip">89/89 passing</span>
+                </div>
+              </div>
+            </div>
+            <div class="mock-en-arrow">&#9660; escalate if uncertain</div>
+            <div class="mock-en-layer">
+              <div class="mock-en-layer-num l2">2</div>
+              <div class="mock-en-layer-content">
+                <div class="mock-en-layer-name">AI Rubric Scoring</div>
+                <div class="mock-en-layer-desc">Calibration exemplars per RIU, confidence-based escalation</div>
+                <div class="mock-en-layer-items">
+                  <span class="mock-en-chip">16 exemplar sets</span>
+                  <span class="mock-en-chip">ai_rubric_evaluator</span>
+                  <span class="mock-en-chip">quality of thinking</span>
+                </div>
+              </div>
+            </div>
+            <div class="mock-en-arrow">&#9660; escalate if edge case</div>
+            <div class="mock-en-layer">
+              <div class="mock-en-layer-num l3">3</div>
+              <div class="mock-en-layer-content">
+                <div class="mock-en-layer-name">Human Calibration</div>
+                <div class="mock-en-layer-desc">Edge case review, credential promotion, inter-rater alignment</div>
+                <div class="mock-en-layer-items">
+                  <span class="mock-en-chip">capstone assessments</span>
+                  <span class="mock-en-chip">badge schema</span>
+                  <span class="mock-en-chip">5 cert tracks</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-tags">
+        <span class="tag">Open Source</span>
+        <span class="tag--green tag">Python</span>
+        <span class="tag--orange tag">121 Modules</span>
+        <span class="tag--blue tag">5 Cert Journeys</span>
+      </div>
+      <h3>The tools that let others deliver learning without me</h3>
+      <p class="project-desc">
+        A complete enablement system designed so others can maintain and deliver learning independently. 121 curriculum modules across 5 certification journeys. The assessment pipeline scales quality without scaling headcount: automated checks catch structural issues, AI rubrics evaluate thinking quality against calibration exemplars, and human review handles the edge cases that matter.
+      </p>
+      <div style="margin-bottom: 24px;">
+        <a href="enablement-demo.html" class="cta-link cta-link--primary" style="border: 1px solid var(--border); font-size: 0.75rem; padding: 8px 16px;">Try the Intake Demo &rarr;</a>
+      </div>
+      <div class="project-details">
+        <div class="detail-block">
+          <h4>Curriculum Architecture</h4>
+          <ul>
+            <li>121 modules across 6 workstreams</li>
+            <li>Prerequisite DAG (max depth 3)</li>
+            <li>Foundation &rarr; Retrieval &rarr; Orchestration &rarr; Specialization</li>
+            <li>Mastery gates: UNVALIDATED &rarr; WORKING &rarr; PRODUCTION</li>
+            <li>Staleness detection for content currency</li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4>Assessment Pipeline</h4>
+          <ul>
+            <li>Layer 1: Automated checks (89 tests)</li>
+            <li>Layer 2: AI rubric with calibration exemplars</li>
+            <li>Layer 3: Human review for edge cases</li>
+            <li>16 item banks with exemplar sets</li>
+            <li>Credential schema (badges, tracks)</li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4>Coaching System</h4>
+          <ul>
+            <li>7-stage onboarding progression</li>
+            <li>4 adaptive patterns (stuck/skip/off-script/overwhelmed)</li>
+            <li>Resume &rarr; Do &rarr; Check &rarr; Capture &rarr; Advance</li>
+            <li>Deployed to first real learner</li>
+            <li>Domain-agnostic: generalizes to any role</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="section" id="journey">
+  <div class="section-header">
+    <div class="section-label">Career Arc</div>
+    <div class="section-title">The same problem, evolving tools</div>
+    <p class="section-desc">Unstructured knowledge that machines and humans both need to navigate. I've been solving it for 20 years.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">2006</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Sciences Po, Nanterre, Ecole des Metiers du Livre</div>
+        <div class="timeline-place">Paris, France</div>
+        <div class="timeline-desc">Designed immersive curricula where students learned language through simulated professional workflows. Trained Italian police. Taught in 3 languages across 4 institutions.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2013</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Amazon — Knowledge Engineer</div>
+        <div class="timeline-place">Milan & San Francisco</div>
+        <div class="timeline-desc">Built knowledge classification systems. Led training for 200+ associates across 4 countries in 4 languages. Applied Kaizen to learning environments.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2019</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Amazon Alexa — Knowledge Architect</div>
+        <div class="timeline-place">San Francisco</div>
+        <div class="timeline-desc">Designed taxonomy and knowledge infrastructure across 13 locales, 47 providers. Built systems that scale through configuration, not rebuild.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2023</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Amazon AGI — AI Evaluation</div>
+        <div class="timeline-place">San Francisco</div>
+        <div class="timeline-desc">Designed structured evaluation frameworks. Inter-rater reliability studies. The measure-refine-measure loop that ensures learning content teaches what it claims.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2024</div>
+      <div class="timeline-content">
+        <div class="timeline-title">AWS — Learning Architect & Systems Lead</div>
+        <div class="timeline-place">San Francisco</div>
+        <div class="timeline-desc">Modernization audit of AWS knowledge architecture. Transformed high-touch enablement into scalable AI systems using friction logs to drive system design. 12,000+ users/month. 250+ sessions/year. 20,000+ users reached. Builder of builders at enterprise scale.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2025</div>
+      <div class="timeline-content">
+        <div class="timeline-title">Palette, OKA, Enablement System</div>
+        <div class="timeline-place">Independent</div>
+        <div class="timeline-desc">Built everything shown in this portfolio. 121 curriculum modules, AI-augmented assessment, an adaptive learning companion for a child with dyslexia, and two shipped Obsidian plugins.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="section" id="philosophy">
+  <div class="section-header">
+    <div class="section-label">Design Philosophy</div>
+    <div class="section-title">How I think about learning systems</div>
+  </div>
+
+  <div class="philosophy">
+    <div class="phil-grid">
+      <div class="phil-item">
+        <h4>Architecture over content</h4>
+        <p>A workshop becomes a 3-minute Slack insight backed by an AI coaching interface. The insight, not the format, is what scales. I design the knowledge structures that surface the right thing at the right moment.</p>
+      </div>
+      <div class="phil-item">
+        <h4>Invisible learning</h4>
+        <p>At Ecole des Metiers du Livre, students learned English through a simulated publishing process. They never realized they were studying language. The best learning design disappears — the system does the teaching.</p>
+      </div>
+      <div class="phil-item">
+        <h4>Measure behavior, not completion</h4>
+        <p>"Did they finish the course?" is the wrong question. "Did their work change?" is the right one. At AWS I built adoption instrumentation tracking behavior change and competency progression — not vanity metrics.</p>
+      </div>
+      <div class="phil-item">
+        <h4>Builder of builders</h4>
+        <p>I build the playbooks, templates, coaching systems, and assessment rubrics that let your team deliver great learning without me in the room. The Carabinieri trainer didn't need linguistics theory &mdash; just the scaffolding I designed. That's the pattern: decouple the expertise from the expert.</p>
+      </div>
+      <div class="phil-item">
+        <h4>Confidence before skill</h4>
+        <p>OKA never starts with reading practice &mdash; it starts with something Nora is good at. The Carabinieri never opened textbooks &mdash; they read The Economist. When people feel capable, the skill work becomes possible.</p>
+      </div>
+      <div class="phil-item">
+        <h4>Design in code</h4>
+        <p>I don't mock in Figma and hand off &mdash; I build the design system in CSS, the interaction model in TypeScript, the coaching logic in the state machine. The design judgment IS the code. That's what "thinks like a product engineer" means.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW I'D APPROACH STRIPE -->
+<section class="section" id="stripe">
+  <div class="section-header">
+    <div class="section-label">If I Were Starting Monday</div>
+    <div class="section-title">How I'd approach Stripe's learning architecture</div>
+  </div>
+
+  <div class="philosophy">
+    <div class="phil-grid">
+      <div class="phil-item">
+        <h4>Week 1&ndash;2: Audit</h4>
+        <p>Walk every flagship program. Where is the rigor? What makes it work when it works? What's the insight people leave with? Map the content supply chain: who creates, who maintains, who delivers, who measures.</p>
+      </div>
+      <div class="phil-item">
+        <h4>Week 3&ndash;4: Classify</h4>
+        <p>Some elements are inherently high-touch &mdash; they need the room, the facilitator, the vulnerability. Those stay. But the knowledge transfer underneath? That can be architectured into Confluence pages, Slack workflows, and AI coaching interfaces.</p>
+      </div>
+      <div class="phil-item">
+        <h4>Week 5&ndash;8: Build the infrastructure</h4>
+        <p>Standardized templates. An AI prompt library grounded in Stripe's operating principles. Knowledge structures that surface in Slack at the moment of need. The 2-hour workshop doesn't become a 2-hour video &mdash; it becomes a 3-minute insight backed by depth when asked.</p>
+      </div>
+      <div class="phil-item">
+        <h4>Ongoing: Measure behavior</h4>
+        <p>Did their work change? Not: did they finish the module. Build adoption instrumentation tracking behavior change and competency progression &mdash; the same infrastructure I built at AWS for 12,000+ users.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-box">
+    <h2>Let's build something that scales.</h2>
+    <p>I'd welcome the chance to show you how these projects work live and discuss how this experience maps to what Stripe is building.</p>
+    <div class="cta-links">
+      <a href="mailto:micalrneill@gmail.com" class="cta-link cta-link--primary">micalrneill@gmail.com</a>
+      <a href="https://linkedin.com/in/mical-neill-79176412" class="cta-link cta-link--secondary">LinkedIn</a>
+      <a href="https://github.com/pretendhome/palette" class="cta-link cta-link--secondary">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>
+    Mical Neill &middot; San Francisco &middot;
+    <a href="https://github.com/pretendhome/palette">github.com/pretendhome/palette</a> &middot;
+    <a href="https://github.com/pretendhome/enablement">github.com/pretendhome/enablement</a>
+  </p>
+  <p style="margin-top:8px;">English (native) &middot; French (fluent) &middot; Italian (fluent) &middot; Spanish (proficient)</p>
+</footer>
+
+</body>
+</html>
