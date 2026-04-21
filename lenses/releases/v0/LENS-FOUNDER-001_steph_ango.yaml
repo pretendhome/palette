@@ -20,7 +20,7 @@ identity:
     - "Creator, Minimal theme (most popular Obsidian theme)"
     - "Creator, Flexoki color scheme"
     - "Co-creator, JSON Canvas open format"
-    - "Former Co-Founder & CPO, Lumi (packaging platform, YC 2015, acquired 2021)"
+    - "Former Co-Founder & CPO, Lumi (packaging platform, YC 2013, acquired 2021)"
     - "Former Co-Founder, Inkodye (Kickstarter Best Design 2010)"
     - "Writer, stephango.com"
   location: "United States (remote-first company; annual in-person meetup)"
@@ -68,7 +68,7 @@ origin:
         iterate your way out of a bad chemical process. Supply chain pain led
         directly to Lumi.
 
-    - what: "Building and selling Lumi (YC 2015, acquired 2021)"
+    - what: "Building and selling Lumi (YC 2013, acquired 2021)"
       when: "2015-2022"
       why_it_matters: |
         Software platform connecting businesses to factories. Built to solve his
@@ -154,8 +154,8 @@ capabilities:
       strength: strong
       evidence:
         - "Grew Obsidian to ~$25M ARR, ~$350M estimated valuation, zero investors"
-        - "Team of 7.5 FTE serving 1.5M+ MAU and 10,000+ organizations"
-        - "$3.3M+ revenue per employee — among the highest in software"
+        - "Team grew from ~7.5 FTE (2024) to ~18 people (March 2026) serving 1.5M+ MAU and 10,000+ organizations"
+        - "$3.3M+ revenue per employee at 7.5 FTE (2024); ratio evolves as team scales"
         - "Coined 'VCware' as a critique of investor-backed software economics"
       market_value: "Proof that bootstrapped software can reach massive scale. The model is increasingly studied and imitated."
 
@@ -383,7 +383,7 @@ environment_fit:
   thrives_in:
     - environment: "Small, flat, async teams"
       why: "Can design, code, write, and interact with users directly"
-      evidence: "Built Obsidian with 7.5 people to $25M ARR"
+      evidence: "Built Obsidian with ~7.5 people to $25M ARR (2024), now scaling to ~18 (2026)"
 
     - environment: "Bootstrapped / user-funded companies"
       why: "No investor pressure means product decisions serve users"
@@ -553,7 +553,7 @@ evidence:
     - "Decoder interview with Casey Newton (The Verge, Aug 2025)"
     - "obsidian.md/about — company manifesto and team page"
     - "Wikitia biography — background and career timeline"
-    - "Crunchbase — Lumi founding, YC 2015, funding history"
+    - "Crunchbase — Lumi founding, YC 2013, funding history"
     - "TechCrunch — Lumi $9M raise (Feb 2018)"
     - "36kr — Obsidian company profile and team analysis"
     - "GitHub — kepano repos (Minimal, Flexoki, Hider, JSON Canvas, Web Clipper)"

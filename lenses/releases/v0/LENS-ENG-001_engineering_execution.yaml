@@ -67,8 +67,8 @@ quality_checks:
 - Each slice is independently verifiable.
 - Dependencies are explicit and ordered.
 - Validation checks are executable, not narrative.
-- Risky steps include rollback or containment.
-- Release/readiness gates are explicit for risky changes.
+- Risky steps include rollback or containment. A change is automatically risky if it modifies a data schema, removes or changes a public interface, touches auth or payment flows, or alters permission boundaries.
+- Release/readiness gates are explicit for risky changes (see definition above).
 - Assumptions and unknowns are surfaced before execution starts.
 - Every new data flow has four paths traced (happy, nil, empty, error).
 - Temporal interrogation surfaces implementation decisions that should be resolved before coding starts.

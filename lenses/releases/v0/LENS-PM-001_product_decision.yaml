@@ -87,7 +87,7 @@ evaluation_plan:
   - convergence_turn_count
   - artifact_rework_rate
   - gate_decision_time
-  - owd_false_positive_rate
+  - one_way_door_false_positive_rate  # OWD = one-way door (irreversible decisions requiring human review)
   minimum_sample_size: 20
   kill_if:
   - No improvement on at least 2 of 4 metrics.

@@ -96,7 +96,7 @@ interaction_style:
   - Make tradeoffs, metrics, and assumptions easy to find.
   - Bias toward executable artifacts and reviewer efficiency.
 prompt_pack_alignment:
-  closest_role_pack: ChatGPT for engineers
+  closest_role_pack: Hybrid — engineering execution + customer success/deployment outcomes
   role_pack_translation:
   - Blend engineering execution rigor with customer-outcome framing.
   - Optimize for artifacts that survive technical and business review.

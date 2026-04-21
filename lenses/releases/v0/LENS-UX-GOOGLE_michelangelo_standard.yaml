@@ -1,6 +1,6 @@
 lens_id: LENS-UX-GOOGLE
 version: 1.0
-status: PRODUCTION
+status: aspirational  # Reclassified 2026-04-21. Success metrics have no measurement infrastructure. This is a design philosophy document, not an operational agent lens.
 name: Google Genius UX Lens (The Michelangelo Standard)
 purpose: "To bridge the gap between System Power and Human Adoption using Google's foundational UX philosophies."
 
