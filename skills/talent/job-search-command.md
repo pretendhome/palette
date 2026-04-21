@@ -1076,6 +1076,72 @@ This is the number that matters for time allocation.
 | `/job-search watchlist` | Check employer watchlist for new postings | Part of find, or standalone |
 | `/job-search prep-bot` | Create CHEATSHEET.md + COMPANY_SYSTEMS.md + interview bot | Interview scheduled |
 
+### `/job-search tech-lens` — Build a technical interviewer lens with wrong-read prevention
+
+Build a deep interviewer lens for a technical interview that identifies how the interviewer might MISREAD you and designs every answer to prevent it. This is the most important prep artifact for technical rounds.
+
+**When to use**: When you know WHO is interviewing you (name, LinkedIn, or recruiter intel) and the interview is technical (system design, coding, architecture, live build). Not for recruiter screens or exploratory calls — use `/job-search lens` for those.
+
+**Input**: Interviewer name + LinkedIn profile or recruiter intel + role context
+
+**The pattern** (validated on Capital Group/Antun, Glean/Jenn):
+
+```
+1. PERSON LENS — who they are, career arc, what they've built, working style signals
+2. WRONG READ — the specific misread they could make about YOU based on your resume
+3. CORE REFRAME — the one sentence that corrects the wrong read
+4. MODE CONTEXT — what mode YOU need to be in (not what they screen for)
+5. BATTLE CARD — 30-sec opener, strong answers per likely topic, do-not-say, say-instead
+6. ANSWER PATCHES — for every major topic: the weak answer (what most candidates say)
+   vs the strong answer (what lands with THIS interviewer)
+7. EVIDENCE GUARDRAILS — what you can claim vs what you must hedge
+8. SCORING MODEL — positive and negative signals the interviewer watches for
+```
+
+**Generate two files**:
+
+1. `LENS-[NAME]-001_[slug].yaml` — the full interviewer lens with all 8 sections above
+2. `[NAME]_INTERVIEW_BATTLE_CARD.md` — the one-screen retrieval doc for the 5 minutes before the call
+
+**The wrong-read identification** is the critical step. For each candidate-interviewer pair, ask:
+
+> "Based on my resume and this interviewer's background, what is the MOST LIKELY incorrect conclusion they will draw about me in the first 5 minutes?"
+
+Common wrong reads to check for:
+- "Evaluation/quality specialist" when you're an engineer who ships (Capital Group pattern)
+- "Enablement/training person" when you're a systems builder (Glean pattern)
+- "AI enthusiast with frameworks" when you need production credibility
+- "Big-company operator" when they want startup builder energy (Perficient pattern)
+- "Generalist who knows a bit of everything" when they need domain depth
+- "Too senior / overqualified" when they need hands-on execution
+- "Academic/research background" when they need shipping velocity
+
+**The core reframe** follows this formula:
+> "I am not [wrong read]. I am [correct read] where [wrong-read skill] is [how it actually fits]."
+
+Examples:
+- "I am not an evaluation specialist. I am an engineer who uses evaluation as the control plane to ship safe systems."
+- "I am not an enablement trainer. I am a systems builder who designs environments where people succeed."
+- "I am not a big-company operator. I built Palette from zero — I'm a builder who happens to have enterprise context."
+
+**The mode context** captures what energy/register YOU need to be in:
+- Capital Group/Antun: "Production engineer who ships. Technical authority. Concrete incidents > abstract frameworks."
+- Glean/Jenn: "Co-builder with hypotheses. Curious, not prescriptive. Let her set the depth."
+- Perficient/Alexandra: "Energized builder with personality. Startup energy. Short answers."
+- LVMH/Roksana: "Director-level. French. Discretion and craftsmanship. AI serves the savoir-faire."
+
+**The 5-step answer shape** (from the Antun lens — use as default for all tech interviews):
+1. Name the production system
+2. State the failure mode
+3. Explain the engineering change
+4. Show the operational/business impact
+5. Mention evaluation/governance only as the control mechanism that made it safe
+
+**Reference implementations**:
+- `capital-group-principal-ai/LENS-ANTUN-001_antun_sekulic.yaml` — the gold standard for technical interviewer lenses
+- `capital-group-principal-ai/ANTUN_INTERVIEW_BATTLE_CARD.md` — the gold standard for technical battle cards
+- `glean-technical-enablement/JENN_BATTLE_CARD_STAGE1.md` — the gold standard for co-builder/manager battle cards
+
 ## Employer Watchlist
 
 Maintain `~/.job-search/trackers/watchlist.yaml` — employers with no current openings but high expected fit when roles appear.

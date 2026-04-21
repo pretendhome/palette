@@ -803,7 +803,7 @@ profiles:
     status: active
     perplexity_enrichment_status: complete
     enrichment_date: "2026-02-24"
-    enrichment_notes: "Confirmed HIGH — one of the best-documented founders in European tech. Updated to $200M ARR, $6.6B valuation, $330M Series B, 8M users, 25M+ projects."
+    enrichment_notes: "UPDATED 2026-04-21: $400M ARR (up from $200M), added $100M in single month, 146 employees, half of Fortune 500 using Lovable, first US office Boston Apr 17. Bloomberg: 'AI Will Break Software Monopolies.'"
 
     location:
       current: "Stockholm, Sweden"
@@ -824,8 +824,8 @@ profiles:
 
     company_metrics:
       lovable:
-        arr: "$200M+ (November 2025)"
-        arr_growth: "~2,800% YoY (from $7M end of 2024)"
+        arr: "$400M (April 2026, added $100M in single month)"
+        arr_growth: "~5,600% YoY"
         valuation: "$6.6B (December 2025)"
         users: "8M (November 2025, up from 2.3M July 2025)"
         projects_built: "25M+ total; 100,000 new per day"
@@ -1057,7 +1057,7 @@ profiles:
     status: active
     perplexity_enrichment_status: complete
     enrichment_date: "2026-02-24"
-    enrichment_notes: "Upgraded from MEDIUM to HIGH. Major product launch Feb 2026: AI agents for treasury. Added Epidemic Sound, Trustly, Tide, HSBC Innovation Banking as customers. Co-founded with Joel Wägmark and Johannes Elgh."
+    enrichment_notes: "UPDATED 2026-04-21: Confirmed CEO of Atlar (fintech), NOT a Lovable co-founder. Lovable is an Atlar customer. Clustered under lovable_orbit due to customer relationship, not team membership. Upgraded from MEDIUM to HIGH. Major product launch Feb 2026: AI agents for treasury. Added Epidemic Sound, Trustly, Tide, HSBC Innovation Banking as customers. Co-founded with Joel Wägmark and Johannes Elgh."
 
     platforms:
       linkedin:
@@ -1910,7 +1910,7 @@ profiles:
     status: active
     perplexity_enrichment_status: complete
     enrichment_date: "2026-02-24"
-    enrichment_notes: "Promoted from watch list. Score 5/5. Google DeepMind creative insider — institutional access to Veo, Genie, next-gen creative AI. 20 years digital content (Gorillaz, Star Wars, NBA, Louis Vuitton, Lego, Nike). Emmy, Cannes Lions Gold, Clios Gold. Columbia University AI & Filmmaking educator."
+    enrichment_notes: "FLAGGED 2026-04-21: ITU speaker page (Mar 2026) lists him as 'ex-Creative Lead' at DeepMind — possible departure. Verify before next publish. Original: Promoted from watch list. Score 5/5. Google DeepMind creative insider — institutional access to Veo, Genie, next-gen creative AI. 20 years digital content (Gorillaz, Star Wars, NBA, Louis Vuitton, Lego, Nike). Emmy, Cannes Lions Gold, Clios Gold. Columbia University AI & Filmmaking educator."
 
     location:
       current: "New York / London (implied)"

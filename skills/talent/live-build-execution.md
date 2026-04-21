@@ -217,6 +217,33 @@ For a 2.5-hour live build:
 - Demo + present: final 30 minutes
 - Completeness target: 70% of an ideal system, 100% working for what's there
 
+## Palette Component Activation Table
+
+During the live build, these Palette components activate at specific moments. You are not demoing Palette — you are USING it as internalized engineering discipline.
+
+| Moment in the Build | Palette Component | What It Gives You |
+|---------------------|-------------------|-------------------|
+| Receive prompt, classify | **Taxonomy (121 RIUs)** | Instant problem decomposition vocabulary |
+| State assumptions before building | **Core governance (assumptions.md)** | Senior judgment signal — name what you're assuming |
+| Choose architecture shape | **Architect agent pattern** | Compare 2+ shapes before committing. Say it out loud. |
+| "This is irreversible" | **One-way-door classification** | Pause, name the commitment, explain why |
+| Build the classifier/router | **Resolver (731 lines)** | You've built input → classify → route before. Muscle memory. |
+| Build retrieval/RAG | **Researcher (983 lines) + KL (176 entries)** | You know retrieval failure modes: chunking, authority, permissions, freshness. |
+| Choose a tool/library | **Buy-vs-build (75 recipes)** | 30-second decision with reasoning, not 10 minutes googling |
+| Wire components together | **Orchestrator + Peers bus pattern** | Typed handoffs, schema validation, governed message passing |
+| Add evaluation | **Validator + Health agent** | Evaluation as control plane, not afterthought. Add assertions during build. |
+| Something breaks | **Debugger pattern** | Hypothesize → test → verify → fix narrowest issue. Narrate the process. |
+| Add business context | **Skills (6 domains applied)** | "I've used this pattern for retail, education, talent, travel. Domain changes, architecture doesn't." |
+| Present at the end | **Narrator discipline** | Structure for grader's first 60 seconds. Lead with strongest piece. |
+| "What would you improve?" | **Health agent (81 checks)** | Name the checks you'd add. Shows production thinking. |
+| "How does this scale?" | **Taxonomy journey stages** | Foundation → retrieval → orchestration → specialization. Progressive depth. |
+
+**The sentence**: "I don't start from zero. I start from patterns validated across multiple domains — classification, retrieval, orchestration, governance, measurement. The domain changes. The discipline doesn't."
+
+## Detailed Component Map
+
+For the full mapping of every Palette component to the live build format, see: `palette/skills/talent/PALETTE_TO_LIVE_BUILD_MAP.md`
+
 ## Post-Session Protocol
 
 Immediately after:

@@ -127,5 +127,21 @@ Send prep materials to the crew (Kiro, Codex, Gemini, Mistral) for structured ev
 ### Cross-Interview Mode Switching (Kiro — Applied to Capital Group + Glean)
 Same-day interviews requiring different modes (warmth → technical authority) need a 30-minute buffer. Re-read the next battle card. Reset vocabulary. Do NOT carry language from one mode into another.
 
+### Wrong-Read Prevention Lens (Codex — Applied to Capital Group/Antun, April 2026)
+The most important insight from the Capital Group prep cycle: every interviewer has a WRONG READ of you based on your resume. The wrong read is the specific misinterpretation they'll form in the first 5 minutes. If you don't prevent it, you spend the rest of the interview correcting it — and you've already lost.
+
+**The pattern**:
+1. Identify the wrong read ("evaluation specialist" not "shipping engineer")
+2. Write the core reframe ("I build production AI where evaluation is the control plane")
+3. Design every answer to reinforce the reframe
+4. Add evidence guardrails (what you can claim vs must hedge)
+
+**The reusable template** (from Codex):
+Person Lens → Wrong Read → Core Reframe → Mode Context → Battle Card → Answer Patches → Evidence Guardrails → Scoring Model
+
+**Reference implementation**: `capital-group-principal-ai/LENS-ANTUN-001_antun_sekulic.yaml` — the gold standard. Generated via `/job-search tech-lens`.
+
+**Why this works**: Most interview prep asks "what will they ask?" This pattern asks "what will they ASSUME about me before I speak?" — and designs the first 30 seconds to correct it. The wrong read is the highest-leverage fix in any interview prep because it changes the frame, not just the content.
+
 ### Post-Round Iteration (Multi-Agent — Applied to Glean R1→R2)
 After every round, systematically revise all prep materials based on new intelligence. Answers compound across rounds — each round teaches something that makes the next round's answers better. Don't just debrief; REWRITE. Generated via `/job-search post-round`.

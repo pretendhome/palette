@@ -96,13 +96,15 @@ use_cases:
             use_case: "Framework for building LLM-powered agent applications"
             source: "https://www.langchain.com"
             
-          - name: "Fixie.ai"
+          - name: "Fixie.ai (Ultravox)"
             founded: 2022
             funding_stage: "Seed"
             funding_amount: "$17M"
-            agentic_native: true
-            use_case: "Platform for building and deploying AI agents"
+            agentic_native: false
+            use_case: "PIVOTED to voice AI — Ultravox open-source multi-modal speech model. Original agent orchestration platform is dead."
             source: "https://fixie.ai"
+            status: "pivoted"
+            audit_note: "2026-04-21: Removed from agentic_workflow_orchestration. Now voice AI."
             
           - name: "Dust"
             founded: 2022
@@ -137,11 +139,12 @@ use_cases:
         companies:
           - name: "Cursor"
             founded: 2023
-            funding_stage: "Seed"
-            funding_amount: "$8M"
-            agentic_native: false
-            use_case: "AI-first code editor with context-aware generation"
+            funding_stage: "Series D (in talks)"
+            funding_amount: "$2B raising at $50B+ valuation"
+            agentic_native: true
+            use_case: "AI-first code editor with multi-file autonomous refactoring"
             source: "https://cursor.sh"
+            audit_note: "2026-04-21: Updated from Seed/$8M. $2B ARR, 1M+ paying customers, 70% of Fortune 1000."
             
           - name: "Tabnine"
             founded: 2012
@@ -151,11 +154,21 @@ use_cases:
             use_case: "AI code completion for enterprise"
             source: "https://www.tabnine.com"
             
-          - name: "Codeium"
+          - name: "Windsurf (formerly Codeium)"
             founded: 2021
+            funding_stage: "Acquired"
+            funding_amount: "$65M (pre-acquisition)"
+            agentic_native: true
+            use_case: "Agentic IDE with Cascade flow engine. Acquired by Cognition AI."
+            source: "https://windsurf.com"
+            audit_note: "2026-04-21: Renamed from Codeium. Rebranded Apr 2025, acquired by Cognition AI."
+            
+          - name: "Lovable"
+            founded: 2023
             funding_stage: "Series B"
-            funding_amount: "$65M"
-            agentic_native: false
-            use_case: "Free AI code acceleration toolkit"
-            source: "https://codeium.com"
+            funding_amount: "$653M total ($330M Series B, Dec 2025)"
+            agentic_native: true
+            use_case: "AI-powered full-stack app generation from natural language. $400M ARR, $6.6B valuation, 8M+ users, half of Fortune 500."
+            source: "https://lovable.dev"
+            audit_note: "2026-04-21: Added — most critical missing company per audit. Fastest-growing AI SaaS in history."
 
