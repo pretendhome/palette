@@ -55,7 +55,7 @@ const AGENT_REGISTRY = {
 };
 
 const INBOX_AGENTS = Object.entries(AGENT_REGISTRY)
-  .filter(([_, v]) => ['kiro', 'codex', 'gemini', 'perplexity'].includes(v.dir))
+  .filter(([_, v]) => ['kiro', 'codex', 'gemini', 'perplexity', 'claude', 'mistral'].includes(v.dir))
   .map(([identity, v]) => ({ identity, dir: v.dir }));
 
 // Track which agents we've auto-registered this session

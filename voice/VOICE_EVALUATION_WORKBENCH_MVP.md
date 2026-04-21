@@ -1,7 +1,9 @@
 # Voice Evaluation Workbench — MVP Spec
 
 Date: 2026-04-15
-Purpose: Build a single-page demo that proves immediate fit for Sierra's voice evaluation work.
+Purpose: Build a single-page demo that pescribed, with those three adjustments. One HTML file. Rime TTS via 
+the Hub's existing /api/tts proxy. 4 languages × 4 voices × 3 journey stages (Acceptance/
+Resolution/Satisfactionroves immediate fit for Sierra's voice evaluation work.
 
 ## Product Definition
 

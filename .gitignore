@@ -43,6 +43,9 @@ wiki/Untitled*
 wiki/Palette.md
 # Broker database (runtime state)
 *.db
+# Inbox messages (transient)
+peers/dropbox/inbox/
 # Backup files
 *.bak
 peers/hub/.env
+agents/narrator/last_narrative_request.md

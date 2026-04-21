@@ -4,9 +4,9 @@ name: Enterprise AI Interview Preparation System
 domain: Talent
 for_agents: [Researcher, Architect, Narrator, Validator]
 triggers: [RIU-001, RIU-014, RIU-020, RIU-062]
-impressions: 4
+impressions: 7
 status: WORKING
-validated_on: OpenAI ADM (takehome submitted, onsite pending), Perplexity CSM (submitted 2026-03-15), Glean (post-mortem completed)
+validated_on: OpenAI ADM (takehome submitted, onsite reached — lost at panel for conservatism), Perplexity CSM (submitted 2026-03-15), Glean R1 (post-mortem from Feb attempt applied — R2 advancing Apr 2026), Sierra (voice evaluation workbench submitted), Stripe (learning architecture tool submitted)
 ---
 
 # Enterprise AI Interview Preparation System
@@ -85,3 +85,47 @@ Before submitting anything:
 - [ ] Resume matches application narrative (same numbers, same framing)
 - [ ] Product demonstration is verifiable (open source, live demo, or shared thread)
 - [ ] Answers sound like the candidate, not like AI wrote them
+
+## New Artifact Types (validated April 2026)
+
+### Battle Card
+One-screen retrieval doc for a specific interviewer. The last thing you read before the call. Contains: 30-sec opener, thesis headline, 3 proof points, strongest questions to ask, calibrated "what would you build first" answer, do/don't list, conservative tell/override, closing line. One battle card per interviewer per round. Generated via `/job-search battle-card`.
+
+### Test Factory System
+Pre-loaded execution framework for take-home assessments. Predicts assessment families, pre-builds modular components, defines phased execution protocol. The key insight: pre-build the pieces BEFORE the prompt arrives so assembly takes hours, not days. Generated via `/job-search test-factory`.
+
+### Interviewer Lens
+YAML portrait of a specific interviewer — career arc, working style signals, what they screen for, what to emphasize/avoid, rapport hooks, calibrated questions. Built from LinkedIn, publications, talks, and public posts. Generated via `/job-search lens`.
+
+### Thesis Iterations
+Multiple delivery versions of one core thesis, routed by interview context. V1 (one sentence) through V6 (hypothesis-to-validate). The thesis stays the same — the delivery adapts to the interviewer's needs and seniority.
+
+## Validated Patterns (Updated April 2026)
+
+### Anti-Conservatism (OpenAI Post-Mortem — Applied to Glean)
+**Failure**: Had strong content at OpenAI. Played it safe in 5 minutes. Lost at panel.
+**Structural defense**: 
+- Rehearse opener 5x timed (30 seconds)
+- Have 60s/5min/15min versions — know which one you're in before you start
+- Lead with strongest claim in first 10 seconds
+- Post-check: "Did I hedge the main point?"
+- The TELL: using words like "framework" or "alignment" instead of concrete language
+- The OVERRIDE: one proof point, not three. One question back.
+
+### Know / Suspect / Validate (Codex — Applied to Glean)
+For new hiring managers, structure your knowledge as what you KNOW (verified), what you SUSPECT (hypothesis), and what you NEED TO VALIDATE (questions for them). This prevents sounding over-diagnosed while still demonstrating preparation.
+
+### Field Pain First, System Second (Codex — Applied to Glean)
+Lead with the visible problem the interviewer recognizes, not with your system framework. Let the system thesis EXPLAIN the pain, not replace it. Example: "field decision confidence" is the visible pain. "Governed workflow quality" is the explanatory engine. Arrive at the engine through the pain, never open with the coined phrase.
+
+### Stage 1 Retrieval Rule (Codex — Applied to Glean)
+If the answer in your head is longer than 30 seconds, start with the first sentence only. Stop. Let the interviewer pull for more. Early-stage conversations are about credibility + calibration, not completeness.
+
+### Crew Evaluation Before High-Stakes Interviews (Multi-Agent — Applied to Glean)
+Send prep materials to the crew (Kiro, Codex, Gemini, Mistral) for structured evaluation 24-48 hours before. Each agent has a focus: structural integrity, strategic framing, adversarial testing, human read. Integrate fixes into prep materials. Generated via `/job-search crew-eval`.
+
+### Cross-Interview Mode Switching (Kiro — Applied to Capital Group + Glean)
+Same-day interviews requiring different modes (warmth → technical authority) need a 30-minute buffer. Re-read the next battle card. Reset vocabulary. Do NOT carry language from one mode into another.
+
+### Post-Round Iteration (Multi-Agent — Applied to Glean R1→R2)
+After every round, systematically revise all prep materials based on new intelligence. Answers compound across rounds — each round teaches something that makes the next round's answers better. Don't just debrief; REWRITE. Generated via `/job-search post-round`.

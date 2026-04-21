@@ -14,6 +14,28 @@ Before you can search, you need the user's profile. Check if a file exists at `~
 
 **If it doesn't exist**: Walk them through setup. Be conversational — one question at a time, not a wall of text.
 
+### Step 0: Check for a Person Lens
+
+Before setup or any search, check if the user has a person lens:
+1. Check `~/.job-search/lens.yaml`
+2. Search for any `LENS-PERSON-*.yaml` file under the current working directory (recursively)
+3. Check `lenses/releases/` if in a Palette repo
+
+**If a lens exists**: Read it. This is the deepest source of truth about the user — their essence, capabilities, blind spots, contradictions, working style, and environment fit. It drives everything: scoring (the differentiator dimension), resume framing (lead with strengths, address blind spots), prep-bot (voice and vocabulary), and interview coaching (which stories to tell and which patterns to watch for).
+
+**If no lens exists**: Say:
+
+"Before we search, I'd recommend building your person lens — it's a structured portrait that captures who you are beyond your resume: how you think, what you're best at, where you struggle, and what makes you different. It takes 20-30 minutes and makes everything downstream sharper — your scoring, your resume, your interview prep.
+
+Run `/person-lens self` to build one now, or say 'skip' to continue without it. You can always build it later."
+
+If they say skip, continue normally. If they say yes, hand off to the `/person-lens` skill. When they return, resume setup where they left off.
+
+**Why this matters**: The lens feeds three things the resume alone can't:
+1. **Differentiator scoring** — the lens captures what makes them unique across contexts, not just keywords
+2. **Prep-bot voice** — the cheatsheet should sound like THEM talking, not AI writing. The lens has their natural voice patterns.
+3. **Blind spot coaching** — the lens knows their recurring patterns (both good and bad), so interview prep can warn them: "watch for [pattern] — it's cost you before"
+
 ### Step 1: Get their resume
 
 Say: "Let's get you set up. First, I need your resume — you can paste the text here, or give me a file path if you have it saved (I can read PDF, Word docs, or plain text)."
@@ -437,7 +459,7 @@ Becomes the interviewer. Simulates a real interview for a specific role.
 
 1. Ask: "Which role are you prepping for? Give me the company and role, or a pipeline number."
 2. Read the job posting (from pipeline or URL)
-3. **Check for existing prep materials**: Look in `~/.job-search/applications/active/[company-slug]/prep-bot/` for CHEATSHEET.md, COMPANY_PREP.md, and COMPANY_SYSTEMS.md. If they exist, use them to inform your questions and feedback. If they don't exist, offer to run `/job-search prep-bot` first — the mock interview is much more useful when the user has already built their answers.
+3. **Check for existing prep materials**: Look in `~/.job-search/applications/active/[company-slug]/prep-bot/` for CHEATSHEET.md, COMPANY_SYSTEMS.md, and `[company]-interview-bot.html`. If they exist, use them to inform your questions and feedback. If they don't exist, offer to run `/job-search prep-bot` first — the mock interview is much more useful when the user has already built their answers.
 4. Research the company (web search for recent news, product, culture, leadership)
 5. Say: "Ready? I'm going to interview you for [Role] at [Company]. This will take about 20 minutes. I'll play the interviewer. Answer like you would in a real interview — specific examples, real numbers, honest about tradeoffs. I'll give you feedback after each answer. Let's start."
 
@@ -540,7 +562,7 @@ Build a standalone voice practice bot for a specific role. The bot quizzes you o
 - `~/.job-search/lens.yaml`, OR
 - any `LENS-PERSON-*.yaml` file under the current working directory (search recursively)
 
-If no person lens exists, say: "You need a person lens first — it captures how you think, work, and communicate so the prep bot can coach you in your natural voice. Run `/create-lens` to build one, then come back."
+If no person lens exists, say: "You need a person lens first — it captures how you think, work, and communicate so the prep bot can coach you in your natural voice. Run `/person-lens self` to build one, then come back."
 
 If no profile exists, say: "Run `/job-search` first to set up your profile."
 
@@ -603,24 +625,58 @@ Create the directory:
 mkdir -p ~/.job-search/applications/active/[company-slug]/prep-bot
 ```
 
-Generate these files. **CHEATSHEET.md and COMPANY_PREP.md are always generated first, as a pair.** They are the core deliverable. The other files support them.
+Generate exactly these four files by default. This is the validated deliverable set for dense interview prep:
 
-**`CHEATSHEET.md`** — The actual spoken answers. Not coaching notes, not "say something like this", not frameworks — the words you would say out loud. This is the format the user validated through iterative refinement (iBusiness, Meta) and considers the gold standard for interview prep.
+1. **`ANSWERS.md`** — THE PRIMARY DELIVERABLE. This is the single most important document. It contains BOTH the internal answers (me + my fit) AND the external answers (company systems) in one file, formatted EXACTLY like the canonical examples below. This file is also logged to the master answer library at `~/.job-search/answers/[company]-[role].md` for reuse across future applications.
+2. `CHEATSHEET.md` — A more detailed version of the internal answers, kept for backward compatibility and the interview bot.
+3. `COMPANY_SYSTEMS.md` — A more detailed version of the external answers, kept for backward compatibility and the interview bot.
+4. `[company]-interview-bot.html`
 
-**CRITICAL DISTINCTION**: The cheatsheet contains ANSWERS. Each section is a dense paragraph that IS what you say when asked about that topic. Written at speaking density — semi-memorizable, repeatable in 60 seconds, full of specific evidence. The user reads it, internalizes the structure, and reproduces it in conversation. A separate `COMPANY_PREP.md` file holds the coaching context (what they're testing, risks, question predictions, smart questions to ask). Do not mix coaching into the cheatsheet.
+Do **not** start by generating general prep notes, dossier prose, or coaching-first documents. The user wants the dense answer artifacts first.
 
-**SOURCE DATA**: Before writing cheatsheet answers, read `ANSWER_BACKBONE.md` — a topic-indexed experience library with verified numbers organized by interview topic (SQL, dashboards, program execution, AI tools, risk/quality, etc.). Each topic has multiple experiences. **Pick one experience per section and never reuse the same experience in two sections.** This prevents the double-dipping problem where SQL and Dashboards tell the same story.
+**ANSWERS.md is the anchor document.** CHEATSHEET.md and COMPANY_SYSTEMS.md are derived from it, not the other way around. If time is limited, produce ANSWERS.md first and derive the others from it.
 
-**Format rules**:
+**ANSWERS.md CANONICAL FORMAT — THIS IS NON-NEGOTIABLE:**
+
+The format is: `## SECTION TITLE` followed immediately by one dense paragraph. No quotes around the paragraph. No bullets inside the paragraph. No sub-headers. No coaching language. No line breaks within a section. Every section is a single unbroken block of spoken-first, evidence-packed text. The file ends with `## AVOID SAYING` (single line, items separated by ` · `) and `## ANCHOR PHRASES` (single line, items separated by ` · `).
+
+The file has TWO halves separated by a horizontal rule (`---`):
+- First half: `# [COMPANY] [ROLE] — ANSWERS` (internal — me + my fit)
+- Second half: `# [COMPANY] COMPANY SYSTEMS — ANSWERS` (external — about the company)
+
+**Reference implementation**: `implementations/talent/applications/active/ibusiness-ai-kde/IBUSINESS_CHEATSHEET_FINAL.md` — THIS is the gold standard. Every ANSWERS.md must match this density, format, and structure exactly.
+
+**Answer Library**: After generating ANSWERS.md, copy it to `~/.job-search/answers/[company]-[role].md`. This creates a growing library of curated answers that can be reused and adapted for future applications. The answers are the most valuable artifact in the entire prep system — they represent hours of curation and should never be lost.
+
+**Mandatory source order before writing anything**:
+1. Read the user's format spec: check `~/.job-search/format-spec.md` first, then fall back to the default dense-paragraph format defined in the "Format rules" section below. If neither exists, use the iBusiness cheatsheet pattern as the canonical density reference (see `implementations/talent/applications/active/ibusiness-ai-kde/` for lineage).
+2. Read `ANSWER_BACKBONE.md` — check `~/.job-search/ANSWER_BACKBONE.md` first, then check the current application directory
+3. Read any role-specific prior cheatsheets in the repo for the same company or role family
+4. Read the JD, company research, interviewer notes, and current application folder
+
+If you have not read the format spec (or confirmed you're using the default format) and `ANSWER_BACKBONE.md`, you are not ready to generate the prep deliverables.
+
+**`CHEATSHEET.md`** — The actual spoken answers about **me + my fit for this role**. Not coaching notes, not "say something like this", not frameworks — the words I would say out loud. This is the format the user validated through iterative refinement and considers the gold standard for interview prep.
+
+**`COMPANY_SYSTEMS.md`** — The actual spoken answers about **the company only**. Same dense paragraph structure as the main cheatsheet, but focused on what the company is building, internal systems, product stack, domain vocabulary, management structure, founder story, recent developments, and the company-specific questions I need to answer fluently.
+
+**CRITICAL DISTINCTION**: Both of these files contain ANSWERS. Each section is a dense paragraph that IS what I say when asked about that topic. Written at speaking density — semi-memorizable, repeatable in 30-90 seconds, full of concrete evidence. These are not coaching documents. If the text sounds like advice to the user instead of the user speaking directly, it is wrong.
+
+**SOURCE DATA**: Before writing either cheatsheet, read `ANSWER_BACKBONE.md` — a topic-indexed experience library with verified numbers organized by interview topic (SQL, dashboards, program execution, AI tools, risk/quality, etc.). Each topic has multiple experiences. **Pick one experience per section and never reuse the same experience in two sections.** This prevents the double-dipping problem where two answers tell the same story.
+
+**Format rules for both cheatsheets**:
 - `## SECTION TITLE` headers — ALL CAPS, no numbering
-- Each section is one dense paragraph (3-8 sentences) that IS the spoken answer
-- Written in first person as if the user is already talking — "I spent 12 years...", "At Alexa we were dealing with..."
+- Each section is one dense paragraph that IS the spoken answer
+- No bullets inside the section body
+- No coaching language inside the section body
+- Written in first person as if the user is already talking — "I spent 12 years...", "What fascinates me about Glean is..."
 - Every sentence is information-dense — no filler, no "I believe", no preamble
-- Include specific numbers, system names, and evidence (27% of records, 47 providers, 13 locales, 121-node taxonomy)
+- Include specific numbers, system names, leadership names, and evidence
 - Connect the user's specific experience to the company's specific domain using precise parallels
 - Use the person lens for natural voice — these should sound like the user talking, not like AI writing
+- Mirror the density and compression of the user's format spec (`~/.job-search/format-spec.md`). If no format spec exists, use the iBusiness cheatsheet density as the benchmark: every section is one dense paragraph of 4-8 sentences, each sentence information-packed with specific names, numbers, and system references
 
-**Required sections** (order matters):
+**Required sections for `CHEATSHEET.md`** (order matters):
 
 1. **`## TELL ME ABOUT YOURSELF`** — The opening answer. 30-60 seconds. Career arc → common thread → 2-3 strongest proof points → why this role. This is the answer to "tell me about yourself" AND the structural backbone every other answer builds on.
 
@@ -631,23 +687,27 @@ Generate these files. **CHEATSHEET.md and COMPANY_PREP.md are always generated f
 4. **`## [PALETTE/EXPERIENCE CONNECTION TO COMPANY]`** — How your systems map to theirs. Use explicit A → B parallel structure: "Palette taxonomy → their classification system." End with: "I did not build Palette to demonstrate Palette. I built it to demonstrate the discipline."
 
 5. **`## AVOID SAYING`** — Single paragraph. Items separated by ` · `. Specific to the company and domain.
-
 6. **`## ANCHOR PHRASES`** — Single paragraph. Items separated by ` · `. The 5-8 quotable closer lines the interviewer remembers after the call.
 
-**The test**: Read every section of the cheatsheet out loud. If it sounds like coaching ("They want X", "Do not oversell", "The JD says..."), it belongs in COMPANY_PREP.md, not here. If it sounds like you talking to an interviewer ("At Alexa, we were deciding whether to replace Foursquare...", "I dug into the SQL, decomposed the composite provider ID field..."), it belongs in the cheatsheet.
+**Required sections for `COMPANY_SYSTEMS.md`**:
+1. `## WHAT [COMPANY] IS ACTUALLY BUILDING`
+2. `## FOUNDER STORY / COMPANY TRAJECTORY`
+3. `## [CORE SYSTEM 1]`
+4. `## [CORE SYSTEM 2]`
+5. `## [WHY THIS ROLE EXISTS]`
+6. `## [LATEST DEVELOPMENTS / WHAT CHANGED]`
+7. `## [MANAGEMENT STRUCTURE / LEADERSHIP READ]`
+8. `## [SOURCES / VIDEOS / THINGS TO STUDY]`
+9. `## [WHAT THEY WILL WANT TO HEAR ME SAY ABOUT THE COMPANY]`
+10. `## AVOID SAYING`
+11. `## ANCHOR PHRASES`
+
+**The test**: Read every section of both cheatsheets out loud. If it sounds like coaching ("They want X", "Do not oversell", "The JD says..."), it is wrong. If it sounds like a dense, specific answer the user could speak directly in the interview, it is right.
 
 **Reference implementations**:
-- Cheatsheet: `/home/mical/Desktop/correct prep-format.md` (iBusiness) — canonical example of answers done right
-- Cheatsheet + Prep split: `implementations/talent/applications/no-response/meta-product-ops-contract/` (META_CHEATSHEET.md + META_COMPANY_PREP.md)
-
-**`COMPANY_PREP.md`** — The coaching context that supports the cheatsheet. This is NOT answers — it is the framework around them. Include:
-- What the role actually is (decoded from JD, not just repeated)
-- What the org does and why it matters
-- What they're testing at each interview stage (the hiring signals)
-- Main risks and mitigations (e.g., "too senior", "SQL weaker than JD asks")
-- Questions they're likely to ask (with pointers to which cheatsheet section answers each)
-- Smart questions to ask them (3-5, showing product knowledge and strategic thinking)
-- What to avoid (expanded coaching version)
+- Cheatsheet format spec: `~/.job-search/format-spec.md` (user's canonical answer density)
+- Meta split pattern: `implementations/talent/applications/active/meta-product-ops-contract/`
+- iBusiness dense answer lineage: `implementations/talent/applications/active/ibusiness-ai-kde/`
 
 **`MEMORIZATION_SCRIPT.md`** — Full spoken answers in backtick-quoted blocks. Written to be internalized verbally, not read silently. Must match the user's natural speaking voice (use the person lens for voice patterns). Include:
 - Core intro (30s / 60s / 2min versions)
@@ -663,11 +723,7 @@ Each answer should follow the pattern: concrete situation → what you specifica
 
 Note: The MEMORIZATION_SCRIPT and CHEATSHEET cover similar ground but serve different purposes. The cheatsheet is a scannable reference during the call. The memorization script is for verbal rehearsal before the call — longer, with timing markers and multiple-length versions.
 
-**`COMPANY_SYSTEMS.md`** — What the company is actually building, their products, their architecture (as much as is publicly knowable), their domain vocabulary. Written so the user can speak about the company's systems as if they already work there. Include:
-- Product stack with natural "how to reference it" phrases
-- Domain vocabulary table
-- Practice scenarios specific to the company's systems
-- "Things to never say" for this specific company
+**`[company]-interview-bot.html`** — The local interview drill tool. Build it in the style of the validated Meta tool: question tracks, timer, pressure/follow-up modes, recruiter and company fluency questions, answer review, and drift checks. It should consume the content of `CHEATSHEET.md` and `COMPANY_SYSTEMS.md` conceptually: the question bank should be tuned to those two documents, not generic JD questions.
 
 **Step 5: Create the voice bot**
 
@@ -742,10 +798,9 @@ Show the user what was created:
 Prep bot created for [Company] [Role]:
 
   Materials:
-    ~/.job-search/applications/active/[company-slug]/prep-bot/CHEATSHEET.md        ← your actual answers
-    ~/.job-search/applications/active/[company-slug]/prep-bot/COMPANY_PREP.md      ← coaching context + risks + questions to ask
-    ~/.job-search/applications/active/[company-slug]/prep-bot/MEMORIZATION_SCRIPT.md
-    ~/.job-search/applications/active/[company-slug]/prep-bot/COMPANY_SYSTEMS.md
+    ~/.job-search/applications/active/[company-slug]/prep-bot/CHEATSHEET.md        ← your actual spoken answers about you + your fit
+    ~/.job-search/applications/active/[company-slug]/prep-bot/COMPANY_SYSTEMS.md   ← your actual spoken answers about the company
+    ~/.job-search/applications/active/[company-slug]/prep-bot/[company]-interview-bot.html
 
   Voice bot:
     ~/.local/bin/[company]-prep
@@ -754,10 +809,10 @@ Prep bot created for [Company] [Role]:
     [company]-prep
 
   Tips:
-    - The CHEATSHEET has your actual spoken answers — read it, internalize, reproduce
-    - The COMPANY_PREP has the coaching context — risks, what they're testing, questions to ask
+    - The CHEATSHEET has your actual spoken answers about you and your fit — read it, internalize, reproduce
+    - The COMPANY_SYSTEMS file has your actual spoken answers about the company — read it until the vocabulary is natural
     - Practice 2-3 times before the interview, not 20 — you want natural, not robotic
-    - The bot will push you when you drift into abstract talk
+    - The interview bot will push you when you drift into abstract talk
 ```
 
 ### `/job-search glance` — Day-of interview glance sheet
@@ -765,7 +820,7 @@ Prep bot created for [Company] [Role]:
 A one-page energy/focus sheet for 30 minutes before the call. This is NOT the cheatsheet (CHEATSHEET.md has your full spoken answers). The glance sheet is what you look at while brushing your teeth — thesis, top 3 numbers, lead story, pivots, energy anchors.
 
 1. Ask: "Which interview?" (company + role, or pipeline number)
-2. Read the CHEATSHEET.md and COMPANY_PREP.md if they exist (use them as source). If they don't exist, read the job posting, company research, and stories directly.
+2. Read the CHEATSHEET.md and COMPANY_SYSTEMS.md if they exist (use them as source). If they don't exist, read the job posting, company research, and stories directly.
 3. Generate:
 
 ```
@@ -1019,7 +1074,7 @@ This is the number that matters for time allocation.
 | `/job-search contacts` | View and update contact board | After any meeting or intro |
 | `/job-search update` | Edit profile, archetypes, insider relationships, strategy bonus | When circumstances change |
 | `/job-search watchlist` | Check employer watchlist for new postings | Part of find, or standalone |
-| `/job-search prep-bot` | Create CHEATSHEET.md (answers) + COMPANY_PREP.md (coaching) + voice bot | Interview scheduled |
+| `/job-search prep-bot` | Create CHEATSHEET.md + COMPANY_SYSTEMS.md + interview bot | Interview scheduled |
 
 ## Employer Watchlist
 
@@ -1113,5 +1168,332 @@ If the user asks for help with:
 Use the local files first, especially for Mical-specific advice. Do not answer NSA questions from generic framework knowledge if the local corpus contains a better answer.
 
 Don't push methodology unprompted. The primary job is the commands above.
+
+### `/job-search battle-card` — One-screen interviewer retrieval card
+
+Generate a single-page battle card for a specific interview round. This is the last thing you look at before the call — optimized for live retrieval under pressure, not for study.
+
+**When to use**: After prep-bot materials exist and you know WHO you're talking to. One battle card per interviewer per round.
+
+**Input**: Company + interviewer name + round context (e.g., "Glean, Jenn Raffard, Stage 1, direct manager conversation")
+
+**Generate**:
+
+```markdown
+# [Interviewer First Name] Battle Card — Stage [N]
+## [Company] [Role]
+## Interview: [Date, Time]
+
+## The Rule
+[One sentence: who this person is and what mode to be in]
+
+## 30-Second Opening
+[The actual spoken opener — thesis + proof + connection to role. Practice this verbatim.]
+
+## The Headline
+Visible problem: [field pain in their language]
+Underlying engine: [your system thesis]
+Short version: [one sentence they remember]
+
+## Three Proof Points
+1. [Strongest evidence] — [one line]
+2. [Second strongest] — [one line]
+3. [Third] — [one line]
+
+## What [Name] Likely Needs To Hear
+- [3-5 bullets: what this specific person is screening for]
+
+## Strongest Questions To Ask [Name]
+1-5 questions calibrated to this interviewer's background and likely concerns
+
+## If They Ask What You Would Build First
+[The safe version first, then the detailed version only if pulled]
+
+## Do Not Do This
+[5 anti-patterns specific to this interviewer]
+
+## Conservative Tell / Override
+Tell: [what it looks like when you're hedging]
+Override: [the structural fix — strongest claim first, one proof, one question back]
+
+## Closing Line
+[The sentence you want to be the last thing they hear]
+```
+
+Save to `applications/active/[company-slug]/[NAME]_BATTLE_CARD_STAGE[N].md`
+
+**Source data**: Read the interviewer's LENS file (if one exists), the CHEATSHEET.md, the ANSWERS.md, and any debrief from prior rounds. The battle card COMPRESSES these — it does not replace them.
+
+---
+
+### `/job-search test-factory` — Take-home / assessment execution framework
+
+Build a pre-loaded execution framework for technical assessments, take-home projects, or case studies. Predicts likely assessment types, pre-builds modular components, and defines a phased execution protocol so when the prompt arrives, assembly takes hours not days.
+
+**When to use**: After you learn the interview includes a take-home, project, or technical assessment — BEFORE you receive the actual prompt.
+
+**Input**: Company + role + any hints about the assessment format
+
+**Generate**:
+
+```markdown
+# [Company] Test Factory System
+
+## 1. Candidate + Role Baseline
+[Who you are for THIS role, what the role actually is, the thesis that's working]
+
+## 2. Assessment Family Prediction
+[Rank likely assessment types by probability — e.g., system design 70%, product-to-deliverable translation 20%, diagnosis/fix 10%]
+[For each family: what a strong response looks like vs adequate]
+[Family 0: Unclassified — fallback if none of the predictions match]
+
+## 3. Pre-Built Modules
+[Self-contained components ready to assemble into any response]
+- Module A: [System/architecture component]
+- Module B: [Domain knowledge map]
+- Module C: [Measurement/instrumentation framework]
+- Module D: [Day-1 artifacts — concrete examples of output]
+- Module E: [Interactive/demo component if applicable]
+
+## 4. Execution Protocol (when the prompt arrives)
+Phase 0: Classify (15 min) — which family? which modules?
+Phase 1: Architecture (1 hr) — structure the response
+Phase 2: Build (3-4 hrs) — assemble modules + fill gaps
+Phase 3: Quality Gate (1 hr) — checklist verification
+Phase 4: Walk-Through Prep (1 hr) — 60s/5min/15min versions
+
+## 5. Quality Gate Checklist
+- [ ] Requirement coverage
+- [ ] Domain depth (would an insider say "this person knows our product"?)
+- [ ] Role specificity
+- [ ] Measurement framework
+- [ ] Concrete artifacts (not just plans)
+- [ ] Thesis present
+- [ ] 60-second clarity test
+- [ ] Adversarial questions pre-answered
+
+## 6. Walk-Through Time Budget
+[Specific time allocation for the presentation, e.g.:]
+0:00-2:00 — "Here's what I built and why"
+2:00-8:00 — "Here's the strongest piece"
+8:00-12:00 — "Here's what I'd do differently"
+12:00-15:00 — "Three things I'd love your input on"
+
+## 7. Calibration
+Match output volume to 1.5x what they asked for, not 5x.
+If they say "spend 2-3 hours," your output should look like 3-4 hours of work.
+
+## 8. Anti-Conservatism Protocol
+- Lead with the strongest piece, not the safest
+- Have 60s/5min/15min versions ready — know which one you're in
+- The OpenAI lesson: having strong content but playing it safe loses interviews
+```
+
+Save to `applications/active/[company-slug]/[COMPANY]_TEST_FACTORY_SYSTEM.md`
+
+---
+
+### `/job-search lens` — Build interviewer lens
+
+Research and build a structured lens for a specific interviewer. Searches LinkedIn, publications, talks, podcasts, and public posts to build an interview-preparation portrait.
+
+**When to use**: When you know who you'll be talking to and want to prepare for THEM, not just the role.
+
+**Input**: Interviewer name + company + role context
+
+**Process**:
+1. Search LinkedIn for their profile, career history, posts
+2. Search for publications, conference talks, podcasts, YouTube appearances
+3. Search Twitter/X for public posts and positions
+4. Build a YAML lens file with:
+   - Career arc (not just titles — what the trajectory MEANS)
+   - Key signals about working style and what they value
+   - What they're likely screening for in THIS interview
+   - What to emphasize and what to avoid
+   - Rapport hooks (shared experiences, mutual connections, aligned interests)
+   - Questions to ask them (calibrated to their background)
+   - Public content to reference if relevant
+
+Save to `applications/active/[company-slug]/LENS-[NAME]-001_[slug].yaml`
+
+---
+
+### `/job-search crew-eval` — Send prep materials to crew for evaluation
+
+Package the current interview prep and send to the Palette Peers bus for multi-agent evaluation. Each agent gets a specific focus area.
+
+**When to use**: When prep is built and you want stress-testing before the interview. Ideally 24-48 hours before.
+
+**Input**: Company + role + interview date
+
+**Process**:
+1. Gather all files in the application directory
+2. Build a structured evaluation brief with:
+   - Context (what stage, who's interviewing, what's at stake)
+   - The thesis and its iterations
+   - The evidence base
+   - Specific questions for the crew (thesis stress test, interviewer calibration, adversarial questions, etc.)
+   - Scoring dimensions (product depth, thesis strength, evidence quality, stage-specific readiness, take-home readiness, conservatism risk)
+   - Agent-specific assignments:
+     - Kiro → structural integrity (consistency, contradictions, operational soundness)
+     - Codex → strategic framing (is the thesis the strongest possible frame?)
+     - Gemini → adversarial testing (hardest questions, gap analysis, evidence stress test)
+     - Mistral → human read (warmth vs systems language, what the interviewer would FEEL)
+3. Send to the Palette Peers bus as an execution_request to "group" with requires_ack: true
+4. Save the brief to the application directory
+
+---
+
+### `/job-search post-round` — Post-round iteration
+
+After completing an interview round, update all prep materials based on what was learned. This is NOT just a debrief — it's a systematic revision of answers, thesis, and strategy for the next round.
+
+**When to use**: After any interview round where you're advancing.
+
+**Input**: Debrief notes + what worked + what didn't + any new intelligence about the org, process, or interviewers.
+
+**Process**:
+1. Run a standard debrief (capture questions asked, what worked, what didn't)
+2. Update the ANSWERS.md with:
+   - New intelligence woven in (org structure, team names, metrics, pain points)
+   - Thesis refinement based on what landed vs what didn't
+   - New "what I know / what I suspect / what I need to validate" section reflecting updated state
+3. Update the CHEATSHEET.md to reflect revisions
+4. Build or update interviewer lenses for the next round
+5. If a take-home is coming: trigger `/job-search test-factory`
+6. If crew evaluation is needed: trigger `/job-search crew-eval`
+7. Update PIPELINE.md with new status and next steps
+
+The key innovation: **answers compound across rounds.** Each round teaches you something about the company that makes the next round's answers better. The post-round step ensures that learning is captured in the prep materials, not just in memory.
+
+---
+
+### `/job-search mode-switch` — Cross-interview mode preparation
+
+When multiple interviews happen on the same day requiring different modes (e.g., enablement warmth at 10:30am, technical authority at 2:30pm), generate a mode-switch protocol.
+
+**When to use**: When two or more interviews on the same day require fundamentally different energy/positioning.
+
+**Generate**:
+```markdown
+## Mode Switch — [Date]
+
+### Interview 1: [Company] [Time]
+Mode: [warmth/partnership/technical/exec]
+Anchor phrase: [one sentence to get into this mode]
+Vocabulary: [key words for this mode]
+Energy: [collaborative/authoritative/curious/strategic]
+
+### Buffer: [Duration] between interviews
+- Physical: [stand up, walk, water]
+- Mental: [re-read battle card for Interview 2]
+- Vocabulary reset: [DO NOT carry Interview 1 language into Interview 2]
+
+### Interview 2: [Company] [Time]
+Mode: [warmth/partnership/technical/exec]
+Anchor phrase: [one sentence to get into this mode]
+Vocabulary: [key words for this mode]
+Energy: [collaborative/authoritative/curious/strategic]
+```
+
+---
+
+## Validated Additions from Glean Cycle (April 2026)
+
+### Stage 1 Retrieval Rule
+If the answer in your head is longer than 30 seconds, start with the first sentence only. Then stop and let the interviewer pull for more. The goal in early-stage conversations is credibility plus calibration, not completeness.
+
+### Know / Suspect / Validate Frame
+For any conversation with a new hiring manager, structure your knowledge as:
+- **What I know**: Verified facts about the company, team, product
+- **What I suspect**: Working hypotheses based on external research
+- **What I need to validate**: Questions that only the insider can answer
+This prevents sounding over-diagnosed while still demonstrating preparation.
+
+### Thesis Versioning
+A single thesis is not enough. Build multiple delivery versions:
+- **V1**: One sentence (elevator pitch)
+- **V1B**: Safer version for new/unknown interviewers (lead with pain, not system)
+- **V2**: 90-second causal chain (shows depth)
+- **V3**: The non-obvious insight (differentiator)
+- **V4**: The framework version (collaborative tool for the interviewer)
+- **V5**: The business metrics version (for exec interviews)
+- **V6**: The hypothesis-to-validate version (safest for early conversations)
+
+Route by context: V1B for new managers, V2 for "why does this matter?", V5 for execs, V6 when you need to sound prepared without sounding closed.
+
+### Anti-Conservatism Protocol
+The biggest interview failure mode for deeply-prepared candidates is playing it safe.
+- **The tell**: Using words like "framework," "alignment," or hedging for 30+ seconds before landing the point
+- **The override**: Strongest claim in the first 10 seconds. One proof point, not three. One question back.
+- **The structural defense**: Rehearse the opener 5x timed. Have 60s/5min/15min versions. Practice under time pressure. If you haven't said something substantive in 10 seconds, you're being conservative.
+- **The post-check**: After every practice run, ask: "Did I hedge the main point?"
+
+### Cross-Interview Mode Switching
+When the same day includes interviews requiring different modes (partnership warmth → technical authority), build a 30-minute decompression buffer. Re-read the next battle card. Reset vocabulary. Do NOT carry language or energy from one interview mode into another.
+
+## Multilingual Interview Prep
+
+When the target role or company operates in a non-English language, the prep-bot and voice practice must match.
+
+### Language Detection
+Check for language signals in:
+- JD language (if the posting is in French, prep in French)
+- Company HQ / office location (Paris → French, Milan → Italian, etc.)
+- Interviewer profile (if they post in French on LinkedIn, expect a French conversation)
+- User's language skills (from profile.yaml `skills.languages`)
+- Explicit user request ("this call will be in French")
+
+### Prep Materials
+When the interview language is not English:
+- `ANSWERS.md` should be written in the interview language (not translated — written natively)
+- `CHEATSHEET.md` same language
+- `COMPANY_SYSTEMS.md` same language
+- Numbers written as words in the target language (`douze mille` not `12,000`) — TTS reads digit strings in English
+- Proper nouns and acronyms stay as-is (Ask Pathfinder, AWS, LVMH, MaIA)
+- `AVOID SAYING` and `ANCHOR PHRASES` in the target language
+
+### Voice Bot Language Setup
+
+**TTS engine selection** (set in the launcher script):
+- English: Rime (`PALETTE_VOICE_TTS=rime`, speaker `celeste` or `cove`)
+- French: Edge-TTS (`PALETTE_VOICE_TTS=edge`, voice `fr-FR-HenriNeural` or `fr-FR-DeniseNeural`)
+- Italian: Edge-TTS (`PALETTE_VOICE_TTS=edge`, voice `it-IT-DiegoNeural` or `it-IT-ElsaNeural`)
+- Spanish: Edge-TTS (`PALETTE_VOICE_TTS=edge`, voice `es-ES-AlvaroNeural` or `es-ES-ElviraNeural`)
+- Portuguese: Edge-TTS (`PALETTE_VOICE_TTS=edge`, voice `pt-BR-AntonioNeural` or `pt-BR-FranciscaNeural`)
+
+Rime's English voices (celeste, cove, astra, luna) read non-English text with English pronunciation — unusable for French/Italian/Spanish. Edge-TTS provides native multilingual voices via Microsoft's neural TTS, free, no API key. Install: `pip install --user --break-system-packages edge-tts`.
+
+**STT**: Whisper handles all languages natively. No configuration needed.
+
+**System prompt**: Must be written entirely in the target language. Include a `RÈGLE ABSOLUE` at the top: respond ONLY in [language], write all numbers as words, no English except proper nouns. Without this, the LLM will mix languages.
+
+**Launcher script pattern** (example: French):
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+export CODEX_MODEL="${CODEX_MODEL:-gpt-5.4}"
+export PALETTE_VOICE_TTS="edge"
+export EDGE_VOICE="fr-FR-HenriNeural"
+
+exec palette-voice \
+  --brain codex \
+  --context-dir ~/.job-search/applications/active/[company]/prep-bot \
+  --system-prompt "RÈGLE ABSOLUE : Tu ne parles QUE français. Pas un seul mot en anglais. Jamais. Si tu dois dire un nombre, écris-le en toutes lettres en français. Les sigles restent tels quels. [rest of prompt in French]" \
+  "$@"
+```
+
+**Known issues**:
+- Edge-TTS reads bullet points and asterisks aloud ("point", "astérisque"). Avoid markdown formatting in LLM responses — add to system prompt: "Ne mets pas de puces, d'astérisques ou de formatage markdown dans tes réponses. Écris en phrases complètes."
+- Rime French voices (amarante, aurelie, destin, solstice) require a paid tier. Use Edge-TTS as default for non-English.
+
+### Validated Language Configurations
+
+| Language | TTS Engine | Voice | System Prompt Rule | Validated On |
+|----------|-----------|-------|-------------------|-------------|
+| French | edge-tts | fr-FR-HenriNeural | RÈGLE ABSOLUE : français uniquement | LVMH (Apr 2026) |
+| English | rime | celeste / cove | (default) | Glean, Capital Group, all US roles |
+| Italian | edge-tts | it-IT-DiegoNeural | REGOLA ASSOLUTA: solo italiano | Not yet validated |
+| Spanish | edge-tts | es-ES-AlvaroNeural | REGLA ABSOLUTA: solo español | Not yet validated |
 
 ## Input: $ARGUMENTS

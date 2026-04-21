@@ -53,12 +53,15 @@ origin:
         operational and cross-cultural coordination skills. The mentoring revealed her instinct
         for developing people — the same instinct that shows up at La Scuola.
 
-    - what: "ENAS NGO — Project/Localization Manager (~5 years)"
-      when: "~2008-2013"
+    - what: "ENAS (Regional Water Management Body) — Localization Project Manager (2013-2018)"
+      when: "2013-2018"
       why_it_matters: |
-        International project management in a non-profit context. Built operational discipline
-        in resource-constrained environments. Localization work — adapting content across cultures —
-        is structurally the same skill as curriculum adaptation across educational frameworks.
+        Government body managing water infrastructure in Sardinia. Localization for large-scale
+        engineering projects including wastewater treatment systems in Africa. CONCURRENT with
+        University of Cagliari research role — she ran international project management AND
+        postdoctoral research simultaneously for 5 years. Built operational discipline in
+        resource-constrained, cross-cultural environments. Localization work — adapting content
+        across cultures — is structurally the same skill as curriculum adaptation.
 
     - what: "Yves Saint Laurent — International Sales"
       when: "prior to academia"
@@ -67,13 +70,16 @@ origin:
         not just educational ones. Client-facing, high-touch, relationship-driven — the same skills
         that make her the most trusted family-facing person at La Scuola.
 
-    - what: "Google — Localization Program Manager (2019-2020)"
-      when: "2019-2020"
+    - what: "Google — Localization Program Manager (2018-2020)"
+      when: "2018-2020"
       why_it_matters: |
-        Managed Google Ads product launch across 40+ countries. Built tracking dashboards.
-        Operated in radical accountability culture with clear KPIs. This is the experience that
-        gave her operational rigor — process design, trackers, issue triage — that she now applies
-        to education. Most educators don't have a Google-trained operational muscle. She does.
+        Two years (via Accenture, then Collabera) managing Google Ads, Search, Assistant, and
+        Safety Center product launches across 40+ countries. Built tracking dashboards. Applied
+        6-Sigma methodology for process improvement. Operated in radical accountability culture
+        with clear KPIs. This is the experience that gave her operational rigor — process design,
+        trackers, issue triage — that she now applies to education. Most educators don't have a
+        Google-trained operational muscle. She does. Went directly from Google to La Scuola
+        (September 2020) — no gap.
 
     - what: "La Scuola — from teacher to program architect (2020-present)"
       when: "2020-present"
@@ -184,7 +190,7 @@ capabilities:
     - "UbD (Understanding by Design), PLC methodology"
 
   what_they_cannot_do:
-    - "Has not held formal people-management authority with direct reports, hiring/termination decisions"
+    - "Limited formal people-management (12 direct reports as Tourism Coordinator in Cagliari, 2011-2013, but not at director level since)"
     - "No heavy finance/accounting experience (not CFO-track)"
     - "No deep legal/compliance background"
     - "No full-time fundraising experience"
@@ -410,20 +416,72 @@ how_to_work_with:
     - "Treating innovation as distraction from 'real work'"
     - "Making decisions about her child's education without including her expertise"
 
+job_search:
+  # Updated 2026-04-18. Tech pivot in progress.
+  cmf_statement: |
+    "I design the institutional architecture that makes educational systems work — curriculum
+    systems, structural coherence, assessment frameworks, AI integration — and I want to do
+    this at scale. Teaching is my proof, not my ceiling."
+  zone_ranking:
+    - zone: "AI Companies (OpenAI, Anthropic)"
+      priority: 1
+      rationale: "AI-in-education is her lived expertise. ARON + ChatGPT Voice + AI Classroom Proposal = real evidence."
+    - zone: "EdTech (Duolingo, Khan Academy, Toddle, Coursera)"
+      priority: 2
+      rationale: "Learning design leadership at product scale. Curriculum architecture skill applied to tech."
+    - zone: "International Organizations (UNESCO, OECD, IBO, Council of Europe)"
+      priority: 3
+      rationale: "Values trilingual fluency, PhD. But structural disadvantages: no UN experience, Italian over-represented."
+    - zone: "Curriculum / Institutional Design (Lycée Français, FASSV, Head-Royce)"
+      priority: 4
+      rationale: "Direct match to current work. Highest certainty of callback. Lower salary ceiling."
+    - zone: "Tech Localization (Google boomerang, Amazon, Netflix, Apple)"
+      priority: 5
+      rationale: "2 years Google PM experience. Viable fallback but not growth direction."
+  search_history:
+    - date: "2026-02-21"
+      scope: "Initial Bay Area education leadership"
+      result: "22 roles found, mostly admissions/enrollment — wrong framing"
+    - date: "2026-03-27"
+      scope: "5-agent worldwide sweep: schools + universities + tech + intl orgs + creative"
+      result: "64 roles across 5 tiers. Top: Lycée Français, FASSV, ISP Paris, UNESCO"
+    - date: "2026-03-29"
+      scope: "Verification pass on March 27 results"
+      result: "31 verified open. 8 removed (expired/unverifiable)"
+    - date: "2026-04-07"
+      scope: "Master sweep with callback scoring"
+      result: "17 verified open, ranked by callback likelihood. Peter Lang #1 (55%), St Andrews #2 (49%)"
+    - date: "2026-04-18"
+      scope: "Tech pivot — AI companies + EdTech focus"
+      result: "Anthropic K-12 and Global Ed PMs closed. OpenAI Curriculum Lead identified as primary target."
+  lessons_learned:
+    - "Admissions/enrollment roles are wrong framing — she's an architect, not an operator"
+    - "UNESCO has structural disadvantages (Italian over-represented, no UN experience)"
+    - "Localization PM roles are viable but not growth — too similar to Google role she left"
+    - "AI company education roles are the sweet spot — combines classroom reality + AI fluency"
+    - "Previous searches suggested many roles with no direct pertinence (generic PM, CSM) — tighter filtering needed"
+    - "The ARON/ChatGPT Voice story is her strongest tech differentiator — must lead with it"
+    - "Google dates are 2018-2020 (2 years), not 2019-2020 as previously recorded"
+    - "ENAS + University of Cagliari were CONCURRENT (2013-2018) — demonstrates capacity"
+    - "Tourism Coordinator had 12 direct reports — she DOES have people management experience"
+
 evidence:
   sources:
     - "LENS-CLAUDIA-001.yaml — comprehensive profile (March 2026)"
+    - "claudia-canu-fautre-profile.md — comprehensive profile v2 (April 7, 2026)"
+    - "3 resume versions (Alpha-optimized, Localization-focused, General)"
     - "La Scuola Structural Coherence Framework — Executive Summary and Operational Blueprint"
-    - "AI Classroom Proposal and deliverables"
+    - "AI Classroom Proposal and deliverables (English + Italian)"
     - "ARON cognitive profile, exercise protocols, and intervention design"
-    - "Talent-claudia-job-search profile and comprehensive search"
-    - "Mical Neill's direct observations (Gate A review feedback, family context)"
+    - "Talent-claudia-job-search: 4 search sweeps (Feb-Apr 2026)"
+    - "Mical Neill's direct observations (Gate A review, family context, corrected dates)"
     - "Prove MT 2024-25 results"
-  confidence: medium
-  last_validated: "2026-04-03"
+  confidence: medium-high  # upgraded from medium — 3 resume versions + corrected dates + 4 search rounds
+  last_validated: "2026-04-18"
   blind_spots_in_this_lens:
     - "No direct interview with Claudia — this lens is built from documents and Mical's observations"
     - "Gate A outcome is unknown — the review feedback is secondhand"
-    - "Her own self-assessment of identity and motivation is not captured (no Mnookin Two-Pager equivalent)"
+    - "Her own self-assessment of identity and motivation is not captured — 24 questions pending (April 18)"
     - "Colleagues' and leadership's perspective on her work is inferred, not directly sourced"
+    - "Daily AI usage specifics need confirmation from Claudia directly"
     - "The emotional dimension of the Nora situation is underrepresented"

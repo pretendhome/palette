@@ -1,0 +1,191 @@
+# Joseph Command Center — Project State
+# Created: 2026-04-16
+
+project_state:
+  id: "joseph-command-center"
+  name: "Joseph Command Center"
+  owner: "Joseph"
+  operator: "the_operator"
+  created_at: "2026-04-16"
+  last_updated: "2026-04-16"
+
+  objective: "Turn Joseph's real priorities, documents, monitors, and preferred surfaces into a reusable Palette workspace that feels built around him rather than around a single domain."
+
+  health_score: 52
+  health_label: "STARTING"
+  target_score: 85
+
+  known_facts:
+    - id: "KF-001"
+      fact: "Joseph has already been using Palette and feedback has been positive."
+      source: "Operator briefing"
+    - id: "KF-002"
+      fact: "An existing oil-investor workspace already exists and should be preserved."
+      source: "mission-canvas/workspaces/oil-investor"
+    - id: "KF-003"
+      fact: "The current goal is a broader customizable workspace around Joseph, not just a single-domain investor bot."
+      source: "Operator briefing"
+
+  missing_evidence:
+    - id: "ME-001"
+      what: "Joseph's current mission stack and priority domains"
+      detail: "What workstreams matter most right now: investing, operating, research, meetings, writing, or something else?"
+      why: "The workspace cannot choose the right front door, artifact defaults, or routing until the priority stack is explicit."
+      who_resolves: "owner"
+      priority: "critical"
+      status: "unresolved"
+      identified_at: "2026-04-16"
+      unblocks:
+        - "OD-001"
+        - "BA-001"
+    - id: "ME-002"
+      what: "Local source folders and document boundaries"
+      detail: "Which folders contain the memos, spreadsheets, notes, and private files the workspace should read, and which files must stay out?"
+      why: "The system needs a trustworthy source map before it can become document-grounded."
+      who_resolves: "owner"
+      priority: "critical"
+      status: "unresolved"
+      identified_at: "2026-04-16"
+      unblocks:
+        - "OD-002"
+        - "BA-001"
+        - "BA-002"
+    - id: "ME-003"
+      what: "Preferred operating surfaces"
+      detail: "Should Joseph primarily use web, Telegram, voice, or a mixed flow?"
+      why: "A customizable workspace is only useful if the front door matches the way he already works."
+      who_resolves: "owner"
+      priority: "critical"
+      status: "unresolved"
+      identified_at: "2026-04-16"
+      unblocks:
+        - "OD-001"
+        - "BA-003"
+    - id: "ME-004"
+      what: "Artifact expectations"
+      detail: "Which outputs should appear first: daily brief, meeting brief, monitor digest, recommendation note, workspace map, or something else?"
+      why: "The workspace should start with artifacts Joseph will actually use."
+      who_resolves: "owner"
+      priority: "moderate"
+      status: "unresolved"
+      identified_at: "2026-04-16"
+      unblocks:
+        - "OD-003"
+        - "BA-002"
+    - id: "ME-005"
+      what: "Monitor cadence and alert posture"
+      detail: "What should the system watch, how often, and what is noisy versus valuable?"
+      why: "The always-on part of the workspace depends on monitor design, not just chat UX."
+      who_resolves: "owner"
+      priority: "moderate"
+      status: "unresolved"
+      identified_at: "2026-04-16"
+      unblocks:
+        - "OD-004"
+        - "BA-003"
+
+  open_decisions:
+    - id: "OD-001"
+      decision: "What should be Joseph's primary front door into the workspace?"
+      options:
+        - "Web-first Mission Canvas"
+        - "Telegram-first quick command center"
+        - "Voice-first workspace"
+        - "Hybrid: web for convergence, Telegram for alerts, voice for exploration"
+      who_decides: "owner"
+      blocked_by:
+        - "ME-001"
+        - "ME-003"
+      status: "open"
+      identified_at: "2026-04-16"
+      unblocks:
+        - "BA-003"
+      impact: "This determines how the workspace feels day to day."
+    - id: "OD-002"
+      decision: "Should this workspace absorb the existing oil-investor setup or sit above it as Joseph's broader command center?"
+      options:
+        - "Keep oil-investor separate and link to it"
+        - "Use this as umbrella workspace with oil as one domain"
+        - "Gradually migrate investor flows here"
+      who_decides: "owner"
+      blocked_by:
+        - "ME-002"
+      status: "open"
+      identified_at: "2026-04-16"
+      unblocks:
+        - "BA-001"
+        - "BA-002"
+      impact: "Avoids breaking what already works while expanding the system around him."
+    - id: "OD-003"
+      decision: "Which artifact should appear on startup?"
+      options:
+        - "Daily brief"
+        - "Workspace map"
+        - "Open decisions board"
+        - "Meeting brief / action queue"
+      who_decides: "owner"
+      blocked_by:
+        - "ME-004"
+      status: "open"
+      identified_at: "2026-04-16"
+      unblocks:
+        - "BA-002"
+      impact: "Sets the default rhythm of the workspace."
+    - id: "OD-004"
+      decision: "What should the first live monitor loop cover?"
+      options:
+        - "Existing investment alerts only"
+        - "Mixed monitors across Joseph's active priorities"
+        - "No monitors until the workspace is fully shaped"
+      who_decides: "owner"
+      blocked_by:
+        - "ME-005"
+      status: "open"
+      identified_at: "2026-04-16"
+      unblocks:
+        - "BA-003"
+      impact: "Controls signal quality and whether the workspace earns daily trust."
+
+  blocked_actions:
+    - id: "BA-001"
+      action: "Generate a Joseph-specific startup brief that reflects his real work."
+      blocked_by:
+        - "ME-001"
+        - "ME-002"
+        - "OD-002"
+      unblocks:
+        - "goal-001"
+      impact: "Without this, the workspace still feels like a template."
+    - id: "BA-002"
+      action: "Tune default artifacts and source strategy."
+      blocked_by:
+        - "ME-002"
+        - "ME-004"
+        - "OD-003"
+      unblocks:
+        - "goal-001"
+      impact: "This is what makes the workspace feel customized instead of generic."
+    - id: "BA-003"
+      action: "Set the always-on loop: front door plus alerts plus monitor cadence."
+      blocked_by:
+        - "ME-003"
+        - "ME-005"
+        - "OD-001"
+        - "OD-004"
+      unblocks:
+        - "goal-001"
+      impact: "The system cannot become ambient support around Joseph until the loop is explicit."
+
+  resolved_decisions: []
+
+  known_unknowns:
+    - "Whether Joseph wants one broad workspace or a family of connected workspaces."
+    - "How much of the existing oil-investor flow should remain specialized."
+    - "Which source folders are stable enough to wire in first."
+
+  goals:
+    - id: "goal-001"
+      summary: "A customizable Joseph workspace that is grounded in his real files, feels personal, and is usable without hand-holding."
+      status: "in_progress"
+
+  learner_lens: {}

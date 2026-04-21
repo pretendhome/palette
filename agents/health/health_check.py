@@ -269,7 +269,7 @@ def section_4_cleanliness(report: HealthReport) -> None:
                      "people-library", "__pycache__", ".venv",
                      "docs", "research", "assets", "legal", "lenses",
                      "knowledge-library", "taxonomy", "buy-vs-build",
-                     "fixtures", "bridges", "mission-canvas"}
+                     "fixtures", "bridges", "mission-canvas", "peers", "skills", "logs"}
     # Files where names are legitimate: generated indexes, graph data, changelogs, audit reports
     excluded_files = {"CHANGELOG.md", "RELATIONSHIP_GRAPH.yaml", "KNOWLEDGE_INDEX.yaml",
                       "decisions.md", "README.md"}

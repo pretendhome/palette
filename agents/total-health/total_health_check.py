@@ -1086,7 +1086,7 @@ def main():
     elif args.section:
         sections = [args.section]
     elif args.extended_only:
-        sections = [8, 9, 10, 11, 12, 13]
+        sections = [8, 9, 10, 11, 12, 13, 14]
     else:
         sections = None
 

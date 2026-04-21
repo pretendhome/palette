@@ -521,15 +521,20 @@ def _run_consistency_checks(data: IntegrityData) -> list[ConsistencyResult]:
     ))
 
     # 8. People↔Signals: every tool mentioned in people profiles appears in signals crossref
-    signal_tools = {sig.get("tool", "").lower() for sig in data.signals}
+    # Normalise signal tools by stripping parenthetical suffixes for matching
+    signal_tools = {sig.get("tool", "").split(" (")[0].lower().strip() for sig in data.signals}
     people_tools: set[str] = set()
     missing_people_tools: list[str] = []
     for profile in data.people:
-        for tool_entry in profile.get("tools_mentioned", []):
+        # Check notable_recommendations -> tools (standard schema)
+        recommendations = profile.get("notable_recommendations", {})
+        tools = recommendations.get("tools", [])
+        for tool_entry in tools:
             tool_name = tool_entry if isinstance(tool_entry, str) else tool_entry.get("name", "")
             if tool_name:
-                people_tools.add(tool_name.lower())
-                if tool_name.lower() not in signal_tools:
+                normalized_name = tool_name.split(" (")[0].lower().strip()
+                people_tools.add(normalized_name)
+                if normalized_name not in signal_tools:
                     missing_people_tools.append(f"{tool_name} (from {profile.get('id', '?')})")
     checks.append(ConsistencyResult(
         check_name="People↔Signals",

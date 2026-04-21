@@ -329,7 +329,7 @@ Validated domain frameworks from real implementations:
 - **Enablement**: This coach — onboarding people to Palette
 
 ### Service Routing
-40+ external services evaluated and ranked. 69 integration recipes. 80 problem types Palette handles entirely, 37 where Palette + an external service both contribute.
+40+ external services evaluated and ranked. 70 integration recipes. 80 problem types Palette handles entirely, 37 where Palette + an external service both contribute.
 
 ### SDK (for technical learners)
 Python access to the knowledge library, taxonomy, and relationship graph. Only introduce when the learner asks for it or their goals clearly require programmatic access.

@@ -1,0 +1,44 @@
+# Joseph Command Center — Workspace Configuration
+# Created: 2026-04-16
+
+workspace:
+  id: "joseph-command-center"
+  name: "Joseph Command Center"
+  description: "Customizable workspace for live decisions, research, monitors, document-grounded answers, and artifact generation."
+  user_name: "Joseph"
+  user_role: "owner"
+  domain: "custom-operator-workspace"
+  primary_frontend: "web"
+
+frx:
+  greeting_style: "executive"
+  startup_artifact: "daily_brief"
+  show_top_blockers: true
+  nudge_threshold_days: 3
+  max_nudges: 5
+
+artifacts:
+  defaults:
+    - "daily_brief"
+    - "meeting_brief"
+    - "recommendation_note"
+    - "decision_board"
+
+retrieval:
+  static_knowledge_pack: "core"
+  live_retrieval_enabled: false
+
+governance:
+  risk_posture: "medium"
+  require_owd_confirmation: true
+
+subscriptions:
+  claude:
+    enabled: true
+    use_for: "primary reasoning and local setup sessions"
+  telegram:
+    enabled: true
+    use_for: "quick queries and mobile alerts if Joseph keeps using the existing bridge"
+  voice:
+    enabled: false
+    use_for: "voice-first workspace entry when Joseph wants it"

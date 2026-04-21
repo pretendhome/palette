@@ -96,7 +96,7 @@
 ### Experience A: Palette Multi-Agent System (ERA-5)
 - **Context**: Built from scratch to understand how AI models work in production.
 - **What I did**: 12 specialized agents with taxonomy-driven routing, wire contracts (7 fields in, 7 out), integrity gates on every output. Resolver classifies intent, researcher retrieves evidence, builder executes, validator checks output.
-- **Numbers**: 121 taxonomy nodes, 168 knowledge entries, 2,013-quad relationship graph, 12 agents, 69 integration recipes, 146 tests, 103 health checks
+- **Numbers**: 121 taxonomy nodes, 176 knowledge entries, 2,013-quad relationship graph, 12 agents, 70 integration recipes, 149 tests, 103 health checks
 - **Best for**: AI agent design, orchestration, governance, repeatable AI systems
 
 ### Experience B: AWS Frontier AI Partner Enablement (ERA-4)
@@ -188,7 +188,7 @@
 ### Experience C: Palette Taxonomy as Routing Layer (ERA-5)
 - **Context**: Needed a way to classify any AI/ML problem and route it to the right knowledge, services, and agents.
 - **What I did**: 121-node taxonomy where classification IS routing. Classify the problem → know what knowledge, services, and agents to apply. Evidence tiers for source quality. Fail-closed validation.
-- **Numbers**: 121 nodes, 168 knowledge entries, 69 integration recipes
+- **Numbers**: 121 nodes, 176 knowledge entries, 70 integration recipes
 - **Best for**: Taxonomy-driven routing, problem classification, knowledge governance
 
 ---
@@ -218,7 +218,7 @@
 ## TOPIC: BUILDER CREDIBILITY / TECHNICAL DEPTH (HANDS-ON)
 
 ### Experience A: Palette Full System (ERA-5)
-- **Full system**: 12 agents, 121 taxonomy nodes, 168 knowledge entries, 2,013-quad graph, 69 integrations, 146 tests, 103 health checks, Python SDK (86 tests), Go wire contracts, Telegram bridge
+- **Full system**: 12 agents, 121 taxonomy nodes, 176 knowledge entries, 2,013-quad graph, 70 integrations, 149 tests, 103 health checks, Python SDK (86 tests), Go wire contracts, Telegram bridge
 - **Best for**: Proving you build, not just advise. Use sparingly — lead with Amazon stories.
 
 ### Experience B: MCP Governed Coordination (ERA-5)
@@ -254,11 +254,11 @@
 | 2% true unique dependency | Analysis results |
 | 7% TripAdvisor net-new coverage | Analysis results |
 | 121 taxonomy nodes (Palette) | GitHub repo |
-| 168 knowledge entries (Palette) | GitHub repo |
+| 176 knowledge entries (Palette) | GitHub repo |
 | 12 agents (Palette) | GitHub repo |
 | 2,013-quad relationship graph | GitHub repo |
-| 69 integration recipes (Palette) | GitHub repo |
-| 146 tests (Palette) | GitHub repo |
+| 70 integration recipes (Palette) | GitHub repo |
+| 149 tests (Palette) | GitHub repo |
 | 140,000-person partner ecosystem | AWS org data |
 
 ---

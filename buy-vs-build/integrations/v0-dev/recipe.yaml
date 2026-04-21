@@ -1,0 +1,56 @@
+# Palette Integration Recipe: v0.dev
+# Generated: 2026-04-19
+# Agent: Builder — integration specification
+# RIUs served: RIU-310 (Frontend Architecture), RIU-414 (Prototype Generation), RIU-550 (No-Code AI App Generation)
+# Priority: HIGH — Vercel-backed AI UI/app generator, industry-standard for React/Next.js
+
+service_name: "v0.dev"
+company: "Vercel"
+company_url: "https://v0.dev"
+api_url: "N/A — no public REST API. Web-based AI generator with chat interface."
+api_docs: "https://v0.dev/docs"
+
+auth_method:
+  type: "Vercel Account"
+  note: "Operated through Vercel account via web interface. Integrated with Vercel deployment pipeline."
+
+rate_limits:
+  note: "Credit-based system (compute points)."
+  free: "Limited compute points per month"
+  premium: "Increased compute points, priority generation"
+
+cost_model: freemium
+cost_per_unit:
+  free: "Limited generations per month"
+  premium: "$20/month — higher limits, private generations"
+
+capabilities:
+  - "Natural language to React/Next.js UI components and full pages"
+  - "Uses Shadcn UI and Tailwind CSS as the primary design system"
+  - "Iterative UI refinement via chat"
+  - "One-click deployment to Vercel"
+  - "Code export — copy-paste or npx command to bring components into local projects"
+  - "Support for multi-file projects and complex layouts"
+  - "Image-to-code: convert screenshots to working Shadcn/Tailwind components"
+
+limitations:
+  - "NO public REST API for programmatic generation"
+  - "Optimized for React/Next.js — limited support for other frameworks"
+  - "Generated code requires Shadcn UI / Tailwind environment to work seamlessly"
+  - "Complex business logic generation is less robust than UI generation"
+
+example_request:
+  description: "N/A — no API. Operated via https://v0.dev"
+  workaround: |
+    # 1. Prompt at v0.dev: "Create a SaaS dashboard with a sidebar and a statistics grid"
+    # 2. Refine via chat: "Make the charts blue and add a user profile dropdown"
+    # 3. Use 'npx v0 add [id]' to import into your Next.js project
+
+palette_agent: "Builder — rapid UI prototyping; Architect — evaluating frontend design systems"
+palette_integration_plan:
+  current: "Used for rapid prototyping of Palette UI components"
+  phase_1: "Incorporate v0-generated components into the Palette Wiki surface"
+  phase_2: "Monitor for API/CLI expansions from Vercel"
+
+status: no_api
+evaluation_verdict: "NO API — Best-in-class for React/Next.js UI generation. Deeply integrated with Vercel ecosystem. Essential for RIU-550."

@@ -15,7 +15,7 @@ A governed system that maps enterprise AI problems to competency areas, structur
 [![SLOs](https://img.shields.io/badge/SLOs-7%2F7_passing-brightgreen)]()
 [![RIUs](https://img.shields.io/badge/RIUs-121-blue)]()
 [![Knowledge](https://img.shields.io/badge/knowledge-176_entries-blue)]()
-[![Recipes](https://img.shields.io/badge/recipes-69-blue)]()
+[![Recipes](https://img.shields.io/badge/recipes-70-blue)]()
 [![License](https://img.shields.io/badge/license-private-lightgrey)]()
 
 </div>
@@ -62,7 +62,7 @@ A voice-first interface connecting 5 LLM agents (Claude, Mistral, GPT, Qwen, Per
 |:--|:--|
 | Competency Areas (RIUs) | 121 (81 internal, 40 service-routed) |
 | Knowledge Entries | 176 with verified source citations and evidence tiers |
-| Integration Recipes | 69 (auth, endpoints, cost, quality tier) |
+| Integration Recipes | 70 (auth, endpoints, cost, quality tier) |
 | Service Routing | 106 services across 40 routing profiles |
 | People Signals | 21 profiles, 33 tools tracked |
 | Override Registry | 19 explicit mappings for ambiguous cases |
@@ -265,7 +265,7 @@ palette/
 ├── taxonomy/releases/v1.3/             # 121 competency areas (RIUs)
 ├── knowledge-library/v1.4/             # 176 entries with evidence tiers
 ├── buy-vs-build/
-│   ├── integrations/                   # 69 integration recipes
+│   ├── integrations/                   # 70 integration recipes
 │   ├── service-routing/v1.0/           # 106 services, 40 routing profiles
 │   └── people-library/v1.1/           # 21 profiles, 33 tools tracked
 ├── mission-canvas/                     # Voice-first execution platform

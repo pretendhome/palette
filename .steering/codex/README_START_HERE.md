@@ -26,16 +26,18 @@ Read order (fast path):
 2. `FAILURE_MODES_AND_COUNTERMEASURES.md`
 3. `WORKING_STYLE_AND_EDGE.md`
 4. `REVIEW_AND_MERGE_DISCIPLINE.md`
+5. `PALETTE_SYSTEM_SYNTHESIS_FOR_CODEX.md`
 
 Current high-priority handoff:
 - `OPENAI_TAKEHOME_HANDOFF_2026-03-11.md`
 
 Start sequence for a fresh session:
 1. Re-read `MESSAGE_TO_FUTURE_CODEX.md`
-2. Re-read `OPENAI_TAKEHOME_HANDOFF_2026-03-11.md`
-3. Confirm Codex voice status in `/home/mical/.codex/config.toml`
-4. Prefer voice-driven prompting for ideation, rehearsal, and interview prep
-5. When the take-home arrives, switch immediately from broad prep to execution mode
+2. Re-read `PALETTE_SYSTEM_SYNTHESIS_FOR_CODEX.md`
+3. Re-read `OPENAI_TAKEHOME_HANDOFF_2026-03-11.md`
+4. Confirm Codex voice status in `/home/mical/.codex/config.toml`
+5. Prefer voice-driven prompting for ideation, rehearsal, and interview prep
+6. When the take-home arrives, switch immediately from broad prep to execution mode
 
 Use this folder before:
 - stress tests

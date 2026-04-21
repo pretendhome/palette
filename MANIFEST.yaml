@@ -60,14 +60,14 @@ layers:
 
   integrations:
     path: buy-vs-build/integrations/
-    entries: 69
+    entries: 70
     unit: recipe directory
     status: active
 
   lenses:
     version: v0
     path: lenses/releases/v0/
-    entries: 27
+    entries: 28
     unit: role lens
     status: pilot
     creation_skill: skills/lenses/lens-creation-methodology.md

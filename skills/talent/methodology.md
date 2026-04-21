@@ -32,14 +32,19 @@ Five source files work together:
 - **`ANSWER_BACKBONE.md`** — topic-indexed experience library for building cheatsheet answers. Organized by interview topic (SQL, dashboards, AI agents, etc.), each with multiple experiences and verified numbers. Use this to assign different experiences to different cheatsheet sections — never reuse the same story in two sections. Built from the inventory and stories above.
 - **`build_resume.py`** — parameterized resume builder. Each profile selects different headline, summary, bullet variants, and Palette framing.
 
-Additional local source layer for job-search strategy:
-- **`/home/mical/fde/implementations/talent/nsa/index.yaml`** — query map into the local Never Search Alone corpus
-- **`/home/mical/fde/implementations/talent/nsa/CMF_SYNTHESIS_2026-04-03.md`** — Mical's current candidate-market-fit thesis
-- **`/home/mical/fde/implementations/talent/nsa/MNOOKIN_TWO_PAGER_MICAL.md`** — Mical's wants / anti-wants / self-discovery
+Additional local source layer for job-search strategy (user-specific, optional):
+- **`~/.job-search/nsa/index.yaml`** — query map into the user's Never Search Alone corpus (if exists)
+- **`~/.job-search/nsa/CMF_SYNTHESIS.md`** — the user's current candidate-market-fit thesis (if exists)
+- **`~/.job-search/nsa/MNOOKIN_TWO_PAGER.md`** — the user's wants / anti-wants / self-discovery (if exists)
 
-## NSA Pre-Filter
+Legacy paths (Mical-specific, check if above not found):
+- `fde/implementations/talent/nsa/index.yaml`
+- `fde/implementations/talent/nsa/CMF_SYNTHESIS_2026-04-03.md`
+- `fde/implementations/talent/nsa/MNOOKIN_TWO_PAGER_MICAL.md`
 
-Before investing in a role, check whether it fits the local NSA evidence:
+## NSA Pre-Filter (optional — skip if no NSA files exist for this user)
+
+If the user has NSA files, check role fit against them before investing:
 1. Does it align with the current CMF zones?
 2. Does it avoid the anti-target environments identified in the CMF synthesis?
 3. Is the narrative consistent with the Mnookin two-pager, or is it another one-off story?
@@ -214,20 +219,20 @@ Build 5-6 focused documents, NOT 1-2 monolithic ones (Glean learning: modular > 
 |---|---|---|
 | **Fit Analysis** | Score each requirement, identify gaps | 30 min |
 | **Company Research Brief** | Product, market, competitive, culture | 30-60 min |
-| **Interview Cheatsheet** | Actual spoken answers — dense paragraphs per topic (see CHEATSHEET.md format in `job-search-command.md`) | 30 min |
-| **Company Prep** | Coaching context: what they're testing, risks, mitigations, questions to ask (COMPANY_PREP.md) | 15 min |
+| **Interview Cheatsheet** | Actual spoken answers about you + your fit — dense paragraphs per topic (see CHEATSHEET.md format in `job-search-command.md`) | 30 min |
+| **Company Systems Cheatsheet** | Actual spoken answers about what the company is building, how its systems work, and what to say about them (COMPANY_SYSTEMS.md) | 15 min |
 | **Behavioral Stories** | 5-7 stories from story bank, tailored to role | 30 min |
 | **Simulation Drills** | 4 rounds of practice scenarios | 60-120 min |
 | **Day-of Protocol** | Energy management, anchor messages, pivots | 15 min |
 
-### Experience Assignment (before writing Cheatsheet + Company Prep)
+### Experience Assignment (before writing Cheatsheet + Company Systems)
 Before writing any answers, build an internal assignment table using `ANSWER_BACKBONE.md`:
 1. List the major topics from the JD
 2. For each topic, pick the strongest experience from ANSWER_BACKBONE.md
 3. Once assigned, that experience is off-limits for other sections
 4. Verify: no experience appears in two sections
 
-This step is what prevents double-dipping (e.g., the same Foursquare/TripAdvisor story appearing in both SQL and Dashboards). The cheatsheet and company prep are always generated as a pair — cheatsheet has the spoken answers, company prep has the coaching context.
+This step is what prevents double-dipping (e.g., the same Foursquare/TripAdvisor story appearing in both SQL and Dashboards). The two cheatsheets are always generated as a pair — one for the user's spoken fit answers, one for the company-only spoken answers.
 
 ### Story Bank Protocol
 1. Select 5-7 stories from `experience-inventory.yaml > stories` matching the role
