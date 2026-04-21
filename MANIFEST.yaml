@@ -44,9 +44,14 @@ layers:
     version: v1.0
     path: buy-vs-build/v1.0/palette_company_riu_mapping_v1.0.yaml
     generated: 2026-02-10
-    entries: 127
+    entries: 12
     unit: company
-    status: baseline
+    status: active
+    audit: 2026-04-21
+    features_added: [company_id, status, last_validated, build_vs_buy_assessment]
+    related:
+      lens_index: buy-vs-build/people-library/v1.1/lens_index.yaml
+      recipe_mapping: buy-vs-build/recipe_company_mapping.yaml
 
   service_routing:
     version: v1.0

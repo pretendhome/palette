@@ -3,7 +3,7 @@
 
 **Date**: 2026-04-21
 **Status**: SPEC — build Thursday/Friday after interview gauntlet
-**Owner**: Claude (spec), Mical (build)
+**Owner**: Claude (spec), operator (build)
 **Principle**: The smallest system that can be trusted in production.
 
 ---

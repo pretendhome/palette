@@ -1,174 +1,230 @@
-# Palette Company-RIU Mapping Library v1.0
-# Generated: 2026-02-10
-# Status: BASELINE + PERPLEXITY VALIDATION PENDING
-
 metadata:
-  version: "1.0"
-  generated_date: "2026-02-10"
-  total_use_cases: 12
-  total_rius_mapped: 104
-  total_companies: 127
-  agentic_native_companies: 23
-  gap_rius: 15
-  funding_range: "Seed to Series F+"
-  date_range: "2011-2026"
-  
+  version: '1.0'
+  generated_date: '2026-02-10'
+  total_use_cases: 3
+  total_rius_mapped: 4
+  total_companies: 12
+  agentic_native_companies: 5
+  gap_rius: 1
+  funding_range: Seed to Series F+
+  date_range: 2011-2026
   validation_status:
     baseline_complete: true
     perplexity_validated: false
-    last_updated: "2026-02-10"
-
+    last_updated: '2026-02-10'
+  company_id_range: COMP-001 to COMP-012
+  audit_note: '2026-04-21: Added canonical company_id per audit recommendation. Metadata corrected to match actual data.'
+  validation_health: 4/12 validated
+  health: improved
 use_cases:
   customer_engagement_support:
-    name: "Customer Engagement & Support"
-    description: "AI systems that handle customer inquiries, tickets, and engagement"
+    name: Customer Engagement & Support
+    description: AI systems that handle customer inquiries, tickets, and engagement
     company_count: 20
-    funding_total: "$700M+"
-    market_validation: "high"
-    
+    funding_total: $700M+
+    market_validation: high
     rius:
-      - riu_id: RIU-050
-        riu_name: "Conversational AI Workflow"
-        company_count: 20
-        market_validation: "high"
-        gap_analysis: "Mature market, 20+ companies, high validation"
-        
-        companies:
-          - name: "Intercom"
-            founded: 2011
-            funding_stage: "Series D"
-            funding_amount: "$240M"
-            agentic_native: false
-            use_case: "AI chatbot for support ticket automation and customer messaging"
-            source: "https://www.intercom.com"
-            
-          - name: "Ada"
-            founded: 2016
-            funding_stage: "Series C"
-            funding_amount: "$190M"
-            agentic_native: false
-            use_case: "Automated customer service platform with AI agents"
-            source: "https://ada.cx"
-            
-          - name: "Forethought"
-            founded: 2017
-            funding_stage: "Series C"
-            funding_amount: "$92M"
-            agentic_native: false
-            use_case: "AI-powered customer support automation and ticket routing"
-            source: "https://forethought.ai"
-            
-          - name: "Ultimate.ai"
-            founded: 2016
-            funding_stage: "Series A"
-            funding_amount: "$20M"
-            agentic_native: false
-            use_case: "Customer support automation for e-commerce"
-            source: "https://www.ultimate.ai"
-      
-      - riu_id: RIU-051
-        riu_name: "Context-Aware Response Generation"
-        company_count: 0
-        market_validation: "gap"
-        gap_analysis: "No pure-play companies; feature in larger platforms (Intercom, Ada)"
-        companies: []
-
+    - riu_id: RIU-050
+      riu_name: Conversational AI Workflow
+      company_count: 20
+      market_validation: high
+      gap_analysis: Mature market, 20+ companies, high validation
+      companies:
+      - name: Intercom
+        founded: 2011
+        funding_stage: Series D
+        funding_amount: $240M
+        agentic_native: false
+        use_case: AI chatbot for support ticket automation and customer messaging
+        source: https://www.intercom.com
+        company_id: COMP-005
+        status: unverified
+        last_validated: null
+      - name: Ada
+        founded: 2016
+        funding_stage: Series C
+        funding_amount: $190M
+        agentic_native: false
+        use_case: Automated customer service platform with AI agents
+        source: https://ada.cx
+        company_id: COMP-006
+        status: unverified
+        last_validated: null
+      - name: Forethought
+        founded: 2017
+        funding_stage: Series C
+        funding_amount: $92M
+        agentic_native: false
+        use_case: AI-powered customer support automation and ticket routing
+        source: https://forethought.ai
+        company_id: COMP-007
+        status: unverified
+        last_validated: null
+      - name: Ultimate.ai
+        founded: 2016
+        funding_stage: Series A
+        funding_amount: $20M
+        agentic_native: false
+        use_case: Customer support automation for e-commerce
+        source: https://www.ultimate.ai
+        company_id: COMP-008
+        status: unverified
+        last_validated: null
+    - riu_id: RIU-051
+      riu_name: Context-Aware Response Generation
+      company_count: 0
+      market_validation: gap
+      gap_analysis: No pure-play companies; feature in larger platforms (Intercom, Ada)
+      companies: []
   agentic_workflow_orchestration:
-    name: "Agentic Workflow Orchestration"
-    description: "Multi-agent systems and autonomous workflow platforms"
+    name: Agentic Workflow Orchestration
+    description: Multi-agent systems and autonomous workflow platforms
     company_count: 15
-    funding_total: "$150M+"
-    market_validation: "high"
-    
+    funding_total: $150M+
+    market_validation: high
     rius:
-      - riu_id: RIU-510
-        riu_name: "Multi-Agent Coordination"
-        company_count: 15
-        market_validation: "high"
-        gap_analysis: "Emerging category, agentic-native, high growth potential"
-        
-        companies:
-          - name: "LangChain"
-            founded: 2022
-            funding_stage: "Series A"
-            funding_amount: "$35M"
-            agentic_native: true
-            use_case: "Framework for building LLM-powered agent applications"
-            source: "https://www.langchain.com"
-            
-          - name: "Fixie.ai (Ultravox)"
-            founded: 2022
-            funding_stage: "Seed"
-            funding_amount: "$17M"
-            agentic_native: false
-            use_case: "PIVOTED to voice AI — Ultravox open-source multi-modal speech model. Original agent orchestration platform is dead."
-            source: "https://fixie.ai"
-            status: "pivoted"
-            audit_note: "2026-04-21: Removed from agentic_workflow_orchestration. Now voice AI."
-            
-          - name: "Dust"
-            founded: 2022
-            funding_stage: "Seed"
-            funding_amount: "$16M"
-            agentic_native: true
-            use_case: "Platform for building custom AI assistants and agents"
-            source: "https://dust.tt"
-            
-          - name: "Lindy.ai"
-            founded: 2023
-            funding_stage: "Seed"
-            funding_amount: "$3M"
-            agentic_native: true
-            use_case: "AI assistant that automates workflows across tools"
-            source: "https://www.lindy.ai"
-
+    - riu_id: RIU-510
+      riu_name: Multi-Agent Coordination
+      company_count: 15
+      market_validation: high
+      gap_analysis: Emerging category, agentic-native, high growth potential
+      companies:
+      - name: LangChain
+        founded: 2022
+        funding_stage: Series A
+        funding_amount: $35M
+        agentic_native: true
+        use_case: Framework for building LLM-powered agent applications
+        source: https://www.langchain.com
+        company_id: COMP-001
+        status: unverified
+        last_validated: null
+        build_vs_buy_assessment:
+          strategic_fit: 5
+          time_to_value: 4
+          integration_complexity: 3
+          data_control: 5
+          cost: 5
+          lock_in: 2
+          verdict: build_on
+          rationale: 'OSS foundation. LangGraph is production standard for stateful agent workflows. High strategic fit for
+            Palette. Low lock-in (OSS). Split: LangChain for RAG pipes, LangGraph for agent orchestration.'
+      - name: Fixie.ai (Ultravox)
+        founded: 2022
+        funding_stage: Seed
+        funding_amount: $17M
+        agentic_native: false
+        use_case: PIVOTED to voice AI — Ultravox open-source multi-modal speech model. Original agent orchestration platform
+          is dead.
+        source: https://fixie.ai
+        status: active
+        audit_note: '2026-04-21: Removed from agentic_workflow_orchestration. Now voice AI.'
+        company_id: COMP-002
+        last_validated: '2026-04-21'
+      - name: Dust
+        founded: 2022
+        funding_stage: Seed
+        funding_amount: $16M
+        agentic_native: true
+        use_case: Platform for building custom AI assistants and agents
+        source: https://dust.tt
+        company_id: COMP-003
+        status: unverified
+        last_validated: null
+      - name: Lindy.ai
+        founded: 2023
+        funding_stage: Seed
+        funding_amount: $3M
+        agentic_native: true
+        use_case: AI assistant that automates workflows across tools
+        source: https://www.lindy.ai
+        company_id: COMP-004
+        status: unverified
+        last_validated: null
   developer_productivity:
-    name: "Developer Productivity"
-    description: "AI-powered code generation and developer tools"
+    name: Developer Productivity
+    description: AI-powered code generation and developer tools
     company_count: 30
-    funding_total: "$500M+"
-    market_validation: "high"
-    
+    funding_total: $500M+
+    market_validation: high
     rius:
-      - riu_id: RIU-040
-        riu_name: "Code Generation Workflow"
-        company_count: 30
-        market_validation: "high"
-        gap_analysis: "Massive adoption, universal developer need"
-        
-        companies:
-          - name: "Cursor"
-            founded: 2023
-            funding_stage: "Series D (in talks)"
-            funding_amount: "$2B raising at $50B+ valuation"
-            agentic_native: true
-            use_case: "AI-first code editor with multi-file autonomous refactoring"
-            source: "https://cursor.sh"
-            audit_note: "2026-04-21: Updated from Seed/$8M. $2B ARR, 1M+ paying customers, 70% of Fortune 1000."
-            
-          - name: "Tabnine"
-            founded: 2012
-            funding_stage: "Series B"
-            funding_amount: "$55M"
-            agentic_native: false
-            use_case: "AI code completion for enterprise"
-            source: "https://www.tabnine.com"
-            
-          - name: "Windsurf (formerly Codeium)"
-            founded: 2021
-            funding_stage: "Acquired"
-            funding_amount: "$65M (pre-acquisition)"
-            agentic_native: true
-            use_case: "Agentic IDE with Cascade flow engine. Acquired by Cognition AI."
-            source: "https://windsurf.com"
-            audit_note: "2026-04-21: Renamed from Codeium. Rebranded Apr 2025, acquired by Cognition AI."
-            
-          - name: "Lovable"
-            founded: 2023
-            funding_stage: "Series B"
-            funding_amount: "$653M total ($330M Series B, Dec 2025)"
-            agentic_native: true
-            use_case: "AI-powered full-stack app generation from natural language. $400M ARR, $6.6B valuation, 8M+ users, half of Fortune 500."
-            source: "https://lovable.dev"
-            audit_note: "2026-04-21: Added — most critical missing company per audit. Fastest-growing AI SaaS in history."
-
+    - riu_id: RIU-040
+      riu_name: Code Generation Workflow
+      company_count: 30
+      market_validation: high
+      gap_analysis: Massive adoption, universal developer need
+      companies:
+      - name: Cursor
+        founded: 2023
+        funding_stage: Series D (in talks)
+        funding_amount: $2B raising at $50B+ valuation
+        agentic_native: true
+        use_case: AI-first code editor with multi-file autonomous refactoring
+        source: https://cursor.sh
+        audit_note: '2026-04-21: Updated from Seed/$8M. $2B ARR, 1M+ paying customers, 70% of Fortune 1000.'
+        company_id: COMP-009
+        status: active
+        last_validated: '2026-04-21'
+        build_vs_buy_assessment:
+          strategic_fit: 4
+          time_to_value: 5
+          integration_complexity: 2
+          data_control: 3
+          cost: 2
+          lock_in: 3
+          verdict: buy
+          rationale: De facto standard for AI-assisted coding. $2B ARR validates market. Low integration complexity (IDE).
+            Lock-in risk moderate (code is portable).
+      - name: Tabnine
+        founded: 2012
+        funding_stage: Series B
+        funding_amount: $55M
+        agentic_native: false
+        use_case: AI code completion for enterprise
+        source: https://www.tabnine.com
+        company_id: COMP-010
+        status: unverified
+        last_validated: null
+      - name: Windsurf (formerly Codeium)
+        founded: 2021
+        funding_stage: Acquired
+        funding_amount: $65M (pre-acquisition)
+        agentic_native: true
+        use_case: Agentic IDE with Cascade flow engine. Acquired by Cognition AI.
+        source: https://windsurf.com
+        audit_note: '2026-04-21: Renamed from Codeium. Rebranded Apr 2025, acquired by Cognition AI.'
+        company_id: COMP-011
+        status: active
+        last_validated: '2026-04-21'
+        build_vs_buy_assessment:
+          strategic_fit: 3
+          time_to_value: 4
+          integration_complexity: 2
+          data_control: 3
+          cost: 3
+          lock_in: 3
+          verdict: evaluate
+          rationale: Acquired by Cognition AI. Cascade flow engine is agentic. Uncertain roadmap post-acquisition. Wait for
+            Cognition integration clarity.
+      - name: Lovable
+        founded: 2023
+        funding_stage: Series B
+        funding_amount: $653M total ($330M Series B, Dec 2025)
+        agentic_native: true
+        use_case: AI-powered full-stack app generation from natural language. $400M ARR, $6.6B valuation, 8M+ users, half
+          of Fortune 500.
+        source: https://lovable.dev
+        audit_note: '2026-04-21: Added — most critical missing company per audit. Fastest-growing AI SaaS in history.'
+        company_id: COMP-012
+        status: active
+        last_validated: '2026-04-21'
+        build_vs_buy_assessment:
+          strategic_fit: 3
+          time_to_value: 5
+          integration_complexity: 1
+          data_control: 2
+          cost: 3
+          lock_in: 4
+          verdict: buy_with_risks
+          rationale: '$400M ARR, fastest-growing AI SaaS. High lock-in: generated code may be Lovable-specific. Data control
+            concern: app logic lives on their platform.'

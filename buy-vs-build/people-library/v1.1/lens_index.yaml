@@ -1,0 +1,286 @@
+metadata:
+  generated: '2026-04-21'
+  purpose: Agent routing surface for people library lenses. O(1) lookup by activate_when keywords.
+  total_lenses: 21
+  overdue: 21
+  source: buy-vs-build/people-library/v1.1/people_library_v1.1.yaml
+lens_routing_table:
+- lens_id: LENS-PERSON-001
+  person_id: PERSON-001
+  person_name: Ruben Hassid
+  signal_type: content_educator
+  signal_quality: high
+  status: active
+  activate_when:
+  - Looking for non-technical AI use cases
+  - Prompt engineering tactics for content
+  - Consumer AI tool adoption signals
+  - AI for personal productivity or writing
+  search_cadence: weekly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-002
+  person_id: PERSON-002
+  person_name: Anisha Jain
+  signal_type: content_educator
+  signal_quality: low
+  status: active
+  activate_when:
+  - AI writing techniques
+  - Competitive intelligence with LLMs
+  - Content repurposing workflows
+  search_cadence: weekly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-003
+  person_id: PERSON-003
+  person_name: Axelle Malek
+  signal_type: content_educator
+  signal_quality: medium
+  status: active
+  activate_when:
+  - AI video generation tool comparison
+  - AI image generation news
+  - Daily AI tool updates
+  search_cadence: weekly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-004
+  person_id: PERSON-004
+  person_name: Maria Zhanette Yap
+  signal_type: curator
+  signal_quality: low
+  status: active
+  activate_when:
+  - Discovering new AI influencers to add to people-library
+  - Finding curated lists of AI educators
+  search_cadence: monthly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-005
+  person_id: PERSON-005
+  person_name: Olivia Moore
+  signal_type: vc_investor
+  signal_quality: high
+  status: active
+  activate_when:
+  - Consumer AI market sizing
+  - Top AI apps by usage (not hype)
+  - a16z portfolio signals — what is a16z backing?
+  - Understanding which AI companies are actually being used
+  search_cadence: monthly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-006
+  person_id: PERSON-006
+  person_name: Guillermo Rauch
+  signal_type: founder_builder
+  signal_quality: high
+  status: active
+  activate_when:
+  - Frontend AI infrastructure decisions
+  - AI SDK choices for web apps
+  - LLM routing/gateway at the infrastructure layer
+  - Deploying agents on web infrastructure
+  search_cadence: biweekly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-007
+  person_id: PERSON-007
+  person_name: Filip Mark
+  signal_type: vc_investor
+  signal_quality: medium
+  status: active
+  activate_when:
+  - European AI startup funding signals
+  - Design-led AI product investments
+  - AI gateway/routing market intelligence
+  search_cadence: monthly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-008
+  person_id: PERSON-008
+  person_name: Anton Osika
+  signal_type: founder_builder
+  signal_quality: high
+  status: active
+  activate_when:
+  - No-code/vibe-coding tool evaluation
+  - AI-powered app generation use cases
+  - Understanding the democratized software market
+  - Non-technical founder tooling
+  search_cadence: biweekly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-009
+  person_id: PERSON-009
+  person_name: Felix Haas
+  signal_type: founder_builder
+  signal_quality: high
+  status: active
+  activate_when:
+  - AI UX design patterns
+  - How to design human-AI interaction
+  - Approval-loop interface architecture
+  - Design-first product development
+  search_cadence: biweekly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-010
+  person_id: PERSON-010
+  person_name: Oskar Elvhage
+  signal_type: founder_builder
+  signal_quality: medium
+  status: active
+  activate_when:
+  - AI-native marketing platforms
+  - Agentic marketing workflows
+  search_cadence: monthly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-011
+  person_id: PERSON-011
+  person_name: Joel Nordström
+  signal_type: founder_builder
+  signal_quality: high
+  status: active
+  activate_when:
+  - AI in finance/treasury operations
+  - B2B fintech signals in AI-native companies
+  search_cadence: monthly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-012
+  person_id: PERSON-012
+  person_name: Tanay Kothari
+  signal_type: founder_builder
+  signal_quality: high
+  status: active
+  activate_when:
+  - Voice-to-text AI evaluation
+  - Productivity tool integration decisions
+  - AI input modality (voice vs typing) decisions for Palette
+  search_cadence: monthly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-013
+  person_id: PERSON-013
+  person_name: Victoria Liang
+  signal_type: product_insider
+  signal_quality: low
+  status: active
+  activate_when:
+  - Wispr Flow product updates and campaigns
+  search_cadence: monthly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-014
+  person_id: PERSON-014
+  person_name: Alex Patrascu
+  signal_type: creative_technologist
+  signal_quality: high
+  status: active
+  activate_when:
+  - AI video generation tool evaluation
+  - Cinematic AI pipeline decisions
+  - Creative brand content with AI
+  - Hollywood AI adoption signals
+  search_cadence: biweekly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-015
+  person_id: PERSON-015
+  person_name: Sebastien Jefferies
+  signal_type: creative_technologist
+  signal_quality: medium
+  status: active
+  activate_when:
+  - AI image prompt engineering techniques
+  - Creator tools for AI content
+  - Consumer-facing AI video/image tools
+  search_cadence: monthly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-016
+  person_id: PERSON-016
+  person_name: Grant Lee
+  signal_type: founder_builder
+  signal_quality: high
+  status: active
+  activate_when:
+  - AI presentation or document generation
+  - Lean AI-native team building philosophy
+  - Superhuman Go ecosystem
+  - AI-native profitability benchmarks
+  search_cadence: biweekly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-017
+  person_id: PERSON-017
+  person_name: Pablo Palafox
+  signal_type: founder_builder
+  signal_quality: high
+  status: active
+  activate_when:
+  - Enterprise AI voice agents
+  - AI in logistics/freight/supply chain
+  - Vertical AI agent adoption
+  search_cadence: monthly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-019
+  person_id: PERSON-019
+  person_name: Andrej Karpathy
+  signal_type: content_educator
+  signal_quality: high
+  status: active
+  activate_when:
+  - Frontier AI research direction
+  - LLM architecture understanding
+  - Coding paradigm shifts
+  - Agentic AI patterns and engineering
+  search_cadence: biweekly
+  last_run: '2026-02-25'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-020
+  person_id: PERSON-020
+  person_name: Chip Huyen
+  signal_type: content_educator
+  signal_quality: high
+  status: active
+  activate_when:
+  - Production ML system design decisions
+  - AI engineering architecture patterns
+  - LLM application evaluation frameworks
+  - Model serving and data pipeline decisions
+  search_cadence: monthly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-021
+  person_id: PERSON-021
+  person_name: Matthieu Lorrain
+  signal_type: product_insider
+  signal_quality: high
+  status: active
+  activate_when:
+  - Google DeepMind creative AI product signals
+  - Veo / Genie development direction
+  - AI filmmaking institutional adoption
+  - AI video generation model selection
+  search_cadence: monthly
+  last_run: '2026-02-24'
+  cadence_status: overdue
+- lens_id: LENS-PERSON-022
+  person_id: PERSON-022
+  person_name: PJ Accetturo
+  signal_type: founder_builder
+  signal_quality: high
+  status: active
+  activate_when:
+  - AI video tool commercial benchmarks
+  - AI advertising adoption by brands
+  - 'Cost comparison: AI vs traditional production'
+  - Which AI video tools work for commercial production
+  search_cadence: monthly
+  last_run: '2026-02-24'
+  cadence_status: overdue

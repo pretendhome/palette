@@ -1,0 +1,384 @@
+recipe_to_company_mapping:
+  metadata:
+    generated: '2026-04-21'
+    total_recipes: 75
+    mapped_to_index: 1
+    unmapped: 74
+    purpose: Links 75 integration recipes to company index entries. Enables orchestrator to check build-vs-buy status without
+      parsing individual recipe files.
+  mappings:
+  - recipe_dir: alembic
+    recipe_name: alembic
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: argo-rollouts
+    recipe_name: argo-rollouts
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: arize-ai
+    recipe_name: arize-ai
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: aws-comprehend
+    recipe_name: AWS Comprehend
+    category: NLP
+    quality_tier: tier_1
+    in_company_index: false
+  - recipe_dir: aws-comprehend-pii
+    recipe_name: AWS Comprehend PII Detection
+    category: Data Privacy
+    quality_tier: tier_1
+    in_company_index: false
+  - recipe_dir: aws-secrets-manager
+    recipe_name: AWS Secrets Manager
+    category: Security
+    quality_tier: tier_1
+    in_company_index: false
+  - recipe_dir: bedrock-guardrails
+    recipe_name: bedrock-guardrails
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: braintrust
+    recipe_name: braintrust
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: canva-ai
+    recipe_name: canva-ai
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: claude-api
+    recipe_name: claude-api
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: cohere-rerank
+    recipe_name: cohere-rerank
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: crunchbase
+    recipe_name: crunchbase
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: datadog
+    recipe_name: datadog
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: dbt
+    recipe_name: dbt
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: doppler
+    recipe_name: doppler
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: elasticache
+    recipe_name: elasticache
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: evidently-ai
+    recipe_name: evidently-ai
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: fairlearn
+    recipe_name: fairlearn
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: flyway
+    recipe_name: flyway
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: gamma-api
+    recipe_name: gamma-api
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: garak
+    recipe_name: garak
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: gemini-api
+    recipe_name: gemini-api
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: github-api
+    recipe_name: github-api
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: gptcache
+    recipe_name: gptcache
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: grafana-cloud
+    recipe_name: grafana-cloud
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: granola
+    recipe_name: granola
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: great-expectations
+    recipe_name: great-expectations
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: grok-api
+    recipe_name: grok-api
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: guardrails-ai
+    recipe_name: Guardrails AI
+    category: LLM Safety
+    quality_tier: tier_1
+    in_company_index: false
+  - recipe_dir: hashicorp-vault
+    recipe_name: hashicorp-vault
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: helicone
+    recipe_name: helicone
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: honeycomb
+    recipe_name: honeycomb
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: honeycomb-slos
+    recipe_name: honeycomb-slos
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: instructor
+    recipe_name: instructor
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: jina-reranker
+    recipe_name: jina-reranker
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: k6
+    recipe_name: k6
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: kling-ai
+    recipe_name: kling-ai
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: lakera-guard
+    recipe_name: lakera-guard
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: langsmith
+    recipe_name: langsmith
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: launchdarkly
+    recipe_name: launchdarkly
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: leonardo-ai
+    recipe_name: leonardo-ai
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: lime
+    recipe_name: lime
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: litellm
+    recipe_name: litellm
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: locust
+    recipe_name: locust
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: lovable
+    recipe_name: lovable
+    category: unknown
+    quality_tier: unknown
+    in_company_index: true
+  - recipe_dir: microsoft-presidio
+    recipe_name: microsoft-presidio
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: nannyml
+    recipe_name: nannyml
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: new-relic
+    recipe_name: new-relic
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: nobl9
+    recipe_name: nobl9
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: notebooklm
+    recipe_name: notebooklm
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: openai-api
+    recipe_name: openai-api
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: openlineage
+    recipe_name: openlineage
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: openrouter
+    recipe_name: openrouter
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: outlines
+    recipe_name: outlines
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: perplexity-api
+    recipe_name: perplexity-api
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: pgvector
+    recipe_name: pgvector
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: pinecone
+    recipe_name: pinecone
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: pitchbook
+    recipe_name: pitchbook
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: prisma-migrate
+    recipe_name: prisma-migrate
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: promptfoo
+    recipe_name: promptfoo
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: qdrant
+    recipe_name: qdrant
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: redis-semantic
+    recipe_name: Redis (Semantic Layer)
+    category: Vector Search
+    quality_tier: tier_1
+    in_company_index: false
+  - recipe_dir: runway
+    recipe_name: runway
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: seedance-pro
+    recipe_name: seedance-pro
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: shap
+    recipe_name: shap
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: soda
+    recipe_name: soda
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: statsig
+    recipe_name: statsig
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: tavily
+    recipe_name: tavily
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: topaz-labs
+    recipe_name: topaz-labs
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: unleash
+    recipe_name: unleash
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: upstash-redis
+    recipe_name: upstash-redis
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: v0-dev
+    recipe_name: v0-dev
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: vercel-ai-gateway
+    recipe_name: vercel-ai-gateway
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: whisper-self-hosted
+    recipe_name: whisper-self-hosted
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
+  - recipe_dir: wispr-flow
+    recipe_name: wispr-flow
+    category: unknown
+    quality_tier: unknown
+    in_company_index: false
