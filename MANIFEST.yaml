@@ -60,7 +60,7 @@ layers:
 
   integrations:
     path: buy-vs-build/integrations/
-    entries: 70
+    entries: 75
     unit: recipe directory
     status: active
 

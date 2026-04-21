@@ -1,0 +1,10 @@
+name: Guardrails AI
+category: LLM Safety
+provider: Guardrails AI
+quality_tier: tier_1
+cost: "OSS free. Guardrails Hub free. Pro ~$50/month for hosted validators."
+auth: API key (GUARDRAILS_API_KEY) for hosted; none for OSS
+endpoint: https://api.guardrailsai.com (hosted) or local
+rate_limits: "OSS: unlimited. Hosted: plan-dependent."
+evaluation_verdict: ship_with_risks
+notes: "Pydantic-based output validation for LLMs. 100+ validators on Hub (PII, toxicity, SQL injection, hallucination). Python-native. Risk: hosted dependency for advanced validators."

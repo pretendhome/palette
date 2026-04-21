@@ -1,0 +1,10 @@
+name: Redis (Semantic Layer)
+category: Vector Search
+provider: Redis Ltd
+quality_tier: tier_1
+cost: "OSS free. Redis Cloud: from $7/month (100MB). Enterprise: custom pricing."
+auth: Redis password or ACL credentials
+endpoint: redis://host:6379 (default)
+rate_limits: "Limited by instance memory and CPU. Typical: 100K+ ops/sec."
+evaluation_verdict: ship
+notes: "RediSearch module adds vector similarity search (HNSW/FLAT). Use as semantic cache or low-latency vector store alongside primary vector DB. Sub-millisecond retrieval."

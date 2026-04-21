@@ -1,0 +1,10 @@
+name: AWS Secrets Manager
+category: Security
+provider: AWS
+quality_tier: tier_1
+cost: "$0.40/secret/month + $0.05 per 10,000 API calls"
+auth: AWS IAM (access key + secret or IAM role)
+endpoint: https://secretsmanager.{region}.amazonaws.com
+rate_limits: "5,000 requests per second per account per region"
+evaluation_verdict: ship
+notes: "Automatic rotation, cross-account access, CloudFormation integration. Use for API keys, DB credentials, certificates. Prefer over env vars for production."

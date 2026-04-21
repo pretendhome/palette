@@ -24,7 +24,7 @@ Palette is not one thing. It is three tightly coupled systems that share a commo
 - **Taxonomy** — 121 classified problem types (RIUs) across 6 workstreams, each with reversibility classification, failure modes, and agent assignments
 - **Knowledge Library** — 176 sourced entries with 565 citations, three-tier evidence bar, journey stage progression
 - **Service Routing** — 40 routed RIUs with ranked external service recommendations, cost logic, and integration paths
-- **Integration Recipes** — 70 service-specific recipes with auth, rate limits, code examples, and evaluation verdicts
+- **Integration Recipes** — 75 service-specific recipes with auth, rate limits, code examples, and evaluation verdicts
 - **People & Company Signals** — 21 active profiles, 43 tracked tools, signal quality ratings, cluster analysis
 
 **What it replaces**: The research tax. Teams don't have to re-evaluate dozens of tools for every new use case. The PIS already knows the landscape, checks internal knowledge first, routes to external services only when they materially improve the outcome, and returns governed recommendations with citations.
@@ -116,7 +116,7 @@ The honest framing: **Palette is an AI decision intelligence system that was bui
 |--------|-------|
 | Taxonomy RIUs | 121 (was 117) |
 | Knowledge library entries | 176 |
-| Integration recipes | 70 |
+| Integration recipes | 75 |
 | Service routing entries | 40 (80 internal_only, 40 both) |
 | People profiles | 21 active |
 | Company signals | 43 tools |

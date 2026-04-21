@@ -24,7 +24,7 @@ It is the system's architect, auditor, and advisor in one pass.
 The audit is organized around the 4-layer architecture:
 
 1. **Knowledge Structure** — Taxonomy (121 RIUs), Knowledge Library (176), People Library (21), Relationship Graph (2,013 quads), Company Index
-2. **Decision Infrastructure** — Service Routing (40), Integration Recipes (70), Classification, Service Name Mapping
+2. **Decision Infrastructure** — Service Routing (40), Integration Recipes (75), Classification, Service Name Mapping
 3. **Agent System** — 12 agents, SDK (86 tests), Wire Contract, Integrity Engine, Peers Bus
 4. **Enablement** — 121 modules, 5 constellations, 5 published paths, Certification Tracks, Assessment System
 

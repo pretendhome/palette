@@ -1,0 +1,59 @@
+name: Palette Integrity Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/*.py'
+      - '**/*.yaml'
+      - '**/*.json'
+      - '**/*.mjs'
+      - 'agents/**'
+      - 'core/**'
+      - 'scripts/**'
+      - 'sdk/**'
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Run PIS tests
+        run: uv run pytest -q scripts/palette_intelligence_system/test_*.py
+
+      - name: Run SDK tests
+        run: uv run pytest -q sdk/tests/
+
+      - name: Run integrity checks
+        run: uv run python -m scripts.palette_intelligence_system.integrity --checks-only
+
+      - name: Schema validation — all agent.json files
+        run: |
+          uv run python -c "
+          import json, pathlib, sys
+          agents_dir = pathlib.Path('agents')
+          failures = []
+          for aj in sorted(agents_dir.glob('*/agent.json')):
+              data = json.loads(aj.read_text())
+              for field in ['name', 'version', 'constraints']:
+                  if field not in data:
+                      failures.append(f'{aj}: missing {field}')
+          if failures:
+              for f in failures: print(f'FAIL: {f}')
+              sys.exit(1)
+          print(f'PASS: {len(list(agents_dir.glob(\"*/agent.json\")))} agent.json files validated')
+          "
+
+      - name: Secret scan
+        run: |
+          grep -rn "sk-[a-zA-Z0-9]\{20,\}\|AKIA[A-Z0-9]\{16\}\|ghp_[a-zA-Z0-9]\{36\}\|xoxb-" \
+            --include="*.py" --include="*.mjs" --include="*.js" --include="*.yaml" --include="*.json" \
+            . && echo "FAIL: secrets found" && exit 1 || echo "PASS: no secrets found"

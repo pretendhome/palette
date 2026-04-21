@@ -151,7 +151,7 @@ I built it because I wanted to understand, at a deep level, how these models act
 ### Extended Version — System Architecture
 "Palette has three tightly coupled layers that share one ontology:
 
-**Decision intelligence**: 121 classified problem types (RIUs), a 176-entry knowledge library with 466 citations, service routing across 40 routed RIUs, and 70 working integrations with auth, rate limits, and code examples. It classifies the problem, checks what it already knows, and routes to the right tool.
+**Decision intelligence**: 121 classified problem types (RIUs), a 176-entry knowledge library with 466 citations, service routing across 40 routed RIUs, and 75 working integrations with auth, rate limits, and code examples. It classifies the problem, checks what it already knows, and routes to the right tool.
 
 **Machine enablement**: 12 agents with bounded roles communicating through a wire contract — 7 fields in, 7 fields out — with an integrity engine that validates outputs before they ship. An SDK gives agents a shared base class, pre-emit validation, and a queryable relationship graph.
 

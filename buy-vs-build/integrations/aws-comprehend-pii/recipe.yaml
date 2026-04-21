@@ -1,0 +1,10 @@
+name: AWS Comprehend PII Detection
+category: Data Privacy
+provider: AWS
+quality_tier: tier_1
+cost: "Pay-per-request: $0.0001/unit (100 chars) for detection, $0.0002/unit for redaction."
+auth: AWS IAM (access key + secret or IAM role)
+endpoint: https://comprehend.{region}.amazonaws.com
+rate_limits: "Default 10 TPS for DetectPiiEntities, adjustable via Service Quotas"
+evaluation_verdict: ship
+notes: "Detects 12+ PII entity types (SSN, credit card, address, etc). ContainPiiEntities for binary check, DetectPiiEntities for entity-level. Redaction available."
