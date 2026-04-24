@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-044
 source_hash: sha256:0d92f215fb5b16e2
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -183,6 +183,7 @@ Post-deployment data quality issues require structured incident response: Detect
 - **Tier 1 (entry-level)**: [Introducing AWS Glue Data Quality anomaly detection](https://aws.amazon.com/blogs/big-data/introducing-aws-glue-data-quality-anomaly-detection/)
 - **Tier 1 (entry-level)**: [Monitoring data quality in third-party models with Amazon SageMaker Model Monitor](https://aws.amazon.com/blogs/awsmarketplace/monitoring-data-quality-in-third-party-models-with-amazon-sagemaker-model-monitor/)
 - **Tier 1 (entry-level)**: [Automated monitoring with SageMaker Model Monitor and Amazon A2I](https://aws.amazon.com/blogs/machine-learning/automated-monitoring-of-your-machine-learning-models-with-amazon-sagemaker-model-monitor-and-sending-predictions-to-human-review-workflows-using-amazon-a2i/)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

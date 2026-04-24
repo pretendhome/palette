@@ -88,10 +88,10 @@ layers:
 
 agents:
   path: agents/
-  count: 12
+  count: 13
   list:
     - { name: resolver,    role: "intent resolver — front door, maps input to RIU" }
-    - { name: researcher,  role: "research — internal libraries first, then Perplexity MCP" }
+    - { name: researcher,  role: "research — internal libraries first, then Perplexity MCP, auto-enrichment opt-in" }
     - { name: architect,   role: "system design and tradeoff evaluation" }
     - { name: builder,     role: "implementation within bounded spec" }
     - { name: narrator,    role: "GTM/narrative — evidence-based only" }
@@ -102,6 +102,7 @@ agents:
     - { name: business-plan-creation, role: "multi-agent business plan workflow" }
     - { name: health, role: "system integrity checklist and continuous improvement reflection" }
     - { name: total-health, role: "comprehensive cross-layer audit, identity coherence, optimization" }
+    - { name: remediation, role: "shared infrastructure for validator→debugger→builder loop" }
 
 sdk:
   path: sdk/
@@ -127,6 +128,7 @@ governance:
     record_vote: scripts/record_vote.py
     promote_proposal: scripts/promote_proposal.py
     bridge_feedback: scripts/bridge_feedback_to_proposals.py
+    auto_enrich: agents/researcher/auto_enrich.py
 
 scripts:
   integrity: "python3 -m scripts.palette_intelligence_system.integrity --checks-only"
@@ -197,6 +199,21 @@ voice_hub:
   port: 7890
   depends: [peers_broker, wiki, rime_api]
   status: active
+
+peers:
+  list:
+    - name: kiro.design
+      type: CLI
+      trust_tier: WORKING
+    - name: codex.implementation
+      type: CLI
+      trust_tier: WORKING
+    - name: gemini.specialist
+      type: CLI
+      trust_tier: WORKING
+    - name: hub.voice
+      type: ADAPTER
+      trust_tier: UNVALIDATED
 
 archive:
   path: archive/superseded-libraries/

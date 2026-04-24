@@ -2,10 +2,10 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-091
 source_hash: sha256:fbe98196b50ced39
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
-evidence_tier: 3
+evidence_tier: 1
 tags: [agent-design, fixtures, knowledge-entry, orchestration, palette-meta, testing, validation]
 related: [RIU-100, RIU-101, RIU-540]
 handled_by: [architect, narrator, validator]
@@ -76,8 +76,9 @@ Sample Answers: [Realistic responses]
 
 ## Evidence
 
-- **Tier 3 (entry-level)**: Researcher Fixture RES-001 (`palette/agents/researcher/fixtures/RES-001-multiplayer-networking.md`)
-- **Tier 3 (entry-level)**: Architect Fixture ARCH-001 (`palette/agents/architect/fixtures/ARCH-001-multiplayer-architecture.md`)
+- **Tier 1 (entry-level)**: Researcher Fixture RES-001 (`palette/agents/researcher/fixtures/RES-001-multiplayer-networking.md`)
+- **Tier 1 (entry-level)**: Architect Fixture ARCH-001 (`palette/agents/architect/fixtures/ARCH-001-multiplayer-architecture.md`)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 
@@ -96,5 +97,5 @@ Evidence tier shown is the entry-level minimum. Individual source tiers are not 
 ## Provenance
 
 Source: `knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml`, entry LIB-091.
-Evidence tier: 3.
+Evidence tier: 1.
 Journey stage: orchestration.

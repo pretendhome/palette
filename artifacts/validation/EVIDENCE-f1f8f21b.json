@@ -1,0 +1,8 @@
+{
+  "evidence_id": "f1f8f21b-b499-4a83-bd74-0aedfce27915",
+  "timestamp": "2026-04-23T22:58:24.797979+00:00",
+  "task": "Buffered Task",
+  "error": "Simulated failure",
+  "input_payload": null,
+  "validator_version": "2.0"
+}

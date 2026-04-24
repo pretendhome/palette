@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-052
 source_hash: sha256:90ece0df73df8527
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -247,6 +247,7 @@ AI post-mortems need standard incident structure PLUS AI-specific sections for m
 - **Tier 1 (entry-level)**: [Generative AI Lifecycle Operational Excellence framework on AWS](https://docs.aws.amazon.com/prescriptive-guidance/latest/gen-ai-lifecycle-operational-excellence/introduction.html)
 - **Tier 1 (entry-level)**: [Risk and Compliance Management for Generative AI](https://awslabs.github.io/generative-ai-atlas/topics/5_0_organization_adoption_framework/5_2_governance_and_organization/5_2_3_risk_and_compliance_mngmt.html)
 - **Tier 1 (entry-level)**: [Google SRE Book: Postmortem Culture — Learning from Failure](https://sre.google/sre-book/postmortem-culture/)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

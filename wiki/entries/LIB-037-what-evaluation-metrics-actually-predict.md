@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-037
 source_hash: sha256:01e99989f8738769
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -122,6 +122,7 @@ Most offline metrics don't predict production success. Focus on metrics that cor
 - **Tier 1 (entry-level)**: [Evaluate healthcare generative AI applications using LLM-as-a-judge on AWS](https://aws.amazon.com/blogs/machine-learning/evaluate-healthcare-generative-ai-applications-using-llm-as-a-judge-on-aws/)
 - **Tier 1 (entry-level)**: [Build an automated generative AI solution evaluation pipeline with Amazon Nova](https://aws.amazon.com/blogs/machine-learning/build-an-automated-generative-ai-solution-evaluation-pipeline-with-amazon-nova/)
 - **Tier 1 (entry-level)**: [MLflow: LLM Evaluation](https://mlflow.org/docs/latest/llms/llm-evaluate/index.html)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

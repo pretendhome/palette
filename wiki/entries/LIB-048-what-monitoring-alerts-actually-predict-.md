@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-048
 source_hash: sha256:8768b4255edbc463
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -167,6 +167,7 @@ Most AI alerts are noise. Focus on leading indicators that predict failures befo
 - **Tier 1 (entry-level)**: [Application Observability for GenAI Systems](https://awslabs.github.io/generative-ai-atlas/topics/3_0_architecture_and_design_patterns/3_1_system_and_application_design_patterns_for_genai/3_1_1_foundation_architecture_components/3_1_1_7_application_observability/index.html)
 - **Tier 1 (entry-level)**: [Risk and Compliance Management for Generative AI](https://awslabs.github.io/generative-ai-atlas/topics/5_0_organization_adoption_framework/5_2_governance_and_organization/5_2_3_risk_and_compliance_mngmt.html)
 - **Tier 1 (entry-level)**: [Build resilient generative AI agents](https://aws.amazon.com/blogs/architecture/build-resilient-generative-ai-agents/)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

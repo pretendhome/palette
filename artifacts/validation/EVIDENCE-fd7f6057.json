@@ -1,0 +1,11 @@
+{
+  "evidence_id": "fd7f6057-1bbf-4581-8ee1-a5445e372d2a",
+  "timestamp": "2026-04-23T22:56:46.123552+00:00",
+  "task": "Evidence Test Task",
+  "error": "Detailed traceback showing a critical failure in the component.",
+  "input_payload": {
+    "a": 100,
+    "b": "bad"
+  },
+  "validator_version": "2.0"
+}

@@ -963,6 +963,11 @@ library_questions:
     url: https://arxiv.org/abs/2306.05685
   - title: 'Anthropic: Constitutional AI — Harmlessness from AI Feedback'
     url: https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: evaluation
   evaluation_signal: Agreement with expert judgment below 80% (rho < 0.8 correlation) is the quantitative threshold. Above
     this, LLM-as-judge can replace most human evaluation at scale. Below it, more golden set examples, architectural changes,
@@ -1374,6 +1379,11 @@ library_questions:
     url: https://aws.amazon.com/blogs/machine-learning/implement-automated-smoke-testing-using-amazon-nova-act-headless-mode/
   - title: 'Speed meets scale: Load testing SageMaker AI endpoints with OLAF'
     url: https://aws.amazon.com/blogs/machine-learning/speed-meets-scale-load-testing-sagemakerai-endpoints-with-observe-ais-testing-tool/
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: all
 - id: LIB-030
   question: How do I handle schema mismatches between AI output and legacy system input?
@@ -1510,6 +1520,11 @@ library_questions:
     url: https://aws.amazon.com/blogs/mt/integrate-amazon-cloudwatch-alarms-with-amazon-cloudwatch-metrics-insights/
   - title: 'OpenTelemetry: What is OpenTelemetry'
     url: https://opentelemetry.io/docs/what-is-opentelemetry/
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: all
   evaluation_signal: P99 latency trending above SLO threshold over 3+ consecutive periods is the earliest degradation signal
     — act before failure, not after. Trend monitoring beats threshold alerting for integrations that degrade gradually.
@@ -1803,6 +1818,11 @@ library_questions:
     url: https://aws.amazon.com/blogs/machine-learning/build-an-automated-generative-ai-solution-evaluation-pipeline-with-amazon-nova/
   - title: 'MLflow: LLM Evaluation'
     url: https://mlflow.org/docs/latest/llms/llm-evaluate/index.html
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: evaluation
   evaluation_signal: Metrics that correlate with production failures — not only development benchmarks — are the right evaluation
     signal. If your eval suite does not catch production issues, replace the metrics, not the thresholds.
@@ -1880,6 +1900,11 @@ library_questions:
     url: https://awslabs.github.io/generative-ai-atlas/topics/2_0_technical_foundations_and_patterns/2_6_model_evaluation_and_selection_criteria/index.html
   - title: Deploying generative AI applications
     url: https://awslabs.github.io/generative-ai-atlas/topics/3_0_architecture_and_design_patterns/3_9_AIOps/aiops_deployment.html
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: evaluation
 - id: LIB-039
   question: What's the best way to handle inconsistent data definitions across departments?
@@ -2093,6 +2118,11 @@ library_questions:
     url: https://aws.amazon.com/blogs/big-data/automate-large-scale-data-validation-using-amazon-emr-and-apache-griffin/
   - title: 'Great Expectations: Official Documentation'
     url: https://docs.greatexpectations.io/docs/home/
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: retrieval
 - id: LIB-042
   question: How do I version control datasets and models together for reproducibility?
@@ -2319,6 +2349,11 @@ library_questions:
     url: https://aws.amazon.com/blogs/awsmarketplace/monitoring-data-quality-in-third-party-models-with-amazon-sagemaker-model-monitor/
   - title: Automated monitoring with SageMaker Model Monitor and Amazon A2I
     url: https://aws.amazon.com/blogs/machine-learning/automated-monitoring-of-your-machine-learning-models-with-amazon-sagemaker-model-monitor-and-sending-predictions-to-human-review-workflows-using-amazon-a2i/
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: evaluation
 - id: LIB-045
   question: How do I design runbooks for AI systems that fail in non-obvious ways?
@@ -2412,6 +2447,11 @@ library_questions:
     url: https://aws.amazon.com/blogs/publicsector/planning-for-failure-how-to-make-generative-ai-workloads-more-resilient/
   - title: AI Ops Overview - Generative AI Atlas
     url: https://awslabs.github.io/generative-ai-atlas/topics/3_0_architecture_and_design_patterns/3_9_AIOps/index.html
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: all
 - id: LIB-047
   question: How do I reduce MTTR when AI failures require domain expert diagnosis?
@@ -2490,6 +2530,11 @@ library_questions:
     url: https://aws.amazon.com/blogs/security/accelerate-investigations-with-aws-security-incident-response-ai-powered-capabilities/
   - title: Methodology for incident response on generative AI workloads
     url: https://aws.amazon.com/blogs/security/methodology-for-incident-response-on-generative-ai-workloads/
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: all
 - id: LIB-048
   question: What monitoring alerts actually predict AI system failures vs noise?
@@ -2568,6 +2613,11 @@ library_questions:
     url: https://awslabs.github.io/generative-ai-atlas/topics/5_0_organization_adoption_framework/5_2_governance_and_organization/5_2_3_risk_and_compliance_mngmt.html
   - title: Build resilient generative AI agents
     url: https://aws.amazon.com/blogs/architecture/build-resilient-generative-ai-agents/
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: all
   evaluation_signal: Alert-to-incident ratio above 20:1 means your alerting is noise. Reduce alert count before optimizing.
     Production-ready alerting fires only on actionable signals — the goal is zero alerts you can ignore.
@@ -2663,6 +2713,11 @@ library_questions:
     url: https://aws.amazon.com/blogs/containers/building-a-fault-tolerant-architecture-with-a-bulkhead-pattern-on-aws-app-mesh/
   - title: 'Planning for failure: How to make generative AI workloads more resilient'
     url: https://aws.amazon.com/blogs/publicsector/planning-for-failure-how-to-make-generative-ai-workloads-more-resilient/
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: orchestration
 - id: LIB-050
   question: What's the best fallback strategy when AI confidence drops below threshold?
@@ -2746,6 +2801,11 @@ library_questions:
     url: https://awslabs.github.io/generative-ai-atlas/topics/3_0_architecture_and_design_patterns/3_1_system_and_application_design_patterns_for_genai/3_1_1_foundation_architecture_components/3_1_1_8_additional_components/3_1_1_8_1_human_in_the_loop/3_1_1_8_1_human_in_the_loop.html
   - title: Building serverless architectures for agentic AI on AWS
     url: https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-serverless/introduction.html
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: all
 - id: LIB-051
   question: How do I design escalation paths for AI failures with unclear ownership?
@@ -2827,6 +2887,11 @@ library_questions:
     url: https://aws.amazon.com/blogs/aws/aws-devops-agent-helps-you-accelerate-incident-response-and-improve-system-reliability-preview/
   - title: Risk and Compliance Management for Generative AI
     url: https://awslabs.github.io/generative-ai-atlas/topics/5_0_organization_adoption_framework/5_2_governance_and_organization/5_2_3_risk_and_compliance_mngmt.html
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: all
 - id: LIB-052
   question: What post-mortem format captures AI failure root causes effectively?
@@ -2931,6 +2996,11 @@ library_questions:
     url: https://awslabs.github.io/generative-ai-atlas/topics/5_0_organization_adoption_framework/5_2_governance_and_organization/5_2_3_risk_and_compliance_mngmt.html
   - title: 'Google SRE Book: Postmortem Culture — Learning from Failure'
     url: https://sre.google/sre-book/postmortem-culture/
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: all
 - id: LIB-053
   question: How do I test failure scenarios that only happen in production?
@@ -3025,6 +3095,11 @@ library_questions:
     url: https://github.com/awslabs/chaos-machine
   - title: Principles of Chaos Engineering
     url: https://principlesofchaos.org/
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: all
 - id: LIB-054
   question: What's the checklist for 'production-ready' AI reliability?
@@ -3110,6 +3185,11 @@ library_questions:
     url: https://awslabs.github.io/generative-ai-atlas/topics/3_0_architecture_and_design_patterns/3_7_resilience_high_availability/resilience.html
   - title: Deploying generative AI applications - Generative AI Atlas
     url: https://awslabs.github.io/generative-ai-atlas/topics/3_0_architecture_and_design_patterns/3_9_AIOps/aiops_deployment.html
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: evaluation
   evaluation_signal: Any unchecked item on this checklist requires explicit sign-off with documented risk before going to
     production. Circuit breakers, fallbacks, and HITL paths must be tested in production-equivalent conditions — staging validation
@@ -5715,6 +5795,11 @@ library_questions:
     url: https://launchdarkly.com/
   - title: 'Fast.io: AI Agent Secrets Management Best Practices'
     url: https://fast.io/resources/ai-agent-secrets-management/
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
 - id: LIB-120
   question: How do I manage secrets and API keys securely for AI agent workflows?
   answer: Never store secrets in code, environment variables, or config files. Use a secrets manager — AWS Secrets Manager
@@ -6001,6 +6086,11 @@ library_questions:
     url: https://github.com/pretendhome/pretendhome
   - title: FDE field experience
     url: internal
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
 - id: LIB-130
   question: How do I detect data drift and model drift in production AI systems?
   answer: Use a dedicated drift detection platform — Arize AI (managed, production-grade, supports embeddings and tabular
@@ -6030,6 +6120,11 @@ library_questions:
     url: https://github.com/pretendhome/pretendhome
   - title: FDE field experience
     url: internal
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
 - id: LIB-131
   question: How do I ensure AI-generated content is brand-safe before publishing?
   answer: Use AWS Bedrock Guardrails for automated brand safety enforcement — denied topic detection, custom word filters,
@@ -6290,6 +6385,11 @@ library_questions:
     url: https://owasp.org/www-project-top-10-for-large-language-model-applications/
   - title: 'NIST AI RMF: AI Risk Management Framework'
     url: https://www.nist.gov/artificial-intelligence/ai-risk-management-framework
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: orchestration
 - id: LIB-139
   question: How do I implement reliable structured extraction from unstructured text and documents?
@@ -6493,6 +6593,11 @@ library_questions:
     url: https://research.google/pubs/pub46555/
   - title: 'Ribeiro et al.: Beyond Accuracy — Behavioral Testing of NLP Models (ACL 2020)'
     url: https://aclanthology.org/2020.acl-main.442/
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: evaluation
 - id: LIB-145
   question: How do I implement a human review gate for one-way door decisions in AI systems?
@@ -6529,6 +6634,11 @@ library_questions:
     url: https://www.aboutamazon.com/about-us/leadership-principles
   - title: 'NIST AI RMF: Govern Function — Decision Authority'
     url: https://www.nist.gov/artificial-intelligence/ai-risk-management-framework
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: all
 - id: LIB-146
   question: How do I design and deliver effective training sessions for AI system adoption?
@@ -6874,6 +6984,11 @@ library_questions:
     url: https://pragprog.com/titles/mnee2/release-it-second-edition/
   - title: 'AWS: Implementing Resilient Applications'
     url: https://docs.aws.amazon.com/prescriptive-guidance/latest/modernization-integrating-microservices/reliability.html
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: orchestration
 - id: LIB-156
   question: How do I plan and execute a database migration without downtime or data loss?
@@ -7518,6 +7633,11 @@ library_questions:
     url: https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html
   - title: 'CrewAI: Multi-Agent Framework Design Patterns'
     url: https://docs.crewai.com/
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: all
 gap_additions:
 - id: LIB-076
@@ -8455,6 +8575,11 @@ context_specific_questions:
     url: palette/agents/researcher/fixtures/RES-001-multiplayer-networking.md
   - title: Architect Fixture ARCH-001
     url: palette/agents/architect/fixtures/ARCH-001-multiplayer-architecture.md
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: orchestration
 - id: LIB-092
   question: How does agent maturity progression work in Palette?
@@ -8492,6 +8617,11 @@ context_specific_questions:
     url: palette/.steering/assumptions.md
   - title: Palette decisions.md - Agent Tracking
     url: palette/decisions.md
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: orchestration
 - id: LIB-093
   question: How do I identify ONE-WAY DOOR decisions in AI and game development?
@@ -9117,6 +9247,11 @@ context_specific_questions:
   - title: Palette Tier 2 - Agent Maturity & Trust Model
     url: palette/.steering/assumptions.md#agent-maturity
     type: framework
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   journey_stage: evaluation
 - id: LIB-104
   question: What frameworks should I use for business model design?
@@ -9881,6 +10016,11 @@ context_specific_questions:
   sources:
   - title: garrytan/gstack review skill — error/rescue map methodology
     url: https://github.com/garrytan/gstack
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   validated: false
   journey_stage: all
 - id: LIB-174
@@ -9937,6 +10077,11 @@ context_specific_questions:
   sources:
   - title: garrytan/gstack ship skill — release hygiene methodology
     url: https://github.com/garrytan/gstack
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   validated: false
   journey_stage: all
 - id: LIB-176
@@ -9966,5 +10111,10 @@ context_specific_questions:
   sources:
   - title: garrytan/gstack qa skill — diff-aware tiered QA methodology
     url: https://github.com/garrytan/gstack
+  - title: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline
+    url: agents/remediation/ARCHITECTURE_SPEC.md
+    type: internal_implementation
+    date: '2026-04-23'
+    tier: 1
   validated: false
   journey_stage: all

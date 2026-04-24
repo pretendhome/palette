@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-045
 source_hash: sha256:7d5f4d483bdad08a
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -182,6 +182,7 @@ AI systems fail differently than traditional software — they degrade silently,
 - **Tier 1 (entry-level)**: [Create a Generative AI runbook to resolve security findings](https://catalog.us-east-1.prod.workshops.aws/workshops/943dd78a-d351-49bc-ae84-1b1a25edff7b)
 - **Tier 1 (entry-level)**: [Planning for failure: How to make generative AI workloads more resilient](https://aws.amazon.com/blogs/publicsector/planning-for-failure-how-to-make-generative-ai-workloads-more-resilient/)
 - **Tier 1 (entry-level)**: [AI Ops Overview - Generative AI Atlas](https://awslabs.github.io/generative-ai-atlas/topics/3_0_architecture_and_design_patterns/3_9_AIOps/index.html)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

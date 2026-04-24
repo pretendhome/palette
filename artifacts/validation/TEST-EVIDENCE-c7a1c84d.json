@@ -1,0 +1,1 @@
+{"evidence_id": "c7a1c84d-e48f-43a2-9c78-d8890a71632a", "timestamp": "2026-04-23T22:31:49.015981+00:00", "task": "Buffer", "error": "Integration failure traceback: Connection refused during bus communication attempt.", "input_payload": {}}

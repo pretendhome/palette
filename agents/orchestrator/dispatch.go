@@ -4,9 +4,12 @@ import (
 	"crypto/rand"
 	"fmt"
 	"sync"
+	"time"
 
 	core "github.com/pretendhome/palette/core"
 )
+
+var timeNow = time.Now // injectable for testing
 
 // ── DispatchPlan ──────────────────────────────────────────────────────────────
 
@@ -115,7 +118,7 @@ func executePlan(
 ) DispatchResult {
 	result := DispatchResult{Plan: plan}
 
-	for _, step := range plan.Steps {
+	for stepIdx, step := range plan.Steps {
 		manifest, ok := roster[step.Agent]
 		if !ok {
 			ir := InvokeResult{
@@ -128,6 +131,7 @@ func executePlan(
 			result.Blocked = true
 			break
 		}
+		_ = stepIdx // used below for routing memory
 
 		// ── ONE-WAY DOOR gate ─────────────────────────────────────────────────
 		if step.OneWayDoor && !cfg.AutoConfirm && !runner.IsDry() {
@@ -165,8 +169,30 @@ func executePlan(
 
 		// ── Invoke ────────────────────────────────────────────────────────────
 		fmt.Printf("  → %s (%s)\n", manifest.Code, manifest.Role)
+		t0 := timeNow()
 		ir := runner.Invoke(step.Packet, manifest, cfg.AgentsDir)
+		elapsed := timeNow().Sub(t0).Milliseconds()
 		result.Results = append(result.Results, ir)
+
+		// ── Routing memory: record observation (Phase 0, best-effort) ─────
+		if !runner.IsDry() {
+			go recordObservation(
+				cfg.AgentsDir,
+				Task{
+					ID:          step.Packet.ID,
+					TraceID:     step.Packet.TraceID,
+					Description: step.Packet.Task,
+				},
+				RouteDecision{
+					Agents:     []core.AgentID{step.Agent},
+					OneWayDoor: step.OneWayDoor,
+					Reason:     step.Reason,
+					Confidence: 80, // v0.1 hardcoded — will evolve in Phase 1
+				},
+				ir,
+				elapsed,
+			)
+		}
 
 		if ir.ExitCode != 0 && !runner.IsDry() {
 			result.Blocked = true

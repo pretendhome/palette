@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-144
 source_hash: sha256:4e485ab6fc0a85eb
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -26,6 +26,7 @@ RIU-086 extends traditional golden-set testing with metamorphic testing and inva
 - **Tier 1 (entry-level)**: [Segura et al.: A Survey on Metamorphic Testing (ACM Computing Surveys, 2016)](https://doi.org/10.1145/2907070)
 - **Tier 1 (entry-level)**: [Google: Testing ML Systems — ML Test Score](https://research.google/pubs/pub46555/)
 - **Tier 1 (entry-level)**: [Ribeiro et al.: Beyond Accuracy — Behavioral Testing of NLP Models (ACL 2020)](https://aclanthology.org/2020.acl-main.442/)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

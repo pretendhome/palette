@@ -1,0 +1,1 @@
+{"evidence_id": "a6a64fa2-4709-4b32-b789-a35a141acf42", "timestamp": "2026-04-23T22:56:46.528828+00:00", "task": "Schema Task", "error": "KeyError: 'riu_id' missing from schema validation failed loudly.", "input_payload": {}}

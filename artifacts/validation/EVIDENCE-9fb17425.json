@@ -1,0 +1,11 @@
+{
+  "evidence_id": "9fb17425-9c06-4482-a4fa-c22dd34f96a0",
+  "timestamp": "2026-04-23T21:27:00.896189+00:00",
+  "task": "Evidence Test Task",
+  "error": "Test Error",
+  "input_payload": {
+    "a": 100,
+    "b": "bad"
+  },
+  "validator_version": "2.0"
+}

@@ -2,9 +2,26 @@
 ## Knowledge Library Growth Through Governed Research
 
 **Date**: 2026-04-21
-**Status**: SPEC — build Thursday/Friday after interview gauntlet
+**Status**: SPEC — reframed as ERS Slice 1 candidate source
 **Owner**: Claude (spec), operator (build)
 **Principle**: The smallest system that can be trusted in production.
+
+**ERS framing**: This is no longer a standalone feature. It is the first source path for the External Reality Service (ERS): researcher findings become candidate `SignalPacket`s, and only governed action classes can write to the knowledge library.
+
+The filter rules below become SignalPacket validation rules:
+
+- confidence threshold
+- source required
+- deduplication
+- rate limit
+- governance pipeline filing
+
+The design boundary is the same as ERS:
+
+```text
+Capturing a research finding is not updating Palette.
+Updating Palette requires validation, action classification, and governance.
+```
 
 ---
 
@@ -205,14 +222,81 @@ Once auto-enrichment is working:
 3. **Skills auto-save** (Hermes fix #2) — same pattern applied to procedural memory instead of knowledge: after an agent completes a complex task, auto-save the procedure as a skill proposal through governance
 4. **Glean enablement** — if you get the role, this IS the content-operations pipeline: product changes → research → auto-proposed enablement entries → governed review → published to field
 
-## Open Questions (for crew review)
+## Operator Decisions (2026-04-23)
 
-1. Should the confidence threshold be 75 or higher? Too low = noise. Too high = misses useful findings.
-2. Should deduplication use simple keyword overlap or the existing signal-matching from the taxonomy? Signal-matching is more accurate but adds dependency on the resolver.
-3. Should auto-enrichment run on every research task or only on `depth: deep` tasks? Running on every task means more proposals but also more noise from quick lookups.
-4. Should there be an opt-out flag on the HandoffPacket? ("Don't auto-enrich this research" for sensitive or ephemeral tasks.)
-5. Should the rate limit be 5 per task or 5 per hour? Per-task is simpler. Per-hour prevents a burst of deep research tasks from flooding the pipeline.
+**Principle**: Research only when needed, only the amount needed to solve the problem. Auto-enrichment is not ambient — it is controlled by the requesting agent.
+
+**Decision**: HandoffPacket controls auto-enrichment. The requesting agent opts in via a field on the HandoffPacket. Default is OFF. This means:
+- The requesting agent decides whether its research task should propose knowledge entries
+- Sensitive, ephemeral, or quick-lookup tasks skip enrichment by default
+- Deep research tasks that the requesting agent marks for enrichment will trigger the filter
+
+**HandoffPacket addition**:
+```yaml
+auto_enrich: true | false  # default: false
+```
+
+This replaces open question #3 (scope) and #4 (opt-out flag). The requesting agent owns the decision, not the researcher.
+
+## Crew Review Decisions (2026-04-23)
+
+Crew review completed. Binding votes from Codex and Kiro; advisory from Mistral and Gemini.
+
+### Q1: Confidence threshold — **75, configurable**
+Codex + Kiro align. Start permissive, tighten with evidence. Single config source: field in HandoffPacket with fallback to default constant. Mistral recommended 80 — valid for v2 when we have production data.
+
+### Q2: Dedup method — **Option A: local token overlap (Jaccard)**
+Codex + Kiro align. No resolver dependency. Hand-rolled normalization + token overlap. No sklearn. Resolver coupling is the biggest architectural risk — if resolver behavior changes, dedup breaks silently. Local dedup is inspectable, testable, decoupled.
+
+### Q3: Rate limit — **5 per task, stateless**
+Codex + Kiro align. Per-task is stateless and testable. Emit suppressed count in result for visibility. Per-hour (Mistral) requires persistence — not justified in v1.
+
+### Q4: Deep research default — **Explicit opt-in only (unanimous)**
+All reviewers agree. `depth` and `auto_enrich` are separate concerns. No smart defaults.
+
+### Additional build constraints
+- **300-line cap** for auto_enrich.py (Kiro)
+- **RIU validation**: findings must reference valid RIU IDs from v1.3 taxonomy before filing (Gemini)
+- **`palette_action_class`**: included on every proposal for deterministic governance routing (Kiro)
+- **Reason fields**: glass-box behavior — why each candidate passed/was suppressed (Codex)
+- **Suppression metadata**: emit total findings, above-threshold, deduped, emitted, suppressed-by-cap (Codex)
+- **No persistence, no sklearn, no multi-layer config** in v1
+
+## V1 Shipped (2026-04-23)
+
+Built and tested. 275 lines, 6/6 tests pass, ERS selftest passes.
+- `agents/researcher/auto_enrich.py` — core filter
+- `agents/researcher/researcher.py` — integration hook (search for `auto_enrich_flag`)
+- `agents/researcher/test_auto_enrich.py` — 6 fixture tests
+
+## V2 Backlog — Mistral Post-Ship Review (2026-04-23)
+
+Source: Mistral code review (bus message `3a2f7744-01ba-4484-b946-9566df754b92`). Claude disposition below each item.
+
+### 1. Source credibility beyond URL pattern
+Mistral: `_evidence_tier` classifies by domain pattern only. Add domain whitelist and credibility scoring.
+**Disposition**: Valid for v2. Current tier classification is a rough heuristic. Wait for production data showing what proposals get filed/rejected before investing in richer source scoring. `file_proposal.py` validation is the real quality gate in v1.
+
+### 2. Embeddings-based dedup
+Mistral: Jaccard token overlap may miss semantic duplicates. Replace with embeddings similarity.
+**Disposition**: Valid for v2. Adds model dependency (violates v1 "no sklearn, no heavy deps" constraint). Crew explicitly chose local dedup for decoupling. Revisit when we have evidence of false negatives causing governance noise.
+
+### 3. Multi-dimensional proposal prioritization
+Mistral: Sorting by confidence alone may crowd out relevant-but-lower-confidence proposals. Add relevance + impact dimensions.
+**Disposition**: Valid for v2. Confidence-only sorting is simple and predictable. Multi-dimensional scoring requires defining "relevance" and "impact" — which needs production data to calibrate.
+
+### 4. RIU relevance validation (not just existence)
+Mistral: Validate that RIUs are contextually appropriate, not just that they exist in taxonomy.
+**Disposition**: Valid for v2 but requires resolver coupling, which Kiro and Codex voted against for v1. RIUs come from the requesting agent's classification — relevance is the resolver's responsibility, not auto-enrich's.
+
+### 5. Enhanced logging and audit trail
+Mistral: Add comprehensive logging for all auto-enrichment activities beyond stderr.
+**Disposition**: Low-effort improvement. Can be added incrementally. Current stderr logging + suppression metadata in the HandoffResult provides glass-box visibility. Structured audit logging (to file or bus) is a clean v2 addition.
+
+### Items Mistral flagged that are already handled
+- **Governance pipeline pollution**: `file_proposal.py` validates every proposal (required fields, tier, RIUs, sources, answer length, contradiction check). Invalid proposals are rejected before entering the pipeline.
+- **Integration error handling**: try/except catches all exceptions, logs to stderr, never blocks research output. This is the spec: best-effort, never blocking.
 
 ---
 
-*Spec written 2026-04-21. Build target: Thursday April 24 or Friday April 25, after Capital Group tech interview (Wed 2:30pm) and Glean Stage 1 (Wed 10:30am). The interview gauntlet comes first.*
+*Spec written 2026-04-21. V1 shipped 2026-04-23. Build target met.*

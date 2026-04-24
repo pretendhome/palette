@@ -2,7 +2,7 @@
 source_file: MANIFEST.yaml
 source_id: debugger
 source_hash: sha256:942b4682350d90e0
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: agent
 tags: [agent, debugger]
@@ -27,6 +27,8 @@ failure diagnosis and minimal repair
 ## Protocol
 
 - SDK module: `agents/debugger/debugger.py`
+- SDK module: `agents/debugger/debugger_v2.py`
+- SDK module: `agents/debugger/test_debugger_v2.py`
 
 ## Provenance
 

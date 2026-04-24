@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-051
 source_hash: sha256:6b3617ac5861d917
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -196,6 +196,7 @@ Unclear ownership is the #1 cause of slow incident response. Design escalation p
 - **Tier 1 (entry-level)**: [Governance - Generative AI Atlas](https://awslabs.github.io/generative-ai-atlas/topics/4_0_systematic_path_to_production_framework/4_4_governance/index.html)
 - **Tier 1 (entry-level)**: [AWS DevOps Agent helps you accelerate incident response](https://aws.amazon.com/blogs/aws/aws-devops-agent-helps-you-accelerate-incident-response-and-improve-system-reliability-preview/)
 - **Tier 1 (entry-level)**: [Risk and Compliance Management for Generative AI](https://awslabs.github.io/generative-ai-atlas/topics/5_0_organization_adoption_framework/5_2_governance_and_organization/5_2_3_risk_and_compliance_mngmt.html)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

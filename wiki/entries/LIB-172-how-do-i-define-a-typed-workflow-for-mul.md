@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-172
 source_hash: sha256:b1d5fb9cf3353d15
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -26,6 +26,7 @@ RIU-608 defines a YAML-based workflow format for multi-agent engagements. Struct
 - **Tier 1 (entry-level)**: [Anthropic: Multi-Agent Orchestration Patterns](https://docs.anthropic.com/en/docs/build-with-claude/agent-patterns)
 - **Tier 1 (entry-level)**: [AWS Step Functions: Workflow Studio](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html)
 - **Tier 1 (entry-level)**: [CrewAI: Multi-Agent Framework Design Patterns](https://docs.crewai.com/)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

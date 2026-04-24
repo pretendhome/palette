@@ -2,7 +2,7 @@
 source_file: MANIFEST.yaml
 source_id: validator
 source_hash: sha256:7f9675e7d55ebc9f
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: agent
 tags: [agent, validator]
@@ -57,7 +57,10 @@ plan/spec assessment, GO/NO-GO verdicts
 
 ## Protocol
 
+- SDK module: `agents/validator/test_validator_v2.py`
 - SDK module: `agents/validator/validator.py`
+- SDK module: `agents/validator/validator_v2.py`
+- Wire contract: HandoffPacket (7 fields) / HandoffResult (7 fields)
 
 ## Provenance
 

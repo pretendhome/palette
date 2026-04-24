@@ -1,0 +1,34 @@
+{
+  "name": "remediation",
+  "version": "1.0",
+  "agent_type": "Orchestrator",
+  "code": "Remediation",
+  "role": "Remediation Loop Coordinator",
+  "description": "Shared infrastructure for the automated remediation loop: Validator → Debugger → Builder → Validator. Provides canonical bus client, identity registry, evidence packets, and circuit breaker.",
+  "status": "WORKING",
+  "maturity": {
+    "tier": 2,
+    "successes": 6,
+    "failures": 0,
+    "promotes_at": 50
+  },
+  "entry_point": "test_loop.py",
+  "runtime": "python",
+  "capabilities": [
+    "bus_communication",
+    "identity_registry",
+    "evidence_creation",
+    "circuit_breaking",
+    "integration_testing"
+  ],
+  "constraints": {
+    "shared_infrastructure_only": true,
+    "no_domain_logic": true
+  },
+  "accepts_from": ["validator", "debugger", "builder", "human"],
+  "routes_to": ["validator", "debugger", "builder", "human"],
+  "logging": {
+    "ledger": "palette/decisions.md",
+    "track_maturity": true
+  }
+}

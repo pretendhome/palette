@@ -134,6 +134,26 @@ const TOOLS = [
   },
 ];
 
+// --- Bus status injection (Option B: tool response footer) ---
+let _cachedPendingCount = 0;
+
+function busStatusFooter() {
+  return _cachedPendingCount > 0
+    ? `\n\n---\n[bus] ${_cachedPendingCount} unread message(s) pending for ${IDENTITY}. Call peers_fetch.`
+    : '';
+}
+
+function injectFooter(result) {
+  const footer = busStatusFooter();
+  if (!footer) return result;
+  if (result.content?.[0]?.type === 'text') {
+    result.content[0].text += footer;
+  } else {
+    result.content = [...(result.content ?? []), { type: 'text', text: footer }];
+  }
+  return result;
+}
+
 // --- Tool handlers ---
 async function handleTool(name, args) {
   switch (name) {
@@ -161,6 +181,7 @@ async function handleTool(name, args) {
     case 'peers_fetch': {
       const result = await brokerPost('/fetch', { identity: IDENTITY });
       const msgs = result.messages ?? [];
+      _cachedPendingCount = 0; // just consumed them
       if (!msgs.length) return { content: [{ type: 'text', text: 'No pending messages.' }] };
       const summary = msgs.map(m =>
         `[${m.created_at}] ${m.from_agent} → ${IDENTITY}\n  type: ${m.message_type} | risk: ${m.risk_level}\n  intent: ${m.intent}\n  payload: ${JSON.stringify(m.payload, null, 2)}`
@@ -246,10 +267,20 @@ async function register() {
     peekTimer = setInterval(async () => {
       try {
         const result = await brokerPost('/peek', { identity: IDENTITY });
-        const ids = new Set((result.messages ?? []).map(m => m.message_id));
+        const msgs = result.messages ?? [];
+        const ids = new Set(msgs.map(m => m.message_id));
         const newIds = [...ids].filter(id => !lastPendingIds.has(id));
+        _cachedPendingCount = msgs.length;
         if (newIds.length) {
-          process.stderr.write(`[palette-peers adapter] ${IDENTITY} has ${newIds.length} new pending message(s)\n`);
+          const msg = `${newIds.length} new bus message(s) for ${IDENTITY}. Call peers_fetch.`;
+          process.stderr.write(`[palette-peers adapter] ${msg}\n`);
+          sendNotification('notifications/message', {
+            level: 'info', logger: 'palette-peers',
+            data: { type: 'bus_notification', count: newIds.length, message: msg }
+          });
+          sendNotification('notifications/claude/channel', {
+            data: { type: 'peer_message', content: msg, from: 'palette-peers-bus', timestamp: new Date().toISOString() }
+          });
         }
         lastPendingIds = ids;
       } catch { /* broker may be down */ }
@@ -312,7 +343,7 @@ async function handleMessage(msg) {
     const { name, arguments: args } = msg.params;
     try {
       const result = await handleTool(name, args ?? {});
-      sendResponse(msg.id, result);
+      sendResponse(msg.id, injectFooter(result));
     } catch (e) {
       sendError(msg.id, -32603, e.message);
     }

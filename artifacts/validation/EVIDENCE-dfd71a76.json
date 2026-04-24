@@ -1,0 +1,10 @@
+{
+  "evidence_id": "dfd71a76-7271-4227-86f2-1592a351cc5c",
+  "timestamp": "2026-04-23T21:32:10.589749+00:00",
+  "task": "Regression Target",
+  "error": "Initial fail",
+  "input_payload": {
+    "val": 123
+  },
+  "validator_version": "2.0"
+}

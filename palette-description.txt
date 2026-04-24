@@ -1,0 +1,344 @@
+================================================================================
+PALETTE INTERVIEW CHEAT SHEET — SPOKEN ANSWER VERSION
+================================================================================
+
+
+
+  You are Jesse H., VP of Engineering at iBusiness, interviewing a candidate for AI Knowledge Data Engineer. You are an
+   enterprise AI architect who strongly favors practical, right-sized implementation. You are skeptical of AI theater,
+  overbuilt agent stacks, and complexity without adoption value. You reward clear tradeoff thinking, workflow
+  grounding, and honest simplification.
+
+  Run a 45-minute technical interview. Start with "Tell me about yourself" and then go deep on:
+  1. How you'd design a RAG system for lending (policy, SOPs, borrower docs, institutional knowledge)
+  2. How you'd prevent hallucinations in a regulated workflow
+  3. How you'd handle memory and state without creating compliance risk
+  4. What you'd build in v1 vs delay
+
+  Push back on anything that sounds like AI theater or unnecessary complexity. Ask follow-up questions that test
+  whether the candidate has actually built these systems or is just describing frameworks. If an answer is vague, say
+  "that sounds like a framework — what would you actually do on day one?"
+
+  Be direct. Be skeptical. Be fair.
+
+
+--------------------------------------------------------------------------------
+1. EXPLAIN PALETTE IN 60 SECONDS
+--------------------------------------------------------------------------------
+
+Palette is a governed multi-agent decision system for AI implementation. The
+core idea is that most AI systems treat everything like a prompt-generation
+problem, but real implementation work usually starts with a different question:
+what kind of problem is this, what evidence do we already have, what outside
+capability is actually needed, and what actions are reversible or risky?
+
+So Palette classifies the problem first, maps it to a reusable implementation
+pattern, checks its internal knowledge layer, and only then decides whether to
+call an external service. The output is not just generated prose. It is a
+structured recommendation with evidence, routing logic, and reversibility
+classification.
+
+That is the main design point: it routes problems, not prompts. I built it as
+a working system to prove I can design and ship governed AI architecture, not
+just talk about it.
+
+
+--------------------------------------------------------------------------------
+2. WHAT PROBLEM DOES PALETTE SOLVE?
+--------------------------------------------------------------------------------
+
+Palette solves the research and decision tax around AI implementation. Most
+teams are trying to make decisions in a fragmented market where tools, models,
+and frameworks change constantly. That usually leads to one of three bad
+outcomes: they overbuild internally, overpay for tools, or freeze because they
+cannot compare options confidently.
+
+Palette makes that decision process explicit. It identifies the problem pattern
+first, checks whether the answer already exists in its internal knowledge layer,
+and only then reaches outward if external capability is actually needed. So
+instead of improvising every decision from scratch, the system uses a repeatable
+structure and gives you a recommendation that is grounded in evidence.
+
+
+--------------------------------------------------------------------------------
+3. WHAT DOES THE PALETTE INTELLIGENCE SYSTEM ACTUALLY DO?
+--------------------------------------------------------------------------------
+
+The Palette Intelligence System is the decision engine behind Palette. It works
+as a sequence:
+
+  1. Classifies the incoming request into a known implementation pattern
+  2. Checks the knowledge layer for a fast-path answer
+  3. If the problem requires outside capability or fresh market information,
+     routes to the right external service or set of services
+  4. Applies governance based on reversibility and risk
+  5. Returns a structured decision that explains what it chose, why it chose it,
+     and what should happen next
+
+So I would describe it as a decision engine, not a text-generation engine. It is
+deciding whether the problem is known, whether it should stay internal, whether
+it should route externally, and whether the action is safe and reversible.
+
+
+--------------------------------------------------------------------------------
+4. WHAT IS AN RIU?
+--------------------------------------------------------------------------------
+
+RIU stands for Reusable Intervention Unit. It is basically Palette's unit of
+problem classification. Each RIU is a reusable implementation pattern with
+defined inputs, outputs, failure modes, and reversibility.
+
+I usually explain it as being closer to an implementation intent than a user
+intent. It tells the system what kind of problem it is dealing with
+structurally. Once the system knows that, it can apply the right routing rules,
+governance logic, and success criteria.
+
+That is why the taxonomy matters so much. It is not just a labeling system. It
+is the control layer that drives what evidence is needed, which agents should
+be involved, which services are relevant, and whether the action is reversible.
+
+
+--------------------------------------------------------------------------------
+5. HOW DID YOU BUILD THE TAXONOMY?
+--------------------------------------------------------------------------------
+
+I built the taxonomy from real recurring implementation questions, not from
+abstract brainstorming. The initial structure came from patterns I saw across
+AWS enablement work, AI tool usage, and a defined set of FDE use cases. I looked
+for repeated problem shapes rather than repeated wording.
+
+From there I grouped those into reusable implementation patterns, then defined
+what each pattern needed in terms of inputs, outputs, common failure modes, and
+reversibility. The point was to build a system that can reason about the
+structure of the problem, not just do fuzzy semantic matching on the wording.
+
+So the taxonomy is grounded in real problem recurrence. It is not a generated
+ontology for its own sake.
+
+
+--------------------------------------------------------------------------------
+6. HOW WAS THE KNOWLEDGE LIBRARY BUILT?
+--------------------------------------------------------------------------------
+
+The knowledge library was built as a governed answer layer, not as generated
+filler. It started from real enterprise questions and recurring needs, then each
+entry was turned into a structured answer with related RIUs, tags, source
+references, and evidence.
+
+One of the key design choices was that the system should not have to call an
+external service every time it sees a familiar problem. So the library acts like
+a decision cache. If the system already knows enough, it answers from governed
+internal knowledge instead of paying the latency and cost of an outside call.
+
+That makes the library operational, not just informational. It speeds up
+routing, lowers unnecessary API usage, and gives the whole system a more stable
+baseline.
+
+
+--------------------------------------------------------------------------------
+7. HOW DO THE AGENTS WORK TOGETHER?
+--------------------------------------------------------------------------------
+
+The agents are specialized and deliberately constrained:
+
+  • Resolver     — handles classification
+  • Researcher   — gathers and validates information
+  • Architect    — handles system-level tradeoffs
+  • Builder      — implements within a bounded spec
+  • Validator    — gives a go or no-go judgment
+  • Support roles: Monitor, Debugger, Narrator
+  • Orchestrator — manages handoffs
+
+The important design choice is bounded responsibility. I do not want every agent
+doing everything. If the Builder starts doing research and the Researcher starts
+making architecture decisions, then traceability breaks down very quickly.
+
+So the multi-agent design is not there for novelty. It is there to separate
+concerns so decisions are more inspectable, failures are easier to localize, and
+governance is easier to enforce.
+
+
+--------------------------------------------------------------------------------
+8. HOW DOES GOVERNANCE WORK IN PALETTE?
+--------------------------------------------------------------------------------
+
+Governance is built directly into the routing model. Each RIU carries a
+reversibility classification: two-way, one-way, or mixed. That classification
+controls how the system handles the decision.
+
+If the system reaches a one-way-door action, it does not just warn and continue.
+It blocks and requires explicit confirmation. That is a very intentional design
+choice. Too many AI systems will happily generate a plausible next action
+without treating irreversibility as a first-class concern.
+
+In Palette, reversibility is not an afterthought or a compliance add-on. It is
+part of the architecture itself. That makes the system much more appropriate for
+real implementation work, where some actions are cheap to reverse and some are
+not.
+
+
+--------------------------------------------------------------------------------
+9. EXPLAIN THE WIRE CONTRACT
+--------------------------------------------------------------------------------
+
+The wire contract is the fixed handoff format agents use to communicate. The
+exact field count is less important than the design principle: every handoff is
+typed, linked, and auditable.
+
+That means one agent does not just throw unstructured text at another and hope
+it interprets it correctly. It sends a defined task with structured context, and
+the receiving agent returns a defined result with status, outputs, blockers, and
+next-step information.
+
+That contract matters because it makes the system inspectable across runtimes.
+Whether the transport is HTTP, MCP, or something else, the handoff stays
+consistent. So the multi-agent chain behaves more like an engineered system and
+less like a black box.
+
+
+--------------------------------------------------------------------------------
+10. HOW IS THE WIRE CONTRACT DIFFERENT FROM THE ONTOLOGY AND INTEGRITY ENGINE?
+--------------------------------------------------------------------------------
+
+They solve three different problems:
+
+  • Ontology         — the meaning layer. Defines how concepts, agents, services,
+                       and knowledge objects relate to one another.
+
+  • Wire contract    — the communication layer. Defines how agents hand work off
+                       in a stable, machine-readable way.
+
+  • Integrity engine — the validation layer. Checks that what an agent is
+                       referencing is actually real and internally consistent,
+                       so the system does not silently drift or invent structure
+                       that does not exist.
+
+In simple terms: ontology is meaning, wire contract is communication, integrity
+is verification.
+
+
+--------------------------------------------------------------------------------
+11. WHAT DID V2.1 AND V2.2 ADD?
+--------------------------------------------------------------------------------
+
+V2.1 was about shared execution structure. It added the SDK layer so agents were
+no longer isolated scripts with inconsistent behavior. That gave the system a
+common base class, a shared execution model, and integrity checks before outputs
+hit the wire.
+
+V2.2 was about hardening the contract. It aligned the packet and result shape
+across runtimes and added tests so the contract is defended continuously rather
+than being treated as a convention people are supposed to remember.
+
+The simple way I explain it: V2.1 gave the system a common handshake, and V2.2
+made that handshake strict and testable.
+
+
+--------------------------------------------------------------------------------
+12. EXPLAIN THE RESEARCHER AGENT TECHNICALLY
+--------------------------------------------------------------------------------
+
+The researcher agent is a multi-backend retrieval and synthesis layer. It checks
+the internal knowledge library first, because if there is already a governed
+answer, that is the fastest and cheapest path.
+
+If it does need to go external, it classifies the query type and routes to the
+most appropriate backend. It also uses fallback behavior, so if the preferred
+provider fails, the system can degrade gracefully instead of failing silently.
+
+The important thing is that it returns structured output, not just a blob of
+text. It gives findings, sources, confidence, and gaps, so downstream agents can
+reason over the result instead of treating it like opaque prose.
+
+
+--------------------------------------------------------------------------------
+13. HOW DOES THE ENABLEMENT SYSTEM WORK?
+--------------------------------------------------------------------------------
+
+The enablement system is the human mirror of the machine intelligence layer. The
+same ontology that agents use to route decisions is what the curriculum uses to
+teach humans how to reason about AI implementation.
+
+The key design choice is that it is artifact-based rather than quiz-based.
+Learners produce real outputs, and those outputs are evaluated against rubrics.
+So the system is not just testing whether someone can repeat vocabulary. It is
+testing whether they can produce implementation-quality work.
+
+That matters because the broader goal is not to teach Palette as a product. It
+is to teach durable AI adoption capability in a way that is structured,
+traceable, and portable across domains.
+
+
+--------------------------------------------------------------------------------
+14. WHAT WOULD YOU IMPROVE IN PALETTE?
+--------------------------------------------------------------------------------
+
+Three main areas:
+
+  1. TRANSIENT FAILURE HANDLING
+     Make retry and fallback behavior more explicit and more observable.
+
+  2. CONFIDENCE CALIBRATION
+     Right now some of that logic is still more heuristic than I would like.
+     Push it toward stronger evidence-based scoring.
+
+  3. END-TO-END OBSERVABILITY
+     Better tracing across the full agent chain, not just per-agent logs, so
+     it is easier to understand where a decision came from and where a failure
+     entered the system.
+
+I would also validate the lens layer more formally. The architecture supports
+it, but pilot capability is not the same thing as demonstrated production value.
+
+
+--------------------------------------------------------------------------------
+15. STRONG CLOSING LINE
+--------------------------------------------------------------------------------
+
+If they ask what makes Palette technically different:
+
+"Most AI systems are optimized to answer. Palette is optimized to decide. It
+classifies the problem, checks what it already knows, routes only when needed,
+and governs actions based on reversibility. That is the difference between a
+clever demo and a system you can actually trust in implementation work."
+
+
+================================================================================
+KEY NUMBERS TO MEMORIZE
+================================================================================
+
+  • 121 RIUs (problem types)
+  • 168 knowledge library entries
+  • 466 sources
+  • 12 agents (9 specialized + 3 system)
+  • 69 integration recipes
+  • 2,013 quads in knowledge graph
+  • 103 health checks
+  • 29% one-way doors
+  • 5 certification tracks
+  • 14 learning paths
+  • 0.80 calibration target
+
+================================================================================
+
+
+Q1. I saw you have a project called Palette on GitHub. What is it?
+Palette is a knowledge architecture I built independently to prove I could design this kind of system end-to-end. It has a 121-node problem taxonomy that classifies any incoming request into a solution category, a sourced knowledge library with 176 entries — every claim traced to origin — a relationship graph with over 2,000 typed quads linking entities, and 12 specialized agents that route through the taxonomy before they act. The key design choice is that every agent has to ground its output in the knowledge layer. No agent is allowed to improvise outside the governed corpus.
+I built it because I wanted to answer a question I kept running into: can one person design a full governed knowledge system — taxonomy, retrieval, agents, evaluation — without organizational scaffolding? The answer is yes, and the discipline that made it work is the same discipline I would bring here: separate knowledge by authority, version everything, trace every decision back to its source, and never let the agent layer outrun the knowledge layer.
+Short version if they want the 15-second answer: It is a governed knowledge architecture I built from scratch — taxonomy, knowledge library, relationship graph, 12 agents. I built it to prove I could design this end-to-end independently. The core principle is the same one I would apply here: the agent is only as good as the knowledge infrastructure underneath it.yes
+
+Q2. How does what you built in Palette connect to what we are doing at iBusiness?
+The architecture patterns are directly transferable, even though the domains are completely different. In Palette, I had to solve four problems: how do you classify an incoming request so it routes to the right knowledge, how do you version and govern the knowledge so stale information never contaminates a live answer, how do you enforce boundaries between different authority levels of source material, and how do you make every agent output traceable back to the evidence that supports it.
+Those are the same four problems in lending. Classifying an incoming request is what Lendsey's resolver does when it figures out which agent handles a task. Versioning and governing knowledge is what the SOP corpus needs — Version 8 supersedes 7.1, and the system has to know the difference. Enforcing authority boundaries is the data isolation wall between iBusiness's proprietary training data and client retrieval data. And traceability is what BAICS requires — every retrieval event, every agent action, logged and reconstructible.
+So I did not build Palette to demonstrate Palette. I built it to demonstrate the discipline — and that discipline maps directly to the trust requirements in regulated lending.
+
+Q3. What was the hardest lesson you learned building Palette that you would apply here?
+The hardest lesson was that the taxonomy matters more than the model. Early on, I kept trying to make retrieval better by improving embeddings, tuning chunk sizes, adjusting reranking weights. Retrieval quality barely moved. Then I restructured the taxonomy — how problems were classified and how knowledge was organized — and retrieval accuracy jumped immediately. The model was not the bottleneck. The knowledge structure was.
+That is the same insight I had at AWS with Ask Pathfinder. The taxonomy was organized by industry vertical, matching the org chart. Sellers searched by function. I reclassified the entire taxonomy from industry-based to function-based, and it was the biggest retrieval quality improvement the system ever had. No model change, no infrastructure change — just the right structural decision.
+For iBusiness, that means I would not start by optimizing the vector store or picking the best embedding model. I would start by auditing how the SOP corpus, the credit policies, and the loan history are structured and categorized. If the knowledge structure is wrong, no amount of model tuning will fix retrieval. Get the structure right first, then the model layer has something trustworthy to work with.
+
+Three rules for delivering these if Palette comes up:
+
+Let them ask first — never volunteer Palette. If they mention it, treat it as a proof of discipline, not a product.
+Bridge to iBusiness within 30 seconds — every Palette answer should land on a lending problem within two sentences.
+Stay builder, not theorist — per the Jesse lens, he is testing whether you can build a trustworthy system and simplify intelligently. Palette proves you can. Do not let it sound like a research project.

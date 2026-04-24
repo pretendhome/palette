@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-041
 source_hash: sha256:1d8ee5cd5f77ba19
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -148,6 +148,7 @@ Semantic bugs are data that passes schema validation but is meaningfully wrong (
 - **Tier 1 (entry-level)**: [AWS Glue Data Quality Workshop](https://catalog.us-east-1.prod.workshops.aws/workshops/bd8bdbc7-11cb-4d16-9e76-1404e6d37e53)
 - **Tier 1 (entry-level)**: [Automate large-scale data validation using Amazon EMR and Apache Griffin](https://aws.amazon.com/blogs/big-data/automate-large-scale-data-validation-using-amazon-emr-and-apache-griffin/)
 - **Tier 1 (entry-level)**: [Great Expectations: Official Documentation](https://docs.greatexpectations.io/docs/home/)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

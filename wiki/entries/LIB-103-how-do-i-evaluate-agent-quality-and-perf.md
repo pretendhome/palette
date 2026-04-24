@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-103
 source_hash: sha256:28e40848b6dc17f6
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -94,6 +94,7 @@ Always produce scored rubrics as artifacts for human review.
 - **Tier 1 (entry-level)**: [Google Introduction to Agents (Nov 2025) - AgentOps section](https://cloud.google.com/use-cases/agents)
 - **Tier 1 (entry-level)**: [Agentic System Design book (referenced in Google doc)](https://www.oreilly.com/library/view/agentic-system-design/9781098156909/)
 - **Tier 1 (entry-level)**: Palette Tier 2 - Agent Maturity & Trust Model (`palette/.steering/assumptions.md#agent-maturity`)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

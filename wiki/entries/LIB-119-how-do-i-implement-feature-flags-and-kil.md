@@ -2,10 +2,10 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-119
 source_hash: sha256:56e419690932cf20
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
-evidence_tier: 3
+evidence_tier: 1
 tags: [experimentation, feature-flags, kill-switch, knowledge-entry, orchestration, rollout]
 related: [RIU-064, RIU-068]
 handled_by: [architect, builder, monitor]
@@ -23,8 +23,9 @@ Feature flags gate model versions, prompt variants, and pipeline configurations 
 
 ## Evidence
 
-- **Tier 3 (entry-level)**: [LaunchDarkly: Feature Flags and Feature Management](https://launchdarkly.com/)
-- **Tier 3 (entry-level)**: [Fast.io: AI Agent Secrets Management Best Practices](https://fast.io/resources/ai-agent-secrets-management/)
+- **Tier 1 (entry-level)**: [LaunchDarkly: Feature Flags and Feature Management](https://launchdarkly.com/)
+- **Tier 1 (entry-level)**: [Fast.io: AI Agent Secrets Management Best Practices](https://fast.io/resources/ai-agent-secrets-management/)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 
@@ -42,5 +43,5 @@ Evidence tier shown is the entry-level minimum. Individual source tiers are not 
 ## Provenance
 
 Source: `knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml`, entry LIB-119.
-Evidence tier: 3.
+Evidence tier: 1.
 Journey stage: orchestration.

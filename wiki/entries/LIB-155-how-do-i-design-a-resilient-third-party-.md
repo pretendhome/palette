@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-155
 source_hash: sha256:0735c8714b17c67c
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -25,6 +25,7 @@ RIU-320 defines API integration resilience in four layers. Layer 1 — Circuit B
 
 - **Tier 1 (entry-level)**: [Michael Nygard: Release It! — Stability Patterns (2nd Edition, 2018)](https://pragprog.com/titles/mnee2/release-it-second-edition/)
 - **Tier 1 (entry-level)**: [AWS: Implementing Resilient Applications](https://docs.aws.amazon.com/prescriptive-guidance/latest/modernization-integrating-microservices/reliability.html)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

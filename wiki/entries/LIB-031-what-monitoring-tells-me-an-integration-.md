@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-031
 source_hash: sha256:04aa73400ed82558
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -116,6 +116,7 @@ Degradation signals appear before failures — monitor leading indicators, not j
 - **Tier 1 (entry-level)**: [Understanding and monitoring latency for Amazon EBS volumes](https://aws.amazon.com/blogs/storage/understanding-and-monitoring-latency-for-amazon-ebs-volumes-using-amazon-cloudwatch/)
 - **Tier 1 (entry-level)**: [Integrate Amazon CloudWatch alarms with Amazon CloudWatch Metrics Insights](https://aws.amazon.com/blogs/mt/integrate-amazon-cloudwatch-alarms-with-amazon-cloudwatch-metrics-insights/)
 - **Tier 1 (entry-level)**: [OpenTelemetry: What is OpenTelemetry](https://opentelemetry.io/docs/what-is-opentelemetry/)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

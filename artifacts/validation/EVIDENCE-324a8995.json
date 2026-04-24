@@ -1,0 +1,8 @@
+{
+  "evidence_id": "324a8995-9cbe-4093-afca-3608155d183c",
+  "timestamp": "2026-04-23T21:22:22.433062+00:00",
+  "task": "High Risk Task",
+  "error": "Critical bug",
+  "input_payload": null,
+  "validator_version": "2.0"
+}

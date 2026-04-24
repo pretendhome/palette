@@ -1,0 +1,1 @@
+{"evidence_id": "24a9684d-05f0-4ecb-8ad3-8383e3c44f9b", "timestamp": "2026-04-23T22:20:55.949339+00:00", "task": "Dep Task", "error": "Critical error: missing file dependency 'MANIFEST.yaml' not found on disk.", "input_payload": {}}

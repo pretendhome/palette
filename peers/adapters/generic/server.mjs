@@ -30,7 +30,7 @@ const PEEK_INTERVAL_MS = 5_000;
 const AGENT_CONFIGS = {
   'claude.analysis':       { agent_name: 'claude-code',   runtime: 'claude-code',     capabilities: ['architecture', 'code_generation', 'debugging', 'testing'], role: 'architect' },
   'kiro.design':           { agent_name: 'kiro',          runtime: 'kiro-cli',        capabilities: ['architecture', 'code_generation', 'scaffolding'],          role: 'architect' },
-  'codex.implementation':  { agent_name: 'codex',         runtime: 'codex-cli',       capabilities: ['code_generation', 'creative_design', 'auditing'],          role: 'builder' },
+  'codex.implementation':  { agent_name: 'codex',         runtime: 'codex',           capabilities: ['architecture', 'code_generation', 'bash_execution', 'file_operations', 'testing', 'narrative'], role: 'builder' },
   'mistral-vibe.builder':  { agent_name: 'mistral-vibe',  runtime: 'mistral-le-chat', capabilities: ['content_generation', 'exercise_design', 'documentation'],  role: 'builder' },
   'perplexity.research':   { agent_name: 'perplexity',    runtime: 'api-adapter',     capabilities: ['research', 'source_enrichment', 'competitive_analysis'],   role: 'researcher' },
 };
@@ -193,6 +193,31 @@ Actions: list, index (compact for prompts), view, save, delete, record_use, prom
   },
 ];
 
+// --- Bus status injection (Option B: tool response footer) ---
+let _cachedPendingCount = 0;
+
+function busStatusFooter() {
+  return _cachedPendingCount > 0
+    ? `\n\n---\n[bus] ${_cachedPendingCount} unread message(s) pending for ${IDENTITY}. Call peers_fetch.`
+    : '';
+}
+
+function injectFooter(result) {
+  const footer = busStatusFooter();
+  if (!footer) return result;
+  if (result.content?.[0]?.type === 'text') {
+    result.content[0].text += footer;
+  } else {
+    result.content = [...(result.content ?? []), { type: 'text', text: footer }];
+  }
+  return result;
+}
+
+// --- MCP notifications (server→client) ---
+function sendNotification(method, params) {
+  process.stdout.write(JSON.stringify({ jsonrpc: '2.0', method, params }) + '\n');
+}
+
 // --- Tool handlers ---
 async function handleTool(name, args) {
   switch (name) {
@@ -220,6 +245,7 @@ async function handleTool(name, args) {
     case 'peers_fetch': {
       const result = await brokerPost('/fetch', { identity: IDENTITY });
       const msgs = result.messages ?? [];
+      _cachedPendingCount = 0; // just consumed them
       if (!msgs.length) return { content: [{ type: 'text', text: 'No pending messages.' }] };
       const summary = msgs.map(m =>
         `[${m.created_at}] ${m.from_agent} → ${IDENTITY}\n  type: ${m.message_type} | risk: ${m.risk_level}\n  intent: ${m.intent}\n  payload: ${JSON.stringify(m.payload, null, 2)}`
@@ -405,10 +431,22 @@ async function register() {
     peekTimer = setInterval(async () => {
       try {
         const result = await brokerPost('/peek', { identity: IDENTITY });
-        const ids = new Set((result.messages ?? []).map(m => m.message_id));
+        const msgs = result.messages ?? [];
+        const ids = new Set(msgs.map(m => m.message_id));
         const newIds = [...ids].filter(id => !lastPendingIds.has(id));
+        _cachedPendingCount = msgs.length;
         if (newIds.length) {
-          process.stderr.write(`[palette-peers] ${IDENTITY} has ${newIds.length} new pending message(s)\n`);
+          const msg = `${newIds.length} new bus message(s) for ${IDENTITY}. Call peers_fetch.`;
+          process.stderr.write(`[palette-peers] ${msg}\n`);
+          // Standard spec notification (future-proofs Codex when Issue #18056 merges)
+          sendNotification('notifications/message', {
+            level: 'info', logger: 'palette-peers',
+            data: { type: 'bus_notification', count: newIds.length, message: msg }
+          });
+          // Claude Code proprietary (silently no-ops on other hosts)
+          sendNotification('notifications/claude/channel', {
+            data: { type: 'peer_message', content: msg, from: 'palette-peers-bus', timestamp: new Date().toISOString() }
+          });
         }
         lastPendingIds = ids;
       } catch {
@@ -467,7 +505,7 @@ async function handleMessage(msg) {
     const { name, arguments: args } = msg.params;
     try {
       const result = await handleTool(name, args ?? {});
-      sendResponse(msg.id, result);
+      sendResponse(msg.id, injectFooter(result));
     } catch (e) {
       sendError(msg.id, -32603, e.message);
     }

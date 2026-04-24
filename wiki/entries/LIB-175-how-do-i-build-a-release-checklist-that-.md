@@ -2,10 +2,10 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-175
 source_hash: sha256:51d983c65a289ae8
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
-evidence_tier: 3
+evidence_tier: 1
 tags: [all, checklist, deployment, knowledge-entry, operational-safety, release-engineering, rollback]
 related: [RIU-001, RIU-062]
 handled_by: [architect, debugger, researcher]
@@ -23,7 +23,8 @@ A release checklist covers six areas in order: (1) Migration safety — is every
 
 ## Evidence
 
-- **Tier 3 (entry-level)**: [garrytan/gstack ship skill — release hygiene methodology](https://github.com/garrytan/gstack)
+- **Tier 1 (entry-level)**: [garrytan/gstack ship skill — release hygiene methodology](https://github.com/garrytan/gstack)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 
@@ -45,5 +46,5 @@ Evidence tier shown is the entry-level minimum. Individual source tiers are not 
 ## Provenance
 
 Source: `knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml`, entry LIB-175.
-Evidence tier: 3.
+Evidence tier: 1.
 Journey stage: all.

@@ -2,10 +2,10 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-173
 source_hash: sha256:be78970db188122c
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
-evidence_tier: 3
+evidence_tier: 1
 tags: [all, code-review, error-handling, failure-modes, knowledge-entry, production-safety, reliability]
 related: [RIU-001, RIU-062]
 handled_by: [architect, debugger, researcher]
@@ -23,7 +23,8 @@ Use an error/rescue registry — a table that maps every method or codepath that
 
 ## Evidence
 
-- **Tier 3 (entry-level)**: [garrytan/gstack review skill — error/rescue map methodology](https://github.com/garrytan/gstack)
+- **Tier 1 (entry-level)**: [garrytan/gstack review skill — error/rescue map methodology](https://github.com/garrytan/gstack)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 
@@ -45,5 +46,5 @@ Evidence tier shown is the entry-level minimum. Individual source tiers are not 
 ## Provenance
 
 Source: `knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml`, entry LIB-173.
-Evidence tier: 3.
+Evidence tier: 1.
 Journey stage: all.

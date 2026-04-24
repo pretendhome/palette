@@ -1,0 +1,146 @@
+{
+  "missing required key: 'riu_id'": {
+    "diagnosis": {
+      "symptom": "Schema Task",
+      "immediate_cause": "Structural mismatch in expected data format.",
+      "root_cause": "Schema definition diverged from input payload keys: [].",
+      "evidence": "missing required key: 'riu_id'",
+      "data_context": {},
+      "source_context": null,
+      "trace_summary": null
+    },
+    "fix_proposal": {
+      "file": "Unknown",
+      "line": 0,
+      "current": "Unknown",
+      "fixed": "# ADD missing key 'riu_id' to input payload",
+      "rationale": "Required field 'riu_id' was absent in the request.",
+      "blast_radius": "low"
+    },
+    "cached_at": "2026-04-23T22:14:18.602757+00:00"
+  },
+  "missing file: dependency 'MANIFEST.yaml'": {
+    "diagnosis": {
+      "symptom": "Dep Task",
+      "immediate_cause": "Required system resource is missing or empty.",
+      "root_cause": "File or directory dependency was not initialized or was deleted.",
+      "evidence": "missing file: dependency 'MANIFEST.yaml'",
+      "data_context": {},
+      "source_context": null,
+      "trace_summary": null
+    },
+    "fix_proposal": {
+      "file": "manifest.yaml",
+      "line": 0,
+      "current": "Unknown",
+      "fixed": "# RESTORE or INITIALIZE this dependency",
+      "rationale": "Required file or directory is missing or empty on disk.",
+      "blast_radius": "low"
+    },
+    "cached_at": "2026-04-23T22:14:18.622238+00:00"
+  },
+  "POLICY VIOLATION: No Direct DB Access": {
+    "diagnosis": {
+      "symptom": "Policy Task",
+      "immediate_cause": "Implementation violates architectural standards.",
+      "root_cause": "Direct DB access, hidden state, or unauthorized library usage detected.",
+      "evidence": "POLICY VIOLATION: No Direct DB Access",
+      "data_context": {},
+      "source_context": null,
+      "trace_summary": null
+    },
+    "fix_proposal": {
+      "file": "Unknown",
+      "line": 0,
+      "current": "Unknown",
+      "fixed": "# REFACTOR to remove prohibited architectural pattern",
+      "rationale": "Implementation violates system engineering standards (e.g. direct DB access).",
+      "blast_radius": "high"
+    },
+    "cached_at": "2026-04-23T22:14:18.623323+00:00"
+  },
+  "File \"/usr/lib/python3.12/json.py\", line 100, in loads\nFile \"/home/mical/fde/palette/agents/debugger": {
+    "diagnosis": {
+      "symptom": "Logic Task",
+      "immediate_cause": "System crashed with exception: ValueError: logic error",
+      "root_cause": "Logic error or unhandled edge case in implementation.",
+      "evidence": "File \"/usr/lib/python3.12/json.py\", line 100, in loads\nFile \"/home/mical/fde/palette/agents/debugger/test_debugger_v2.py\", line 50, in main\nValueError: logic error",
+      "data_context": {},
+      "source_context": {
+        "file": "/home/mical/fde/palette/agents/debugger/test_debugger_v2.py",
+        "line": 50,
+        "context": "    # We check if it correctly generated a fix proposal without a traceback\n    evidence, _ = engine.consume_evidence(ev_path)\n    diag = engine.diagnose_root_cause(evidence, \"schema\")\n    fix = engine.propose_minimal_fix(diag, \"schema\")\n    assert fix is not None\n    assert \"ADD missing key 'riu_id'\" in fix['fixed']\n    print(\"  \u2713 Correct structured fix proposed for missing key.\")\n"
+      },
+      "trace_summary": null
+    },
+    "fix_proposal": {
+      "file": "/home/mical/fde/palette/agents/debugger/test_debugger_v2.py",
+      "line": 50,
+      "current": "fix = engine.propose_minimal_fix(diag, \"schema\")",
+      "fixed": "# FIX PENDING",
+      "rationale": "Addresses Logic error or unhandled edge case in implementation.",
+      "blast_radius": "medium"
+    },
+    "cached_at": "2026-04-23T22:14:18.624466+00:00"
+  },
+  "KeyError: 'riu_id' missing from schema validation failed loudly.": {
+    "diagnosis": {
+      "symptom": "Schema Task",
+      "immediate_cause": "Structural mismatch in expected data format.",
+      "root_cause": "Schema definition diverged from input payload keys: [].",
+      "evidence": "KeyError: 'riu_id' missing from schema validation failed loudly.",
+      "data_context": {},
+      "source_context": null,
+      "trace_summary": null
+    },
+    "fix_proposal": {
+      "file": "Unknown",
+      "line": 0,
+      "current": "Unknown",
+      "fixed": "# ADD missing key 'riu_id' to input payload",
+      "rationale": "Required field 'riu_id' was absent in the request.",
+      "blast_radius": "low"
+    },
+    "cached_at": "2026-04-23T22:20:42.896205+00:00"
+  },
+  "Critical error: missing file dependency 'MANIFEST.yaml' not found on disk.": {
+    "diagnosis": {
+      "symptom": "Dep Task",
+      "immediate_cause": "Required system resource is missing or empty.",
+      "root_cause": "File or directory dependency was not initialized or was deleted.",
+      "evidence": "Critical error: missing file dependency 'MANIFEST.yaml' not found on disk.",
+      "data_context": {},
+      "source_context": null,
+      "trace_summary": null
+    },
+    "fix_proposal": {
+      "file": "manifest.yaml",
+      "line": 0,
+      "current": "Unknown",
+      "fixed": "# RESTORE or INITIALIZE this dependency",
+      "rationale": "Required file or directory is missing or empty on disk.",
+      "blast_radius": "low"
+    },
+    "cached_at": "2026-04-23T22:20:42.917359+00:00"
+  },
+  "Critical Policy Violation traceback detected: No Direct DB Access allowed in implementation.": {
+    "diagnosis": {
+      "symptom": "Policy Task",
+      "immediate_cause": "Implementation violates architectural standards.",
+      "root_cause": "Direct DB access, hidden state, or unauthorized library usage detected.",
+      "evidence": "Critical Policy Violation traceback detected: No Direct DB Access allowed in implementation.",
+      "data_context": {},
+      "source_context": null,
+      "trace_summary": null
+    },
+    "fix_proposal": {
+      "file": "Unknown",
+      "line": 0,
+      "current": "Unknown",
+      "fixed": "# REFACTOR to remove prohibited architectural pattern",
+      "rationale": "Implementation violates system engineering standards (e.g. direct DB access).",
+      "blast_radius": "high"
+    },
+    "cached_at": "2026-04-23T22:20:55.950683+00:00"
+  }
+}

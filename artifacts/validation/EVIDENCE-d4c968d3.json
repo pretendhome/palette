@@ -1,0 +1,8 @@
+{
+  "evidence_id": "d4c968d3-bcfc-4dae-8652-48519264964e",
+  "timestamp": "2026-04-23T22:43:24.809892+00:00",
+  "task": "Infinite Loop Task",
+  "error": "Test fail",
+  "input_payload": null,
+  "validator_version": "2.0"
+}

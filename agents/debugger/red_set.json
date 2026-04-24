@@ -1,0 +1,89 @@
+{
+  "Fingerprint Task": {
+    "error_pattern": "Traceback ALPHA: core dumped",
+    "root_cause": "Cause A",
+    "detected_at": "2026-04-23T22:58:25.302409+00:00",
+    "resolved": true,
+    "resolved_at": "2026-04-23T22:58:25.302483+00:00"
+  },
+  "Loop Task": {
+    "error_pattern": "System failed loudly with recursive loop error in ",
+    "root_cause": "Logic error or unhandled edge case in implementation.",
+    "detected_at": "2026-04-23T22:58:25.304029+00:00",
+    "resolved": false
+  },
+  "Buffer": {
+    "error_pattern": "Integration failure traceback: Connection refused ",
+    "root_cause": "Service unreachable. No specific endpoint identified.",
+    "detected_at": "2026-04-23T22:58:25.305206+00:00",
+    "resolved": false
+  },
+  "Concurrent 0": {
+    "error_pattern": "System logic error detected during concurrent task",
+    "root_cause": "Logic error or unhandled edge case in implementation.",
+    "detected_at": "2026-04-23T22:58:25.306108+00:00",
+    "resolved": false
+  },
+  "Concurrent 1": {
+    "error_pattern": "System logic error detected during concurrent task",
+    "root_cause": "Logic error or unhandled edge case in implementation.",
+    "detected_at": "2026-04-23T22:58:25.306962+00:00",
+    "resolved": false
+  },
+  "Concurrent 2": {
+    "error_pattern": "System logic error detected during concurrent task",
+    "root_cause": "Logic error or unhandled edge case in implementation.",
+    "detected_at": "2026-04-23T22:58:25.307742+00:00",
+    "resolved": false
+  },
+  "Garbage Task": {
+    "error_pattern": "Critical traceback with binary junk: \u0000\u00ff\u0001\u0002 random j",
+    "root_cause": "Logic error or unhandled edge case in implementation.",
+    "detected_at": "2026-04-23T22:58:25.308948+00:00",
+    "resolved": false
+  },
+  "Persistence Task": {
+    "error_pattern": "Old Error",
+    "root_cause": "Old Cause",
+    "detected_at": "2026-04-23T22:58:25.309481+00:00",
+    "resolved": true,
+    "resolved_at": "2026-04-23T22:58:25.314945+00:00"
+  },
+  "Chain A": {
+    "error_pattern": "Root logic traceback failure in module A.",
+    "root_cause": "Logic error or unhandled edge case in implementation.",
+    "detected_at": "2026-04-23T22:58:25.313342+00:00",
+    "resolved": false
+  },
+  "Chain B": {
+    "error_pattern": "Cascading failure traceback from Chain A execution",
+    "root_cause": "Logic error or unhandled edge case in implementation.",
+    "detected_at": "2026-04-23T22:58:25.314163+00:00",
+    "resolved": false
+  },
+  "Cache Task": {
+    "error_pattern": "Unique Error Fingerprint 123",
+    "root_cause": "Fix was not durable or was reverted by an unrelated change.",
+    "detected_at": "2026-04-23T22:58:25.316081+00:00",
+    "resolved": false
+  },
+  "Maturity Task": {
+    "error_pattern": "Traceback error failure in logic.",
+    "root_cause": "Fix was not durable or was reverted by an unrelated change.",
+    "detected_at": "2026-04-23T22:58:25.320962+00:00",
+    "resolved": false
+  },
+  "RIU Log Task": {
+    "error_pattern": "Critical traceback logic failure.",
+    "root_cause": "Logic error or unhandled edge case in implementation.",
+    "detected_at": "2026-04-23T22:58:25.322466+00:00",
+    "resolved": false
+  },
+  "Sync Task": {
+    "error_pattern": "err",
+    "root_cause": "cause",
+    "detected_at": "2026-04-23T22:58:25.325098+00:00",
+    "resolved": true,
+    "resolved_at": "2026-04-23T22:58:25.325179+00:00"
+  }
+}

@@ -1,8 +1,8 @@
 ---
 source_file: MANIFEST.yaml
 source_id: researcher
-source_hash: sha256:9e883028c983b3e3
-compiled_at: 2026-04-04T15:44:26Z
+source_hash: sha256:3ce0e992137a78cc
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: agent
 tags: [agent, researcher]
@@ -12,7 +12,7 @@ DO_NOT_EDIT: This file is auto-generated. Edit the source YAML and recompile.
 
 # Researcher
 
-research — internal libraries first, then Perplexity MCP
+research — internal libraries first, then Perplexity MCP, auto-enrichment opt-in
 
 ## Handles
 
@@ -43,9 +43,11 @@ research — internal libraries first, then Perplexity MCP
 
 ## Protocol
 
+- SDK module: `agents/researcher/auto_enrich.py`
 - SDK module: `agents/researcher/researcher.py`
+- SDK module: `agents/researcher/test_auto_enrich.py`
 - Wire contract: HandoffPacket (7 fields) / HandoffResult (7 fields)
 
 ## Provenance
 
-Agent: researcher. Role: research — internal libraries first, then Perplexity MCP.
+Agent: researcher. Role: research — internal libraries first, then Perplexity MCP, auto-enrichment opt-in.

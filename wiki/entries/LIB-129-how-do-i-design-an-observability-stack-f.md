@@ -2,10 +2,10 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-129
 source_hash: sha256:6250fbf2c27e2843
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
-evidence_tier: 3
+evidence_tier: 1
 tags: [datadog, knowledge-entry, monitoring, observability, orchestration, production]
 related: [RIU-061, RIU-070, RIU-542]
 handled_by: [architect, builder, monitor]
@@ -23,8 +23,9 @@ AI observability requires three layers — infrastructure metrics (CPU, memory, 
 
 ## Evidence
 
-- **Tier 3 (entry-level)**: [Palette internal knowledge base](https://github.com/pretendhome/pretendhome)
-- **Tier 3 (entry-level)**: FDE field experience (`internal`)
+- **Tier 1 (entry-level)**: [Palette internal knowledge base](https://github.com/pretendhome/pretendhome)
+- **Tier 1 (entry-level)**: FDE field experience (`internal`)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 
@@ -43,5 +44,5 @@ Evidence tier shown is the entry-level minimum. Individual source tiers are not 
 ## Provenance
 
 Source: `knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml`, entry LIB-129.
-Evidence tier: 3.
+Evidence tier: 1.
 Journey stage: orchestration.

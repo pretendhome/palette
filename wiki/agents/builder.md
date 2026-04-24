@@ -2,7 +2,7 @@
 source_file: MANIFEST.yaml
 source_id: builder
 source_hash: sha256:e2d124154c68a262
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: agent
 tags: [agent, builder]
@@ -75,6 +75,8 @@ implementation within bounded spec
 ## Protocol
 
 - SDK module: `agents/builder/builder.py`
+- SDK module: `agents/builder/builder_v2.py`
+- SDK module: `agents/builder/test_builder_v2.py`
 
 ## Provenance
 

@@ -1,0 +1,1 @@
+{"evidence_id": "45d3d18e-d168-4e27-855c-e33e301fe194", "timestamp": "2026-04-23T22:32:54.155540+00:00", "task": "Garbage Task", "error": "Critical traceback with binary junk: \u0000\u00ff\u0001\u0002 random junk here for length.", "input_payload": {}}

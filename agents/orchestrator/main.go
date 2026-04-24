@@ -128,6 +128,14 @@ func main() {
 			os.Exit(1)
 		}
 
+	// ── stats ─────────────────────────────────────────────────────────────────
+	// Show routing memory statistics (Phase 0: passive collection).
+	case "stats":
+		if err := printStats(cfg.AgentsDir); err != nil {
+			fmt.Fprintf(os.Stderr, "✗ %v\n", err)
+			os.Exit(1)
+		}
+
 	default:
 		fmt.Fprintf(os.Stderr, "unknown subcommand: %s\n\n", sub)
 		usage()

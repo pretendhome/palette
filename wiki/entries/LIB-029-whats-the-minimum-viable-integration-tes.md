@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-029
 source_hash: sha256:ff8ecf33ed43be07
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -114,6 +114,7 @@ A minimum viable integration test suite validates that AI and legacy systems com
 - **Tier 1 (entry-level)**: [Testing approaches for Amazon SageMaker ML models](https://aws.amazon.com/blogs/machine-learning/testing-approaches-for-amazon-sagemaker-ml-models/)
 - **Tier 1 (entry-level)**: [Implement automated smoke testing using Amazon Nova Act headless mode](https://aws.amazon.com/blogs/machine-learning/implement-automated-smoke-testing-using-amazon-nova-act-headless-mode/)
 - **Tier 1 (entry-level)**: [Speed meets scale: Load testing SageMaker AI endpoints with OLAF](https://aws.amazon.com/blogs/machine-learning/speed-meets-scale-load-testing-sagemakerai-endpoints-with-observe-ais-testing-tool/)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

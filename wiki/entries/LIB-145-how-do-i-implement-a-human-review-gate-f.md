@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-145
 source_hash: sha256:0f37671d51506dfe
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -25,6 +25,7 @@ RIU-087 defines a gating process for irreversible decisions. Step 1 — Identify
 
 - **Tier 1 (entry-level)**: [Amazon Leadership Principles: One-Way and Two-Way Door Decisions](https://www.aboutamazon.com/about-us/leadership-principles)
 - **Tier 1 (entry-level)**: [NIST AI RMF: Govern Function — Decision Authority](https://www.nist.gov/artificial-intelligence/ai-risk-management-framework)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

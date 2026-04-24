@@ -957,6 +957,28 @@ def main() -> int:
     if decisions_path:
         log_execution(task, context, search_result, packet_id, trace_id, decisions_path)
 
+    # ── Auto-enrichment (opt-in via HandoffPacket) ─────────────────────────
+    auto_enrich_flag = payload.get("auto_enrich", False)
+    if auto_enrich_flag and search_result.findings:
+        try:
+            from auto_enrich import evaluate_and_propose, file_proposals, summary as enrich_summary
+            enrich_threshold = payload.get("auto_enrich_threshold", 75)
+            proposed, filtered = evaluate_and_propose(
+                findings=[asdict(f) for f in search_result.findings],
+                task_id=packet_id,
+                source_rius=payload.get("riu_ids", []),
+                threshold=enrich_threshold,
+            )
+            filed_ids = file_proposals(proposed) if proposed else []
+            search_result._auto_enrichment = {
+                **enrich_summary(len(search_result.findings), proposed, filtered),
+                "proposal_ids": filed_ids,
+            }
+            if filed_ids:
+                progress(f"auto-enrich: filed {len(filed_ids)} proposals, filtered {len(filtered)}")
+        except Exception as e:
+            progress(f"auto-enrich failed (non-blocking): {e}")
+
     # ── Emit HandoffResult ────────────────────────────────────────────────────
     handoff = build_handoff_result(packet_id, search_result, query_type)
 
@@ -973,6 +995,10 @@ def main() -> int:
             handoff.setdefault("output", {})["sdk_validation_warnings"] = warnings
             for w in warnings:
                 progress(f"sdk validation: {w}")
+
+    # Attach auto-enrichment metadata if present
+    if hasattr(search_result, "_auto_enrichment"):
+        handoff.setdefault("output", {})["auto_enrichment"] = search_result._auto_enrichment
 
     json.dump(handoff, sys.stdout, indent=2)
     sys.stdout.write("\n")

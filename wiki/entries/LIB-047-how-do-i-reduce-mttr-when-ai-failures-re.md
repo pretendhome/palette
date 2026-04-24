@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-047
 source_hash: sha256:66459f0b803cabe8
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -166,6 +166,7 @@ MTTR for expert-dependent failures has three components: Time to Engage Expert +
 - **Tier 1 (entry-level)**: [AWS DevOps Agent helps you accelerate incident response](https://aws.amazon.com/blogs/aws/aws-devops-agent-helps-you-accelerate-incident-response-and-improve-system-reliability-preview/)
 - **Tier 1 (entry-level)**: [Accelerate investigations with AWS Security Incident Response AI-powered capabilities](https://aws.amazon.com/blogs/security/accelerate-investigations-with-aws-security-incident-response-ai-powered-capabilities/)
 - **Tier 1 (entry-level)**: [Methodology for incident response on generative AI workloads](https://aws.amazon.com/blogs/security/methodology-for-incident-response-on-generative-ai-workloads/)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

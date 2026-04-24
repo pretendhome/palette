@@ -2,7 +2,7 @@
 source_file: MANIFEST.yaml
 source_id: narrator
 source_hash: sha256:c17070afbb3e3b76
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: agent
 tags: [agent, narrator]

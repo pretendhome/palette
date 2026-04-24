@@ -1,0 +1,1 @@
+{"evidence_id": "c17b916e-7661-4645-a23e-a44a2c9cf810", "timestamp": "2026-04-23T21:56:19.190805+00:00", "task": "Logic Task", "error": "File \"/home/mical/fde/palette/agents/debugger/test_debugger_v2.py\", line 10, in dummy_func\nValueError: logic error", "input_payload": {}}

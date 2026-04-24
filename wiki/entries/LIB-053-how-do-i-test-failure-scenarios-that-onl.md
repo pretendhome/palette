@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-053
 source_hash: sha256:43433aff6b4aa54a
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -220,6 +220,7 @@ Production-only failures (scale, timing, real data patterns) require controlled 
 - **Tier 1 (entry-level)**: [Minimize the production impact of ML model updates with Amazon SageMaker shadow testing](https://aws.amazon.com/blogs/machine-learning/minimize-the-production-impact-of-ml-model-updates-with-amazon-sagemaker-shadow-testing/)
 - **Tier 1 (entry-level)**: [GitHub - awslabs/chaos-machine](https://github.com/awslabs/chaos-machine)
 - **Tier 1 (entry-level)**: [Principles of Chaos Engineering](https://principlesofchaos.org/)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

@@ -1,0 +1,1 @@
+{"evidence_id": "1828a105-bc84-4374-bfb2-76bcf31ca377", "timestamp": "2026-04-23T21:55:59.906643+00:00", "task": "Schema Task", "error": "KeyError: 'missing_field' in schema validation", "input_payload": {}}

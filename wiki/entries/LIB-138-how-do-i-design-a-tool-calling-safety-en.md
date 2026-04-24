@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-138
 source_hash: sha256:c1ac0d9b7b6d8111
-compiled_at: 2026-04-04T15:44:26Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1
@@ -26,6 +26,7 @@ RIU-029 defines four safety layers for agent tool calling. Layer 1 — Tool Allo
 - **Tier 1 (entry-level)**: [Anthropic: Building Effective Agents](https://docs.anthropic.com/en/docs/build-with-claude/agent-patterns)
 - **Tier 1 (entry-level)**: [OWASP: LLM Top 10 — Insecure Plugin Design](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
 - **Tier 1 (entry-level)**: [NIST AI RMF: AI Risk Management Framework](https://www.nist.gov/artificial-intelligence/ai-risk-management-framework)
+- **1**: Palette Remediation Loop — Automated Validation, Diagnosis, and Fix Pipeline (`agents/remediation/ARCHITECTURE_SPEC.md`)
 
 Evidence tier shown is the entry-level minimum. Individual source tiers are not yet classified.
 

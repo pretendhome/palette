@@ -8,6 +8,25 @@ Purpose: Define the queryable system that sits on top of the External Reality La
 
 Build the External Reality Layer as a read-first, action-gated intelligence service: agents and humans can query what is happening in the outside AI market, but every material action must pass through an explicit convergence packet that classifies evidence, affected RIUs, reversibility, confidence, and proposed next step before changing Palette behavior.
 
+## V1 Scope Controls
+
+Review disposition: Kiro approved the architecture with scope controls. Codex accepts these controls as binding for v1 implementation.
+
+The architecture should stay large enough to preserve the boundary, but v1 must stay small enough to prove the data can feed the machinery:
+
+1. Implementation cap: Slices 1-3 must stay under 500 lines of implementation code. If the design needs more than that to prove value, the first slice is too broad.
+2. Core schema only: v1 uses the core zone only. Extensions and experimental fields go to the schema backlog until a query, gate, health check, generated artifact, or deterministic join requires them.
+3. One script, one agent, three steps: v1 should not use a multi-agent workflow. It should query, produce SignalPackets, and emit a convergence brief.
+4. No bot before CLI proof: bot commands are deferred until Slice 3 works and has been used at least 5 times.
+
+Kill switch:
+
+```text
+If after Slice 3 fewer than 5 actionable SignalPackets have been produced, pause ERS implementation and reassess whether the available data justifies the system.
+```
+
+This is not a reduction of the concept. It is the proof harness that prevents the External Reality Layer from becoming a second project before it has earned operational gravity.
+
 ## Palette Routing Pass
 
 This design maps to existing Palette RIUs:
@@ -41,6 +60,23 @@ Palette should support two modes:
 - requires convergence packet
 - may update Company Index, People Library, recipes, RIUs, radar, traversal confidence, or decisions
 - gated by reversibility and confidence
+
+Refined operating rule:
+
+```text
+External reality is validated on pull, not continuously.
+```
+
+ERS should not create a permanent MLOps-style validation burden. It should hold structured observations and only force validation when a human or agent pulls information for a concrete use:
+
+- `/brief`
+- topic query
+- quarterly update
+- pull request / data change
+- recommendation change
+- proposed action
+
+This keeps maintenance cost low while ensuring no unverified signal becomes a decision.
 
 ## Why A Separate Query System
 
@@ -144,6 +180,21 @@ External Reality Store is a read model and signal layer, not the canonical sourc
 
 Queries should return evidence and actionability, not just answers.
 
+ERS has two query tiers:
+
+1. Observation
+- returns known signals with labels
+- no mandatory research refresh
+- suitable for browsing, brainstorming, radar views, and "what is happening?" questions
+
+2. Verified Pull
+- mandates Researcher validation before action
+- required before ActionProposal
+- required before any source-of-truth data change
+- required before PR merge involving external reality updates
+
+The system should make the tier explicit in every result.
+
 ### Query Types
 
 ```yaml
@@ -179,7 +230,8 @@ query_result:
   query: ""
   query_type: "category_heat"
   generated_at: "YYYY-MM-DDTHH:MM:SS"
-  mode: observation
+  mode: observation | verified_pull
+  validation_state: unverified_observation | researcher_verified | stale_verified | blocked
   related_rius: []
   entities:
     people: []
@@ -201,6 +253,51 @@ query_result:
     possible_actions: []
     blocked_actions: []
 ```
+
+## Pull-Time Validation
+
+Validation happens when information is pulled into a decision context.
+
+Trigger validation when:
+
+- a PR changes People Library, Company Index, recipes, service routing, taxonomy, radar, or ERS files
+- a user asks for an action, not just a briefing
+- a query result will be used to change a recommendation
+- a company/person/category is promoted from watch to evaluate/integrate
+- a stale signal is older than its decay budget and appears in a proposed action
+
+Do not trigger validation when:
+
+- user only asks for a read-only brief
+- signal remains in observation tier
+- radar displays clearly label unverified/stale status
+- data is added as an unverified note without actionability
+
+### Pull-Time Validation Contract
+
+Every verified pull should produce:
+
+```yaml
+validation_record:
+  id: "VAL-..."
+  query_id: "ERQ-..."
+  validated_by: researcher
+  validated_at: "YYYY-MM-DDTHH:MM:SS"
+  validation_scope:
+    companies: []
+    people: []
+    rius: []
+    claims: []
+  confidence: low | medium | high
+  sources_checked: []
+  claims_confirmed: []
+  claims_rejected: []
+  claims_uncertain: []
+  action_allowed: true
+  notes: ""
+```
+
+This is intentionally simple. It is not an MLOps subsystem. It is a mandated research check before action.
 
 ## Signal Packet
 
@@ -242,6 +339,7 @@ signal_packet:
   contradiction_check:
     conflicts_found: true
     conflicts: []
+  palette_action_class: observe | research | update_index | update_recipe | propose_riu | alert_human
   proposed_action:
     action_type: update_data | add_entity | archive_entity | add_recipe_candidate | propose_riu | change_recommendation | monitor_only
     description: ""
@@ -253,6 +351,26 @@ signal_packet:
     rationale: ""
   convergence_required: true
 ```
+
+`palette_action_class` is a core v1 field because it makes the governance path deterministic:
+
+- `observe` means no action, only record or brief.
+- `research` means pull a Researcher validation run before any recommendation.
+- `update_index` means Company Index or People Library may be affected.
+- `update_recipe` means an integration recipe may be added, changed, or deprecated.
+- `propose_riu` means the signal suggests a new requirement or taxonomy gap.
+- `alert_human` means the signal is high-impact, contradictory, time-sensitive, or otherwise unsafe to route automatically.
+
+The convergence gate can then apply different thresholds by action class instead of treating every proposed action as the same kind of change.
+
+Operational enforcement:
+
+- every `palette_action_class` must map to an `RIU-003` decision-log / one-way-door registry posture
+- `observe` and `research` default to no decision-log write unless they are attached to a later action
+- `update_index`, `update_recipe`, and `propose_riu` require a convergence brief before source-of-truth writes
+- `alert_human` always creates a human-review task and cannot be auto-promoted
+
+This makes action class more than a label. It becomes the deterministic bridge between external signal and Palette governance.
 
 ### SignalPacket Lifecycle
 
@@ -350,6 +468,34 @@ Reason:
 - A funding claim may have high source confidence but low Palette action confidence.
 - A practitioner recommendation may have high action relevance but low generalizability.
 - A founder claim may be current but biased.
+
+Anti-hype rule:
+
+```text
+Practitioner proof outranks reach.
+```
+
+For v1, ERS should prefer evidence that someone competent actually used, evaluated, migrated from, or rejected a tool over evidence that the tool is merely popular, heavily funded, or repeatedly mentioned. Reach may increase `market_heat`; it should not by itself increase `action_confidence`.
+
+### Simple Top-Level Confidence
+
+For operator usability, also expose one simple top-level confidence label:
+
+```yaml
+confidence_label: low | medium | high
+```
+
+Use it as a summary, not as the source of truth.
+
+Recommended rules:
+
+- `high`: at least two independent sources or one primary source plus strong practitioner confirmation; no unresolved contradiction
+- `medium`: one credible source or multiple derivative sources; some uncertainty remains
+- `low`: unvalidated, derivative, stale, founder-only, or contradicted
+
+No numeric scoring is required for v1.
+
+Do not add a sentiment or warmth score to core v1. If a quarterly brief needs narrative tone later, capture it as an extension field or generated-artifact annotation after CLI usage proves it affects decisions.
 
 ### Approval Gate Matrix
 
@@ -573,6 +719,100 @@ Later:
 - Radar dashboard
 - Peers bus notifications
 
+## Skill-Style Operating Model
+
+ERS should behave like a Palette skill: exact instructions, invoked when needed, bounded output, no ambient mutation.
+
+Skill name:
+
+```text
+external-reality-pull
+```
+
+Invocation examples:
+
+```text
+Run external-reality-pull for "research agent creation."
+Run external-reality-pull for "AI coding agents."
+Run external-reality-pull for "voice agent platforms."
+Run external-reality-pull for "what changed since last week?"
+```
+
+Skill flow:
+
+1. Clarify topic
+- topic, category, RIUs if known, time horizon, intended use
+
+2. Query ERS
+- pull current observations from local store
+
+3. Decide tier
+- observation only or verified pull
+
+4. If verified, call Researcher
+- validate claims and find missing updates
+
+5. Produce SignalPackets
+- only for materially relevant changes
+
+6. Converge before action
+- action proposal never bypasses gate
+
+7. Emit brief
+- concise human artifact plus machine-readable packet refs
+
+This keeps ERS procedural and safe.
+
+## Bot / Notification Model
+
+ERS should eventually have a bot interface similar to the Joseph / Palette Telegram bot pattern.
+
+Potential commands:
+
+```text
+/brief
+/brief ai-coding-agents
+/brief research-agents
+/watch Lovable
+/watch RIU-510
+/alerts
+/validate SIGPKT-001
+/radar
+/stale
+/contradictions
+```
+
+Command behavior:
+
+- `/brief`: observation-tier summary of hottest updates
+- `/brief <topic>`: topic-specific external reality pull
+- `/watch <entity>`: add monitor item
+- `/alerts`: show threshold-crossing changes
+- `/validate <packet>`: trigger Researcher verification
+- `/radar`: show Adopt / Trial / Watch / Archive
+- `/stale`: show signals past decay budget
+- `/contradictions`: show unresolved conflict ledger
+
+Alarm examples:
+
+- company with recipe becomes acquired/pivoted
+- Tier 1 company status changes
+- 3+ high-signal people mention a missing company
+- RIU has market heat but no company/recipe coverage
+- recommendation depends on stale signal
+
+Important:
+
+Bot output is observation unless explicitly validated.
+
+Every bot response should show:
+
+```text
+Mode: observation | verified
+Confidence: low | medium | high
+Action: none | validation suggested | convergence required
+```
+
 ## Proposed CLI Commands
 
 ```bash
@@ -614,6 +854,19 @@ Examples:
 - Add RIU.
 - Promote tool to integrate.
 
+Action requires two tiers:
+
+1. Researcher-verified pull
+2. One-way-door style approval gate before final decision if source-of-truth artifacts or recommendations change
+
+Even if the edit is technically reversible, force a decision checkpoint for:
+
+- recommendation changes
+- company status changes affecting routing
+- RIU additions
+- recipe status changes
+- external-facing publish
+
 ### One-Way Door Requires Human
 
 Examples:
@@ -640,6 +893,103 @@ External movement -> Query -> SignalPacket -> Convergence -> Action
 ```
 
 That preserves Palette's core strength: convergence before commitment.
+
+## Schema Creep Control
+
+The main implementation risk is not bad market data. The main risk is schema sprawl: adding fields opportunistically until the data layer becomes hard to maintain.
+
+ERS should use a schema budget.
+
+### Schema Budget Rule
+
+No new field may be added unless it satisfies at least one of:
+
+- used by a query
+- used by a gate
+- used by a health check
+- used by a generated artifact
+- required for deterministic joins
+
+If a field is only "nice to know," it goes in `notes` or `raw_observations`, not the canonical schema.
+
+### Three-Zone Schema Model
+
+1. Core fields
+- stable
+- required for joins, gates, and replay
+- examples: `company_id`, `person_id`, `event_type`, `confidence_label`, `validation_state`
+
+2. Extension fields
+- optional
+- namespaced
+- can evolve without breaking consumers
+- examples: `market_state`, `agentic_profile`, `build_vs_buy_assessment`
+
+3. Raw observations
+- unstructured or lightly structured
+- not used for decisions
+- safe place for exploratory data
+
+Shape:
+
+```yaml
+core:
+  id: "SIGPKT-..."
+  entity_ref: "COMP-..."
+  event_type: "funding"
+  validation_state: researcher_verified
+  confidence_label: medium
+extensions:
+  market_state:
+    market_heat: high
+raw_observations:
+  notes:
+    - "Founder claim seen in interview; not independently verified."
+```
+
+Deferred extension candidate:
+
+```yaml
+extensions:
+  narrative:
+    human_sentiment_label: optimistic | skeptical | alarmist
+```
+
+This is explicitly not core v1. It may graduate only if a generated quarterly brief or operator query uses it repeatedly and it changes routing, prioritization, or review quality.
+
+### Schema Change Gate
+
+Any new canonical field requires:
+
+- field name
+- purpose
+- consumer
+- default value
+- migration behavior
+- example query or gate that uses it
+
+This prevents random updates from becoming permanent debt.
+
+### Parking Lot For New Ideas
+
+Create a file:
+
+```text
+buy-vs-build/external-reality/schema_backlog.yaml
+```
+
+Fields can be proposed there before becoming canonical.
+
+```yaml
+proposed_fields:
+  - name: "enterprise_readiness"
+    proposed_by: "codex"
+    reason: "Useful for buy-vs-build recommendations"
+    consumer: "not yet identified"
+    status: parked
+```
+
+Only promote when a real consumer exists.
 
 ## Minimal Data Model
 
@@ -670,8 +1020,15 @@ Build:
 - `scripts/external_reality/query.py`
 - reads People Library, Company Index, crossref, recipes
 - outputs QueryResult JSON
+- treats researcher auto-enrichment as the first ERS source path: research findings become candidate SignalPackets rather than standalone knowledge-library writes
 
 No writes.
+
+Also create skill instructions:
+
+```text
+skills/external-reality/external-reality-pull.md
+```
 
 ### Slice 2: Signal Packet
 
@@ -712,6 +1069,16 @@ Require:
 - convergence result
 - validation result
 - optional human approval based on reversibility
+
+### Slice 6: Bot Interface
+
+Build after CLI proves useful:
+
+- local command first
+- Telegram/voice interface later
+- `/brief`, `/watch`, `/alerts`, `/validate`, `/radar`
+
+The bot should read from ERS and create SignalPackets, but not mutate source-of-truth artifacts directly.
 
 ## Best Design Choice
 
