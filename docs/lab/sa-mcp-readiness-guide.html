@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SA Readiness Guide — MCP Integrations</title>
+  <meta name="description" content="MCP integrations for enterprise AI: what it is, what breaks, how to demo it, how to handle the security conversation. One-page SA readiness artifact." />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface-alt: #232733;
+      --text: #e8eaf0;
+      --text-soft: #9ca3b8;
+      --text-faint: #6b7280;
+      --accent: #6366f1;
+      --accent-soft: rgba(99, 102, 241, 0.12);
+      --accent-border: rgba(99, 102, 241, 0.25);
+      --green: #22c55e;
+      --green-soft: rgba(34, 197, 94, 0.12);
+      --amber: #f59e0b;
+      --amber-soft: rgba(245, 158, 11, 0.12);
+      --red: #ef4444;
+      --red-soft: rgba(239, 68, 68, 0.12);
+      --border: #2a2e3a;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --mono: "IBM Plex Mono", monospace;
+      --sans: "Inter", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.6; padding: 2rem; max-width: 960px; margin: 0 auto; }
+
+    h1 { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.25rem; font-weight: 700; margin: 2rem 0 0.75rem; color: var(--accent); }
+    h3 { font-size: 1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
+    p { margin-bottom: 0.75rem; color: var(--text-soft); }
+    strong { color: var(--text); }
+
+    .badge { display: inline-block; font-family: var(--mono); font-size: 0.7rem; font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .badge-role { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border); }
+    .badge-time { background: var(--green-soft); color: var(--green); border: 1px solid rgba(34,197,94,0.25); }
+    .badge-audience { background: var(--amber-soft); color: var(--amber); border: 1px solid rgba(245,158,11,0.25); }
+
+    .meta { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 0.75rem 0 1.5rem; }
+    .subtitle { color: var(--text-faint); font-size: 0.9rem; margin-bottom: 0.5rem; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem; }
+    .card-header { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; }
+
+    .stack { display: grid; gap: 0.75rem; }
+    .stack-3 { grid-template-columns: repeat(3, 1fr); }
+    .stack-5 { grid-template-columns: repeat(5, 1fr); }
+    @media (max-width: 700px) { .stack-3, .stack-5 { grid-template-columns: 1fr 1fr; } }
+
+    .layer { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; text-align: center; }
+    .layer-num { font-family: var(--mono); font-size: 0.7rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
+    .layer-name { font-weight: 700; font-size: 1rem; margin: 0.25rem 0; }
+    .layer-desc { font-size: 0.8rem; color: var(--text-soft); }
+
+    .talk-track { background: var(--surface-alt); border-left: 3px solid var(--accent); padding: 1rem 1.25rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: 0.75rem 0; font-size: 0.9rem; }
+    .talk-track::before { content: "SAY"; font-family: var(--mono); font-size: 0.65rem; color: var(--accent); display: block; margin-bottom: 0.4rem; letter-spacing: 0.1em; font-weight: 600; }
+
+    .failure { background: var(--red-soft); border-left: 3px solid var(--red); padding: 0.75rem 1rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: 0.5rem 0; }
+    .failure::before { content: "FAILURE MODE"; font-family: var(--mono); font-size: 0.6rem; color: var(--red); display: block; margin-bottom: 0.3rem; letter-spacing: 0.1em; font-weight: 600; }
+
+    .fix { background: var(--green-soft); border-left: 3px solid var(--green); padding: 0.75rem 1rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: 0.5rem 0; }
+    .fix::before { content: "FIX"; font-family: var(--mono); font-size: 0.6rem; color: var(--green); display: block; margin-bottom: 0.3rem; letter-spacing: 0.1em; font-weight: 600; }
+
+    .objection { background: var(--red-soft); border-left: 3px solid var(--red); padding: 0.75rem 1rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: 0.5rem 0; }
+    .objection::before { content: "OBJECTION"; font-family: var(--mono); font-size: 0.6rem; color: var(--red); display: block; margin-bottom: 0.3rem; letter-spacing: 0.1em; font-weight: 600; }
+    .response { background: var(--green-soft); border-left: 3px solid var(--green); padding: 0.75rem 1rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: 0.5rem 0; }
+    .response::before { content: "RESPONSE"; font-family: var(--mono); font-size: 0.6rem; color: var(--green); display: block; margin-bottom: 0.3rem; letter-spacing: 0.1em; font-weight: 600; }
+
+    .warn { background: var(--amber-soft); border-left: 3px solid var(--amber); padding: 0.75rem 1rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: 0.5rem 0; }
+    .warn::before { content: "WATCH OUT"; font-family: var(--mono); font-size: 0.6rem; color: var(--amber); display: block; margin-bottom: 0.3rem; letter-spacing: 0.1em; font-weight: 600; }
+
+    .checklist { list-style: none; padding: 0; }
+    .checklist li { padding: 0.4rem 0; padding-left: 1.5rem; position: relative; font-size: 0.9rem; color: var(--text-soft); }
+    .checklist li::before { content: "\u25A1"; position: absolute; left: 0; color: var(--accent); font-family: var(--mono); }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+    .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--text-faint); text-align: center; }
+
+    table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.85rem; }
+    th { text-align: left; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); padding: 0.5rem; border-bottom: 1px solid var(--border); }
+    td { padding: 0.5rem; border-bottom: 1px solid var(--border); color: var(--text-soft); }
+
+    code { font-family: var(--mono); font-size: 0.85em; background: var(--surface-alt); padding: 0.15em 0.4em; border-radius: 4px; color: var(--accent); }
+    pre { font-family: var(--mono); font-size: 0.8rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; overflow-x: auto; margin: 0.75rem 0; color: var(--text-soft); line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+  <h1>MCP Integrations &mdash; SA Readiness Guide</h1>
+  <p class="subtitle">What MCP is, what breaks, how to demo it, how to handle the security conversation</p>
+  <div class="meta">
+    <span class="badge badge-role">Solutions Architect</span>
+    <span class="badge badge-time">5 min conversation</span>
+    <span class="badge badge-audience">VP Eng / CTO / CISO</span>
+  </div>
+
+  <!-- ─── THE ONE SENTENCE ─────────────────────────────────────────── -->
+
+  <h2>The One Sentence</h2>
+  <div class="talk-track">
+    MCP is a universal standard that lets any AI tool &mdash; Claude, Cursor, Copilot, ChatGPT &mdash; call into your enterprise data through a single integration, instead of building and maintaining a custom connector for every combination of AI tool and data source.
+  </div>
+  <p><strong>The analogy</strong>: MCP is USB-C for AI. One standard connector between any AI tool and any data source.</p>
+
+  <!-- ─── ARCHITECTURE ─────────────────────────────────────────────── -->
+
+  <h2>How It Works</h2>
+  <p>Three components. The customer controls all three.</p>
+
+  <div class="stack stack-3">
+    <div class="layer">
+      <div class="layer-num">Left</div>
+      <div class="layer-name">MCP Host</div>
+      <div class="layer-desc">The AI tool the team already uses. Claude Desktop, Cursor, VS Code, Copilot, ChatGPT.</div>
+    </div>
+    <div class="layer">
+      <div class="layer-num">Middle</div>
+      <div class="layer-name">MCP Server</div>
+      <div class="layer-desc">The connector. Defines what tools the AI can call. the platform hosts this &mdash; or the customer can run their own.</div>
+    </div>
+    <div class="layer">
+      <div class="layer-num">Right</div>
+      <div class="layer-name">the platform API</div>
+      <div class="layer-desc">The knowledge graph. 100+ connectors, permission-aware, full audit trail. Every result respects the user's access.</div>
+    </div>
+  </div>
+
+  <pre>User asks question ──► Host calls MCP Server ──► Server calls the platform API ──► Permissioned results ──► AI answers with citations</pre>
+
+  <div class="talk-track">
+    Your engineering team writes one MCP server. Every AI tool in your stack can use it. When you add a new AI tool, it works automatically. When the platform adds new capabilities, the same server gains them. One integration, expanding value.
+  </div>
+
+  <!-- ─── KEY CONCEPTS ─────────────────────────────────────────────── -->
+
+  <h2>Key Concepts</h2>
+
+  <table>
+    <tr><th>Concept</th><th>What It Is</th><th>Say to Customers</th></tr>
+    <tr><td><strong>Host</strong></td><td>The AI app (Claude, Cursor, Copilot)</td><td>"The AI tool your team already uses"</td></tr>
+    <tr><td><strong>Server</strong></td><td>Code exposing tools to the host</td><td>"The connector between your AI and your data"</td></tr>
+    <tr><td><strong>Tool</strong></td><td>A function the LLM can call</td><td>"A capability &mdash; like 'search our knowledge base'"</td></tr>
+    <tr><td><strong>Resource</strong></td><td>Data the server exposes for context</td><td>"Background info the AI can reference"</td></tr>
+    <tr><td><strong>Transport</strong></td><td>How host and server talk (stdio, SSE)</td><td><em>Don't mention &mdash; implementation detail</em></td></tr>
+  </table>
+
+  <!-- ─── THE 5 FAILURE MODES ──────────────────────────────────────── -->
+
+  <h2>The 5 Things That Go Wrong</h2>
+  <p>These are the real problems you will encounter in customer deployments. Memorize these.</p>
+
+  <div class="card">
+    <div class="card-header">1. The Tool Never Gets Called</div>
+    <div class="failure">
+      No error. No log entry. The LLM just doesn't use the tool. Customer says "it's not working" and there's nothing to look at.
+    </div>
+    <div class="fix">
+      <strong>Root cause</strong>: The tool description is too vague. The LLM reads the description to decide whether to call the tool. <code>"Searches stuff"</code> won't trigger. <code>"Search the enterprise knowledge base for documents, policies, and answers. Results respect user permissions."</code> will.<br/><br/>
+      <strong>Also check</strong>: Is the host configured to use the server? Is the server process running? Is the tool listed in <code>tools/list</code>?
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">2. The Response Blows Up</div>
+    <div class="failure">
+      Enterprise search returns 10 full documents. The payload is huge. LLM context window overflows, truncates, or hallucinates. Customer sees a garbled or wrong answer.
+    </div>
+    <div class="fix">
+      <strong>Root cause</strong>: No result size control. The handler returns raw, unformatted API output or too many results.<br/><br/>
+      <strong>Fix</strong>: Limit <code>pageSize</code> (5 is a good default). Truncate snippets (200 chars). Return structured summaries, not full documents. Format for readability, not completeness.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">3. Everyone Can See Everything</div>
+    <div class="failure">
+      User sees documents they shouldn't have access to. This is a security incident, not a bug.
+    </div>
+    <div class="fix">
+      <strong>Root cause</strong>: Admin token used instead of user-scoped token. Admin tokens bypass permission enforcement. During development, teams use admin tokens because they're easy. Nobody switches for production.<br/><br/>
+      <strong>Fix</strong>: Production MCP servers MUST use user-scoped tokens via OAuth 2.1. the platform's managed MCP server handles this automatically. Local servers require explicit token scoping.<br/><br/>
+      <strong>If this happens</strong>: Escalate immediately. Include token type, user email, document IDs visible.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">4. It Works in Claude But Not in Cursor</div>
+    <div class="failure">
+      Customer says "We tested in Claude Desktop and it works fine. But our team uses Cursor and it doesn't work there."
+    </div>
+    <div class="fix">
+      <strong>Root cause</strong>: MCP host implementations differ. Transport framing, capability negotiation, and notification handling vary across hosts. The spec is still evolving (current version: <code>2024-11-05</code>).<br/><br/>
+      <strong>Fix</strong>: Always test against the customer's preferred host before the demo. the platform's managed remote MCP server handles cross-host compatibility. Local servers may need per-host adjustments.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">5. "It Worked Yesterday"</div>
+    <div class="failure">
+      Integration was working. Product update changes an API response format. MCP server parses the old format. Results are silently wrong or empty.
+    </div>
+    <div class="fix">
+      <strong>Root cause</strong>: No version pinning or change detection between the MCP server and the API it wraps.<br/><br/>
+      <strong>Fix</strong>: the platform's managed MCP server stays in sync with API changes automatically. For local/custom servers: pin to API version, monitor for changes, test after updates. Enablement content tied to release cycle flags this within 48 hours of a product change.
+    </div>
+  </div>
+
+  <!-- ─── DIAGNOSTIC DECISION TREE ────────────────────────────────── -->
+
+  <h2>Diagnostic Decision Tree</h2>
+  <p>When a customer reports an MCP issue, diagnose top-down.</p>
+
+  <pre>Customer reports MCP issue
+  │
+  ├── Tool doesn't appear in host?
+  │   └── Check: config path, JSON syntax, server process running → restart host
+  │
+  ├── Tool appears but never called?
+  │   └── Check: tool description clear to the LLM? Prompt specific enough?
+  │       ("Search the platform for..." not "find something about...")
+  │
+  ├── "Server disconnected" error?
+  │   └── Check: Node 18+? Any console.log() in server? (breaks JSON-RPC protocol)
+  │
+  ├── Empty results or "Auth failed"?
+  │   └── Check: API token set? Expired? Has MCP + SEARCH scopes?
+  │
+  └── User sees restricted documents?
+      └── ESCALATE: admin token vs user-scoped? source-system ACLs synced?
+          → Engineering with token type, user email, doc IDs</pre>
+
+  <div class="warn">
+    <strong>Never use <code>console.log()</code> in an MCP server.</strong> It writes to stdout, which is the JSON-RPC transport channel. One stray log statement breaks the entire protocol stream. Use <code>process.stderr.write()</code> for debugging. This is the #1 gotcha for every developer touching MCP for the first time.
+  </div>
+
+  <!-- ─── SECURITY: THE MONEY SECTION ──────────────────────────────── -->
+
+  <h2>The Security Conversation</h2>
+  <p>This is the section you will use every day. Memorize these four answers.</p>
+
+  <div class="objection">
+    "How do we ensure users only see documents they're authorized to access?"
+  </div>
+  <div class="response">
+    the platform enforces permissions at the API layer. In production, each user authenticates via OAuth 2.1 and gets a user-scoped token. They only see documents they can access in the source systems. If you can't see it in SharePoint, you can't see it through MCP. The permission model is inherited, not configured separately.
+  </div>
+
+  <div class="objection">
+    "Who controls which MCP servers are available?"
+  </div>
+  <div class="response">
+    Admin-managed configuration for enterprise AI tools &mdash; Claude Teams, Copilot Studio, ChatGPT Enterprise. End-user install for developer tools like Cursor and VS Code. Your IT team decides what's available, not individual users.
+  </div>
+
+  <div class="objection">
+    "How do we audit what the AI accessed?"
+  </div>
+  <div class="response">
+    Every the platform API call is logged &mdash; including MCP-originated queries. The audit trail shows who asked, what was retrieved, which permissions applied, and when. This includes agent-initiated requests, not just human queries.
+  </div>
+
+  <div class="objection">
+    "Is MCP itself secure, or is it just a pipe?"
+  </div>
+  <div class="response">
+    MCP is the transport. Security lives in two places: the platform's permission model (what the user can see) and admin configuration (which servers are available). The MCP server is where you enforce token scoping, input validation, and rate limiting. the platform's managed server handles all of this. Custom servers need to implement it.
+  </div>
+
+  <!-- ─── CUSTOMER TALK TRACKS ─────────────────────────────────────── -->
+
+  <h2>Customer Talk Tracks</h2>
+
+  <div class="objection">
+    "Why MCP instead of a custom RAG integration?"
+  </div>
+  <div class="response">
+    RAG requires you to build and maintain your own retrieval pipeline &mdash; chunking, embedding, vector store, reranking, permission enforcement, freshness tracking. MCP connects to the platform's existing knowledge graph, which already indexes your 100+ data sources with permissions enforced. You get RAG-quality answers without building RAG infrastructure.
+  </div>
+
+  <div class="objection">
+    "What's the business case?"
+  </div>
+  <div class="response">
+    Teams get enterprise answers inside the tools they already use &mdash; Cursor, Claude, Copilot &mdash; without context switching. Faster onboarding, fewer "where do I find X?" tickets, higher adoption because the platform is embedded in daily workflows. And every MCP integration is a new surface for expansion: search today, document retrieval next, agent actions after that.
+  </div>
+
+  <div class="objection">
+    "Will MCP even exist in 2 years?"
+  </div>
+  <div class="response">
+    Anthropic, OpenAI, Google, Microsoft, and the platform all support it today. If the standard evolves, the concepts transfer: tool definitions, schema-driven invocation, permission-aware context. The lab teaches the pattern, not just the protocol. And pragmatically &mdash; customers are asking about it now. We need to answer now.
+  </div>
+
+  <!-- ─── DEMO STRUCTURE ───────────────────────────────────────────── -->
+
+  <h2>The 5-Minute Demo</h2>
+  <p>If you have 5 minutes to show MCP to a technical buyer, use this structure.</p>
+
+  <table>
+    <tr><th>Time</th><th>What You Do</th><th>Key Move</th></tr>
+    <tr><td>0:00&ndash;0:30</td><td>Context</td><td>"Your team uses [Cursor/Claude/etc]. Let me show you what happens when we connect it to your knowledge base."</td></tr>
+    <tr><td>0:30&ndash;1:30</td><td>Ask a question</td><td>Type a question relevant to their domain. Show the tool being invoked.</td></tr>
+    <tr><td>1:30&ndash;2:30</td><td>Show the answer</td><td>Point out citations, source attribution. "Every answer traces to a real document."</td></tr>
+    <tr><td>2:30&ndash;3:30</td><td>Security</td><td>"By the way &mdash; every result respects your permission model. Same ACLs as your source systems."</td></tr>
+    <tr><td>3:30&ndash;4:30</td><td>Expansion</td><td>"This is search. Same standard supports document retrieval, then agent actions. One connection, expanding capabilities."</td></tr>
+    <tr><td>4:30&ndash;5:00</td><td>Their question</td><td>Stop talking. Let them ask.</td></tr>
+  </table>
+
+  <div class="warn">
+    <strong>Never start with architecture.</strong> Start with their problem, then show the solution working. Save the architecture diagram for when they ask "how does it work?" &mdash; not before.
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ─── PRE-CALL CHECKLIST ───────────────────────────────────────── -->
+
+  <h2>Pre-Demo Checklist</h2>
+  <ul class="checklist">
+    <li>Know which AI tools the customer's team uses (Cursor, Claude, Copilot, ChatGPT)</li>
+    <li>Know which data sources they search today (Confluence, Slack, Drive, SharePoint, Jira)</li>
+    <li>Know if they are evaluating or building RAG &mdash; the "build vs buy" conversation</li>
+    <li>MCP server running with a valid the platform token and tested query ready</li>
+    <li>Test the demo in the customer's preferred host, not just your preferred host</li>
+    <li>Backup: screenshots of a successful end-to-end flow in case of technical issues</li>
+    <li>Security answers memorized: permissions, admin control, audit trail, OAuth</li>
+  </ul>
+
+  <!-- ─── DO NOT SAY ───────────────────────────────────────────────── -->
+
+  <h2>Do Not Say</h2>
+  <div class="card" style="border-color: var(--red); border-left-width: 3px;">
+    <p style="color: var(--text); margin: 0;">
+      <strong>"Protocol"</strong> to non-technical buyers &mdash; say "standard" or "integration pattern" &middot;
+      <strong>"It's like an API"</strong> &mdash; it IS an API, but that undersells the universality &middot;
+      <strong>"Any host works"</strong> &mdash; without testing against that specific host first &middot;
+      <strong>"It's completely secure"</strong> &mdash; without specifying token scoping and permission model &middot;
+      <strong>"Just plug it in"</strong> &mdash; without discussing admin configuration and governance &middot;
+      <strong><code>console.log</code></strong> in any MCP server code, ever
+    </p>
+  </div>
+
+  <div class="footer">
+    <p>SA Readiness Guide &mdash; MCP Integrations for Enterprise AI</p>
+    <p>Module 5 of 12 in the SA Enablement Curriculum. Performance support artifact.</p>
+  </div>
+
+</body>
+</html>
