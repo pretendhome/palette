@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MCP Integrations Lab — Technical Enablement</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface-alt: #232733;
+      --text: #e8eaf0;
+      --text-soft: #9ca3b8;
+      --text-faint: #6b7280;
+      --accent: #6366f1;
+      --accent-soft: rgba(99, 102, 241, 0.12);
+      --accent-border: rgba(99, 102, 241, 0.25);
+      --green: #22c55e;
+      --green-soft: rgba(34, 197, 94, 0.12);
+      --amber: #f59e0b;
+      --amber-soft: rgba(245, 158, 11, 0.12);
+      --red: #ef4444;
+      --red-soft: rgba(239, 68, 68, 0.12);
+      --border: #2a2e3a;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --mono: "IBM Plex Mono", monospace;
+      --sans: "Inter", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* -- Slide system -- */
+    .slide {
+      display: none;
+      min-height: 100vh;
+      padding: 4rem 3rem;
+      max-width: 960px;
+      margin: 0 auto;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide.active { display: flex; }
+
+    /* -- Navigation -- */
+    .nav {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      display: flex;
+      gap: 0.5rem;
+      z-index: 100;
+    }
+    .nav button {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .nav button:hover { background: var(--surface-alt); color: var(--text); }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--accent);
+      transition: width 0.3s;
+      z-index: 100;
+    }
+
+    .slide-counter {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-faint);
+    }
+
+    /* -- Typography -- */
+    h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; line-height: 1.2; }
+    h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--accent); }
+    h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
+    p { margin-bottom: 0.75rem; color: var(--text-soft); font-size: 1.05rem; }
+    strong { color: var(--text); }
+
+    .subtitle { color: var(--text-faint); font-size: 1rem; margin-bottom: 2rem; }
+    .big-number { font-family: var(--mono); font-size: 4rem; font-weight: 800; color: var(--accent); }
+
+    /* -- Components -- */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .card-header { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; }
+
+    .failure {
+      background: var(--red-soft);
+      border-left: 3px solid var(--red);
+      padding: 0.75rem 1rem;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 0.5rem 0;
+    }
+    .failure-num {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .flow {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 1.5rem 0;
+    }
+    .flow-step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      text-align: center;
+      flex: 1;
+      min-width: 120px;
+    }
+    .flow-step-name { font-weight: 700; font-size: 0.9rem; }
+    .flow-step-time { font-family: var(--mono); font-size: 0.7rem; color: var(--text-faint); margin-top: 0.25rem; }
+    .flow-arrow { color: var(--text-faint); font-size: 1.2rem; flex-shrink: 0; }
+    .flow-step.active-step { border-color: var(--accent); background: var(--accent-soft); }
+
+    .curriculum {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    @media (max-width: 700px) { .curriculum { grid-template-columns: 1fr 1fr; } }
+    .curriculum-phase {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding-bottom: 0.25rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.5rem;
+    }
+    .curriculum-module {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      padding: 0.25rem 0;
+    }
+    .curriculum-module.highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.85rem; }
+    th { text-align: left; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); padding: 0.5rem; border-bottom: 1px solid var(--border); }
+    td { padding: 0.5rem; border-bottom: 1px solid var(--border); color: var(--text-soft); }
+
+    pre {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      overflow-x: auto;
+      margin: 0.75rem 0;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    .question-card {
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .question-card p { color: var(--text); margin: 0; font-size: 1.1rem; font-style: italic; }
+
+    .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-accent { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border); }
+    .badge-green { background: var(--green-soft); color: var(--green); border: 1px solid rgba(34,197,94,0.25); }
+    .badge-red { background: var(--red-soft); color: var(--red); border: 1px solid rgba(239,68,68,0.25); }
+    .badge-amber { background: var(--amber-soft); color: var(--amber); border: 1px solid rgba(245,158,11,0.25); }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    @media (max-width: 700px) { .kpi-grid { grid-template-columns: 1fr 1fr; } }
+    .kpi {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      text-align: center;
+    }
+    .kpi-label { font-size: 0.75rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.05em; }
+    .kpi-value { font-family: var(--mono); font-size: 1.1rem; font-weight: 700; margin-top: 0.25rem; }
+    .kpi-dir { font-size: 0.8rem; color: var(--green); }
+
+    ul { padding-left: 1.5rem; margin: 0.5rem 0; }
+    li { color: var(--text-soft); padding: 0.2rem 0; }
+  </style>
+</head>
+<body>
+
+  <div class="progress" id="progress"></div>
+  <div class="slide-counter" id="counter"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- SLIDE 1: TITLE -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="slide active" id="slide-1">
+    <div>
+      <span class="badge badge-accent">Technical Enablement Manager — Assignment</span>
+      <h1 style="margin-top: 1rem;">MCP Integrations for Solution Architects</h1>
+      <p class="subtitle">A hands-on lab designed around the 5 things that actually go wrong</p>
+
+      <div style="margin-top: 2rem;">
+        <h3>The thesis</h3>
+        <p style="font-size: 1.15rem; color: var(--text);">
+          Working back from support tickets to SA enablement.<br/>
+          SAs don't need to learn MCP. They need to learn <strong>what breaks in MCP deployments</strong> and how to handle it in front of a customer.
+        </p>
+      </div>
+
+      <div style="margin-top: 2rem;">
+        <h3>What I built</h3>
+        <p>A 90-minute lab where SAs experience the 5 most common MCP failure modes with their own hands — so the first time they see each one is in a safe room, not in front of a customer.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- SLIDE 2: THE 5 FAILURE MODES -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-2">
+    <div>
+      <h2>The 5 MCP Failure Modes</h2>
+      <p>Every section of the lab exists to make the SA experience, diagnose, or explain one of these.</p>
+
+      <div class="failure">
+        <div class="failure-num">Failure Mode 1</div>
+        <strong>The tool never gets called.</strong> Vague description — silent failure — nothing in the logs. Customer says "it's not working" and there's nothing to look at.
+      </div>
+
+      <div class="failure">
+        <div class="failure-num">Failure Mode 2</div>
+        <strong>The response blows up.</strong> No result size control — context window overflows — LLM hallucinates or truncates. Customer sees garbage.
+      </div>
+
+      <div class="failure">
+        <div class="failure-num">Failure Mode 3 — the dangerous one</div>
+        <strong>Everyone can see everything.</strong> Admin token in production. No error. The demo looks perfect. The permissions are completely wrong. This is a security incident, not a bug.
+      </div>
+
+      <div class="failure">
+        <div class="failure-num">Failure Mode 4</div>
+        <strong>It works in Claude but not in Cursor.</strong> Spec drift between hosts. Transport framing varies. Customer uses a host you haven't tested.
+      </div>
+
+      <div class="failure">
+        <div class="failure-num">Failure Mode 5</div>
+        <strong>"It worked yesterday."</strong> API format change — server parses old format — silently returns wrong results. No crash. No error. Just bad answers.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- SLIDE 3: LAB FLOW -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-3">
+    <div>
+      <h2>Lab Flow — 90 Minutes</h2>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-step-name">Hook</div>
+          <div class="flow-step-time">3 min</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-name">Build It</div>
+          <div class="flow-step-time">35 min</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step active-step">
+          <div class="flow-step-name">Connect + Break</div>
+          <div class="flow-step-time">20 min</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-name">Secure It</div>
+          <div class="flow-step-time">15 min</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-name">Sell It</div>
+          <div class="flow-step-time">10 min</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Hook (3 min)</div>
+        <p>"Explain MCP to a VP in two sentences. No 'protocol.'" Then name the 5 failure modes they'll experience.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Build It (35 min) — Failure Modes 1 &amp; 2</div>
+        <p>SAs build a working MCP server from a starter template. They write the tool definition and handler. Anatomy learned through building. Encounter: vague description (silent failure) and context overflow (no size limit).</p>
+      </div>
+
+      <div class="card" style="border-color: var(--accent);">
+        <div class="card-header" style="color: var(--accent);">Connect + Break It (20 min) — Failure Modes 3, 4, 5</div>
+        <p>The aha moment: it works. Then deliberately break it three ways. Admin token — restricted docs appear. Host compatibility — same server, different behavior. API drift — silently empty results.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Secure It (15 min) — The money section</div>
+        <p>Grounded in the failure they just experienced. Four CISO questions, memorized by the end. Exercise: write a 3-sentence answer to "Is this secure enough for our regulated environment?"</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Sell It (10 min)</div>
+        <p>One scenario done well: technical buyer evaluating MCP vs custom RAG. Peer feedback on 4 criteria. Close: "Name the 5 failure modes."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- SLIDE 4: LIVE DEMO -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-4">
+    <div>
+      <h2>Live Demo</h2>
+      <p>Working MCP server wrapping a search API. 80 lines, Node.js, zero dependencies.</p>
+
+      <div class="card">
+        <div class="card-header">Architecture</div>
+        <pre>User asks question ──► MCP Host ──► MCP Server ──► Search API ──► Permissioned results ──► AI answers</pre>
+      </div>
+
+      <table>
+        <tr><th>Demo Step</th><th>What Happens</th><th>Failure Mode</th></tr>
+        <tr><td><strong>1. The Win</strong></td><td>Search "remote work policy" → 3 clean results, permission-aware</td><td>—</td></tr>
+        <tr><td><strong>2. Admin Token</strong></td><td>Switch to admin token → CONFIDENTIAL docs appear</td><td style="color: var(--red);">Mode 3</td></tr>
+        <tr><td><strong>3. Fix</strong></td><td>Switch back to user token → restricted docs gone</td><td>—</td></tr>
+        <tr><td><strong>4. API Drift</strong></td><td>Change API format → "No results found" (silently broken)</td><td style="color: var(--red);">Mode 5</td></tr>
+      </table>
+
+      <p style="margin-top: 1.5rem; font-style: italic; color: var(--text-faint);">
+        → Switch to MCP Inspector for live demo
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- SLIDE 5: THE SUPPORT THROUGH-LINE -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-5">
+    <div>
+      <h2>From Support Tickets to SA Readiness</h2>
+
+      <div style="margin: 1.5rem 0;">
+        <table>
+          <tr><th>Failure Layer</th><th>Example</th><th>Self-Resolvable?</th></tr>
+          <tr><td><strong>1. Tool Description</strong></td><td>LLM ignores the tool — vague description</td><td><span class="badge badge-green">Yes</span></td></tr>
+          <tr><td><strong>2. Response Size</strong></td><td>Context overflow — no pageSize limit</td><td><span class="badge badge-green">Yes</span></td></tr>
+          <tr><td><strong>3. Authentication</strong></td><td>Admin token in production — permission leak</td><td><span class="badge badge-green">Yes</span></td></tr>
+          <tr><td><strong>4. Host Compatibility</strong></td><td>Works in Claude, breaks in Cursor</td><td><span class="badge badge-green">Yes</span></td></tr>
+          <tr><td><strong>5. Permissions</strong></td><td>Source-system ACL mismatch</td><td><span class="badge badge-red">Escalate</span></td></tr>
+        </table>
+      </div>
+
+      <div class="card" style="border-color: var(--accent); border-left-width: 3px;">
+        <p style="color: var(--text); font-size: 1.1rem; margin: 0;">
+          If SAs can self-resolve layers 1–4, engineering only sees layer 5.
+          The exact reduction depends on internal support data — but the structural logic is clear:
+          <strong>most MCP support tickets are field-resolvable with the right diagnostic training.</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- SLIDE 6: ROLE VARIANTS -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-6">
+    <div>
+      <h2>Same Knowledge, Different Surfaces</h2>
+      <p>Three audiences, three adaptations of the same lab.</p>
+
+      <table>
+        <tr><th>Section</th><th>SA</th><th>CSM / AIOM</th><th>Support</th></tr>
+        <tr><td><strong>Build</strong></td><td>Hands-on coding</td><td>"Map It" exercise — scope MCP for customer scenarios</td><td>Same build — must understand code to troubleshoot</td></tr>
+        <tr><td><strong>Break</strong></td><td>3 failure modes</td><td>Watch demo, explain to a partner</td><td>5 failure layers — trace failed requests</td></tr>
+        <tr><td><strong>Secure</strong></td><td>4 CISO questions</td><td>Write 3-sentence CISO email</td><td>Permission Escalation Lab</td></tr>
+        <tr><td><strong>Sell</strong></td><td>Technical buyer pitch</td><td>QBR expansion + renewal framing</td><td>Escalation Decision Lab — 5 tickets, self-resolve vs escalate</td></tr>
+        <tr><td><strong>Artifact</strong></td><td>SA Readiness Guide</td><td>Customer Conversations Card</td><td>Diagnostic Decision Tree Poster</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- SLIDE 7: ENABLEMENT SYSTEM -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-7">
+    <div>
+      <h2>Module 5 of 12</h2>
+      <p>The MCP lab is one module in a complete SA onboarding curriculum. Same pattern replicates across every topic.</p>
+
+      <div class="curriculum">
+        <div>
+          <div class="curriculum-phase">Weeks 1–2: Foundations</div>
+          <div class="curriculum-module">M1. Platform &amp; Search</div>
+          <div class="curriculum-module">M2. Enterprise Graph</div>
+          <div class="curriculum-module">M3. Connectors</div>
+          <div class="curriculum-module">M4. Permissions &amp; Security</div>
+        </div>
+        <div>
+          <div class="curriculum-phase">Weeks 3–4: Extend</div>
+          <div class="curriculum-module highlight">M5. MCP Integrations ◄</div>
+          <div class="curriculum-module">M6. Agent Builder</div>
+          <div class="curriculum-module">M7. Agent Governance</div>
+        </div>
+        <div>
+          <div class="curriculum-phase">Weeks 5–8: Deploy</div>
+          <div class="curriculum-module">M8. Customer Deployment</div>
+          <div class="curriculum-module">M9. Troubleshooting &amp; Escalation</div>
+        </div>
+        <div>
+          <div class="curriculum-phase">Weeks 9–12: Expert</div>
+          <div class="curriculum-module">M10. Competitive Positioning</div>
+          <div class="curriculum-module">M11. Enterprise Architecture</div>
+          <div class="curriculum-module">M12. Product Roadmap</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.5rem;">
+        <h3>Each module follows the same structure</h3>
+        <div class="kpi-grid">
+          <div class="kpi">
+            <div class="kpi-label">Artifact Tiers</div>
+            <div class="kpi-value">4</div>
+            <div style="font-size: 0.75rem; color: var(--text-faint);">micro · meso · macro · agentic</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Role Variants</div>
+            <div class="kpi-value">3</div>
+            <div style="font-size: 0.75rem; color: var(--text-faint);">SA · CSM · Support</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Modes</div>
+            <div class="kpi-value">2</div>
+            <div style="font-size: 0.75rem; color: var(--text-faint);">learning · performance support</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Feedback</div>
+            <div class="kpi-value">3</div>
+            <div style="font-size: 0.75rem; color: var(--text-faint);">activity · behavior · outcome</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- SLIDE 8: KPIs -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-8">
+    <div>
+      <h2>Four KPIs This Program Moves</h2>
+
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-label">SA Ramp Time</div>
+          <div class="kpi-value kpi-dir">↓</div>
+          <div style="font-size: 0.75rem; color: var(--text-faint);">Faster to first customer demo</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Escalation Rate</div>
+          <div class="kpi-value kpi-dir">↓</div>
+          <div style="font-size: 0.75rem; color: var(--text-faint);">Self-resolution patterns</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">30-Day Milestone</div>
+          <div class="kpi-value kpi-dir">↑</div>
+          <div style="font-size: 0.75rem; color: var(--text-faint);">Implementation readiness</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Feature Adoption Lag</div>
+          <div class="kpi-value kpi-dir">↓</div>
+          <div style="font-size: 0.75rem; color: var(--text-faint);">Days from ship to field fluency</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 2rem;">
+        <h3>Measurement</h3>
+        <table>
+          <tr><th>Level</th><th>What</th><th>Signal</th></tr>
+          <tr><td><strong>Activity</strong></td><td>Did they complete the lab?</td><td>Completion rate</td></tr>
+          <tr><td><strong>Behavior</strong></td><td>Are SAs demoing MCP in customer calls within 30 days?</td><td>CRM notes / Slack poll</td></tr>
+          <tr><td><strong>Outcome</strong></td><td>Are customers requesting MCP integrations after SA conversations?</td><td>Pipeline attribution</td></tr>
+        </table>
+        <p style="margin-top: 0.75rem;">If behavior is flat, the lab needs redesign — not more training.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- SLIDE 9: QUESTIONS -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-9">
+    <div>
+      <h2>Questions for You</h2>
+      <p style="margin-bottom: 1.5rem;">I'd love to hear from each of you.</p>
+
+      <div class="question-card">
+        <p>"What does the build order look like from where you sit? My hypothesis is connectors and permissions — but I'd want to validate that with your field."</p>
+      </div>
+
+      <div class="question-card">
+        <p>"What have you learned about what SAs actually need that surprised you?"</p>
+      </div>
+
+      <div class="question-card">
+        <p>"What does the team need most in this role right now?"</p>
+      </div>
+
+      <div style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+        <p style="color: var(--text); font-size: 1.1rem;">
+          The product keeps getting deeper, so the field has to keep getting sharper. I'd want to figure out where that burden is highest right now and build the readiness system from those moments outward.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- NAVIGATION -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="nav">
+    <button onclick="prev()">← Back</button>
+    <button onclick="next()">Next →</button>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+
+    function show(n) {
+      slides[current].classList.remove('active');
+      current = Math.max(0, Math.min(n, slides.length - 1));
+      slides[current].classList.add('active');
+      document.getElementById('progress').style.width = ((current + 1) / slides.length * 100) + '%';
+      document.getElementById('counter').textContent = (current + 1) + ' / ' + slides.length;
+    }
+
+    function next() { show(current + 1); }
+    function prev() { show(current - 1); }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+    });
+
+    show(0);
+  </script>
+
+</body>
+</html>
