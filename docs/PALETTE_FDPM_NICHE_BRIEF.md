@@ -19,7 +19,7 @@ These are inferred from current role mix and product messaging.
 - Fireworks and Sendbird are both hiring Forward Deployed Product Managers.
 
 2. Agentic workflows are becoming productized in enterprise stacks.
-- Lumen emphasizes agent creation, orchestration, and model choice in enterprise workflows.
+- Glean emphasizes agent creation, orchestration, and model choice in enterprise workflows.
 - Databricks is shipping assistant "Agent mode" for multi-step data engineering workflows.
 
 3. Infrastructure and enterprise GTM are heavily staffed.
@@ -346,6 +346,6 @@ Start Iteration 1 this week with one constraint:
 - Fireworks careers (FDPM + infra-heavy role mix): https://fireworks.ai/careers
 - Fireworks FDPM role (customer-to-roadmap bridge): https://job-boards.greenhouse.io/fireworksai/jobs/4008626009
 - Sendbird careers (FDPM/FDE + AI Agent product roles): https://sendbird.com/careers
-- Lumen product overview (enterprise agents + orchestration + model choice messaging): https://www.lumen.com/product/overview
+- Glean product overview (enterprise agents + orchestration + model choice messaging): https://www.glean.com/product/overview
 - Cohere careers (secure enterprise AI positioning): https://cohere.com/careers
 - Scale AI FDE role examples (forward deployed enterprise delivery): https://scale.com/careers/4597399005

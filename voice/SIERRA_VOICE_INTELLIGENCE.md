@@ -1,8 +1,8 @@
-# Alpine AI Voice Infrastructure — Technical Intelligence Report
+# Sierra AI Voice Infrastructure — Technical Intelligence Report
 
 **Date:** April 15, 2026  
 **Purpose:** Pre-application technical intelligence for Agent Experience Designer, Voice (Multilingual) role  
-**Methodology:** Primary sources only — Alpine engineering blog, arXiv paper, Deepgram customer listing, job postings
+**Methodology:** Primary sources only — Sierra engineering blog, arXiv paper, Deepgram customer listing, job postings
 
 ---
 
@@ -10,11 +10,11 @@
 
 | Question | Confidence | Key Finding |
 |---|---|---|
-| TTS Providers | **HIGH** (confirmed) | Deepgram listed Alpine as customer; τ-Voice paper uses ElevenLabs v3 for simulator TTS; τ³-Bench benchmarks OpenAI Realtime, Gemini Live, Grok Voice |
+| TTS Providers | **HIGH** (confirmed) | Deepgram listed Sierra as customer; τ-Voice paper uses ElevenLabs v3 for simulator TTS; τ³-Bench benchmarks OpenAI Realtime, Gemini Live, Grok Voice |
 | τ³-Bench scoring | **HIGH** (paper) | 4 voice interaction quality dimensions; pass@1 task completion; 278 tasks across 3 domains |
 | Voice Sommelier process | **MEDIUM** (blog) | Subjective/qualitative; no published scorecard; dimensions: breath, rhythm, stress, pitch, vocal textures |
 | Locale routing | **MEDIUM** (blog) | "Optimal combination" per locale; human-curated + automated benchmarking; providers not named |
-| STT Providers | **HIGH** (confirmed) | Deepgram confirmed ("Powered by Deepgram" customer list includes Alpine) |
+| STT Providers | **HIGH** (confirmed) | Deepgram confirmed ("Powered by Deepgram" customer list includes Sierra) |
 | Latency targets | **MEDIUM** (blog) | TTFA = primary metric; "hundreds of milliseconds" cut by custom VAD; no published number targets |
 | Voice Sims schema | **HIGH** (blog + paper) | Persona (goal/mood/language/patience) + acoustic effects + LLM judge; CI/CD integrated |
 
@@ -24,17 +24,17 @@
 
 ### What is confirmed
 
-**Deepgram (STT — confirmed):** Deepgram's March 2026 job posting explicitly lists Alpine as a "Powered by Deepgram" customer alongside Twilio, Cloudflare, Decagon, and Vapi. Source: [Deepgram job posting, Ashby](https://jobs.ashbyhq.com/Deepgram/b9b27091-1a95-4c31-a304-55c31711887a).
+**Deepgram (STT — confirmed):** Deepgram's March 2026 job posting explicitly lists Sierra as a "Powered by Deepgram" customer alongside Twilio, Cloudflare, Decagon, and Vapi. Source: [Deepgram job posting, Ashby](https://jobs.ashbyhq.com/Deepgram/b9b27091-1a95-4c31-a304-55c31711887a).
 
-**ElevenLabs (used in evaluation toolchain — confirmed):** The τ-Voice arXiv paper (Alpine Research, March 2026) specifies that the **Voice User Simulator** uses **ElevenLabs v3 at 24kHz** for TTS. This is the simulator's voice — not necessarily the production agent voice — but confirms ElevenLabs is integrated into Alpine's evaluation infrastructure. Source: [arXiv:2603.13686](https://arxiv.org/html/2603.13686v1).
+**ElevenLabs (used in evaluation toolchain — confirmed):** The τ-Voice arXiv paper (Sierra Research, March 2026) specifies that the **Voice User Simulator** uses **ElevenLabs v3 at 24kHz** for TTS. This is the simulator's voice — not necessarily the production agent voice — but confirms ElevenLabs is integrated into Sierra's evaluation infrastructure. Source: [arXiv:2603.13686](https://arxiv.org/html/2603.13686v1).
 
-**OpenAI Realtime, Google Gemini Live, xAI Grok Voice (benchmarked, not used internally):** τ³-Bench (March 2026) benchmarks these three as external voice agents, not as Alpine's own TTS providers.
+**OpenAI Realtime, Google Gemini Live, xAI Grok Voice (benchmarked, not used internally):** τ³-Bench (March 2026) benchmarks these three as external voice agents, not as Sierra's own TTS providers.
 
 ### What is unconfirmed
 
-Alpine's blog says: *"modular voice architecture selects the optimal combination of models for each locale."* The specific TTS providers powering **production agents** (i.e., the agent voice customers hear) are not publicly named. Alpine designs custom voices using voice actors and synthesizes them through an unnamed provider. The [Voice Sommelier blog](https://alpine.ai/blog/meet-the-voice-sommelier) mentions named voices like Jade, Tatyana, and Steven — these are Alpine house voices, not provider-attributed. 
+Sierra's blog says: *"modular voice architecture selects the optimal combination of models for each locale."* The specific TTS providers powering **production agents** (i.e., the agent voice customers hear) are not publicly named. Sierra designs custom voices using voice actors and synthesizes them through an unnamed provider. The [Voice Sommelier blog](https://sierra.ai/blog/meet-the-voice-sommelier) mentions named voices like Jade, Tatyana, and Steven — these are Sierra house voices, not provider-attributed. 
 
-**Plausible candidates based on market positioning:** Cartesia (ultra-low-latency streaming, favored by enterprise voice agent builders), ElevenLabs (multilingual expressiveness across 30+ languages). These are the two dominant providers for enterprise voice agents in 2026 — but Alpine has not confirmed either in production. No mention of Azure Neural TTS, Google Cloud TTS, Amazon Polly, or PlayHT in any Alpine-sourced materials.
+**Plausible candidates based on market positioning:** Cartesia (ultra-low-latency streaming, favored by enterprise voice agent builders), ElevenLabs (multilingual expressiveness across 30+ languages). These are the two dominant providers for enterprise voice agents in 2026 — but Sierra has not confirmed either in production. No mention of Azure Neural TTS, Google Cloud TTS, Amazon Polly, or PlayHT in any Sierra-sourced materials.
 
 ### Bottom line
 
@@ -51,7 +51,7 @@ Alpine's blog says: *"modular voice architecture selects the optimal combination
 
 ## Q2. τ³-Bench Voice Scoring Methodology
 
-**Source:** [arXiv:2603.13686](https://arxiv.org/html/2603.13686v1) — "Benchmarking Full-Duplex Voice Agents on Real-World Domains" — Alpine Research, March 2026
+**Source:** [arXiv:2603.13686](https://arxiv.org/html/2603.13686v1) — "Benchmarking Full-Duplex Voice Agents on Real-World Domains" — Sierra Research, March 2026
 
 ### What τ-Voice measures
 
@@ -79,7 +79,7 @@ Alpine's blog says: *"modular voice architecture selects the optimal combination
 - LLM-as-judge for spoken output verification
 - Timing logs for interaction quality metrics (responsiveness, latency, interrupt rate, selectivity)
 
-This is **not** Alpine's internal voice quality evaluation — it's a **public research benchmark** measuring task completion and conversational behavior, not voice aesthetics (naturalness, warmth, brand fit). It does not score breath, rhythm, or pitch.
+This is **not** Sierra's internal voice quality evaluation — it's a **public research benchmark** measuring task completion and conversational behavior, not voice aesthetics (naturalness, warmth, brand fit). It does not score breath, rhythm, or pitch.
 
 ### Key results (March 2026)
 
@@ -104,11 +104,11 @@ The voice-text gap is the headline: best voice agents reach ~51% clean vs. ~85% 
 
 ## Q3. Voice Sommelier Evaluation Process
 
-**Source:** [alpine.ai/blog/meet-the-voice-sommelier](https://alpine.ai/blog/meet-the-voice-sommelier) — September 2025
+**Source:** [sierra.ai/blog/meet-the-voice-sommelier](https://sierra.ai/blog/meet-the-voice-sommelier) — September 2025
 
 ### Process (as described)
 
-The Voice Sommelier role is Alpine's internal voice designer function. The published blog describes a largely **qualitative, judgment-based process** — not a published rubric or scorecard.
+The Voice Sommelier role is Sierra's internal voice designer function. The published blog describes a largely **qualitative, judgment-based process** — not a published rubric or scorecard.
 
 **Stage 1 — Brand discovery**
 - Understand brand values, tone-of-voice guidelines
@@ -141,7 +141,7 @@ The blog describes: *"listen, hypothesize, iterate, and test — always remember
 
 ### No published scorecard
 
-There is **no public rubric or scorecard format** described in any Alpine source. The process is described as collaborative between Voice Sommelier, customers, and agent development teams. Measurement appears to be through:
+There is **no public rubric or scorecard format** described in any Sierra source. The process is described as collaborative between Voice Sommelier, customers, and agent development teams. Measurement appears to be through:
 1. Live call metrics (did customer stick around / Acceptance)
 2. Resolution rates
 3. Customer satisfaction scores
@@ -149,15 +149,15 @@ There is **no public rubric or scorecard format** described in any Alpine source
 
 ### Key insight for your demo
 
-Alpine's Acceptance/Resolution/Satisfaction framework is directly derived from the Voice Sommelier's evaluation philosophy — these three stages map to measurable business outcomes (retention, resolution rate, CSAT), not just aesthetic scores. Your rubric (Naturalness, Trust, Brand Fit, Cultural Fit, Clarity) maps well to what Alpine's process targets but formalizes it into a repeatable scorecard — which Alpine does not appear to have published.
+Sierra's Acceptance/Resolution/Satisfaction framework is directly derived from the Voice Sommelier's evaluation philosophy — these three stages map to measurable business outcomes (retention, resolution rate, CSAT), not just aesthetic scores. Your rubric (Naturalness, Trust, Brand Fit, Cultural Fit, Clarity) maps well to what Sierra's process targets but formalizes it into a repeatable scorecard — which Sierra does not appear to have published.
 
 ---
 
 ## Q4. Locale Provider Selection
 
-**Source:** [alpine.ai/blog/multilingual-voice-agents](https://alpine.ai/blog/multilingual-voice-agents) — October 2025
+**Source:** [sierra.ai/blog/multilingual-voice-agents](https://sierra.ai/blog/multilingual-voice-agents) — October 2025
 
-### What Alpine says
+### What Sierra says
 
 *"The right combination of models — across comprehension, orchestration, reasoning, and generation — varies by locale. Transcription that performs accurately in Japanese might miss nuance in Portuguese, while a synthesis model that sounds natural in Arabic might sound too formal in Hindi."*
 
@@ -178,7 +178,7 @@ The multilingual blog describes a **hybrid process**:
 
 ### What is unconfirmed
 
-No specific routing logic is described. Alpine does not say whether selection is:
+No specific routing logic is described. Sierra does not say whether selection is:
 - A static lookup table (human-curated, reviewed periodically)
 - A runtime routing layer (selects provider per-call based on language detection)
 - Or both
@@ -197,30 +197,30 @@ Provider selection per locale is **human-curated and continuously benchmarked**,
 
 **Deepgram — confirmed.**
 
-Deepgram's [March 2026 job posting](https://jobs.ashbyhq.com/Deepgram/b9b27091-1a95-4c31-a304-55c31711887a) lists Alpine in its customer roster: *"More than 200,000 developers and 1,300+ organizations build voice offerings that are 'Powered by Deepgram', including Twilio, Cloudflare, **Alpine**, Decagon, Vapi, Daily, Cresta, Granola, and Jack in the Box."*
+Deepgram's [March 2026 job posting](https://jobs.ashbyhq.com/Deepgram/b9b27091-1a95-4c31-a304-55c31711887a) lists Sierra in its customer roster: *"More than 200,000 developers and 1,300+ organizations build voice offerings that are 'Powered by Deepgram', including Twilio, Cloudflare, **Sierra**, Decagon, Vapi, Daily, Cresta, Granola, and Jack in the Box."*
 
 ### Additional context
 
-Alpine's latency blog confirms a **custom VAD (Voice Activity Detection) model** for end-of-speech detection: *"We trained a custom voice activity detection (VAD) model optimized for noisy, multi-speaker environments. It predicts speech completion earlier and more accurately than off-the-shelf alternatives."* This is a Alpine-built model on top of (or replacing) the raw STT streaming input — it sits between the audio stream and the STT finalization step.
+Sierra's latency blog confirms a **custom VAD (Voice Activity Detection) model** for end-of-speech detection: *"We trained a custom voice activity detection (VAD) model optimized for noisy, multi-speaker environments. It predicts speech completion earlier and more accurately than off-the-shelf alternatives."* This is a Sierra-built model on top of (or replacing) the raw STT streaming input — it sits between the audio stream and the STT finalization step.
 
 ### Not confirmed
 
-- **Google Speech / Whisper / AssemblyAI**: No mentions in any Alpine source
+- **Google Speech / Whisper / AssemblyAI**: No mentions in any Sierra source
 - The τ-Voice paper uses ElevenLabs for the **user simulator** voice, but the simulated user's transcript is piped **directly to the LLM, bypassing ASR** — so the paper does not confirm any STT provider for production agents
 
 ---
 
 ## Q6. Voice Latency Targets
 
-**Source:** [alpine.ai/blog/voice-latency](https://alpine.ai/blog/voice-latency) — October 2025
+**Source:** [sierra.ai/blog/voice-latency](https://sierra.ai/blog/voice-latency) — October 2025
 
 ### Primary metric: TTFA
 
-Alpine explicitly defines **TTFA (Time to First Audio)** as the primary latency metric:
+Sierra explicitly defines **TTFA (Time to First Audio)** as the primary latency metric:
 
 > *"The most important latency metric for conversational AI systems is Time to First Audio (TTFA) — how long it takes for the agent to start speaking after the customer finishes."*
 
-Alpine measures TTFA from the **true end of user speech** (using their custom VAD), not from delayed or approximate timestamps. They explicitly reject gaming TTFA with filler audio ("uh-huh", "let me check") — they measure time to the first **relevant** response.
+Sierra measures TTFA from the **true end of user speech** (using their custom VAD), not from delayed or approximate timestamps. They explicitly reject gaming TTFA with filler audio ("uh-huh", "let me check") — they measure time to the first **relevant** response.
 
 ### Published numbers
 
@@ -230,14 +230,14 @@ Alpine measures TTFA from the **true end of user speech** (using their custom VA
 - Streaming begins "as soon as the first tokens arrive"
 - Non-streaming providers handled "sentence by sentence" for near-immediate speech
 
-### Industry context (not Alpine-specific)
+### Industry context (not Sierra-specific)
 
 From the broader voice AI engineering community:
 - Sub-500ms TTFA is the industry target for a conversation that "feels instantaneous" — [Gradium, Feb 2026](https://gradium.ai/blog/optimizing-quality-vs-latency)
-- The τ-Voice benchmark results show OpenAI Realtime achieves **0.90s average latency** (realistic conditions), Google at 1.14s — suggesting Alpine's own stack likely targets sub-1s
+- The τ-Voice benchmark results show OpenAI Realtime achieves **0.90s average latency** (realistic conditions), Google at 1.14s — suggesting Sierra's own stack likely targets sub-1s
 - Industry budget breakdown: STT ~50-100ms, LLM TTFT ~100-200ms, TTS first-byte ~50-80ms, transport ~20-50ms
 
-### Latency stack summary (Alpine architecture)
+### Latency stack summary (Sierra architecture)
 
 | Stage | Technique | Impact |
 |---|---|---|
@@ -251,13 +251,13 @@ From the broader voice AI engineering community:
 
 ### Sentence-boundary streaming
 
-Alpine uses sentence-level batching for non-streaming TTS providers. For streaming-capable providers, synthesis begins on the first token. The latency blog confirms this but does not specify sentence boundary detection methodology (e.g., punctuation-based, model-based, silence-based).
+Sierra uses sentence-level batching for non-streaming TTS providers. For streaming-capable providers, synthesis begins on the first token. The latency blog confirms this but does not specify sentence boundary detection methodology (e.g., punctuation-based, model-based, silence-based).
 
 ---
 
 ## Q7. Voice Sims Scenario Structure
 
-**Sources:** [alpine.ai/blog/voice-sims-test-agents](https://alpine.ai/uk/blog/voice-sims-test-agents-in-real-world-conditions-before-they-talk-to-your-customers) (September 2025), [alpine.ai/blog/how-voice-sims-work](https://alpine.ai/blog/how-voice-sims-work) (April 2026), [arXiv:2603.13686](https://arxiv.org/html/2603.13686v1) (March 2026)
+**Sources:** [sierra.ai/blog/voice-sims-test-agents](https://sierra.ai/uk/blog/voice-sims-test-agents-in-real-world-conditions-before-they-talk-to-your-customers) (September 2025), [sierra.ai/blog/how-voice-sims-work](https://sierra.ai/blog/how-voice-sims-work) (April 2026), [arXiv:2603.13686](https://arxiv.org/html/2603.13686v1) (March 2026)
 
 ### Scenario input structure
 
@@ -276,7 +276,7 @@ A Voice Sim scenario is configured with:
 ### How scenarios are created
 
 Two modes:
-1. **Auto-generated** — Alpine infers test cases from: SOPs, knowledge bases, coaching transcripts, conversation flows, policies. No manual writing required.
+1. **Auto-generated** — Sierra infers test cases from: SOPs, knowledge bases, coaching transcripts, conversation flows, policies. No manual writing required.
 2. **Manual** — Human-defined: scenario description + success criteria + location/device info.
 
 ### Architecture: Dual loop
@@ -329,15 +329,15 @@ Voice Sims run in:
 - **Agent Studio (no-code):** Audio replay, waveform scrubbing, jump-to-failure point
 - **CLI (programmatic):** Baked into CI/CD pipelines; blocks releases on failure
 - **Cross-channel parity:** Same evaluation infrastructure as chat and email sims
-- Available to Alpine customers at no additional charge
+- Available to Sierra customers at no additional charge
 
 ---
 
 ## Synthesis: What This Means for Your Demo
 
-### What Alpine has built vs. what you're demoing
+### What Sierra has built vs. what you're demoing
 
-| Alpine has | Your demo provides |
+| Sierra has | Your demo provides |
 |---|---|
 | Voice Sims (automated QA at scale) | Voice Evaluation Workbench (human judgment tool) |
 | τ-Voice (automated behavioral metrics) | Structured scoring rubric (Naturalness, Trust, Brand fit, etc.) |
@@ -347,20 +347,20 @@ Voice Sims run in:
 | Custom voices (Jade, Tatyana, Steven) | Voice variants A/B/C/D |
 | Native speaker testing | Cultural fit dimension in rubric |
 
-Your demo fills a gap Alpine's own public toolchain has: **a decision artifact for the human evaluation layer**. τ-Voice measures machine performance. Voice Sims catches bugs. The Voice Sommelier process is expert-dependent and undocumented. Your workbench makes that judgment repeatable and exportable.
+Your demo fills a gap Sierra's own public toolchain has: **a decision artifact for the human evaluation layer**. τ-Voice measures machine performance. Voice Sims catches bugs. The Voice Sommelier process is expert-dependent and undocumented. Your workbench makes that judgment repeatable and exportable.
 
 ### Technical language to use in your application
 
-- **TTFA** (not "response time") — Alpine's explicit metric name
-- **Acceptance/Resolution/Satisfaction** — Use exactly; they're Alpine's framework
+- **TTFA** (not "response time") — Sierra's explicit metric name
+- **Acceptance/Resolution/Satisfaction** — Use exactly; they're Sierra's framework
 - **Voice Sims** — Reference when explaining why evaluation needs to happen before deployment
 - **τ-Voice metrics** — Reference when explaining that behavioral metrics alone don't capture voice quality
 - **Locale-specific model selection** — Use to frame why cultural fit is a scored dimension, not an afterthought
-- **Provider hedging / modular architecture** — Explains why voice evaluation across variants matters (Alpine may be switching providers per locale; evaluators need a consistent framework)
+- **Provider hedging / modular architecture** — Explains why voice evaluation across variants matters (Sierra may be switching providers per locale; evaluators need a consistent framework)
 
 ### What not to claim
 
-- Do not claim to know Alpine's production TTS providers — say "confirmed Deepgram for STT; TTS providers not publicly disclosed"
+- Do not claim to know Sierra's production TTS providers — say "confirmed Deepgram for STT; TTS providers not publicly disclosed"
 - Do not present your rubric as replicating τ-Bench — they measure completely different things
 - Do not claim Voice Sims is a scoring tool — it's a QA/regression tool; your workbench is the evaluation tool
 
@@ -368,15 +368,15 @@ Your demo fills a gap Alpine's own public toolchain has: **a decision artifact f
 
 ## Source Index
 
-1. Deepgram job posting (Alpine as customer) — https://jobs.ashbyhq.com/Deepgram/b9b27091-1a95-4c31-a304-55c31711887a
+1. Deepgram job posting (Sierra as customer) — https://jobs.ashbyhq.com/Deepgram/b9b27091-1a95-4c31-a304-55c31711887a
 2. τ-Voice arXiv paper — https://arxiv.org/html/2603.13686v1
-3. Alpine Voice Latency blog — https://alpine.ai/blog/voice-latency
-4. Alpine Voice Sommelier blog — https://alpine.ai/blog/meet-the-voice-sommelier
-5. Alpine Multilingual Voice blog — https://alpine.ai/blog/multilingual-voice-agents
-6. Alpine Voice Sims launch blog — https://alpine.ai/uk/blog/voice-sims-test-agents-in-real-world-conditions-before-they-talk-to-your-customers
-7. Alpine How Voice Sims Work blog — https://alpine.ai/blog/how-voice-sims-work
-8. Alpine Voice Post-Training blog — https://alpine.ai/blog/voice-post-training
-9. Alpine τ³-Bench blog — https://alpine.ai/blog/bench-advancing-agent-benchmarking-to-knowledge-and-voice
+3. Sierra Voice Latency blog — https://sierra.ai/blog/voice-latency
+4. Sierra Voice Sommelier blog — https://sierra.ai/blog/meet-the-voice-sommelier
+5. Sierra Multilingual Voice blog — https://sierra.ai/blog/multilingual-voice-agents
+6. Sierra Voice Sims launch blog — https://sierra.ai/uk/blog/voice-sims-test-agents-in-real-world-conditions-before-they-talk-to-your-customers
+7. Sierra How Voice Sims Work blog — https://sierra.ai/blog/how-voice-sims-work
+8. Sierra Voice Post-Training blog — https://sierra.ai/blog/voice-post-training
+9. Sierra τ³-Bench blog — https://sierra.ai/blog/bench-advancing-agent-benchmarking-to-knowledge-and-voice
 10. τ³-Bench LinkedIn (Bret Taylor) — https://www.linkedin.com/posts/brettaylor_%F0%9D%9C%8F%C2%B3-bench-advancing-agent-evaluation-to-activity-7441883892262969344-1FVH
-11. ElevenLabs vs Alpine comparison (ElevenLabs blog) — https://elevenlabs.io/hi/blog/elevenlabs-vs-alpineai
-12. myaskai Alpine guide (modular voice architecture quote) — https://myaskai.com/blog/alpine-ai-complete-guide-2026
+11. ElevenLabs vs Sierra comparison (ElevenLabs blog) — https://elevenlabs.io/hi/blog/elevenlabs-vs-sierraai
+12. myaskai Sierra guide (modular voice architecture quote) — https://myaskai.com/blog/sierra-ai-complete-guide-2026

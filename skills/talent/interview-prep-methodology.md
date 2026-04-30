@@ -6,12 +6,12 @@ for_agents: [Researcher, Architect, Narrator, Validator]
 triggers: [RIU-001, RIU-014, RIU-020, RIU-062]
 impressions: 7
 status: WORKING
-validated_on: OpenAI ADM (takehome submitted, onsite reached — lost at panel for conservatism), Perplexity CSM (submitted 2026-03-15), Lumen R1 (post-mortem from Feb attempt applied — R2 advancing Apr 2026), Alpine (voice evaluation workbench submitted), Stripe (learning architecture tool submitted)
+validated_on: OpenAI ADM (takehome submitted, onsite reached — lost at panel for conservatism), Perplexity CSM (submitted 2026-03-15), Glean R1 (post-mortem from Feb attempt applied — R2 advancing Apr 2026), Sierra (voice evaluation workbench submitted), Stripe (learning architecture tool submitted)
 ---
 
 # Enterprise AI Interview Preparation System
 
-Validated methodology for preparing for enterprise AI roles — deployment managers, customer success, solutions engineers, forward-deployed engineers. Developed across three real applications with learnings from one failure (Lumen) and two active processes (OpenAI, Perplexity).
+Validated methodology for preparing for enterprise AI roles — deployment managers, customer success, solutions engineers, forward-deployed engineers. Developed across three real applications with learnings from one failure (Glean) and two active processes (OpenAI, Perplexity).
 
 ## When to Use
 
@@ -65,7 +65,7 @@ Before submitting anything:
 - Note exact sources for all GREEN/YELLOW stats
 - Never present one team's metric as an org-wide number
 
-## Failure Patterns (Lumen Post-Mortem)
+## Failure Patterns (Glean Post-Mortem)
 
 - "Didn't know their internal system" — product depth matters more than generic prep
 - Generic transformation language loses to specific product knowledge
@@ -76,7 +76,7 @@ Before submitting anything:
 
 - **OpenAI**: Thesis-first approach (visibility bridges governance gap), live demo > slides, show limitations honestly
 - **Perplexity**: Thread exercise using Perplexity to advocate for itself (meta-demonstration), point to real code on GitHub
-- **Lumen**: Know Tony Gentilcore's "user value first" philosophy, 4-Question Use Case Filter, Finance POD model
+- **Glean**: Know Tony Gentilcore's "user value first" philosophy, 4-Question Use Case Filter, Finance POD model
 
 ## Quality Checks
 
@@ -102,7 +102,7 @@ Multiple delivery versions of one core thesis, routed by interview context. V1 (
 
 ## Validated Patterns (Updated April 2026)
 
-### Anti-Conservatism (OpenAI Post-Mortem — Applied to Lumen)
+### Anti-Conservatism (OpenAI Post-Mortem — Applied to Glean)
 **Failure**: Had strong content at OpenAI. Played it safe in 5 minutes. Lost at panel.
 **Structural defense**: 
 - Rehearse opener 5x timed (30 seconds)
@@ -112,19 +112,19 @@ Multiple delivery versions of one core thesis, routed by interview context. V1 (
 - The TELL: using words like "framework" or "alignment" instead of concrete language
 - The OVERRIDE: one proof point, not three. One question back.
 
-### Know / Suspect / Validate (Codex — Applied to Lumen)
+### Know / Suspect / Validate (Codex — Applied to Glean)
 For new hiring managers, structure your knowledge as what you KNOW (verified), what you SUSPECT (hypothesis), and what you NEED TO VALIDATE (questions for them). This prevents sounding over-diagnosed while still demonstrating preparation.
 
-### Field Pain First, System Second (Codex — Applied to Lumen)
+### Field Pain First, System Second (Codex — Applied to Glean)
 Lead with the visible problem the interviewer recognizes, not with your system framework. Let the system thesis EXPLAIN the pain, not replace it. Example: "field decision confidence" is the visible pain. "Governed workflow quality" is the explanatory engine. Arrive at the engine through the pain, never open with the coined phrase.
 
-### Stage 1 Retrieval Rule (Codex — Applied to Lumen)
+### Stage 1 Retrieval Rule (Codex — Applied to Glean)
 If the answer in your head is longer than 30 seconds, start with the first sentence only. Stop. Let the interviewer pull for more. Early-stage conversations are about credibility + calibration, not completeness.
 
-### Crew Evaluation Before High-Stakes Interviews (Multi-Agent — Applied to Lumen)
+### Crew Evaluation Before High-Stakes Interviews (Multi-Agent — Applied to Glean)
 Send prep materials to the crew (Kiro, Codex, Gemini, Mistral) for structured evaluation 24-48 hours before. Each agent has a focus: structural integrity, strategic framing, adversarial testing, human read. Integrate fixes into prep materials. Generated via `/job-search crew-eval`.
 
-### Cross-Interview Mode Switching (Kiro — Applied to Capital Group + Lumen)
+### Cross-Interview Mode Switching (Kiro — Applied to Capital Group + Glean)
 Same-day interviews requiring different modes (warmth → technical authority) need a 30-minute buffer. Re-read the next battle card. Reset vocabulary. Do NOT carry language from one mode into another.
 
 ### Wrong-Read Prevention Lens (Codex — Applied to Capital Group/Antun, April 2026)
@@ -143,5 +143,5 @@ Person Lens → Wrong Read → Core Reframe → Mode Context → Battle Card →
 
 **Why this works**: Most interview prep asks "what will they ask?" This pattern asks "what will they ASSUME about me before I speak?" — and designs the first 30 seconds to correct it. The wrong read is the highest-leverage fix in any interview prep because it changes the frame, not just the content.
 
-### Post-Round Iteration (Multi-Agent — Applied to Lumen R1→R2)
+### Post-Round Iteration (Multi-Agent — Applied to Glean R1→R2)
 After every round, systematically revise all prep materials based on new intelligence. Answers compound across rounds — each round teaches something that makes the next round's answers better. Don't just debrief; REWRITE. Generated via `/job-search post-round`.

@@ -79,7 +79,7 @@ These files contain dated audit results or interview prep from completed intervi
 - `palette/research/phase-{1,2}-complete.md` — historical
 - `implementations/talent/talent-openai-deployment-mgr/*.md` — completed interview prep
 - `implementations/talent/talent-perplexity-fde/*.md` — completed interview prep
-- `implementations/talent/talent-lumen-interview/*.md` — completed interview prep
+- `implementations/talent/talent-glean-interview/*.md` — completed interview prep
 - `implementations/talent/talent-mistral-tme/*.md` — active but 466 is in behavioral stories (what was said)
 - `enablement/MISTRAL_INBOX/*.md` — received messages (don't modify)
 

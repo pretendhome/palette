@@ -28,7 +28,6 @@ const RIME_API  = 'https://users.rime.ai/v1/rime-tts';
 
 let RIME_KEY = '';
 let CLAUDE_TOKEN = '';
-let ANTHROPIC_KEY = '';
 let MISTRAL_KEY = '';
 let OPENAI_KEY = '';
 let PERPLEXITY_KEY = '';
@@ -51,7 +50,6 @@ async function loadKeys() {
       if (k === 'PERPLEXITY_API_KEY') PERPLEXITY_KEY = val;
       if (k === 'DASHSCOPE_API_KEY') DASHSCOPE_KEY = val;
       if (k === 'KIRO_API_KEY') KIRO_KEY = val;
-      if (k === 'ANTHROPIC_API_KEY') ANTHROPIC_KEY = val;
     }
   } catch { /* no .env */ }
 
@@ -72,7 +70,6 @@ async function loadKeys() {
 
   const loaded = [];
   if (CLAUDE_TOKEN) loaded.push('claude(oauth)');
-  if (ANTHROPIC_KEY) loaded.push('claude(api)');
   if (MISTRAL_KEY) loaded.push('mistral');
   if (OPENAI_KEY) loaded.push('openai');
   if (PERPLEXITY_KEY) loaded.push('perplexity');
@@ -356,7 +353,7 @@ async function handleRequest(req, res) {
       status: 'ok',
       hub: { port: HUB_PORT, uptime: process.uptime() | 0 },
       keys: {
-        claude: !!(CLAUDE_TOKEN || ANTHROPIC_KEY),
+        claude: !!CLAUDE_TOKEN,
         mistral: !!MISTRAL_KEY,
         openai: !!OPENAI_KEY,
         qwen: !!DASHSCOPE_KEY,
@@ -773,60 +770,8 @@ async function* callLLM(config, systemPrompt, userText) {
   const { provider, model } = config;
 
   if (provider === 'anthropic') {
-    // Claude: try API key first (direct, fast), then CLI fallback
-    if (ANTHROPIC_KEY) {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), LLM_TIMEOUT_MS);
-      try {
-        const resp = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': ANTHROPIC_KEY,
-            'anthropic-version': '2023-06-01',
-          },
-          body: JSON.stringify({
-            model,
-            max_tokens: 1024,
-            stream: true,
-            system: systemPrompt,
-            messages: [{ role: 'user', content: userText }],
-          }),
-          signal: controller.signal,
-        });
-        const reader = resp.body.getReader();
-        const dec = new TextDecoder();
-        let buf = '';
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          buf += dec.decode(value, { stream: true });
-          let nl;
-          while ((nl = buf.indexOf('\n')) !== -1) {
-            const line = buf.slice(0, nl).trim();
-            buf = buf.slice(nl + 1);
-            if (line.startsWith('data: ')) {
-              const payload = line.slice(6);
-              if (payload === '[DONE]') break;
-              try {
-                const evt = JSON.parse(payload);
-                if (evt.type === 'content_block_delta' && evt.delta?.text) {
-                  yield evt.delta.text;
-                }
-              } catch {}
-            }
-          }
-        }
-        clearTimeout(timeout);
-        return;
-      } catch (e) {
-        clearTimeout(timeout);
-        console.error(`  [claude api failed: ${e.message}]`);
-        // Fall through to CLI
-      }
-    }
+    // Claude via CLI (uses Max subscription, no API credits)
 
-    // CLI fallback (uses Max subscription)
     const fullPrompt = `${systemPrompt}\n\nUser: ${userText}`;
     const proc = spawn('claude', ['-p', fullPrompt, '--model', model], {
       env: { ...process.env, NO_COLOR: '1' },

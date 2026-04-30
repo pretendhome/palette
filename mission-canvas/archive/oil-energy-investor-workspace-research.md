@@ -740,7 +740,7 @@ The critical design principle: the workspace needs to know what it knows vs. wha
 
 ### Workspace Onboarding Patterns
 
-Fast onboarding of AI to a specific user's context follows a known pattern from tools like Lumen, Moveworks, and Notion AI:
+Fast onboarding of AI to a specific user's context follows a known pattern from tools like Glean, Moveworks, and Notion AI:
 
 1. **Structured intake questionnaire:** The system asks about the user's portfolio, positions, investment thesis, key decisions in progress, and primary data sources
 2. **Document ingestion:** Existing investment memos, thesis documents, and portfolio summaries are processed into the knowledge base

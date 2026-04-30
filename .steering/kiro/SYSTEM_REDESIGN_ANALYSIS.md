@@ -36,7 +36,7 @@
 
 **Use Cases Observed**:
 - Retail strategy (Rossi store promotion)
-- Interview prep (Gap, Lumen)
+- Interview prep (Gap, Glean)
 - Education architecture (Alpha School)
 - Job search workflows
 - Business planning

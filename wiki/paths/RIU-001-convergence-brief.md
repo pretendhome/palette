@@ -2,7 +2,7 @@
 source_file: enablement/paths/RIU-001-convergence-brief.md
 source_id: RIU-001
 source_hash: sha256:980bb0e184238286
-compiled_at: 2026-04-29T20:17:20Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: enablement_path
 DO_NOT_EDIT: This file is auto-generated. Edit the source YAML and recompile.

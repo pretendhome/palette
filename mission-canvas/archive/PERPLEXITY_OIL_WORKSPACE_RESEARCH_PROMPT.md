@@ -133,7 +133,7 @@ Research with cited sources:
 
 Research with cited sources:
 
-- How do enterprise AI tools handle **multi-tenant workspace configuration**? (Notion AI, Lumen, Moveworks, Guru — how do they scope AI behavior per workspace/team?)
+- How do enterprise AI tools handle **multi-tenant workspace configuration**? (Notion AI, Glean, Moveworks, Guru — how do they scope AI behavior per workspace/team?)
 - What are best practices for **domain-specific knowledge packs** in AI systems? How do companies like Anthropic, OpenAI, Cohere recommend structuring domain knowledge for AI applications?
 - How do **financial AI tools** handle the split between **static reference knowledge** (what is EBITDA, what does FERC regulate) vs **live volatile data** (today's oil price, latest OPEC decision)?
 - What are the patterns for **workspace onboarding** in AI tools — how does the system get smart about a specific user's context quickly?

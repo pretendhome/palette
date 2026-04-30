@@ -290,4 +290,4 @@ The same problem keeps appearing: unstructured knowledge that machines and human
 
 ---
 
-*Source files: experience-inventory.yaml, BEHAVIORAL_STORIES.md (Mistral), COMMIT_BASED_STAR_ANSWERS (Lumen), OPENAI_ONSITE_MASTER_QA.md*
+*Source files: experience-inventory.yaml, BEHAVIORAL_STORIES.md (Mistral), COMMIT_BASED_STAR_ANSWERS (Glean), OPENAI_ONSITE_MASTER_QA.md*

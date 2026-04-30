@@ -220,7 +220,7 @@ Once auto-enrichment is working:
 1. **Perplexity competition demo** — live demo of self-improving knowledge
 2. **Perficient live build** — build a domain-specific version in 2.5 hours (healthcare or BFSI knowledge auto-enrichment)
 3. **Skills auto-save** (Hermes fix #2) — same pattern applied to procedural memory instead of knowledge: after an agent completes a complex task, auto-save the procedure as a skill proposal through governance
-4. **Lumen enablement** — if you get the role, this IS the content-operations pipeline: product changes → research → auto-proposed enablement entries → governed review → published to field
+4. **Glean enablement** — if you get the role, this IS the content-operations pipeline: product changes → research → auto-proposed enablement entries → governed review → published to field
 
 ## Operator Decisions (2026-04-23)
 

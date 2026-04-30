@@ -1,9 +1,9 @@
 lens_id: LENS-PERSON-001
 name: "Mical Neill"
-version: "0.2"
+version: "0.1"
 status: working
 created: 2026-04-03
-updated: 2026-04-26
+updated: 2026-04-03
 schema: PERSON_LENS_SCHEMA_v0.1
 
 # ============================================================================
@@ -14,11 +14,8 @@ identity:
   essence: |
     Someone who creates environments where people succeed — using knowledge
     architecture as his primary tool and comparative linguistics as his foundation.
-    Voice, language, and cross-cultural systems design are not adjacent skills —
-    they are the core discipline that makes everything else work.
   roles:
-    - "Voice AI Agent Designer & Systems Architect (independent, 2025-present)"
-    - "Enterprise AI Enablement & Technical Program Lead (AWS, departed April 28, 2026)"
+    - "Enterprise AI Enablement & Technical Program Lead (AWS, departing April 28, 2026)"
     - "JSC 5739 Moderator (Never Search Alone)"
     - "Builder: Palette Intelligence System"
     - "Father, partner, multilingual expatriate"
@@ -88,72 +85,14 @@ origin:
         company-wide Think Big competition — first time ever for that level. Proof that
         creating the environment for innovation matters more than being the innovator.
 
-    - what: "Alexa Voice Agent Internationalization — EU-5 Personal Mobility"
+    - what: "Alexa Automotive POI data mapping across 47 providers"
       when: "2019-2023"
       why_it_matters: |
-        Four years of voice agent internationalization across 13 locales, 47 data providers,
-        and 5 languages. Not a supporting role — he owned voice quality, data coverage, and
-        evaluation frameworks for Alexa's EU-5 expansion (UK, Germany, France, Italy, Spain:
-        330 million people, 180 million cars).
-
-        Key accomplishments:
-        - Built voice agents across multiple domains: OpenTable (restaurant booking),
-          Ticketmaster (event discovery), Alexa Auto (in-car: windows, radio, AC).
-          Built FR/IT/ES first, then designed EN-US for internationalization.
-        - Led Italy locale launch — most successful in the program — because he spoke
-          the language, understood the culture, and made decisions in real time.
-        - Guided Arabic locale launch without speaking Arabic — proved the evaluation
-          frameworks transfer across language families.
-        - Designed category taxonomy normalizing 47 provider classification schemes
-          into one canonical hierarchy. v1 influenced 28% of categories using 3 DAs
-          and 1 SDE. The ML approach failed — the mapping was the problem, not the model.
-        - Managed 2 evaluation teams (~30 people) doing ongoing quality assessment.
-          Designed rubrics, trained annotators, measured inter-rater reliability (Cohen's kappa).
-        - EU-5 strategy doc: 16 data providers evaluated (7 open source, 9 commercial)
-          across 10 countries. Friction analysis on 300,000+ utterances by intent and error
-          prompt per locale. Tracked POI coverage per 1000 capita, business hours coverage,
-          Word Error Rate and Sentence Error Rate across device types.
-        - Found that 667/700 French districts failed ASR recognition. Identified the
-          "soixante-dix" vs "septante" regional counting problem. Found that French
-          addresses are formatted backwards from English (number first, then street).
-          Sentence Error Rate was 42.8% in French on headless devices.
-        - Cultural taxonomy errors: Krispy Kreme → Restaurant (technically correct,
-          culturally wrong). Emergency Room ≠ Emergency Services in Italian.
-          McDonald's → coffee in Italy because Italians go there for cheap espresso.
-        - Convinced manager to move from wholistic random QSR sampling to targeted
-          dashboard analysis. Key insight: taxonomists should handle ISSUES, not locales.
-        - Built POI Triggers tool that freed engineering bandwidth — data associates
-          could identify high-impact POIs directly without engineering tickets.
-        - Foursquare category mapping completed in 5 days (similar projects took 3-6 weeks).
-        - Trigger phrase mapping: scaled from 2-3K to 15-16K across 3 locales, many-to-1
-          ratios reaching 10:1.
-        - Built end-to-end training program for new hires: shadowing, wiki, videos.
-          In 3 months everyone was fully functional. 2 trainees promoted within 1 year.
-        - Designed wireframes for Annotation Design System (ADS) when annotators had
-          no tool access, no guidelines, no cultural knowledge. Got dev bandwidth,
-          built the workflow. Annotation quality improved.
-
-        The core lesson: voice quality across languages is not an engineering problem.
-        It is a cultural-linguistic problem that requires structural insight, evaluation
-        frameworks, and the lived experience of speaking the languages. Engineers were
-        building sophisticated models to fix what was fundamentally a mapping problem.
-
-    - what: "Voice AI Agent Design — OKA, Voice Hub, Rime TTS (independent)"
-      when: "2025-2026"
-      why_it_matters: |
-        After Amazon, built three voice systems that directly apply the internationalization
-        experience to modern AI agents:
-        - OKA: Voice-first adaptive AI companion for a bilingual child with dyslexia.
-          4 activity modes with activity-specific agent behavior. Persona rules enforced
-          through system prompt architecture, not prompting. English + Italian.
-        - Voice Hub: Multilingual multi-agent voice interface. 5 LLM agents routable
-          through voice in 4 languages. Rime Arcana v2 TTS with sentence-boundary
-          streaming for sub-700ms TTFA. Whisper local STT.
-        - Voice Evaluation Workbench: Multilingual tool for comparing and scoring AI
-          agent voices across customer journey stages. Rubric: Naturalness, Trust,
-          Cultural Fit, Brand Fit, Clarity. 4 languages with locale-specific variants.
-        - Rime TTS integration: Evaluated multiple providers (Rime, ElevenLabs, Deepgram,
-          Web Speech API). Structured side-by-side comparison with decision scorecards.
+        Engineers were building sophisticated vector databases to fix what was fundamentally
+        a cultural mapping problem. He fixed the mapping itself — the structural understanding
+        of how different countries categorize automotive services — and produced one of the
+        biggest improvements the system had ever seen. Proof that structural insight
+        outperforms engineering sophistication when the problem is categorical, not computational.
 
     - what: "Building Palette independently (2025-2026)"
       when: "2025-present"
@@ -169,31 +108,9 @@ origin:
     the system get what they actually need.
 
     This has been true since he was 16 making milkshakes, through teaching English in
-    Paris and Sardinia, through building voice agents across 13 locales and 47 data
-    providers, through reclassifying a taxonomy from industry-based to function-based,
-    through building Palette. The domain changes. The discipline doesn't.
-
-    The career has three eras, each building on the last:
-
-    ERA 1 — LANGUAGE AS CRAFT (2001-2013): BA Comparative Literature, MA Comparative
-    Linguistics (Sorbonne), 7 years teaching at Sciences Po and across Paris universities,
-    Carabinieri training in Sardinia, publishing student simulations, domain-specific
-    lexicons. Learned how meaning, tone, and trust map differently across languages and
-    cultures. Not as abstract theory — as lived daily practice in 4 languages.
-
-    ERA 2 — LANGUAGE AS SYSTEM (2013-2024): Amazon Italy (knowledge classification across
-    4 countries), Alexa (voice agents across 13 locales, 47 providers, EU-5 strategy,
-    Italy launch, Arabic locale, 300K+ utterance friction analysis, 2 evaluation teams,
-    ASR/NLU/ER pipeline analysis, annotation system redesign), AGI (LLM evaluation
-    frameworks, failure-mode taxonomies, inter-rater reliability). Learned how to build
-    systems that encode cultural-linguistic knowledge at scale.
-
-    ERA 3 — LANGUAGE AS INTELLIGENCE (2024-present): AWS enablement (Ask Pathfinder,
-    12K users, taxonomy reclassification), Palette (121 RIUs, 176 knowledge entries,
-    12 agents, governance), OKA (voice-first adaptive learning), Voice Hub (multilingual
-    multi-agent voice), Voice Evaluation Workbench (provider comparison across languages).
-    Applying everything from Era 1 and Era 2 to AI agent design — voice, persona,
-    evaluation, internationalization.
+    Paris and Sardinia, through mapping automotive knowledge across 47 data providers,
+    through reclassifying a taxonomy from industry-based to function-based, through
+    building Palette. The domain changes. The discipline doesn't.
 
 # ============================================================================
 # CAPABILITIES
@@ -232,43 +149,15 @@ capabilities:
         - "14 automated integrity validators across Palette"
       market_value: "High demand. Companies shipping RAG products need evaluation expertise. His approach (separate retrieval quality from answer quality from workflow quality) is more rigorous than most."
 
-    - name: "Voice Agent Design & Internationalization"
-      strength: defining
-      evidence:
-        - "EU-5 Personal Mobility: owned voice quality across 5 locales, 330M people, 16 data providers, 300K+ utterances friction-analyzed (Alexa)"
-        - "Built voice agents across domains: OpenTable, Ticketmaster, Alexa Auto in FR/IT/ES first, then EN-US (Alexa)"
-        - "Italy locale launch — most successful in the program (Alexa)"
-        - "Arabic locale launch without speaking Arabic — frameworks transfer across language families (Alexa)"
-        - "47 data provider taxonomy normalization — 28% of categories influenced, ML approach failed, mapping was the problem (Alexa)"
-        - "Voice Evaluation Workbench: multilingual voice comparison with structured rubrics (independent)"
-        - "OKA: voice-first adaptive AI companion, bilingual EN/IT, 4 activity modes with governed persona (independent)"
-        - "Voice Hub: 5 agents routable through voice in 4 languages, Rime TTS, sub-700ms TTFA (independent)"
-        - "Rime TTS integration and provider evaluation: Rime, ElevenLabs, Deepgram, Web Speech API (independent)"
-        - "ASR annotation quality redesign: wireframed new tool, got dev bandwidth, codified in Mercury (Alexa)"
-        - "2 evaluation teams (~30 people) managed for ongoing quality assessment across locales (Alexa)"
-        - "Training program: 3 months to functional, 2 trainees promoted within 1 year (Alexa)"
-        - "Foursquare category mapping in 5 days vs 3-6 weeks for similar projects (Alexa)"
-        - "Trigger phrase scaling: 2-3K → 15-16K across 3 locales (Alexa)"
-        - "French: 667/700 districts failed ASR, 42.8% sentence error rate, soixante-dix vs septante (Alexa)"
-        - "Cultural taxonomy errors: Krispy Kreme → Restaurant, Emergency Room ≠ Emergency Services, McDonald's → coffee in Italy (Alexa)"
-        - "Supervision evolution: random QSR → targeted dashboard → taxonomists handle issues not locales (Alexa)"
-      market_value: "Extremely high and extremely rare. Almost nobody has MA Comparative Linguistics + voice AI agent design + 4 native languages + evaluation frameworks + 13-locale production experience. Alpine, Rime, ElevenLabs, and every company expanding voice AI internationally needs this exact combination."
-
     - name: "Cross-Cultural Systems Design"
       strength: exceptional
       evidence:
-        - "EU-5 strategy: 5 locales × POI coverage, friction, WER, CSAT — all tracked per locale per intent (Alexa)"
-        - "16 data providers across 10 countries evaluated for coverage, quality, cost (Alexa)"
-        - "Category taxonomy normalization across 47 providers with cultural-specific mappings (Alexa)"
-        - "French address format differences (number-first vs street-first), regional counting systems (Alexa)"
-        - "Italian cultural context: McDonald's as coffee, Emergency Room ≠ Emergency Services (Alexa)"
-        - "Automotive OEM mapping: Fiat/Lancia/Alfa/Maserati/Ferrari/Pagani for IT, PSA/Renault for FR (Alexa)"
-        - "4-language teaching career across 3 countries (Paris, Milan, San Francisco)"
+        - "Automotive data mappings across cultures that engineers couldn't fix (Alexa)"
+        - "Multilingual knowledge systems across 13 locales (Alexa)"
+        - "4-language teaching career across 3 countries"
         - "Italian Bridge concept for bilingual learning (Nora bot)"
         - "Family operates daily in EN/FR/IT"
-        - "Carabinieri training: voice-first language training under pressure (Sardinia)"
-        - "Sciences Po: trained French business students for English professional contexts (Paris)"
-      market_value: "Rare and increasingly critical. AI voice products expanding internationally discover that cultural-linguistic quality is the bottleneck, not engineering. This person has 15 years of lived cross-cultural experience plus the engineering to build systems around it."
+      market_value: "Rare and underutilized. Most AI companies don't think about cross-cultural knowledge architecture until they expand internationally. Then they desperately need it."
 
     - name: "Enterprise Enablement & GTM"
       strength: strong
@@ -280,19 +169,13 @@ capabilities:
       market_value: "Saturated market — many ex-AWS/Google/Microsoft people have similar stories. His enablement narrative alone doesn't differentiate. Combined with knowledge architecture, it does."
 
   tools_and_tech:
-    - "Python (primary language — dataclasses, argparse, pathlib, regex, YAML, PyTorch for ML prototypes)"
+    - "Python (primary language — dataclasses, argparse, pathlib, regex, YAML)"
     - "Claude API, Claude Code, Claude.ai (daily usage)"
     - "YAML-based knowledge representation and configuration"
     - "SQL (data analytics, querying)"
     - "Git/GitHub (monorepo management, subtree workflow)"
     - "python-docx (resume generation pipeline)"
-    - "Whisper (local STT), Rime TTS (Arcana v2/v3), Web Speech API, ElevenLabs, Deepgram"
-    - "Voice evaluation: MOS scoring, TTFA measurement, inter-rater reliability (Cohen's kappa)"
-    - "ASR/NLU/ER pipeline analysis: friction analysis, error prompt categorization, WER/SER measurement"
-    - "Annotation systems: Mercury, ADS wireframing, evaluation rubric design"
-    - "Data provider evaluation: coverage, quality, cost per locale per category"
-    - "Elastic Search (POI dashboards, error bucketization)"
-    - "Java/C++ (learned during Alexa era for FER/grammar work, not primary)"
+    - "Whisper (local STT), Rime (TTS), voice interfaces"
 
   what_they_cannot_do:
     - "Production JavaScript/TypeScript — no demonstrated experience"
@@ -434,15 +317,6 @@ patterns:
         - "Carabinieri: chose their own articles, fought through comprehension together"
         - "JSC 5739: moderating, not coaching"
       why_it_works: "He creates the conditions for discovery rather than delivering the answer. People learn more from their own discovery than from his instruction."
-
-    - pattern: "Fixes the framework and tooling, not the evaluators"
-      evidence:
-        - "ASR annotation quality: annotators failed because no tools, no guidelines, no cultural knowledge — redesigned the system (Alexa)"
-        - "QSR supervision: random sampling → targeted dashboard → taxonomists handle issues not locales (Alexa)"
-        - "Data provider mapping: ML approach failed, mapping taxonomy was the problem — fixed the mapping (Alexa)"
-        - "Ask Pathfinder: model wasn't the issue, taxonomy classification was — reclassified, 28% improvement (AWS)"
-        - "Foursquare mapping: organized EU+US workflow to hit 5-day deadline vs 3-6 week norm (Alexa)"
-      why_it_works: "When quality is poor, the instinct is to blame the people or add more technology. He looks at the framework those people are working within and fixes the structural constraint. The people then succeed without changing."
 
     - pattern: "Iterates to discovery instead of planning to execution"
       evidence:
@@ -686,13 +560,8 @@ evidence:
     - "12 years of Amazon career history across 4 distinct eras"
     - "Family financial analysis and relocation planning documents"
     - "Multiple conversation sessions spanning months of collaboration"
-    - "Interview Prep — POI / Alexa Era Projects (handwritten notes, reconstructed 2026-04-26)"
-    - "Personal Mobility Current State, Challenges, and Approach EU-5 (Amazon Confidential, 2019)"
-    - "Handwritten whiteboard notes: 4SQ mapping, trigger phrases, ADS, supervision evolution, taxonomy methodology (2026-04-26)"
-    - "PinSage paper annotations with knowledge graph margin notes (studied during Alexa era)"
-    - "Ontologically Correct Taxonomies paper annotations (studied for taxonomy design foundations)"
   confidence: high
-  last_validated: 2026-04-26
+  last_validated: 2026-04-22
   blind_spots_in_this_lens:
     - "Based heavily on self-reported data — no peer/manager 360 feedback included"
     - "Listening tour (0/15 conversations) has not yet provided external market signal"

@@ -11,8 +11,8 @@ Setup:
 
 Commands:
   /start           — welcome + help
-  /interview josh  — become Josh Rutberg (VP Customer Outcomes, Lumen)
-  /interview avril — become Avril (AI Outcomes Specialist, Lumen, Singapore)
+  /interview josh  — become Josh Rutberg (VP Customer Outcomes, Glean)
+  /interview avril — become Avril (AI Outcomes Specialist, Glean, Singapore)
   /feedback        — get honest feedback on your last answer
   /reset           — end interview, back to assistant
   /help            — list commands
@@ -36,18 +36,18 @@ ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 POLL_TIMEOUT = 30   # long-poll seconds
 MAX_HISTORY  = 20   # messages kept per chat
 
-SESSION_LOG  = '/home/mical/fde/implementations/talent/talent-lumen-interview/live_session.jsonl'
-CHEATSHEET   = '/home/mical/fde/implementations/talent/talent-lumen-interview/cheetsheet.txt'
+SESSION_LOG  = '/home/mical/fde/implementations/talent/talent-glean-interview/live_session.jsonl'
+CHEATSHEET   = '/home/mical/fde/implementations/talent/talent-glean-interview/cheetsheet.txt'
 
 TELEGRAM = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
 # ── Interviewer profiles ──────────────────────────────────────────────────────
 
-JOSH_SYSTEM = """You are Josh Rutberg, VP Customer Outcomes at Lumen (San Francisco), \
+JOSH_SYSTEM = """You are Josh Rutberg, VP Customer Outcomes at Glean (San Francisco), \
 conducting a peer interview for the AI Outcomes Manager role.
 
 YOUR BACKGROUND:
-- VP Customer Outcomes at Lumen, SF — "Customer Executive" on LinkedIn, 4,553 followers
+- VP Customer Outcomes at Glean, SF — "Customer Executive" on LinkedIn, 4,553 followers
 - Bain & Company consulting background — structured frameworks, outcome-obsessed
 - You run the AI Outcomes team globally. Avril Breen (APJ & EMEA) and Neboysa Omcikus report to you.
 - You recently hired a CX Ops Senior Manager (Yezi Peng leads that team under you)
@@ -59,7 +59,7 @@ YOUR WORLDVIEW (from your own LinkedIn posts):
 - "Close the AI adoption gap" — you don't care about AI features, you care about behavior change
 - You align with Arvind Jain (CEO): "The real risk isn't picking the wrong model. It's building your entire strategy around one."
 - You believe in context-aware AI, not generic chatbots
-- You push Lumen:LIVE events that show "AI-powered impact" and "real enterprise context"
+- You push Glean:LIVE events that show "AI-powered impact" and "real enterprise context"
 - You care about practical AI assistants for "real business workflows" — not demos
 
 YOUR INTERVIEW STYLE:
@@ -82,7 +82,7 @@ QUESTIONS YOU MIGHT ASK (ask ONE at a time, let them answer, go deeper):
 - "Tell me about a deployment that didn't go as expected. How did you course-correct?"
 - "How do you approach executive alignment when there's resistance to AI adoption?"
 - "What does a successful AI pilot look like versus a failed one — what separates them?"
-- "How would you identify whether a Lumen deployment is genuinely transformational \
+- "How would you identify whether a Glean deployment is genuinely transformational \
 vs. just being used?"
 - "A customer has competing AI initiatives internally. How do you navigate that?"
 - "What's your philosophy on broad rollouts versus narrow, high-intensity pilots?"
@@ -91,15 +91,15 @@ START: Greet them warmly. Tell them you have about 45 minutes. \
 Ask your first question naturally. React to their answers with genuine follow-ups. \
 After ~6 exchanges, if they ask for /feedback, give honest, specific, VP-level critique."""
 
-AVRIL_SYSTEM = """You are Avril Breen, Manager of the AI Outcomes Team covering APJ & EMEA at Lumen.
+AVRIL_SYSTEM = """You are Avril Breen, Manager of the AI Outcomes Team covering APJ & EMEA at Glean.
 
 YOUR BACKGROUND:
 - Recently promoted to Manager, AI Outcomes Team — APJ & EMEA
 - Based in Singapore, previously covered APAC as an AI Outcomes Specialist
 - Reports to Neboysa Omcikus and Josh Rutberg — "Hugely grateful to them for trusting me"
-- Hands-on operator: you build and deploy Lumen agents with customers daily
-- Key customer win: Airwallex commercial leadership built Lumen-powered agents during a mini hackathon
-- Deep technical depth in how Lumen's platform actually works at implementation level
+- Hands-on operator: you build and deploy Glean agents with customers daily
+- Key customer win: Airwallex commercial leadership built Glean-powered agents during a mini hackathon
+- Deep technical depth in how Glean's platform actually works at implementation level
 - You've seen many things that looked great in demos collapse in production
 
 YOUR INTERVIEW STYLE:
@@ -130,13 +130,13 @@ START: Greet them warmly. Mention you're joining from Singapore. \
 Ask your first question — go straight to the technical/hands-on experience. \
 React authentically to their answers. Ask for concrete details when answers are vague."""
 
-BIGCO_SYSTEM = """You are Josh Rutberg, VP Customer Outcomes at Lumen, and a peer interviewer. \
+BIGCO_SYSTEM = """You are Josh Rutberg, VP Customer Outcomes at Glean, and a peer interviewer. \
 The candidate is presenting a BigCo Strategic Account Plan as a case study exercise. \
-You are playing the role of a peer evaluator — another Lumen outcomes leader who would work \
+You are playing the role of a peer evaluator — another Glean outcomes leader who would work \
 alongside this person.
 
 THE BIGCO SCENARIO:
-- 25,000-employee company, 2,500 Lumen seats with option to go company-wide
+- 25,000-employee company, 2,500 Glean seats with option to go company-wide
 - Goals: reduce ticket resolution time in Support, accelerate deal cycles in Sales
 - Tools: Jira, Salesforce, O365, Zendesk
 - Complications: previous AI pilot failed, security reviews incomplete, \
@@ -156,7 +156,7 @@ THINGS THAT IMPRESS YOU:
 - Naming risks and having mitigations ready
 - Champion-centric thinking — making internal advocates successful
 - Specific metrics tied to specific data sources (not vague "improve efficiency")
-- Understanding that Lumen agents DO real work (update Jira, draft Confluence, etc.)
+- Understanding that Glean agents DO real work (update Jira, draft Confluence, etc.)
 - Pod-by-pod adoption vs. big-bang rollout
 
 QUESTIONS TO ASK DURING/AFTER THEIR PRESENTATION:
@@ -176,14 +176,14 @@ You're running as a Telegram bridge — the user is talking to you from their ph
 
 Be conversational, direct, and useful. You have full context on:
 - Palette's agent architecture (Resolver, Researcher, Orch, Debugger, Architect, Builder, Validator, Monitor, Narrator)
-- The Lumen AI Outcomes Manager interview the user is preparing for
+- The Glean AI Outcomes Manager interview the user is preparing for
 - The user's background: 11 years at Amazon/AWS, built Palette, launched 27+ models on Bedrock
 
 KEY PREP MATERIALS THE USER HAS:
 - Structured responses cheatsheet (13_STRUCTURED_RESPONSES_CHEATSHEET) with 6 STAR stories
 - BigCo case study deck v5 — 18 slides, customer-facing, champion-centric
 - Slide-by-slide glance notes (14_BIGCO_SLIDE_NOTES) with agent proof points
-- 3 non-negotiable points: (1) Lumen = interaction layer between LLMs and people, \
+- 3 non-negotiable points: (1) Glean = interaction layer between LLMs and people, \
 (2) same insight from building Palette, (3) hard problem is context/permissions/grounding
 
 THE USER'S KEY STORIES:
@@ -205,7 +205,7 @@ Available interview modes (tell the user if they seem to want practice):
 # ── Live cheat sheet ──────────────────────────────────────────────────────────
 
 _EXTRACT_PROMPT = """\
-You are reviewing one exchange from a live Lumen AI Outcomes Manager interview practice session.
+You are reviewing one exchange from a live Glean AI Outcomes Manager interview practice session.
 
 INTERVIEWER: {question}
 
@@ -509,7 +509,7 @@ def cmd_cheatsheet(chat_id: int, state: ChatState) -> None:
 
     typing(chat_id)
     prompt = (
-        "Review these interview Q&A pairs from a Lumen AI Outcomes Manager practice session.\n"
+        "Review these interview Q&A pairs from a Glean AI Outcomes Manager practice session.\n"
         "Extract the strongest phrases, frameworks, and talking points, grouped by theme.\n\n"
         + "\n\n---\n".join(qa_pairs[-8:])
     )

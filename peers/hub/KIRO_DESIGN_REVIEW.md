@@ -3,7 +3,7 @@
 **Reviewer**: kiro.design
 **Date**: 2026-04-14
 **Scope**: server.mjs (488 lines), index.html (580 lines), palette_retrieve.py (93 lines), style.css (340 lines)
-**Verdict**: Ship-ready for Alpine demo with 3 fixes and 5 recommendations
+**Verdict**: Ship-ready for Sierra demo with 3 fixes and 5 recommendations
 
 ---
 
@@ -16,12 +16,12 @@ Works well. The dropdown + clickable sidebar cards is a good dual-path. One issu
 Clean. The EN/FR/IT/ES pills are compact and the placeholder text updates per language — nice touch. Missing: there's no visual indicator of which language is active during voice recording. When the mic is hot and you're speaking French, the only signal is the dropdown state. A small flag or language badge near the mic button would help.
 
 ### RIU classification tags (green badges)
-These are valuable for the Alpine demo — they prove the taxonomy is working in real-time. For daily use they'd be noisy, but for a demo they're exactly right. Recommendation: add a toggle to show/hide them (like the TTS toggle), default ON for demo, OFF for daily use.
+These are valuable for the Sierra demo — they prove the taxonomy is working in real-time. For daily use they'd be noisy, but for a demo they're exactly right. Recommendation: add a toggle to show/hide them (like the TTS toggle), default ON for demo, OFF for daily use.
 
 ### Sidebar (Convergence / Agents / Wiki)
 The convergence tracker is the most original piece here. Voice commands for "what do we know" / "what's still open" are genuinely useful during a working session. The wiki browser is functional but the raw `<pre>` rendering makes it hard to scan. The agent roster duplicates information already in the dropdown.
 
-For Alpine: the convergence panel is the differentiator. Lead with it. The wiki browser is nice-to-have. The agent roster could be collapsed by default.
+For Sierra: the convergence panel is the differentiator. Lead with it. The wiki browser is nice-to-have. The agent roster could be collapsed by default.
 
 ### What's missing for daily use
 - Conversation history persistence (currently in-memory, lost on refresh)
@@ -34,10 +34,10 @@ For Alpine: the convergence panel is the differentiator. Lead with it. The wiki 
 ## 2. Interaction Patterns
 
 ### Room mode (auto-routing)
-Yes, but not yet. The taxonomy retrieval already classifies every query — you could use the RIU classification to pick the best agent. Example: if the query maps to a research RIU, route to Perplexity. If it maps to architecture, route to Claude. This is a natural extension of what `palette_retrieve.py` already does. But it's a 🔄 two-way door — build it after Alpine, not before.
+Yes, but not yet. The taxonomy retrieval already classifies every query — you could use the RIU classification to pick the best agent. Example: if the query maps to a research RIU, route to Perplexity. If it maps to architecture, route to Claude. This is a natural extension of what `palette_retrieve.py` already does. But it's a 🔄 two-way door — build it after Sierra, not before.
 
 ### Agent interruption / cross-talk
-Not for Alpine. The current "one agent responds at a time" model is correct for a demo. Cross-talk would be confusing to watch and hard to follow by voice. If you build this later, it should be opt-in ("room mode") not default.
+Not for Sierra. The current "one agent responds at a time" model is correct for a demo. Cross-talk would be confusing to watch and hard to follow by voice. If you build this later, it should be opt-in ("room mode") not default.
 
 ### Conversation history
 This is the biggest gap. Each message is standalone — the LLM gets no prior context. For a demo this is fine (each question is self-contained). For daily use, you need at minimum a sliding window of the last N messages passed as conversation history to the LLM. The `sessions` Map on the server already tracks convergence state per session — extend it to hold message history too.
@@ -134,7 +134,7 @@ When an API call fails (LLM down, Rime down, bus down), errors go to `console.er
 
 ---
 
-## 5. Alpine Demo Recommendations
+## 5. Sierra Demo Recommendations
 
 In priority order:
 
@@ -144,7 +144,7 @@ In priority order:
 4. **Extract the streaming parser** (Issue 1) — not urgent for demo, but do it before adding more providers
 5. **Add a keyboard shortcut for mic** — spacebar or a function key, for smoother demo flow
 
-### What NOT to change before Alpine
+### What NOT to change before Sierra
 - Don't add room mode
 - Don't add conversation history
 - Don't add agent cross-talk

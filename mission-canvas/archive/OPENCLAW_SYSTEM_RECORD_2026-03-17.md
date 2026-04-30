@@ -221,7 +221,7 @@ Systemd unit templates:
 - [rossi-bridge.service](/home/mical/fde/palette/bridges/telegram/systemd/rossi-bridge.service)
 - [rossi-outbox-deliver.service](/home/mical/fde/palette/bridges/telegram/systemd/rossi-outbox-deliver.service)
 - [rossi-relay-consumer.service](/home/mical/fde/palette/bridges/telegram/systemd/rossi-relay-consumer.service)
-- [lumen-interview-bridge.service](/home/mical/fde/palette/bridges/telegram/systemd/lumen-interview-bridge.service)
+- [glean-interview-bridge.service](/home/mical/fde/palette/bridges/telegram/systemd/glean-interview-bridge.service)
 
 Supporting docs:
 

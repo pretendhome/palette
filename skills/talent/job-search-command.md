@@ -669,7 +669,7 @@ If you have not read the format spec (or confirmed you're using the default form
 - Each section is one dense paragraph that IS the spoken answer
 - No bullets inside the section body
 - No coaching language inside the section body
-- Written in first person as if the user is already talking — "I spent 12 years...", "What fascinates me about Lumen is..."
+- Written in first person as if the user is already talking — "I spent 12 years...", "What fascinates me about Glean is..."
 - Every sentence is information-dense — no filler, no "I believe", no preamble
 - Include specific numbers, system names, leadership names, and evidence
 - Connect the user's specific experience to the company's specific domain using precise parallels
@@ -946,7 +946,7 @@ When the user says "move [company] to [status]", update the tracker AND move the
 
 **Contact management:**
 
-When the user mentions a new contact: "Luke gave me an intro to David at Lumen" → update CONTACTS.md with the new contact, who introduced them, and the next action.
+When the user mentions a new contact: "Luke gave me an intro to David at Glean" → update CONTACTS.md with the new contact, who introduced them, and the next action.
 
 User can say: "show my pipeline", "who's helping me?", "what's still open?", "move #3 to rejected", "add a contact: [name] at [company]"
 
@@ -1084,7 +1084,7 @@ Build a deep interviewer lens for a technical interview that identifies how the 
 
 **Input**: Interviewer name + LinkedIn profile or recruiter intel + role context
 
-**The pattern** (validated on Capital Group/Antun, Lumen/Jenn):
+**The pattern** (validated on Capital Group/Antun, Glean/Jenn):
 
 ```
 1. PERSON LENS — who they are, career arc, what they've built, working style signals
@@ -1109,7 +1109,7 @@ Build a deep interviewer lens for a technical interview that identifies how the 
 
 Common wrong reads to check for:
 - "Evaluation/quality specialist" when you're an engineer who ships (Capital Group pattern)
-- "Enablement/training person" when you're a systems builder (Lumen pattern)
+- "Enablement/training person" when you're a systems builder (Glean pattern)
 - "AI enthusiast with frameworks" when you need production credibility
 - "Big-company operator" when they want startup builder energy (Perficient pattern)
 - "Generalist who knows a bit of everything" when they need domain depth
@@ -1126,7 +1126,7 @@ Examples:
 
 **The mode context** captures what energy/register YOU need to be in:
 - Capital Group/Antun: "Production engineer who ships. Technical authority. Concrete incidents > abstract frameworks."
-- Lumen/Jenn: "Co-builder with hypotheses. Curious, not prescriptive. Let her set the depth."
+- Glean/Jenn: "Co-builder with hypotheses. Curious, not prescriptive. Let her set the depth."
 - Perficient/Alexandra: "Energized builder with personality. Startup energy. Short answers."
 - LVMH/Roksana: "Director-level. French. Discretion and craftsmanship. AI serves the savoir-faire."
 
@@ -1140,7 +1140,7 @@ Examples:
 **Reference implementations**:
 - `capital-group-principal-ai/LENS-ANTUN-001_antun_sekulic.yaml` — the gold standard for technical interviewer lenses
 - `capital-group-principal-ai/ANTUN_INTERVIEW_BATTLE_CARD.md` — the gold standard for technical battle cards
-- `lumen-technical-enablement/JENN_BATTLE_CARD_STAGE1.md` — the gold standard for co-builder/manager battle cards
+- `glean-technical-enablement/JENN_BATTLE_CARD_STAGE1.md` — the gold standard for co-builder/manager battle cards
 
 ## Employer Watchlist
 
@@ -1241,7 +1241,7 @@ Generate a single-page battle card for a specific interview round. This is the l
 
 **When to use**: After prep-bot materials exist and you know WHO you're talking to. One battle card per interviewer per round.
 
-**Input**: Company + interviewer name + round context (e.g., "Lumen, Jenn Raffard, Stage 1, direct manager conversation")
+**Input**: Company + interviewer name + round context (e.g., "Glean, Jenn Raffard, Stage 1, direct manager conversation")
 
 **Generate**:
 
@@ -1464,7 +1464,7 @@ Energy: [collaborative/authoritative/curious/strategic]
 
 ---
 
-## Validated Additions from Lumen Cycle (April 2026)
+## Validated Additions from Glean Cycle (April 2026)
 
 ### Stage 1 Retrieval Rule
 If the answer in your head is longer than 30 seconds, start with the first sentence only. Then stop and let the interviewer pull for more. The goal in early-stage conversations is credibility plus calibration, not completeness.
@@ -1558,7 +1558,7 @@ exec palette-voice \
 | Language | TTS Engine | Voice | System Prompt Rule | Validated On |
 |----------|-----------|-------|-------------------|-------------|
 | French | edge-tts | fr-FR-HenriNeural | RÈGLE ABSOLUE : français uniquement | LVMH (Apr 2026) |
-| English | rime | celeste / cove | (default) | Lumen, Capital Group, all US roles |
+| English | rime | celeste / cove | (default) | Glean, Capital Group, all US roles |
 | Italian | edge-tts | it-IT-DiegoNeural | REGOLA ASSOLUTA: solo italiano | Not yet validated |
 | Spanish | edge-tts | es-ES-AlvaroNeural | REGLA ABSOLUTA: solo español | Not yet validated |
 

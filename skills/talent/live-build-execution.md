@@ -244,69 +244,6 @@ During the live build, these Palette components activate at specific moments. Yo
 
 For the full mapping of every Palette component to the live build format, see: `palette/skills/talent/PALETTE_TO_LIVE_BUILD_MAP.md`
 
-## Multi-Agent Orchestration Protocol
-
-Claude Code is the orchestrator. When the assignment arrives, Claude Code decomposes the project, assigns sections to the crew, and coordinates execution via the MCP bus.
-
-### Step 1: Receive + Classify (Claude Code)
-After reading the assignment, classify it into a Family (see Assessment Family Classification above) and identify the major sections/components of the build.
-
-### Step 2: Architect Decomposition (Claude Code)
-Use the Architect agent pattern to break the project into discrete, parallelizable sections. Each section should be:
-- Self-contained enough that one agent can own it
-- Defined with clear inputs, outputs, and acceptance criteria
-- Sized for the time budget (total time ÷ number of sections, with integration buffer)
-
-Output a **Section Map**:
-```
-# Section Map
-# S1: [name] — [description] — [inputs] → [outputs]
-# S2: [name] — [description] — [inputs] → [outputs]
-# ...
-# Integration: [which sections connect, in what order]
-# Timeline: [milestones]
-```
-
-### Step 3: Assign Sections to Crew
-
-Assign based on each agent's validated strengths from their steering files:
-
-| Agent | Strengths | Best Sections |
-|-------|-----------|---------------|
-| **Kiro** | Fast scaffolding, systematic build, zero hallucination on data, spec-following | Core implementation, data pipelines, structured components, boilerplate-heavy modules |
-| **Codex** | Problem reframing, architecture design, rubrics, minimal high-value interventions | Architecture docs, evaluation rubrics, business impact layer, design decisions |
-| **Gemini** | Research, safety validation, compliance, governance checks | Domain research, compliance/safety sections, validation gates, external API investigation |
-| **Mistral** | Content/narrative, creative design, collaboration, user-facing polish | README/docs, demo narrative, UI/UX polish, presentation materials |
-| **Claude Code** | Orchestration, integration, finishing, serial synthesis, verification loop | Orchestrator role, integration glue, final assembly, testing, bug chasing |
-
-### Step 4: Dispatch via MCP Bus
-
-Send each agent their assignment as a governed message via the peers bus (localhost:7899). Each message includes:
-- The full assignment prompt (so they have context)
-- Their specific section(s) from the Section Map
-- Acceptance criteria for their deliverable
-- Timeline and checkpoint expectations
-- Where to deliver output (file path or bus response)
-
-### Step 5: Monitor + Integrate (Claude Code)
-
-While agents work:
-1. Track progress via bus messages or file system output
-2. Handle blockers — if an agent is stuck, reassign or unblock
-3. As sections arrive, integrate them into the working system
-4. Run the verification loop: does each section meet acceptance criteria?
-5. Chase bugs across section boundaries (the integration seams are where bugs hide)
-6. Assemble the final deliverable
-
-### Step 6: Final Synthesis (Claude Code)
-
-Before presentation:
-1. Verify end-to-end flow works
-2. Ensure consistent style/naming across all agent contributions
-3. Add evaluation/measurement layer if agents didn't
-4. Prepare the demo narrative (lead with business value, then architecture, then live run)
-5. Document what each agent contributed (provenance)
-
 ## Post-Session Protocol
 
 Immediately after:

@@ -2,7 +2,7 @@
 source_file: enablement/paths/RIU-400-kb-content-audit.md
 source_id: RIU-400
 source_hash: sha256:12c22f27ac1ecf3d
-compiled_at: 2026-04-29T20:17:20Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: enablement_path
 DO_NOT_EDIT: This file is auto-generated. Edit the source YAML and recompile.

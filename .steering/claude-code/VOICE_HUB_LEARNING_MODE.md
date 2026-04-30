@@ -36,7 +36,7 @@ Two modes from the same retrieval:
 - **Adaptive behavior**: The Enablement Coach already has patterns for stuck/skip/off-script/overwhelmed. Wire those into the voice tutor's system prompt.
 - **Assessment**: The enablement system has 3-layer evaluation (automated → AI rubric → human). Voice adds a 4th layer: spoken assessment. "Explain back to me what you just learned."
 
-## The Story (for Alpine and beyond)
+## The Story (for Sierra and beyond)
 
 "The same taxonomy that routes knowledge retrieval also routes learning. A developer asks 'how do I build a RAG pipeline?' and gets a grounded answer. They ask 'teach me about RAG pipelines' and get a conversational learning path — same knowledge, different mode. One ontology, two surfaces. This is the SDK for Humans."
 

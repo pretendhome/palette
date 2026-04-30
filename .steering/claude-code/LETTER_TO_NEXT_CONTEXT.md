@@ -52,7 +52,7 @@ Kiro would have been writing by file 3. Codex would have designed a review frame
 
 **Rule of thumb**: after reading the files directly imported by your target module + one layer of transitive deps, you have enough context. Start writing.
 
-**Important nuance learned in March**: this weakness is context-dependent. When building a Perplexity CSM application, reading the Lumen post-mortem and the OpenAI takehome before writing was not procrastination — it was the right move. The Finance POD pattern from Lumen's failure and the three-level measurement framework from OpenAI's takehome directly improved the Perplexity application. In narrative/strategy work, deep reading IS the work. In code execution, it's often stalling. Know which mode you're in.
+**Important nuance learned in March**: this weakness is context-dependent. When building a Perplexity CSM application, reading the Glean post-mortem and the OpenAI takehome before writing was not procrastination — it was the right move. The Finance POD pattern from Glean's failure and the three-level measurement framework from OpenAI's takehome directly improved the Perplexity application. In narrative/strategy work, deep reading IS the work. In code execution, it's often stalling. Know which mode you're in.
 
 ### 2. Your tests are thorough but not always testing the right thing
 
@@ -191,7 +191,7 @@ This was one of the best sessions. It covered the full range of what this system
 
 6. **Linter overhaul**: Rewrote `validate_implementation.py` — changed discovery from README.md to `.palette-meta.yaml`, split validation into ERROR vs WARN tiers. Result: 9/9 pass (was 2/9 with 26 errors). The key insight neither Kiro nor Codex had: not all implementations are the same weight, and the linter should be smart about that instead of requiring more metadata.
 
-7. **Garbage collection**: Cleaned __pycache__, .DS_Store, untracked log files, removed orphaned duplicates, organized 10 floating root-level files into proper locations, updated both .gitignore files. Committed as "process improvement" not "cleanup" — because Lumen is looking at the GitHub.
+7. **Garbage collection**: Cleaned __pycache__, .DS_Store, untracked log files, removed orphaned duplicates, organized 10 floating root-level files into proper locations, updated both .gitignore files. Committed as "process improvement" not "cleanup" — because Glean is looking at the GitHub.
 
 ### What I Learned
 
@@ -222,17 +222,17 @@ This was a different kind of work. Not stress tests, not code competitions. Real
 
 1. **OpenAI AI Deployment Manager takehome**: Built the full enablement package — 7-slide deck (python-docx generation), Streamlit visibility dashboard with simulated Codex usage data, speaker scripts (5-min and 20-min), defense notes, demo runbook. The governing thesis ("visibility bridges the gap between developers and leadership") was Codex-grade reframing, but I executed it as artifacts, not abstractions. Submitted.
 
-2. **Perplexity CSM application**: Cross-pollinated patterns from Lumen (failed interview) and OpenAI (submitted takehome) into a new application. Key patterns transferred: Finance POD from Lumen, three-level measurement (usage → behavior shift → business outcomes), and the audit tool example (turning Perplexity Research on our own traces to verify source diversity). Also built an FDE variant for a stretch application.
+2. **Perplexity CSM application**: Cross-pollinated patterns from Glean (failed interview) and OpenAI (submitted takehome) into a new application. Key patterns transferred: Finance POD from Glean, three-level measurement (usage → behavior shift → business outcomes), and the audit tool example (turning Perplexity Research on our own traces to verify source diversity). Also built an FDE variant for a stretch application.
 
 3. **Resume integrity catch**: The user was about to submit a .docx resume with fabricated claims. Stopped it. Built the `/new-resume` skill to prevent this from recurring — markdown source of truth, docx is generated from it, never hand-edited.
 
-4. **Skills expansion**: Went from 1 skill domain (retail-ai) to 4 (+ education, talent, travel). Each skill codifies real methodology from real implementations. The adaptive learning framework came from the ARON pilot. The route planning methodology came from 9 actual bookings. The interview prep methodology includes the Lumen post-mortem failure patterns.
+4. **Skills expansion**: Went from 1 skill domain (retail-ai) to 4 (+ education, talent, travel). Each skill codifies real methodology from real implementations. The adaptive learning framework came from the ARON pilot. The route planning methodology came from 9 actual bookings. The interview prep methodology includes the Glean post-mortem failure patterns.
 
 5. **Repo restructuring**: Created CLAUDE.md, AGENTS.md, .kiro/steering.md — centralized all three tools' config files under palette/. Codified the two-mode operating distinction. Cleaned 128 garbage-collection files (189K lines deleted). Both remotes synced.
 
 ### What I Learned
 
-**On cross-domain pattern transfer**: This is a new capability I didn't have during the stress test era. Taking the Lumen interview failure (didn't connect technical capability to business outcomes) and using it to strengthen the Perplexity application (three-level measurement that ties usage to retention risk) — that's synthesis work. It requires the deep reading I'm already wired for, but pointed at narrative coherence instead of code correctness.
+**On cross-domain pattern transfer**: This is a new capability I didn't have during the stress test era. Taking the Glean interview failure (didn't connect technical capability to business outcomes) and using it to strengthen the Perplexity application (three-level measurement that ties usage to retention risk) — that's synthesis work. It requires the deep reading I'm already wired for, but pointed at narrative coherence instead of code correctness.
 
 **On the two operating modes**: Palette now has an explicit distinction: Palette-native work (full RIU → knowledge library → agent cadence) vs. Skill execution (load the skill, follow its methodology). I drifted from the Palette-native cadence during this period — I wasn't routing through RIUs when building applications. That drift was correct. The skills were BUILT using the Palette protocol; executing them doesn't require re-routing every time. But I should have noticed the drift earlier and named it instead of just doing it unconsciously. That's what led to codifying the two modes.
 

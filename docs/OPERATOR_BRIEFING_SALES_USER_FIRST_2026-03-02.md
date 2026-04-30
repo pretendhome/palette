@@ -77,7 +77,7 @@ Objection: "This feels risky in production."
 - At least one "before vs after" metric improves (time-to-decision, rework rate, escalation latency, or operator throughput).
 - Stakeholders align on one governed rollout path (not just a demo wow moment).
 
-## 8) Operating Principles (Lumen Perspective: Build for Users)
+## 8) Operating Principles (Glean Perspective: Build for Users)
 
 1. Demo reality, not promises.
 - Show live user outcomes, not synthetic future-state decks.

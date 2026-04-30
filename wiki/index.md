@@ -1,5 +1,5 @@
 ---
-compiled_at: 2026-04-29T20:17:20Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: index
 DO_NOT_EDIT: This file is auto-generated. Edit the source YAML and recompile.
@@ -9,7 +9,7 @@ DO_NOT_EDIT: This file is auto-generated. Edit the source YAML and recompile.
 
 Palette is a knowledge architecture that maps enterprise AI problems to competency areas, structures knowledge with evidence tiers and learning progressions, and evaluates understanding through governed assessment. This wiki is the browsable, cross-linked rendering of that architecture.
 
-338 pages compiled from 6 data layers.
+337 pages compiled from 6 data layers.
 
 ## Quick Start
 
@@ -17,7 +17,7 @@ Pick a topic and start reading:
 
 - [All Competency Areas (121)](indexes/all-rius.md)
 - [All Knowledge Entries (176)](indexes/all-knowledge-entries.md)
-- [All Agents (13)](indexes/all-agents.md)
+- [All Agents (12)](indexes/all-agents.md)
 
 ## By Workstream
 

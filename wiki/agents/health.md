@@ -2,7 +2,7 @@
 source_file: MANIFEST.yaml
 source_id: health
 source_hash: sha256:25b38e9a2dc2dc57
-compiled_at: 2026-04-29T20:17:20Z
+compiled_at: 2026-04-23T23:21:17Z
 compiler_version: 1.0.0
 type: agent
 tags: [agent, health]

@@ -1032,33 +1032,13 @@
       }
 
       function speakText(text) {
-        if (!text) return;
+        if (!window.speechSynthesis || !text) return;
         stopSpeaking();
-        // Try Rime TTS via hub proxy first, fall back to Web Speech API
-        fetch('http://localhost:7890/api/tts', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: text, speaker: 'celeste', modelId: 'arcana' })
-        }).then(function (resp) {
-          if (!resp.ok) throw new Error('not ok');
-          return resp.blob();
-        }).then(function (blob) {
-          var url = URL.createObjectURL(blob);
-          var audio = new Audio(url);
-          audio.onended = function () { URL.revokeObjectURL(url); currentUtterance = null; };
-          audio.onerror = function () { _fallbackSpeak(text); };
-          currentUtterance = audio;
-          audio.play();
-        }).catch(function () {
-          _fallbackSpeak(text);
-        });
-      }
-
-      function _fallbackSpeak(text) {
-        if (!window.speechSynthesis) return;
+        // Split on letter-spelling patterns like f-e-r-r-y
         var parts = text.split(/(\b[a-zA-Z](?:-[a-zA-Z]){2,}\b)/g);
         parts.forEach(function (part) {
           if (/^[a-zA-Z](-[a-zA-Z]){2,}$/.test(part)) {
+            // Spell out each letter slowly with pauses
             var letters = part.split('-');
             letters.forEach(function (letter, i) {
               var u = new SpeechSynthesisUtterance(letter.toUpperCase());
@@ -1083,10 +1063,6 @@
       }
 
       function stopSpeaking() {
-        if (currentUtterance && currentUtterance instanceof Audio) {
-          currentUtterance.pause();
-          currentUtterance.currentTime = 0;
-        }
         if (window.speechSynthesis) window.speechSynthesis.cancel();
         currentUtterance = null;
       }
