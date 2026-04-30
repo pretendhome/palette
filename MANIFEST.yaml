@@ -112,7 +112,7 @@ sdk:
     - { name: graph_query, purpose: "queryable interface to relationship graph" }
   tests:
     path: sdk/tests/
-    count: 86
+    count: 89
     pis_tests: 60
     run: "uv run pytest -q sdk/tests/"
 

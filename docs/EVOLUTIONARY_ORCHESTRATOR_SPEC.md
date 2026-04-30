@@ -378,7 +378,7 @@ Key insight from Alex: "You don't need many cycles to improve. You need clean si
 
 This spec should be implemented when:
 1. The orchestrator reaches PILOT status (hand-validated routing)
-2. Palette is being used by people other than Mical (YouTube viewers, enablement learners, Glean SAs)
+2. Palette is being used by people other than Mical (YouTube viewers, enablement learners, Lumen SAs)
 3. There are enough workflow observations to produce meaningful signal (500+)
 4. The Validator v2 is at WORKING status (the fitness function must be trusted)
 

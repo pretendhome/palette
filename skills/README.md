@@ -23,7 +23,7 @@ Domain-specific knowledge, patterns, gotchas, and validated approaches. This con
 | Domain | Skills | Status | Validated On |
 |--------|--------|--------|-------------|
 | **retail-ai** | Enterprise AI Strategy | WORKING | Gap Inc. (2026-02) |
-| **talent** | OpenAI Takehome Execution, Interview Prep Methodology | WORKING | OpenAI, Perplexity, Glean |
+| **talent** | OpenAI Takehome Execution, Interview Prep Methodology | WORKING | OpenAI, Perplexity, Lumen |
 | **education** | Adaptive Learning Framework | WORKING | ARON pilot, La Scuola (2026-03) |
 | **travel** | Route Planning Methodology | WORKING | Neill Summer 2026 (9 bookings) |
 | **enablement** | Agentic Enablement System | UNVALIDATED | Pending first deployment (2026-03) |

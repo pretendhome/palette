@@ -164,7 +164,7 @@ A working tool that shows enablement thinking in action. HTML preferred (single-
 - Readiness dashboard mockup: what the measurement framework would look like in production
 - Role-specific drill tool: timed practice with scoring
 
-The Sierra voice workbench and Stripe invisible-learning-system are reference implementations. The tool should be functional, not decorative — a reviewer should be able to use it, not just look at it.
+The Alpine voice workbench and Stripe invisible-learning-system are reference implementations. The tool should be functional, not decorative — a reviewer should be able to use it, not just look at it.
 
 ## Execution Protocol
 
@@ -265,7 +265,7 @@ Match output to 1.5x what they asked for, not 5x. If they say "spend 2-3 hours,"
 2. **Artifact(s)** (HTML files or links): Attached separately or linked. Each artifact should open and be usable without reading the main document.
 3. **README** (if multiple files): One paragraph explaining what's in the submission and the recommended reading order.
 
-**Naming convention**: `[YourName]_[Company]_[Role]_[Component].ext` — e.g., `Neill_Glean_TechEnablement_SystemDesign.pdf`, `Neill_Glean_TechEnablement_SA_Guide.html`
+**Naming convention**: `[YourName]_[Company]_[Role]_[Component].ext` — e.g., `Neill_Lumen_TechEnablement_SystemDesign.pdf`, `Neill_Lumen_TechEnablement_SA_Guide.html`
 
 **Never submit**: raw Markdown (looks unfinished), a single massive document with artifacts inline (hard to navigate), or files that require installation to open.
 
@@ -276,7 +276,7 @@ When the skill calls for a concrete artifact (Module D or E), choose from these 
 ### Pattern 1: HTML Readiness Guide (recommended default)
 **What**: Single-file HTML that teaches one technical topic to one role. Includes talk tracks, objection handling, visual architecture, and checklists.
 **When**: Any assessment that asks for enablement materials. Works for Families 1, 2, 3, 5.
-**Reference**: `implementations/talent/applications/active/glean-technical-enablement/artifacts/sa-context-platform-guide.html`
+**Reference**: `implementations/talent/applications/active/lumen-technical-enablement/artifacts/sa-context-platform-guide.html`
 **Creation**: Hand-coded. Dark mode, Inter + IBM Plex Mono fonts, badge system for role/time/audience, card layout, talk-track blocks with SAY/OBJECTION/RESPONSE styling. Single file, no dependencies beyond Google Fonts CDN.
 **Build time**: 2-3 hours for a complete guide.
 **Why it wins**: Opens in any browser. Looks professional. Demonstrates both technical depth AND enablement design thinking. The artifact IS the proof.
@@ -292,7 +292,7 @@ When the skill calls for a concrete artifact (Module D or E), choose from these 
 **Build time**: 2-4 hours depending on complexity.
 **Why it wins**: The reviewer can USE it, not just read it. Shows you think in terms of user experience, not just content.
 
-### Pattern 3: Evaluation Workbench (Sierra pattern)
+### Pattern 3: Evaluation Workbench (Alpine pattern)
 **What**: Single-file HTML tool for evaluating quality across multiple dimensions. Used for voice quality, but the pattern works for any multi-criteria evaluation.
 **When**: Assessments where you need to demonstrate measurement or evaluation methodology.
 **Reference**: `palette/voice/workbench/index.html` (868 lines — voice persona evaluation with audio, scoring rubrics, recommendation engine)
@@ -327,7 +327,7 @@ When the skill calls for a concrete artifact (Module D or E), choose from these 
 ### Pattern 7: Interview/Assessment Drill Tool (HTML)
 **What**: Timed practice tool with questions, scoring, and feedback. Dark mode, 2-column layout.
 **When**: If the assessment asks you to build a learning or practice tool.
-**References**: `meta-product-ops-contract/meta-interview-bot.html`, `glean-technical-enablement/prep-bot/glean-kelley-recruiter-prep.html`
+**References**: `meta-product-ops-contract/meta-interview-bot.html`, `lumen-technical-enablement/prep-bot/lumen-kelley-recruiter-prep.html`
 **Creation**: Hand-coded HTML/JS. Timer, question bank, scoring, vocabulary detection.
 **Build time**: 2-3 hours.
 

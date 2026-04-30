@@ -2,7 +2,7 @@
 source_file: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 source_id: LIB-170
 source_hash: sha256:87a662c8ba3096bd
-compiled_at: 2026-04-23T23:21:17Z
+compiled_at: 2026-04-29T20:17:20Z
 compiler_version: 1.0.0
 type: knowledge_entry
 evidence_tier: 1

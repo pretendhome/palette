@@ -170,7 +170,7 @@ profiles:
         - { q: "How do you drive adoption at scale?", lead_with: ERA-4, note: "Finance POD → full org" }
         - { q: "Give an example of executive engagement", lead_with: ERA-4, note: "Data Forum, 98 CxOs" }
         - { q: "How do you measure success?", lead_with: ERA-4, note: "Three-level measurement" }
-        - { q: "Tell me about a failure", lead_with: "Glean post-mortem", note: "Didn't know internal systems" }
+        - { q: "Tell me about a failure", lead_with: "Lumen post-mortem", note: "Didn't know internal systems" }
       advance_bar: "8/10 recruiter, 8.5/10 hiring manager, 9/10 technical"
 
     accumulated_learnings:
@@ -322,7 +322,7 @@ profiles:
         - "enterprise"
       companies_targeted:
         - { name: OpenAI, role: "AI Deployment Manager", status: interviewing }
-        - { name: Glean, role: "AI Outcomes Manager", status: post_mortem }
+        - { name: Lumen, role: "AI Outcomes Manager", status: post_mortem }
         - { name: Perplexity, role: "CSM", status: applied }
 
     resume_profile: customer_success_ai
@@ -374,12 +374,12 @@ profiles:
     accumulated_learnings:
       from_implementations:
         - talent-openai-deployment-mgr
-        - talent-glean-interview
+        - talent-lumen-interview
         - talent-perplexity-csm
       patterns:
         - "Product depth matters more than generic prep — know their internal systems"
         - "4-question framework works as both demo tool and customer engagement method"
-        - "Modular materials (5-6 docs) > monolithic documents (Glean learning)"
+        - "Modular materials (5-6 docs) > monolithic documents (Lumen learning)"
         - "Takehome assignments are common — use the takehome protocol"
         - "Study system with coaching loop and hard grading (9/10 bar) is essential"
         - "FDE-adjacent positioning may be stronger than pure CS for technical candidates"

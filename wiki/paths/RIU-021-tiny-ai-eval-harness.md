@@ -2,7 +2,7 @@
 source_file: enablement/paths/RIU-021-tiny-ai-eval-harness.md
 source_id: RIU-021
 source_hash: sha256:eb9dcd64a84fb27d
-compiled_at: 2026-04-23T23:21:17Z
+compiled_at: 2026-04-29T20:17:20Z
 compiler_version: 1.0.0
 type: enablement_path
 DO_NOT_EDIT: This file is auto-generated. Edit the source YAML and recompile.

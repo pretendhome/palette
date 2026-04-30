@@ -2,7 +2,7 @@
 source_file: MANIFEST.yaml
 source_id: total-health
 source_hash: sha256:f9ac4d7895da12eb
-compiled_at: 2026-04-23T23:21:17Z
+compiled_at: 2026-04-29T20:17:20Z
 compiler_version: 1.0.0
 type: agent
 tags: [agent, total-health]

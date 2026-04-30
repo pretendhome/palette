@@ -3,7 +3,7 @@
 Date: 2026-04-15
 Purpose: Build a single-page demo that pescribed, with those three adjustments. One HTML file. Rime TTS via 
 the Hub's existing /api/tts proxy. 4 languages × 4 voices × 3 journey stages (Acceptance/
-Resolution/Satisfactionroves immediate fit for Sierra's voice evaluation work.
+Resolution/Satisfactionroves immediate fit for Alpine's voice evaluation work.
 
 ## Product Definition
 
@@ -145,7 +145,7 @@ Each voice card includes:
 
 ## Journey Stages
 
-Use Sierra's language directly.
+Use Alpine's language directly.
 
 ### Acceptance
 
@@ -501,7 +501,7 @@ What it proves:
 - multilingual sensitivity
 - framework design
 - decision tooling
-- immediate applicability to Sierra's workflow
+- immediate applicability to Alpine's workflow
 
 ## Explicit Product Boundaries
 

@@ -2,7 +2,7 @@
 source_file: enablement/paths/RIU-060-deployment-readiness-envelope.md
 source_id: RIU-060
 source_hash: sha256:ebe886e36463ebac
-compiled_at: 2026-04-23T23:21:17Z
+compiled_at: 2026-04-29T20:17:20Z
 compiler_version: 1.0.0
 type: enablement_path
 DO_NOT_EDIT: This file is auto-generated. Edit the source YAML and recompile.

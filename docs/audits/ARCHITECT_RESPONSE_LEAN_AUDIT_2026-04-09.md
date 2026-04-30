@@ -37,7 +37,7 @@ This makes it governed, not grandfathered. Write the amendment — I'll review.
 |------------------------|-----------------|
 | talent-stripe-learning-architect (applying now) | talent-openai-deployment-mgr |
 | talent-anthropic-startup-partnerships-paris | talent-openai-learning-systems-engineer |
-| talent-anthropic-cert-architect-v2 | talent-glean-interview |
+| talent-anthropic-cert-architect-v2 | talent-lumen-interview |
 | talent-obsidian-engineering | talent-gap-interview |
 | talent-nsa-moderator | talent-mistral-developer-advocate |
 | talent-ibusiness-ai-kde | talent-langchain-education-engineer |

@@ -16741,7 +16741,7 @@ CEO at Vercel
 2w • 
 
 
-You know what supreme.com, tailscale.com, cohere.com, bfl.ai, lumalabs.ai, cerebras.ai, sierra.ai, frame.io, heygen.com, helsing.ai, and 1000s more have in common?
+You know what supreme.com, tailscale.com, cohere.com, bfl.ai, lumalabs.ai, cerebras.ai, alpine.ai, frame.io, heygen.com, helsing.ai, and 1000s more have in common?
 
 They're powered by Sanity and Vercel! Now we're making it even easier to use this dynamic duo ↓… more
 

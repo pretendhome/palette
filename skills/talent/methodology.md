@@ -4,7 +4,7 @@ name: "Talent Skill — Unified Methodology"
 domain: Talent
 for_agents: [Researcher, Architect, Narrator, Validator, Builder]
 status: WORKING
-validated_on: "OpenAI ADM, Perplexity CSM/FDE, Glean (post-mortem), Gap Inc, Mistral TME, Anthropic, iBusiness, FriendliAI, Claudia Canu Fautré (UNESCO P-4, Babbel, Duolingo, IBO)"
+validated_on: "OpenAI ADM, Perplexity CSM/FDE, Lumen (post-mortem), Gap Inc, Mistral TME, Anthropic, iBusiness, FriendliAI, Claudia Canu Fautré (UNESCO P-4, Babbel, Duolingo, IBO)"
 supersedes: [SKILL-TAL-001, SKILL-TAL-002]
 ---
 
@@ -59,7 +59,7 @@ Every opportunity gets a `profile_id` before any work starts. The profile drives
 | `forward_deployed_engineer` | Forward Deployed Engineer | ERA-2 + ERA-4 | Perplexity, Google Cloud, Dust, FriendliAI |
 | `enablement_strategy` | Enablement Strategy & Adoption | ERA-4 | Gap, TaskRabbit, Databricks |
 | `enablement_systems_builder` | Enablement Systems Builder | ERA-4 | Mistral, Lenovo, Cognition, Anthropic Education, LangChain |
-| `customer_success_ai` | Customer Success & AI Deployment | ERA-4 + ERA-3 | OpenAI, Glean, Perplexity CSM |
+| `customer_success_ai` | Customer Success & AI Deployment | ERA-4 + ERA-3 | OpenAI, Lumen, Perplexity CSM |
 | `knowledge_data_engineer` | Knowledge & Data Engineer | ERA-2 | iBusiness, Gusto, Airbnb, Leonardo SpA |
 | `certification_architect` | Certification & Education Architect | ERA-4 + ERA-5 | Anthropic |
 
@@ -127,10 +127,10 @@ Use the profile's `fit_lens` from `role-profiles.yaml`. Score every explicit req
 - Identify the **biggest gap** — be honest about what you'd need to learn
 - Calculate weighted average (must-haves weighted 2x vs nice-to-haves)
 
-### Validated Pattern (Glean Learnings)
+### Validated Pattern (Lumen Learnings)
 Research depth scales with domain familiarity:
 - **Unfamiliar domain** (e.g., retail at Gap): 8+ docs, 150KB, deep research
-- **Familiar domain** (e.g., AI SaaS at Glean): 5 docs, 80KB, streamlined
+- **Familiar domain** (e.g., AI SaaS at Lumen): 5 docs, 80KB, streamlined
 - Don't over-research familiar domains. Invest research time where knowledge gaps exist.
 
 ### Multi-Method Validation (Career-Ops + UNESCO Learnings)
@@ -168,7 +168,7 @@ The same career, framed differently:
 - **Technical Marketing Engineer**: Lead with Ask Pathfinder as knowledge-to-adoption translation. Palette = use sparingly
 - **Forward Deployed Engineer**: Lead with Ask Pathfinder + customer delivery. Palette = builder credibility
 
-### Validated Pattern (Glean Learnings)
+### Validated Pattern (Lumen Learnings)
 **Enabler vs Executor positioning**: Same proof points (Palette, Ask Pathfinder) work for both strategic roles (governance, adoption) and tactical roles (build, ship). Only the framing changes. Proof points are reusable assets.
 
 ---
@@ -213,7 +213,7 @@ The same career, framed differently:
 Before building materials, read `role-profiles.yaml > [profile_id] > interview_playbook` and `accumulated_learnings`. The playbook defines which documents to build, anchor messages to internalize, and common questions with ERA routing. The accumulated learnings are hard-won patterns from previous interviews of this type — they compound over time.
 
 ### Modular Materials (Validated Pattern)
-Build 5-6 focused documents, NOT 1-2 monolithic ones (Glean learning: modular > monolithic).
+Build 5-6 focused documents, NOT 1-2 monolithic ones (Lumen learning: modular > monolithic).
 
 | Document | Purpose | Time |
 |---|---|---|
@@ -367,7 +367,7 @@ After every interview (pass or fail), capture AND update the profile:
 
 The next interview for this profile type starts with ALL previous learnings loaded.
 
-### Failure Patterns (Validated — Glean Post-Mortem)
+### Failure Patterns (Validated — Lumen Post-Mortem)
 - Didn't know their internal system — product depth matters more than generic prep
 - Generic transformation language — specifics win
 - Didn't study company blog/engineering posts — non-negotiable

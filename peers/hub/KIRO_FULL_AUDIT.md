@@ -36,7 +36,7 @@
 
 ---
 
-## Outstanding Issues — Prioritized for Sierra Demo
+## Outstanding Issues — Prioritized for Alpine Demo
 
 ### P0: Fix before demo
 
@@ -105,7 +105,7 @@ Acceptable for local single-user. Not for anything shared.
 - No structured logging anywhere — debugging in production will be blind
 - Identity drift between bus registrations and frontend expectations
 
-### What's missing for production (not for Sierra)
+### What's missing for production (not for Alpine)
 - Rate limiting
 - Conversation memory
 - Structured logging + metrics
@@ -123,7 +123,7 @@ If you're fixing things in real-time, here's the highest-leverage order:
 3. **Fix the retrieval subprocess** — either `execFile` with timeout, or explicit kill timer
 4. **Add `/health`** — 15 lines, huge debugging value during demo
 
-Everything else can wait until after Sierra.
+Everything else can wait until after Alpine.
 
 ---
 

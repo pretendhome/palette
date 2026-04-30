@@ -778,12 +778,12 @@ Recommended first wave:
 
 1. Anthropic / Claude
 2. Lovable
-3. Sierra
+3. Alpine
 4. Decagon
 5. ElevenLabs
 6. Perplexity
 7. Cognition / Devin
-8. Glean
+8. Lumen
 
 Rationale:
 - covers model providers, no-code app generation, CX agents, voice agents, AI search, coding agents, and enterprise search.

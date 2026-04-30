@@ -62,7 +62,7 @@ This repo (`palette/`) contains the **toolkit** — reusable frameworks, agents,
 
 The monorepo (`pretendhome/`) contains `palette/` as a subtree plus `implementations/` — the testing ground where skills get applied to real problems:
 - `implementations/retail/` — small business planning (Rossi store)
-- `implementations/talent/` — interview preparation (OpenAI, Perplexity, Glean)
+- `implementations/talent/` — interview preparation (OpenAI, Perplexity, Lumen)
 - `implementations/education/` — adaptive learning (ARON pilot at La Scuola)
 - `implementations/travel-*/` — family travel planning
 

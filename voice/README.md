@@ -21,4 +21,4 @@ Multi-agent voice interface connecting 5 LLM agents through voice in 4 languages
 
 ## Research
 
-- [Sierra Voice Infrastructure Intelligence](SIERRA_VOICE_INTELLIGENCE.md) — Technical analysis of Sierra AI's voice stack, TTS providers, evaluation methodology, and Voice Sims architecture
+- [Alpine Voice Infrastructure Intelligence](ALPINE_VOICE_INTELLIGENCE.md) — Technical analysis of Alpine AI's voice stack, TTS providers, evaluation methodology, and Voice Sims architecture

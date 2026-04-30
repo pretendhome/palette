@@ -212,7 +212,7 @@ This pass forces each lens to first explain what the *project reality* is across
 
 ### Shared project reality (ground truth)
 
-- Palette is being used across multiple implementation types: business strategy (`retail-rossi-store`), technical product build (`dev-mythfall-game`), and operator enablement (`talent-glean-interview`).
+- Palette is being used across multiple implementation types: business strategy (`retail-rossi-store`), technical product build (`dev-mythfall-game`), and operator enablement (`talent-lumen-interview`).
 - Implementations show strong artifact throughput, but many `LEARNINGS.md` files remain template-level in places, reducing system learning quality.
 - Runtime and docs are partially out of sync (e.g., Orchestrator is runnable code while some docs still state design-only).
 
@@ -220,7 +220,7 @@ This pass forces each lens to first explain what the *project reality* is across
 
 What PM lens now understands about this project:
 - `retail-rossi-store` is a high-decision-density project with multiple pending ONE-WAY DOOR calls and clear business outcomes.
-- `talent-glean-interview` demonstrates fast artifact generation and packaging discipline, but also shows freshness-risk in market/company facts.
+- `talent-lumen-interview` demonstrates fast artifact generation and packaging discipline, but also shows freshness-risk in market/company facts.
 - The system’s PM value is strongest when it converts analysis into explicit owner/date/metric decisions; weakest when output remains documentation-heavy without commitment points.
 
 Feedback after understanding:

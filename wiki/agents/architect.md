@@ -2,7 +2,7 @@
 source_file: MANIFEST.yaml
 source_id: architect
 source_hash: sha256:ecb8fdccd3681609
-compiled_at: 2026-04-23T23:21:17Z
+compiled_at: 2026-04-29T20:17:20Z
 compiler_version: 1.0.0
 type: agent
 tags: [agent, architect]

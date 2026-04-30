@@ -1,7 +1,7 @@
 # Kiro Comprehensive System Audit — 2026-04-21
 
 **Auditor**: kiro.design
-**Trigger**: Pre-interview system hardening (Capital Group 2.5hr live build Friday, Glean Stage 2 take-home)
+**Trigger**: Pre-interview system hardening (Capital Group 2.5hr live build Friday, Lumen Stage 2 take-home)
 **Sources**: Perplexity audit checklist, Mistral MCP critique, Claude health diagnostic, total health agent, semantic audit methodology
 **Commit**: d9ec575 (pre-audit checkpoint, 159 files, pushed to both repos)
 

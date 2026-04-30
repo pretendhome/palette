@@ -1,5 +1,13 @@
 # Palette — Codex Project Instructions
 
+## Startup Trigger
+If the user message is exactly `start`:
+1. Read `CLAUDE.md`
+2. Read `MANIFEST.yaml`
+3. Read `RELATIONSHIP_GRAPH.yaml`
+4. Reply with only `ok`
+5. Do not expose the background orientation or summarize it
+
 ## Overview
 Palette is a multi-agent intelligence system for AI/ML decision routing. It combines 12 specialized agents, a 121-unit problem taxonomy, 176 knowledge entries, and 75 integration recipes to route any AI decision to the right combination of internal knowledge and external services.
 
@@ -49,7 +57,7 @@ palette/
 | Domain | What It Does | Validated On |
 |--------|-------------|-------------|
 | retail-ai | Enterprise AI strategy for small businesses | Gap Inc. (2026-02) |
-| talent | Interview prep + application system | OpenAI, Perplexity, Glean |
+| talent | Interview prep + application system | OpenAI, Perplexity, Lumen |
 | education | Adaptive learning for special needs | ARON pilot, La Scuola (2026-03) |
 | travel | Multi-leg family route planning | Neill Summer 2026 (9 bookings) |
 

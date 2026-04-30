@@ -51,7 +51,7 @@ For Never Search Alone requests, the skill should query the local NSA corpus bef
 | `forward_deployed_engineer` | Build and deploy AI systems at customer sites | Perplexity, Google Cloud, Dust |
 | `enablement_strategy` | Drive AI adoption at scale — strategy + measurement | Gap, TaskRabbit, Databricks |
 | `enablement_systems_builder` | Build enablement infrastructure — curriculum, assessment, credentialing | Mistral, Anthropic, LangChain, Cognition |
-| `customer_success_ai` | Own customer outcomes with AI — deployment + expansion | OpenAI, Glean, Perplexity CSM |
+| `customer_success_ai` | Own customer outcomes with AI — deployment + expansion | OpenAI, Lumen, Perplexity CSM |
 | `knowledge_data_engineer` | Build knowledge architectures, ontologies, retrieval systems | iBusiness, Gusto, Airbnb |
 | `certification_architect` | Design certification programs and assessment systems | Anthropic |
 
@@ -95,7 +95,7 @@ python3 build_resume.py --profile certification_architect --output ~/Downloads/r
 3. **Query, don't write from scratch.** The inventory has the data. Assemble, don't create.
 4. **Each answer features a different ERA.** Never repeat the same system across multiple questions.
 5. **Fit-first.** Score before investing time. <65% = pass. Don't chase bad-fit roles.
-6. **Modular materials.** 5-6 focused documents beat 1-2 monolithic ones (validated on Glean).
+6. **Modular materials.** 5-6 focused documents beat 1-2 monolithic ones (validated on Lumen).
 7. **Same proof points, different framing.** Ask Pathfinder + Palette serve every role type — only the emphasis changes.
 8. **Stat-verified.** Every number is GREEN (cite freely) or YELLOW (hedge). Never cite RED.
 9. **Honest about tradeoffs.** Every approach has problems. Name them and how you solved them.
@@ -132,4 +132,4 @@ Active applications live in `implementations/talent/talent-<company>-<role>/`. E
 
 ## Lineage
 
-Built from learnings across: OpenAI ADM, Perplexity CSM/FDE, Glean AI Outcomes Manager, Gap Inc Sr Manager, Mistral TME, Anthropic Cert Architect, iBusiness AI KDE, FriendliAI FDE, Baseten, Lenovo, ModelOp, TaskRabbit.
+Built from learnings across: OpenAI ADM, Perplexity CSM/FDE, Lumen AI Outcomes Manager, Gap Inc Sr Manager, Mistral TME, Anthropic Cert Architect, iBusiness AI KDE, FriendliAI FDE, Baseten, Lenovo, ModelOp, TaskRabbit.
