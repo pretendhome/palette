@@ -106,11 +106,28 @@
 
   <!-- ─── THE ONE SENTENCE ─────────────────────────────────────────── -->
 
-  <h2>The One Sentence</h2>
-  <div class="talk-track">
-    MCP is a universal standard that lets any AI tool &mdash; Claude, Cursor, Copilot, ChatGPT &mdash; call into your enterprise data through a single integration, instead of building and maintaining a custom connector for every combination of AI tool and data source.
+  <h2>The Elevator Pitch</h2>
+
+  <div class="card">
+    <div class="card-header">1 Floor &mdash; The One-Liner</div>
+    <div class="talk-track">
+      MCP is USB-C for AI &mdash; one standard connector between any AI tool and any data source.
+    </div>
   </div>
-  <p><strong>The analogy</strong>: MCP is USB-C for AI. One standard connector between any AI tool and any data source.</p>
+
+  <div class="card">
+    <div class="card-header">5 Floors &mdash; The VP Version</div>
+    <div class="talk-track">
+      MCP is a universal standard that lets any AI tool &mdash; Claude, Cursor, Copilot, ChatGPT &mdash; call into your enterprise data through a single integration, instead of building a custom connector for every combination of tool and data source. Your engineering team writes one integration layer and every model in your stack can use it.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">10 Floors &mdash; The Version That Includes What Breaks</div>
+    <div class="talk-track">
+      MCP is a universal standard that lets any AI tool call into your enterprise data through one integration instead of N&times;M custom connectors. What makes it enterprise-ready isn't the protocol &mdash; it's the permission model, the token scoping, and the admin controls around it. The five things that go wrong in real deployments are all at that boundary: the tool never gets called because the description is too vague for the LLM to find it, the response overwhelms the context window because nobody limited the result size, an admin token in production means everyone sees everything, the integration works in one host but breaks in another, or an API update silently returns wrong answers because the server parses the old format. None of these are protocol bugs. They're all operational &mdash; and they're all preventable if the SA has seen them before.
+    </div>
+  </div>
 
   <!-- ─── ARCHITECTURE ─────────────────────────────────────────────── -->
 
