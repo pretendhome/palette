@@ -19,6 +19,8 @@ Commands:
   /decisions  — open decisions (blocked vs ready)
   /health     — health score breakdown
   /stress     — market stress probability (CAPE + Buffett + P/S)
+  /tech       — tech landscape brief (PIS-powered, 43 tools, 21 voices)
+  /intel      — financial intelligence brief (voices, thesis signals, consensus)
   /research   — research a question with Perplexity
   /alerts     — show recent monitor alerts
   /monitors   — show active monitors
@@ -623,6 +625,75 @@ def _cmd_stress() -> str:
     return format_stress_report(result)
 
 
+def _cmd_tech(query: str) -> str:
+    """Run the Tech Engine — PIS-powered tech intelligence (read-only on PIS data)."""
+    tech_dir = Path(__file__).parent.parent / "buy-vs-build" / "tech"
+    engine_path = tech_dir / "tech_engine.py"
+
+    if not engine_path.exists():
+        return "Tech engine not found. Expected at: " + str(engine_path)
+
+    sys.path.insert(0, str(tech_dir))
+    try:
+        import tech_engine
+
+        if not query or query.lower() in ("", "brief", "all"):
+            return tech_engine.format_telegram(tech_engine.generate_brief())
+        elif query.lower().startswith("tier "):
+            try:
+                tier = int(query.split()[1])
+                return tech_engine.format_telegram(tech_engine.list_by_tier(tier))
+            except (ValueError, IndexError):
+                return "Usage: `/tech tier 1` (or 2 or 3)"
+        elif query.lower().startswith("action "):
+            action = query.split(None, 1)[1].strip().lower()
+            return tech_engine.format_telegram(tech_engine.list_by_action(action))
+        elif query.lower().startswith("cluster "):
+            cluster = query.split(None, 1)[1].strip().lower().replace(" ", "_")
+            return tech_engine.format_telegram(tech_engine.list_cluster(cluster))
+        else:
+            report = tech_engine.query_tech(query, use_perplexity=bool(PERPLEXITY_KEY))
+            return tech_engine.format_telegram(report)
+    finally:
+        sys.path.pop(0)
+        sys.modules.pop("tech_engine", None)
+
+
+def _cmd_intel(query: str) -> str:
+    """Run the Intel Engine — financial intelligence query system."""
+    intel_dir = Path(__file__).parent.parent / "buy-vs-build" / "intel"
+    engine_path = intel_dir / "intel_engine.py"
+
+    if not engine_path.exists():
+        return "Intel engine not found. Expected at: " + str(engine_path)
+
+    # Add intel dir to path so we can import it
+    sys.path.insert(0, str(intel_dir))
+    try:
+        import intel_engine
+
+        if not query or query.lower() in ("", "brief", "all"):
+            return intel_engine.format_telegram(intel_engine.generate_brief())
+        elif query.upper().startswith("THESIS-"):
+            result = intel_engine.lookup_thesis(query.upper())
+            if "error" in result:
+                return result["error"]
+            cat = result.get("category", {})
+            lines = [f"*{cat.get('name', query)}*"]
+            lines.append(f"Voices: {result.get('voice_count', 0)}")
+            lines.append(f"Consensus: {result.get('consensus_note', 'None')}\n")
+            for v in result.get("voices", []):
+                lines.append(f"• *{v['name']}* ({v['signal_strength']}): {v['edge']}")
+            return "\n".join(lines)
+        else:
+            report = intel_engine.intel_pass(query, use_perplexity=bool(PERPLEXITY_KEY))
+            return intel_engine.format_telegram(report)
+    finally:
+        sys.path.pop(0)
+        # Remove cached module so re-import picks up changes
+        sys.modules.pop("intel_engine", None)
+
+
 def mc_create_workspace(workspace_id: str, name: str, objective: str, user_name: str = "User") -> str:
     """Create a new workspace."""
     result = mc_post("create-workspace", {
@@ -697,6 +768,8 @@ def cmd_start(chat_id: int) -> None:
         "`/gaps` \u2014 what's missing / what's blocking us\n"
         "`/decisions` \u2014 open decisions that need your input\n"
         "`/health` \u2014 health score breakdown\n"
+        "`/tech` \u2014 tech landscape brief (AI tools, influencers, signals)\n"
+        "`/intel` \u2014 financial intelligence brief (voices, thesis, signals)\n"
         "`/research <query>` \u2014 research a question\n"
         "`/resolve <ID> <answer>` \u2014 answer an evidence gap\n"
         "`/fact <fact> | <source>` \u2014 add something you know\n"
@@ -724,7 +797,14 @@ def cmd_help(chat_id: int) -> None:
         "`/stress` \u2014 market stress probability (CAPE + Buffett + P/S)\n"
         "`/resolve ME-001 The answer is...` \u2014 resolve a gap\n"
         "`/fact Revenue is $400K/yr | Square POS data` \u2014 add a fact\n\n"
-        "*Research & Alerts:*\n"
+        "*Intelligence & Research:*\n"
+        "`/tech` \u2014 full tech landscape brief (43 tools, 21 voices)\n"
+        "`/tech voice AI` \u2014 search tech tools/voices for a topic\n"
+        "`/tech tier 1` \u2014 show Tier 1 tools only\n"
+        "`/tech action evaluate` \u2014 tools flagged for evaluation\n"
+        "`/intel` \u2014 full financial intelligence brief\n"
+        "`/intel crack spreads` \u2014 query a specific topic\n"
+        "`/intel THESIS-AI-INFRASTRUCTURE` \u2014 look up a thesis category\n"
         "`/research Is Anthropic a good AI investment?` \u2014 Perplexity search\n"
         "`/alerts` \u2014 recent monitor alerts\n"
         "`/monitors` \u2014 active monitors and status\n\n"
@@ -830,6 +910,30 @@ def handle_message(chat_id: int, text: str) -> None:
                 send(chat_id, "\n".join(lines))
             else:
                 send(chat_id, "No workspaces found.")
+            return
+
+        if text.startswith("/tech"):
+            typing(chat_id)
+            try:
+                tech_arg = text[5:].strip()
+                result = _cmd_tech(tech_arg)
+                send(chat_id, result)
+                log_exchange(chat_id, f"/tech {tech_arg}", result)
+            except Exception as e:
+                print(f"[error] /tech: {e}", flush=True)
+                send(chat_id, f"Tech engine error: {e}")
+            return
+
+        if text.startswith("/intel"):
+            typing(chat_id)
+            try:
+                intel_arg = text[6:].strip()
+                result = _cmd_intel(intel_arg)
+                send(chat_id, result)
+                log_exchange(chat_id, f"/intel {intel_arg}", result)
+            except Exception as e:
+                print(f"[error] /intel: {e}", flush=True)
+                send(chat_id, f"Intel engine error: {e}")
             return
 
         if text.startswith("/research "):

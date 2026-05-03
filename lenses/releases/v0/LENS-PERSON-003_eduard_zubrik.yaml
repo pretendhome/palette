@@ -1,0 +1,455 @@
+lens_id: LENS-PERSON-003
+name: "Eduard Zubrik"
+version: "0.1"
+status: draft
+created: 2026-05-01
+updated: 2026-05-01
+schema: PERSON_LENS_SCHEMA_v0.1
+
+# ============================================================================
+# IDENTITY
+# ============================================================================
+
+identity:
+  essence: |
+    A systems-minded data operations leader who bridges the gap between AI science
+    teams and production-quality training data — built on a foundation of Austrian
+    institutional rigor and multilingual precision.
+  roles:
+    - "ML Data Operations Lead, Core Search — Amazon (Jul 2024–present)"
+    - "Job seeker — open to ML Data Ops, Data Quality Management, AI Training Data leadership"
+  location: "San Francisco Bay Area (Palo Alto hybrid)"
+  languages:
+    - language: English
+      proficiency: native_or_bilingual
+    - language: German
+      proficiency: native_or_bilingual
+      context: "Native — grew up in Vienna, Austria. Professional use at Amazon Lab126 (Alexa German)"
+    - language: Spanish
+      proficiency: unknown_level
+      context: "Studied at International Business College Vienna — Business Spanish"
+    - language: unknown_fourth
+      proficiency: unknown
+      context: "LinkedIn lists 4 languages — Spanish and one more unspecified beyond English/German"
+
+# ============================================================================
+# ORIGIN
+# ============================================================================
+
+origin:
+  education_arc: |
+    Reifeprüfung + VET-Diploma (Austrian BA equivalent) from International Business
+    College Vienna (2002–2008), concentrating in International Marketing and Trade.
+    Main subjects: German, Business Administration, Accounting, English, Spanish, Math.
+
+    This is not a CS degree. It is a European business administration credential with
+    strong accounting and language foundations. The technical skills — SQL, Python, data
+    analytics — came later through edX certifications and on-the-job learning at Amazon.
+    The education explains why he thinks in process terms (accounting workflows, audit
+    procedures) rather than engineering terms — and why that's actually an advantage in
+    data operations, where process discipline matters more than algorithmic novelty.
+
+  formative_experiences:
+    - what: "Federal Staff Accountant → Federal Auditor at Austria's Buchhaltungsagentur des Bundes"
+      when: "2009–2015"
+      why_it_matters: |
+        5+ years in Austrian federal government accounting and auditing — processing
+        payment runs up to several hundred million, performing 30+ institutional audits
+        per year, drafting reports for the Ministry of Finance and Federal Court of Auditors.
+        First employee to transition from operations to auditing department — others followed.
+        This built the quality mindset: systematic sampling, checklists, risk evaluation,
+        audit reports. The annotation quality work at Amazon is a direct continuation
+        of this discipline applied to a different domain.
+
+    - what: "Technical Translator → Knowledge Engineer for German Alexa at Amazon Lab126"
+      when: "2017–2019"
+      why_it_matters: |
+        Entered Amazon through a contract translation role and earned conversion to full-time
+        Knowledge Engineer within 5 months. The Alexa Automotive domain work — Failure Mode
+        Analysis, error pattern identification, actionable recommendations — directly led to
+        Echo Auto launch. This is the transition point: from language precision to ML system
+        quality. The German grammar expertise wasn't just translation — it was debugging an
+        AI system's linguistic failures.
+
+    - what: "Building and leading an international Data Analytics team across 16 locales and 9 languages"
+      when: "2023–2024"
+      why_it_matters: |
+        Owned the Local Information Failure Triage (LIFT) system expansion for international
+        markets. Presented Failure Space Analysis to senior leadership. This is where the
+        multilingual foundation became a leadership capability — coordinating sprint planning
+        across UK and US teams while understanding the linguistic nuances of 9 different
+        language markets.
+
+    - what: "Team satisfaction turnaround: 40% → 86% in three months"
+      when: "2024"
+      why_it_matters: |
+        In the current ML Data Ops Lead role, inherited a team with 40% job satisfaction
+        and raised it to 86% within three months through targeted leadership initiatives.
+        Also coached three direct reports from L3 to L4 promotions. This is people
+        leadership evidence — not just project management.
+
+  career_throughline: |
+    The thread is quality assurance applied with increasing technical sophistication.
+    Federal auditing (verify financial transactions) → data management (verify CRM data
+    integrity) → knowledge engineering (verify AI language quality) → data analytics
+    (verify search quality across locales) → ML data operations (verify annotation
+    quality for AI training). Each step applied the same audit mindset — systematic
+    sampling, inter-rater agreement, feedback loops — to a more technical domain.
+
+    The second thread is multilingual bridge-building. German/English/Spanish language
+    skills → German Alexa quality → international analytics across 9 languages →
+    multilingual annotation pipeline management. He doesn't just speak multiple
+    languages — he understands how meaning breaks across linguistic boundaries,
+    which is exactly what ML training data quality requires.
+
+# ============================================================================
+# CAPABILITIES
+# ============================================================================
+
+capabilities:
+  clusters:
+    - name: "ML Data Operations & Annotation Quality"
+      strength: defining
+      evidence:
+        - "Maintains 90–95% Inter-Annotator Agreement across 120+ projects"
+        - "Manages team of 10 ML Data Linguists and Data Specialists"
+        - "Designed project intake and resource allocation systems for pilot programs"
+        - "Pilots include Rufus (Amazon's AI shopping assistant) implementation"
+        - "Mature pilots scaled to 1P partner teams or 3P organizations"
+      market_value: |
+        High demand. Every company building LLM-based products needs annotation quality
+        leadership. The gap between AI research and production data quality is where
+        most systems fail, and few people have 7+ years of experience bridging it.
+
+    - name: "Failure Mode Analysis & Quality Auditing"
+      strength: exceptional
+      evidence:
+        - "Alexa Automotive: deep-dive FMA identifying error patterns, contributed to Echo Auto launch"
+        - "LIFT system: Failure Space Analysis presented to senior leadership"
+        - "Quality audits of 3P vendors with actionable feedback loops"
+        - "Federal auditing background: 30+ institutions/year, reports to Ministry of Finance"
+      market_value: |
+        Rare combination. Most ML data ops people come from tech. His audit background
+        means he thinks in systematic sampling and risk evaluation, not ad-hoc quality checks.
+
+    - name: "Knowledge Engineering & Data Integration"
+      strength: strong
+      evidence:
+        - "Integrated 55M+ entities into Amazon's Knowledge Graph (AGI Local Search)"
+        - "Led migration/consolidation of Local Search quality workflows"
+        - "Enhanced German Alexa Query Success Rate by 15%"
+        - "Ontology development, fact management, translation templates"
+      market_value: |
+        Strong for companies building knowledge graphs or structured data systems.
+        The entity integration scale (55M+) is meaningful evidence.
+
+    - name: "People Leadership & Team Development"
+      strength: strong
+      evidence:
+        - "Team satisfaction: 40% → 86% in 3 months"
+        - "Coached 4 promotions (3x L3→L4, 1x L4→L5)"
+        - "Built international team across 16 locales, 9 languages"
+        - "Coordinated cross-functional sprint planning across UK and US"
+      market_value: |
+        Solid IC-to-manager trajectory within Amazon. The satisfaction turnaround
+        number is strong and specific.
+
+    - name: "Multilingual & Cross-Cultural Operations"
+      strength: exceptional
+      evidence:
+        - "Native bilingual German/English"
+        - "Managed data operations for Germany/Austria, Nordics, all of Europe, Canada, US West Coast (Rimini Street)"
+        - "International analytics team across 16 locales and 9 languages"
+        - "ASR testing and German grammar consultation for Engineering teams"
+      market_value: |
+        Differentiator for global AI companies. Multilingual annotation quality is
+        harder than monolingual — understanding where meaning breaks across languages
+        is a specialized skill.
+
+  tools_and_tech:
+    - "SAP (HV-SAP — federal accounting; Salesforce — CRM data management)"
+    - "SQL (edX certified)"
+    - "Python (edX certified — data analysis)"
+    - "Excel (advanced — audit checklists, data management)"
+    - "Salesforce.com (data management, campaign management)"
+    - "LinkedIn Sales Navigator, Discover.org, Xing (data sourcing)"
+    - "Marketo (lead management)"
+    - "ChromaDB, annotation tools (implied from ML Data Ops role)"
+    - "HTML & CSS (freeCodeCamp, 2016)"
+
+  what_they_cannot_do:
+    - "No evidence of ML model training or algorithm development — this is data ops, not data science"
+    - "No software engineering portfolio — Python is for analysis, not production systems"
+    - "No formal CS education — technical skills are self-taught and on-the-job"
+    - "No evidence of public speaking, conference talks, or external thought leadership"
+    - "No evidence of working at startups or small companies — career is big-org (Austrian government, Amazon)"
+
+# ============================================================================
+# WORKING STYLE
+# ============================================================================
+
+working_style:
+  process: |
+    Process-driven and systematic. The auditing background shows: he works through
+    checklists, samples systematically, documents findings, and delivers formal reports.
+    The annotation quality work follows the same pattern — structured intake, defined
+    quality bars (IAA rates), audit cycles, feedback loops. He doesn't improvise; he
+    designs the process, then executes it rigorously.
+
+  pace: |
+    Steady and methodical rather than fast-and-break-things. The career progression
+    shows patience — 5 years in Austrian government, started as a contractor at Amazon
+    and worked up. The team satisfaction turnaround (3 months) shows he can move quickly
+    when the problem is clear and the lever is people, not technology.
+
+  communication: |
+    Evidence from recommendations: "very responsive & reliable" (Cathy To), "impeccable
+    accuracy and speed" (Jeffrey Helman). Communication style appears to be reliable,
+    precise, and team-oriented rather than charismatic or visionary. Presents Failure
+    Space Analysis to senior leadership — can communicate up, but likely in a data-driven,
+    structured format rather than narrative storytelling.
+
+  decision_making: |
+    Data-driven and process-oriented. The audit background suggests he seeks evidence
+    before deciding. The IAA rate focus (90–95%) shows he defines quantitative quality
+    bars and manages to them. Likely conservative — would rather have a proven process
+    than an innovative experiment.
+
+  collaboration_mode: |
+    Cross-functional bridge builder. Evidence: coordinates with Engineering and Science
+    teams for feedback loops, works across UK/US for sprint planning, managed data for
+    both domestic and international partners at Rimini Street. The pattern is working
+    BETWEEN teams rather than within a single team.
+
+  when_they_are_at_their_best: |
+    When he has a clear operational domain with defined quality metrics, a team to lead,
+    and Science/Engineering partners who value data quality feedback. The current role
+    (pilot annotation programs, tight feedback loops with Science teams) appears to be
+    this sweet spot.
+
+  when_they_struggle: |
+    Insufficient evidence to assess with confidence. Likely candidates based on profile:
+    ambiguous environments without clear metrics, purely strategic roles without
+    operational execution, or highly political environments where process discipline
+    is overridden by speed pressure.
+
+# ============================================================================
+# VALUES
+# ============================================================================
+
+values:
+  motivated_by:
+    - "Building efficient, high-impact data operations (stated directly)"
+    - "Team development — coaching promotions, improving satisfaction"
+    - "Quality and precision — the audit mindset runs deep"
+    - "Bridging the gap between data operations and technical stakeholders"
+
+  not_motivated_by:
+    - "Public visibility or thought leadership (no evidence of external presence)"
+    - "Entrepreneurial risk-taking (career is entirely institutional)"
+    - "Abstract strategy without operational execution"
+
+  non_negotiables:
+    - "Data quality standards — the IAA rates are non-negotiable quality bars"
+    - "Team investment — the satisfaction turnaround and promotion coaching suggest he cares about his people"
+
+  peak_moment:
+    what: "The Rufus pilot implementation and annotation quality pipeline"
+    why: |
+      This appears to be where all threads converge — ML data ops leadership, annotation
+      quality at scale, pilot-to-production lifecycle, team leadership. The 120+ projects
+      under management is the widest scope of his career.
+    what_it_reveals: |
+      He is at his best when running a mature operation at scale with clear quality bars
+      and a direct line to the AI product it serves.
+
+# ============================================================================
+# PATTERNS
+# ============================================================================
+
+patterns:
+  strengths:
+    - pattern: "Earns trust through reliability, then expands scope"
+      evidence:
+        - "Contract translator → full-time Knowledge Engineer in 5 months (Amazon Lab126)"
+        - "Operations → Auditing department — first employee to make this transition (Austria)"
+        - "Senior Data Analyst → Manager, Data Analytics → Knowledge Engineering Manager → ML Data Ops Lead (Amazon progression)"
+      why_it_works: |
+        Large organizations reward consistent delivery. He earns credibility at one level,
+        then uses it to move into the next. The progression is steady, not flashy.
+
+    - pattern: "Applies audit discipline to new domains"
+      evidence:
+        - "Financial auditing (Austria) → CRM data quality (Rimini Street) → AI annotation quality (Amazon)"
+        - "Systematic sampling, IAA measurement, quality reports — same methodology, different substrates"
+      why_it_works: |
+        Quality assurance is transferable. The specific domain (finance, CRM, ML) changes,
+        but the mindset — systematic verification, documented findings, feedback loops — is
+        the constant.
+
+    - pattern: "Bridges linguistic and cultural gaps in technical systems"
+      evidence:
+        - "German grammar consulting for Engineering teams (Alexa)"
+        - "International data analytics across 9 languages"
+        - "European + US data management at Rimini Street"
+      why_it_works: |
+        Multilingual AI systems fail at linguistic boundaries. Someone who intuitively
+        understands those boundaries catches errors that monolingual engineers miss.
+
+  blind_spots:
+    - pattern: "No external presence or personal brand"
+      evidence:
+        - "522 LinkedIn followers after 9+ years at Amazon"
+        - "No evidence of conference talks, blog posts, or open-source contributions"
+        - "One public LinkedIn comment found in activity history"
+      cost: |
+        In a competitive job market, invisible candidates lose to visible ones. His work
+        is strong but nobody outside Amazon knows about it.
+      awareness: unaware
+
+    - pattern: "Career entirely within large institutions"
+      evidence:
+        - "Austrian federal government (5 years) → Rimini Street (1.5 years) → Amazon (7+ years)"
+        - "No startup, freelance, or entrepreneurial experience"
+      cost: |
+        May be perceived as unable to operate without institutional infrastructure.
+        Limits the range of companies that see him as a fit. Startups building annotation
+        pipelines from scratch may hesitate.
+      awareness: unknown
+
+# ============================================================================
+# ENVIRONMENT FIT
+# ============================================================================
+
+environment_fit:
+  thrives_in:
+    - environment: "Large-scale AI product organizations with dedicated data operations"
+      why: "His entire career is built on process discipline within institutional frameworks"
+      evidence: "9+ years in structured orgs (Austrian government, Amazon), current 120+ project portfolio"
+
+    - environment: "Cross-functional roles bridging Science/Engineering and data operations"
+      why: "The feedback loop between data quality and model performance is his core value add"
+      evidence: "Tight feedback loops with Science teams, failure mode analysis feeding product improvements"
+
+    - environment: "Multilingual/international operations"
+      why: "Native bilingual + experience across 16 locales makes global operations natural"
+      evidence: "International analytics team, European data management, German Alexa quality"
+
+  struggles_in:
+    - environment: "Early-stage startups with no existing process"
+      why: "His strength is optimizing and scaling existing operations, not building from zero"
+      evidence: "Every role has been within established organizations with existing infrastructure"
+
+    - environment: "Highly autonomous individual contributor roles"
+      why: "His career trajectory is toward team leadership, not deeper IC work"
+      evidence: "Recent roles are all people management — team of 10, international team, coaching promotions"
+
+  ideal_team_size: "8-15 direct and indirect reports"
+  ideal_org_stage: "Growth to mature — needs existing ML/AI product and data pipeline"
+  geographic_flexibility: "San Francisco Bay Area, hybrid. Unknown openness to relocation."
+
+# ============================================================================
+# CONTRADICTIONS
+# ============================================================================
+
+contradictions:
+  - tension: "Austrian government auditor → Silicon Valley AI leader"
+    resolution: |
+      The leap looks dramatic on the surface but the underlying skill is identical:
+      systematic quality verification. The domain changed (financial transactions →
+      ML training data), the tools changed (SAP → annotation platforms), but the
+      cognitive work — sampling, measuring agreement, documenting deviations, feeding
+      back corrections — is structurally the same work.
+    implication: |
+      Don't underestimate the audit background. It's not irrelevant history — it's the
+      foundation of his quality discipline. Competitors for ML data ops roles who come
+      from pure tech backgrounds may lack this rigor.
+
+  - tension: "Quietly reliable operator who is openly job-seeking"
+    resolution: |
+      He states directly he is "currently open to new opportunities" — unusual
+      transparency for someone at a senior Amazon role. This likely reflects either
+      organizational changes (Search AI restructuring, Rufus pilot maturity) or a
+      desire for more scope/impact than the current role allows.
+    implication: |
+      He's not desperate — he's deliberate. The transparency about job-seeking suggests
+      confidence in his value. His profile reads as someone who knows what he's worth
+      and is looking for the right fit, not any fit.
+
+  - tension: "Business administration education → ML data operations leadership"
+    resolution: |
+      The path was: business admin → accounting → data management → knowledge engineering
+      → ML data ops. Each step was adjacent, not a leap. The technical skills (SQL, Python)
+      were added through certifications and on-the-job learning, not formal CS education.
+      This means his technical depth has limits, but his operational and quality discipline
+      exceeds what most CS graduates bring to data ops.
+    implication: |
+      Frame him as a data operations leader who understands the technical context, not a
+      technical leader who manages operations. The distinction matters for role targeting.
+
+# ============================================================================
+# GROWTH EDGES
+# ============================================================================
+
+growth_edges:
+  - edge: "Moving from Amazon-internal to broader industry visibility"
+    direction: "Job search signals readiness to take his methodology to a new context"
+    evidence: "Openly job-seeking, profile optimized for external readability"
+
+  - edge: "Scaling from team-of-10 to larger organizational scope"
+    direction: "The progression (IC → manager → multi-team coordination) suggests director-level is next"
+    evidence: "Already coordinates across 120+ projects, cross-functional UK/US teams"
+
+# ============================================================================
+# HOW TO WORK WITH THIS PERSON
+# ============================================================================
+
+how_to_work_with:
+  do:
+    - "Give him a clear operational domain with defined quality metrics"
+    - "Let him build process — intake systems, quality bars, feedback loops"
+    - "Pair him with Science/Engineering teams who will act on his quality findings"
+    - "Leverage his multilingual capability for international annotation programs"
+    - "Trust his team development instincts — the promotion coaching record is real"
+
+  do_not:
+    - "Ask him to build ML models or write production code — that's not his skill set"
+    - "Put him in a purely strategic role without operational execution"
+    - "Expect him to be a public evangelist or thought leader — his impact is operational, not performative"
+    - "Assume the Austrian government experience is irrelevant — it's the quality foundation"
+
+  communication_preferences:
+    - "Data-driven and structured — he presents Failure Space Analysis, not anecdotes"
+    - "Responsive and reliable — noted by multiple recommenders"
+    - "Likely prefers written documentation over ad-hoc verbal agreements"
+
+  trust_builders:
+    - "Follow through on commitments — reliability is his currency and his expectation"
+    - "Respect his quality standards — don't pressure him to cut corners on IAA rates"
+    - "Invest in his team — he cares about his people's growth"
+    - "Acknowledge the bridge role — he's between Science and Ops, and that's by design"
+
+  trust_breakers:
+    - "Treating data quality as an afterthought to model development"
+    - "Ignoring process in favor of speed"
+    - "Not acting on quality findings he surfaces"
+
+# ============================================================================
+# EVIDENCE
+# ============================================================================
+
+evidence:
+  sources:
+    - "LinkedIn profile (full text, scraped 2026-05-01)"
+    - "Two LinkedIn recommendations (Cathy To, Jeffrey Helman — both from Rimini Street, 2017)"
+    - "101 mutual connections with Mical Neill (Amazon overlap)"
+    - "Public activity (minimal — 1 comment found)"
+  confidence: medium
+  last_validated: 2026-05-01
+  blind_spots_in_this_lens:
+    - "No direct conversation with Eduard — all inferences from public profile"
+    - "Working style and values sections are inferred from career patterns, not observed"
+    - "Fourth language unknown"
+    - "Reasons for job-seeking unknown — could be org changes, ambition, or dissatisfaction"
+    - "No visibility into his actual annotation methodology or tooling beyond LinkedIn descriptions"
+    - "Salary expectations, geographic flexibility, and company preferences unknown"

@@ -1,0 +1,239 @@
+# Intel Thesis Signals v1.0
+# Cross-reference: which voices inform which thesis categories
+# Parallel to PIS company_signals — maps people to investment decisions
+#
+# Created: 2026-05-01
+# Schema: voice → thesis categories → signal strength → action
+
+metadata:
+  version: "1.0"
+  created: "2026-05-01"
+  source_voices: "financial_voices.yaml"
+  source_categories: "../thesis-categories/v1.0/categories.yaml"
+  total_signals: 25
+  consensus_threshold: 3  # voices agreeing = high-confidence signal
+
+# ══════════════════════════════════════════════════════════════
+# THESIS COVERAGE MAP
+# Which voices cover which categories, and where consensus exists
+# ══════════════════════════════════════════════════════════════
+
+thesis_coverage:
+
+  THESIS-OIL-UPSTREAM:
+    voice_count: 7
+    voices:
+      - id: FIN-001
+        name: "Javier Blas"
+        signal_strength: high
+        edge: "Real-time OPEC intelligence from trading house sources"
+      - id: FIN-002
+        name: "Eric Nuttall"
+        signal_strength: high
+        edge: "Post-shale structural supply thesis with fund returns"
+      - id: FIN-003
+        name: "Art Berman"
+        signal_strength: high
+        edge: "Geology-based price modeling, 48 years experience"
+      - id: FIN-004
+        name: "Rory Johnston"
+        signal_strength: high
+        edge: "Best independent supply/demand data and visualization"
+      - id: FIN-005
+        name: "Josh Young"
+        signal_strength: high
+        edge: "349% fund returns in energy, activist positions"
+      - id: FIN-022
+        name: "Goehring & Rozencwajg"
+        signal_strength: high
+        edge: "Multi-decade commodity cycle callers — oil quadrupling call"
+      - id: FIN-023
+        name: "Amrita Sen"
+        signal_strength: high
+        edge: "OPEC insider access, advises oil ministers"
+    consensus_note: "Strong consensus on structural oil supply thesis. Disagreements are on timing and magnitude, not direction."
+
+  THESIS-OIL-REFINING:
+    voice_count: 3
+    voices:
+      - id: FIN-004
+        name: "Rory Johnston"
+        signal_strength: high
+        edge: "Weekly crack spread and refined product data"
+      - id: FIN-001
+        name: "Javier Blas"
+        signal_strength: medium
+        edge: "Physical vs paper market intelligence on refining"
+      - id: FIN-025
+        name: "Tracy Shuchart"
+        signal_strength: medium
+        edge: "Floor trader read on refining margin flows"
+    consensus_note: "Thin coverage. Rory Johnston is the primary source for crack spread depth."
+
+  THESIS-OIL-MIDSTREAM:
+    voice_count: 2
+    voices:
+      - id: FIN-004
+        name: "Rory Johnston"
+        signal_strength: medium
+        edge: "Infrastructure mentioned in weekly context"
+      - id: FIN-001
+        name: "Javier Blas"
+        signal_strength: low
+        edge: "Transport and logistics in commodity reporting"
+    consensus_note: "Gap in coverage. No dedicated midstream voice. Consider adding a midstream-focused analyst in v1.1."
+
+  THESIS-ENERGY-TRANSITION:
+    voice_count: 4
+    voices:
+      - id: FIN-003
+        name: "Art Berman"
+        signal_strength: high
+        edge: "Geology-based skepticism of peak demand narrative"
+      - id: FIN-006
+        name: "Doomberg"
+        signal_strength: high
+        edge: "AI power demand thesis connecting data centers to nat gas"
+      - id: FIN-007
+        name: "Kuppy Kupperman"
+        signal_strength: medium
+        edge: "Energy as constraint on monetary policy"
+      - id: FIN-020
+        name: "Michael Cembalest"
+        signal_strength: high
+        edge: "Engineering-level analysis of grid constraints, SMR costs, solar+storage"
+    consensus_note: "Consensus that peak demand is later than IEA projects. Cembalest provides the most rigorous technical analysis."
+
+  THESIS-AI-INFRASTRUCTURE:
+    voice_count: 5
+    voices:
+      - id: FIN-008
+        name: "Ben Thompson"
+        signal_strength: high
+        edge: "$700B+ hyperscaler capex analysis"
+      - id: FIN-009
+        name: "Byrne Hobart"
+        signal_strength: high
+        edge: "Finance-tech fusion on AI economics"
+      - id: FIN-011
+        name: "Cathie Wood"
+        signal_strength: medium
+        edge: "Conviction positions in OpenAI, CoreWeave"
+      - id: FIN-020
+        name: "Michael Cembalest"
+        signal_strength: high
+        edge: "AI stocks = 75% of S&P returns, 90% of capex since ChatGPT"
+      - id: FIN-021
+        name: "Leopold Aschenbrenner"
+        signal_strength: high
+        edge: "47% fund returns, AI compute scaling predictions from insider knowledge"
+    consensus_note: "Strong consensus on AI capex being massive and growing. Disagreement on sustainability — Cembalest is the skeptical voice, Aschenbrenner the bull."
+
+  THESIS-AI-COMPANIES:
+    voice_count: 5
+    voices:
+      - id: FIN-010
+        name: "Dan Primack"
+        signal_strength: high
+        edge: "First on funding rounds and valuations"
+      - id: FIN-012
+        name: "Aswath Damodaran"
+        signal_strength: high
+        edge: "Rigorous DCF valuations with free models"
+      - id: FIN-013
+        name: "Ben Tossell"
+        signal_strength: medium
+        edge: "Operator-level deployment signals"
+      - id: FIN-011
+        name: "Cathie Wood"
+        signal_strength: medium
+        edge: "Conviction thesis and position sizing"
+      - id: FIN-009
+        name: "Byrne Hobart"
+        signal_strength: high
+        edge: "Deep dives that precede price moves"
+    consensus_note: "Good coverage. Dan Primack for deal flow, Damodaran for valuation discipline, Hobart for analysis depth."
+
+  THESIS-MACRO-VALUATIONS:
+    voice_count: 5
+    voices:
+      - id: FIN-012
+        name: "Aswath Damodaran"
+        signal_strength: high
+        edge: "Dean of Valuation — annual market-wide assessment"
+      - id: FIN-016
+        name: "Jesse Felder"
+        signal_strength: high
+        edge: "CAPE/Buffett Indicator specialist, called housing bubble"
+      - id: FIN-017
+        name: "Liz Ann Sonders"
+        signal_strength: high
+        edge: "Market breadth data showing concentration risk"
+      - id: FIN-020
+        name: "Michael Cembalest"
+        signal_strength: high
+        edge: "Institutional-grade cross-domain valuation"
+      - id: FIN-022
+        name: "Goehring & Rozencwajg"
+        signal_strength: medium
+        edge: "Commodity-adjusted valuation framework"
+    consensus_note: "Consensus that current valuations are historically stretched (CAPE ~40). Disagreement on whether AI earnings justify it."
+
+  THESIS-MACRO-LIQUIDITY:
+    voice_count: 4
+    voices:
+      - id: FIN-014
+        name: "Alfonso Peccatiello"
+        signal_strength: high
+        edge: "Liquidity cycle framework from institutional PM experience"
+      - id: FIN-015
+        name: "Lyn Alden"
+        signal_strength: high
+        edge: "Fiscal dominance thesis — deficits > Fed"
+      - id: FIN-018
+        name: "Mohamed El-Erian"
+        signal_strength: high
+        edge: "Former PIMCO CEO, central bank policy error detection"
+      - id: FIN-019
+        name: "Zoltan Pozsar"
+        signal_strength: high
+        edge: "Money market plumbing — repo, reserves, Fed facilities"
+    consensus_note: "Deepest coverage cluster. Four high-quality voices with different angles on the same system. Pozsar for plumbing, Alf for cycles, Lyn for fiscal, El-Erian for policy."
+
+  THESIS-MACRO-GEOPOLITICAL:
+    voice_count: 5
+    voices:
+      - id: FIN-001
+        name: "Javier Blas"
+        signal_strength: high
+        edge: "Energy geopolitics — sanctions, OPEC, shipping lanes"
+      - id: FIN-006
+        name: "Doomberg"
+        signal_strength: high
+        edge: "Energy as geopolitical power framework"
+      - id: FIN-007
+        name: "Kuppy Kupperman"
+        signal_strength: medium
+        edge: "Oil-as-central-banker — energy constrains policy"
+      - id: FIN-019
+        name: "Zoltan Pozsar"
+        signal_strength: high
+        edge: "Bretton Woods III — dollar system fragmentation"
+      - id: FIN-018
+        name: "Mohamed El-Erian"
+        signal_strength: medium
+        edge: "Emerging market and systemic risk"
+    consensus_note: "Strong thesis cluster. Pozsar and Doomberg share the structural view that energy is reshaping the global monetary order."
+
+# ══════════════════════════════════════════════════════════════
+# GAPS — THESIS CATEGORIES WITH THIN COVERAGE
+# ══════════════════════════════════════════════════════════════
+
+gaps:
+  - category: THESIS-OIL-MIDSTREAM
+    voice_count: 2
+    note: "No dedicated midstream analyst. Consider adding Alerian/Hinds Howard or a midstream-focused fund manager."
+
+  - category: THESIS-OIL-REFINING
+    voice_count: 3
+    note: "Rory Johnston covers this well but is the only deep source. Consider adding a dedicated refining analyst."

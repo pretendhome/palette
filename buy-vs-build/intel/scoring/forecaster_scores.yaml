@@ -1,0 +1,308 @@
+# Intel Forecaster Scoring System v1.0
+# Tracks prediction accuracy using Brier scores and calibration.
+# All scores start null — populated as predictions are logged and resolved.
+#
+# Created: 2026-05-01
+# Algorithm: Tetlock-derived (softmax weighting, extremizing, decay)
+
+metadata:
+  version: "1.0"
+  created: "2026-05-01"
+  scoring_method: "brier_score"
+  aggregation_method: "accuracy_weighted_extremized"
+  status: "SCHEMA_READY — no predictions logged yet"
+
+# ══════════════════════════════════════════════════════════════
+# ALGORITHM PARAMETERS
+# ══════════════════════════════════════════════════════════════
+
+algorithm:
+  # Signal weighting
+  weighting:
+    method: "softmax_inverse_brier"
+    temperature: 0.3  # lower = more aggressive reward for accuracy
+    default_weight: "1/N (equal weight for unscored voices)"
+
+  # Extremizing (Tetlock transform)
+  extremizing:
+    base_factor: 1.5  # push consensus toward 0/1
+    diversity_scaling: true  # d = 1.5 + 0.5 * log(N_sources)
+
+  # Decay by domain
+  decay:
+    method: "exponential"
+    half_lives:
+      oil-energy: 4      # days
+      ai-investment: 10   # days
+      macro-stress: 21    # days
+    shock_factor: 4.0     # multiplier during regime-changing events
+
+  # Consensus/contrarian detection
+  contrarian:
+    consensus_threshold: 0.85    # above this = potential crowded trade
+    dispersion_threshold: 0.05   # below this + high consensus = crowded trade flag
+    contrarian_boost: 1.5        # weight multiplier for dissenting voices when crowded
+
+  # Scoring
+  scoring:
+    brier_baseline: 0.25    # naive 50/50 baseline
+    skill_threshold: 0.20   # Brier below this = demonstrated skill
+    rolling_window_days: 90
+    drift_alert_stdev: 1.0  # flag if rolling diverges from lifetime by >1 stdev
+
+# ══════════════════════════════════════════════════════════════
+# FORECASTER SCORECARD (populated as predictions resolve)
+# ══════════════════════════════════════════════════════════════
+
+forecasters:
+
+  - id: FIN-001
+    name: "Javier Blas"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-002
+    name: "Eric Nuttall"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-003
+    name: "Art Berman"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    initial_note: "Documented accurate oil price calls — Feb 2020 crash prediction"
+    weight: "default"
+
+  - id: FIN-004
+    name: "Rory Johnston"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-005
+    name: "Josh Young"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    initial_note: "349% net return 2021 — verified fund performance"
+    weight: "default"
+
+  - id: FIN-006
+    name: "Doomberg"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    initial_note: "Publish retrospective Hits and Misses — unusual transparency"
+    weight: "default"
+
+  - id: FIN-007
+    name: "Kuppy Kupperman"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-008
+    name: "Ben Thompson"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-009
+    name: "Byrne Hobart"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-010
+    name: "Dan Primack"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-011
+    name: "Cathie Wood"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    initial_note: "Documented: directionally accurate, timing poor. Money-weighted -34.97% since 2020."
+    weight: "default"
+
+  - id: FIN-012
+    name: "Aswath Damodaran"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-013
+    name: "Ben Tossell"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-014
+    name: "Alfonso Peccatiello"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-015
+    name: "Lyn Alden"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    initial_note: "2021 inflation call correct when consensus was 'transitory'. Sovereign bond warning since 2019 vindicated."
+    weight: "default"
+
+  - id: FIN-016
+    name: "Jesse Felder"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    initial_note: "Called housing bubble 2006-2007. Calibration pattern: early but ultimately correct."
+    weight: "default"
+
+  - id: FIN-017
+    name: "Liz Ann Sonders"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-018
+    name: "Mohamed El-Erian"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-019
+    name: "Zoltan Pozsar"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-020
+    name: "Michael Cembalest"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-021
+    name: "Leopold Aschenbrenner"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    initial_note: "47% fund return H1 2025. Compute scaling predictions verified. Revenue predictions missed."
+    weight: "default"
+
+  - id: FIN-022
+    name: "Goehring & Rozencwajg"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    initial_note: "Exceptional long-term cycle callers. Directionally exceptional, timing early."
+    weight: "default"
+
+  - id: FIN-023
+    name: "Amrita Sen"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+  - id: FIN-024
+    name: "Good Judgment Superforecasters"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    initial_note: "Academically verified: 30% better than analysts with classified access. Beat FedWatch 3 consecutive years."
+    weight: "elevated_prior"
+
+  - id: FIN-025
+    name: "Tracy Shuchart"
+    predictions_logged: 0
+    predictions_resolved: 0
+    lifetime_brier: null
+    rolling_90d_brier: null
+    calibration_status: "not_started"
+    weight: "default"
+
+# ══════════════════════════════════════════════════════════════
+# PREDICTION LOG (append-only — populated by intel_engine)
+# ══════════════════════════════════════════════════════════════
+
+predictions: []
+# Format per entry:
+#   - id: PRED-YYYY-MM-DD-NNN
+#     forecaster_id: FIN-XXX
+#     thesis_category: THESIS-XXX
+#     claim: "Oil will trade above $80 by Q3 2026"
+#     probability: 0.75
+#     logged_at: "2026-05-01T12:00:00Z"
+#     resolve_by: "2026-09-30"
+#     outcome: null  # 1.0 (correct) or 0.0 (incorrect) when resolved
+#     resolved_at: null
+#     brier_contribution: null

@@ -1,0 +1,112 @@
+# Intel Thesis Categories v1.0
+# The investment-domain equivalent of Palette RIUs.
+# Each category maps a decision domain to the voices and signals that inform it.
+#
+# Created: 2026-05-01
+# Status: WORKING
+
+metadata:
+  version: "1.0"
+  created: "2026-05-01"
+  total_categories: 9
+  domain: "oil-energy-investment + ai-portfolio + macro-stress"
+
+categories:
+
+  - id: THESIS-OIL-UPSTREAM
+    name: "Oil Upstream — E&P, Shale Decline, OPEC+"
+    domain: oil-energy
+    description: "Exploration & production equities, shale productivity decline, OPEC+ production decisions, non-OPEC supply growth"
+    key_questions:
+      - "Is US shale production in secular decline?"
+      - "What is OPEC+ likely to do at the next meeting?"
+      - "Which E&P companies are undervalued relative to reserves?"
+    decay_half_life_days: 4
+    primary_voices: ["FIN-001", "FIN-002", "FIN-003", "FIN-005", "FIN-006"]
+
+  - id: THESIS-OIL-REFINING
+    name: "Oil Refining — Crack Spreads, Margins, Supercycle"
+    domain: oil-energy
+    description: "Refinery margins, 3-2-1 crack spread, refining capacity constraints, supercycle thesis"
+    key_questions:
+      - "Are crack spreads at crisis or opportunity levels?"
+      - "Is the refining supercycle thesis still intact?"
+      - "Which refiners have the best margin structure?"
+    decay_half_life_days: 4
+    primary_voices: ["FIN-004", "FIN-001", "FIN-007"]
+
+  - id: THESIS-OIL-MIDSTREAM
+    name: "Oil Midstream — Pipeline Infrastructure, Transport"
+    domain: oil-energy
+    description: "Pipeline capacity, transport differentials, midstream MLPs, infrastructure bottlenecks"
+    key_questions:
+      - "Where are the infrastructure bottlenecks?"
+      - "Which midstream companies benefit from production shifts?"
+    decay_half_life_days: 7
+    primary_voices: ["FIN-004", "FIN-001"]
+
+  - id: THESIS-ENERGY-TRANSITION
+    name: "Energy Transition — Peak Demand, Renewables, Grid"
+    domain: oil-energy
+    description: "Peak oil demand timeline, renewable buildout, power grid constraints, data center power demand, natural gas as bridge fuel"
+    key_questions:
+      - "When is peak oil demand — 2030 or 2035+?"
+      - "Can the grid handle AI data center power demand?"
+      - "Is natural gas the real transition winner?"
+    decay_half_life_days: 14
+    primary_voices: ["FIN-003", "FIN-006", "FIN-007", "FIN-020"]
+
+  - id: THESIS-AI-INFRASTRUCTURE
+    name: "AI Infrastructure — Compute, Power, Capex"
+    domain: ai-investment
+    description: "Hyperscaler capex, GPU/compute scaling, data center buildout, power demand, cooling, chip supply"
+    key_questions:
+      - "Is hyperscaler capex sustainable at $700B+?"
+      - "Which power companies benefit from AI data centers?"
+      - "Are compute scaling laws holding?"
+    decay_half_life_days: 10
+    primary_voices: ["FIN-008", "FIN-009", "FIN-011", "FIN-020", "FIN-021"]
+
+  - id: THESIS-AI-COMPANIES
+    name: "AI Companies — Funding, Valuations, Product Launches"
+    domain: ai-investment
+    description: "AI company fundraising rounds, valuation changes, product launches, leadership changes, M&A, IPO pipeline"
+    key_questions:
+      - "Which AI companies raised this week and at what valuation?"
+      - "Are AI company valuations justified by revenue?"
+      - "Which AI companies are acquisition targets?"
+    decay_half_life_days: 10
+    primary_voices: ["FIN-010", "FIN-012", "FIN-013", "FIN-011", "FIN-009"]
+
+  - id: THESIS-MACRO-VALUATIONS
+    name: "Macro Valuations — CAPE, Buffett Indicator, P/S"
+    domain: macro-stress
+    description: "Shiller PE (CAPE), Buffett Indicator (market cap / GDP), S&P 500 P/S ratio, historical mean reversion, bubble detection"
+    key_questions:
+      - "Is the market overvalued by historical standards?"
+      - "Are we in bubble territory?"
+      - "What do valuation metrics say about forward returns?"
+    decay_half_life_days: 21
+    primary_voices: ["FIN-012", "FIN-016", "FIN-017", "FIN-020", "FIN-022"]
+
+  - id: THESIS-MACRO-LIQUIDITY
+    name: "Macro Liquidity — Fed Policy, M2, Credit, Yield Curve"
+    domain: macro-stress
+    description: "Federal Reserve policy, M2 money supply, credit spreads, yield curve shape, repo markets, shadow banking"
+    key_questions:
+      - "Is liquidity expanding or contracting?"
+      - "What is the yield curve signaling about recession risk?"
+      - "Are credit spreads widening?"
+    decay_half_life_days: 21
+    primary_voices: ["FIN-014", "FIN-015", "FIN-018", "FIN-019"]
+
+  - id: THESIS-MACRO-GEOPOLITICAL
+    name: "Macro Geopolitical — Sanctions, Trade, Dollar System"
+    domain: macro-stress
+    description: "OPEC geopolitics, Strait of Hormuz, sanctions, trade wars, dollar reserve status, Bretton Woods III, de-dollarization"
+    key_questions:
+      - "Are geopolitical risks priced into oil?"
+      - "Is the dollar system fragmenting?"
+      - "Which sanctions are affecting energy flows?"
+    decay_half_life_days: 10
+    primary_voices: ["FIN-001", "FIN-006", "FIN-007", "FIN-019", "FIN-018"]

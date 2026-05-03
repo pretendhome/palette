@@ -56,17 +56,24 @@ Palette is a multi-agent intelligence system that routes any AI/ML decision to t
 | health | System integrity checklist (8 sections) | Python (`health_check.py`) |
 | total-health | Cross-layer audit (13 sections) | Python (`total_health_check.py`) |
 
-## Repository Structure
+## Repository Structure — Sandbox vs Production
 
-This repo (`palette/`) contains the **toolkit** — reusable frameworks, agents, and knowledge.
+| Repo | Visibility | Purpose |
+|------|-----------|---------|
+| `pretendhome/pretendhome` | **PRIVATE** | Sandbox — build, experiment, iterate |
+| `pretendhome/palette` | **PUBLIC** | Production toolkit — shared with the world |
+| `pretendhome/enablement` | **PUBLIC** | Production curriculum — shared with the world |
 
-The monorepo (`pretendhome/`) contains `palette/` as a subtree plus `implementations/` — the testing ground where skills get applied to real problems:
-- `implementations/retail/` — small business planning (Rossi store)
-- `implementations/talent/` — interview preparation (OpenAI, Perplexity, Glean)
-- `implementations/education/` — adaptive learning (ARON pilot at La Scuola)
-- `implementations/travel-*/` — family travel planning
+**Sandbox (pretendhome, PRIVATE)** contains `palette/` and `enablement/` as subtrees, plus private directories that never leave the sandbox:
+- `implementations/` — where skills meet reality (talent, retail, education, travel)
+- `archive/` — closed work
+- `backups/` — snapshots
 
-Skills live in palette. Implementations live in pretendhome. Learnings flow back into skill updates.
+**Production (palette, PUBLIC)** is the toolkit — reusable frameworks, agents, knowledge, skills, voice tools, mission canvas engine. This is what gets shared with interviewers, the NSA team, collaborators, and the world.
+
+**The rule: subtree push = deploy to production.** Everything in `palette/` goes public on push. Before pushing, verify no private content leaked in.
+
+Skills live in palette. Implementations live in pretendhome. Learnings flow back into skill updates. Reusable toolkit parts move to palette when ready.
 
 ### External Repos Governed by Palette
 - **`~/learning-architecture`** (`github.com:lingua-viva/learning-architecture.git`) — Claudia Canu Fautré's public learning design portfolio. Changes governed by Palette education + talent skills. See its `CLAUDE.md` for the connection protocol. Pull both repos before making cross-repo changes.

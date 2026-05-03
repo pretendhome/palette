@@ -1,0 +1,1108 @@
+# Intel Financial Voices Library v1.0
+# The investment-domain equivalent of Palette's People Library.
+# Each profile tracks a financial voice whose signals inform investment decisions.
+#
+# Schema mirrors palette/buy-vs-build/people-library/v1.1/ but is fully independent.
+# Signal types: analyst | newsletter | fund_manager | academic | platform | insider
+# Signal quality: high | medium | low | unvalidated
+# Status: active | watch | archived
+#
+# Created: 2026-05-01
+# Source: Perplexity research pass (high-impact + hidden-gem searches)
+
+metadata:
+  version: "1.0"
+  created: "2026-05-01"
+  total_profiles: 25
+  domains_covered:
+    - oil-energy
+    - ai-investment
+    - macro-stress
+  clusters:
+    - oil_energy_analysts
+    - ai_investment_voices
+    - macro_stress_indicators
+    - hidden_gem_predictors
+    - cross_domain_bridge
+
+profiles:
+
+  # ═══════════════════════════════════════════════════════════════
+  # CLUSTER: OIL & ENERGY ANALYSTS
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: "FIN-001"
+    name: "Javier Blas"
+    signal_type: analyst
+    signal_quality: high
+    status: active
+    domain: oil-energy
+    cluster: oil_energy_analysts
+
+    platforms:
+      twitter:
+        handle: "@JavierBlas"
+        followers: 385300
+      primary_outlet: "Bloomberg Opinion"
+
+    affiliation:
+      company: "Bloomberg"
+      role: "Opinion Columnist — Energy & Commodities"
+      prior: "Chief Energy Correspondent, Bloomberg News"
+      book: "The World for Sale: Money, Power and the Traders Who Barter the Earth's Resources"
+
+    expertise_tags:
+      - crude_oil
+      - opec_dynamics
+      - commodity_trading_houses
+      - natural_gas
+      - geopolitical_energy
+
+    track_record:
+      strengths:
+        - "2022 energy crisis coverage consistently ahead of consensus"
+        - "Real-time OPEC meeting intelligence that institutional desks rely on"
+        - "Physical vs paper oil market insight from trading house sources"
+      weaknesses: []
+      brier_score: null  # not yet tracked
+      calibration: null
+
+    thesis_categories: ["THESIS-OIL-UPSTREAM", "THESIS-OIL-REFINING", "THESIS-MACRO-GEOPOLITICAL"]
+
+    why_follow: "Highest-reach energy journalist. Real-time OPEC intelligence. His charts and threads are the pulse of energy Twitter. Physical market insight from trading house sources that no quant model captures."
+
+    perplexity_query: "Javier Blas Bloomberg latest energy analysis OPEC oil market 2026"
+
+  - id: "FIN-002"
+    name: "Eric Nuttall"
+    signal_type: fund_manager
+    signal_quality: high
+    status: active
+    domain: oil-energy
+    cluster: oil_energy_analysts
+
+    platforms:
+      twitter:
+        handle: "@ericnuttall"
+        followers: 125200
+      media: ["BNN Bloomberg", "CNBC", "Globe and Mail"]
+
+    affiliation:
+      company: "Ninepoint Partners"
+      role: "Partner & Senior Portfolio Manager — Ninepoint Energy Fund"
+
+    expertise_tags:
+      - upstream_ep_equities
+      - shale_decline_thesis
+      - oil_supply_demand
+      - natural_gas
+
+    track_record:
+      strengths:
+        - "Post-shale era thesis validated as US production growth decelerated"
+        - "Structural supply analysis is data-grounded"
+        - "2026: bullish on both oil and natural gas with nat gas as more immediate story"
+      weaknesses:
+        - "Called $100 oil by end of 2023 — missed on near-term price target"
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-OIL-UPSTREAM"]
+
+    why_follow: "Dedicated energy fund PM with structural supply thesis. His post-shale argument is the bull case for oil — US has lost its biggest source of incremental supply."
+
+    perplexity_query: "Eric Nuttall Ninepoint energy fund oil outlook 2026"
+
+  - id: "FIN-003"
+    name: "Art Berman"
+    signal_type: analyst
+    signal_quality: high
+    status: active
+    domain: oil-energy
+    cluster: hidden_gem_predictors
+
+    platforms:
+      twitter:
+        handle: "@aeberman12"
+        followers: 36000
+      blog: "artberman.com"
+      contributor: "Seeking Alpha"
+
+    affiliation:
+      company: "Independent"
+      role: "Petroleum Geologist — 48 years experience"
+      prior: "20 years at Amoco/BP"
+      org: "Director, Association for the Study of Peak Oil"
+
+    expertise_tags:
+      - shale_geology
+      - well_decline_curves
+      - reserve_analysis
+      - peak_oil
+      - comparative_inventory_pricing
+
+    track_record:
+      strengths:
+        - "Feb 2020: predicted coronavirus would crush oil — crude collapsed Feb 20"
+        - "Early shale economics skepticism (pre-2015) vindicated by shale bust"
+        - "Comparative inventory price model 'remarkably accurate' at forecasting crude"
+        - "Challenged IEA peak demand narrative — IEA later admitted demand not peaking"
+        - "Shale productivity declining 50%+ since 2020 — data-driven geology"
+      weaknesses:
+        - "Structural bear bias — can be early on calls"
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-OIL-UPSTREAM", "THESIS-ENERGY-TRANSITION"]
+
+    why_follow: "Reads the rocks, not the narrative. Geology-first methodology is a genuine information advantage over financial analysts modeling spreadsheets. 48 years of petroleum geology."
+
+    perplexity_query: "Art Berman petroleum geologist oil shale analysis 2026"
+
+  - id: "FIN-004"
+    name: "Rory Johnston"
+    signal_type: newsletter
+    signal_quality: high
+    status: active
+    domain: oil-energy
+    cluster: hidden_gem_predictors
+
+    platforms:
+      substack:
+        name: "Commodity Context"
+        url: "commoditycontext.com"
+        subscribers: 29000
+        ranking: "#49 Finance on Substack"
+      twitter:
+        handle: "@Rory_Johnston"
+      podcast: "Oil Ground Up"
+
+    affiliation:
+      company: "Independent"
+      role: "Oil Market Researcher"
+      academic: "Lecturer, University of Toronto Munk School"
+      fellow: ["Canadian Global Affairs Institute", "Payne Institute (Colorado School of Mines)"]
+
+    expertise_tags:
+      - oil_supply_demand_balances
+      - crude_inventories
+      - refining_margins
+      - crack_spreads
+      - data_visualization
+
+    track_record:
+      strengths:
+        - "Weekly Oil Context report — most detailed independent oil research available"
+        - "Russian oil production estimates during Ukraine sanctions heavily cited by institutions"
+        - "Data-centric, visualization-forward, no promotional bias"
+        - "Bloomberg featured him discussing $200/barrel scenarios"
+      weaknesses: []
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-OIL-UPSTREAM", "THESIS-OIL-REFINING", "THESIS-OIL-MIDSTREAM"]
+
+    why_follow: "Best independent oil data publication. Agnostic, data-first approach. Weekly Oil Context covers flat prices, calendar spreads, curve structure, inventories, refined products, positioning. Uniquely valuable for crack spread tracking."
+
+    perplexity_query: "Rory Johnston Commodity Context oil market analysis 2026"
+
+  - id: "FIN-005"
+    name: "Josh Young"
+    signal_type: fund_manager
+    signal_quality: high
+    status: active
+    domain: oil-energy
+    cluster: hidden_gem_predictors
+
+    platforms:
+      twitter:
+        handle: "@Josh_Young_1"
+        followers: 115000
+      contributor: "Seeking Alpha"
+      substack: "Bison Insights"
+
+    affiliation:
+      company: "Bison Interests"
+      role: "CIO"
+      aum: "$180M"
+
+    expertise_tags:
+      - small_mid_cap_ep
+      - activist_energy_investing
+      - oil_gas_valuation
+      - contrarian_energy
+
+    track_record:
+      strengths:
+        - "Fund returned 349% net in 2021, 79% net through May 2022"
+        - "As Chairman of Iron Bridge Resources, orchestrated sale at ~80% premium"
+        - "Documented returns from contrarian positions during 2020 oil crash"
+        - "One of last remaining dedicated oil & gas hedge fund managers — Darwinian survivor"
+      weaknesses:
+        - "Concentrated positions carry high single-stock risk"
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-OIL-UPSTREAM"]
+
+    why_follow: "Verified fund returns in energy. Value investing in E&P equities when sentiment is maximally negative. His continued existence as a dedicated energy fund manager is itself a signal."
+
+    perplexity_query: "Josh Young Bison Interests energy fund performance 2026"
+
+  - id: "FIN-006"
+    name: "Doomberg"
+    signal_type: newsletter
+    signal_quality: high
+    status: active
+    domain: oil-energy
+    cluster: cross_domain_bridge
+
+    platforms:
+      substack:
+        name: "Doomberg"
+        url: "newsletter.doomberg.com"
+        subscribers: 373000
+        ranking: "#3 Finance on Substack"
+
+    affiliation:
+      company: "Doomberg (pseudonymous team)"
+      role: "Analysts — careers in heavy industry, PE, R&D"
+      identity: "Anonymous — green chicken avatar"
+
+    expertise_tags:
+      - energy_geopolitics
+      - natural_gas
+      - ai_power_demand
+      - fertilizer
+      - commodity_macro
+
+    track_record:
+      strengths:
+        - "2022-2023 European energy crisis coverage was prescient"
+        - "Predicted Brent-WTI spread expansion, LNG price explosion, coal price surge"
+        - "AI data center power demand thesis now mainstream — they were early"
+        - "Publish retrospective 'Hits and Misses' — unusual transparency"
+        - "Advise senior executives and family offices"
+      weaknesses:
+        - "Anonymity prevents credential verification"
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-ENERGY-TRANSITION", "THESIS-AI-INFRASTRUCTURE", "THESIS-MACRO-GEOPOLITICAL"]
+
+    why_follow: "Energy-as-geopolitical-power framework. Connects natural gas prices, AI infrastructure power demand, and great power competition. Bridge voice between energy and AI investment domains."
+
+    perplexity_query: "Doomberg energy newsletter latest analysis AI power demand 2026"
+
+  - id: "FIN-007"
+    name: "Harris 'Kuppy' Kupperman"
+    signal_type: fund_manager
+    signal_quality: high
+    status: active
+    domain: oil-energy
+    cluster: cross_domain_bridge
+
+    platforms:
+      twitter:
+        handle: "@hkuppy"
+      newsletter: "Kuppy's Event-Driven Monitor (KEDM)"
+
+    affiliation:
+      company: "Praetorian Capital"
+      role: "Founder & CIO"
+      other: "Chairman/CEO, Mongolia Growth Group"
+
+    expertise_tags:
+      - oil_macro_thesis
+      - uranium
+      - commodity_super_cycle
+      - event_driven_investing
+      - government_debt_inflation
+
+    track_record:
+      strengths:
+        - "Early on the uranium trade"
+        - "'Oil is the World's Central Banker' thesis — energy constrains monetary policy"
+        - "Great macro dreamscape framework predicted inflationary impulse from fiscal excess"
+      weaknesses:
+        - "Can be very early on macro calls — painful holding periods"
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-OIL-UPSTREAM", "THESIS-MACRO-LIQUIDITY", "THESIS-MACRO-GEOPOLITICAL"]
+
+    why_follow: "Bridges oil/energy macro with government debt stress. His framework connects energy, government debt, and inflation. If you're long oil AND worried about macro stress, Kuppy integrates both."
+
+    perplexity_query: "Kuppy Kupperman Praetorian Capital oil macro thesis 2026"
+
+  # ═══════════════════════════════════════════════════════════════
+  # CLUSTER: AI INVESTMENT VOICES
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: "FIN-008"
+    name: "Ben Thompson"
+    signal_type: newsletter
+    signal_quality: high
+    status: active
+    domain: ai-investment
+    cluster: ai_investment_voices
+
+    platforms:
+      newsletter:
+        name: "Stratechery"
+        url: "stratechery.com"
+        paid_subscribers: 40000
+      podcasts: ["Sharp Tech", "Dithering"]
+
+    affiliation:
+      company: "Stratechery"
+      role: "Founder & Analyst"
+
+    expertise_tags:
+      - ai_business_strategy
+      - tech_platform_economics
+      - hyperscaler_capex
+      - aggregation_theory
+
+    track_record:
+      strengths:
+        - "Aggregation Theory predicted winner-take-all tech dynamics years before consensus"
+        - "Readers include 1.5% of Forbes 400"
+        - "Hyperscaler capex analysis: combined 2026 capex exceeds $700B"
+        - "200 countries readership — most respected independent tech strategist"
+      weaknesses: []
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-AI-INFRASTRUCTURE", "THESIS-AI-COMPANIES"]
+
+    why_follow: "Most respected independent tech strategy analyst. His frameworks are used by hedge funds, tech execs, and VCs. Breaks down AI's impact on business models, not just technology."
+
+    perplexity_query: "Ben Thompson Stratechery AI analysis hyperscaler capex 2026"
+
+  - id: "FIN-009"
+    name: "Byrne Hobart"
+    signal_type: newsletter
+    signal_quality: high
+    status: active
+    domain: ai-investment
+    cluster: ai_investment_voices
+
+    platforms:
+      newsletter:
+        name: "The Diff"
+        url: "thediff.co"
+        subscribers: 69000
+
+    affiliation:
+      company: "The Diff"
+      role: "Founder"
+      prior: ["SAC Capital/Point72", "7Park Data", "Yahoo"]
+
+    expertise_tags:
+      - finance_tech_fusion
+      - ai_infrastructure_economics
+      - company_deep_dives
+
+    track_record:
+      strengths:
+        - "Deep dives frequently precede major price moves"
+        - "Institutional readers (hedge funds, VCs) treat as primary research"
+        - "Fuses economics, technology, and sociology"
+      weaknesses: []
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-AI-INFRASTRUCTURE", "THESIS-AI-COMPANIES"]
+
+    why_follow: "Finance-meets-tech fusion. Tracks inflections that will matter more over the next 5 years. Former Point72 — hedge fund caliber analysis, newsletter format."
+
+    perplexity_query: "Byrne Hobart The Diff AI infrastructure analysis 2026"
+
+  - id: "FIN-010"
+    name: "Dan Primack"
+    signal_type: analyst
+    signal_quality: high
+    status: active
+    domain: ai-investment
+    cluster: ai_investment_voices
+
+    platforms:
+      newsletter:
+        name: "Axios Pro Rata"
+        frequency: "daily"
+      twitter:
+        handle: "@danprimack"
+      podcast: "Axios Pro Rata Podcast"
+
+    affiliation:
+      company: "Axios"
+      role: "Business Editor — Deals & VC"
+      experience: "25 years deal reporting"
+
+    expertise_tags:
+      - venture_capital_deals
+      - ai_fundraising
+      - ipo_pipeline
+      - mergers_acquisitions
+
+    track_record:
+      strengths:
+        - "Best-sourced deals reporter in tech/VC — consistently first on major announcements"
+        - "Covers OpenAI, Anthropic, every major AI company's capital structure"
+        - "Required reading in PE and VC industries"
+      weaknesses: []
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-AI-COMPANIES"]
+
+    why_follow: "If you want to know who's raising, at what valuation, and from whom — this is the primary source. 25 years of deal reporting. First on announcements."
+
+    perplexity_query: "Dan Primack Axios Pro Rata AI funding deals 2026"
+
+  - id: "FIN-011"
+    name: "Cathie Wood"
+    signal_type: fund_manager
+    signal_quality: medium
+    status: active
+    domain: ai-investment
+    cluster: ai_investment_voices
+
+    platforms:
+      company: "ARK Invest"
+      media: ["CNBC", "Bloomberg", "YouTube"]
+      twitter: true
+
+    affiliation:
+      company: "ARK Invest"
+      role: "Founder & CEO"
+      aum: "$14B+"
+
+    expertise_tags:
+      - disruptive_technology
+      - ai_infrastructure
+      - robotics
+      - genomics
+      - conviction_investing
+
+    track_record:
+      strengths:
+        - "Early and right on Tesla"
+        - "ARKK returned 35.49% in 2025 (beat S&P 500)"
+        - "2026: $240M in OpenAI shares, $80M+ in CoreWeave"
+        - "Big Ideas reports are most widely read forward-looking AI theses"
+      weaknesses:
+        - "Money-weighted returns since 2020: -34.97% vs S&P 500's +207%"
+        - "Timing is frequently off — right on direction, wrong on when"
+      brier_score: null
+      calibration: "directionally_accurate_timing_poor"
+
+    thesis_categories: ["THESIS-AI-INFRASTRUCTURE", "THESIS-AI-COMPANIES"]
+
+    why_follow: "Valuable for thesis construction even when timing is off. Her Big Ideas reports are the most widely read forward-looking technology investment theses. Watch what she buys, not when she says to buy."
+
+    perplexity_query: "Cathie Wood ARK Invest AI positions portfolio 2026"
+
+  - id: "FIN-012"
+    name: "Aswath Damodaran"
+    signal_type: academic
+    signal_quality: high
+    status: active
+    domain: ai-investment
+    cluster: ai_investment_voices
+
+    platforms:
+      blog:
+        name: "Musings on Markets"
+        url: "aswathdamodaran.blogspot.com"
+      youtube: true
+      academic: "NYU Stern — course materials freely available"
+
+    affiliation:
+      company: "NYU Stern School of Business"
+      role: "Professor of Finance — 'Dean of Valuation'"
+
+    expertise_tags:
+      - dcf_valuation
+      - narrative_to_numbers
+      - ai_company_valuations
+      - market_wide_valuation
+
+    track_record:
+      strengths:
+        - "Nvidia valuation warned stock was pricing in near-total capture of AI economics"
+        - "Tesla valuations remarkably accurate over multi-year periods"
+        - "Publishes models and spreadsheets freely — fully transparent methodology"
+        - "Annual market valuation updates are the gold standard"
+      weaknesses:
+        - "Academic pace — not real-time market commentary"
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-AI-COMPANIES", "THESIS-MACRO-VALUATIONS"]
+
+    why_follow: "The gold standard for rigorous fundamental analysis. Separates narrative from numbers. His framework for valuing AI companies cuts through both hype and doom. Free models."
+
+    perplexity_query: "Aswath Damodaran AI company valuation analysis 2026"
+
+  - id: "FIN-013"
+    name: "Ben Tossell"
+    signal_type: newsletter
+    signal_quality: medium
+    status: active
+    domain: ai-investment
+    cluster: ai_investment_voices
+
+    platforms:
+      newsletter:
+        name: "Ben's Bites"
+        subscribers: 120000
+
+    affiliation:
+      company: "Ben's Bites"
+      role: "Founder"
+      prior: "Exited founder turned investor"
+
+    expertise_tags:
+      - ai_ecosystem
+      - ai_deployment
+      - ai_startup_landscape
+      - operator_level_coverage
+
+    track_record:
+      strengths:
+        - "0 to 100K subscribers in under a year"
+        - "Early identification of AI tools gaining real commercial traction"
+        - "Operator-focused — grounded in real deployment, not speculation"
+      weaknesses:
+        - "Breadth over depth — covers landscape, not deep analysis"
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-AI-COMPANIES"]
+
+    why_follow: "Operator-level AI deployment coverage. 46% C-suite or founders readership. Covers how companies actually use AI to drive ROI."
+
+    perplexity_query: "Ben Tossell Ben's Bites AI tools deployment 2026"
+
+  # ═══════════════════════════════════════════════════════════════
+  # CLUSTER: MACRO STRESS INDICATORS
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: "FIN-014"
+    name: "Alfonso Peccatiello"
+    signal_type: newsletter
+    signal_quality: high
+    status: active
+    domain: macro-stress
+    cluster: macro_stress_indicators
+
+    platforms:
+      substack:
+        name: "The Macro Compass"
+        url: "themacrocompass.org"
+        subscribers: 152000
+      twitter:
+        handle: "@MacroAlf"
+      podcast: "The Macro Trading Floor"
+
+    affiliation:
+      company: "The Macro Compass"
+      role: "Founder"
+      prior: "Head of Fixed Income Portfolio Management, ING Deutschland (20B EUR)"
+      clients: "Canadian pension funds, top-3 multimanager hedge funds, major tech company"
+
+    expertise_tags:
+      - macro_rates
+      - liquidity_cycles
+      - credit_stress
+      - portfolio_construction
+
+    track_record:
+      strengths:
+        - "Liquidity cycle framework has accurately captured major risk-on/risk-off transitions"
+        - "Former institutional PM managing 20B EUR — not a commentator, a practitioner"
+        - "Actionable macro trade ideas, not just commentary"
+      weaknesses: []
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-MACRO-LIQUIDITY"]
+
+    why_follow: "Former institutional fixed income PM. His liquidity cycle framework maps central bank cycles to asset allocation. The Substack is the public-facing version of institutional-grade research."
+
+    perplexity_query: "Alfonso Peccatiello Macro Compass liquidity analysis 2026"
+
+  - id: "FIN-015"
+    name: "Lyn Alden"
+    signal_type: newsletter
+    signal_quality: high
+    status: active
+    domain: macro-stress
+    cluster: cross_domain_bridge
+
+    platforms:
+      twitter:
+        handle: "@LynAldenContact"
+        followers: 750000
+      newsletter:
+        name: "Lyn Alden Investment Strategy"
+        url: "lynalden.com"
+
+    affiliation:
+      company: "Lyn Alden Investment Strategy"
+      role: "Founder"
+      background: "Electrical engineer (defense industry)"
+
+    expertise_tags:
+      - fiscal_dominance
+      - m2_liquidity
+      - cape_ratio
+      - buffett_indicator
+      - sovereign_bonds
+      - energy_commodity
+
+    track_record:
+      strengths:
+        - "2021 inflation call was spot-on when central banks called it 'transitory'"
+        - "Sovereign bond risk warning since 2019 — bonds then had worst 5-year performance ever"
+        - "Fiscal dominance thesis now mainstream — she was early"
+        - "Engineering background brings systems thinking to macro"
+      weaknesses:
+        - "Missed timing of 2023 AI growth mania"
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-MACRO-VALUATIONS", "THESIS-MACRO-LIQUIDITY", "THESIS-ENERGY-TRANSITION"]
+
+    why_follow: "750K followers for a reason. Her fiscal dominance thesis — that deficits now matter more than the Fed — has been the dominant macro regime. Connects energy capex cycles to inflation. Engineering rigor."
+
+    perplexity_query: "Lyn Alden macro outlook fiscal dominance inflation 2026"
+
+  - id: "FIN-016"
+    name: "Jesse Felder"
+    signal_type: newsletter
+    signal_quality: high
+    status: active
+    domain: macro-stress
+    cluster: hidden_gem_predictors
+
+    platforms:
+      blog:
+        name: "The Felder Report"
+        url: "thefelderreport.com"
+      twitter:
+        handle: "@jessefelder"
+      podcast: "Superinvestors and the Art of Worldly Wisdom"
+
+    affiliation:
+      company: "The Felder Report"
+      role: "Founder"
+      prior: "Bear Stearns; co-founded multi-billion-dollar hedge fund"
+
+    expertise_tags:
+      - cape_ratio
+      - buffett_indicator
+      - margin_adjusted_pe
+      - bubble_identification
+      - mean_reversion
+      - insider_trading_patterns
+
+    track_record:
+      strengths:
+        - "2006-2007: warned of housing bubble — one of the few who did"
+        - "Macro earnings model (oil + rates + dollar) as leading indicator of corporate earnings"
+        - "Tracks insider buying/selling patterns as signal layer"
+        - "Current thesis: new dollar bear market favoring real assets over financial"
+      weaknesses:
+        - "Valuation-based frameworks tend to be early — painful before correct"
+      brier_score: null
+      calibration: "early_but_ultimately_correct"
+
+    thesis_categories: ["THESIS-MACRO-VALUATIONS", "THESIS-OIL-UPSTREAM"]
+
+    why_follow: "CAPE/Buffett Indicator specialist. Called the housing bubble. His macro earnings model connects oil, rates, and the dollar as leading indicators. Tracks insider patterns. If you're tracking market stress, he's core."
+
+    perplexity_query: "Jesse Felder Report CAPE ratio market valuation analysis 2026"
+
+  - id: "FIN-017"
+    name: "Liz Ann Sonders"
+    signal_type: analyst
+    signal_quality: high
+    status: active
+    domain: macro-stress
+    cluster: macro_stress_indicators
+
+    platforms:
+      twitter:
+        followers: 452900
+      primary_outlet: "Charles Schwab Research"
+
+    affiliation:
+      company: "Charles Schwab"
+      role: "Chief Investment Strategist"
+
+    expertise_tags:
+      - market_breadth
+      - sector_rotation
+      - valuations
+      - economic_cycle
+
+    track_record:
+      strengths:
+        - "Market breadth analysis flagged narrow leadership in 2023-2024 before consensus"
+        - "Data-rich daily charts on X — institutional quality, free"
+        - "One of few institutional strategists who actively engages on social media with real data"
+      weaknesses: []
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-MACRO-VALUATIONS"]
+
+    why_follow: "453K followers of data-rich market breadth analysis. Institutional strategist who shares real data, not talking points. Flagged the narrow leadership problem early."
+
+    perplexity_query: "Liz Ann Sonders Schwab market breadth analysis 2026"
+
+  - id: "FIN-018"
+    name: "Mohamed El-Erian"
+    signal_type: analyst
+    signal_quality: high
+    status: active
+    domain: macro-stress
+    cluster: macro_stress_indicators
+
+    platforms:
+      twitter: true
+      media: ["Bloomberg Opinion", "Financial Times", "CNBC"]
+
+    affiliation:
+      company: "Allianz"
+      role: "Chief Economic Advisor"
+      prior: "CEO of PIMCO"
+      academic: "President, Queens' College Cambridge"
+
+    expertise_tags:
+      - global_macro
+      - fed_policy
+      - inflation_dynamics
+      - emerging_markets
+      - systemic_risk
+
+    track_record:
+      strengths:
+        - "Called the 'new normal' of low growth post-2008 — shaped institutional thinking for a decade"
+        - "Early warnings about inflation in 2021 ahead of Fed pivot"
+        - "Former PIMCO CEO — managed one of the world's largest bond funds"
+      weaknesses:
+        - "Can be cautious to the point of vagueness on specific calls"
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-MACRO-LIQUIDITY", "THESIS-MACRO-GEOPOLITICAL"]
+
+    why_follow: "Former PIMCO CEO. His macro commentary is grounded in real institutional experience. 'New normal' framework shaped a decade of thinking. Focuses on central bank policy errors."
+
+    perplexity_query: "Mohamed El-Erian macro outlook Fed policy inflation 2026"
+
+  - id: "FIN-019"
+    name: "Zoltan Pozsar"
+    signal_type: analyst
+    signal_quality: high
+    status: active
+    domain: macro-stress
+    cluster: hidden_gem_predictors
+
+    platforms:
+      company:
+        name: "Ex Uno Plures"
+        type: "paid research firm"
+      prior: "Credit Suisse — Managing Director, Short-Term Interest Rate Strategy"
+
+    affiliation:
+      company: "Ex Uno Plures"
+      role: "Founder"
+      called: "'Jules Verne of financial forecasting' (Adam Tooze), 'markets guru' (Reuters)"
+
+    expertise_tags:
+      - money_markets
+      - shadow_banking
+      - dollar_system_plumbing
+      - bretton_woods_iii
+      - repo_markets
+      - reserve_diversification
+
+    track_record:
+      strengths:
+        - "2022 'Bretton Woods III' note went viral — reshaped institutional thinking on commodity collateral and dollar"
+        - "Money market plumbing knowledge is unmatched — repo, reserves, Fed facilities"
+        - "Founded macro advisory firm in 2023 serving institutional clients"
+      weaknesses:
+        - "Structural thesis may take years to play out — timing is uncertain"
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-MACRO-LIQUIDITY", "THESIS-MACRO-GEOPOLITICAL"]
+
+    why_follow: "Bretton Woods III thesis directly connects energy markets to the macro system. His understanding of dollar plumbing is unmatched. If the dollar system is fragmenting, Pozsar sees it first."
+
+    perplexity_query: "Zoltan Pozsar Ex Uno Plures Bretton Woods III analysis 2026"
+
+  - id: "FIN-020"
+    name: "Michael Cembalest"
+    signal_type: analyst
+    signal_quality: high
+    status: active
+    domain: macro-stress
+    cluster: cross_domain_bridge
+
+    platforms:
+      newsletter:
+        name: "Eye on the Market"
+        publisher: "J.P. Morgan Asset & Wealth Management"
+        access: "Free to register"
+        running_since: 2005
+
+    affiliation:
+      company: "J.P. Morgan"
+      role: "Chairman, Market & Investment Strategy — Asset & Wealth Management"
+
+    expertise_tags:
+      - cross_domain_macro
+      - energy_ai_intersection
+      - power_grid_constraints
+      - hyperscaler_economics
+      - market_valuations
+
+    track_record:
+      strengths:
+        - "Only voice rigorously integrating energy + AI + macro in one analytical framework"
+        - "AI stocks: 75% of S&P 500 returns, 80% of earnings growth, 90% of capex since ChatGPT"
+        - "2026 'Smothering Heights': power generation constraints, China isolation, Taiwan, hyperscaler profit sustainability"
+        - "Engineering-level rigor on primary energy, SMR costs, solar+storage economics"
+      weaknesses:
+        - "Institutional tone — not actionable trade ideas, more strategic framework"
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-ENERGY-TRANSITION", "THESIS-AI-INFRASTRUCTURE", "THESIS-MACRO-VALUATIONS"]
+
+    why_follow: "THE cross-domain voice. The only analyst rigorously connecting power grid constraints, AI capex sustainability, and macro valuations in a single framework. If you follow one person for all three domains, it's Cembalest."
+
+    perplexity_query: "Michael Cembalest JPMorgan Eye on the Market AI energy 2026"
+
+  # ═══════════════════════════════════════════════════════════════
+  # CLUSTER: HIDDEN GEM PREDICTORS
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: "FIN-021"
+    name: "Leopold Aschenbrenner"
+    signal_type: fund_manager
+    signal_quality: high
+    status: active
+    domain: ai-investment
+    cluster: hidden_gem_predictors
+
+    platforms:
+      essay: "situational-awareness.ai"
+      fund: "Situational Awareness LP"
+
+    affiliation:
+      company: "Situational Awareness LP"
+      role: "Founder & PM"
+      aum: "$5.5B US equity exposure"
+      prior: "OpenAI Superalignment researcher (fired April 2024)"
+
+    expertise_tags:
+      - ai_compute_scaling
+      - ai_infrastructure_investment
+      - power_demand
+      - frontier_ai_capabilities
+
+    track_record:
+      strengths:
+        - "47% fund return H1 2025 vs 6% for S&P 500"
+        - "Predicted ~1M H100-equivalent training clusters by 2026 — appears accurate"
+        - "Massive infrastructure investment call confirmed and accelerating"
+        - "Insider knowledge of frontier AI capabilities from OpenAI"
+      weaknesses:
+        - "Revenue predictions missed ($100B predicted vs $60B actual)"
+        - "Missed China's independent innovation and open-source thriving"
+        - "Technical predictions better than sociological ones"
+      brier_score: null
+      calibration: "strong_on_infra_weak_on_adoption"
+
+    thesis_categories: ["THESIS-AI-INFRASTRUCTURE"]
+
+    why_follow: "Former OpenAI researcher with 47% fund returns. His AI compute scaling predictions are the most specific and verifiable in the market. Best used for AI capex and power demand calls."
+
+    perplexity_query: "Leopold Aschenbrenner Situational Awareness fund AI infrastructure 2026"
+
+  - id: "FIN-022"
+    name: "Goehring & Rozencwajg"
+    signal_type: fund_manager
+    signal_quality: high
+    status: active
+    domain: oil-energy
+    cluster: hidden_gem_predictors
+
+    platforms:
+      website: "gorozen.com"
+      blog: "blog.gorozen.com"
+      contributor: "Seeking Alpha"
+
+    affiliation:
+      company: "Goehring & Rozencwajg Associates"
+      role: "Partners — Natural Resource Investing"
+
+    expertise_tags:
+      - natural_resources
+      - oil_gas
+      - gold
+      - agriculture
+      - uranium
+      - geological_supply_analysis
+
+    track_record:
+      strengths:
+        - "2004: told Barron's oil bull market forming because non-OPEC supply would slow — oil quadrupled"
+        - "Argued for 3 years gold bull market was approaching — gold became best performer of quarter-century"
+        - "Turned bullish on North American nat gas in 2020 before the market moved"
+        - "Deep fundamental supply/demand analysis rooted in geology and agricultural science"
+        - "Repeated pattern of being years early on major commodity cycles and being vindicated"
+      weaknesses:
+        - "Can be very early — multi-year holding periods before thesis plays out"
+      brier_score: null
+      calibration: "directionally_exceptional_timing_early"
+
+    thesis_categories: ["THESIS-OIL-UPSTREAM", "THESIS-ENERGY-TRANSITION", "THESIS-MACRO-VALUATIONS"]
+
+    why_follow: "Exceptional long-term commodity cycle callers. Oil quadrupling, gold bull, nat gas — they called all three before the market. Deep geological and agricultural supply analysis. If you want to know where commodity cycles are going over 3-5 years, they're the best."
+
+    perplexity_query: "Goehring Rozencwajg natural resources commodity outlook 2026"
+
+  - id: "FIN-023"
+    name: "Amrita Sen"
+    signal_type: analyst
+    signal_quality: high
+    status: active
+    domain: oil-energy
+    cluster: hidden_gem_predictors
+
+    platforms:
+      company: "Energy Aspects"
+      media: ["Bloomberg", "CNBC"]
+
+    affiliation:
+      company: "Energy Aspects"
+      role: "Founder & Director of Market Intelligence"
+      prior: "Chief Oil Analyst, Barclays Capital"
+      clients: "700+ companies globally"
+      awards: "Energy Risk Commodities Research House of the Year (twice, most recently 2025)"
+
+    expertise_tags:
+      - global_oil_fundamentals
+      - opec_dynamics
+      - geopolitics
+      - gcc_relations
+
+    track_record:
+      strengths:
+        - "Won Energy Risk's Commodities Research House of the Year twice"
+        - "Close relations with GCC decision-makers — genuine information edge on OPEC policy"
+        - "Advises central bankers, OPEC+ oil ministers, and oil company CEOs"
+        - "Formerly Chief Oil Analyst at Barclays"
+      weaknesses:
+        - "Institutional — not publicly accessible content"
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-OIL-UPSTREAM", "THESIS-MACRO-GEOPOLITICAL"]
+
+    why_follow: "OPEC insider access. Her proximity to GCC decision-makers gives her an information edge that academic or quant analysts cannot replicate. If OPEC is going to do something, she knows first."
+
+    perplexity_query: "Amrita Sen Energy Aspects oil market OPEC analysis 2026"
+
+  - id: "FIN-024"
+    name: "Good Judgment Superforecasters"
+    signal_type: platform
+    signal_quality: high
+    status: active
+    domain: macro-stress
+    cluster: hidden_gem_predictors
+
+    platforms:
+      website: "goodjudgment.com"
+      public: "gjopen.com (free public tournament)"
+
+    affiliation:
+      company: "Good Judgment Inc."
+      founder: "Philip Tetlock (University of Pennsylvania)"
+      methodology: "Superforecasting — calibrated probabilistic prediction"
+
+    expertise_tags:
+      - geopolitical_events
+      - economic_shifts
+      - fed_policy
+      - probabilistic_forecasting
+      - calibration
+
+    track_record:
+      strengths:
+        - "30% better than professional analysts with classified information access"
+        - "Fed forecasts beat CME FedWatch tool for three consecutive years"
+        - "66% more accurate than futures markets at predicting Fed policy inflection points"
+        - "Anticipate events 400 days out as accurately as regular forecasters see 150 days ahead"
+      weaknesses:
+        - "Better at 'will X happen?' than 'what will the price of X be?'"
+        - "Not designed for continuous market price prediction"
+      brier_score: "documented_exceptional"
+      calibration: "documented_exceptional"
+
+    thesis_categories: ["THESIS-MACRO-GEOPOLITICAL", "THESIS-MACRO-LIQUIDITY"]
+
+    why_follow: "Academically verified prediction superiority. Not pundits — calibrated probability estimators. Their Fed forecasts beating FedWatch for 3 years is the strongest track record credential in this library."
+
+    perplexity_query: "Good Judgment superforecasters track record Fed forecasts 2026"
+
+  - id: "FIN-025"
+    name: "Tracy Shuchart"
+    signal_type: analyst
+    signal_quality: medium
+    status: active
+    domain: oil-energy
+    cluster: hidden_gem_predictors
+
+    platforms:
+      twitter:
+        handle: "@chabortonX"
+      company: "Hilltower Resource Advisors"
+      podcast: "Mic Drop Markets"
+      spaces: "Place Your Trades (Twitter Spaces)"
+
+    affiliation:
+      company: "Hilltower Resource Advisors"
+      role: "Founder"
+      prior: "Chicago Board of Trade (since 2005), family office commodity portfolio"
+
+    expertise_tags:
+      - commodity_trading
+      - energy_markets
+      - metals
+      - market_microstructure
+
+    track_record:
+      strengths:
+        - "Floor trader pedigree — CBOT since 2005"
+        - "Practitioner's lens rather than theorist's"
+        - "Real-time sentiment and flow reader in energy markets"
+      weaknesses:
+        - "Smaller research output compared to Rory Johnston or Doomberg"
+      brier_score: null
+      calibration: null
+
+    thesis_categories: ["THESIS-OIL-UPSTREAM", "THESIS-OIL-REFINING"]
+
+    why_follow: "Commodity floor trader pedigree. Her market microstructure understanding is practitioner-level — she sees flows, not just fundamentals. Best for real-time energy sentiment reading."
+
+    perplexity_query: "Tracy Shuchart Hilltower Resource energy markets analysis 2026"
