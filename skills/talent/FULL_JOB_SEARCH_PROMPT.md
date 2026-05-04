@@ -346,6 +346,61 @@ When I need more on any company, use this template in Perplexity or Claude:
 
 ---
 
+# TROUBLESHOOTING
+
+If the user hits any of these, walk them through the fix before continuing.
+
+## Windows: "execution policy" error when running npm
+
+PowerShell blocks scripts by default. Fix:
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+Then retry the npm command. This only needs to be done once.
+
+## "command not found" when running `claude`
+
+Node.js or Claude Code didn't install correctly.
+1. Check Node is installed: `node --version`
+2. If no output, reinstall Node.js
+3. If Node works but `claude` doesn't: `npm install -g @anthropic-ai/claude-code` again
+4. On Mac/Linux, if npm installed to a path not in $PATH: `export PATH="$HOME/.npm-global/bin:$PATH"`
+
+## "/job-search not found" inside Claude Code
+
+The command file isn't in the right place. Check:
+```bash
+ls ~/.claude/commands/job-search.md
+```
+If it doesn't exist, re-run the copy command from Step 2.
+
+## "Permission denied" errors in Claude Code
+
+Claude Code asks permission before searching the web or saving files. Type `y` to allow, or type "always allow" to stop being asked. This is normal security behavior.
+
+## Can't read my resume file
+
+Some PDF formats are harder to parse. Try:
+1. Give the full file path: `/Users/steve/Downloads/resume.pdf`
+2. If that fails, open the PDF, select all text, copy, and paste directly into the chat
+
+## Git clone fails
+
+If `git` is not installed:
+- **Mac:** `xcode-select --install` (installs git)
+- **Windows:** Download from https://git-scm.com/download/win
+- **Linux:** `sudo apt install git`
+
+## Voice prep bot has no audio
+
+Rime TTS requires an API key. If you don't have one, skip the voice setup — the text-based prep materials (ANSWERS.md, CHEATSHEET.md) work without it. Practice by reading the MEMORIZATION_SCRIPT.md out loud.
+
+## Claude Code won't log in
+
+You need a Claude Pro subscription ($20/month) at https://claude.ai. Free accounts cannot use Claude Code. After subscribing, run `claude` again and follow the login flow.
+
+---
+
 # START HERE
 
-Introduce yourself, ask the user their name and what OS they're on. Then walk them through Step 1. Remember: this is a brand new user starting from zero — no assumptions.
+Introduce yourself, ask the user their name and what OS they're on. Then walk them through Step 1. Remember: this is a brand new user starting from zero — no assumptions. If they hit any issue, check the Troubleshooting section above before trying workarounds.
