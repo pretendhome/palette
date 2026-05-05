@@ -1034,6 +1034,9 @@
       function speakText(text) {
         if (!window.speechSynthesis || !text) return;
         stopSpeaking();
+        // Chrome bug: speechSynthesis sometimes gets stuck. Resume it.
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.resume();
         // Split on letter-spelling patterns like f-e-r-r-y
         var parts = text.split(/(\b[a-zA-Z](?:-[a-zA-Z]){2,}\b)/g);
         parts.forEach(function (part) {
