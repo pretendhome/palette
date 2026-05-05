@@ -1031,72 +1031,39 @@
         return String(text || '').replace(/\[\d+(?:\]\[?\d*)*\]/g, '').replace(/\s+/g, ' ').trim();
       }
 
-      // Pick the best available voice — warm, natural, English
-      var bestVoice = null;
-      function findBestVoice() {
-        var voices = window.speechSynthesis.getVoices();
-        if (!voices.length) return;
-        // Preferred voices by platform (natural-sounding, warm)
-        var preferred = [
-          'Samantha',           // macOS — warm, natural US English
-          'Karen',              // macOS — natural Australian
-          'Zoe',                // macOS — natural US
-          'Moira',              // macOS — natural Irish
-          'Google US English',  // Chrome — good quality
-          'Microsoft Aria',     // Edge — very natural
-          'Microsoft Jenny',    // Edge — natural
-          'Microsoft Guy',      // Edge
-          'English United States', // fallback
-        ];
-        for (var i = 0; i < preferred.length; i++) {
-          var match = voices.find(function(v) { return v.name.indexOf(preferred[i]) >= 0 && v.lang.indexOf('en') >= 0; });
-          if (match) { bestVoice = match; return; }
-        }
-        // Fallback: any English voice that isn't compact/robotic
-        bestVoice = voices.find(function(v) { return v.lang.indexOf('en') >= 0 && v.name.indexOf('compact') < 0; }) || voices[0];
-      }
-      if (window.speechSynthesis) {
-        findBestVoice();
-        window.speechSynthesis.onvoiceschanged = findBestVoice;
-      }
+      // Use Rime TTS via server — consistent voice on every platform
+      var currentAudio = null;
 
-      function speakText(text) {
-        if (!window.speechSynthesis || !text) return;
+      async function speakText(text) {
+        if (!text) return;
         stopSpeaking();
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.resume();
-        // Split on letter-spelling patterns like f-e-r-r-y
-        var parts = text.split(/(\b[a-zA-Z](?:-[a-zA-Z]){2,}\b)/g);
-        parts.forEach(function (part) {
-          if (/^[a-zA-Z](-[a-zA-Z]){2,}$/.test(part)) {
-            var letters = part.split('-');
-            letters.forEach(function (letter, i) {
-              var u = new SpeechSynthesisUtterance(letter.toUpperCase());
-              if (bestVoice) u.voice = bestVoice;
-              u.rate = 0.1;
-              u.pitch = 1.08;
-              window.speechSynthesis.speak(u);
-              if (i < letters.length - 1) {
-                var pause = new SpeechSynthesisUtterance(',');
-                pause.rate = 0.1;
-                pause.volume = 0;
-                window.speechSynthesis.speak(pause);
-              }
-            });
-          } else if (part.trim()) {
-            var u = new SpeechSynthesisUtterance(part);
-            if (bestVoice) u.voice = bestVoice;
+        try {
+          var res = await fetch(API_BASE + '/api/tts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: text, speaker: 'luna', speed: 0.92, model: 'arcana' })
+          });
+          if (!res.ok) throw new Error('TTS ' + res.status);
+          var blob = await res.blob();
+          var url = URL.createObjectURL(blob);
+          currentAudio = new Audio(url);
+          currentAudio.onended = function() { URL.revokeObjectURL(url); currentAudio = null; };
+          await currentAudio.play();
+        } catch (e) {
+          // Fallback to browser speech if Rime unavailable
+          if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
             u.rate = 0.96;
             u.pitch = 1.08;
             window.speechSynthesis.speak(u);
           }
-        });
-        currentUtterance = true;
+        }
       }
 
       function stopSpeaking() {
+        if (currentAudio) { currentAudio.pause(); currentAudio = null; }
         if (window.speechSynthesis) window.speechSynthesis.cancel();
-        currentUtterance = null;
       }
 
       function startTimer() {
