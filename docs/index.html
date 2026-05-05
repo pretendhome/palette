@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mical Neill — Voice & Agent Experience</title>
+  <title>Mical Neill — Voice & Agent Experience Design</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -19,7 +19,7 @@
     .shell { max-width: 640px; width: 100%; }
     h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
     .sub { color: #5a5a6e; font-size: 1.05rem; margin-bottom: 48px; line-height: 1.6; }
-    a {
+    a.card {
       display: block;
       padding: 20px 24px;
       background: #fff;
@@ -30,55 +30,74 @@
       margin-bottom: 12px;
       transition: box-shadow 0.2s, transform 0.2s;
     }
-    a:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    a.card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-2px); }
     .link-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; }
     .link-desc { color: #5a5a6e; font-size: 0.9rem; }
     .tag { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; margin-bottom: 8px; }
+    .tag.live { background: rgba(196,149,106,0.15); color: #c4956a; }
     .tag.voice { background: rgba(76,194,255,0.12); color: #0088cc; }
     .tag.system { background: rgba(99,91,255,0.08); color: #635bff; }
     .tag.portfolio { background: rgba(126,240,163,0.12); color: #1a8a4a; }
     .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9a96a8; margin: 32px 0 12px; }
+    .stats { display: flex; gap: 28px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .stat-num { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; color: #c4956a; line-height: 1; }
+    .stat-label { font-size: 0.65rem; font-weight: 500; color: #9a96a8; text-transform: uppercase; letter-spacing: 0.06em; }
   </style>
 </head>
 <body>
   <div class="shell">
     <h1>Mical Neill</h1>
-    <p class="sub">Agent experience designer. Voice, multilingual, applied linguistics. I build voice agents that sound right across languages — and the evaluation frameworks that prove it.</p>
+    <p class="sub">Voice agent experience designer. I build voice agents that sound right across languages, brands, and emotional contexts — and the evaluation frameworks that prove it.</p>
 
-    <div class="section-label">Voice & Agent Tools</div>
+    <div class="stats">
+      <div><div class="stat-num">16%</div><div class="stat-label">Empathy Rate Delta</div></div>
+      <div><div class="stat-num">47</div><div class="stat-label">Providers Evaluated</div></div>
+      <div><div class="stat-num">4</div><div class="stat-label">Languages</div></div>
+      <div><div class="stat-num">12K+</div><div class="stat-label">Users/Month (AWS)</div></div>
+    </div>
 
-    <a href="voice-workbench/">
-      <div class="tag voice">Try it live</div>
+    <div class="section-label">Voice Design Case Study</div>
+
+    <a class="card" href="minted/">
+      <div class="tag live">Play it live</div>
+      <div class="link-title">Emotion-Based Pacing — A/B Comparison</div>
+      <div class="link-desc">5-state pacing model for a Minted gift rescue scenario. 4 audio tracks: two reference models, baseline (adjective-prompted), and designed (state-based pacing). Metrics table with prosodic measurements. Hear the difference.</div>
+    </a>
+
+    <div class="section-label">Voice Evaluation Tools</div>
+
+    <a class="card" href="voice-workbench/">
+      <div class="tag live">Try it live</div>
       <div class="link-title">Voice Evaluation Workbench</div>
-      <div class="link-desc">Compare, score, and choose AI agent voices across 4 languages and 3 customer journey stages. Structured rubric, TTFA measurement, exportable scorecards.</div>
+      <div class="link-desc">Compare and score AI agent voices across 4 languages and 3 customer journey stages (Acceptance, Resolution, Satisfaction). 16 voices, structured rubric, exportable scorecards.</div>
     </a>
 
-    <a href="https://github.com/pretendhome/palette/tree/main/peers/hub">
-      <div class="tag voice">Source</div>
-      <div class="link-title">Voice Hub — Multi-Agent Voice Interface</div>
-      <div class="link-desc">5 LLM agents routable through voice in 4 languages. Rime TTS, Whisper STT, taxonomy-routed retrieval, sentence-boundary streaming, governed message bus.</div>
+    <div class="section-label">Enablement Architecture</div>
+
+    <a class="card" href="lab/">
+      <div class="tag live">Try it live</div>
+      <div class="link-title">MCP Integrations Lab</div>
+      <div class="link-desc">Technical enablement for sales teams on complex AI integrations. Presentation framework with readiness guide and annotated demo prototype. Built to be delivered by others.</div>
     </a>
 
-    <div class="section-label">Intelligence Architecture</div>
-
-    <a href="https://github.com/pretendhome/palette">
-      <div class="tag system">Source</div>
-      <div class="link-title">Palette — Knowledge Architecture</div>
-      <div class="link-desc">121-node taxonomy, 176-entry knowledge library, 12 agents, governance model, wire contracts. The system underneath.</div>
-    </a>
-
-    <div class="section-label">Portfolio & Case Studies</div>
-
-    <a href="portfolio.html">
-      <div class="tag portfolio">Portfolio</div>
-      <div class="link-title">Design Portfolio</div>
-      <div class="link-desc">OKA adaptive learning, engineering dashboards, shipped plugins, enablement architecture, and design philosophy.</div>
-    </a>
-
-    <a href="learning-architecture-system.html">
+    <a class="card" href="learning-architecture-system.html">
       <div class="tag portfolio">Case Study</div>
       <div class="link-title">Learning Architecture for AI-Native Teams</div>
-      <div class="link-desc">Ask Pathfinder, adaptive coaching, and modular curriculum design at enterprise scale.</div>
+      <div class="link-desc">Enterprise enablement at scale: taxonomy-driven retrieval (12K users), adaptive coaching, modular curriculum (121 modules), and 3-layer assessment pipeline.</div>
+    </a>
+
+    <div class="section-label">Full Portfolio & Source</div>
+
+    <a class="card" href="portfolio.html">
+      <div class="tag portfolio">Portfolio</div>
+      <div class="link-title">Voice Agent Design Portfolio</div>
+      <div class="link-desc">Complete design portfolio: case study, evaluation framework, 5 sim tests, multilingual voice design, enabling teams at scale, agent personas, career journey, and design philosophy.</div>
+    </a>
+
+    <a class="card" href="https://github.com/pretendhome/palette">
+      <div class="tag system">Source</div>
+      <div class="link-title">Palette — Intelligence Architecture</div>
+      <div class="link-desc">121-node taxonomy, 176-entry knowledge library, 12 agents, governance model, wire contracts. The system underneath.</div>
     </a>
   </div>
 </body>

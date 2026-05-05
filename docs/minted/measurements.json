@@ -1,0 +1,116 @@
+{
+  "baseline": {
+    "close": {
+      "file": "close.mp3",
+      "path": "/home/mical/fde/implementations/talent/applications/active/sierra-voice-agent-designer/demo/audio/baseline/close.mp3",
+      "duration_s": 3.336,
+      "word_count": 14,
+      "wps": 4.2,
+      "text": "Is there anything else I can help you with today? Have a great day!",
+      "mean_volume_db": -16.7,
+      "max_volume_db": -1.5
+    },
+    "confirmation": {
+      "file": "confirmation.mp3",
+      "path": "/home/mical/fde/implementations/talent/applications/active/sierra-voice-agent-designer/demo/audio/baseline/confirmation.mp3",
+      "duration_s": 3.768,
+      "word_count": 11,
+      "wps": 2.9,
+      "text": "Your new order will arrive Friday, May ninth, with priority shipping.",
+      "mean_volume_db": -15.8,
+      "max_volume_db": -1.6
+    },
+    "empathy": {
+      "file": "empathy.mp3",
+      "path": "/home/mical/fde/implementations/talent/applications/active/sierra-voice-agent-designer/demo/audio/baseline/empathy.mp3",
+      "duration_s": 4.104,
+      "word_count": 14,
+      "wps": 3.4,
+      "text": "I understand how frustrating this must be. Let me look into that for you.",
+      "mean_volume_db": -18.4,
+      "max_volume_db": -1.9
+    },
+    "opening": {
+      "file": "opening.mp3",
+      "path": "/home/mical/fde/implementations/talent/applications/active/sierra-voice-agent-designer/demo/audio/baseline/opening.mp3",
+      "duration_s": 3.768,
+      "word_count": 13,
+      "wps": 3.5,
+      "text": "Thanks for calling Minted. This is Maya. How can I help you today?",
+      "mean_volume_db": -17.9,
+      "max_volume_db": -1.3
+    },
+    "options": {
+      "file": "options.mp3",
+      "path": "/home/mical/fde/implementations/talent/applications/active/sierra-voice-agent-designer/demo/audio/baseline/options.mp3",
+      "duration_s": 7.344,
+      "word_count": 24,
+      "wps": 3.3,
+      "text": "I can place a new order with priority shipping at no charge, and I will also submit a cancellation request for the original order.",
+      "mean_volume_db": -17.2,
+      "max_volume_db": -2.0
+    }
+  },
+  "designed": {
+    "boundary": {
+      "file": "boundary.mp3",
+      "path": "/home/mical/fde/implementations/talent/applications/active/sierra-voice-agent-designer/demo/audio/designed/boundary.mp3",
+      "duration_s": 15.096,
+      "word_count": 50,
+      "wps": 3.3,
+      "text": "I do want to be clear about one thing. If the artist has already shipped the original order, we cannot guarantee it is OK to tell the carrier return to sender. I have asked explicitly in the urgent message, but that part depends on how the seller ships his orders.",
+      "mean_volume_db": -17.4,
+      "max_volume_db": -1.4
+    },
+    "close": {
+      "file": "close.mp3",
+      "path": "/home/mical/fde/implementations/talent/applications/active/sierra-voice-agent-designer/demo/audio/designed/close.mp3",
+      "duration_s": 4.776,
+      "word_count": 18,
+      "wps": 3.8,
+      "text": "I am glad we could get this sorted. Your mom is going to love it. Happy Mother's Day.",
+      "mean_volume_db": -17.0,
+      "max_volume_db": -1.2
+    },
+    "confirmation": {
+      "file": "confirmation.mp3",
+      "path": "/home/mical/fde/implementations/talent/applications/active/sierra-voice-agent-designer/demo/audio/designed/confirmation.mp3",
+      "duration_s": 22.872,
+      "word_count": 78,
+      "wps": 3.4,
+      "text": "The delivery date for the new order is Friday \u2014 May ninth. The seller has twenty-four hours to respond by email, so please keep an eye out for their message. Hopefully they have blocked the order before it was shipped, or you can return to sender. Feel free to respond to the seller directly, but we're here if you need us \u2014 and remember that our company policy states that sellers have to refund returned or canceled orders.",
+      "mean_volume_db": -16.8,
+      "max_volume_db": -1.3
+    },
+    "empathy": {
+      "file": "empathy.mp3",
+      "path": "/home/mical/fde/implementations/talent/applications/active/sierra-voice-agent-designer/demo/audio/designed/empathy.mp3",
+      "duration_s": 6.456,
+      "word_count": 19,
+      "wps": 2.9,
+      "text": "I can hear how important this is. A Mother's Day gift \u2014 that is a moment that really matters.",
+      "mean_volume_db": -18.3,
+      "max_volume_db": -1.8
+    },
+    "opening": {
+      "file": "opening.mp3",
+      "path": "/home/mical/fde/implementations/talent/applications/active/sierra-voice-agent-designer/demo/audio/designed/opening.mp3",
+      "duration_s": 3.84,
+      "word_count": 13,
+      "wps": 3.4,
+      "text": "Thanks for calling Minted. This is Maya. How can I help you today?",
+      "mean_volume_db": -17.6,
+      "max_volume_db": -1.6
+    },
+    "options": {
+      "file": "options.mp3",
+      "path": "/home/mical/fde/implementations/talent/applications/active/sierra-voice-agent-designer/demo/audio/designed/options.mp3",
+      "duration_s": 13.824,
+      "word_count": 47,
+      "wps": 3.4,
+      "text": "Here is what I can do. First \u2014 I can place a new order for the same frame, shipped from our warehouse with express shipping at no extra charge. Second \u2014 for the original order, I will send a cancellation request to the artist, flagged as urgent.",
+      "mean_volume_db": -17.5,
+      "max_volume_db": -0.9
+    }
+  }
+}

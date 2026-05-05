@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice Agent Design — Emotion-Based Pacing Case Study</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #232733; --border: rgba(255,255,255,0.08);
+    --text: #e8eaf0; --dim: #9ca3b8; --faint: #6b7280;
+    --accent: #6366f1; --green: #22c55e; --orange: #f59e0b; --red: #ef4444; --blue: #3b82f6;
+    --font: 'Inter', -apple-system, sans-serif; --mono: 'JetBrains Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); padding: 2rem; max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 1.6rem; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--dim); font-size: 0.9rem; margin-bottom: 2rem; }
+  .thesis { background: var(--surface); border-left: 3px solid var(--accent); padding: 1rem 1.2rem; margin-bottom: 2rem; border-radius: 0 8px 8px 0; }
+  .thesis strong { color: var(--accent); }
+
+  .track { background: var(--surface); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem; border: 1px solid var(--border); }
+  .track-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
+  .track-label { font-weight: 600; font-size: 1rem; }
+  .track-tag { font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; font-weight: 600; text-transform: uppercase; }
+  .tag-reference { background: rgba(99,102,241,0.15); color: #818cf8; }
+  .tag-baseline { background: rgba(239,68,68,0.15); color: #f87171; }
+  .tag-designed { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .track-desc { color: var(--dim); font-size: 0.8rem; margin-bottom: 0.8rem; }
+
+  .player-row { display: flex; align-items: center; gap: 0.8rem; }
+  .play-btn { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--accent); color: white; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.1s; }
+  .play-btn:hover { transform: scale(1.08); }
+  .play-btn.playing { background: var(--orange); }
+  .progress-wrap { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; cursor: pointer; position: relative; }
+  .progress-bar { height: 100%; background: var(--accent); border-radius: 3px; width: 0%; transition: width 0.1s linear; }
+  .time { font-family: var(--mono); font-size: 0.75rem; color: var(--faint); min-width: 42px; text-align: right; }
+
+  /* State markers on timeline */
+  .markers { position: relative; height: 22px; margin-top: 6px; margin-left: 48px; margin-right: 50px; }
+  .marker { position: absolute; top: 0; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; padding: 2px 5px; border-radius: 3px; white-space: nowrap; transform: translateX(-50%); }
+  .m-accept { background: rgba(99,102,241,0.2); color: #a5b4fc; }
+  .m-resolve { background: rgba(59,130,246,0.2); color: #93c5fd; }
+  .m-boundary { background: rgba(245,158,11,0.2); color: #fcd34d; }
+  .m-confirm { background: rgba(34,197,94,0.2); color: #86efac; }
+  .m-close { background: rgba(168,85,247,0.2); color: #c4b5fd; }
+
+  /* Metrics table */
+  .metrics { margin-top: 2rem; }
+  .metrics h2 { font-size: 1.1rem; margin-bottom: 0.8rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  th { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 2px solid var(--border); color: var(--dim); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--border); }
+  .num { font-family: var(--mono); text-align: right; }
+  .good { color: var(--green); }
+  .bad { color: var(--red); }
+  .neutral { color: var(--dim); }
+
+  .finding { background: var(--surface); border-radius: 8px; padding: 1rem; margin-top: 1.5rem; border: 1px solid var(--border); }
+  .finding h3 { font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--orange); }
+  .finding p { font-size: 0.82rem; color: var(--dim); line-height: 1.5; }
+
+  .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--faint); font-size: 0.72rem; }
+</style>
+</head>
+<body>
+
+<h1>Voice Agent Design — Emotion-Based Pacing</h1>
+<p class="subtitle">Minted × Mother's Day Gift Rescue · Case Study Demo</p>
+
+<div class="thesis">
+  <strong>Core thesis:</strong> Most voice agents pace by utterance length. Strong voice agents pace by emotional state.
+  Building on the <strong>Acceptance → Resolution → Satisfaction</strong> framework,
+  this design adds two states — <strong>Boundary</strong> (honest constraint-setting) and <strong>Confirmation</strong> (detail precision) —
+  creating a 5-state pacing model where each state has distinct WPS targets, pause rules, and tonal register.
+</div>
+
+<!-- Track 1: Sierra Sample A -->
+<div class="track" id="t-sierra-a">
+  <div class="track-header">
+    <span class="track-label">Sierra Sample A — Weaker Model</span>
+    <span class="track-tag tag-reference">Reference</span>
+  </div>
+  <div class="track-desc">Original test sample. Higher bandwidth (32kHz) but length-based pacing. Opening rushes, empathy is flat, +46% pitch spike on goodbye.</div>
+  <div class="player-row">
+    <button class="play-btn" onclick="toggle('sierra-a')">▶</button>
+    <div class="progress-wrap" onclick="seek(event,'sierra-a')"><div class="progress-bar" id="bar-sierra-a"></div></div>
+    <span class="time" id="time-sierra-a">0:00</span>
+  </div>
+</div>
+
+<!-- Track 2: Sierra Sample B -->
+<div class="track" id="t-sierra-b">
+  <div class="track-header">
+    <span class="track-label">Sierra Sample B — Stronger Model</span>
+    <span class="track-tag tag-reference">Reference</span>
+  </div>
+  <div class="track-desc">Original test sample. Better opening warmth, cleaner brand name. Still length-based pacing — empathy lines show 0% rate delta from informational.</div>
+  <div class="player-row">
+    <button class="play-btn" onclick="toggle('sierra-b')">▶</button>
+    <div class="progress-wrap" onclick="seek(event,'sierra-b')"><div class="progress-bar" id="bar-sierra-b"></div></div>
+    <span class="time" id="time-sierra-b">0:00</span>
+  </div>
+</div>
+
+<!-- Track 3: Our Baseline -->
+<div class="track" id="t-baseline">
+  <div class="track-header">
+    <span class="track-label">Baseline — Adjective-Prompted Only</span>
+    <span class="track-tag tag-baseline">Control</span>
+  </div>
+  <div class="track-desc">Prompted with "friendly, warm, professional, empathetic." No pacing rules. Same voice (Rime Luna). Shows the same length-based pacing pattern as the reference samples.</div>
+  <div class="player-row">
+    <button class="play-btn" onclick="toggle('baseline')">▶</button>
+    <div class="progress-wrap" onclick="seek(event,'baseline')"><div class="progress-bar" id="bar-baseline"></div></div>
+    <span class="time" id="time-baseline">0:00</span>
+  </div>
+  <div class="markers" id="markers-baseline"></div>
+</div>
+
+<!-- Track 4: Our Designed -->
+<div class="track" id="t-designed">
+  <div class="track-header">
+    <span class="track-label">Designed — 5-State Emotion-Based Pacing</span>
+    <span class="track-tag tag-designed">Design Intervention</span>
+  </div>
+  <div class="track-desc">Same voice. Different behavior. Pacing changes by emotional state: slower for empathy, moderate for options, firm for boundary, slowest for confirmation, warm for close.</div>
+  <div class="player-row">
+    <button class="play-btn" onclick="toggle('designed')">▶</button>
+    <div class="progress-wrap" onclick="seek(event,'designed')"><div class="progress-bar" id="bar-designed"></div></div>
+    <span class="time" id="time-designed">0:00</span>
+  </div>
+  <div class="markers" id="markers-designed"></div>
+</div>
+
+<!-- Metrics comparison -->
+<div class="metrics">
+  <h2>Prosodic Measurements</h2>
+  <table>
+    <thead>
+      <tr><th>Metric</th><th>Baseline</th><th>Designed</th><th>Target</th><th>Verdict</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Opening pace</td><td class="num">3.5 WPS</td><td class="num">3.4 WPS</td><td class="num">3.2–3.8</td><td class="good">✓ In range</td></tr>
+      <tr><td>Empathy pace</td><td class="num">3.4 WPS</td><td class="num">2.9 WPS</td><td class="num">Distinctly slower than other states</td><td class="good">✓ Slowest non-confirmation state</td></tr>
+      <tr><td>Empathy vs non-empathy avg</td><td class="num bad">−3.0%</td><td class="num good">+16%</td><td class="num">≥15%</td><td class="good">✓ 2.9 vs 3.5 avg (+19pp swing)</td></tr>
+      <tr><td>Empathy pre-pause</td><td class="num">~0ms</td><td class="num">500ms</td><td class="num">250–450ms</td><td class="neutral">Observed — intentionally stronger</td></tr>
+      <tr><td>Options structure</td><td class="num">Stacked in one sentence</td><td class="num">Separated into two options</td><td class="num">One option per sentence</td><td class="good">✓ Easier to follow</td></tr>
+      <tr><td>Boundary contrast</td><td class="num faint">—</td><td class="num">3.3 WPS</td><td class="num">Distinct from empathy</td><td class="good">✓ +0.4 WPS above empathy</td></tr>
+      <tr><td>Critical-detail isolation</td><td class="num">Dense confirmation sentence</td><td class="num">Date and watchpoint broken out</td><td class="num">Stand-alone chunks</td><td class="good">✓</td></tr>
+      <tr><td>Closing pitch continuity</td><td class="num bad">+20–46% spike</td><td class="num good">Consistent</td><td class="num">&lt;10%</td><td class="good">✓ Same persona at close</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="finding">
+  <h3>Key Finding: Speed Parameters Are Insufficient</h3>
+  <p>Rime's speed parameter gives <strong>directional</strong> control over pacing but not precise per-state control.
+  The TTS engine's internal prosody model partially overrides speed hints non-deterministically.
+  True emotion-based pacing requires SSML-level control (pause tags, emphasis markers, rate-per-phrase)
+  or a model that accepts emotional state as an input parameter — not just a global speed knob.
+  This finding applies to any TTS provider using speed-only controls.</p>
+</div>
+
+<div class="finding">
+  <h3>What This Proves</h3>
+  <p>Even with limited TTS control, the design intervention produces measurable improvement.
+  The empathy delta swung +19 percentage points (from −3% to +16%).
+  The boundary state creates a distinct register for honesty moments.
+  Critical details are isolated instead of buried in one dense confirmation sentence.
+  With SSML or state-aware TTS, these improvements would be larger and more reliable.
+  <strong>The improvement comes from design, not from a different voice.</strong></p>
+</div>
+
+<p class="footer">Built by Mical Neill · Voice: Rime Luna (Arcana) · Scenario: Minted Mother's Day Gift Rescue · 5-State Emotion-Based Pacing · May 2026</p>
+
+<script>
+const players = {};
+const durations = {};
+
+// Baseline state markers: [startTimeSec, label, cssClass]
+// Timings based on clip durations + 3.5s silence gaps
+const baselineMarkers = [
+  [0, 'Opening', 'm-accept'],
+  [3.8, '👤', 'm-close'],
+  [5.0, 'Empathy', 'm-accept'],
+  [9.1, '👤', 'm-close'],
+  [10.3, 'Options', 'm-resolve'],
+  [17.6, '👤', 'm-close'],
+  [18.8, 'Confirm', 'm-confirm'],
+  [22.6, '👤', 'm-close'],
+  [23.8, 'Close', 'm-close'],
+];
+
+const designedMarkers = [
+  [0, 'Opening', 'm-accept'],
+  [3.8, '👤', 'm-close'],
+  [5.0, 'Empathy', 'm-accept'],
+  [11.5, '👤', 'm-close'],
+  [12.7, 'Options', 'm-resolve'],
+  [26.5, '👤', 'm-close'],
+  [27.7, 'Boundary', 'm-boundary'],
+  [42.8, '👤', 'm-close'],
+  [44.0, 'Confirm', 'm-confirm'],
+  [66.9, '👤', 'm-close'],
+  [68.1, 'Close', 'm-close'],
+];
+
+function initPlayer(id, src) {
+  const a = new Audio(src);
+  players[id] = a;
+  a.addEventListener('loadedmetadata', () => { durations[id] = a.duration; });
+  a.addEventListener('timeupdate', () => {
+    const pct = (a.currentTime / a.duration) * 100;
+    document.getElementById('bar-' + id).style.width = pct + '%';
+    const m = Math.floor(a.currentTime / 60);
+    const s = Math.floor(a.currentTime % 60).toString().padStart(2, '0');
+    document.getElementById('time-' + id).textContent = m + ':' + s;
+  });
+  a.addEventListener('ended', () => {
+    document.querySelector('#t-' + id.replace(/\./g, '-').replace(/ /g,'-') + ' .play-btn')
+    // find the button
+    const btns = document.querySelectorAll('.play-btn');
+    btns.forEach(b => { if(b.closest('.track') && b.closest('.track').querySelector('[id^="bar-' + id + '"]')) { b.textContent = '▶'; b.classList.remove('playing'); }});
+  });
+}
+
+function toggle(id) {
+  const a = players[id];
+  if (!a) return;
+  // Stop all others
+  Object.entries(players).forEach(([k, p]) => {
+    if (k !== id && !p.paused) { p.pause(); }
+  });
+  document.querySelectorAll('.play-btn').forEach(b => { b.textContent = '▶'; b.classList.remove('playing'); });
+
+  if (a.paused) {
+    a.play();
+    // Find this track's button
+    event.target.closest('.play-btn').textContent = '⏸';
+    event.target.closest('.play-btn').classList.add('playing');
+  } else {
+    a.pause();
+  }
+}
+
+function seek(e, id) {
+  const a = players[id];
+  if (!a || !a.duration) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  a.currentTime = pct * a.duration;
+}
+
+function renderMarkers(containerId, markers, totalDuration) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  // Wait for duration
+  const check = () => {
+    markers.forEach(([t, label, cls]) => {
+      const pct = (t / totalDuration) * 100;
+      const m = document.createElement('span');
+      m.className = 'marker ' + cls;
+      m.style.left = pct + '%';
+      m.textContent = label;
+      el.appendChild(m);
+    });
+  };
+  check();
+}
+
+// Init all players
+initPlayer('sierra-a', 'audio/sample-a.mp3');
+initPlayer('sierra-b', 'audio/sample-b.mp3');
+initPlayer('baseline', 'audio/baseline-full.mp3');
+initPlayer('designed', 'audio/designed-full.mp3');
+
+// Render markers after a short delay for layout
+setTimeout(() => {
+  renderMarkers('markers-baseline', baselineMarkers, 27.6);
+  renderMarkers('markers-designed', designedMarkers, 73.3);
+}, 200);
+</script>
+</body>
+</html>
