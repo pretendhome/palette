@@ -22,14 +22,16 @@ ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
 RIME_API_KEY = os.environ.get('RIME_API_KEY', '')
 ALLOW_ORIGIN = os.environ.get('ALLOW_ORIGIN', '*')
 
-# Load OKA system prompt
+# Load OKA system prompt — portfolio demo version (generic, not personalized)
+OKA_DEMO_PROMPT_PATH = Path(__file__).parent / 'oka_demo_prompt.md'
 OKA_PROMPT_PATH = Path(__file__).parent.parent / 'mission-canvas' / 'oka_system_prompt_active.md'
 OKA_SYSTEM_PROMPT = ''
-if OKA_PROMPT_PATH.exists():
+if OKA_DEMO_PROMPT_PATH.exists():
+    OKA_SYSTEM_PROMPT = OKA_DEMO_PROMPT_PATH.read_text()
+elif OKA_PROMPT_PATH.exists():
     OKA_SYSTEM_PROMPT = OKA_PROMPT_PATH.read_text()
 else:
-    # Fallback minimal prompt
-    OKA_SYSTEM_PROMPT = "You are Oka, a friendly dog companion who helps an 8-year-old girl named Nora learn. Keep responses to 1-4 short spoken sentences. Ask only ONE thing at a time."
+    OKA_SYSTEM_PROMPT = "You are Oka, a friendly dog companion who helps children learn. Keep responses to 1-4 short spoken sentences. Ask only ONE thing at a time."
 
 
 def call_claude(system_prompt, messages, model='claude-sonnet-4-20250514'):
