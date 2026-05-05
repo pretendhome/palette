@@ -57,8 +57,9 @@ def call_claude(system_prompt, messages, model='claude-sonnet-4-20250514'):
         return data['content'][0]['text']
 
 
-def call_rime_tts(text, speaker='luna', speed=0.82, model='arcana'):
+def call_rime_tts(text, speaker='cove', speed=1.0, model='mist'):
     """Call Rime TTS API and return MP3 bytes."""
+    import base64
     payload = json.dumps({
         'text': text,
         'speaker': speaker,
@@ -76,7 +77,12 @@ def call_rime_tts(text, speaker='luna', speed=0.82, model='arcana'):
         }
     )
     with urllib.request.urlopen(req, timeout=15) as resp:
-        return resp.read()
+        raw = resp.read()
+        # Rime returns JSON with base64 audioContent
+        data = json.loads(raw)
+        if 'audioContent' in data:
+            return base64.b64decode(data['audioContent'])
+        return raw
 
 
 class Handler(BaseHTTPRequestHandler):
