@@ -186,9 +186,12 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def _cors_headers(self):
-        self.send_header('Access-Control-Allow-Origin', ALLOW_ORIGIN)
-        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        # Only add CORS headers when running standalone (no nginx proxy)
+        # When behind nginx, nginx handles CORS to avoid duplicate headers
+        if not os.environ.get('BEHIND_NGINX'):
+            self.send_header('Access-Control-Allow-Origin', ALLOW_ORIGIN)
+            self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+            self.send_header('Access-Control-Allow-Headers', 'Content-Type')
 
     def log_message(self, fmt, *args):
         print(f"[demo] {args[0]} {args[1]}")
