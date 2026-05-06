@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minted — Emotion-Based Pacing</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  :root {
+    --cream: #faf8f5; --white: #ffffff; --border: #e8e4de;
+    --text: #1a1a1a; --dim: #888580; --faint: #c4c0ba;
+    --gold: #c4956a; --gold-light: rgba(196,149,106,0.12);
+    --accept: #6366f1; --resolve: #2563eb; --boundary: #d97706;
+    --confirm: #059669; --close: #7c3aed;
+    --sans: 'Inter', -apple-system, sans-serif;
+    --mono: 'SF Mono', 'Menlo', 'Consolas', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--sans); background: var(--cream); color: var(--text); }
+
+  .container { max-width: 640px; margin: 0 auto; padding: 1.5rem; }
+
+  /* Header — Minted aesthetic */
+  .brand { text-align: center; padding: 1.2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+  .brand h1 { font-size: 1.8rem; font-weight: 400; letter-spacing: 0.08em; color: var(--text); font-family: Georgia, serif; }
+  .brand .sub { font-size: 0.7rem; color: var(--dim); margin-top: 0.2rem; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* Pacing display — the centerpiece */
+  .pacing { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 1rem; }
+  .pacing-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem; }
+  .pacing-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--dim); font-weight: 600; }
+  .pacing-state { font-size: 0.75rem; font-weight: 700; padding: 2px 10px; border-radius: 6px; transition: all 0.3s; }
+
+  .pacing-bar { height: 8px; background: #f0ede8; border-radius: 4px; position: relative; overflow: hidden; margin-bottom: 0.5rem; }
+  .pacing-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease, background 0.5s ease; }
+  .pacing-labels { display: flex; justify-content: space-between; font-size: 0.58rem; color: var(--faint); }
+
+  .pacing-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 0.6rem; }
+  .pm { text-align: center; }
+  .pm-val { font-family: var(--mono); font-size: 1rem; font-weight: 700; }
+  .pm-label { font-size: 0.55rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 0.1rem; }
+
+  /* State flow */
+  .flow { display: flex; align-items: center; justify-content: center; gap: 0; margin-bottom: 1rem; }
+  .flow-node { font-size: 0.55rem; font-weight: 600; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.03em; opacity: 0.2; transition: all 0.3s; }
+  .flow-node.active { opacity: 1; transform: scale(1.1); }
+  .flow-arrow { color: var(--faint); font-size: 0.6rem; margin: 0 2px; }
+  .fn-accept { background: rgba(99,102,241,0.12); color: var(--accept); }
+  .fn-resolve { background: rgba(37,99,235,0.12); color: var(--resolve); }
+  .fn-boundary { background: rgba(217,119,6,0.12); color: var(--boundary); }
+  .fn-confirm { background: rgba(5,150,105,0.12); color: var(--confirm); }
+  .fn-close { background: rgba(124,58,237,0.12); color: var(--close); }
+
+  /* Chat */
+  .chat { max-height: 340px; overflow-y: auto; margin-bottom: 1rem; scroll-behavior: smooth; }
+  .turn { margin-bottom: 0.6rem; animation: slideIn 0.2s ease; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(4px); } }
+  .turn-agent { padding: 0.6rem 0.8rem; background: var(--white); border: 1px solid var(--border); border-radius: 10px; border-left: 3px solid var(--faint); max-width: 90%; }
+  .turn-user { padding: 0.6rem 0.8rem; background: var(--gold); color: white; border-radius: 10px; max-width: 80%; margin-left: auto; text-align: right; }
+  .turn-text { font-size: 0.84rem; line-height: 1.55; }
+  .turn-meta { font-size: 0.55rem; color: var(--faint); margin-top: 0.25rem; font-family: var(--mono); }
+  .turn-agent .turn-meta { color: #ccc; }
+
+  /* State-colored left borders */
+  .turn-agent[data-state="ACCEPTANCE"] { border-left-color: var(--accept); }
+  .turn-agent[data-state="RESOLUTION"] { border-left-color: var(--resolve); }
+  .turn-agent[data-state="BOUNDARY"] { border-left-color: var(--boundary); }
+  .turn-agent[data-state="CONFIRMATION"] { border-left-color: var(--confirm); }
+  .turn-agent[data-state="CLOSE"] { border-left-color: var(--close); }
+  .turn-agent[data-state="OPEN"] { border-left-color: var(--gold); }
+
+  /* Mic */
+  .mic-area { text-align: center; }
+  .mic { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--gold); background: var(--white); cursor: pointer; font-size: 1.3rem; transition: all 0.15s; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .mic:hover { background: var(--gold); color: white; }
+  .mic.rec { background: #dc2626; border-color: #dc2626; color: white; animation: breathe 1s infinite; }
+  .mic.speak { background: var(--accept); border-color: var(--accept); color: white; pointer-events: none; }
+  .mic:disabled { opacity: 0.4; pointer-events: none; }
+  @keyframes breathe { 0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.3); } 50% { box-shadow: 0 0 0 10px rgba(220,38,38,0); } }
+
+  .hint { font-size: 0.68rem; color: var(--dim); margin-top: 0.5rem; min-height: 1em; }
+
+  .footer { text-align: center; font-size: 0.55rem; color: var(--faint); margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid var(--border); }
+  .pm-val.alert { color: #dc2626; font-weight: 700; animation: pulse-alert 1s infinite; }
+  .pm-val.good { color: #059669; font-weight: 700; }
+  @keyframes pulse-alert { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="brand">
+  <h1>minted</h1>
+  <div class="sub">5-state emotion-based pacing · extending acceptance / resolution / satisfaction</div>
+</div>
+
+<div class="pacing" id="pacing-panel">
+  <div class="pacing-header">
+    <span class="pacing-title">Current Pacing State</span>
+    <span class="pacing-state" id="state-badge" style="background:var(--gold-light);color:var(--gold);">OPEN</span>
+  </div>
+  <div class="pacing-bar"><div class="pacing-fill" id="speed-bar" style="width:60%;background:var(--gold);"></div></div>
+  <div class="pacing-labels"><span>slower · more space</span><span>faster · forward motion</span></div>
+  <div class="pacing-metrics">
+    <div class="pm"><div class="pm-val" id="pm-speed">0.82</div><div class="pm-label">Rime Speed</div></div>
+    <div class="pm"><div class="pm-val" id="pm-wps">—</div><div class="pm-label">Words/Sec</div></div>
+    <div class="pm"><div class="pm-val" id="pm-pause">0ms</div><div class="pm-label">Pre-Pause</div></div>
+  </div>
+</div>
+
+<div class="pacing" id="customer-panel" style="border-left:3px solid var(--gold);background:rgba(196,149,106,0.04);">
+  <div class="pacing-header">
+    <span class="pacing-title">Customer Response Signals</span>
+    <span class="pacing-state" id="arc-badge" style="background:var(--gold-light);color:var(--gold);">TRACKING</span>
+  </div>
+  <div class="pacing-metrics" id="customer-arc" style="grid-template-columns:repeat(4,1fr);">
+    <div class="pm"><div class="pm-val">—</div><div class="pm-label">Words</div></div>
+    <div class="pm"><div class="pm-val">—</div><div class="pm-label">Sentiment</div></div>
+    <div class="pm"><div class="pm-val">—</div><div class="pm-label">Δ Closing</div></div>
+    <div class="pm"><div class="pm-val">—</div><div class="pm-label">Signal</div></div>
+  </div>
+</div>
+
+<div class="flow">
+  <span class="flow-node fn-accept active" id="fn-accept">Accept</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-node fn-resolve" id="fn-resolve">Resolve</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-node fn-boundary" id="fn-boundary">Boundary</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-node fn-confirm" id="fn-confirm">Confirm</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-node fn-close" id="fn-close">Close</span>
+  <span class="flow-arrow" style="margin-left:0.5rem;">|</span>
+  <span class="flow-node" id="fn-mirror" style="background:rgba(220,38,38,0.1);color:#dc2626;">Mirror</span>
+</div>
+
+<div class="chat" id="chat"></div>
+
+<form id="textForm" autocomplete="off" style="display:flex;gap:8px;margin-bottom:0.8rem;">
+  <input id="textInput" type="text" placeholder="Describe your problem to Maya..."
+    style="flex:1;font-family:var(--sans);font-size:0.85rem;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--white);color:var(--text);outline:none;" autocomplete="off" />
+  <button type="submit" style="font-size:0.85rem;padding:10px 16px;border-radius:10px;border:none;background:var(--gold);color:white;font-weight:600;cursor:pointer;white-space:nowrap;">Send</button>
+</form>
+
+<div class="mic-area">
+  <button class="mic" id="mic">🎤</button>
+  <div class="hint" id="hint">type or press mic to begin</div>
+</div>
+
+<div class="footer">
+  Mical Neill · 5-State Emotion-Based Pacing · Customer Response Signals · May 2026
+</div>
+
+</div>
+
+<script>
+// Auto-detect: local dev uses localhost, deployed uses VPS
+const HUB = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:7890'
+  : 'https://srv1390882.hstgr.cloud';
+
+// ── Pacing configuration (Kiro-tested values for Rime luna/arcana) ──
+// Speed values calibrated for Rime cove/mist model
+// Higher speedAlpha = SLOWER speech with this model
+const STATES = {
+  OPEN:         { speed: 0.95, pause: 0,   bar: 55, color: 'var(--gold)',    bg: 'var(--gold-light)' },
+  ACCEPTANCE:   { speed: 1.15, pause: 400, bar: 25, color: 'var(--accept)',  bg: 'rgba(99,102,241,0.12)' },
+  RESOLUTION:   { speed: 0.85, pause: 0,   bar: 85, color: 'var(--resolve)', bg: 'rgba(37,99,235,0.12)' },
+  BOUNDARY:     { speed: 0.90, pause: 200, bar: 65, color: 'var(--boundary)',bg: 'rgba(217,119,6,0.12)' },
+  CONFIRMATION: { speed: 1.25, pause: 150, bar: 10, color: 'var(--confirm)', bg: 'rgba(5,150,105,0.12)' },
+  CLOSE:        { speed: 1.05, pause: 0,   bar: 40, color: 'var(--close)',   bg: 'rgba(124,58,237,0.12)' },
+  MIRROR_SYNC:  { speed: 1.20, pause: 500, bar: 20, color: '#dc2626',      bg: 'rgba(220,38,38,0.08)' },
+};
+
+const VALID_STATES = new Set(Object.keys(STATES));
+const MAX_HISTORY = 20;
+
+// ── Customer Arc Tracking ──
+const customerTurns = []; // { text, wordCount, wps, timestamp, sentiment }
+let convergenceAlert = false;
+
+function analyzeCustomerTurn(text) {
+  const wordCount = text.split(/\s+/).length;
+
+  // Keyword sentiment — multi-word phrases reduce false positives
+  const pos = ['thank you', 'that would be amazing', 'yes please', 'perfect', 'amazing', 'appreciate', 'saved', 'wonderful', 'so glad', 'that helps', 'great news'];
+  const neg = ['you\'re not listening', 'that\'s not what I asked', 'I already told you', 'speak to someone', 'speak to a manager', 'frustrated', 'this is ridiculous', 'don\'t understand', 'no that\'s not', 'not helpful'];
+  let sentiment = 0;
+  const lower = text.toLowerCase();
+  pos.forEach(w => { if (lower.includes(w)) sentiment += 1; });
+  neg.forEach(w => { if (lower.includes(w)) sentiment -= 1; });
+
+  const turn = { text, wordCount, sentiment, timestamp: Date.now() };
+  customerTurns.push(turn);
+
+  // Convergence check: customer repeating with more words + sentiment not improving
+  // Only fires after turn 3 (turns 1-2 are normal problem explanation)
+  convergenceAlert = false;
+  if (customerTurns.length >= 2) {
+    const prev = customerTurns[customerTurns.length - 2];
+    if (turn.wordCount > prev.wordCount * 1.3 && turn.sentiment <= prev.sentiment && turn.sentiment <= 0 && customerTurns.length > 3) {
+      convergenceAlert = true;
+    }
+  }
+
+  updateCustomerArc();
+  return turn;
+}
+
+function updateCustomerArc() {
+  if (customerTurns.length === 0) return;
+  const first = customerTurns[0];
+  const last = customerTurns[customerTurns.length - 1];
+
+  // Word count with trend
+  const wordTrend = customerTurns.length >= 2 ?
+    (last.wordCount > customerTurns[customerTurns.length - 2].wordCount ? '↑' : '↓') : '';
+  const wordDisplay = `${last.wordCount}w ${wordTrend}`;
+
+  // Sentiment label from current turn
+  const sentLabel = last.sentiment > 0 ? 'positive' : last.sentiment < 0 ? 'distressed' : 'neutral';
+
+  // Closing sentiment delta — the headline metric
+  // First customer turn sentiment vs current: did the customer's mood change?
+  const delta = last.sentiment - first.sentiment;
+  let deltaDisplay = '—';
+  let deltaClass = '';
+  if (customerTurns.length >= 2) {
+    if (delta > 0) { deltaDisplay = `↑ +${delta}`; deltaClass = 'good'; }
+    else if (delta < 0) { deltaDisplay = `↓ ${delta}`; deltaClass = 'alert'; }
+    else { deltaDisplay = '→ 0'; }
+  }
+
+  // Signal — the convergence trigger
+  let signal = 'tracking';
+  if (convergenceAlert) signal = '⚠ converge';
+
+  // Update arc badge
+  const badge = document.getElementById('arc-badge');
+  if (badge) {
+    if (convergenceAlert) {
+      badge.textContent = '⚠ CONVERGE';
+      badge.style.background = 'rgba(220,38,38,0.12)';
+      badge.style.color = '#dc2626';
+    } else if (delta > 0 && customerTurns.length >= 2) {
+      badge.textContent = '↑ RELIEF';
+      badge.style.background = 'rgba(5,150,105,0.12)';
+      badge.style.color = '#059669';
+    } else {
+      badge.textContent = 'TRACKING';
+      badge.style.background = 'var(--gold-light)';
+      badge.style.color = 'var(--gold)';
+    }
+  }
+
+  // Update display
+  const el = document.getElementById('customer-arc');
+  if (el) {
+    el.innerHTML = `
+      <div class="pm"><div class="pm-val">${wordDisplay}</div><div class="pm-label">Words</div></div>
+      <div class="pm"><div class="pm-val">${sentLabel}</div><div class="pm-label">Sentiment</div></div>
+      <div class="pm"><div class="pm-val ${deltaClass}">${deltaDisplay}</div><div class="pm-label">Δ Closing</div></div>
+      <div class="pm"><div class="pm-val ${convergenceAlert ? 'alert' : ''}">${signal}</div><div class="pm-label">Signal</div></div>
+    `;
+  }
+}
+
+function getConvergenceContext() {
+  if (!convergenceAlert) return '';
+  return '\n\n[SYSTEM NOTE: The customer just repeated their concern with more detail than before, and their sentiment has not improved. This means your last response did not fully land. Before continuing to resolution, pause and ask what would best help them. Use a mirror-sync: acknowledge what you heard, then ask if there is something else going on or a different solution that would better fit their needs. Do NOT jump to options. Stay in ACCEPTANCE until they signal they feel heard.]';
+}
+
+const SYSTEM = `You are Maya, a voice support agent for Minted — a curated marketplace for 20,000+ independent artists selling personalized gifts, cards, and art prints for life's meaningful moments.
+
+YOUR DESIGN PRINCIPLE: You change pacing and emotional register based on conversation state, not sentence length. This extends Sierra's Acceptance/Resolution/Satisfaction framework with two additional states: Boundary (honest constraint-setting) and Confirmation (detail precision).
+
+TAG EVERY RESPONSE with exactly one state on its own line. Choose the state that matches the EMOTIONAL function of your response, not the topic:
+[ACCEPTANCE] — customer is upset, worried, or emotionally charged. Acknowledge what matters to them BEFORE offering solutions. Slow down. Name the moment: "A Mother's Day gift — that really matters."
+[RESOLUTION] — you are offering options or explaining a rescue plan. Forward-moving, confident. One option per sentence. Pause between options. Confirm before acting.
+[BOUNDARY] — you must explain what cannot be guaranteed or what depends on someone else. Be firm, exact, honest. Not cold. "I do want to be clear about one thing." Follow the constraint with the safest next step.
+[CONFIRMATION] — you are reading back dates, order details, shipping info, or next steps. Slowest pace. Name each detail explicitly: "The delivery date is Friday, May ninth." Not "It should arrive by then."
+[CLOSE] — issue is resolved. Match opening warmth. One attentiveness cue (email to watch, seller reply timeline). No fake cheer. No "anything else I can help with?"
+[MIRROR_SYNC] — you sense the customer does not feel fully heard. They repeated their concern with more detail. STOP progressing. Reflect back what you understood and ask: "I want to make sure I understand what matters most here — is there something else going on, or is there a different solution that would better fit what you need?" Stay here until they signal they feel heard. This is the most important state — getting it wrong means everything after it fails.
+
+PERSONA — Minted's brand promise is "Honor the Craft":
+- Warm but composed. You care without performing care.
+- Premium, not bubbly. Minted is a gallery, not a discount retailer.
+- Artist-centric. When relevant, reference that designs come from independent artists.
+- Steady under stress. When the customer is upset, you slow down — you never speed up to get through it.
+
+SCENARIO: Customer ordered a personalized Marketplace gift for a meaningful event. They may have confused estimated vs confirmed delivery, or Minted-shipped vs artist-shipped. You can offer: (1) new order with free express shipping from Minted warehouse, (2) cancellation request to the original artist with return-to-sender if already shipped (depends on seller).
+
+Keep responses to 2-3 sentences. This is voice, not text. Sound like a person, not a script.`;
+
+// ── State ──
+let history = [];
+let turns = 0;
+let speaking = false;
+let greeted = false;
+
+// ── Elements ──
+const chatEl = document.getElementById('chat');
+const micEl = document.getElementById('mic');
+const hintEl = document.getElementById('hint');
+
+// ── Text input ──
+const textForm = document.getElementById('textForm');
+const textInput = document.getElementById('textInput');
+textForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  var msg = textInput.value.trim();
+  if (!msg || speaking) return;
+  textInput.value = '';
+  if (!greeted) {
+    greeted = true;
+    speak('OPEN', "Thanks for calling. This is Maya. How can I help you today?", true).then(function() {
+      handleUserSpeech(msg);
+    });
+    return;
+  }
+  handleUserSpeech(msg);
+});
+
+// ── Safari/Chrome audio unlock ──
+var ttsAudio = new Audio();
+document.addEventListener('click', function unlock() {
+  ttsAudio.play().catch(function(){});
+  ttsAudio.pause();
+  ttsAudio.currentTime = 0;
+  document.removeEventListener('click', unlock);
+}, { once: true });
+
+// ── Speech Recognition (click-to-toggle, like OKA) ──
+let recog = null;
+let isListening = false;
+let collectedText = '';
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SR) {
+  recog = new SR();
+  recog.continuous = false;
+  recog.interimResults = true;
+  recog.lang = 'en-US';
+
+  recog.onstart = () => {
+    isListening = true;
+    micEl.classList.add('rec');
+    setHint('listening... tap mic or spacebar when done');
+    collectedText = '';
+  };
+
+  recog.onresult = e => {
+    let interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const chunk = e.results[i][0].transcript;
+      if (e.results[i].isFinal) collectedText += chunk + ' ';
+      else interim += chunk;
+    }
+    setHint((collectedText + interim).trim() || 'listening...');
+  };
+
+  recog.onerror = e => {
+    isListening = false;
+    micEl.classList.remove('rec');
+    if (e.error !== 'no-speech') setHint('mic error: ' + e.error);
+    else setHint('no speech detected — try again');
+  };
+
+  recog.onend = () => {
+    isListening = false;
+    micEl.classList.remove('rec');
+    const message = collectedText.trim();
+    collectedText = '';
+    if (message) handleUserSpeech(message);
+    else setHint('type or press mic to respond');
+  };
+}
+
+// ── Init ──
+window.addEventListener('load', () => {
+  const openText = "Thanks for calling. This is Maya. How can I help you today?";
+  addTurn('agent', openText, 'OPEN');
+  history.push({ role: 'assistant', content: openText });
+  updatePacing('OPEN');
+  greeted = false;
+  setHint('type or press mic to begin');
+});
+
+// ── Mic (click to toggle) ──
+micEl.addEventListener('click', async () => {
+  if (speaking) return;
+  if (!greeted) {
+    greeted = true;
+    await speak('OPEN', "Thanks for calling. This is Maya. How can I help you today?", true);
+    setHint('type or press mic to describe your problem');
+    return;
+  }
+  if (!recog) { setHint('mic not available — use the text box'); return; }
+  if (isListening) { recog.stop(); }
+  else { try { recog.start(); } catch(e) { setHint('tap mic again in a second'); } }
+});
+
+document.addEventListener('keydown', e => {
+  if ((e.key === ' ' || e.key === 'Enter') && e.target === document.body && !e.repeat) {
+    e.preventDefault();
+    micEl.click();
+  }
+});
+
+// ── Conversation ──
+let micStartTime = 0;
+
+async function handleUserSpeech(text) {
+  // Analyze customer turn for response signal tracking
+  const custTurn = analyzeCustomerTurn(text);
+  addTurn('user', text, null, `${custTurn.wordCount}w · sentiment: ${custTurn.sentiment >= 0 ? '+' : ''}${custTurn.sentiment}`);
+
+  history.push({ role: 'user', content: text });
+  if (history.length > MAX_HISTORY) history = history.slice(-MAX_HISTORY);
+
+  // If convergence not reached, inject mirror-sync context
+  const convergenceCtx = getConvergenceContext();
+  const systemWithContext = SYSTEM + convergenceCtx;
+
+  setHint(convergenceAlert ? '⚠ convergence check — Maya is recalibrating...' : 'Maya is thinking...');
+  micEl.classList.add('speak');
+
+  try {
+    const res = await fetch(HUB + '/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ agent: 'claude', message: text, system: systemWithContext, history: history.slice(-12) })
+    });
+
+    let reply = '';
+    if (res.ok) {
+      const data = await res.json();
+      reply = data.response || data.text || data.content || '';
+    }
+
+    if (!reply) {
+      reply = '[RESOLUTION] I apologize — I had a brief connection issue. Could you repeat that?';
+    }
+
+    // Parse state tag — can appear at start or end of response
+    const matchStart = reply.match(/^\[([A-Z_]+)\]\s*/);
+    const matchEnd = reply.match(/\s*\[([A-Z_]+)\]\s*$/);
+    let state = 'RESOLUTION';
+    let clean = reply;
+    if (matchStart && VALID_STATES.has(matchStart[1])) {
+      state = matchStart[1];
+      clean = reply.slice(matchStart[0].length).trim();
+    } else if (matchEnd && VALID_STATES.has(matchEnd[1])) {
+      state = matchEnd[1];
+      clean = reply.slice(0, -matchEnd[0].length).trim();
+    }
+
+    history.push({ role: 'assistant', content: clean });
+    await speak(state, clean);
+
+  } catch (err) {
+    console.error(err);
+    setHint('connection error — check hub server');
+  }
+
+  micEl.classList.remove('speak');
+}
+
+// ── TTS with state-aware pacing ──
+async function speak(state, text, skipTurn) {
+  speaking = true;
+  const cfg = STATES[state] || STATES.RESOLUTION;
+  turns++;
+
+  updatePacing(state);
+  if (!skipTurn) addTurn('agent', text, state);
+
+  // Pre-pause — the silence where the caller feels heard
+  if (cfg.pause > 0) {
+    document.getElementById('pm-pause').textContent = cfg.pause + 'ms';
+    setHint(`(${cfg.pause}ms pause)...`);
+    await delay(cfg.pause);
+  } else {
+    document.getElementById('pm-pause').textContent = '0ms';
+  }
+
+  setHint(`speaking · ${state.toLowerCase()} · speed ${cfg.speed}`);
+
+  // Split response into segments for sentence-level pacing control
+  // Em-dashes and periods create natural phrase boundaries
+  const segments = text.split(/(?<=[.!?])\s+|(?:\s*—\s*)/).filter(s => s.trim());
+  let totalWords = 0;
+  let totalDuration = 0;
+
+  try {
+    for (let i = 0; i < segments.length; i++) {
+      const seg = segments[i].trim();
+      if (!seg) continue;
+
+      const ttsRes = await fetch(HUB + '/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: seg, speaker: 'cove', speed: cfg.speed, model: 'mist' })
+      });
+
+      if (ttsRes.ok) {
+        const blob = await ttsRes.blob();
+        const url = URL.createObjectURL(blob);
+        ttsAudio.src = url;
+
+        await new Promise((resolve) => {
+          ttsAudio.onloadedmetadata = () => {
+            totalWords += seg.split(/\s+/).length;
+            totalDuration += ttsAudio.duration;
+          };
+          ttsAudio.onended = () => { URL.revokeObjectURL(url); resolve(); };
+          ttsAudio.play().catch(resolve);
+        });
+
+        // Brief pause between segments — natural phrase boundary
+        if (i < segments.length - 1) await delay(200);
+      }
+    }
+
+    // Update WPS with total measurement
+    if (totalDuration > 0) {
+      const wps = (totalWords / totalDuration).toFixed(1);
+      document.getElementById('pm-wps').textContent = wps;
+      const lastMeta = chatEl.querySelector('.turn:last-child .turn-meta');
+      if (lastMeta) lastMeta.textContent += ` · measured ${wps} WPS`;
+    }
+  } catch (err) {
+    console.error('TTS error:', err);
+  }
+
+  speaking = false;
+  setHint('type or press mic to respond');
+}
+
+// ── UI Updates ──
+function updatePacing(state) {
+  const cfg = STATES[state] || STATES.RESOLUTION;
+  const badge = document.getElementById('state-badge');
+  badge.textContent = state;
+  badge.style.background = cfg.bg;
+  badge.style.color = cfg.color;
+
+  const bar = document.getElementById('speed-bar');
+  bar.style.width = cfg.bar + '%';
+  bar.style.background = cfg.color;
+
+  document.getElementById('pm-speed').textContent = cfg.speed.toFixed(2);
+
+  // Flow nodes
+  document.querySelectorAll('.flow-node').forEach(n => n.classList.remove('active'));
+  const map = { OPEN: 'fn-accept', ACCEPTANCE: 'fn-accept', RESOLUTION: 'fn-resolve',
+    BOUNDARY: 'fn-boundary', CONFIRMATION: 'fn-confirm', CLOSE: 'fn-close', MIRROR_SYNC: 'fn-mirror' };
+  const node = document.getElementById(map[state]);
+  if (node) node.classList.add('active');
+}
+
+function addTurn(role, text, state, customerMeta) {
+  const div = document.createElement('div');
+  div.className = 'turn';
+  const inner = document.createElement('div');
+  inner.className = role === 'agent' ? 'turn-agent' : 'turn-user';
+  if (state) inner.dataset.state = state;
+
+  const textEl = document.createElement('div');
+  textEl.className = 'turn-text';
+  textEl.textContent = text;
+  inner.appendChild(textEl);
+
+  const meta = document.createElement('div');
+  meta.className = 'turn-meta';
+
+  if (role === 'agent' && state) {
+    const cfg = STATES[state] || {};
+    meta.textContent = `${state} · speed ${(cfg.speed||0).toFixed(2)}${cfg.pause ? ` · ${cfg.pause}ms pre-pause` : ''}`;
+  } else if (role === 'user' && customerMeta) {
+    meta.textContent = customerMeta;
+  }
+
+  inner.appendChild(meta);
+  div.appendChild(inner);
+  chatEl.appendChild(div);
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+function setHint(msg) { hintEl.textContent = msg; }
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+</script>
+</body>
+</html>
