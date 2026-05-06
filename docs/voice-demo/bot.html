@@ -312,7 +312,7 @@ textForm.addEventListener('submit', function(e) {
   textInput.value = '';
   if (!greeted) {
     greeted = true;
-    speak('OPEN', "Thanks for calling Minted. This is Maya. How can I help you today?").then(function() {
+    speak('OPEN', "Thanks for calling. This is Maya. How can I help you today?", true).then(function() {
       handleUserSpeech(msg);
     });
     return;
@@ -329,58 +329,81 @@ document.addEventListener('click', function unlock() {
   document.removeEventListener('click', unlock);
 }, { once: true });
 
-// ── Speech Recognition ──
+// ── Speech Recognition (click-to-toggle, like OKA) ──
 let recog = null;
+let isListening = false;
+let collectedText = '';
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 if (SR) {
   recog = new SR();
   recog.continuous = false;
-  recog.interimResults = false;
+  recog.interimResults = true;
   recog.lang = 'en-US';
-  recog.onresult = e => handleUserSpeech(e.results[0][0].transcript);
-  recog.onerror = e => { if (e.error !== 'no-speech') setHint('mic error: ' + e.error); micEl.classList.remove('rec'); };
-  recog.onend = () => micEl.classList.remove('rec');
-} else {
-  micEl.disabled = true;
-  setHint('Voice requires Chrome. Open this page in Chrome with a microphone.');
+
+  recog.onstart = () => {
+    isListening = true;
+    micEl.classList.add('rec');
+    setHint('listening... tap mic or spacebar when done');
+    collectedText = '';
+  };
+
+  recog.onresult = e => {
+    let interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const chunk = e.results[i][0].transcript;
+      if (e.results[i].isFinal) collectedText += chunk + ' ';
+      else interim += chunk;
+    }
+    setHint((collectedText + interim).trim() || 'listening...');
+  };
+
+  recog.onerror = e => {
+    isListening = false;
+    micEl.classList.remove('rec');
+    if (e.error !== 'no-speech') setHint('mic error: ' + e.error);
+    else setHint('no speech detected — try again');
+  };
+
+  recog.onend = () => {
+    isListening = false;
+    micEl.classList.remove('rec');
+    const message = collectedText.trim();
+    collectedText = '';
+    if (message) handleUserSpeech(message);
+    else setHint('type or press mic to respond');
+  };
 }
 
 // ── Init ──
 window.addEventListener('load', () => {
-  const openText = "Thanks for calling Minted. This is Maya. How can I help you today?";
+  const openText = "Thanks for calling. This is Maya. How can I help you today?";
   addTurn('agent', openText, 'OPEN');
   history.push({ role: 'assistant', content: openText });
   updatePacing('OPEN');
-  setHint('press mic to hear Maya, then speak');
+  greeted = false;
+  setHint('type or press mic to begin');
 });
 
-// ── Mic ──
-micEl.addEventListener('mousedown', micDown);
-micEl.addEventListener('mouseup', micUp);
-micEl.addEventListener('touchstart', e => { e.preventDefault(); micDown(); });
-micEl.addEventListener('touchend', e => { e.preventDefault(); micUp(); });
-document.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); micDown(); } });
-document.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') micUp(); });
-
-async function micDown() {
+// ── Mic (click to toggle) ──
+micEl.addEventListener('click', async () => {
   if (speaking) return;
   if (!greeted) {
     greeted = true;
-    await speak('OPEN', "Thanks for calling Minted. This is Maya. How can I help you today?");
-    setHint('press mic again and describe your problem');
+    await speak('OPEN', "Thanks for calling. This is Maya. How can I help you today?", true);
+    setHint('type or press mic to describe your problem');
     return;
   }
-  if (!recog) return;
-  micStartTime = Date.now();
-  micEl.classList.add('rec');
-  setHint('listening...');
-  recog.start();
-}
+  if (!recog) { setHint('mic not available — use the text box'); return; }
+  if (isListening) { recog.stop(); }
+  else { try { recog.start(); } catch(e) { setHint('tap mic again in a second'); } }
+});
 
-function micUp() {
-  if (recog) recog.stop();
-  micEl.classList.remove('rec');
-}
+document.addEventListener('keydown', e => {
+  if ((e.key === ' ' || e.key === 'Enter') && e.target === document.body && !e.repeat) {
+    e.preventDefault();
+    micEl.click();
+  }
+});
 
 // ── Conversation ──
 let micStartTime = 0;
@@ -442,13 +465,13 @@ async function handleUserSpeech(text) {
 }
 
 // ── TTS with state-aware pacing ──
-async function speak(state, text) {
+async function speak(state, text, skipTurn) {
   speaking = true;
   const cfg = STATES[state] || STATES.RESOLUTION;
   turns++;
 
   updatePacing(state);
-  addTurn('agent', text, state);
+  if (!skipTurn) addTurn('agent', text, state);
 
   // Pre-pause — the silence where the caller feels heard
   if (cfg.pause > 0) {
