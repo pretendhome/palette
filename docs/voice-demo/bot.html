@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minted — Emotion-Based Pacing</title>
+<title>Minted — Tessitura-Based Voice Pacing</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
   :root {
@@ -51,6 +51,24 @@
   .fn-confirm { background: rgba(5,150,105,0.12); color: var(--confirm); }
   .fn-close { background: rgba(124,58,237,0.12); color: var(--close); }
 
+  /* Tessitura band */
+  .tessitura { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 0.8rem 1.2rem; margin-bottom: 1rem; }
+  .tessitura-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--dim); font-weight: 600; margin-bottom: 0.5rem; }
+  .tessitura-track { position: relative; height: 40px; margin: 0 40px; }
+  .tessitura-outside { position: absolute; top: 14px; height: 12px; border-radius: 3px; }
+  .tessitura-outside-left { left: -40px; width: 40px; background: repeating-linear-gradient(135deg, transparent, transparent 2px, rgba(196,149,106,0.08) 2px, rgba(196,149,106,0.08) 4px); border: 1px dashed var(--faint); border-right: none; border-radius: 3px 0 0 3px; }
+  .tessitura-outside-right { right: -40px; width: 40px; background: repeating-linear-gradient(135deg, transparent, transparent 2px, rgba(196,149,106,0.08) 2px, rgba(196,149,106,0.08) 4px); border: 1px dashed var(--faint); border-left: none; border-radius: 0 3px 3px 0; }
+  .tessitura-outside-label { position: absolute; top: -1px; font-size: 0.45rem; color: var(--faint); text-transform: uppercase; letter-spacing: 0.03em; width: 100%; text-align: center; }
+  .tessitura-band { position: absolute; top: 14px; left: 0; right: 0; height: 12px; border-radius: 6px; background: linear-gradient(90deg, var(--resolve) 0%, var(--close) 15%, var(--boundary) 26%, var(--accept) 83%, var(--confirm) 100%); opacity: 0.25; }
+  .tessitura-markers { position: absolute; top: 0; left: 0; right: 0; height: 100%; }
+  .tessitura-marker { position: absolute; display: flex; flex-direction: column; align-items: center; transform: translateX(-50%); transition: all 0.3s ease; }
+  .tessitura-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--white); box-shadow: 0 1px 3px rgba(0,0,0,0.15); transition: all 0.3s ease; z-index: 1; }
+  .tessitura-marker-label { font-size: 0.45rem; color: var(--faint); text-transform: uppercase; letter-spacing: 0.02em; margin-top: 3px; white-space: nowrap; transition: color 0.3s ease; }
+  .tessitura-marker.active .tessitura-dot { width: 14px; height: 14px; margin-top: -2px; border: 2px solid var(--white); box-shadow: 0 0 0 3px rgba(196,149,106,0.3), 0 2px 6px rgba(0,0,0,0.2); }
+  .tessitura-marker.active .tessitura-marker-label { color: var(--text); font-weight: 600; }
+  .tessitura-cursor { position: absolute; top: 12px; width: 16px; height: 16px; border-radius: 50%; background: var(--gold); border: 2px solid var(--white); box-shadow: 0 0 0 3px rgba(196,149,106,0.25), 0 2px 8px rgba(0,0,0,0.15); transform: translateX(-50%); transition: left 0.5s ease, background 0.5s ease; z-index: 2; }
+  .tessitura-speed-labels { display: flex; justify-content: space-between; font-size: 0.5rem; color: var(--faint); margin-top: 0.35rem; margin-left: -40px; margin-right: -40px; }
+
   /* Chat */
   .chat { max-height: 340px; overflow-y: auto; margin-bottom: 1rem; scroll-behavior: smooth; }
   .turn { margin-bottom: 0.6rem; animation: slideIn 0.2s ease; }
@@ -91,7 +109,7 @@
 
 <div class="brand">
   <h1>minted</h1>
-  <div class="sub">5-state emotion-based pacing · extending acceptance / resolution / satisfaction</div>
+  <div class="sub">5-state tessitura-based pacing · 0.83–1.30 · extending acceptance / resolution / satisfaction</div>
 </div>
 
 <div class="pacing" id="pacing-panel">
@@ -135,6 +153,24 @@
   <span class="flow-node" id="fn-mirror" style="background:rgba(220,38,38,0.1);color:#dc2626;">Mirror</span>
 </div>
 
+<div class="tessitura" id="tessitura-panel">
+  <div class="tessitura-title">Tessitura Band — Voice Pacing Range</div>
+  <div class="tessitura-track">
+    <div class="tessitura-outside tessitura-outside-left"><span class="tessitura-outside-label">outside</span></div>
+    <div class="tessitura-outside tessitura-outside-right"><span class="tessitura-outside-label">outside</span></div>
+    <div class="tessitura-band"></div>
+    <div class="tessitura-markers">
+      <div class="tessitura-marker" id="ts-resolution" style="left:0%"><div class="tessitura-dot" style="background:var(--resolve);"></div><div class="tessitura-marker-label">Resolve</div></div>
+      <div class="tessitura-marker" id="ts-close" style="left:14.9%"><div class="tessitura-dot" style="background:var(--close);"></div><div class="tessitura-marker-label">Close</div></div>
+      <div class="tessitura-marker" id="ts-boundary" style="left:25.5%"><div class="tessitura-dot" style="background:var(--boundary);"></div><div class="tessitura-marker-label">Boundary</div></div>
+      <div class="tessitura-marker" id="ts-acceptance" style="left:83%"><div class="tessitura-dot" style="background:var(--accept);"></div><div class="tessitura-marker-label">Accept</div></div>
+      <div class="tessitura-marker" id="ts-confirmation" style="left:100%"><div class="tessitura-dot" style="background:var(--confirm);"></div><div class="tessitura-marker-label">Confirm</div></div>
+    </div>
+    <div class="tessitura-cursor" id="tessitura-cursor"></div>
+  </div>
+  <div class="tessitura-speed-labels"><span>0.83 — faster</span><span>1.30 — slower</span></div>
+</div>
+
 <div class="chat" id="chat"></div>
 
 <form id="textForm" autocomplete="off" style="display:flex;gap:8px;margin-bottom:0.8rem;">
@@ -149,7 +185,7 @@
 </div>
 
 <div class="footer">
-  Mical Neill · 5-State Emotion-Based Pacing · Customer Response Signals · May 2026
+  Mical Neill · 5-State Tessitura Pacing · Customer Response Signals · May 2026
 </div>
 
 </div>
@@ -551,6 +587,34 @@ async function speak(state, text, skipTurn) {
   setHint('type or press mic to respond');
 }
 
+// ── Tessitura Band ──
+const TESSITURA_MAP = {
+  RESOLUTION: 'ts-resolution', CLOSE: 'ts-close', BOUNDARY: 'ts-boundary',
+  ACCEPTANCE: 'ts-acceptance', CONFIRMATION: 'ts-confirmation'
+};
+const TESSITURA_MIN = 0.83, TESSITURA_MAX = 1.30, TESSITURA_RANGE = TESSITURA_MAX - TESSITURA_MIN;
+
+function updateTessituraBand(state) {
+  const cfg = STATES[state] || STATES.RESOLUTION;
+  const pct = ((cfg.speed - TESSITURA_MIN) / TESSITURA_RANGE) * 100;
+  const clamped = Math.max(0, Math.min(100, pct));
+
+  // Move cursor
+  const cursor = document.getElementById('tessitura-cursor');
+  if (cursor) {
+    cursor.style.left = clamped + '%';
+    cursor.style.background = cfg.color;
+  }
+
+  // Activate matching marker, deactivate others
+  document.querySelectorAll('.tessitura-marker').forEach(m => m.classList.remove('active'));
+  const markerId = TESSITURA_MAP[state];
+  if (markerId) {
+    const marker = document.getElementById(markerId);
+    if (marker) marker.classList.add('active');
+  }
+}
+
 // ── UI Updates ──
 function updatePacing(state) {
   const cfg = STATES[state] || STATES.RESOLUTION;
@@ -571,6 +635,8 @@ function updatePacing(state) {
     BOUNDARY: 'fn-boundary', CONFIRMATION: 'fn-confirm', CLOSE: 'fn-close', MIRROR_SYNC: 'fn-mirror' };
   const node = document.getElementById(map[state]);
   if (node) node.classList.add('active');
+
+  updateTessituraBand(state);
 }
 
 function addTurn(role, text, state, customerMeta) {

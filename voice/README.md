@@ -4,46 +4,48 @@ A complete voice design practice: evaluation tools, pacing framework, live agent
 
 <p align="center">
   <a href="https://pretendhome.github.io/palette/"><img src="https://img.shields.io/badge/portfolio-live-c4956a?style=flat-square" alt="Portfolio"></a>
-  <a href="https://pretendhome.github.io/palette/voice-demo/"><img src="https://img.shields.io/badge/demo-emotion--based%20pacing-6366f1?style=flat-square" alt="Demo"></a>
+  <a href="https://pretendhome.github.io/palette/voice-demo/"><img src="https://img.shields.io/badge/demo-finding%20the%20tessitura-6366f1?style=flat-square" alt="Demo"></a>
   <a href="https://pretendhome.github.io/palette/voice-workbench/"><img src="https://img.shields.io/badge/workbench-voice%20evaluation-059669?style=flat-square" alt="Workbench"></a>
   <a href="https://pretendhome.github.io/palette/oka.html"><img src="https://img.shields.io/badge/oka-adaptive%20learning-f08b58?style=flat-square" alt="OKA"></a>
 </p>
 
 ---
 
-## Design Philosophy
+## Design Philosophy: Tessitura
 
-Strong voice agents pace by emotional state, not sentence length.
+In vocal performance, **tessitura** is the range where a singer's voice sounds most natural — not the highest or lowest notes they can hit, but where they sound most like themselves. It's narrower than their full range.
 
-Most TTS-powered agents do length-based pacing: longer sentences naturally slow down. Short empathy phrases rush at informational speed because the model has no signal that the content is emotionally weighted. The result: empathy sounds recited, not felt. Boundary moments sound vague, not firm. Confirmations rush past details the customer needs to capture.
+Every brand has a tessitura too. The designer's job is to find it, stay in it, and measure it.
 
-This practice designs **emotion-based pacing** — where each conversational state has distinct speed parameters, pause rules, and tonal register. The improvement comes from design, not from swapping to a better model.
+Most TTS-powered agents do length-based pacing: longer sentences naturally slow down. Short empathy phrases rush at informational speed because the model has no signal that the content is emotionally weighted. The result: empathy sounds recited, not felt. Boundary moments sound vague, not firm. Confirmations rush past details the customer needs to capture. The voice is singing outside its tessitura.
+
+This practice designs **tessitura-based pacing** — where each conversational state sits at a measured point within the brand's tessitura. The speed range for Minted's agent (0.83–1.30 speedAlpha) is the measured tessitura: the band within which every state must operate. Going outside that band is the vocal equivalent of straining — technically possible, audibly wrong.
 
 ---
 
 ## The 5-State Pacing Model
 
-Building on the **Acceptance / Resolution / Satisfaction** framework used in production voice platforms, this model adds two states that serve distinct emotional functions:
+Building on the **Acceptance / Resolution / Satisfaction** framework, this model adds two states — Boundary and Confirmation — because they serve different emotional functions that require different positions within the tessitura:
 
-| State | Emotional Function | Speed | Pre-Pause | Design Rationale |
-|-------|-------------------|-------|-----------|-----------------|
-| **Acceptance** | Customer is upset. Acknowledge first. | Slowest speaking pace | 400ms | The pause is where the caller feels heard. |
-| **Resolution** | Offering options. Forward-moving. | Moderate, confident | 0ms | One option per sentence. Commas, not dashes. |
-| **Boundary** | Explaining a constraint honestly. | Firm, more exact | 200ms | Different from empathy — guided, not soothed. |
-| **Confirmation** | Reading dates, details, next steps. | Slowest overall | 200ms | Customer must capture info on first listen. |
-| **Close** | Issue resolved. Warm, coherent. | Match opening | 0ms | Same person says goodbye. No pitch spike. |
+| State | Emotional Function | Speed | Pre-Pause | Within the Tessitura |
+|-------|-------------------|-------|-----------|---------------------|
+| **Acceptance** | Acknowledge before solving. | 1.22 (slow) | 400ms | The deepest point — the pause is where the caller feels heard. |
+| **Resolution** | Forward-moving, confident. | 0.83 (moderate) | 0ms | The center — efficient but not rushed. |
+| **Boundary** | Constraint, honestly. | 0.95 (firm) | 200ms | Firm but still warm — if it sounds cold, it left the tessitura. |
+| **Confirmation** | Dates, details, next steps. | 1.30 (slowest) | 200ms | Slowest point — customer must capture this on first listen. |
+| **Close** | Warm, coherent with opening. | 0.90 (warm) | 0ms | Returns to opening position. Same person says hello and goodbye. |
 
-**Adaptive recovery:** When customer response signals indicate the empathy didn't land (word count increasing, sentiment flat), the agent enters **Mirror Sync** — stops progressing, reflects what the customer said, asks one specific question. Exits on forward language.
+**Adaptive recovery (Mirror Sync):** When customer signals show the empathy didn't land — word count increasing, sentiment flat — the agent stops progressing and recalibrates. Not a 6th state. It's what recenters the voice within the tessitura.
 
 ---
 
 ## Artifacts
 
-### Case Study: Emotion-Based Pacing
+### Case Study: Finding Minted's Tessitura
 
 **[Live Demo — A/B Comparison](https://pretendhome.github.io/palette/voice-demo/)** | [Source](../docs/voice-demo/)
 
-4 audio tracks comparing reference models (length-based pacing) against the designed model (5-state emotion-based pacing). Metrics table with prosodic measurements. State markers on the timeline.
+4 audio tracks comparing reference models (outside the brand's tessitura) against the designed model (5-state pacing within Minted's tessitura). Metrics table with prosodic measurements. State markers on the timeline.
 
 **Key results:**
 - Empathy pace: 3.4 WPS (baseline) → 2.9 WPS (designed)
@@ -130,22 +132,22 @@ Three-layer evaluation designed to scale:
 
 ---
 
-## Key Finding: Speed Parameters Are Insufficient
+## Key Finding: TTS Models Know Their Range, Not Their Tessitura
 
-TTS speed parameters give directional control, not precise control. The model's internal prosody partially overrides speed hints non-deterministically.
+TTS speed parameters give directional control, not precise control. The model's internal prosody partially overrides speed hints non-deterministically. In cascade architecture (STT→LLM→TTS), paralinguistic information — tone, emotion, pacing — is lost at the text boundary. Speed parameters are an imprecise proxy for reintroducing it.
 
-**What we discovered through iteration:**
+**What we discovered finding Minted's tessitura (5 iteration rounds):**
 - Rime's cove/mist model has inverted speed mapping (higher speedAlpha = slower)
-- Dashes trigger uptalk on the preceding clause in TTS
+- Dashes trigger uptalk on the preceding clause — pulls the voice out of tessitura
 - Commas control pauses more reliably than dashes
-- Sentences over 15 words accelerate at the end
-- Emotional words ("matters," "special") at sentence end get uptalk
-- The DESIGN transfers across TTS models — only the speed VALUES change
+- Sentences over 15 words accelerate at the end — leaves the tessitura on CONFIRMATION
+- Emotional words ("matters," "special") at sentence end get uptalk — sounds wrong for the brand
+- The TESSITURA MODEL transfers across brands — change the brand, change the range
 
-**What voice design needs from engineering:**
-1. Pause injection — specific-duration silences before utterances
-2. State-aware rendering — a parameter that tells TTS "this is an empathy moment"
-3. Per-segment speed control within a single utterance
+**What tessitura-aware TTS needs from engineering:**
+1. Pause injection — specific-duration silences before utterances (the 400ms empathy pause)
+2. State-aware rendering — a parameter that tells TTS "this is within the empathy region of the tessitura"
+3. Per-segment speed control within a single utterance — so the voice stays in range across clauses
 
 ---
 
@@ -179,7 +181,8 @@ Multi-agent voice interface connecting 5 LLM agents through voice in 4 languages
 
 ## Research
 
-- Voice Infrastructure Intelligence — Technical analysis of production voice stacks, TTS providers, evaluation methodology, and voice simulation architecture *(being updated)*
+- **[Agentic Voice Industry — Technical Intelligence Report (PDF)](research/agentic_voice_industry_report.pdf)** — Architecture- and benchmark-led survey of the voice AI agent ecosystem as of May 2026. Covers STT/TTS providers, pipeline architecture (cascade vs. S2S), latency targets, multilingual deployment, and simulation infrastructure across 20+ platforms including Sierra, Vapi, Retell AI, PolyAI, Hume, ElevenLabs, Deepgram, Cartesia, and others. Confidence-rated claims with cited sources.
+- **[Sierra Voice Intelligence](SIERRA_VOICE_INTELLIGENCE.md)** — Sierra-specific technical analysis: tau-Voice scoring methodology, Voice Sommelier process, Voice Sims scenario structure, locale routing, and latency architecture. Primary sources only.
 
 ---
 

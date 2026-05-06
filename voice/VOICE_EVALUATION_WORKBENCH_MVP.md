@@ -1,9 +1,7 @@
 # Voice Evaluation Workbench — MVP Spec
 
 Date: 2026-04-15
-Purpose: Build a single-page demo that pescribed, with those three adjustments. One HTML file. Rime TTS via 
-the Hub's existing /api/tts proxy. 4 languages × 4 voices × 3 journey stages (Acceptance/
-Resolution/Satisfactionroves immediate fit for the platform's voice evaluation work.
+Purpose: Build a single-page voice evaluation demo. One HTML file. Rime TTS via the Hub's existing /api/tts proxy. 4 languages × 4 voices × 3 journey stages (Acceptance / Resolution / Satisfaction). Proves immediate fit for voice evaluation work.
 
 ## Product Definition
 
@@ -531,9 +529,5 @@ Present it as:
 9. Final polish
 
 ## Final One-Line Product Description
-
-Mission Canvas is a voice-first workspace where coordinated AI agents turn messy intent into decisions, deliverables, and persistent project memory.
-
-Separate one-line description for this demo:
 
 Voice Evaluation Workbench is a multilingual tool that helps teams compare, score, and choose the right AI agent voice for each customer journey stage.

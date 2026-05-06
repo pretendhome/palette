@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Voice Agent Design — Emotion-Based Pacing Case Study</title>
+<title>Voice Agent Design — Finding the Brand's Tessitura</title>
 <style>
   :root {
     --bg: #0f1117; --surface: #1a1d27; --surface2: #232733; --border: rgba(255,255,255,0.08);
@@ -64,14 +64,11 @@
 </head>
 <body>
 
-<h1>Voice Agent Design — Emotion-Based Pacing</h1>
+<h1>Voice Agent Design — Finding the Brand's Tessitura</h1>
 <p class="subtitle">Minted × Mother's Day Gift Rescue · Case Study Demo</p>
 
 <div class="thesis">
-  <strong>Core thesis:</strong> Most voice agents pace by utterance length. Strong voice agents pace by emotional state.
-  Building on the <strong>Acceptance → Resolution → Satisfaction</strong> framework,
-  this design adds two states — <strong>Boundary</strong> (honest constraint-setting) and <strong>Confirmation</strong> (detail precision) —
-  creating a 5-state pacing model where each state has distinct WPS targets, pause rules, and tonal register.
+  <strong>Core thesis:</strong> In vocal performance, <em>tessitura</em> is the range where a voice sounds most natural — narrower than the full range. Every brand has a tessitura too. This case study finds Minted's: a 5-state pacing model where each conversational state sits at a measured point within the brand's emotional range (0.83–1.30 speedAlpha). The improvement comes from constraining to tessitura, not from a different voice.
 </div>
 
 <!-- Track 1: Sierra Sample A -->
@@ -80,7 +77,7 @@
     <span class="track-label">Sample A — Weaker Model</span>
     <span class="track-tag tag-reference">Reference</span>
   </div>
-  <div class="track-desc">Original test sample. Higher bandwidth (32kHz) but length-based pacing. Opening rushes, empathy is flat, +46% pitch spike on goodbye.</div>
+  <div class="track-desc">Original test sample — outside the brand's tessitura. Higher bandwidth (32kHz) but length-based pacing. Opening rushes, empathy is flat, +46% pitch spike on goodbye.</div>
   <div class="player-row">
     <button class="play-btn" onclick="toggle('sierra-a')">▶</button>
     <div class="progress-wrap" onclick="seek(event,'sierra-a')"><div class="progress-bar" id="bar-sierra-a"></div></div>
@@ -94,7 +91,7 @@
     <span class="track-label">Sample B — Stronger Model</span>
     <span class="track-tag tag-reference">Reference</span>
   </div>
-  <div class="track-desc">Original test sample. Better opening warmth, cleaner brand name. Still length-based pacing — empathy lines show 0% rate delta from informational.</div>
+  <div class="track-desc">Original test sample — outside the brand's tessitura. Better opening warmth, cleaner brand name. Still length-based pacing — empathy lines show 0% rate delta from informational.</div>
   <div class="player-row">
     <button class="play-btn" onclick="toggle('sierra-b')">▶</button>
     <div class="progress-wrap" onclick="seek(event,'sierra-b')"><div class="progress-bar" id="bar-sierra-b"></div></div>
@@ -106,9 +103,9 @@
 <div class="track" id="t-baseline">
   <div class="track-header">
     <span class="track-label">Baseline — Adjective-Prompted Only</span>
-    <span class="track-tag tag-baseline">Control</span>
+    <span class="track-tag tag-baseline">Outside Tessitura</span>
   </div>
-  <div class="track-desc">Prompted with "friendly, warm, professional, empathetic." No pacing rules. Same voice (Rime Luna). Shows the same length-based pacing pattern as the reference samples.</div>
+  <div class="track-desc">Length-based pacing — no tessitura awareness. All states cluster at ~3.4 WPS. Prompted with "friendly, warm, professional, empathetic." No pacing rules. Same voice (Rime Luna).</div>
   <div class="player-row">
     <button class="play-btn" onclick="toggle('baseline')">▶</button>
     <div class="progress-wrap" onclick="seek(event,'baseline')"><div class="progress-bar" id="bar-baseline"></div></div>
@@ -120,10 +117,10 @@
 <!-- Track 4: Our Designed -->
 <div class="track" id="t-designed">
   <div class="track-header">
-    <span class="track-label">Designed — 5-State Emotion-Based Pacing</span>
-    <span class="track-tag tag-designed">Design Intervention</span>
+    <span class="track-label">Designed — 5-State Pacing Within Tessitura</span>
+    <span class="track-tag tag-designed">In Tessitura</span>
   </div>
-  <div class="track-desc">Same voice. Different behavior. Pacing changes by emotional state: slower for empathy, moderate for options, firm for boundary, slowest for confirmation, warm for close.</div>
+  <div class="track-desc">5-state pacing within Minted's tessitura (0.83–1.30). Each state at a distinct position in the range. Same voice. Different behavior: slower for empathy, moderate for options, firm for boundary, slowest for confirmation, warm for close.</div>
   <div class="player-row">
     <button class="play-btn" onclick="toggle('designed')">▶</button>
     <div class="progress-wrap" onclick="seek(event,'designed')"><div class="progress-bar" id="bar-designed"></div></div>
@@ -153,10 +150,11 @@
 </div>
 
 <div class="finding">
-  <h3>Key Finding: Speed Parameters Are Insufficient</h3>
-  <p>Rime's speed parameter gives <strong>directional</strong> control over pacing but not precise per-state control.
+  <h3>Key Finding: TTS Models Don't Know Their Tessitura</h3>
+  <p>TTS models know their range — every speed they can produce. They don't know their tessitura.
+  Rime's speed parameter gives <strong>directional</strong> control over pacing but not precise per-state control.
   The TTS engine's internal prosody model partially overrides speed hints non-deterministically.
-  True emotion-based pacing requires SSML-level control (pause tags, emphasis markers, rate-per-phrase)
+  True tessitura-aware pacing requires SSML-level control (pause tags, emphasis markers, rate-per-phrase)
   or a model that accepts emotional state as an input parameter — not just a global speed knob.
   This finding applies to any TTS provider using speed-only controls.</p>
 </div>
@@ -171,7 +169,98 @@
   <strong>The improvement comes from design, not from a different voice.</strong></p>
 </div>
 
-<p class="footer">Built by Mical Neill · Voice: Rime Luna (Arcana) · Scenario: Minted Mother's Day Gift Rescue · 5-State Emotion-Based Pacing · May 2026</p>
+<!-- Brand Tessitura Comparison -->
+<div class="metrics" style="margin-top: 2.5rem;">
+  <h2>Brand Tessitura Comparison</h2>
+  <p style="color: var(--dim); font-size: 0.82rem; margin-bottom: 1.2rem;">Same methodology, different tessitura. Change the brand, change the range.</p>
+  <svg viewBox="0 0 700 190" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 700px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); padding: 0;">
+    <!-- Scale: 0.60 to 1.55, width 700, left pad 160, right pad 30 -->
+    <!-- usable width: 700 - 160 - 30 = 510 -->
+    <!-- x(val) = 160 + (val - 0.60) / (1.55 - 0.60) * 510 = 160 + (val - 0.60) * 536.84 -->
+
+    <!-- Axis line -->
+    <line x1="160" y1="165" x2="670" y2="165" stroke="#6b7280" stroke-width="1"/>
+
+    <!-- Axis ticks and labels -->
+    <g font-family="'JetBrains Mono', monospace" font-size="10" fill="#6b7280" text-anchor="middle">
+      <!-- 0.60 -->
+      <line x1="160" y1="162" x2="160" y2="168" stroke="#6b7280" stroke-width="1"/>
+      <text x="160" y="180">0.60</text>
+      <!-- 0.70 -->
+      <line x1="213.7" y1="162" x2="213.7" y2="168" stroke="#6b7280" stroke-width="1"/>
+      <text x="213.7" y="180">0.70</text>
+      <!-- 0.80 -->
+      <line x1="267.4" y1="162" x2="267.4" y2="168" stroke="#6b7280" stroke-width="1"/>
+      <text x="267.4" y="180">0.80</text>
+      <!-- 0.90 -->
+      <line x1="321" y1="162" x2="321" y2="168" stroke="#6b7280" stroke-width="1"/>
+      <text x="321" y="180">0.90</text>
+      <!-- 1.00 -->
+      <line x1="374.7" y1="162" x2="374.7" y2="168" stroke="#6b7280" stroke-width="1"/>
+      <text x="374.7" y="180">1.00</text>
+      <!-- 1.10 -->
+      <line x1="428.4" y1="162" x2="428.4" y2="168" stroke="#6b7280" stroke-width="1"/>
+      <text x="428.4" y="180">1.10</text>
+      <!-- 1.20 -->
+      <line x1="482.1" y1="162" x2="482.1" y2="168" stroke="#6b7280" stroke-width="1"/>
+      <text x="482.1" y="180">1.20</text>
+      <!-- 1.30 -->
+      <line x1="535.8" y1="162" x2="535.8" y2="168" stroke="#6b7280" stroke-width="1"/>
+      <text x="535.8" y="180">1.30</text>
+      <!-- 1.40 -->
+      <line x1="589.5" y1="162" x2="589.5" y2="168" stroke="#6b7280" stroke-width="1"/>
+      <text x="589.5" y="180">1.40</text>
+      <!-- 1.50 -->
+      <line x1="643.2" y1="162" x2="643.2" y2="168" stroke="#6b7280" stroke-width="1"/>
+      <text x="643.2" y="180">1.50</text>
+    </g>
+
+    <!-- Axis title -->
+    <text x="415" y="12" font-family="Inter, sans-serif" font-size="11" fill="#9ca3b8" text-anchor="middle" font-weight="600">speedAlpha</text>
+
+    <!-- Row 1: Minted (0.83–1.30), center ~1.0, y=35 -->
+    <!-- x(0.83) = 160 + 0.23*536.84 = 283.5 -->
+    <!-- x(1.30) = 160 + 0.70*536.84 = 535.8 -->
+    <!-- width = 535.8 - 283.5 = 252.3 -->
+    <text x="10" y="52" font-family="Inter, sans-serif" font-size="12" fill="#e8eaf0" font-weight="600">Minted</text>
+    <text x="10" y="66" font-family="Inter, sans-serif" font-size="9" fill="#9ca3b8">warm-premium</text>
+    <rect x="283.5" y="35" width="252.3" height="30" rx="4" fill="rgba(99,102,241,0.3)" stroke="#6366f1" stroke-width="2"/>
+    <!-- Center marker at 1.0: x(1.0) = 160 + 0.40*536.84 = 374.7 -->
+    <line x1="374.7" y1="35" x2="374.7" y2="65" stroke="#a5b4fc" stroke-width="2" stroke-dasharray="3,2"/>
+    <text x="374.7" y="30" font-family="'JetBrains Mono', monospace" font-size="9" fill="#a5b4fc" text-anchor="middle">1.00</text>
+    <!-- Proven label -->
+    <text x="410" y="55" font-family="Inter, sans-serif" font-size="9" fill="#a5b4fc" font-weight="600">PROVEN</text>
+
+    <!-- Row 2: Discord (0.70–0.95), center ~0.82, y=85 -->
+    <!-- x(0.70) = 160 + 0.10*536.84 = 213.7 -->
+    <!-- x(0.95) = 160 + 0.35*536.84 = 347.9 -->
+    <!-- width = 347.9 - 213.7 = 134.2 -->
+    <text x="10" y="102" font-family="Inter, sans-serif" font-size="12" fill="#e8eaf0" font-weight="600">Discord</text>
+    <text x="10" y="116" font-family="Inter, sans-serif" font-size="9" fill="#9ca3b8">playful-fast</text>
+    <rect x="213.7" y="85" width="134.2" height="30" rx="4" fill="none" stroke="#22c55e" stroke-width="2" stroke-dasharray="6,3"/>
+    <!-- Center marker at 0.82: x(0.82) = 160 + 0.22*536.84 = 278.1 -->
+    <line x1="278.1" y1="85" x2="278.1" y2="115" stroke="#86efac" stroke-width="2" stroke-dasharray="3,2"/>
+    <text x="278.1" y="80" font-family="'JetBrains Mono', monospace" font-size="9" fill="#86efac" text-anchor="middle">0.82</text>
+    <!-- Designed label -->
+    <text x="310" y="105" font-family="Inter, sans-serif" font-size="9" fill="#86efac" font-weight="600">DESIGNED</text>
+
+    <!-- Row 3: Ritz-Carlton (0.95–1.45), center ~1.20, y=135 -->
+    <!-- x(0.95) = 347.9 -->
+    <!-- x(1.45) = 160 + 0.85*536.84 = 616.3 -->
+    <!-- width = 616.3 - 347.9 = 268.4 -->
+    <text x="10" y="152" font-family="Inter, sans-serif" font-size="12" fill="#e8eaf0" font-weight="600">Ritz-Carlton</text>
+    <text x="10" y="166" font-family="Inter, sans-serif" font-size="9" fill="#9ca3b8">luxury-deliberate</text>
+    <rect x="347.9" y="135" width="268.4" height="30" rx="4" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3"/>
+    <!-- Center marker at 1.20: x(1.20) = 160 + 0.60*536.84 = 482.1 -->
+    <line x1="482.1" y1="135" x2="482.1" y2="165" stroke="#fcd34d" stroke-width="2" stroke-dasharray="3,2"/>
+    <text x="482.1" y="130" font-family="'JetBrains Mono', monospace" font-size="9" fill="#fcd34d" text-anchor="middle">1.20</text>
+    <!-- Designed label -->
+    <text x="515" y="155" font-family="Inter, sans-serif" font-size="9" fill="#fcd34d" font-weight="600">DESIGNED</text>
+  </svg>
+  <p style="color: var(--faint); font-size: 0.75rem; margin-top: 0.6rem; font-style: italic;">Solid = proven (voiced and measured). Dashed = designed (tessitura mapped, not yet voiced). Same methodology, different tessitura. Change the brand, change the range.</p>
+</div>
+
+<p class="footer">Built by Mical Neill · Voice: Rime Luna (Arcana) · Scenario: Minted Mother's Day Gift Rescue · 5-State Tessitura-Based Pacing · May 2026</p>
 
 <script>
 const players = {};

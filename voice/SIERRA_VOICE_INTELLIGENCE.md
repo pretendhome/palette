@@ -378,5 +378,5 @@ Your demo fills a gap Sierra's own public toolchain has: **a decision artifact f
 8. Sierra Voice Post-Training blog — https://sierra.ai/blog/voice-post-training
 9. Sierra τ³-Bench blog — https://sierra.ai/blog/bench-advancing-agent-benchmarking-to-knowledge-and-voice
 10. τ³-Bench LinkedIn (Bret Taylor) — https://www.linkedin.com/posts/brettaylor_%F0%9D%9C%8F%C2%B3-bench-advancing-agent-evaluation-to-activity-7441883892262969344-1FVH
-11. ElevenLabs vs Sierra comparison (ElevenLabs blog) — https://elevenlabs.io/hi/blog/elevenlabs-vs-sierraai
+11. ~~ElevenLabs vs Sierra comparison (ElevenLabs blog)~~ — [dead as of 2026-05-06]
 12. myaskai Sierra guide (modular voice architecture quote) — https://myaskai.com/blog/sierra-ai-complete-guide-2026

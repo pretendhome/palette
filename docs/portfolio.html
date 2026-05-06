@@ -112,7 +112,7 @@
       <li><a href="#enabling-teams">Enabling Teams</a></li>
       <li><a href="#personas">Personas</a></li>
       <li><a href="#journey">Journey</a></li>
-      <li><a href="voice-demo/" class="live">Demo Player &rarr;</a></li>
+      <li><a href="voice-demo/" class="live">Tessitura Demo &rarr;</a></li>
     </ul>
   </div>
 </nav>
@@ -120,18 +120,18 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-label anim">Voice Agent Design Portfolio</div>
-  <h1 class="anim d1">Strong voice agents pace by emotional state, not sentence length.</h1>
+  <h1 class="anim d1">Every brand has a tessitura. The designer's job is to find it.</h1>
   <p class="hero-sub anim d2">
-    I design voice agents that sound right across languages, brands, and emotional contexts &mdash; and the evaluation frameworks that prove it. 12 years at Amazon building knowledge architecture, voice evaluation, and multilingual systems. MA Comparative Linguistics, Paris-Sorbonne.
+    In vocal performance, <em>tessitura</em> is the range where a voice sounds most natural &mdash; narrower than the full range. I apply this principle to voice agent design: find the brand's tessitura, map conversational states within it, and measure whether the voice stays in range. 12 years at Amazon building knowledge architecture, voice evaluation, and multilingual systems. MA Comparative Linguistics, Paris-Sorbonne.
   </p>
   <div class="hero-thesis anim d2">
-    <strong>Core finding:</strong> Current voice agents do length-based pacing &mdash; longer sentences slow down, short empathy phrases rush at informational speed. I designed a <strong>5-state emotion-based pacing model</strong> where each conversational state has distinct speed targets, pause rules, and tonal register. The designed agent hit <strong>16% slower empathy pace</strong> with a <strong>400ms pre-pause</strong> &mdash; same voice, same brand, different pacing intelligence.
+    <strong>Core finding:</strong> Current voice agents do length-based pacing &mdash; they know their range but not their tessitura. I designed a <strong>5-state pacing model</strong> where each conversational state sits at a measured point within the brand's emotional range (0.83&ndash;1.30 speedAlpha). The designed agent hit <strong>16% slower empathy pace</strong> with a <strong>400ms pre-pause</strong> &mdash; same voice, same brand, constrained to tessitura.
   </div>
   <div class="hero-stats anim d3">
     <div><div class="stat-num">5</div><div class="stat-label">Pacing States</div></div>
     <div><div class="stat-num">16%</div><div class="stat-label">Empathy Rate Delta</div></div>
     <div><div class="stat-num">400ms</div><div class="stat-label">Empathy Pre-Pause</div></div>
-    <div><div class="stat-num">47</div><div class="stat-label">Voice Providers Evaluated</div></div>
+    <div><div class="stat-num">47</div><div class="stat-label">Voices Auditioned</div></div>
     <div><div class="stat-num">4</div><div class="stat-label">Languages</div></div>
   </div>
 </section>
@@ -139,9 +139,9 @@
 <!-- 1. VOICE QUALITY — JD: "Improve breadth and depth of voice quality" -->
 <section class="section" id="voice-quality">
   <div class="s-label">Voice Quality &mdash; Evaluate, Compare, Iterate</div>
-  <div class="s-title">Emotion-Based Pacing: From Diagnosis to Design</div>
+  <div class="s-title">Finding Minted's Tessitura</div>
   <p class="s-desc">
-    I evaluated two voice models for a customer support scenario. Both had the same structural failure: length-based pacing. Short empathy phrases rushed at informational speed because the model had no signal that the content was emotionally weighted. I designed the fix, built a working prototype, and measured the improvement.
+    I evaluated two voice models for a customer support scenario. Both had the same structural failure: the voice left the brand's tessitura on every emotional moment. Short empathy phrases rushed at informational speed. Closing lines spiked +46% in pitch &mdash; a persona break. The model had no signal that the content was emotionally weighted. I found the tessitura, mapped 5 states within it, and measured the improvement.
   </p>
 
   <div class="states">
@@ -163,12 +163,12 @@
     </div>
     <div class="card">
       <h3>The Design</h3>
-      <p>5-state pacing model. Each state has distinct TTS speed parameters (0.65&ndash;0.92), pre-pause rules (0&ndash;400ms), and tonal register. Brand lens translates brand values into measurable voice behavior. Same voice, same brand &mdash; different pacing intelligence.</p>
+      <p>5-state pacing model within Minted's tessitura (0.83&ndash;1.30 speedAlpha). Each state is a measured point within the brand's emotional range: Acceptance at the deepest point, Resolution at the center, Boundary firm but still warm, Confirmation slowest for detail capture, Close matching the opening. Going outside that band is the vocal equivalent of straining.</p>
       <a href="voice-demo/" class="card-link">Play the A/B comparison &rarr;</a>
     </div>
     <div class="card">
       <h3>The TTS Finding</h3>
-      <p>Speed parameters give directional control, not precise control. The model's internal prosody partially overrides speed hints. Real emotion-based pacing needs SSML-level control or emotional-state-aware models. That's an engineering problem &mdash; and the kind of problem I want to work on.</p>
+      <p>TTS models know their range &mdash; every speed they can produce. They don't know their tessitura &mdash; which speeds serve which emotional moments. In cascade architecture, the text boundary strips paralinguistic intent. Speed parameters are an imprecise proxy. Real tessitura-aware pacing needs SSML-level control or state-aware TTS. That's the engineering gap worth solving.</p>
     </div>
   </div>
 
@@ -185,9 +185,9 @@
 <!-- 2. EVALUATION — JD: "Design and apply effective and repeatable evaluations" -->
 <section class="section" id="evaluation">
   <div class="s-label">Repeatable Evaluation Frameworks</div>
-  <div class="s-title">Unit Tests for Voice Agent Behavior</div>
+  <div class="s-title">Unit Tests for Tessitura</div>
   <p class="s-desc">
-    Voice simulations test whether the agent resolved the issue. My evaluation framework adds the pacing dimensions &mdash; so you're also testing whether the customer felt heard while it happened. Three layers, each scales differently.
+    Current benchmarks &mdash; tau-Voice, EVA, Scale AI Voice Showdown &mdash; measure task completion, latency, and preference. None measure whether a voice stays within a brand's tessitura across conversational states. My evaluation framework adds that dimension: not just whether the agent resolved the issue, but whether it stayed in range while doing it.
   </p>
 
   <div class="card-grid">
@@ -209,8 +209,8 @@
   </div>
 
   <div class="card card-accent" style="margin-top:20px;">
-    <h3>5 Sim Tests for Emotion-Based Pacing</h3>
-    <p style="margin-bottom:12px;">If I were choosing a brand's voice in Agent Studio, I wouldn't just listen &mdash; I'd define 5 sim tests that tell me whether this voice can do emotion-based pacing. Then I'd audition voices against those sims, not against my taste. The sim results are the design decision.</p>
+    <h3>5 Sim Tests for Tessitura</h3>
+    <p style="margin-bottom:12px;">If I were choosing a brand's voice in Agent Studio, I wouldn't just listen &mdash; I'd define 5 sim tests that tell me whether this voice can stay in the brand's tessitura across emotional states. Then I'd audition voices against those sims, not against my taste. The sim results are the design decision.</p>
     <table>
       <tr><th>Sim</th><th>Tests</th><th>Pass Criteria</th></tr>
       <tr><td>Empathy Detection</td><td>Agent's first response to emotional disclosure</td><td>Acknowledgment state first. Pace &ge;15% slower. Pre-pause exists.</td></tr>
@@ -296,9 +296,9 @@
 <!-- 5. PERSONAS — JD: "Co-create agent personas and interaction patterns" -->
 <section class="section" id="personas">
   <div class="s-label">Agent Personas &amp; Interaction Patterns</div>
-  <div class="s-title">Voice design as behavioral design</div>
+  <div class="s-title">Voice design as tessitura design</div>
   <p class="s-desc">
-    Choosing a voice isn't picking what sounds nicest. It's defining measurable behavior for each emotional state, testing it against the brand, and verifying the customer's experience changed.
+    Choosing a voice isn't picking what sounds nicest. It's finding the brand's tessitura &mdash; the narrow range where the voice sounds like itself &mdash; and designing states that stay within it. Each brand has a different tessitura. The methodology is the same.
   </p>
 
   <div class="card-grid">
@@ -307,8 +307,8 @@
       <p>Translated "Honor the Craft" brand values into measurable voice parameters. Warm but composed (not bubbly). Precise but human (not scripted). Steady under stress (slow down, never speed up). Every pacing choice traces to a brand value &mdash; not taste.</p>
     </div>
     <div class="card">
-      <h3>Voice Audition Process</h3>
-      <p>Does this voice sound like someone who handles meaningful purchases with care? Can it slow down without sounding sleepy? Can it be firm without sounding cold? Does it hold persona from opening to close? I audition voices against sim tests, not against my ear.</p>
+      <h3>Voice Audition: Finding the Tessitura Match</h3>
+      <p>Does this voice's natural tessitura overlap with the brand's? Can it slow down without sounding sleepy? Be firm without sounding cold? Hold persona from opening to close? Cove passed for Minted because its natural range overlaps with the brand's. A brighter voice could technically hit the same notes &mdash; but it would be singing outside its tessitura.</p>
     </div>
     <div class="card">
       <h3>OKA &mdash; Voice-First Learning</h3>
@@ -319,13 +319,13 @@
   <div class="card-grid" style="margin-top:20px;">
     <div class="card">
       <h3>Live Bot V1 &mdash; Agent Pacing</h3>
-      <p>Real-time state tracking shows the agent changing speed, pause, and register based on conversation state. Metrics panel proves the pacing model is designable and measurable.</p>
-      <span class="card-link" style="color:var(--text-faint);">Live demo &mdash; available on request</span>
+      <p>Real-time state tracking shows the agent staying within the tessitura as conversation state changes. Metrics panel proves the pacing model is designable and measurable. Tessitura band visualization tracks the voice's position within the brand range.</p>
+      <a href="voice-demo/bot-v1.html" class="card-link">Open live demo &rarr;</a>
     </div>
     <div class="card card-accent">
       <h3>Live Bot V2 &mdash; Customer Response Signals</h3>
-      <p>Adds the other side: tracks customer word count, sentiment, and closing delta. When convergence detection fires, the agent stops progressing and recalibrates. Not just designing how the agent sounds &mdash; measuring whether the design changed how the customer feels.</p>
-      <span class="card-link" style="color:var(--text-faint);">Live demo &mdash; available on request</span>
+      <p>Adds the other side: tracks customer word count, sentiment, and closing delta. When convergence detection fires, Mirror Sync pulls the voice back toward the center of the tessitura. Not just designing how the agent sounds &mdash; measuring whether the design kept it in range.</p>
+      <a href="voice-demo/bot.html" class="card-link">Open live demo &rarr;</a>
     </div>
   </div>
 </section>
@@ -382,7 +382,7 @@
       <div>
         <div class="tl-title">Independent &mdash; Voice Agent Design &amp; Multi-Agent Systems</div>
         <div class="tl-place">San Francisco</div>
-        <div class="tl-desc">Built a multi-agent intelligence system with voice evaluation workbench, a voice-first adaptive learning companion, and the emotion-based pacing case study &mdash; from diagnosis to working prototype with measured results.</div>
+        <div class="tl-desc">Built a multi-agent intelligence system with voice evaluation workbench, a voice-first adaptive learning companion, and the tessitura-based pacing case study &mdash; from diagnosis to working prototype with measured results. Every brand has a tessitura. I built the tools to find it.</div>
       </div>
     </div>
   </div>
@@ -391,20 +391,20 @@
 <!-- PHILOSOPHY -->
 <section class="section" id="philosophy">
   <div class="s-label">Design Philosophy</div>
-  <div class="s-title">How I think about voice design</div>
+  <div class="s-title">Tessitura, not range</div>
 
   <div class="card-grid">
     <div class="card">
-      <h3>Measure behavior, not aesthetics</h3>
-      <p>"Does it sound good?" is the wrong question. "Did the pacing change based on what the customer is feeling, and did that produce a measurable improvement in the customer's ability to trust, understand, and act?" That's voice design.</p>
+      <h3>Measure tessitura, not aesthetics</h3>
+      <p>"Does it sound good?" is the wrong question. "Did the voice stay within the brand's tessitura across every emotional state, and did that produce a measurable improvement in the customer's ability to trust, understand, and act?" That's voice design. The numbers — 2.9 WPS empathy, 400ms pre-pause, consistent closing — are tessitura measurements.</p>
     </div>
     <div class="card">
       <h3>Design in code</h3>
       <p>I don't mock and hand off. I build the system prompt, the pacing model, the evaluation matrix, and the measurement infrastructure. Every artifact in this portfolio is working code. The design judgment IS the implementation.</p>
     </div>
     <div class="card">
-      <h3>Off the shelf vs. designed</h3>
-      <p>Prompting "be warm and empathetic" produces 0% empathy rate delta. Designing a 5-state pacing model with state-specific parameters produces 16%. The improvement comes from design, not from swapping to a better model.</p>
+      <h3>Tessitura, not range</h3>
+      <p>TTS models optimize for range &mdash; every speed, every pitch they can produce. Voice design optimizes for tessitura &mdash; the narrow band where the brand sounds like itself. Prompting "be warm and empathetic" uses range (0% empathy delta). Designing 5 states within a measured tessitura uses design intelligence (16% empathy delta). Same voice. Different constraint.</p>
     </div>
     <div class="card">
       <h3>Evaluation is design infrastructure</h3>
@@ -424,8 +424,8 @@
 <!-- CTA -->
 <section>
   <div class="cta-box">
-    <h2>Voice design as behavioral design.</h2>
-    <p>Not aesthetic judgment &mdash; measurable behavior change. I'd welcome the chance to show how this work applies to your platform.</p>
+    <h2>Every brand has a tessitura. I find it.</h2>
+    <p>Not aesthetic judgment &mdash; measured range, iterated parameters, proven results. I'd welcome the chance to show how this applies to your platform.</p>
     <div class="cta-links">
       <a href="mailto:micalrneill@gmail.com" class="cta-primary">micalrneill@gmail.com</a>
       <a href="https://linkedin.com/in/mical-neill-79176412" class="cta-secondary">LinkedIn</a>
