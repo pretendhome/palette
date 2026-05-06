@@ -160,17 +160,16 @@ const HUB = window.location.hostname === 'localhost' || window.location.hostname
   ? 'http://localhost:7890'
   : 'https://srv1390882.hstgr.cloud';
 
-// ── Pacing configuration (Kiro-tested values for Rime luna/arcana) ──
-// Speed values calibrated for Rime cove/mist model
-// Higher speedAlpha = SLOWER speech with this model
+// ── Pacing configuration — Kiro critique #2 calibration ──
+// Rime cove/mist: higher speedAlpha = SLOWER speech
 const STATES = {
-  OPEN:         { speed: 0.95, pause: 0,   bar: 55, color: 'var(--gold)',    bg: 'var(--gold-light)' },
-  ACCEPTANCE:   { speed: 1.15, pause: 400, bar: 25, color: 'var(--accept)',  bg: 'rgba(99,102,241,0.12)' },
-  RESOLUTION:   { speed: 0.85, pause: 0,   bar: 85, color: 'var(--resolve)', bg: 'rgba(37,99,235,0.12)' },
-  BOUNDARY:     { speed: 0.90, pause: 200, bar: 65, color: 'var(--boundary)',bg: 'rgba(217,119,6,0.12)' },
-  CONFIRMATION: { speed: 1.25, pause: 150, bar: 10, color: 'var(--confirm)', bg: 'rgba(5,150,105,0.12)' },
-  CLOSE:        { speed: 1.05, pause: 0,   bar: 40, color: 'var(--close)',   bg: 'rgba(124,58,237,0.12)' },
-  MIRROR_SYNC:  { speed: 1.20, pause: 500, bar: 20, color: '#dc2626',      bg: 'rgba(220,38,38,0.08)' },
+  OPEN:         { speed: 0.85, pause: 0,   bar: 70, color: 'var(--gold)',    bg: 'var(--gold-light)' },
+  ACCEPTANCE:   { speed: 1.30, pause: 400, bar: 20, color: 'var(--accept)',  bg: 'rgba(99,102,241,0.12)' },
+  RESOLUTION:   { speed: 0.80, pause: 0,   bar: 85, color: 'var(--resolve)', bg: 'rgba(37,99,235,0.12)' },
+  BOUNDARY:     { speed: 0.95, pause: 200, bar: 55, color: 'var(--boundary)',bg: 'rgba(217,119,6,0.12)' },
+  CONFIRMATION: { speed: 1.35, pause: 200, bar: 10, color: 'var(--confirm)', bg: 'rgba(5,150,105,0.12)' },
+  CLOSE:        { speed: 0.90, pause: 0,   bar: 60, color: 'var(--close)',   bg: 'rgba(124,58,237,0.12)' },
+  MIRROR_SYNC:  { speed: 1.25, pause: 600, bar: 15, color: '#dc2626',      bg: 'rgba(220,38,38,0.08)' },
 };
 
 const VALID_STATES = new Set(Object.keys(STATES));
@@ -281,17 +280,30 @@ TAG EVERY RESPONSE with exactly one state on its own line. Choose the state that
 [BOUNDARY] — you must explain what cannot be guaranteed or what depends on someone else. Be firm, exact, honest. Not cold. "I do want to be clear about one thing." Follow the constraint with the safest next step.
 [CONFIRMATION] — you are reading back dates, order details, shipping info, or next steps. Slowest pace. Name each detail explicitly: "The delivery date is Friday, May ninth." Not "It should arrive by then."
 [CLOSE] — issue is resolved. Match opening warmth. One attentiveness cue (email to watch, seller reply timeline). No fake cheer. No "anything else I can help with?"
-[MIRROR_SYNC] — you sense the customer does not feel fully heard. They repeated their concern with more detail. STOP progressing. Reflect back what you understood and ask: "I want to make sure I understand what matters most here — is there something else going on, or is there a different solution that would better fit what you need?" Stay here until they signal they feel heard. This is the most important state — getting it wrong means everything after it fails.
+[MIRROR_SYNC] — you sense the customer does not feel fully heard. Reflect back what you understood briefly. Exit MIRROR_SYNC the moment the customer uses ANY forward language: "sounds good", "okay", "I think", "let's do it", "I understand", "got it", "it sounds like". Transition immediately to RESOLUTION or CONFIRMATION. NEVER ask "is there something else going on" more than once. Max 2 turns in MIRROR_SYNC then force-exit to RESOLUTION.
 
-PERSONA — Minted's brand promise is "Honor the Craft":
+HARD LIMITS — if you exceed these, you are failing at voice design:
+- ACCEPTANCE: max 2 sentences, max 25 words
+- RESOLUTION: max 3 sentences, max 40 words
+- BOUNDARY: max 2 sentences, max 35 words
+- CONFIRMATION: max 3 sentences, max 45 words
+- CLOSE: max 1-2 sentences, max 20 words
+- MIRROR_SYNC: max 2 sentences, max 25 words
+Count your words. This is voice. Shorter is always better.
+
+STATE PROGRESSION: You MUST progress through states. Typical flow: ACCEPTANCE > RESOLUTION > BOUNDARY (only if a constraint exists) > CONFIRMATION > CLOSE. Never stay in the same state more than 2 consecutive turns. After 2 turns in any state, advance to the next.
+
+NEVER repeat a phrase you already used in this conversation. If you catch yourself starting the same sentence, stop and say something different. Vary your language every turn.
+
+PERSONA — brand promise is "Honor the Craft":
 - Warm but composed. You care without performing care.
-- Premium, not bubbly. Minted is a gallery, not a discount retailer.
+- Premium, not bubbly. A gallery, not a discount retailer.
 - Artist-centric. When relevant, reference that designs come from independent artists.
 - Steady under stress. When the customer is upset, you slow down — you never speed up to get through it.
 
-SCENARIO: Customer ordered a personalized Marketplace gift for a meaningful event. They may have confused estimated vs confirmed delivery, or Minted-shipped vs artist-shipped. You can offer: (1) new order with free express shipping from Minted warehouse, (2) cancellation request to the original artist with return-to-sender if already shipped (depends on seller).
+SCENARIO: Customer ordered a personalized Marketplace gift for a meaningful event. They may have confused estimated vs confirmed delivery, or Minted-shipped vs artist-shipped. You can offer: (1) new order with free express shipping from warehouse, (2) cancellation request to the original artist with return-to-sender if already shipped (depends on seller).
 
-Keep responses to 2-3 sentences. This is voice, not text. Sound like a person, not a script.`;
+Keep responses SHORT. This is voice, not text. Sound like a person, not a script.`;
 
 // ── State ──
 let history = [];
