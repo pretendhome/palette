@@ -161,16 +161,14 @@ const HUB = window.location.hostname === 'localhost' || window.location.hostname
   : 'https://srv1390882.hstgr.cloud';
 
 // ── Pacing configuration (Kiro-tested values for Rime luna/arcana) ──
-// Speed values calibrated for Rime cove/mist model
-// Higher speedAlpha = SLOWER speech with this model
 const STATES = {
-  OPEN:         { speed: 0.95, pause: 0,   bar: 55, color: 'var(--gold)',    bg: 'var(--gold-light)' },
-  ACCEPTANCE:   { speed: 1.15, pause: 400, bar: 25, color: 'var(--accept)',  bg: 'rgba(99,102,241,0.12)' },
-  RESOLUTION:   { speed: 0.85, pause: 0,   bar: 85, color: 'var(--resolve)', bg: 'rgba(37,99,235,0.12)' },
-  BOUNDARY:     { speed: 0.90, pause: 200, bar: 65, color: 'var(--boundary)',bg: 'rgba(217,119,6,0.12)' },
-  CONFIRMATION: { speed: 1.25, pause: 150, bar: 10, color: 'var(--confirm)', bg: 'rgba(5,150,105,0.12)' },
-  CLOSE:        { speed: 1.05, pause: 0,   bar: 40, color: 'var(--close)',   bg: 'rgba(124,58,237,0.12)' },
-  MIRROR_SYNC:  { speed: 1.20, pause: 500, bar: 20, color: '#dc2626',      bg: 'rgba(220,38,38,0.08)' },
+  OPEN:         { speed: 0.82, pause: 0,   bar: 55, color: 'var(--gold)',    bg: 'var(--gold-light)' },
+  ACCEPTANCE:   { speed: 0.72, pause: 400, bar: 25, color: 'var(--accept)',  bg: 'rgba(99,102,241,0.12)' },
+  RESOLUTION:   { speed: 0.92, pause: 0,   bar: 85, color: 'var(--resolve)', bg: 'rgba(37,99,235,0.12)' },
+  BOUNDARY:     { speed: 0.85, pause: 200, bar: 65, color: 'var(--boundary)',bg: 'rgba(217,119,6,0.12)' },
+  CONFIRMATION: { speed: 0.65, pause: 150, bar: 10, color: 'var(--confirm)', bg: 'rgba(5,150,105,0.12)' },
+  CLOSE:        { speed: 0.78, pause: 0,   bar: 40, color: 'var(--close)',   bg: 'rgba(124,58,237,0.12)' },
+  MIRROR_SYNC:  { speed: 0.70, pause: 500, bar: 20, color: '#dc2626',      bg: 'rgba(220,38,38,0.08)' },
 };
 
 const VALID_STATES = new Set(Object.keys(STATES));
@@ -486,48 +484,31 @@ async function speak(state, text, skipTurn) {
 
   setHint(`speaking · ${state.toLowerCase()} · speed ${cfg.speed}`);
 
-  // Split response into segments for sentence-level pacing control
-  // Em-dashes and periods create natural phrase boundaries
-  const segments = text.split(/(?<=[.!?])\s+|(?:\s*—\s*)/).filter(s => s.trim());
-  let totalWords = 0;
-  let totalDuration = 0;
-
   try {
-    for (let i = 0; i < segments.length; i++) {
-      const seg = segments[i].trim();
-      if (!seg) continue;
+    const ttsRes = await fetch(HUB + '/api/tts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, speaker: 'cove', speed: cfg.speed, model: 'mist' })
+    });
 
-      const ttsRes = await fetch(HUB + '/api/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: seg, speaker: 'cove', speed: cfg.speed, model: 'mist' })
+    if (ttsRes.ok) {
+      const blob = await ttsRes.blob();
+      const url = URL.createObjectURL(blob);
+      ttsAudio.src = url;
+
+      // Measure real WPS after audio loads
+      const wordCount = text.split(/\s+/).length;
+      ttsAudio.addEventListener('loadedmetadata', function onMeta() {
+        const wps = (wordCount / ttsAudio.duration).toFixed(1);
+        document.getElementById('pm-wps').textContent = wps;
+        const lastMeta = chatEl.querySelector('.turn:last-child .turn-meta');
+        if (lastMeta) lastMeta.textContent += ` · measured ${wps} WPS`;
+        ttsAudio.removeEventListener('loadedmetadata', onMeta);
       });
 
-      if (ttsRes.ok) {
-        const blob = await ttsRes.blob();
-        const url = URL.createObjectURL(blob);
-        ttsAudio.src = url;
-
-        await new Promise((resolve) => {
-          ttsAudio.onloadedmetadata = () => {
-            totalWords += seg.split(/\s+/).length;
-            totalDuration += ttsAudio.duration;
-          };
-          ttsAudio.onended = () => { URL.revokeObjectURL(url); resolve(); };
-          ttsAudio.play().catch(resolve);
-        });
-
-        // Brief pause between segments — natural phrase boundary
-        if (i < segments.length - 1) await delay(200);
-      }
-    }
-
-    // Update WPS with total measurement
-    if (totalDuration > 0) {
-      const wps = (totalWords / totalDuration).toFixed(1);
-      document.getElementById('pm-wps').textContent = wps;
-      const lastMeta = chatEl.querySelector('.turn:last-child .turn-meta');
-      if (lastMeta) lastMeta.textContent += ` · measured ${wps} WPS`;
+      await ttsAudio.play();
+      await new Promise(r => { ttsAudio.onended = r; });
+      URL.revokeObjectURL(url);
     }
   } catch (err) {
     console.error('TTS error:', err);
