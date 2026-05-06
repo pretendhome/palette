@@ -164,7 +164,7 @@ const HUB = window.location.hostname === 'localhost' || window.location.hostname
 // Rime cove/mist: higher speedAlpha = SLOWER speech
 const STATES = {
   OPEN:         { speed: 0.85, pause: 0,   bar: 70, color: 'var(--gold)',    bg: 'var(--gold-light)' },
-  ACCEPTANCE:   { speed: 1.25, pause: 400, bar: 20, color: 'var(--accept)',  bg: 'rgba(99,102,241,0.12)' },
+  ACCEPTANCE:   { speed: 1.22, pause: 400, bar: 20, color: 'var(--accept)',  bg: 'rgba(99,102,241,0.12)' },
   RESOLUTION:   { speed: 0.83, pause: 0,   bar: 85, color: 'var(--resolve)', bg: 'rgba(37,99,235,0.12)' },
   BOUNDARY:     { speed: 0.95, pause: 200, bar: 55, color: 'var(--boundary)',bg: 'rgba(217,119,6,0.12)' },
   CONFIRMATION: { speed: 1.30, pause: 200, bar: 10, color: 'var(--confirm)', bg: 'rgba(5,150,105,0.12)' },
@@ -276,9 +276,9 @@ YOUR DESIGN PRINCIPLE: You change pacing and emotional register based on convers
 
 TAG EVERY RESPONSE with exactly one state on its own line. Choose the state that matches the EMOTIONAL function of your response, not the topic:
 [ACCEPTANCE] — customer is upset, worried, or emotionally charged. Acknowledge what matters to them BEFORE offering solutions. Slow down. Name the moment: "A Mother's Day gift — I understand why this is urgent."
-[RESOLUTION] — you are offering options or explaining a rescue plan. Forward-moving, confident. One option per sentence. Pause between options. Confirm before acting.
+[RESOLUTION] — you are offering options or explaining a rescue plan. Forward-moving, confident. One option per sentence. Use "First, I can..." and "Second, I will..." with commas, not dashes (dashes create unnaturally long pauses in TTS). Confirm before acting.
 [BOUNDARY] — you must explain what cannot be guaranteed or what depends on someone else. Be firm, exact, honest. Not cold. "I do want to be clear about one thing." When presenting the safest option, briefly explain WHY it is safest (one clause) — connect the recommendation to the constraint you just named.
-[CONFIRMATION] — you are reading back dates, order details, shipping info, or next steps. Slowest pace. Name each detail explicitly: "The delivery date is Friday, May ninth." Not "It should arrive by then." Break date sequences into separate short sentences. Not: "it ships tomorrow, Thursday, and delivers Friday, May ninth." Better: "It ships tomorrow. Delivery is Friday, May ninth."
+[CONFIRMATION] — you are reading back dates, order details, shipping info, or next steps. Slowest pace. Name each detail explicitly: "The delivery date is Friday, May ninth." Not "It should arrive by then." Break date sequences into separate short sentences. Never let a sentence exceed 15 words — TTS accelerates at the end of long sentences. Split into shorter sentences so each starts fresh at the target speed.
 [CLOSE] — issue is resolved. Match opening warmth. One attentiveness cue (email to watch, seller reply timeline). No fake cheer. No "anything else I can help with?"
 [MIRROR_SYNC] — you sense the customer does not feel fully heard. Reflect EXACTLY what the customer said, not a generalization. Then ask one specific question about their stated concern — not a generic "is there something else." Exit MIRROR_SYNC the moment the customer uses ANY forward language: "sounds good", "okay", "I think", "let's do it", "I understand", "got it", "it sounds like". Transition immediately to RESOLUTION or CONFIRMATION. Max 2 turns in MIRROR_SYNC then force-exit to RESOLUTION.
 
@@ -328,7 +328,7 @@ textForm.addEventListener('submit', function(e) {
   textInput.value = '';
   if (!greeted) {
     greeted = true;
-    speak('OPEN', "Thanks for calling, this is Maya — how can I help you today?", true).then(function() {
+    speak('OPEN', "Thanks for calling, this is Maya, how can I help you today?", true).then(function() {
       handleUserSpeech(msg);
     });
     return;
@@ -392,7 +392,7 @@ if (SR) {
 
 // ── Init ──
 window.addEventListener('load', () => {
-  const openText = "Thanks for calling, this is Maya — how can I help you today?";
+  const openText = "Thanks for calling, this is Maya, how can I help you today?";
   addTurn('agent', openText, 'OPEN');
   history.push({ role: 'assistant', content: openText });
   updatePacing('OPEN');
@@ -405,7 +405,7 @@ micEl.addEventListener('click', async () => {
   if (speaking) return;
   if (!greeted) {
     greeted = true;
-    await speak('OPEN', "Thanks for calling, this is Maya — how can I help you today?", true);
+    await speak('OPEN', "Thanks for calling, this is Maya, how can I help you today?", true);
     setHint('type or press mic to describe your problem');
     return;
   }
