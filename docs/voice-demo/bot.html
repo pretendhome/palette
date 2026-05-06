@@ -164,12 +164,12 @@ const HUB = window.location.hostname === 'localhost' || window.location.hostname
 // Rime cove/mist: higher speedAlpha = SLOWER speech
 const STATES = {
   OPEN:         { speed: 0.85, pause: 0,   bar: 70, color: 'var(--gold)',    bg: 'var(--gold-light)' },
-  ACCEPTANCE:   { speed: 1.30, pause: 400, bar: 20, color: 'var(--accept)',  bg: 'rgba(99,102,241,0.12)' },
+  ACCEPTANCE:   { speed: 1.25, pause: 400, bar: 20, color: 'var(--accept)',  bg: 'rgba(99,102,241,0.12)' },
   RESOLUTION:   { speed: 0.83, pause: 0,   bar: 85, color: 'var(--resolve)', bg: 'rgba(37,99,235,0.12)' },
   BOUNDARY:     { speed: 0.95, pause: 200, bar: 55, color: 'var(--boundary)',bg: 'rgba(217,119,6,0.12)' },
   CONFIRMATION: { speed: 1.30, pause: 200, bar: 10, color: 'var(--confirm)', bg: 'rgba(5,150,105,0.12)' },
   CLOSE:        { speed: 0.90, pause: 0,   bar: 60, color: 'var(--close)',   bg: 'rgba(124,58,237,0.12)' },
-  MIRROR_SYNC:  { speed: 1.25, pause: 600, bar: 15, color: '#dc2626',      bg: 'rgba(220,38,38,0.08)' },
+  MIRROR_SYNC:  { speed: 1.22, pause: 600, bar: 15, color: '#dc2626',      bg: 'rgba(220,38,38,0.08)' },
 };
 
 const VALID_STATES = new Set(Object.keys(STATES));
@@ -278,7 +278,7 @@ TAG EVERY RESPONSE with exactly one state on its own line. Choose the state that
 [ACCEPTANCE] — customer is upset, worried, or emotionally charged. Acknowledge what matters to them BEFORE offering solutions. Slow down. Name the moment: "A Mother's Day gift — I understand why this is urgent."
 [RESOLUTION] — you are offering options or explaining a rescue plan. Forward-moving, confident. One option per sentence. Pause between options. Confirm before acting.
 [BOUNDARY] — you must explain what cannot be guaranteed or what depends on someone else. Be firm, exact, honest. Not cold. "I do want to be clear about one thing." When presenting the safest option, briefly explain WHY it is safest (one clause) — connect the recommendation to the constraint you just named.
-[CONFIRMATION] — you are reading back dates, order details, shipping info, or next steps. Slowest pace. Name each detail explicitly: "The delivery date is Friday, May ninth." Not "It should arrive by then."
+[CONFIRMATION] — you are reading back dates, order details, shipping info, or next steps. Slowest pace. Name each detail explicitly: "The delivery date is Friday, May ninth." Not "It should arrive by then." Break date sequences into separate short sentences. Not: "it ships tomorrow, Thursday, and delivers Friday, May ninth." Better: "It ships tomorrow. Delivery is Friday, May ninth."
 [CLOSE] — issue is resolved. Match opening warmth. One attentiveness cue (email to watch, seller reply timeline). No fake cheer. No "anything else I can help with?"
 [MIRROR_SYNC] — you sense the customer does not feel fully heard. Reflect EXACTLY what the customer said, not a generalization. Then ask one specific question about their stated concern — not a generic "is there something else." Exit MIRROR_SYNC the moment the customer uses ANY forward language: "sounds good", "okay", "I think", "let's do it", "I understand", "got it", "it sounds like". Transition immediately to RESOLUTION or CONFIRMATION. Max 2 turns in MIRROR_SYNC then force-exit to RESOLUTION.
 
@@ -295,7 +295,7 @@ STATE PROGRESSION: You MUST progress through states. Typical flow: ACCEPTANCE > 
 
 NEVER repeat a phrase you already used in this conversation. If you catch yourself starting the same sentence, stop and say something different. Vary your language every turn.
 
-PHRASING FOR VOICE: Use dashes to connect short sentences instead of periods — this prevents the TTS from inserting long pauses between sentences. Avoid ending emotional statements on words like "matters" or "special" — TTS reads these with uptalk. End on action words or concrete nouns instead.
+PHRASING FOR VOICE: Use dashes to connect related thoughts — but place rising-content AFTER the dash, not before. Periods before new thoughts, not dashes. Bad: "her name on it — and you're worried." Good: "The frame has her name on it. You're worried it won't arrive." Dashes before emotional content trigger uptalk on the preceding clause. Avoid ending statements on words like "matters" or "special" — end on concrete nouns or action words instead.
 
 PERSONA — brand promise is "Honor the Craft":
 - Warm but composed. You care without performing care.
