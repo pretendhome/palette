@@ -161,14 +161,16 @@ const HUB = window.location.hostname === 'localhost' || window.location.hostname
   : 'https://srv1390882.hstgr.cloud';
 
 // ── Pacing configuration (Kiro-tested values for Rime luna/arcana) ──
+// Speed values calibrated for Rime cove/mist model
+// Higher speedAlpha = SLOWER speech with this model
 const STATES = {
-  OPEN:         { speed: 0.82, pause: 0,   bar: 55, color: 'var(--gold)',    bg: 'var(--gold-light)' },
-  ACCEPTANCE:   { speed: 0.72, pause: 400, bar: 25, color: 'var(--accept)',  bg: 'rgba(99,102,241,0.12)' },
-  RESOLUTION:   { speed: 0.92, pause: 0,   bar: 85, color: 'var(--resolve)', bg: 'rgba(37,99,235,0.12)' },
-  BOUNDARY:     { speed: 0.85, pause: 200, bar: 65, color: 'var(--boundary)',bg: 'rgba(217,119,6,0.12)' },
-  CONFIRMATION: { speed: 0.65, pause: 150, bar: 10, color: 'var(--confirm)', bg: 'rgba(5,150,105,0.12)' },
-  CLOSE:        { speed: 0.78, pause: 0,   bar: 40, color: 'var(--close)',   bg: 'rgba(124,58,237,0.12)' },
-  MIRROR_SYNC:  { speed: 0.70, pause: 500, bar: 20, color: '#dc2626',      bg: 'rgba(220,38,38,0.08)' },
+  OPEN:         { speed: 0.95, pause: 0,   bar: 55, color: 'var(--gold)',    bg: 'var(--gold-light)' },
+  ACCEPTANCE:   { speed: 1.15, pause: 400, bar: 25, color: 'var(--accept)',  bg: 'rgba(99,102,241,0.12)' },
+  RESOLUTION:   { speed: 0.85, pause: 0,   bar: 85, color: 'var(--resolve)', bg: 'rgba(37,99,235,0.12)' },
+  BOUNDARY:     { speed: 0.90, pause: 200, bar: 65, color: 'var(--boundary)',bg: 'rgba(217,119,6,0.12)' },
+  CONFIRMATION: { speed: 1.25, pause: 150, bar: 10, color: 'var(--confirm)', bg: 'rgba(5,150,105,0.12)' },
+  CLOSE:        { speed: 1.05, pause: 0,   bar: 40, color: 'var(--close)',   bg: 'rgba(124,58,237,0.12)' },
+  MIRROR_SYNC:  { speed: 1.20, pause: 500, bar: 20, color: '#dc2626',      bg: 'rgba(220,38,38,0.08)' },
 };
 
 const VALID_STATES = new Set(Object.keys(STATES));
