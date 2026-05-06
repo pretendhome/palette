@@ -320,13 +320,12 @@ textForm.addEventListener('submit', function(e) {
   handleUserSpeech(msg);
 });
 
-// ── Safari/Chrome audio unlock ──
+// ── Safari/Chrome/Edge audio unlock ──
 var ttsAudio = new Audio();
-document.addEventListener('click', function unlock() {
+document.addEventListener('click', function() {
   ttsAudio.play().catch(function(){});
   ttsAudio.pause();
   ttsAudio.currentTime = 0;
-  document.removeEventListener('click', unlock);
 }, { once: true });
 
 // ── Speech Recognition (click-to-toggle, like OKA) ──
@@ -427,7 +426,7 @@ async function handleUserSpeech(text) {
     const res = await fetch(HUB + '/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ agent: 'claude', message: text, system: systemWithContext, history: history.slice(-12) })
+      body: JSON.stringify({ agent: 'claude', message: text, system: systemWithContext, history: history.slice(-12), stream: false })
     });
 
     let reply = '';
@@ -454,6 +453,7 @@ async function handleUserSpeech(text) {
     }
 
     history.push({ role: 'assistant', content: clean });
+    // Don't use SSE audio — speak() makes its own TTS call with state-specific speed
     await speak(state, clean);
 
   } catch (err) {
@@ -494,20 +494,18 @@ async function speak(state, text, skipTurn) {
     if (ttsRes.ok) {
       const blob = await ttsRes.blob();
       const url = URL.createObjectURL(blob);
-      ttsAudio.src = url;
+      const audio = new Audio(url);
 
-      // Measure real WPS after audio loads
       const wordCount = text.split(/\s+/).length;
-      ttsAudio.addEventListener('loadedmetadata', function onMeta() {
-        const wps = (wordCount / ttsAudio.duration).toFixed(1);
+      audio.addEventListener('loadedmetadata', () => {
+        const wps = (wordCount / audio.duration).toFixed(1);
         document.getElementById('pm-wps').textContent = wps;
         const lastMeta = chatEl.querySelector('.turn:last-child .turn-meta');
         if (lastMeta) lastMeta.textContent += ` · measured ${wps} WPS`;
-        ttsAudio.removeEventListener('loadedmetadata', onMeta);
       });
 
-      await ttsAudio.play();
-      await new Promise(r => { ttsAudio.onended = r; });
+      await audio.play();
+      await new Promise(r => { audio.onended = r; });
       URL.revokeObjectURL(url);
     }
   } catch (err) {

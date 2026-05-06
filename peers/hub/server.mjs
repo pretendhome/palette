@@ -374,7 +374,8 @@ async function handleRequest(req, res) {
   if (path === '/api/chat' && req.method === 'POST') {
     try {
       const body = JSON.parse(await readBody(req));
-      const { agent, text, lang } = body;
+      const { agent, text: rawText, message, lang, system: clientSystem, stream: wantStream } = body;
+      const text = rawText || message;
       if (!agent || !text) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'agent and text required' }));
@@ -385,6 +386,22 @@ async function handleRequest(req, res) {
       if (!config) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: `unknown agent: ${agent}`, available: Object.keys(AGENT_APIS) }));
+        return;
+      }
+
+      // Non-streaming JSON mode: collect full LLM response and return as JSON (no TTS)
+      if (wantStream === false) {
+        const langInstruction = lang && lang !== 'eng'
+          ? `Respond in the same language the user is speaking. If they speak French, respond in French. If Italian, respond in Italian. If Spanish, respond in Spanish. `
+          : '';
+        const steering = clientSystem || AGENT_STEERING[agent] || '';
+        const voiceInstruction = clientSystem ? '' : 'Be concise — 2-3 sentences for spoken conversation. Do NOT use markdown formatting. Your response will be spoken aloud.';
+        const systemPrompt = `${steering}\n\n${langInstruction}${voiceInstruction}`;
+        let fullText = '';
+        const llmStream = await callLLM(config, systemPrompt, text);
+        for await (const token of llmStream) { fullText += token; }
+        res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+        res.end(JSON.stringify({ response: fullText.trim() }));
         return;
       }
 
@@ -429,9 +446,9 @@ async function handleRequest(req, res) {
       const langInstruction = lang && lang !== 'eng'
         ? `Respond in the same language the user is speaking. If they speak French, respond in French. If Italian, respond in Italian. If Spanish, respond in Spanish. `
         : '';
-      const steering = AGENT_STEERING[agent] || '';
-      const voiceInstruction = 'Be concise — 2-3 sentences for spoken conversation. Do NOT use markdown formatting (no **bold**, no *italic*, no bullet points, no numbered lists, no headers). Your response will be spoken aloud through a voice synthesizer.';
-      const systemPrompt = `${steering}\n\n${langInstruction}${voiceInstruction}${paletteContext}`;
+      const steering = clientSystem || AGENT_STEERING[agent] || '';
+      const voiceInstruction = clientSystem ? '' : 'Be concise — 2-3 sentences for spoken conversation. Do NOT use markdown formatting (no **bold**, no *italic*, no bullet points, no numbered lists, no headers). Your response will be spoken aloud through a voice synthesizer.';
+      const systemPrompt = `${steering}\n\n${langInstruction}${voiceInstruction}${clientSystem ? '' : paletteContext}`;
 
       let fullText = '';
       let sentenceBuffer = '';
