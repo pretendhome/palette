@@ -492,18 +492,21 @@ async function handleUserSpeech(text) {
       reply = '[RESOLUTION] I apologize — I had a brief connection issue. Could you repeat that?';
     }
 
-    // Parse state tag — can appear at start or end of response
-    const matchStart = reply.match(/^\[([A-Z_]+)\]\s*/);
-    const matchEnd = reply.match(/\s*\[([A-Z_]+)\]\s*$/);
+    // Parse state tag — can appear at start, end, or inline
+    reply = reply.trim();
     let state = 'RESOLUTION';
     let clean = reply;
-    if (matchStart && VALID_STATES.has(matchStart[1])) {
-      state = matchStart[1];
-      clean = reply.slice(matchStart[0].length).trim();
-    } else if (matchEnd && VALID_STATES.has(matchEnd[1])) {
-      state = matchEnd[1];
-      clean = reply.slice(0, -matchEnd[0].length).trim();
+    // Find ALL state tags in the response, use the first valid one
+    const tagPattern = /\[([A-Z_]+)\]/g;
+    let tagMatch;
+    while ((tagMatch = tagPattern.exec(reply)) !== null) {
+      if (VALID_STATES.has(tagMatch[1])) {
+        state = tagMatch[1];
+        break;
+      }
     }
+    // Strip ALL state tags from the spoken text
+    clean = reply.replace(/\[([A-Z_]+)\]/g, (m, s) => VALID_STATES.has(s) ? '' : m).trim();
 
     history.push({ role: 'assistant', content: clean });
     await speak(state, clean);
