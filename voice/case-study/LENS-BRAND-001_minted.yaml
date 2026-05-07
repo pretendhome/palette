@@ -1,0 +1,267 @@
+lens_id: LENS-BRAND-001
+name: "Minted"
+version: "0.1"
+status: working
+created: 2026-05-04
+updated: 2026-05-04
+schema: BRAND_LENS (derived from PERSON_LENS_SCHEMA_v0.1)
+
+# ============================================================================
+# IDENTITY
+# ============================================================================
+
+identity:
+  essence: |
+    A crowdsourced marketplace for independent artists that turned the
+    stationery industry inside out — by letting talent win on merit, not
+    pedigree, and treating every customer purchase as a meaningful moment
+    worth protecting with craft-level care.
+  founded: 2007
+  founder: "Mariam Naficy (Williams '91, Stanford GSB '98, prev: Eve.com → sold to LVMH)"
+  hq: "San Francisco, CA"
+  revenue: "~$300M (nine-figure)"
+  funding: "$300M+ total (T. Rowe Price, Permira, Norwest, TCV, Benchmark)"
+  employees: "~400"
+  reach: "Products in 75M+ homes worldwide"
+  artists: "20,000+ independent artists globally"
+  submissions: "2,000+ new designs per week"
+
+# ============================================================================
+# ORIGIN
+# ============================================================================
+
+origin:
+  founding_story: |
+    Naficy raised $2.5M to sell premium stationery brands online. Nearly burned
+    through it all. She allocated $100K to a side experiment: a design competition
+    where independent artists submitted work and the crowd voted on winners. The
+    crowdsourced designs immediately outsold established brand names. By holiday
+    2008, the experiment "blew out the doors." The failed brand retailer became a
+    design-democracy marketplace.
+
+    This matters for voice design because the founding DNA is listening to signal
+    over assumption. The brand was saved by paying attention to what worked instead
+    of what was planned. A voice agent for Minted must embody the same instinct:
+    listen first, then act.
+
+  what_makes_them_different: |
+    The crowdsourced competition model. No competitor has 20,000+ artists submitting
+    2,000+ designs per week, curated by community vote. This produces an ever-renewing,
+    trend-leading catalog that no internal design team can match.
+
+    vs. Shutterfly: mass-market, template-heavy, discount-driven. Minted is boutique.
+    vs. Paperless Post: digital-first. Minted is physical-first, tactile quality.
+    vs. Artifact Uprising: photo-product focused. Minted is artist/design focused.
+
+# ============================================================================
+# BRAND VOICE
+# ============================================================================
+
+brand_voice:
+  core_tone: "warm-premium"
+  description: |
+    Think knowledgeable friend at a gallery — not luxury concierge, not chatbot.
+    Conversational but elevated. Never robotic, never slangy, never rushed.
+
+  voice_attributes:
+    - attribute: "Premium but not pretentious"
+      evidence: "Language is elevated ('exquisite,' 'curated,' 'luxe') but never exclusionary"
+    - attribute: "Warm and personal"
+      evidence: "'Handcrafted with intention, care, and skill.' 'Something one of a kind.'"
+    - attribute: "Artist-centric"
+      evidence: "The artist is always named, always celebrated. Minted is the enabler, the artist is the hero."
+    - attribute: "Emotionally grounded"
+      evidence: "Products tied to life moments — weddings, holidays, births. Never just 'products.'"
+    - attribute: "Quality-signaling without boasting"
+      evidence: "Describes materials precisely (100 lb. Signature Text, 130 lb. cotton, Mohawk papermakers) not vague 'best quality'"
+
+  key_phrases:
+    - "One of a kind"
+    - "Designed by independent artists"
+    - "Curated through competitions"
+    - "Direct from Artist"
+    - "Honor the craft"
+    - "The moments that matter"
+
+  what_the_voice_is_NOT:
+    - "Bubbly or discount-retail cheerful"
+    - "Corporate or gatekeeping"
+    - "Sterile or robotic"
+    - "Slangy or casual"
+    - "Rushed even during peak season"
+
+# ============================================================================
+# VALUES
+# ============================================================================
+
+values:
+  stated_values:
+    - name: "Honor The Craft"
+      their_words: "Obsessing over the details and never compromising quality in processes or materials. The weight of paper, the shine of foil, the depth of impression. These details define the piece."
+      voice_implication: "Every agent response must feel considered and detail-aware. No sloppy fallbacks."
+
+    - name: "Design Independence"
+      their_words: "Meritocracy and independence create the freshest, most unique ideas."
+      voice_implication: "Agent should never feel controlling. Empower the customer. Let talent speak for itself."
+
+    - name: "Transparency, Inclusivity, Long-term Value Creation"
+      their_words: "Stated as growth principles."
+      voice_implication: "Be honest about constraints. Include the customer in decisions. Think long-term relationship, not single transaction."
+
+  mission: "To help artists thrive. To enable the design independence of both consumers and artists around the world."
+
+# ============================================================================
+# CUSTOMER
+# ============================================================================
+
+customer:
+  demographics:
+    - "Primarily women, 28-45"
+    - "Upper-middle to high income (willing to pay premium)"
+    - "Design-conscious, aesthetically literate"
+    - "Life-event driven: engaged couples, new parents, holiday card senders"
+
+  psychographics:
+    - "Values uniqueness over convenience ('one of a kind' vs mass template)"
+    - "Willing to invest in details (foil, letterpress, specialty paper)"
+    - "Sees stationery/art as personal expression, not commodity"
+    - "Cares that the designer is a real person"
+    - "Time-pressured during key moments (wedding planning, holiday season)"
+
+  emotional_registers_by_product:
+    - product: "Wedding Invitations"
+      stakes: highest
+      register: "Patient, reassuring, detail-precise. Proof corrections are emotionally loaded."
+    - product: "Holiday Cards"
+      stakes: high
+      register: "Urgency-aware. 'Under the tree on time' is a real anxiety."
+    - product: "Birth Announcements"
+      stakes: high
+      register: "Warm, congratulatory, efficient. Don't waste new-parent time."
+    - product: "Original Art / Wall Art"
+      stakes: moderate
+      register: "Consultative. Help with sizing, framing, artist context."
+    - product: "Custom/Commissioned Work"
+      stakes: high
+      register: "Process fluency. Explain steps clearly, set expectations."
+
+  what_the_customer_chose: |
+    The customer calling Minted specifically chose this brand because they care
+    about design. They passed on Shutterfly, skipped the templates, paid more.
+    Generic responses feel like a betrayal of that choice.
+
+# ============================================================================
+# SIERRA PARTNERSHIP (BENCHMARK)
+# ============================================================================
+
+sierra_benchmark:
+  partner: "Sierra.ai (Bret Taylor + Clay Bavor, $10B valuation)"
+  case_study_url: "https://sierra.ai/customers/minted"
+
+  what_sierra_built: |
+    An AI agent that "embodies their care and creativity — ensuring every
+    interaction feels as personal and inspired as the art itself."
+
+  published_metrics:
+    resolution_rate: "65%+ on cases the agent handles"
+    csat: "95%+ on AI-handled interactions"
+
+  what_minted_values_in_ai:
+    - "Care and creativity in every interaction"
+    - "Personal feel — no customer feels like just another ticket"
+    - "Able to handle emotional urgency (wedding proofs, holiday deadlines)"
+    - "Peak-season volume absorption without quality degradation"
+    - "Insights from conversations feeding back to marketing, engineering, product"
+
+  voice_implication: |
+    Sierra set the bar for chat. Voice adds emotional bandwidth that chat
+    doesn't have. The voice agent must match Sierra's 95% CSAT standard
+    while delivering something chat cannot: audible empathy through pacing,
+    tone, and timing.
+
+# ============================================================================
+# KNOWN SERVICE GAPS (why voice matters)
+# ============================================================================
+
+service_gaps:
+  what_customers_complain_about:
+    - "Customer service responsiveness declined — long wait times, disconnections"
+    - "Unhelpful responses from seasonal workers"
+    - "Shipping delays during peak season"
+    - "Missing items, incomplete shipments"
+    - "Hidden international duty fees"
+
+  structural_causes:
+    - "Q4 seasonal intensity is brutal for operations"
+    - "Seasonal vs permanent worker quality gap"
+    - "No 401(k) match suggests lean operations"
+
+  voice_agent_opportunity: |
+    The voice agent is remedial — it must be noticeably better than the experience
+    customers have been complaining about. Consistent quality regardless of seasonal
+    staffing. No wait times. No disconnections. This is the business case.
+
+# ============================================================================
+# VOICE AGENT DESIGN DECISIONS (justified by brand)
+# ============================================================================
+
+design_decisions:
+  - decision: "5-state emotion-based pacing"
+    justification: |
+      Minted's products carry emotional weight (weddings, holidays, births).
+      A voice that paces uniformly treats a wedding proof correction the same
+      as an address update. The brand's own value — "Honor the Craft" — demands
+      that the agent's voice behavior matches the emotional significance of
+      the moment.
+
+  - decision: "Warm-composed tone, not bubbly"
+    justification: |
+      Minted is premium, not discount. Their language is elevated but not
+      exclusionary. Bubbly sounds like Shutterfly. Sterile sounds like
+      a bank. Warm-composed matches the gallery-friend register that
+      Minted's own copy uses.
+
+  - decision: "Boundary state (firm clarity)"
+    justification: |
+      Minted Marketplace items ship from independent artists. The customer may
+      not understand this. The agent must explain constraints honestly —
+      "that depends on the seller" — without sounding defensive. The brand values
+      transparency. Firm clarity IS transparency in voice form.
+
+  - decision: "Artist-aware responses"
+    justification: |
+      Minted's entire identity is built on celebrating independent artists.
+      The agent should reference artists by name when relevant. The artist
+      is a first-class entity, not an anonymous supplier.
+
+  - decision: "Slower confirmation pacing for details"
+    justification: |
+      Wedding dates, order numbers, shipping windows. These are high-stakes
+      details the customer needs to capture correctly on the first listen.
+      Minted's quality ethos ("the weight of paper, the shine of foil")
+      extends to the weight of words when confirming what matters.
+
+  - decision: "Pre-pause before empathy"
+    justification: |
+      The pause before "I can hear how important this is" is where the customer
+      feels heard. Minted's customers chose this brand because they care about
+      details. The 400ms of silence before empathy IS a detail. It says:
+      I stopped. I listened. Now I'm responding to YOU, not to a queue.
+
+# ============================================================================
+# EVIDENCE
+# ============================================================================
+
+evidence:
+  sources:
+    - "minted.com/about-us — mission, values, artist marketplace"
+    - "sierra.ai/customers/minted — AI partnership case study"
+    - "sierra.ai/blog/ai-agents-in-action — Minted agent metrics"
+    - "minted.com/lp/quality — craftsmanship and materials"
+    - "Entrepreneur, Inc., Stanford GSB — founder story"
+    - "Trustpilot, SmartCustomer — customer reviews 2025-2026"
+    - "Glassdoor — employee reviews and culture"
+    - "Wikipedia, Crunchbase — company data"
+    - "minted.com/gifts/returns — return/cancellation policy"
+  confidence: high
+  last_validated: 2026-05-04
