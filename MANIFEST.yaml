@@ -27,7 +27,7 @@ layers:
     version: v1.4
     path: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
     generated: 2026-02-05
-    entries: 176
+    entries: 183
     unit: LIB entry
     status: current
 
@@ -72,7 +72,7 @@ layers:
   lenses:
     version: v0
     path: lenses/releases/v0/
-    entries: 28
+    entries: 30
     unit: role lens
     status: pilot
     creation_skill: skills/lenses/lens-creation-methodology.md
@@ -82,7 +82,7 @@ layers:
     path: wiki/
     compiler: scripts/compile_wiki.py
     validator: scripts/validate_wiki.py
-    pages: 337
+    pages: 345
     validation: "8/8 PASS"
     status: current
 
