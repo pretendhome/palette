@@ -23,6 +23,7 @@ const HUB_PORT  = parseInt(process.env.PALETTE_HUB_PORT  || '7890', 10);
 const BUS_URL   = process.env.PALETTE_BUS_URL   || 'http://127.0.0.1:7899';
 const WIKI_ROOT = resolve(process.env.PALETTE_WIKI_ROOT || join(__dirname, '../../wiki'));
 const RIME_API  = 'https://users.rime.ai/v1/rime-tts';
+const RIME_MODEL = 'arcana';  // Arcana v3 — 94 voices, identity-rich (switched from arcanav2)
 
 // ── API keys and credentials ──────────────────────────────────────────────
 
@@ -261,7 +262,7 @@ async function handleRequest(req, res) {
         body: JSON.stringify({
           text: stripMarkdownForTTS(body.text),
           speaker: body.speaker || 'astra',
-          modelId: body.model || 'arcanav2',
+          modelId: body.model || RIME_MODEL,
           ...(body.lang ? { lang: body.lang } : {}),
           ...(body.speed && body.speed !== 1.0 ? { speedAlpha: body.speed } : {}),
         }),
@@ -490,7 +491,7 @@ async function handleRequest(req, res) {
 
           // Generate TTS for the complete sentence
           try {
-            const voice = AGENT_VOICES_MAP[agent] || { speaker: 'astra', speed: 1.0 };
+            const voice = resolveVoice(agent);
             const audioRes = await fetch(RIME_API, {
               method: 'POST',
               headers: {
@@ -501,9 +502,9 @@ async function handleRequest(req, res) {
               body: JSON.stringify({
                 text: stripMarkdownForTTS(complete),
                 speaker: voice.speaker,
-                modelId: 'arcanav2',
+                modelId: voice.modelId,
                 lang: lang || 'eng',
-                ...(voice.speed && voice.speed !== 1.0 ? { speedAlpha: voice.speed } : {}),
+                ...(voice.speed !== 1.0 ? { speedAlpha: voice.speed } : {}),
               }),
             });
             if (audioRes.ok) {
@@ -517,7 +518,7 @@ async function handleRequest(req, res) {
 
       // Flush remaining buffer — split into sentences for better playback
       if (sentenceBuffer.trim().length > 2) {
-        const voice = AGENT_VOICES_MAP[agent] || { speaker: 'astra', speed: 1.0 };
+        const voice = resolveVoice(agent);
         // Split on sentence boundaries for per-sentence TTS
         const sentences = sentenceBuffer.trim().split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 2);
         for (const sentence of sentences) {
@@ -532,9 +533,9 @@ async function handleRequest(req, res) {
               body: JSON.stringify({
                 text: stripMarkdownForTTS(sentence.trim()),
                 speaker: voice.speaker,
-                modelId: 'arcanav2',
+                modelId: voice.modelId,
                 lang: lang || 'eng',
-                ...(voice.speed && voice.speed !== 1.0 ? { speedAlpha: voice.speed } : {}),
+                ...(voice.speed !== 1.0 ? { speedAlpha: voice.speed } : {}),
               }),
             });
             if (audioRes.ok) {
@@ -719,16 +720,90 @@ function stripMarkdownForTTS(text) {
     .trim();
 }
 
-// ── Agent voice map (server-side, matches frontend AGENT_VOICES) ────────────
+// ── Agent voice map — Tessitura v1 (identity + state-weight deltas) ─────────
+//
+// Three layers:
+//   1. Identity — baseline speaker, speed, pause (who this agent IS)
+//   2. State weight — how heavy the current content feels internally
+//   3. Delivery — observable delta from baseline (speed, pause)
+//
+// Rule: No state modulation may erase baseline identity.
+// States are deltas from self, not costume changes.
+// Model: Arcana v3 (modelId defined at top as RIME_MODEL)
 
 const AGENT_VOICES_MAP = {
-  claude:     { speaker: 'astra',   speed: 1.0 },
-  mistral:    { speaker: 'luna',    speed: 1.0 },
-  codex:      { speaker: 'celeste', speed: 1.0 },
-  qwen:       { speaker: 'orion',   speed: 1.0 },
-  kiro:       { speaker: 'orion',   speed: 1.1 },      // arcas not in arcanav2
-  perplexity: { speaker: 'celeste', speed: 0.92 },   // cove not in arcanav2
+  // Speakers are provisional — pending Codex Arcana catalog audit.
+  // Will be replaced with unique per-agent speakers after blind testing.
+  claude:     { speaker: 'astra',   speed: 0.95, pauseMs: 100,
+    states: {
+      synthesis:  { speedDelta: -0.05, pauseDelta: 150 },  // slower, spacious
+      alert:      { speedDelta: +0.02, pauseDelta: 100 },  // slightly urgent
+      handoff:    { speedDelta: +0.03, pauseDelta: 0 },    // clean release
+      recognition:{ speedDelta: -0.03, pauseDelta: 100 },  // earned warmth
+      precision:  { speedDelta: 0, pauseDelta: 0 },        // baseline
+    }},
+  kiro:       { speaker: 'orion',   speed: 1.0,  pauseMs: 0,
+    states: {
+      precision:  { speedDelta: 0, pauseDelta: 0 },        // baseline: already decided
+      alert:      { speedDelta: -0.02, pauseDelta: 200 },  // heavier, gravity
+      challenge:  { speedDelta: -0.02, pauseDelta: 150 },  // steady, controlled
+      synthesis:  { speedDelta: -0.08, pauseDelta: 250 },  // spacious, connecting
+      handoff:    { speedDelta: +0.05, pauseDelta: 0 },    // release, done
+    }},
+  codex:      { speaker: 'celeste', speed: 1.0,  pauseMs: 0,
+    states: {
+      contact:    { speedDelta: 0, pauseDelta: 0 },        // baseline: in the artifact
+      load:       { speedDelta: -0.03, pauseDelta: 100 },  // heavier surface
+      brake:      { speedDelta: -0.02, pauseDelta: 200 },  // boundary, firm
+      click:      { speedDelta: +0.02, pauseDelta: 80 },   // pattern visible
+      release:    { speedDelta: +0.04, pauseDelta: 0 },    // done, lighter
+    }},
+  computer:   { speaker: 'celeste', speed: 0.88, pauseMs: 150,
+    states: {
+      precision:  { speedDelta: 0, pauseDelta: 0 },
+      synthesis:  { speedDelta: -0.04, pauseDelta: 200 },
+      discovery:  { speedDelta: +0.04, pauseDelta: 100 },
+      handoff:    { speedDelta: +0.06, pauseDelta: 0 },
+      alert:      { speedDelta: +0.02, pauseDelta: 150 },
+    }},
+  mistral:    { speaker: 'luna',    speed: 1.0,  pauseMs: 50,
+    states: {
+      precision:  { speedDelta: 0, pauseDelta: 0 },
+      challenge:  { speedDelta: -0.02, pauseDelta: 150 },
+      synthesis:  { speedDelta: -0.05, pauseDelta: 200 },
+      handoff:    { speedDelta: +0.04, pauseDelta: 0 },
+      alert:      { speedDelta: 0, pauseDelta: 100 },
+    }},
+  gemini:     { speaker: 'orion',   speed: 1.02, pauseMs: 0,
+    states: {
+      precision:  { speedDelta: 0, pauseDelta: 0 },
+      discovery:  { speedDelta: +0.03, pauseDelta: 80 },
+      synthesis:  { speedDelta: -0.05, pauseDelta: 150 },
+      handoff:    { speedDelta: +0.04, pauseDelta: 0 },
+      alert:      { speedDelta: -0.02, pauseDelta: 100 },
+    }},
+  qwen:       { speaker: 'orion',   speed: 1.0,  pauseMs: 0,
+    states: { precision: { speedDelta: 0, pauseDelta: 0 } }},
+  perplexity: { speaker: 'celeste', speed: 0.92, pauseMs: 80,
+    states: { precision: { speedDelta: 0, pauseDelta: 0 } }},
+  reasoning:  { speaker: 'celeste', speed: 0.90, pauseMs: 100,
+    states: { precision: { speedDelta: 0, pauseDelta: 0 } }},
 };
+
+/**
+ * Resolve voice parameters for a given agent and optional state.
+ * Returns { speaker, speed, pauseMs, modelId }.
+ */
+function resolveVoice(agent, state) {
+  const profile = AGENT_VOICES_MAP[agent] || { speaker: 'astra', speed: 1.0, pauseMs: 0, states: {} };
+  const delta = (state && profile.states?.[state]) || { speedDelta: 0, pauseDelta: 0 };
+  return {
+    speaker: profile.speaker,
+    speed: profile.speed + delta.speedDelta,
+    pauseMs: (profile.pauseMs || 0) + delta.pauseDelta,
+    modelId: RIME_MODEL,
+  };
+}
 
 // ── Shared OpenAI-compatible streaming parser with AbortController ──────────
 
