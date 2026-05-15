@@ -49,3 +49,4 @@ peers/dropbox/inbox/
 *.bak
 peers/hub/.env
 agents/narrator/last_narrative_request.md
+kl_fts.db
