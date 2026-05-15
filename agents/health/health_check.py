@@ -636,6 +636,39 @@ def section_8_governance_pipeline(report: HealthReport) -> None:
             report.add(Check(8, f"Pipeline script {name} exists", False,
                               spath, "failure"))
 
+    # 8.5 Proposal staleness — surface proposals stuck in voting/open >14 days
+    if os.path.isdir(proposed_dir):
+        stale_proposals = []
+        now = datetime.datetime.now(datetime.timezone.utc)
+        staleness_threshold = datetime.timedelta(days=14)
+        for fname in os.listdir(proposed_dir):
+            if not fname.startswith("PROP-") or not fname.endswith(".yaml"):
+                continue
+            fpath = os.path.join(proposed_dir, fname)
+            try:
+                with open(fpath) as f:
+                    prop = yaml.safe_load(f)
+                if not isinstance(prop, dict):
+                    continue
+                status = prop.get("status", "")
+                if status not in ("voting", "open"):
+                    continue
+                proposed_at = prop.get("proposed_at", "")
+                if proposed_at:
+                    filed = datetime.datetime.fromisoformat(str(proposed_at).replace("Z", "+00:00"))
+                    age = now - filed
+                    if age > staleness_threshold:
+                        stale_proposals.append(f"{prop.get('id', fname)}: {age.days}d old, status={status}")
+            except Exception:
+                pass
+        if stale_proposals:
+            report.add(Check(8, f"Stale proposals (>{staleness_threshold.days}d in voting/open)",
+                              False,
+                              f"{len(stale_proposals)} stale: {'; '.join(stale_proposals[:5])}",
+                              "warning"))
+        else:
+            report.add(Check(8, "No stale proposals", True))
+
 
 # ── Reflection Question ─────────────────────────────────────────────────────
 
