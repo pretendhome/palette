@@ -77,6 +77,17 @@ origin:
         inside context, never isolated. All passed certification without opening textbooks.
         Proof that contextual immersion works across populations.
 
+    - what: "Amazon CS Knowledge Design — tone-and-length rubrics by culture"
+      when: "2013-2015"
+      why_it_matters: |
+        Built the knowledge base CS associates used across European markets. Instead of
+        translating US English blurbs, went to the highest-CSAT associates and asked for
+        their personal notepads. The best performers had internalized cultural preferences
+        the system didn't capture — Germans wanted short and direct, Italians wanted longer
+        and warmer. Turned that into a tone-and-length rubric per country, and it outperformed
+        straight translation immediately. First time he designed how a system should *speak*
+        differently across cultures — the seed of everything that followed.
+
     - what: "Amazon Italy Kaizen lead — Think Big competition win"
       when: "2013-2015"
       why_it_matters: |
@@ -84,6 +95,26 @@ origin:
         ideas. First time these employees had been asked. One L2 employee's idea won the
         company-wide Think Big competition — first time ever for that level. Proof that
         creating the environment for innovation matters more than being the innovator.
+
+    - what: "Alexa FRITES — voice output design across FR/IT/ES locales"
+      when: "2019-2023"
+      why_it_matters: |
+        Owned voice output quality across the three Romance locales (French, Italian, Spanish).
+        Built and iterated on the actual response strings (FERs — Full Entity Responses) in
+        Java, getting grammar and agreement right across languages simultaneously. The defining
+        moment: Italian grammatical agreement couldn't be guaranteed with the existing Lexi
+        structure, so he redesigned all Italian responses from active to passive voice. "Go to
+        this place to find this thing" became "This thing is found in this place." Less natural,
+        but grammatically bulletproof every time. This contradicted a core Alexa principle
+        (responses should be direct and active), but data showed incorrect grammar was a top
+        driver of device returns — especially in households with children. Italians hear
+        agreement errors the way a musician hears a wrong note. The bar was "never wrong,"
+        not "good enough." Also discovered profound cultural differences in voice expectations:
+        Germans wanted no response at all ("turn on the lights" = just turn them on), Italians
+        wanted full worded responses and enjoyed hearing Alexa speak, Spanish had massive
+        within-language variation (Chile wanted local accent, Madrid wanted German-level brevity),
+        and India required code-switching (Hindi words inserted into English responses).
+        Led Italy locale launch — most successful in the program.
 
     - what: "Alexa Automotive POI data mapping across 47 providers"
       when: "2019-2023"
@@ -108,9 +139,17 @@ origin:
     the system get what they actually need.
 
     This has been true since he was 16 making milkshakes, through teaching English in
-    Paris and Sardinia, through mapping automotive knowledge across 47 data providers,
-    through reclassifying a taxonomy from industry-based to function-based, through
-    building Palette. The domain changes. The discipline doesn't.
+    Paris and Sardinia, through building CS knowledge rubrics by tone and culture at
+    Amazon Italy, through redesigning Italian voice output from active to passive voice
+    at Alexa, through mapping automotive knowledge across 47 data providers, through
+    reclassifying a taxonomy from industry-based to function-based, through building
+    Palette, through designing emotion-based pacing for voice agents. The domain changes.
+    The discipline doesn't.
+
+    The voice output design thread is continuous: CS tone rubrics (2013) → FRITES voice
+    responses in 3 Romance languages (2019) → evaluation teams across 13 locales (2020) →
+    Voice Evaluation Workbench (2026) → emotion-based pacing model (2026). He has been
+    designing how systems speak across cultures for 12 years.
 
 # ============================================================================
 # CAPABILITIES
@@ -149,6 +188,21 @@ capabilities:
         - "14 automated integrity validators across Palette"
       market_value: "High demand. Companies shipping RAG products need evaluation expertise. His approach (separate retrieval quality from answer quality from workflow quality) is more rigorous than most."
 
+    - name: "Voice Output Design & Internationalization"
+      strength: exceptional
+      evidence:
+        - "FRITES: designed voice responses across FR/IT/ES simultaneously, iterating on Java FERs for grammar/agreement (Alexa)"
+        - "Redesigned Italian voice output from active to passive voice — grammatically bulletproof at the cost of naturalness (Alexa)"
+        - "CS tone-and-length rubrics per country — Germans want short, Italians want warm and full (Amazon Italy)"
+        - "Managed 2 evaluation teams (~30 people) with rubrics across all supported locales (Alexa)"
+        - "Discovered within-language variation: Chile wants local accent, Madrid wants brevity, India needs code-switching (Alexa)"
+        - "Led Italy locale launch — most successful in the program (Alexa)"
+        - "Guided Arabic locale launch without speaking Arabic — proved frameworks transfer across language families (Alexa)"
+        - "Built Voice Evaluation Workbench: 4 languages, 3 journey stages, 5 quality dimensions (independent)"
+        - "5-state emotion-based pacing model with measurable tessitura for Minted (Sierra case study)"
+        - "Independently evaluated Rime, ElevenLabs, Deepgram — structured side-by-side comparisons (independent)"
+      market_value: "Extremely rare. Almost nobody has both the linguistic depth (4 languages, 15 years lived experience) AND the technical voice output design experience (FERs, ASR/NLU tooling, evaluation teams). Sierra, ElevenLabs, and Rime are the primary buyers of this exact combination."
+
     - name: "Cross-Cultural Systems Design"
       strength: exceptional
       evidence:
@@ -157,6 +211,9 @@ capabilities:
         - "4-language teaching career across 3 countries"
         - "Italian Bridge concept for bilingual learning (Nora bot)"
         - "Family operates daily in EN/FR/IT"
+        - "Cultural judgment calls: Italian grammar = device returns, German brevity preference, Spanish within-language variation (Alexa FRITES)"
+        - "CS knowledge rubrics derived from highest-CSAT associates' personal notepads, not translated from English (Amazon Italy)"
+        - "India code-switching: Hindi words inserted into English voice responses for specific regions (Alexa)"
       market_value: "Rare and underutilized. Most AI companies don't think about cross-cultural knowledge architecture until they expand internationally. Then they desperately need it."
 
     - name: "Enterprise Enablement & GTM"
@@ -561,7 +618,7 @@ evidence:
     - "Family financial analysis and relocation planning documents"
     - "Multiple conversation sessions spanning months of collaboration"
   confidence: high
-  last_validated: 2026-04-22
+  last_validated: 2026-05-06
   blind_spots_in_this_lens:
     - "Based heavily on self-reported data — no peer/manager 360 feedback included"
     - "Listening tour (0/15 conversations) has not yet provided external market signal"

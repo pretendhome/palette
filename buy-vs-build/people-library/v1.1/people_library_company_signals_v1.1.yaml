@@ -935,3 +935,199 @@ signals:
   company_library_status: needs_entry
   palette_action: evaluate
   taxonomy_gap: false
+
+# ─────────────────────────────────────────────
+# AI COUNCIL CONFERENCE COMPANY SIGNALS (Added 2026-05-14)
+# Source: AI Council, San Francisco, May 12-14, 2026
+# 20 sessions, 94 architectural validates
+# ─────────────────────────────────────────────
+
+# INFRASTRUCTURE — Agent platforms and tools
+- tool: "Noma Security (Agent Governance)"
+  company: "Noma Security"
+  signal_tier: 1
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Diana Kelley (CISO)"
+    reason: "5-boundary matrix maps exactly to Palette architecture. Agent governance/security leader."
+  riu_primary: "RIU-062"
+  riu_name: "Governance & Compliance"
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "Competitor in governance space. Different approach: they scan, we govern. Watch for overlap."
+  taxonomy_gap: false
+- tool: "Socket (Supply Chain Security)"
+  company: "Socket"
+  signal_tier: 1
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Feross Aboukhadijeh (CEO)"
+    reason: "Agent attack surface analysis. TTE collapsed to 10hrs. One-click vulnerability patching. Inline security audits."
+  riu_primary: "RIU-062"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  palette_note: "Could provide security auditing for our skills marketplace. Complementary."
+  taxonomy_gap: false
+- tool: "Turso (Agent Database)"
+  company: "Turso"
+  signal_tier: 2
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Glauber Costa (CEO)"
+    reason: "SQLite rewrite in Rust. Async, WASM, concurrent writes, vector search. Agent-scale DB."
+  riu_primary: "RIU-200"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  palette_note: "Potential infrastructure under Palette. We're governance on top, they're storage underneath."
+  taxonomy_gap: false
+- tool: "turbopuffer (AI Search)"
+  company: "turbopuffer"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Kuba Rogut (turbopuffer)"
+    reason: "Semantic + graph search. S3-backed. Used by Thrive Capital for hybrid retrieval."
+  riu_primary: "RIU-250"
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "Evaluate for KL retrieval if SQLite FTS5 + local vectors prove insufficient."
+  taxonomy_gap: false
+- tool: "Kilo Code (Model-Agnostic Harness)"
+  company: "Kilo Code"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Scott Breitenother (CEO)"
+    reason: "Model-agnostic harness for coding agents. 'Model + Harness + Product = defensible.'"
+  riu_primary: "RIU-510"
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "COMPETITOR in harness layer. But coding-only. We're general-purpose + voice + governance."
+  taxonomy_gap: false
+- tool: "Unikraft (MicroVM Sandboxing)"
+  company: "Unikraft"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Felipe Huici (CEO)"
+    reason: "MicroVMs for agent sandboxing. 'Containers don't contain.' Scale-to-zero. Snapshot execution."
+  riu_primary: "RIU-108"
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "Infrastructure layer under our governance. Firecracker MicroVMs for agent sandboxes + Palette governance for behavior."
+  taxonomy_gap: false
+- tool: "Doubleword (Async Inference)"
+  company: "Doubleword"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Meryem Arik (CEO)"
+    reason: "Test-time compute = competence. Async inference optimization. 3 levers: context mgmt, model routing, inference stack."
+  riu_primary: "RIU-252"
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "Complementary: she optimizes inference, we govern it."
+  taxonomy_gap: false
+- tool: "OpenRouter (Model Routing)"
+  company: "OpenRouter"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Chris Clark (COO)"
+    reason: "Routing layer across 100+ models. Infrastructure we could USE, not compete with."
+  riu_primary: "RIU-252"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  palette_note: "OpenRouter routes models. We route AGENTS (which use models). We're the layer above."
+  taxonomy_gap: false
+
+# OPEN SOURCE — Projects to integrate or learn from
+- tool: "Mozilla CQ (Shared Agent Learning)"
+  company: "Mozilla AI"
+  company_url: "https://github.com/mozilla-ai/cq"
+  signal_tier: 1
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Raffi Krikorian (CTO Mozilla AI)"
+    reason: "5-tool pattern (query/propose/confirm/flag/status) = our governance pipeline. 1,124 stars. Apache 2.0."
+  riu_primary: "RIU-001"
+  company_library_status: needs_entry
+  palette_action: integrate
+  palette_note: "Adopt query-before-acting and session reflection patterns into our bus. Same propose/confirm/graduate pattern we built independently."
+  taxonomy_gap: false
+- tool: "NTK (Neural Token Killer)"
+  company: "VALRAW-ALL"
+  company_url: "https://github.com/VALRAW-ALL/ntk"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Conference discovery"
+    reason: "Rust-based token compression proxy. 60-90% reduction. PostToolUse hook for Claude Code."
+  riu_primary: "RIU-252"
+  company_library_status: needs_entry
+  palette_action: evaluate
+  palette_note: "Deferred to V3.1 per Kiro. Solves a problem we don't have yet at current scale."
+  taxonomy_gap: false
+- tool: "LakeSail / Sail (Agentic Data Warehouse)"
+  company: "LakeSail"
+  company_url: "https://github.com/lakehq/sail"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Alexy Khrabrov (Head of Community)"
+    reason: "Rust-based Spark-compatible. MCP + CLI for agentic workflows. 8x speed at 6% cost."
+  riu_primary: "RIU-200"
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "Potential infrastructure partner. Similar to Turso but warehouse-scale."
+  taxonomy_gap: false
+- tool: "Redis Agent Memory Server"
+  company: "Redis"
+  company_url: "https://github.com/redis/agent-memory-server"
+  signal_tier: 2
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Simba Khadder (Redis/Featureform)"
+    reason: "Two-tier memory (working + long-term). Hybrid search. Extraction strategies. Forgetting policies. Apache 2.0."
+  riu_primary: "RIU-200"
+  company_library_status: needs_entry
+  palette_action: monitor
+  palette_note: "Learn from patterns. Do NOT adopt as dependency. Keep our governance-first approach. 'Anyone can copy Redis. Our governance pipeline is the moat.'"
+  taxonomy_gap: false
+
+# VC / INVESTOR — Relevant to funding
+- tool: "Zero Prime Ventures"
+  company: "Zero Prime Ventures"
+  company_url: "https://zeroprime.vc"
+  signal_tier: 1
+  aggregate_signal_strength: high
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Pete Soderling (Founder & GP)"
+    reason: "Pre-seed for engineer-founders. 150+ investments in B2B AI, data infra, devtools. Anthropic investor. AI Council organizer."
+  palette_action: monitor
+  palette_note: "TARGET VC for Palette. Meeting requested post-submission."
+  taxonomy_gap: true
+- tool: "Amplify Partners"
+  company: "Amplify Partners"
+  signal_tier: 2
+  aggregate_signal_strength: medium
+  recommenders:
+  - id: "CONFERENCE"
+    name: "Sarah Catanzaro (GP)"
+    reason: "Moderated RL panel. Agent infrastructure investor. Portfolio includes data infra."
+  palette_action: monitor
+  palette_note: "Potential investor. Knows the space from panel moderation."
+  taxonomy_gap: true

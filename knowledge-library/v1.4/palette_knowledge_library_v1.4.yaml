@@ -8128,6 +8128,262 @@ gap_additions:
   tags: []
   journey_stage: foundation
   difficulty: medium
+- id: LIB-186
+  question: How does Palette's taxonomy routing work and why does it classify before retrieving?
+  answer: "Palette uses a 121-node taxonomy of Reusable Intelligence Units (RIUs) to classify every
+    incoming problem BEFORE retrieval happens. This is the 'context selection, not context accumulation'
+    principle. Instead of searching everything and filtering results, the taxonomy narrows the domain
+    first, then retrieval operates within that domain only.\n\n1. **How it works**: User input → resolver
+    agent classifies to an RIU → RIU determines which knowledge domain, which agent type, and which
+    retrieval scope. The router never searches the full 176-entry knowledge library for every query.\n\n2.
+    **Why classify first**: (a) Reduces irrelevant context entering the prompt (token efficiency). (b)
+    Increases signal-to-noise ratio. (c) Makes routing deterministic — same input → same RIU → same
+    agent. (d) Aligns with IR fundamentals from 1968: 'seek over well-designed representations with
+    specific patterns.'\n\n3. **The 121 RIUs** are organized by 6 workstreams (Clarify & Bound, Interfaces
+    & Inputs, Core Logic, Quality & Safety, Ops & Delivery, Adoption & Change) and 4 journey stages
+    (foundation, retrieval, orchestration, specialization). Each RIU maps to specific agent types and
+    knowledge entries.\n\n**Key insight**: Taxonomy routing is the smallest system that provides context
+    selection. It is deterministic, auditable, and requires zero LLM calls."
+  sources:
+  - title: Palette Taxonomy v1.3
+    url: taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml
+    type: internal_implementation
+  - title: "Linus Lee, Thrive Capital — 'Push context to data structures, AS MUCH AS POSSIBLE'"
+    url: https://aicouncil.com
+    type: conference_presentation
+    date: '2026-05-12'
+  related_rius:
+  - RIU-001
+  - RIU-200
+  evidence_tier: 2
+  tags:
+  - taxonomy
+  - routing
+  - context-selection
+  - information-retrieval
+  journey_stage: foundation
+  difficulty: medium
+- id: LIB-187
+  question: How does Palette's hybrid retrieval work and what are the three retrieval modes?
+  answer: "Palette V3 retrieves knowledge using three complementary modes, applied after taxonomy routing
+    selects the domain:\n\n1. **keyword_resolve** (existing, V2): Token-prefix matching against knowledge
+    library questions. Fast, deterministic, zero dependencies. Handles exact-term queries well but misses
+    semantic similarity.\n\n2. **FTS5 full-text search** (V3): SQLite FTS5 with Porter stemming on KL
+    questions and answers. Handles morphological variants (evaluate/evaluation/evaluating). BM25 ranking.
+    Zero new dependencies — extends the existing bus message search pattern.\n\n3. **Vector similarity**
+    (V3): Ollama nomic-embed-text embeddings stored as JSON. Handles paraphrase and concept queries
+    ('irreversible choice' finds 'one-way door'). Local, free, 274MB model.\n\n**Reranking**: Results
+    from all three modes are combined using reciprocal rank fusion, then weighted by (0.4 × relevance)
+    + (0.3 × authority_tier) + (0.3 × freshness).\n\n**Measured performance**: keyword_resolve alone =
+    28% recall. FTS5 alone = 39%. Hybrid (all three + fusion) targets ≥70%.\n\n**Key principle**: Taxonomy
+    routing selects the DOMAIN (which RIUs). Hybrid retrieval selects the ENTRY (which knowledge). Two
+    layers, both local, both auditable."
+  sources:
+  - title: Kiro V3 Deep Analysis — FTS5 and vector retrieval testing
+    url: Documents/conference/V3_DEEP_ANALYSIS_KIRO.md
+    type: internal_implementation
+    date: '2026-05-14'
+  - title: "Linus Lee — 'BM25 does better than vector. Hybrid search: BM25 FTS K×2 + Vector K×2 + rerank'"
+    url: https://aicouncil.com
+    type: conference_presentation
+    date: '2026-05-12'
+  related_rius:
+  - RIU-200
+  - RIU-250
+  evidence_tier: 2
+  tags:
+  - retrieval
+  - hybrid-search
+  - fts5
+  - vector-search
+  - bm25
+  journey_stage: retrieval
+  difficulty: medium
+- id: LIB-188
+  question: What is the palette query CLI and how does it enforce behavioral structure for agents?
+  answer: "The `palette query` command is a single CLI entry point that runs the full agent chain with
+    five internal steps, each logged and traceable:\n\n1. **resolve**: Taxonomy classification — maps
+    the query to an RIU.\n2. **retrieve**: Hybrid search — FTS5 + vector + keyword across the knowledge
+    library within the classified domain.\n3. **route**: Agent selection — picks the right agent based
+    on RIU agent_types and trust tiers.\n4. **respond**: Agent invocation — the selected agent generates
+    a response grounded in retrieved knowledge.\n5. **extract**: Memory candidate — if the response
+    contains a high-confidence fact, propose it for governance review.\n\nAll five steps route through
+    the peers bus as registered messages. The CLI is a bus CLIENT, not a bypass — every command
+    produces a governed envelope.\n\n**Why this matters**: The sequence IS the intelligence. By making
+    execution order explicit and logged, the system becomes reproducible (same query → same path),
+    debuggable (which step failed?), and compliant (did the agent follow the prescribed sequence?).\n\n
+    **Design principle**: One command. Five steps. Logged. Traceable. Bus-routed."
+  sources:
+  - title: Kiro V3 Feedback — CLI scope recommendation
+    url: Documents/conference/V3_FEEDBACK_kiro.md
+    type: internal_implementation
+    date: '2026-05-14'
+  - title: "Linus Lee, Thrive Capital — Hobgoblin CLI architecture"
+    url: https://aicouncil.com
+    type: conference_presentation
+    date: '2026-05-12'
+  - title: "Anthropic — Claude Code CLI architecture and tool patterns"
+    url: https://docs.anthropic.com/en/docs/claude-code
+    date: '2025-12-01'
+  related_rius:
+  - RIU-001
+  - RIU-513
+  evidence_tier: 2
+  tags:
+  - cli
+  - behavioral-structure
+  - traceability
+  - governance
+  journey_stage: orchestration
+  difficulty: medium
+- id: LIB-189
+  question: How does Voice Hub Learning Mode work and what is the teach-while-doing pattern?
+  answer: "Voice Hub Learning Mode adds a second surface to the same retrieval infrastructure. The
+    same taxonomy routing and knowledge library that answers questions can also TEACH about the
+    domain.\n\n**Two modes from one system**:\n- 'Answer me' → performance support. Pull knowledge,
+    ground the LLM, respond with the answer. Current behavior.\n- 'Teach me' → learning mode. Route
+    to the enablement module mapped to the same RIU, walk through it conversationally via voice.\n\n
+    **How it works**: Every RIU already maps to both a knowledge entry (the answer) and an enablement
+    module (the learning path). The mode toggle determines which surface gets activated. Detection is
+    via voice command ('teach me about X' vs 'how do I X') or UI toggle.\n\n**The SDK for Humans
+    thesis**: Users learn how to do things AS they do them. The system doesn't just make you more
+    efficient — it makes you more capable. After the interaction, you understand the domain better,
+    not just the answer.\n\n**Tessitura**: In learning mode, the voice adapts — slower pace, more
+    check-for-understanding pauses, Socratic questioning. This is the tessitura concept: each agent
+    has a voice personality that varies by context."
+  sources:
+  - title: Voice Hub Learning Mode Design Brief
+    url: .steering/claude-code/VOICE_HUB_LEARNING_MODE.md
+    type: internal_implementation
+    date: '2026-04-14'
+  - title: "AI Council Keynote — 'Education is the next frontier. We learn through failing.'"
+    url: https://aicouncil.com
+    type: conference_presentation
+    date: '2026-05-14'
+  related_rius:
+  - RIU-021
+  - RIU-022
+  evidence_tier: 3
+  tags:
+  - voice
+  - learning-mode
+  - enablement
+  - sdk-for-humans
+  - tessitura
+  journey_stage: specialization
+  difficulty: medium
+- id: LIB-190
+  question: How does Palette's governance pipeline work and what are the four scripts?
+  answer: "The governance pipeline is a four-stage workflow that controls what enters the knowledge
+    library. It prevents memory pollution by requiring structured review before any new knowledge
+    is canonicalized.\n\n**The four scripts**:\n1. **file_proposal.py** (377 lines): Accepts a proposal,
+    assigns a unique ID (PROP-YYYY-MM-DD-NNN), validates tier/type/content structure, writes YAML +
+    rendered markdown, generates approval queue, posts to peers bus.\n2. **record_vote.py** (199 lines):
+    Records agent votes (approve/object/object-with-alternative). Checks binding vs advisory status.
+    Evaluates unanimous consent. Any binding objection blocks.\n3. **promote_proposal.py** (196 lines):
+    Takes approved proposals, generates next LIB-ID, appends to knowledge library YAML, archives
+    proposal, recompiles wiki.\n4. **bridge_feedback_to_proposals.py** (124 lines): Reads external
+    feedback (palette_feedback.yaml from implementations), converts to governance proposals. Closes the
+    feedback loop.\n\n**Key properties**: Proposals expire after 14 days (no zombie proposals). Evidence
+    tiers filter source quality. Voting roster defines binding vs advisory agents with quorum minimum.\n\n
+    **The pattern**: This is the same propose → confirm → graduate pattern that Mozilla CQ independently
+    built for shared agent learning. Our version adds evidence tiers and multi-agent voting."
+  sources:
+  - title: Palette Governance Pipeline Scripts
+    url: scripts/file_proposal.py
+    type: internal_implementation
+  - title: "Mozilla CQ — Shared agent learning with 5-tool pattern"
+    url: https://github.com/mozilla-ai/cq
+    type: open_source
+    date: '2026-05-14'
+  related_rius:
+  - RIU-001
+  - RIU-062
+  evidence_tier: 2
+  tags:
+  - governance
+  - knowledge-evolution
+  - quality-gates
+  - voting
+  journey_stage: foundation
+  difficulty: high
+- id: LIB-191
+  question: What are wire contracts and how do they prevent lossy handoffs between agents?
+  answer: "Wire contracts are the fixed envelope schema that defines exactly what data flows between
+    agents on the peers bus. Every message must conform to the schema — malformed envelopes are
+    rejected.\n\n**Required fields**: protocol_version, message_id (UUID), from_agent, to_agent,
+    message_type (from enum: informational/advisory/proposal/execution_request/one_way_door/ack/
+    human_checkpoint), intent, risk_level (from enum: none/low/medium/high/critical), requires_ack
+    (boolean), payload (object), created_at (ISO timestamp).\n\n**Why wire contracts matter**: Without
+    them, agent-to-agent communication is a 'game of telephone' — one agent summarizes for another,
+    detail gets lost, fidelity degrades through the chain. Wire contracts prevent this by enforcing
+    structured data at every handoff.\n\n**Validation**: The broker's validate.mjs (58 lines) checks
+    every envelope before delivery. Critical risk requires one_way_door message_type. Execution
+    requests require a handoff_packet with id/from/to/task fields.\n\n**Token efficiency**: Unlike
+    MCP which forces token-heavy tool descriptions and discovery, wire contracts are a fixed schema.
+    The agent knows exactly what it receives and produces. Zero discovery overhead.\n\n**Conference
+    validation**: Three sessions at AI Council 2026 confirmed this approach — 'MCP forces a lot of
+    token usage. CLIs are better.' (Redis S13), 'Game of telephone — detail lost between agents'
+    (Linus Lee S02)."
+  sources:
+  - title: Palette Bus Envelope Validation
+    url: peers/broker/validate.mjs
+    type: internal_implementation
+  - title: "Redis Session — 'MCP forces a lot of token usage. CLIs are better.'"
+    url: https://aicouncil.com
+    type: conference_presentation
+    date: '2026-05-13'
+  related_rius:
+  - RIU-513
+  - RIU-062
+  evidence_tier: 2
+  tags:
+  - wire-contracts
+  - bus
+  - agent-communication
+  - token-efficiency
+  journey_stage: orchestration
+  difficulty: high
+- id: LIB-192
+  question: What is Palette's Voice Hub architecture and how does voice-first multi-agent interaction work?
+  answer: "Voice Hub is the primary interface to Palette — a voice-first system where users speak to
+    coordinate multiple AI agents grounded in verified knowledge.\n\n**Architecture**: WebSocket + HTTP
+    server on port 7890. Web Speech STT for input, Rime TTS for output. Connected to peers bus (7899)
+    for agent coordination and wiki/knowledge library for retrieval.\n\n**How a voice query flows**:\n
+    1. User speaks → Web Speech API transcribes\n2. Transcription → taxonomy classification (resolver)\n
+    3. Classification → knowledge retrieval (palette_retrieve.py)\n4. Retrieved context + query → LLM
+    provider generates response\n5. Response → Rime TTS speaks the answer\n\n**Multi-agent presence**:
+    The Voice Hub shows which agents are 'present' in the conversation. Research queries route to
+    Perplexity Computer. Synthesis routes to Claude. Validation routes to the validator agent. The user
+    sees agents working as a team.\n\n**Tessitura**: Each agent has a voice profile — pitch, pace,
+    warmth. The voice varies by agent and context. This is not cosmetic — it helps the user distinguish
+    who is speaking and builds trust through consistent personality.\n\n**The pitch that works**: 'A
+    fully integrated voice interface that allows you to be in the room with any agent you want and
+    build as a team together.' Tested at AI Council afterhours, May 13, 2026. Highest interest spike
+    of any framing."
+  sources:
+  - title: Palette Voice Hub Server
+    url: peers/hub/server.mjs
+    type: internal_implementation
+  - title: Sierra Voice Intelligence Research
+    url: voice/SIERRA_VOICE_INTELLIGENCE.md
+    type: internal_implementation
+  - title: AI Council Conference Pitch Testing
+    url: Documents/conference/CONFERENCE_WRAP_UP_2026-05-14.md
+    type: internal_implementation
+    date: '2026-05-14'
+  related_rius:
+  - RIU-505
+  - RIU-021
+  evidence_tier: 3
+  tags:
+  - voice
+  - voice-hub
+  - rime-tts
+  - multi-agent
+  - tessitura
+  journey_stage: specialization
+  difficulty: high
 usage_instructions:
   for_researcher:
     description: Resource Gatherer agent should check this library before web search

@@ -1,5 +1,5 @@
 ---
-compiled_at: 2026-04-23T23:21:17Z
+compiled_at: 2026-05-15T15:33:55Z
 compiler_version: 1.0.0
 type: index
 DO_NOT_EDIT: This file is auto-generated. Edit the source YAML and recompile.
@@ -7,7 +7,7 @@ DO_NOT_EDIT: This file is auto-generated. Edit the source YAML and recompile.
 
 # All Knowledge Entries
 
-176 entries.
+183 entries.
 
 - [LIB-001: How do I force convergence when stakeholders have conflictin](../entries/LIB-001-how-do-i-force-convergence-when-stakehol.md)
 - [LIB-002: What's the difference between a ONE-WAY DOOR and TWO-WAY DOO](../entries/LIB-002-whats-the-difference-between-a-one-way-d.md)
@@ -185,3 +185,10 @@ DO_NOT_EDIT: This file is auto-generated. Edit the source YAML and recompile.
 - [LIB-183: What are context compaction techniques and how do they impro](../entries/LIB-183-what-are-context-compaction-techniques-a.md)
 - [LIB-184: How do I optimize LLM inference for low-latency production a](../entries/LIB-184-how-do-i-optimize-llm-inference-for-low-.md)
 - [LIB-185: What are graph-based knowledge retrieval (GraphRAG) techniqu](../entries/LIB-185-what-are-graph-based-knowledge-retrieval.md)
+- [LIB-186: How does Palette's taxonomy routing work and why does it cla](../entries/LIB-186-how-does-palettes-taxonomy-routing-work-.md)
+- [LIB-187: How does Palette's hybrid retrieval work and what are the th](../entries/LIB-187-how-does-palettes-hybrid-retrieval-work-.md)
+- [LIB-188: What is the palette query CLI and how does it enforce behavi](../entries/LIB-188-what-is-the-palette-query-cli-and-how-do.md)
+- [LIB-189: How does Voice Hub Learning Mode work and what is the teach-](../entries/LIB-189-how-does-voice-hub-learning-mode-work-an.md)
+- [LIB-190: How does Palette's governance pipeline work and what are the](../entries/LIB-190-how-does-palettes-governance-pipeline-wo.md)
+- [LIB-191: What are wire contracts and how do they prevent lossy handof](../entries/LIB-191-what-are-wire-contracts-and-how-do-they-.md)
+- [LIB-192: What is Palette's Voice Hub architecture and how does voice-](../entries/LIB-192-what-is-palettes-voice-hub-architecture-.md)

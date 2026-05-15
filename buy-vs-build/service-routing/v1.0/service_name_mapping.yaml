@@ -93,11 +93,11 @@ mapping:
   "AWS Secrets Manager": null     # Low priority — Doppler covers use case
   "Guardrails AI": null           # Open-source guardrails framework
   "Redis (semantic layer)": null  # Upstash Redis covers managed use case
-  "v0.dev": null                  # No-code AI app generation (RIU-550)
+  "v0.dev": v0-dev                # No-code AI app generation (RIU-550)
 
 summary:
   total_services: 80
-  mapped_to_recipes: 74
-  genuinely_missing: 6
+  mapped_to_recipes: 75
+  genuinely_missing: 5
   recipe_dirs_total: 69
   recipe_dirs_with_routing: 69

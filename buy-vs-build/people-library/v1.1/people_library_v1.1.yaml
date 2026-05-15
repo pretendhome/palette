@@ -2108,6 +2108,145 @@ watch_list:
       reason: "Beauty/cosmetics AI ads niche — less commercial traction than PJ Accetturo. Controversy around copied KFC ad reduces signal reliability."
 
 # ─────────────────────────────────────────────
+# AI COUNCIL CONFERENCE NETWORK (Added 2026-05-14)
+# Source: AI Council, San Francisco, May 12-14, 2026
+# ─────────────────────────────────────────────
+
+conference_network:
+  source: "AI Council Conference, May 12-14, 2026. Speakers and contacts relevant to Palette V3."
+  date_added: "2026-05-14"
+
+  # TIER 1 — Direct contacts made, high relevance
+  direct_contacts:
+    - name: "Pete Soderling"
+      company: "Zero Prime Ventures"
+      role: "Founder & GP"
+      signal_type: vc_investor
+      relevance: "Pre-seed fund for engineer-founders. 150+ investments in B2B AI, data infra, devtools. Anthropic investor. AI Council founder/organizer."
+      linkedin: "https://www.linkedin.com/in/petesoder/"
+      connection_status: pending
+      action: "Schedule meeting post Billion Dollar Build submission"
+    - name: "Alexy Khrabrov"
+      company: "LakeSail / Northeastern CR4AI"
+      role: "Head of Community / Founder CR4AI"
+      signal_type: content_educator
+      relevance: "Reliable AI manifesto aligns with Palette governance. AI Alliance co-founder. Community-first GTM. Amazon alum."
+      linkedin: "Alexy Khrabrov"
+      connection_status: connected
+      action: "Demo invitation sent. Explore LakeSail MCP compatibility."
+    - name: "Spencer Hardwick"
+      company: "SRE-for-agents startup (TBD)"
+      role: "Founder"
+      signal_type: founder_builder
+      relevance: "SRE for agents = complementary to our governance. We govern before action, they monitor after."
+      connection_status: met_in_person
+      action: "Get company name, LinkedIn. Partnership pitch."
+    - name: "Raffi Krikorian"
+      company: "Mozilla AI"
+      role: "CTO"
+      signal_type: founder_builder
+      relevance: "Built CQ (shared agent learning). Same propose/confirm/graduate pattern as our governance. Former Twitter VP Eng."
+      linkedin: "Raffi Krikorian"
+      connection_status: pending
+      action: "Architecture comparison. CQ integration evaluation."
+
+  # TIER 2 — Speakers whose work directly validates or challenges Palette
+  high_relevance_speakers:
+    - name: "Linus Lee"
+      company: "Thrive Capital"
+      role: "Engineer (Agent Infrastructure)"
+      relevance: "Built Puck/Hobgoblin — closest architecture to ours. Hybrid search (BM25+vector+rerank). SNIP citation. CLI-first. 'Push context to data structures.'"
+      session: "S02 — Context Engineering at the Frontier"
+      contact: "linus@thrivecap.com, scaling@thrivecap.com"
+    - name: "Diana Kelley"
+      company: "Noma Security"
+      role: "CISO"
+      relevance: "5-boundary matrix (Instruction/Knowledge/Retrieval/Memory/Action + Identity) IS our architecture. Agent governance expert."
+      session: "S17 — Agentic AI: From Risk Awareness to Practical Control"
+    - name: "Feross Aboukhadijeh"
+      company: "Socket"
+      role: "CEO"
+      relevance: "Agent attack surface. TTE collapsed to 10 hours. One-click vulnerability patching. Inline security audits for skills."
+      session: "S18 — The Agent Attack Surface"
+    - name: "Glauber Costa"
+      company: "Turso"
+      role: "CEO"
+      relevance: "SQLite rewrite in Rust. Agent-scale DB. WASM + concurrent writes + vector search. Potential infrastructure partner."
+      session: "S04 — Agents Will Need Trillions of Databases"
+    - name: "Meryem Arik"
+      company: "Doubleword"
+      role: "CEO"
+      relevance: "Test-time compute = competence. Async inference optimization. 3 levers framework. Complementary: she optimizes inference, we govern it."
+      session: "S06 — Inference for Async Agents"
+    - name: "Simba Khadder"
+      company: "Redis / Featureform"
+      role: "Presenter"
+      relevance: "Context Engineering as a field. 4 essentials of context. Redis as agent memory server. 'Context selection, not accumulation.'"
+      session: "S13 — Context Engineering 2.0"
+    - name: "Scott Breitenother"
+      company: "Kilo Code"
+      role: "CEO"
+      relevance: "Model-agnostic harness for coding agents. 'Model + Harness + Product = defensible.' Direct competitor in harness layer (coding only)."
+      session: "S11 — The Open Layer"
+    - name: "Felipe Huici"
+      company: "Unikraft"
+      role: "CEO & Co-Founder"
+      relevance: "MicroVM sandboxing. 'Containers don't contain.' Scale-to-zero. Snapshot-based execution. Agent infrastructure."
+      session: "S08 — Running Millions of AI Sandboxes"
+
+  # TIER 3 — Speakers with relevant but less direct connection
+  monitoring_speakers:
+    - name: "Kuba Rogut"
+      company: "turbopuffer"
+      relevance: "Semantic + graph search. 'Chunking = unsolved problem.' Claude Code semantic search workshop."
+      session: "S12"
+    - name: "Neil Movva"
+      company: "Sail Research"
+      relevance: "'Coordination is the next problem to solve.' Synchronization primitives for agent swarms."
+      session: "S03"
+    - name: "Apoorva Joshi"
+      company: "MongoDB"
+      relevance: "Agent memory systems. 'Evaluating agents is like evaluating a colleague.'"
+      session: "S07"
+    - name: "Yaroslav Bulatov"
+      company: "Incept Labs / Sutro Group"
+      relevance: "'Communication is the bottleneck, not arithmetic.' Path dependency warning. Deep RL researcher."
+      session: "S09"
+    - name: "Sarah Catanzaro"
+      company: "Amplify Partners"
+      role: "General Partner"
+      relevance: "VC who moderates agent infrastructure panels. Could be interested in submission."
+      session: "S05 panel moderator"
+    - name: "Chris Clark"
+      company: "OpenRouter"
+      role: "COO"
+      relevance: "Model routing infrastructure. OpenRouter for model routing, Palette for agent governance on top."
+      session: "S11"
+    - name: "Heather Ceylan"
+      company: "Box"
+      role: "CISO"
+      relevance: "Enterprise buyer perspective on agent trust. 'Control, autonomy, permissions are dials.'"
+      session: "S19 panel"
+    - name: "Allie Howe"
+      company: "Insecure Agents Podcast"
+      role: "Host"
+      relevance: "Media/awareness channel for governed agent systems."
+      session: "S19 panel host"
+    - name: "Jared Hanson"
+      company: "Keycard"
+      relevance: "'Identity is the bottleneck.' Trust tiers for agents = identity for agents."
+      session: "S20 — Identity session"
+    - name: "Thais Branco"
+      company: "Taste AI"
+      relevance: "Quality/aesthetics in AI. Interesting parallel to tessitura voice work."
+      session: "S05 panel"
+    - name: "Dan Guido"
+      company: "Trail of Bits"
+      role: "Founder"
+      relevance: "Security research firm. Agent security auditing. @dguido, dan@trailofbits.com"
+      session: "Day 3 closing"
+
+# ─────────────────────────────────────────────
 # CROSS-PROFILE INTELLIGENCE FLAGS (NEW in v1.1)
 # ─────────────────────────────────────────────
 

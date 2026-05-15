@@ -132,6 +132,39 @@ If you don't have one yet, build it. One section per major interview topic. Mult
 
 ---
 
+## Two Bot Templates
+
+The prep system now produces **two** interview practice bots, each serving a different need:
+
+### Template 1: Portfolio Bot (default)
+**Purpose**: Practice presenting YOUR WORK for this specific role. Questions organized by panelist.
+**When to use**: When the interview involves portfolio review, design walkthrough, or role-specific technical questions where the answers are grounded in the case study / submission you built.
+**Structure**: Panel tabs (one per interviewer) → questions with priority ranking → reference answers about your submitted work → key concepts + avoid phrases → follow-up pressure questions.
+**Coaching**: Checks coverage of key concepts, flags avoid phrases, scores delivery quality.
+**Example**: `sierra-interview-bot.html` — organized by Nick (portfolio), David (hiring manager), Lydia Xu (engineering), etc.
+
+### Template 2: STAR Practice Bot
+**Purpose**: Practice behavioral/STAR answers grounded in PAST EXPERIENCE. Questions organized by theme, not panelist.
+**When to use**: When the interview format is behavioral ("tell me about a time..."), STAR-based, or when the recruiter says "teamwork examples, background, what's important going forward."
+**Structure**: Theme tabs (e.g., "FRITES & i18n", "Engineering Collaboration", "Product & Stakeholders", "Teamwork & Culture") → STAR-format questions → reference answers with S/T/A/R labels → key concepts + avoid phrases → follow-up pressure.
+**Coaching**: Same scoring engine, plus checks for STAR structure signals (flags missing Situation or Result).
+**Example**: `sierra-star-practice.html` — 4 themes, 17 questions, all grounded in 12 years of Amazon + independent work.
+**Visual distinction**: Orange accent (vs purple for portfolio bot) so you know which one you're in.
+
+### When to Build Which
+
+| Interview Signal | Build |
+|---|---|
+| "Walk me through your portfolio / case study" | Portfolio Bot |
+| "Teamwork examples, background, working style" | STAR Bot |
+| "Design challenge + behavioral mix" | Both |
+| Recruiter says "STAR format" | STAR Bot |
+| Panel includes hiring manager + engineers | Both |
+
+**Best practice**: Build both. Use the Portfolio Bot for the first half of prep (learn the case study answers), then switch to the STAR Bot for the second half (practice the experience stories). The STAR stories provide the depth that makes portfolio answers credible.
+
+---
+
 ## FAQ
 
 **Q: Can I edit the cheatsheet after it's generated?**
