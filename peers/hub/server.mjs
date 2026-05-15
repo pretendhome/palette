@@ -87,6 +87,8 @@ const AGENT_APIS = {
   qwen:       { provider: 'dashscope',  model: 'qwen-max' },
   kiro:       { provider: 'kiro',       model: 'kiro-v1' },
   perplexity: { provider: 'perplexity', model: 'sonar-pro' },
+  computer:   { provider: 'perplexity', model: 'sonar-deep-research' },
+  reasoning:  { provider: 'perplexity', model: 'sonar-reasoning-pro' },
   // gemini: not wired yet — no API key
 };
 
@@ -374,7 +376,7 @@ async function handleRequest(req, res) {
   if (path === '/api/chat' && req.method === 'POST') {
     try {
       const body = JSON.parse(await readBody(req));
-      const { agent, text: rawText, message, lang, system: clientSystem, stream: wantStream } = body;
+      const { agent, text: rawText, message, lang, system: clientSystem, stream: wantStream, mode } = body;
       const text = rawText || message;
       if (!agent || !text) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -414,9 +416,13 @@ async function handleRequest(req, res) {
 
       // Palette retrieval — classify query through taxonomy, pull knowledge
       let paletteContext = '';
+      const learnMode = mode === 'learn';
       try {
+        const retrieveArgs = ['run', 'python3', join(__dirname, 'palette_retrieve.py')];
+        if (learnMode) retrieveArgs.push('--learn');
+        retrieveArgs.push(text);
         const retrieve = await new Promise((resolve) => {
-          const proc = spawn('uv', ['run', 'python3', join(__dirname, 'palette_retrieve.py'), text], {
+          const proc = spawn('uv', retrieveArgs, {
             cwd: join(process.env.HOME, 'fde'),
             env: { ...process.env, PALETTE_ROOT: join(process.env.HOME, 'fde', 'palette') },
             stdio: ['ignore', 'pipe', 'pipe'],
@@ -447,7 +453,9 @@ async function handleRequest(req, res) {
         ? `Respond in the same language the user is speaking. If they speak French, respond in French. If Italian, respond in Italian. If Spanish, respond in Spanish. `
         : '';
       const steering = clientSystem || AGENT_STEERING[agent] || '';
-      const voiceInstruction = clientSystem ? '' : 'Be concise — 2-3 sentences for spoken conversation. Do NOT use markdown formatting (no **bold**, no *italic*, no bullet points, no numbered lists, no headers). Your response will be spoken aloud through a voice synthesizer.';
+      const voiceInstruction = clientSystem ? '' : (learnMode
+        ? 'You are a voice tutor. Walk the learner through the topic step by step. Ask questions to check understanding. Be encouraging but rigorous. Adapt if they seem stuck. Keep responses conversational (3-5 sentences). Do NOT use markdown formatting. Your response will be spoken aloud.'
+        : 'Be concise — 2-3 sentences for spoken conversation. Do NOT use markdown formatting (no **bold**, no *italic*, no bullet points, no numbered lists, no headers). Your response will be spoken aloud through a voice synthesizer.');
       const systemPrompt = `${steering}\n\n${langInstruction}${voiceInstruction}${clientSystem ? '' : paletteContext}`;
 
       let fullText = '';
