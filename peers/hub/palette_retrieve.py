@@ -145,8 +145,14 @@ def hybrid_retrieve(query: str, data=None, top_k: int = 5) -> list[tuple[str, fl
         tier_boost = {1: 1.2, 2: 1.0, 3: 0.9}.get(tier, 1.0)
         scores[lib_id] *= tier_boost
 
-    ranked = sorted(scores.items(), key=lambda x: -x[1])
-    return ranked[:top_k]
+    ranked = sorted(scores.items(), key=lambda x: -x[1])[:top_k]
+
+    # Normalize to 0-100 (relative to theoretical max: 3 lists × rank-1 × max boost)
+    max_possible = len(rankings) * (1.0 / (RRF_K + 1)) * 1.2
+    if max_possible > 0:
+        ranked = [(lib_id, min(100.0, (score / max_possible) * 100)) for lib_id, score in ranked]
+
+    return ranked
 
 
 def retrieve(query: str) -> dict:
@@ -162,7 +168,7 @@ def retrieve(query: str) -> dict:
         "mode": "hybrid",
         "retrieval_modes": [],
         "lib_id": ranked[0][0] if ranked else None,
-        "confidence": ranked[0][1] * 100 if ranked else 0,
+        "confidence": ranked[0][1] if ranked else 0,
         "riu_id": None,
         "riu_name": None,
         "classification": None,
@@ -184,7 +190,7 @@ def retrieve(query: str) -> dict:
         if entry:
             result["knowledge"].append({
                 "lib_id": lib_id,
-                "score": round(score * 100, 1),
+                "score": round(score, 1),
                 "question": str(entry.get("question", ""))[:200],
                 "answer_excerpt": str(entry.get("answer", entry.get("content", "")))[:500],
                 "tags": entry.get("tags", []),
