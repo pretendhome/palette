@@ -670,6 +670,103 @@ def section_8_governance_pipeline(report: HealthReport) -> None:
             report.add(Check(8, "No stale proposals", True))
 
 
+# ── Section 9: Retrieval Quality ─────────────────────────────────────────────
+
+# 20 eval queries with expected top-1 LIB-ID (ground truth)
+RETRIEVAL_EVAL_QUERIES = [
+    # Governance & convergence
+    ("how do I force convergence when stakeholders disagree", "LIB-001"),
+    ("what is a one-way door decision", "LIB-002"),
+    ("how do I scope an AI pilot", "LIB-003"),
+    ("what artifacts prove convergence", "LIB-004"),
+    # Voice & UX
+    ("how does the voice hub architecture work", "LIB-192"),
+    ("what are wire contracts", "LIB-191"),
+    # Taxonomy & retrieval
+    ("how does taxonomy routing work", "LIB-186"),
+    ("how does hybrid retrieval work", "LIB-187"),
+    # CLI & tools
+    ("what is the palette query CLI", "LIB-188"),
+    ("how does learning mode work", "LIB-189"),
+    # Governance pipeline
+    ("how does the governance pipeline work", "LIB-190"),
+    # Integration & APIs
+    ("how do I handle API rate limits", "LIB-025"),
+    ("how do I design data contracts between systems", "LIB-026"),
+    # Buy vs build
+    ("how do I evaluate build vs buy for AI", "LIB-108"),
+    # Monitoring & ops
+    ("how do I detect data drift", "LIB-130"),
+    # Knowledge management
+    ("how do I document tribal knowledge", "LIB-009"),
+    # Agent quality
+    ("how do I evaluate agent quality", "LIB-103"),
+    # Adoption
+    ("how do I measure AI adoption", "LIB-072"),
+    # Business rules
+    ("how do I handle conflicting business rules", "LIB-021"),
+    # Testing
+    ("what testing strategy validates AI follows rules", "LIB-022"),
+]
+
+
+def section_9_retrieval_quality(report: HealthReport) -> None:
+    """Measure recall@5 and precision@1 on 20 ground-truth queries."""
+    import subprocess
+
+    hub_dir = os.path.join(PALETTE_ROOT, "peers", "hub")
+    retrieve_script = os.path.join(hub_dir, "palette_retrieve.py")
+
+    if not os.path.isfile(retrieve_script):
+        report.add(Check(9, "palette_retrieve.py exists", False, retrieve_script, "failure"))
+        return
+
+    recall_at_5_hits = 0
+    precision_at_1_hits = 0
+    failures = []
+
+    for query, expected_lib_id in RETRIEVAL_EVAL_QUERIES:
+        try:
+            result = subprocess.run(
+                [sys.executable, retrieve_script, query],
+                capture_output=True, text=True, timeout=15,
+                cwd=os.path.join(PALETTE_ROOT, ".."),
+                env={**os.environ, "PALETTE_ROOT": PALETTE_ROOT},
+            )
+            if result.returncode != 0:
+                failures.append(f"{query[:30]}... → error")
+                continue
+            data = json.loads(result.stdout)
+            top_ids = [k["lib_id"] for k in data.get("knowledge", [])]
+
+            # Precision@1: top result matches expected
+            if top_ids and top_ids[0] == expected_lib_id:
+                precision_at_1_hits += 1
+
+            # Recall@5: expected appears anywhere in top 5
+            if expected_lib_id in top_ids[:5]:
+                recall_at_5_hits += 1
+            else:
+                failures.append(f"{query[:30]}... → got {top_ids[0] if top_ids else 'NONE'}, want {expected_lib_id}")
+        except Exception as e:
+            failures.append(f"{query[:30]}... → {e}")
+
+    total = len(RETRIEVAL_EVAL_QUERIES)
+    recall_at_5 = (recall_at_5_hits / total) * 100 if total else 0
+    precision_at_1 = (precision_at_1_hits / total) * 100 if total else 0
+
+    # recall@5 >= 70% is the V3 success criterion
+    report.add(Check(9, f"Retrieval recall@5: {recall_at_5:.0f}% ({recall_at_5_hits}/{total})",
+                      recall_at_5 >= 70,
+                      f"Target: >=70%. Failures: {'; '.join(failures[:5])}" if failures else "",
+                      "failure" if recall_at_5 < 70 else "info"))
+
+    report.add(Check(9, f"Retrieval precision@1: {precision_at_1:.0f}% ({precision_at_1_hits}/{total})",
+                      precision_at_1 >= 50,
+                      "" if precision_at_1 >= 50 else f"Below 50% threshold",
+                      "warning" if precision_at_1 < 50 else "info"))
+
+
 # ── Reflection Question ─────────────────────────────────────────────────────
 
 REFLECTION = """
@@ -710,6 +807,7 @@ def run_all(sections: list[int] | None = None) -> HealthReport:
         6: ("Governance", section_6_governance),
         7: ("Repo Mirror Sync", section_7_repo_mirror),
         8: ("Governance Pipeline", section_8_governance_pipeline),
+        9: ("Retrieval Quality", section_9_retrieval_quality),
     }
 
     for num, (label, fn) in runners.items():
@@ -738,6 +836,7 @@ def print_report(report: HealthReport) -> None:
         6: "Governance",
         7: "Repo Mirror Sync",
         8: "Governance Pipeline",
+        9: "Retrieval Quality",
     }
 
     for check in report.checks:
