@@ -90,6 +90,8 @@ const AGENT_APIS = {
   perplexity: { provider: 'perplexity', model: 'sonar-pro' },
   computer:   { provider: 'perplexity', model: 'sonar-deep-research' },
   reasoning:  { provider: 'perplexity', model: 'sonar-reasoning-pro' },
+  kimi:       { provider: 'ollama',    model: 'kimi-k2.6:cloud', fallback: 'qwen2.5:7b' },
+  local:      { provider: 'ollama',    model: 'qwen2.5:7b' },
   // gemini: not wired yet — no API key
 };
 
@@ -860,6 +862,7 @@ function providerConfig(provider, model) {
     case 'perplexity': return { url: 'https://api.perplexity.ai/chat/completions',                          key: PERPLEXITY_KEY, label: 'Perplexity' };
     case 'dashscope':  return { url: 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions', key: DASHSCOPE_KEY, label: 'DashScope' };
     case 'kiro':       return { url: 'https://api.kiro.dev/v1/chat/completions',                            key: KIRO_KEY,       label: 'Kiro', modelOverride: 'kiro' };
+    case 'ollama':     return { url: 'http://localhost:11434/v1/chat/completions',                           key: 'ollama',       label: 'Ollama' };
     default: return null;
   }
 }
@@ -910,7 +913,23 @@ async function* callLLM(config, systemPrompt, userText) {
         signal: controller.signal,
       });
 
-      yield* parseOpenAIStream(resp, pc.label);
+      // Ollama fallback: if primary model fails (cloud auth, etc.), try fallback
+      if (!resp.ok && config.fallback && provider === 'ollama') {
+        clearTimeout(timeout);
+        const fb = new AbortController();
+        const fbTimeout = setTimeout(() => fb.abort(), LLM_TIMEOUT_MS);
+        try {
+          const fbResp = await fetch(pc.url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${pc.key}` },
+            body: JSON.stringify({ model: config.fallback, ...buildMessages(systemPrompt, userText) }),
+            signal: fb.signal,
+          });
+          yield* parseOpenAIStream(fbResp, `Ollama/${config.fallback}`);
+        } finally { clearTimeout(fbTimeout); }
+      } else {
+        yield* parseOpenAIStream(resp, pc.label);
+      }
     } finally {
       clearTimeout(timeout);
     }
