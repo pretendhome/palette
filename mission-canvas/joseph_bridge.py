@@ -72,19 +72,61 @@ def tg(method: str, **kwargs) -> dict:
         return resp.json()
 
 
-def send(chat_id: int, text: str) -> None:
+def send(chat_id: int, text: str, buttons: list[list[dict]] | None = None) -> None:
+    """Send a message, optionally with inline keyboard buttons.
+
+    buttons format: [[{"text": "Label", "callback_data": "cb:action:data"}], ...]
+    Each inner list is a row of buttons.
+    """
     chunk_size = 4000
+    reply_markup = None
+    if buttons:
+        reply_markup = {"inline_keyboard": buttons}
+
     for i in range(0, len(text), chunk_size):
-        tg("sendMessage",
-           chat_id    = chat_id,
-           text       = text[i : i + chunk_size],
-           parse_mode = "Markdown")
+        kwargs = {
+            "chat_id": chat_id,
+            "text": text[i : i + chunk_size],
+            "parse_mode": "Markdown",
+        }
+        # Only attach buttons to the last chunk
+        if reply_markup and i + chunk_size >= len(text):
+            kwargs["reply_markup"] = reply_markup
+        tg("sendMessage", **kwargs)
         if i + chunk_size < len(text):
             time.sleep(0.3)
 
 
 def typing(chat_id: int) -> None:
     tg("sendChatAction", chat_id=chat_id, action="typing")
+
+
+def answer_callback(callback_query_id: str, text: str = "") -> None:
+    """Answer a callback query (dismisses the loading spinner on the button)."""
+    kwargs = {"callback_query_id": callback_query_id}
+    if text:
+        kwargs["text"] = text[:200]
+    tg("answerCallbackQuery", **kwargs)
+
+
+# ── Callback state (in-memory, maps callback IDs to research queries) ────────
+
+_pending_research: dict[str, str] = {}  # key: short_id, value: research query
+_research_counter = 0
+
+
+def _store_research(query: str) -> str:
+    """Store a research query and return a short callback ID."""
+    global _research_counter
+    _research_counter += 1
+    key = f"r{_research_counter}"
+    _pending_research[key] = query
+    # Keep only last 50 to prevent memory leak
+    if len(_pending_research) > 50:
+        oldest = list(_pending_research.keys())[:20]
+        for k in oldest:
+            del _pending_research[k]
+    return key
 
 
 # ── Voice transcription (optional — requires whisper) ──────────────────────────
@@ -603,6 +645,59 @@ def mc_add_fact(fact: str, source: str, workspace_id: str) -> str:
     return result.get("error", "Failed to add fact.")
 
 
+def _cmd_morning_brief(chat_id: int) -> None:
+    """Generate the phone-optimized morning brief with inline buttons."""
+    tech_dir = Path(__file__).parent.parent / "buy-vs-build" / "tech"
+    brief_path = tech_dir / "morning_brief.py"
+
+    if not brief_path.exists():
+        send(chat_id, "Morning brief engine not found.")
+        return
+
+    sys.path.insert(0, str(tech_dir))
+    try:
+        import morning_brief
+        result = morning_brief.generate_morning_brief(PERPLEXITY_KEY)
+        text = morning_brief.format_telegram(result)
+
+        # Build section navigation buttons
+        buttons = [
+            [
+                {"text": "\U0001f4f0 News", "callback_data": "cb:section:news"},
+                {"text": "\u26a1 Disrupt", "callback_data": "cb:section:disruption"},
+                {"text": "\U0001f4ca Trends", "callback_data": "cb:section:trends"},
+            ],
+            [
+                {"text": "\U0001f4b9 Stress", "callback_data": "cb:cmd:stress"},
+                {"text": "\U0001f3af Exposed", "callback_data": "cb:cmd:vulnerable"},
+                {"text": "\U0001f3c6 Winners", "callback_data": "cb:cmd:beneficiaries"},
+            ],
+        ]
+
+        # Extract research prompts from the brief text and add research buttons
+        research_buttons = []
+        for line in result.split("\n"):
+            if line.strip().startswith("/research "):
+                query = line.strip()[10:]
+                key = _store_research(query)
+                short_label = query[:30] + "..." if len(query) > 30 else query
+                research_buttons.append(
+                    {"text": f"\U0001f50d {short_label}", "callback_data": f"cb:research:{key}"}
+                )
+
+        # Add research buttons as rows (one per row, max 3)
+        for rb in research_buttons[:3]:
+            buttons.append([rb])
+
+        send(chat_id, text, buttons=buttons)
+    except Exception as e:
+        print(f"[error] morning brief: {e}", flush=True)
+        send(chat_id, f"Morning brief error: {e}")
+    finally:
+        sys.path.pop(0)
+        sys.modules.pop("morning_brief", None)
+
+
 def _cmd_stress() -> str:
     """Run the market stress model: fetch current metrics via Perplexity, compute risk."""
     from market_stress import fetch_current_metrics, compute_stress, format_stress_report
@@ -651,7 +746,22 @@ def _cmd_tech(query: str) -> str:
         elif query.lower().startswith("cluster "):
             cluster = query.split(None, 1)[1].strip().lower().replace(" ", "_")
             return tech_engine.format_telegram(tech_engine.list_cluster(cluster))
+        elif query.lower() in ("disruption", "disrupt", "theses"):
+            return tech_engine.format_telegram(tech_engine.disruption_brief())
+        elif query.lower().startswith("thesis "):
+            thesis_id = query.split(None, 1)[1].strip()
+            return tech_engine.format_telegram(tech_engine.lookup_thesis(thesis_id))
+        elif query.lower() in ("vulnerable", "exposed", "risk", "risks"):
+            return tech_engine.format_telegram(tech_engine.vulnerable_companies())
+        elif query.lower() in ("beneficiaries", "winners", "benefit"):
+            return tech_engine.format_telegram(tech_engine.beneficiary_companies())
+        elif query.lower() in ("morning", "morning brief", "investor"):
+            return tech_engine.format_telegram(tech_engine.morning_disruption_brief())
         else:
+            # Check if query matches a disruption topic before falling back to PIS
+            disruption_result = tech_engine.query_disruption(query)
+            if "No disruption theses match" not in disruption_result:
+                return tech_engine.format_telegram(disruption_result)
             report = tech_engine.query_tech(query, use_perplexity=bool(PERPLEXITY_KEY))
             return tech_engine.format_telegram(report)
     finally:
@@ -764,23 +874,18 @@ def cmd_start(chat_id: int) -> None:
         f"{greeting}Connected to workspace: `{ws}`\n"
         f"{desc_line}"
         "*What you can do:*\n"
-        "`/brief` \u2014 weekly brief (health, blockers, what needs attention)\n"
-        "`/gaps` \u2014 what's missing / what's blocking us\n"
-        "`/decisions` \u2014 open decisions that need your input\n"
-        "`/health` \u2014 health score breakdown\n"
-        "`/tech` \u2014 tech landscape brief (AI tools, influencers, signals)\n"
-        "`/intel` \u2014 financial intelligence brief (voices, thesis, signals)\n"
-        "`/research <query>` \u2014 research a question\n"
-        "`/resolve <ID> <answer>` \u2014 answer an evidence gap\n"
-        "`/fact <fact> | <source>` \u2014 add something you know\n"
+        "`/brief` \u2014 morning brief (fresh news + disruptions + trends)\n"
+        "`/tech disruption` \u2014 all 12 disruption theses\n"
+        "`/tech IBM` \u2014 search any company or topic\n"
+        "`/stress` \u2014 market stress (CAPE + Buffett + P/S)\n"
+        "`/intel` \u2014 financial intelligence brief\n"
+        "`/research <query>` \u2014 live Perplexity search\n"
         "`/help` \u2014 full command list\n\n"
-        "Or just type a question in plain English \u2014 "
-        "I'll figure out what you need. Voice messages work too.\n\n"
-        "*Try these to get started:*\n"
-        "\u2022 `/brief` \u2014 see where things stand\n"
-        "\u2022 `/gaps` \u2014 see what information is missing\n"
-        "\u2022 _\"How should we position Known against Hinge?\"_\n"
-        "\u2022 _\"What growth channel should we prioritize?\"_"
+        "Or just ask in plain English. Voice works too.\n\n"
+        "*Start here:*\n"
+        "\u2022 `/brief` \u2014 what happened + what to watch\n"
+        "\u2022 `/tech vulnerable` \u2014 most exposed companies\n"
+        "\u2022 _\"Will Redis solve the context engine problem?\"_"
     )
 
 
@@ -789,31 +894,30 @@ def cmd_help(chat_id: int) -> None:
     has_pplx = " + Perplexity" if PERPLEXITY_KEY else ""
     send(chat_id,
         f"*Mission Canvas*{has_pplx} \u2014 workspace: `{ws}`\n\n"
+        "*Morning:*\n"
+        "`/brief` \u2014 fresh news + disruptions + trends\n"
+        "`/stress` \u2014 market stress (CAPE + Buffett + P/S)\n\n"
+        "*Disruption Intel:*\n"
+        "`/tech disruption` \u2014 all 12 disruption theses\n"
+        "`/tech thesis DISRUPT-CLOUD-PEAK` \u2014 deep-dive a thesis\n"
+        "`/tech vulnerable` \u2014 most exposed companies\n"
+        "`/tech beneficiaries` \u2014 who wins\n"
+        "`/tech morning` \u2014 investor morning brief\n"
+        "`/tech Redis` \u2014 search any company/topic\n\n"
+        "*Research:*\n"
+        "`/intel` \u2014 financial voices + thesis signals\n"
+        "`/research <query>` \u2014 live Perplexity search\n"
+        "`/tech brief` \u2014 full PIS landscape (tools, voices)\n\n"
         "*Workspace:*\n"
-        "`/brief` \u2014 daily brief\n"
         "`/gaps` \u2014 evidence gaps & blockers\n"
         "`/decisions` \u2014 open decisions\n"
-        "`/health` \u2014 health score\n"
-        "`/stress` \u2014 market stress probability (CAPE + Buffett + P/S)\n"
-        "`/resolve ME-001 The answer is...` \u2014 resolve a gap\n"
-        "`/fact Revenue is $400K/yr | Square POS data` \u2014 add a fact\n\n"
-        "*Intelligence & Research:*\n"
-        "`/tech` \u2014 full tech landscape brief (43 tools, 21 voices)\n"
-        "`/tech voice AI` \u2014 search tech tools/voices for a topic\n"
-        "`/tech tier 1` \u2014 show Tier 1 tools only\n"
-        "`/tech action evaluate` \u2014 tools flagged for evaluation\n"
-        "`/intel` \u2014 full financial intelligence brief\n"
-        "`/intel crack spreads` \u2014 query a specific topic\n"
-        "`/intel THESIS-AI-INFRASTRUCTURE` \u2014 look up a thesis category\n"
-        "`/research Is Anthropic a good AI investment?` \u2014 Perplexity search\n"
+        "`/health` \u2014 workspace health score\n"
         "`/alerts` \u2014 recent monitor alerts\n"
-        "`/monitors` \u2014 active monitors and status\n\n"
-        "*Navigation:*\n"
-        "`/workspace oil-investor` \u2014 switch workspace\n"
-        "`/workspaces` \u2014 list all workspaces\n"
-        "`/help` \u2014 this menu\n\n"
-        "Any other message is smart-routed: research questions go to "
-        "Perplexity, workspace questions go through the convergence chain."
+        "`/monitors` \u2014 active monitors\n"
+        "`/resolve ID answer` \u2014 resolve a gap\n"
+        "`/fact text | source` \u2014 add a fact\n"
+        "`/workspace id` \u2014 switch workspace\n\n"
+        "Or just ask in plain English. Voice works too."
     )
 
 
@@ -836,8 +940,7 @@ def handle_message(chat_id: int, text: str) -> None:
 
         if text.startswith("/brief"):
             typing(chat_id)
-            result = mc_brief(ws)
-            send(chat_id, result)
+            _cmd_morning_brief(chat_id)
             return
 
         if text.startswith("/gaps"):
@@ -1024,6 +1127,77 @@ def handle_message(chat_id: int, text: str) -> None:
         send(chat_id, f"Error: {e}")
 
 
+# ── Callback query handler (inline button taps) ─────────────────────────────
+
+def handle_callback(callback: dict) -> None:
+    """Handle an inline keyboard button tap."""
+    cb_id = callback["id"]
+    chat_id = callback["message"]["chat"]["id"]
+    data = callback.get("data", "")
+
+    print(f"[callback] chat={chat_id} data={data}", flush=True)
+
+    # Parse callback_data format: "cb:type:payload"
+    parts = data.split(":", 2)
+    if len(parts) < 3:
+        answer_callback(cb_id, "Unknown action")
+        return
+
+    _, cb_type, payload = parts
+
+    if cb_type == "research":
+        # Look up stored research query and run Perplexity
+        query = _pending_research.get(payload)
+        if not query:
+            answer_callback(cb_id, "Query expired — ask again")
+            return
+        answer_callback(cb_id, "Searching...")
+        typing(chat_id)
+        result = perplexity_research(query)
+        if result:
+            send(chat_id, f"\U0001f50d *{query[:60]}*\n\n{result}")
+        else:
+            send(chat_id, "No results. Try rephrasing.")
+
+    elif cb_type == "section":
+        # Expand a brief section
+        answer_callback(cb_id)
+        typing(chat_id)
+        ws = get_workspace(chat_id)
+
+        if payload == "news":
+            # Re-run brief and extract just the NEW section
+            _cmd_morning_brief(chat_id)
+
+        elif payload == "disruption":
+            result = _cmd_tech("disruption")
+            send(chat_id, result)
+
+        elif payload == "trends":
+            result = _cmd_tech("morning")
+            send(chat_id, result)
+
+    elif cb_type == "cmd":
+        # Run a command directly
+        answer_callback(cb_id)
+        typing(chat_id)
+
+        if payload == "stress":
+            result = _cmd_stress()
+            send(chat_id, result)
+        elif payload == "vulnerable":
+            result = _cmd_tech("vulnerable")
+            send(chat_id, result)
+        elif payload == "beneficiaries":
+            result = _cmd_tech("beneficiaries")
+            send(chat_id, result)
+        else:
+            send(chat_id, f"Unknown command: {payload}")
+
+    else:
+        answer_callback(cb_id, "Unknown callback")
+
+
 # ── Polling loop ──────────────────────────────────────────────────────────────
 
 def run() -> None:
@@ -1053,6 +1227,16 @@ def run() -> None:
 
             for update in result.get("result", []):
                 offset = update["update_id"] + 1
+
+                # ── Handle callback queries (inline button taps) ──
+                callback = update.get("callback_query")
+                if callback:
+                    try:
+                        handle_callback(callback)
+                    except Exception as e:
+                        print(f"[error] callback: {e}", flush=True)
+                    continue
+
                 msg = update.get("message") or update.get("edited_message")
                 if not msg:
                     continue

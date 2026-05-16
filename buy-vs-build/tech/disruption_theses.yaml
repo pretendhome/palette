@@ -1,0 +1,931 @@
+# Disruption Theses — AI Council Conference Intelligence + Global Inference
+# Source: AI Council May 12-14, 2026 (21 sessions, 104 validates, 53 framings)
+# Purpose: Queryable investment intelligence for /tech disruption commands
+# Updated: 2026-05-15
+# Schema: Each thesis tracks the disruption vector, evidence, exposed companies,
+#          beneficiaries, watchlist triggers, and a morning-brief summary.
+
+version: "1.0"
+last_updated: "2026-05-15"
+source_conference: "AI Council, San Francisco, May 12-14, 2026"
+total_sessions: 21
+
+theses:
+
+  # ═══════════════════════════════════════════════════════════════
+  # THESIS 1: DATA PLATFORMS EAT THE APPLICATION LAYER
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: DISRUPT-DATA-EATS-APPS
+    name: "Data Platforms Eat the Application Layer"
+    thesis: >
+      Databricks, Snowflake, and ClickHouse are moving UP the stack into
+      application territory. Enterprises are building custom apps INSIDE
+      data platforms instead of buying SaaS. A performance review tool was
+      SaaS, then got rebuilt in Databricks, then got sold. This pattern
+      will repeat across every vertical SaaS category sitting on top of
+      warehouse data.
+    direction: bearish_saas
+    timeframe: 12-36 months
+    confidence: high
+
+    evidence:
+      - session: S10
+        speaker: "Data Infra Keynote Panel (Altimeter, ClickHouse, Snowflake, Databricks)"
+        quote: "Data platforms moving up the stack — ClickStack, Cortex Code, Snowflake native apps. Platforms becoming app environments."
+      - session: S10
+        speaker: "Panel"
+        quote: "People want to host inside data platforms — companies building custom apps inside Databricks/Snowflake instead of buying SaaS."
+      - session: S10
+        speaker: "Panel"
+        quote: "Performance review tool was SaaS, then they built it in Databricks, then sold it."
+      - session: S10
+        speaker: "Panel"
+        quote: "Transparent and simple pricing to understand what they are paying for."
+
+    exposed_companies:
+      - name: "Vertical SaaS on Snowflake/Databricks"
+        ticker: various
+        risk: "Displacement by native data platform apps"
+        detail: "Any SaaS company whose primary value is querying/transforming data the customer already has in a warehouse. The warehouse will do it natively."
+      - name: "Expedia Group"
+        ticker: EXPE
+        risk: "If Snowflake/Databricks enable enterprises to build travel-booking intelligence internally"
+        detail: "Long-shot but directional — the pattern is 'if the data lives in the platform, the app moves there too.'"
+      - name: "Salesforce"
+        ticker: CRM
+        risk: "Agentforce competes with Databricks Apps for the enterprise agent layer"
+        detail: "Salesforce is building agents on its own data, but if enterprise data lives in Databricks, that's where agents will run."
+      - name: "ServiceNow"
+        ticker: NOW
+        risk: "Enterprise workflow SaaS vulnerable if orchestration moves to data platforms"
+        detail: "ServiceNow's value is workflow on enterprise data. If the data platform does workflow natively, the middleware layer compresses."
+
+    beneficiaries:
+      - name: "Databricks"
+        ticker: private
+        why: "Moving from analytics platform to full application platform. Every app built inside Databricks is revenue they took from a SaaS vendor."
+      - name: "Snowflake"
+        ticker: SNOW
+        why: "Cortex + native apps + Snowpark = full application runtime on warehouse data. Marketplace creates distribution."
+      - name: "ClickHouse"
+        ticker: private
+        why: "ClickStack = real-time analytics + app runtime. Fastest at the query layer."
+
+    watchlist_triggers:
+      - "Snowflake or Databricks launches a native CRM/HR/finance app"
+      - "Enterprise customer case study replacing SaaS with native data platform app"
+      - "Snowflake Marketplace grows >50% YoY in app listings"
+      - "Databricks Apps GA with >1000 published apps"
+      - "Vertical SaaS vendor cites 'data platform competition' in earnings call"
+
+    morning_brief: >
+      Databricks and Snowflake are becoming app platforms, not just data warehouses.
+      Every vertical SaaS company sitting on top of warehouse data is at risk of
+      displacement by native apps. Watch for Snowflake Cortex and Databricks Apps
+      announcements — each one compresses the SaaS middleware layer.
+
+  # ═══════════════════════════════════════════════════════════════
+  # THESIS 2: CLOUD PEAK / ON-PREM RENAISSANCE
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: DISRUPT-CLOUD-PEAK
+    name: "Cloud Peak — On-Prem and Edge AI Renaissance"
+    thesis: >
+      Cloud infrastructure revenue growth is peaking. The future is edge,
+      ambient, and on-prem inference. Models like Kimi K2.6 deliver 80%
+      cheaper inference with equivalent quality. llamafile (24K GitHub stars)
+      enables single-file LLM distribution. As inference moves to edge
+      devices and on-prem hardware, hyperscaler revenue concentration
+      weakens. Companies with on-prem infrastructure (IBM, Intel, HPE)
+      have a comeback path.
+    direction: bearish_hyperscalers_long_term
+    timeframe: 18-48 months
+    confidence: medium
+
+    evidence:
+      - session: S15
+        speaker: "Modern Inference Keynote"
+        quote: "This is the most cloud-centric that cloud will ever be."
+      - session: S06
+        speaker: "Meryem Arik, Doubleword"
+        quote: "Kimi K2.6 — 80% cheaper, just as good. Cheaper model + more data beats expensive model."
+      - session: S16
+        speaker: "Keynote Panel"
+        quote: "Open source is a viable alternative. We need good rounded corners."
+        detail: "llamafile (24K stars), any-llm (2K stars), any-agent (1.2K stars)"
+      - session: S09
+        speaker: "Yaroslav Bulatov"
+        quote: "Path dependency — 1. Make a good design decision. 2. Environment changes. 3. Decision is now bad."
+        detail: "Cloud lock-in is path-dependent. Environment (cost, regulation, latency) is changing."
+      - session: S15
+        speaker: "Keynote"
+        quote: "Edge/ambient inference = Apple, laptops, LM Studio, local models."
+
+    exposed_companies:
+      - name: "Amazon Web Services"
+        ticker: AMZN
+        risk: "AI inference revenue growth slows as local/edge models close quality gap"
+        detail: "AWS Bedrock charges per-token. If Kimi K2.6 runs locally at 80% discount for 80% of workloads, Bedrock loses the long-tail."
+      - name: "Microsoft Azure"
+        ticker: MSFT
+        risk: "Azure AI revenue depends on inference staying cloud-centric"
+        detail: "Windows + local models could be the hedge — Microsoft is in both positions."
+      - name: "Google Cloud"
+        ticker: GOOGL
+        risk: "Gemini inference revenue at risk from open-source Gemma running locally"
+        detail: "Google hedges with on-device (Android AI), but cloud margin at risk."
+
+    beneficiaries:
+      - name: "NVIDIA"
+        ticker: NVDA
+        why: "Wins either way — cloud GPUs or on-prem GPUs. Edge AI needs NVIDIA silicon too."
+      - name: "AMD"
+        ticker: AMD
+        why: "Efficient throughput for agentic workloads. Conference noted 'AMD for efficient throughput.' MI300X competitive for inference."
+      - name: "Intel"
+        ticker: INTC
+        why: "Gaudi accelerators for on-prem inference. If cloud peaks, enterprise on-prem AI hardware demand rises. Intel's data center business has a comeback path."
+      - name: "IBM"
+        ticker: IBM
+        why: "Red Hat + watsonx + on-prem enterprise AI. If regulated industries (banking, healthcare, defense) move inference on-prem for data sovereignty, IBM is positioned."
+      - name: "Apple"
+        ticker: AAPL
+        why: "On-device inference (Apple Silicon). As models shrink to run on M-series chips, Apple captures the consumer edge AI market without cloud costs."
+      - name: "HPE"
+        ticker: HPE
+        why: "Enterprise on-prem infrastructure. If the pendulum swings from cloud to hybrid/on-prem, HPE's server business benefits."
+      - name: "Dell Technologies"
+        ticker: DELL
+        why: "Enterprise servers + PowerEdge AI servers. Same on-prem thesis as HPE."
+
+    watchlist_triggers:
+      - "Open-source model benchmarks within 5% of frontier on key tasks"
+      - "Enterprise announces moving AI inference from cloud to on-prem"
+      - "Kimi, Llama, or Mistral model runs on consumer hardware at GPT-4 quality"
+      - "Hyperscaler AI revenue growth decelerates for 2 consecutive quarters"
+      - "Apple announces on-device LLM features at WWDC"
+      - "Intel Gaudi wins a major enterprise AI deployment"
+      - "llamafile or Ollama downloads exceed 10M"
+
+    morning_brief: >
+      "This is the most cloud-centric cloud will ever be." Open-source models
+      at 80% discount are closing the quality gap. Watch Intel Gaudi, IBM watsonx,
+      and Apple on-device AI. If inference moves to edge, hyperscaler AI margins
+      compress and on-prem hardware makers (IBM, Intel, HPE, Dell) come roaring back.
+
+  # ═══════════════════════════════════════════════════════════════
+  # THESIS 3: REDIS AND THE CONTEXT ENGINE RACE
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: DISRUPT-CONTEXT-ENGINE
+    name: "The Context Engine Race — Data + Inference in One System"
+    thesis: >
+      Redis is positioning as THE operating system for agent context —
+      vector search + BM25 + semantic caching + agent memory + real-time
+      ETL in a single system. If Redis solves memory + retrieval + inference
+      context in one layer, it could enable edge AI systems where data and
+      inference live in the same process. This would displace traditional
+      databases, vector DBs, and cache layers. But the moat question is
+      real — "anyone can copy Redis."
+    direction: disruptive_new_layer
+    timeframe: 12-24 months
+    confidence: medium-high
+
+    evidence:
+      - session: S13
+        speaker: "Redis Context Engineering"
+        quote: "Context Engineering is becoming a new field."
+      - session: S13
+        speaker: "Redis"
+        quote: "Context selection, not context accumulation. Memory is really STATE. Memory = ETL."
+      - session: S13
+        speaker: "Redis"
+        quote: "An operating system for agent context."
+      - session: S13
+        speaker: "Redis"
+        quote: "Semantic caching (LangCache) — cache by semantic similarity."
+      - session: S13
+        speaker: "Redis"
+        quote: "RDI = real-time ETL for freshness."
+      - session: S04
+        speaker: "Glauber Costa, Turso CEO"
+        quote: "Agents create an insane amount of data about their own state — this is already done with MD but it will ALWAYS BECOME a database."
+      - session: S07
+        speaker: "Apoorva Joshi, MongoDB"
+        quote: "Agent memory = distributed engineering problem."
+
+    exposed_companies:
+      - name: "Pinecone"
+        ticker: private
+        risk: "Pure vector DB displaced if Redis does vector + BM25 + caching natively"
+        detail: "If the agent context layer needs hybrid (not just vector), single-purpose vector DBs lose."
+      - name: "Weaviate"
+        ticker: private
+        risk: "Same as Pinecone — vector-only DB vulnerable to hybrid context engines"
+        detail: "Weaviate adds features but starts from vector-first. Redis starts from data-structure-first."
+      - name: "MongoDB"
+        ticker: MDB
+        risk: "If agent memory consolidates into context engines rather than general-purpose databases"
+        detail: "MongoDB Atlas Vector Search is a hedge, but if Redis becomes the default agent memory layer, MongoDB loses that workload."
+      - name: "Elastic"
+        ticker: ESTC
+        risk: "BM25 search commoditized when Redis does it natively alongside vector"
+        detail: "Elastic's moat was full-text search. Redis now does BM25 + vector + semantic caching."
+
+    beneficiaries:
+      - name: "Redis"
+        ticker: private
+        why: "If they own the context engine layer, every agent system needs Redis. Massive TAM expansion from cache → agent infrastructure."
+      - name: "Turso"
+        ticker: private
+        why: "SQLite-in-Rust with async, WASM, concurrent writes, vector search. Purpose-built for per-agent state at scale. 'We're the governance on top, you're the storage underneath.'"
+      - name: "turbopuffer"
+        ticker: private
+        why: "AI search connecting AI to data, S3-backed, semantically aware. The retrieval primitive for agent systems."
+
+    watchlist_triggers:
+      - "Redis launches 'Agent Memory Server' as GA product"
+      - "Major LLM framework (LangChain, LlamaIndex) adopts Redis as default context backend"
+      - "Turso announces agent-scale deployment with major customer"
+      - "Edge AI demo where data + inference + context live in one process"
+      - "Pinecone or Weaviate pivots to hybrid context engine positioning"
+      - "MongoDB Atlas or Elastic launches dedicated 'agent context' product"
+
+    morning_brief: >
+      Redis is racing to become the operating system for agent context — vector +
+      BM25 + caching + memory + real-time ETL in one system. If they win, pure
+      vector DBs (Pinecone, Weaviate) and general databases (MongoDB) lose the
+      agent memory workload. Turso (SQLite-in-Rust) is the dark horse for
+      per-agent state. The edge AI question: can data + inference live in one
+      system? Redis thinks yes.
+
+  # ═══════════════════════════════════════════════════════════════
+  # THESIS 4: AGENT SECURITY AS THE NEW INFRASTRUCTURE
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: DISRUPT-AGENT-SECURITY
+    name: "Agent Security — The Unsolved Infrastructure Layer"
+    thesis: >
+      Agent identity and traceability are UNSOLVED PROBLEMS in production.
+      Every company deploying agents without governance is exposed to
+      identity spoofing, privilege inflation, cascading failures, and
+      supply chain attacks. TTE (Time to Exploit) collapsed to 10 hours.
+      MCP without auth is an open door. This creates a new infrastructure
+      category worth billions — and exposes every company rushing to deploy
+      agents without security.
+    direction: new_infrastructure_category
+    timeframe: 6-18 months
+    confidence: very_high
+
+    evidence:
+      - session: S17
+        speaker: "Diana Kelley, CISO Noma Security"
+        quote: "5-boundary matrix: Instruction, Knowledge, Retrieval, Memory, Action + Identity"
+      - session: S18
+        speaker: "Feross Aboukhadijeh, Socket CEO"
+        quote: "TTE collapsed to 10 hours. MCP without auth = open door."
+      - session: S19
+        speaker: "Enterprise Trust Panel"
+        quote: "Agent Identity and Traceability are UNSOLVED PROBLEMS."
+      - session: S19
+        speaker: "Panel"
+        quote: "Control, autonomy, permissions are DIALS not booleans."
+      - session: S19
+        speaker: "Panel"
+        quote: "Only good strategy is build it yourself."
+      - session: S21
+        speaker: "Ian Livingstone, Keycard"
+        quote: "Insurance company with 1000+ agents in production... Who asked the agent to do this? What were the constraints?"
+      - session: S21
+        speaker: "All speakers"
+        quote: "Don't fuck up auth. Every C-level adoption is stalled on auth security."
+
+    exposed_companies:
+      - name: "Every enterprise deploying agents without governance"
+        ticker: various
+        risk: "Production agent incidents, data breaches, unauthorized actions"
+        detail: "Insurance company example: 1000+ agents, citizen developers encoding them, no traceability. One bad agent action = regulatory incident."
+      - name: "Salesforce (Agentforce)"
+        ticker: CRM
+        risk: "If Agentforce agents lack identity/traceability at enterprise scale"
+        detail: "Salesforce is pushing agents hard. If a customer's Agentforce agent does something unauthorized, liability question is massive."
+      - name: "Microsoft (Copilot)"
+        ticker: MSFT
+        risk: "Copilot agents acting on behalf of users without fine-grained governance"
+        detail: "Copilot has broad access to enterprise data. Identity nesting problem: is this the user or Copilot acting on behalf of Copilot?"
+
+    beneficiaries:
+      - name: "Noma Security"
+        ticker: private
+        why: "Diana Kelley's boundary matrix is the framework. First-mover in agent-specific security."
+      - name: "Socket"
+        ticker: private
+        why: "Supply chain security for agents. TrustFall vulnerability = one-click patching for agent ecosystems."
+      - name: "Keycard"
+        ticker: private
+        why: "Cryptographic agent identity. Ian Livingstone: 'First party auth for agents.' Potential Okta-for-agents."
+      - name: "CrowdStrike"
+        ticker: CRWD
+        why: "If agent security becomes an extension of endpoint security, CrowdStrike has the enterprise footprint."
+      - name: "Palo Alto Networks"
+        ticker: PANW
+        why: "Network-level agent security. If agents make network calls, firewall/proxy layer needs agent-awareness."
+
+    watchlist_triggers:
+      - "Major enterprise agent security incident reported publicly"
+      - "OWASP releases Top 10 for Agentic Systems (ASI list referenced in S17)"
+      - "CrowdStrike or Palo Alto announces agent-specific security product"
+      - "Noma Security or Keycard raises Series A/B"
+      - "Cloud provider launches native agent governance (AWS, Azure, GCP)"
+      - "Regulatory body (SEC, EU) issues guidance on agent accountability"
+
+    morning_brief: >
+      Agent security is the biggest unsolved problem in production AI. TTE
+      collapsed to 10 hours. Identity and traceability are unsolved. Every
+      enterprise deploying agents is exposed. Watch Noma Security, Socket,
+      and Keycard — they're building the infrastructure. A major agent security
+      incident will accelerate this category faster than anything.
+
+  # ═══════════════════════════════════════════════════════════════
+  # THESIS 5: INFERENCE ECONOMICS RESTRUCTURE
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: DISRUPT-INFERENCE-ECONOMICS
+    name: "Inference Economics Restructure — Billions of Tokens Accidentally"
+    thesis: >
+      Agentic workloads are burning billions of tokens — 10x YoY growth —
+      and most companies have no cost governance. The three-lever framework
+      (context management, caching, model routing) will create a new
+      category of inference optimization companies. Companies without
+      cost-aware routing will burn through budgets. Companies WITH it
+      will have a structural cost advantage.
+    direction: new_optimization_layer
+    timeframe: 6-12 months
+    confidence: very_high
+
+    evidence:
+      - session: S06
+        speaker: "Meryem Arik, Doubleword"
+        quote: "Test-time compute = competence. For the first time, runtime = quality."
+      - session: S06
+        speaker: "Doubleword"
+        quote: "Inference = #tokens × $/token. Three levers: context management, model routing, inference stack."
+      - session: S15
+        speaker: "Keynote"
+        quote: "Billions of tokens accidentally with agents. 10x YoY growth."
+      - session: S11
+        speaker: "Open Layer Panel"
+        quote: "Agentic loads are much easier to burn tokens — billions per day."
+      - session: S11
+        speaker: "Panel"
+        quote: "Organizations running through a year's budget in months."
+      - session: S10
+        speaker: "Data Infra Panel"
+        quote: "If you let agents run wild they may not reason in a way that saves cost."
+
+    exposed_companies:
+      - name: "Any company with unmonitored agent inference spend"
+        ticker: various
+        risk: "Running through AI budgets 3-5x faster than planned"
+        detail: "Panel confirmed: 'Organizations running through a year's budget in months' on agentic loads."
+      - name: "Anthropic / OpenAI (indirectly)"
+        ticker: private
+        risk: "If inference optimization reduces per-query spend by 60-80%, revenue per user drops"
+        detail: "Optimization is good for adoption but compresses revenue per token. Volume must offset margin compression."
+
+    beneficiaries:
+      - name: "Doubleword"
+        ticker: private
+        why: "Async inference optimization. 'She optimizes inference, we govern it.' 25-50% cheaper async, 50-80% cheaper batch."
+      - name: "Fireworks AI"
+        ticker: private
+        why: "Optimized inference infrastructure. Compound model orchestration."
+      - name: "Groq"
+        ticker: private
+        why: "Custom inference hardware (LPU). Speed-as-cost-reduction for latency-sensitive workloads."
+      - name: "OpenRouter"
+        ticker: private
+        why: "Model routing across 100+ providers. The 'GPU sommelier' that picks the right model at the right price."
+      - name: "Together AI"
+        ticker: private
+        why: "Open-source model hosting. Cost-efficient inference for enterprises using open models."
+
+    watchlist_triggers:
+      - "Major enterprise reports 60%+ inference cost reduction via routing/caching"
+      - "API pricing wars between Claude/GPT/Gemini compress margins >30%"
+      - "Inference optimization startup raises >$100M"
+      - "Cloud provider launches native token budgeting / cost-aware routing"
+      - "Open-source model passes frontier model on enterprise eval at 80% cost reduction"
+
+    morning_brief: >
+      Agents are burning billions of tokens — 10x YoY. Most companies have zero
+      cost governance. The winners will be inference optimization companies
+      (Doubleword, Fireworks, Groq, OpenRouter) and enterprises that implement
+      cost-aware routing. Model routing is the new GPU sommelier.
+
+  # ═══════════════════════════════════════════════════════════════
+  # THESIS 6: MULTI-MODEL REQUIRED / SINGLE-PROVIDER DEAD
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: DISRUPT-MULTI-MODEL
+    name: "Multi-Model Required — Single-Provider Lock-in is Dead"
+    thesis: >
+      No single model wins everywhere. Opus for human-like synthesis,
+      GPT-5.5 for RL-optimized implementation, Kimi for long-running
+      cheap tasks, Sonar for research. The companies that lock into
+      one provider face quality AND cost disadvantage. The BYOK (Bring
+      Your Own Key) pattern will dominate enterprise AI.
+    direction: structural_shift
+    timeframe: 6-18 months
+    confidence: very_high
+
+    evidence:
+      - session: S15
+        speaker: "Keynote"
+        quote: "Multi-model inference system, all orchestrated with a top-level orchestration system."
+      - session: S11
+        speaker: "Open Layer Panel"
+        quote: "Model + Harness + Product = all come together. OTHERWISE SOMEONE WILL JUST STEAL YOUR PRODUCT."
+      - session: S11
+        speaker: "Kilo Code"
+        quote: "Model agnostic harness — they optimize per model."
+      - session: conference_conversations
+        speaker: "Multiple"
+        quote: "Opus = more human-like (docs, architecture, frontend). GPT-5.5 = more RL-optimized (implementation, correctness, debugging)."
+      - session: S06
+        speaker: "Doubleword"
+        quote: "Kimi K2.6 — 80% cheaper, just as good."
+
+    exposed_companies:
+      - name: "Companies locked into single AI provider"
+        ticker: various
+        risk: "Quality ceiling + cost floor + vendor dependency"
+        detail: "Using only GPT for everything = paying frontier prices for tasks a $0.01 model handles."
+      - name: "Google Cloud (Gemini-only customers)"
+        ticker: GOOGL
+        risk: "If Gemini quality stagnates, locked-in customers can't switch without rebuilding"
+        detail: "Google's moat is data, not the model. Model-agnostic platforms reduce switching costs."
+
+    beneficiaries:
+      - name: "OpenRouter"
+        ticker: private
+        why: "Routing layer across 100+ models. The infrastructure for multi-model."
+      - name: "LiteLLM"
+        ticker: private/open-source
+        why: "Unified API for all LLM providers. The plumbing for BYOK."
+      - name: "Kilo Code"
+        ticker: private
+        why: "Model-agnostic coding harness. Optimizes per model. Model companies give them early access."
+      - name: "Perplexity"
+        ticker: private
+        why: "Multi-model hub for research. Already routes across Claude, GPT, Sonar."
+
+    watchlist_triggers:
+      - "Enterprise announces multi-model strategy publicly"
+      - "LiteLLM or OpenRouter crosses 1M daily API calls"
+      - "Major framework makes multi-model routing a default feature"
+      - "Model provider loses major customer to multi-model competitor"
+
+    morning_brief: >
+      Single-model lock-in is dead. Opus for synthesis, GPT for implementation,
+      Kimi for cheap long-running, Sonar for research. The BYOK pattern is
+      winning. OpenRouter and LiteLLM are the infrastructure. Companies still
+      locked into one provider will feel the cost and quality squeeze within 6 months.
+
+  # ═══════════════════════════════════════════════════════════════
+  # THESIS 7: AGENT INFRASTRUCTURE IS THE NEW CLOUD
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: DISRUPT-AGENT-INFRA
+    name: "Agent Infrastructure — The Microprocessor Moment"
+    thesis: >
+      We're at the microprocessor moment for AI agents. The coordination
+      layer that makes billions of small units work together doesn't exist
+      yet. Agents need trillions of small databases, millions of sandboxes,
+      governed orchestration, and identity infrastructure. Current cloud
+      architectures aren't built for this. The companies that build the
+      agent-era infrastructure will be the AWS/Azure of the next decade.
+    direction: new_platform_category
+    timeframe: 12-36 months
+    confidence: high
+
+    evidence:
+      - session: S04
+        speaker: "Glauber Costa, Turso"
+        quote: "Transistor → circuit board → microprocessor → cloud → kubernetes → agents. Where are we in the curve?"
+      - session: S04
+        speaker: "Turso"
+        quote: "Each unit becomes a lot smaller, just like microprocessors. Agents will have thousands of small DBs."
+      - session: S03
+        speaker: "Neil Movva, Sail Research"
+        quote: "Coordination is the next problem we need to solve."
+      - session: S08
+        speaker: "Felipe Huici, Unikraft"
+        quote: "Agents should NEVER be run in containers — full VM isolation required."
+      - session: S08
+        speaker: "Unikraft"
+        quote: "Scale-to-zero: suspend → snapshot → standby → instant resume. Near-zero idle cost."
+      - session: S09
+        speaker: "Yaroslav Bulatov"
+        quote: "Arithmetic is essentially free now. Communication (moving data) is the bottleneck."
+      - session: S01
+        speaker: "Keynote"
+        quote: "10 people = enough for $1B revenue. 80 people for $100B."
+
+    exposed_companies:
+      - name: "Docker"
+        ticker: private
+        risk: "Containers aren't secure enough for agent isolation"
+        detail: "Unikraft CEO: 'Containers don't contain. Isolates don't isolate.' MicroVMs are the replacement for agent sandboxing."
+      - name: "Kubernetes-dependent platforms"
+        ticker: various
+        risk: "K8s orchestration designed for long-running services, not millions of ephemeral agent processes"
+        detail: "Agent workloads are bursty, ephemeral, and need sub-second boot. K8s wasn't built for this."
+
+    beneficiaries:
+      - name: "Unikraft"
+        ticker: private
+        why: "MicroVM sandboxing for agents. Millisecond boot, scale-to-zero, minimal attack surface. 'Where Firecracker meets agents.'"
+      - name: "Turso"
+        ticker: private
+        why: "Per-agent database at scale. SQLite-in-Rust with concurrent writes, vector search, WASM runtime."
+      - name: "Firecracker / AWS Lambda"
+        ticker: AMZN
+        why: "MicroVM infrastructure already deployed at scale. Agent sandboxing is a natural extension."
+      - name: "Cloudflare"
+        ticker: NET
+        why: "Workers + edge compute. 47M requests, 295 teams using internal AI. 'Best agent cloud' positioning."
+      - name: "Browserbase"
+        ticker: private
+        why: "Agent sandbox for web interaction. Credential brokering. Security-first."
+
+    watchlist_triggers:
+      - "Unikraft or Firecracker announces agent-specific product"
+      - "Cloudflare launches agent orchestration as a service"
+      - "Agent-infra startup raises >$100M (Turso, Browserbase, etc.)"
+      - "Major cloud provider launches 'agent-native' compute tier"
+      - "Kubernetes usage declines for AI workloads in developer surveys"
+
+    morning_brief: >
+      We're at the microprocessor moment for agents. Current cloud infra
+      (containers, K8s) wasn't built for millions of ephemeral agent processes.
+      MicroVMs (Unikraft, Firecracker), per-agent databases (Turso), and
+      edge compute (Cloudflare) are the new infrastructure layer. The company
+      that builds the AWS for agents captures the next platform shift.
+
+  # ═══════════════════════════════════════════════════════════════
+  # THESIS 8: THE EVAL GAP — OBSERVABILITY FOR AGENTS
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: DISRUPT-EVAL-GAP
+    name: "The Eval Gap — Agent Observability as Infrastructure"
+    thesis: >
+      Evaluation is the hardest unsolved problem in production AI. Enterprises
+      struggle with evals at scale. Vendor benchmarks are insufficient.
+      The companies that build CI-for-evals — continuous, automated,
+      domain-specific agent evaluation — will own the quality layer of
+      every AI deployment.
+    direction: new_infrastructure_category
+    timeframe: 6-18 months
+    confidence: high
+
+    evidence:
+      - session: S14
+        speaker: "Evals Session"
+        quote: "Evals as core infrastructure. CI for evals. Regex is not overrated."
+      - session: S14
+        speaker: "Evals"
+        quote: "Taxonomize the failures. Start simple. Keep a paper trail."
+      - session: S05
+        speaker: "RL Panel"
+        quote: "Quality of evals = reward card. Enterprises struggle with evals at scale."
+      - session: S15
+        speaker: "Keynote"
+        quote: "The true machine is the eval system that improves things over time."
+      - session: S05
+        speaker: "RL Panel"
+        quote: "Agents optimize exactly what you measure. Not what you meant."
+
+    exposed_companies:
+      - name: "Every company deploying agents without eval infrastructure"
+        ticker: various
+        risk: "Production failures, quality drift, metric gaming"
+        detail: "Agents optimize what you measure, not what you meant. Without proper evals, agent quality degrades silently."
+
+    beneficiaries:
+      - name: "Braintrust"
+        ticker: private
+        why: "Eval and observability for AI. $800M valuation. Purpose-built for the problem the conference named as #1."
+      - name: "Arize AI"
+        ticker: private
+        why: "ML observability. Expanding into agent evaluation."
+      - name: "Weights & Biases"
+        ticker: private
+        why: "Experiment tracking → agent evaluation. Natural expansion."
+      - name: "Datadog"
+        ticker: DDOG
+        why: "If agent observability becomes an extension of APM, Datadog's enterprise footprint gives them distribution."
+      - name: "Spencer Hardwick's SRE-for-agents startup"
+        ticker: private
+        why: "Met at conference. Building SRE (monitoring, uptime, error budgets) specifically for agent systems."
+
+    watchlist_triggers:
+      - "Braintrust or Arize raises at >$1B valuation"
+      - "Datadog launches agent-specific monitoring product"
+      - "Major enterprise reports catching production agent failure via eval system"
+      - "Open-source eval framework crosses 10K GitHub stars"
+      - "CI/CD platforms (GitHub Actions, GitLab) add native agent eval steps"
+
+    morning_brief: >
+      Eval is the #1 unsolved problem in production AI. "The true machine is
+      the eval system." Companies deploying agents without eval infra are flying
+      blind. Braintrust, Arize, and Datadog are positioned. Watch for the
+      SRE-for-agents category to emerge — monitoring AFTER agents act is the
+      complement to governance BEFORE they act.
+
+  # ═══════════════════════════════════════════════════════════════
+  # THESIS 9: THE CODE SUPPLY CRISIS
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: DISRUPT-CODE-SUPPLY
+    name: "The Code Supply Crisis — More Code, Less Review"
+    thesis: >
+      AI agents generate code faster than humans can review. Cloudflare
+      sees 47M requests from 295 teams. Sentry's CPO says "there is so
+      much supply of code but review is so low." This creates a quality
+      crisis — more bugs, more security vulnerabilities, more technical
+      debt — and a massive opportunity for automated review, security
+      scanning, and AI-assisted code quality tools.
+    direction: quality_crisis_creates_opportunity
+    timeframe: 3-12 months
+    confidence: very_high
+
+    evidence:
+      - session: S21
+        speaker: "David Cramer, Sentry CPO"
+        quote: "There is now so much supply of code — but review is so low... we have no review."
+      - session: S21
+        speaker: "Brendan Irvine-Broque, Cloudflare"
+        quote: "47 million requests to 295 teams. 93% of R&D using it."
+      - session: S21
+        speaker: "Cloudflare"
+        quote: "How do you increase the cost to the PR — how do you force employees to invest their own reputation on a PR?"
+      - session: S21
+        speaker: "Multiple"
+        quote: "It's never been easier to make an impact... and never been easier to lose our reputation."
+      - session: S18
+        speaker: "Feross, Socket"
+        quote: "TTE collapsed to 10 hours."
+
+    exposed_companies:
+      - name: "Every company using Copilot/Cursor without review guardrails"
+        ticker: various
+        risk: "Technical debt accumulation, security vulnerabilities at scale"
+        detail: "If 93% of R&D uses AI code gen and review doesn't scale with supply, quality degrades."
+      - name: "GitHub (Microsoft)"
+        ticker: MSFT
+        risk: "If Copilot-generated code causes a major security incident, liability question emerges"
+        detail: "Copilot generates code. Who reviews it? If nobody, who's liable?"
+
+    beneficiaries:
+      - name: "Sentry"
+        ticker: private
+        why: "Error monitoring becomes code quality monitoring. 'Incident analysis' expanded to pre-deployment."
+      - name: "Snyk"
+        ticker: private
+        why: "Security scanning for AI-generated code. If code supply 10x's, security scanning demand 10x's."
+      - name: "Socket"
+        ticker: private
+        why: "Supply chain security. One-click patching. TrustFall vulnerability framework."
+      - name: "Cursor / Anysphere"
+        ticker: private
+        why: "If they build review INTO the code generation flow (generate → review → ship), they own the quality layer."
+      - name: "Kilo Code"
+        ticker: private
+        why: "Model-agnostic harness that optimizes per model. Can add review as an orchestration step."
+
+    watchlist_triggers:
+      - "Major security breach traced to AI-generated code"
+      - "GitHub/Copilot announces built-in security review for generated code"
+      - "Sentry pivots to pre-deployment code quality (not just error monitoring)"
+      - "Insurance company excludes AI-generated code from coverage"
+      - "Enterprise mandates automated review for all AI-generated PRs"
+
+    morning_brief: >
+      Code supply is exploding — 93% of Cloudflare R&D uses AI — but review
+      is flat. "So much supply, no review." A major AI-generated code security
+      incident is not if but when. Sentry, Snyk, Socket, and code review tools
+      will benefit. This is a quality crisis creating a massive opportunity.
+
+  # ═══════════════════════════════════════════════════════════════
+  # THESIS 10: THE OPEN-SOURCE SQUEEZE
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: DISRUPT-OPEN-SOURCE-SQUEEZE
+    name: "The Open-Source Squeeze on Closed AI"
+    thesis: >
+      Open-source models are closing the quality gap with frontier models
+      at 80% lower cost. Meta Llama, Mistral, Kimi K2.6, and llamafile
+      are making high-quality inference free or near-free. This compresses
+      margins for closed-model companies (OpenAI, Anthropic, Google) and
+      could trigger a race to zero on inference pricing. The winners are
+      companies that build value ABOVE the model layer — orchestration,
+      governance, domain knowledge.
+    direction: margin_compression
+    timeframe: 12-24 months
+    confidence: medium-high
+
+    evidence:
+      - session: S16
+        speaker: "Keynote Panel"
+        quote: "Open source is a viable alternative. We don't want a world with only 7 AGIs that don't work for us."
+      - session: S06
+        speaker: "Doubleword"
+        quote: "Kimi K2.6 — 80% cheaper, just as good."
+      - session: S16
+        speaker: "Keynote"
+        quote: "Would we get punk rock from a model? NO."
+      - session: S11
+        speaker: "Open Layer Panel"
+        quote: "Model + Harness + Product = all come together. OTHERWISE SOMEONE WILL JUST STEAL YOUR PRODUCT."
+      - session: S16
+        speaker: "Keynote"
+        quote: "llamafile (24K stars) — single-file LLM distribution."
+
+    exposed_companies:
+      - name: "OpenAI"
+        ticker: private
+        risk: "Margin compression if open-source models close quality gap on 80% of use cases"
+        detail: "GPT-5.5 leads on RL-optimized tasks. But for 80% of enterprise queries, Kimi at $0.003/query matches GPT at $0.03/query."
+      - name: "Anthropic"
+        ticker: private
+        risk: "Same margin pressure. Claude Opus leads on synthesis but most queries don't need Opus quality."
+        detail: "Anthropic's safety moat may differentiate for enterprise. But open models with guardrails close the gap."
+      - name: "Google (Gemini)"
+        ticker: GOOGL
+        risk: "Gemma (open) cannibalizes Gemini (closed) revenue"
+        detail: "Google hedges with both, but internal competition between open and closed models compresses pricing."
+
+    beneficiaries:
+      - name: "Meta"
+        ticker: META
+        why: "Llama is the most widely used open model. Open-source AI drives Meta's ecosystem strategy — every Llama deployment is a Meta platform dependency."
+      - name: "Mistral"
+        ticker: private
+        why: "European open-source AI champion. Positioned for EU regulatory preference for open models."
+      - name: "Together AI"
+        ticker: private
+        why: "Open-source model hosting. As open models improve, Together's inference volume grows."
+      - name: "Hugging Face"
+        ticker: private
+        why: "Model distribution platform. More open models = more Hugging Face usage."
+
+    watchlist_triggers:
+      - "Open model beats frontier model on a major benchmark"
+      - "Enterprise publicly switches from closed to open model citing cost savings"
+      - "OpenAI or Anthropic announces significant price cut (>30%) in response to open-source pressure"
+      - "Llama or Mistral model achieves GPT-4 quality at <10% cost"
+      - "EU regulation preferences open-source AI models"
+
+    morning_brief: >
+      Open-source models at 80% discount are squeezing closed-model margins.
+      Kimi K2.6 matches frontier quality for most tasks at a fraction of the
+      cost. Meta (Llama), Mistral, and Together AI benefit. OpenAI and Anthropic
+      face margin compression. The moat is no longer the model — it's what you
+      build above it: orchestration, governance, domain knowledge.
+
+  # ═══════════════════════════════════════════════════════════════
+  # THESIS 11: THE MCP DEATH AND WIRE CONTRACT FUTURE
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: DISRUPT-MCP-DEATH
+    name: "MCP is Dying — CLIs, Skills, and Wire Contracts Win"
+    thesis: >
+      Five independent sources at the conference confirmed MCP is failing
+      in production: too latent, poorly scoped, hyper non-deterministic,
+      forces excessive token usage, skills don't work with it. The
+      replacement pattern is emerging: structured CLIs, behavioral
+      skills (governed prompts), and wire contracts (fixed-schema
+      agent communication). Companies heavily invested in MCP tooling
+      will need to pivot.
+    direction: protocol_displacement
+    timeframe: 6-12 months
+    confidence: high
+
+    evidence:
+      - session: S13
+        speaker: "Redis"
+        quote: "MCP forces a lot of token usage — CLIs are better."
+      - session: S21
+        speaker: "Paul Klein IV, Browserbase"
+        quote: "MCP is still good... but they will deprecate."
+      - session: S21
+        speaker: "Brendan Irvine-Broque, Cloudflare"
+        quote: "Progressive loading in MCP is too latent. MCP is poorly scoped. Hyper non-deterministic."
+      - session: S21
+        speaker: "Cloudflare"
+        quote: "Skills do not work with MCP."
+      - session: S21
+        speaker: "All speakers"
+        quote: "Mean time we are writing skills and CLIs."
+
+    exposed_companies:
+      - name: "MCP-heavy tooling startups"
+        ticker: various
+        risk: "If MCP deprecates, their integration layer becomes worthless"
+        detail: "Companies that built their entire value prop on MCP as the agent communication standard face a protocol migration."
+      - name: "Anthropic (partially)"
+        ticker: private
+        risk: "MCP was Anthropic's bet on owning the agent communication protocol"
+        detail: "Anthropic created MCP. If the market rejects it for CLIs/skills, Anthropic loses protocol influence but not model revenue."
+
+    beneficiaries:
+      - name: "CLI-first agent frameworks"
+        ticker: various
+        why: "The market is converging on structured CLIs and behavioral skills over MCP."
+
+    watchlist_triggers:
+      - "Anthropic announces MCP v2 or successor protocol"
+      - "Major framework removes MCP as default integration"
+      - "CLI-first agent framework crosses 5K GitHub stars"
+      - "Enterprise survey shows MCP usage declining"
+
+    morning_brief: >
+      Five independent production sources say MCP is failing — too slow,
+      too noisy, non-deterministic. CLIs and skills are replacing it.
+      Watch for Anthropic's response and for CLI-first frameworks to
+      gain traction. Companies built entirely on MCP face protocol risk.
+
+  # ═══════════════════════════════════════════════════════════════
+  # THESIS 12: IBM AND INTEL COMEBACK
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: DISRUPT-LEGACY-COMEBACK
+    name: "IBM and Intel Comeback — The On-Prem AI Play"
+    thesis: >
+      If cloud peaks and on-prem/edge inference grows, IBM and Intel
+      have comeback paths. IBM: Red Hat (enterprise Linux) + watsonx
+      (enterprise AI) + consulting = the trusted on-prem AI stack
+      for regulated industries. Intel: Gaudi accelerators + x86
+      server dominance + Habana Labs = on-prem inference hardware.
+      Both have been left for dead by the market. Both have the
+      enterprise relationships and infrastructure to capture an
+      on-prem AI wave.
+    direction: comeback_play
+    timeframe: 18-36 months
+    confidence: medium
+
+    evidence:
+      - session: S15
+        speaker: "Keynote"
+        quote: "This is the most cloud-centric cloud will ever be."
+      - session: S09
+        speaker: "Bulatov"
+        quote: "Path dependency — environment changes, decisions become bad."
+      - session: S06
+        speaker: "Doubleword"
+        quote: "Models can do tasks twice as long as 4 months ago — agents are ready."
+        detail: "If agents run longer, they need more persistent local infrastructure."
+      - session: S08
+        speaker: "Unikraft"
+        quote: "Scale-to-zero: near-zero idle cost for on-prem."
+
+    exposed_companies: []  # This is a comeback thesis, not a displacement thesis
+
+    beneficiaries:
+      - name: "IBM"
+        ticker: IBM
+        why: >
+          Red Hat (enterprise Linux, OpenShift) + watsonx (enterprise AI platform)
+          + Consulting (300K employees). If banking, healthcare, defense, and EU
+          enterprises move AI on-prem for data sovereignty, IBM is the trusted
+          vendor. watsonx runs on-prem. Red Hat provides the OS. Consulting
+          implements it. The whole stack.
+      - name: "Intel"
+        ticker: INTC
+        why: >
+          Gaudi 3 accelerators competitive with NVIDIA H100 at lower price point.
+          x86 server dominance means every on-prem deployment already runs Intel.
+          If inference moves on-prem, Intel doesn't need to win GPU — they need
+          Gaudi to be good enough for inference (not training). Inference is
+          less demanding than training.
+      - name: "Lenovo"
+        ticker: "0992.HK"
+        why: "Enterprise server hardware. If on-prem AI grows, Lenovo's server division benefits."
+
+    watchlist_triggers:
+      - "IBM watsonx wins a major banking/healthcare AI deployment"
+      - "Intel Gaudi 3 benchmarks competitive with NVIDIA for inference workloads"
+      - "Regulated industry (banking, healthcare) mandates on-prem AI"
+      - "EU data sovereignty regulation drives on-prem preference"
+      - "IBM or Intel stock breaks multi-year downtrend on AI revenue"
+      - "Long-running agent frameworks (Kimi, async agents) optimize for on-prem deployment"
+
+    morning_brief: >
+      If cloud peaks and on-prem grows, IBM and Intel have comeback paths.
+      IBM: Red Hat + watsonx + consulting = trusted on-prem AI for regulated
+      industries. Intel: Gaudi + x86 dominance = inference hardware without
+      needing NVIDIA. Watch for regulated industry mandates (banking, healthcare,
+      EU) driving on-prem AI. Both stocks are priced for irrelevance — any
+      signal of AI revenue inflection is a catalyst.
