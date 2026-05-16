@@ -672,7 +672,7 @@ routing_entries:
         build_vs_buy: evaluate
         notes: "Helicone specializes in cost tracking. If Palette adopts OpenRouter/LiteLLM for routing, both include cost tracking — evaluate whether dedicated Helicone adds value."
 
-      - name: "OpenRouter (built-in)"
+      - name: "OpenRouter"
         company_url: "https://openrouter.ai"
         quality_tier: tier_1
         cost_model: usage_based

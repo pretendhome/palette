@@ -38,7 +38,7 @@ contradiction_check:
   conflicts_found: none
 id: PROP-2026-04-04-009
 proposed_at: '2026-04-04T15:22:53Z'
-status: voting
+status: expired
 votes:
 - agent_id: claude.analysis
   trust_tier: WORKING

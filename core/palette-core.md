@@ -431,6 +431,31 @@ Palette maintains awareness of:
 
 ---
 
+## Product Truth
+
+> **Palette is where your judgment compounds.**
+
+Every AI tool gives you an answer and forgets why you asked. Palette remembers what you decided, why you decided it, and makes every future decision better.
+
+### The Moat (What Cannot Be Copied as a Bolt-On)
+
+- Taxonomy-first routing (classify BEFORE retrieve)
+- Governed knowledge with evidence tiers
+- Append-only decision history
+- Portable local artifacts
+- Specialist disagreement and convergence
+- Capability-building alongside task completion
+
+### The Standard
+
+Every feature, every agent, every interaction must serve this truth:
+
+**The system builds a governed, portable, compounding record of what you are trying to do, what you decided, why you decided it, and what the system learned with you.**
+
+If a feature doesn't make future decisions better, it doesn't ship.
+
+---
+
 ## Closing Principle
 
 Palette exists to turn **ambiguity into clarity** through disciplined collaboration.

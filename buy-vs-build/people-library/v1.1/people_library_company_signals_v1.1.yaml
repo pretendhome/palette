@@ -1035,7 +1035,7 @@ signals:
   palette_action: monitor
   palette_note: "Complementary: she optimizes inference, we govern it."
   taxonomy_gap: false
-- tool: "OpenRouter (Model Routing)"
+- tool: "OpenRouter"
   company: "OpenRouter"
   signal_tier: 2
   aggregate_signal_strength: medium

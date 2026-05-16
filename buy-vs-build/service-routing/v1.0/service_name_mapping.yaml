@@ -74,7 +74,7 @@ mapping:
   "LiteLLM (self-hosted)": litellm
   "NotebookLM (Google)": notebooklm
   "OpenAI (GPT-4/o series)": openai-api
-  "OpenRouter (built-in)": openrouter
+  "OpenRouter": openrouter
   "Perplexity AI": perplexity-api
   "Perplexity API": perplexity-api
   "Runway (Aleph model)": runway

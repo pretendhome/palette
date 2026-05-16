@@ -53,7 +53,7 @@ def check_kl(query: str) -> dict:
             return {"has_knowledge": False, "entries": [], "confidence": 0}
 
         top_id, top_score = ranked[0]
-        # RRF scores with tier boost are in ~0-80 range (acts as confidence %)
+        # RRF scores normalized to 0-100 range (confidence %)
         entries = []
         for lib_id, score in ranked:
             entry = data.knowledge.get(lib_id, {})
