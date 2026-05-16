@@ -10088,3 +10088,23 @@ All agents: success=1, fail=0, fail_gap=1, status=UNVALIDATED
 **Time**: 2026-04-23 15:58:25.393303
 **File**: None
 **Outcome**: FAIL
+
+---
+### Infrastructure Fix: Laptop Lid-Close Suspend Prevention
+**Date**: 2026-05-15
+**Type**: 🔄 TWO-WAY DOOR
+**Agent**: kiro.design
+**Problem**: Closing laptop lid caused full suspend/shutdown, killing GUI sessions and losing uncommitted work.
+**Root Cause**: Default systemd-logind behavior suspends on lid close.
+**Solution**:
+Created `/etc/systemd/logind.conf.d/no-suspend-on-lid.conf`:
+```
+[Login]
+HandleLidSwitch=lock
+HandleLidSwitchExternalPower=lock
+HandleLidSwitchDocked=ignore
+```
+**Application**: `sudo systemctl kill -s HUP systemd-logind` (safe reload). Do NOT use `systemctl restart systemd-logind` — that kills the entire GUI session.
+**Incident**: On 2026-05-15, `systemctl restart systemd-logind` was used instead of HUP, which terminated the Wayland session (black screen, dropped to TTY). Hard reboot required. All uncommitted V3 work (374 files) survived in git working tree.
+**Verification**: After reboot, config loaded correctly. Lid close now locks screen without suspending. Tested with external monitor disconnect — no suspend triggered.
+**Reference**: `journalctl -b -1 | grep logind` shows the restart/session-kill sequence.

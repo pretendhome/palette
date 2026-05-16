@@ -1,0 +1,1 @@
+{"query": "wire contracts", "riu_id": "RIU-003", "lib_id": "LIB-191", "confidence": 75.0, "agent": "claude.analysis", "mode": "query", "retrieval_modes": ["keyword", "fts5", "vector"], "total_ms": 1141.9, "extraction": "retrieval_success", "timestamp": "2026-05-15T16:25:18.440365+00:00"}
