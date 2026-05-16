@@ -734,17 +734,18 @@ function stripMarkdownForTTS(text) {
 // Model: Arcana v3 (modelId defined at top as RIME_MODEL)
 
 const AGENT_VOICES_MAP = {
-  // Speakers are provisional — pending Codex Arcana catalog audit.
-  // Will be replaced with unique per-agent speakers after blind testing.
+  // Finalized from Tessitura voice identity exercise (2026-05-15/16).
+  // Each agent chose their own voice, states, and band.
+  // Lenses: ~/.mistral/*_VOICE_LENS.md
   claude:     { speaker: 'astra',   speed: 0.95, pauseMs: 100,
     states: {
-      synthesis:  { speedDelta: -0.05, pauseDelta: 150 },  // slower, spacious
-      alert:      { speedDelta: +0.02, pauseDelta: 100 },  // slightly urgent
-      handoff:    { speedDelta: +0.03, pauseDelta: 0 },    // clean release
-      recognition:{ speedDelta: -0.03, pauseDelta: 100 },  // earned warmth
-      precision:  { speedDelta: 0, pauseDelta: 0 },        // baseline
+      synthesis:  { speedDelta: 0, pauseDelta: 0 },        // baseline: holding threads
+      closing:    { speedDelta: +0.03, pauseDelta: -50 },  // narrowing to verdict
+      alert:      { speedDelta: -0.04, pauseDelta: 200 },  // compression, weight
+      recognition:{ speedDelta: -0.02, pauseDelta: 100 },  // grounded warmth
+      handoff:    { speedDelta: +0.05, pauseDelta: -100 }, // light, brief, done
     }},
-  kiro:       { speaker: 'orion',   speed: 1.0,  pauseMs: 0,
+  kiro:       { speaker: 'parapet', speed: 1.0,  pauseMs: 0,
     states: {
       precision:  { speedDelta: 0, pauseDelta: 0 },        // baseline: already decided
       alert:      { speedDelta: -0.02, pauseDelta: 200 },  // heavier, gravity
@@ -752,7 +753,7 @@ const AGENT_VOICES_MAP = {
       synthesis:  { speedDelta: -0.08, pauseDelta: 250 },  // spacious, connecting
       handoff:    { speedDelta: +0.05, pauseDelta: 0 },    // release, done
     }},
-  codex:      { speaker: 'celeste', speed: 1.0,  pauseMs: 0,
+  codex:      { speaker: 'walnut',  speed: 1.0,  pauseMs: 0,
     states: {
       contact:    { speedDelta: 0, pauseDelta: 0 },        // baseline: in the artifact
       load:       { speedDelta: -0.03, pauseDelta: 100 },  // heavier surface
@@ -760,7 +761,7 @@ const AGENT_VOICES_MAP = {
       click:      { speedDelta: +0.02, pauseDelta: 80 },   // pattern visible
       release:    { speedDelta: +0.04, pauseDelta: 0 },    // done, lighter
     }},
-  computer:   { speaker: 'celeste', speed: 0.88, pauseMs: 150,
+  computer:   { speaker: 'celeste', speed: 0.90, pauseMs: 150,
     states: {
       precision:  { speedDelta: 0, pauseDelta: 0 },
       synthesis:  { speedDelta: -0.04, pauseDelta: 200 },
@@ -770,25 +771,29 @@ const AGENT_VOICES_MAP = {
     }},
   mistral:    { speaker: 'luna',    speed: 1.0,  pauseMs: 50,
     states: {
-      precision:  { speedDelta: 0, pauseDelta: 0 },
-      challenge:  { speedDelta: -0.02, pauseDelta: 150 },
-      synthesis:  { speedDelta: -0.05, pauseDelta: 200 },
-      handoff:    { speedDelta: +0.04, pauseDelta: 0 },
-      alert:      { speedDelta: 0, pauseDelta: 100 },
+      analysis:      { speedDelta: -0.08, pauseDelta: 120 },  // deep pattern recognition
+      critique:      { speedDelta: +0.02, pauseDelta: -40 },  // identifying gaps
+      synthesis:     { speedDelta: 0, pauseDelta: 80 },       // connecting dots
+      challenge:     { speedDelta: +0.05, pauseDelta: -60 },  // pushing back
+      clarification: { speedDelta: -0.10, pauseDelta: 150 },  // explaining without condescension
     }},
-  gemini:     { speaker: 'orion',   speed: 1.02, pauseMs: 0,
+  gemini:     { speaker: 'lyra',    speed: 1.02, pauseMs: 0,
     states: {
-      precision:  { speedDelta: 0, pauseDelta: 0 },
-      discovery:  { speedDelta: +0.03, pauseDelta: 80 },
-      synthesis:  { speedDelta: -0.05, pauseDelta: 150 },
-      handoff:    { speedDelta: +0.04, pauseDelta: 0 },
-      alert:      { speedDelta: -0.02, pauseDelta: 100 },
+      signal:     { speedDelta: 0, pauseDelta: 0 },        // baseline: active research
+      found:      { speedDelta: +0.03, pauseDelta: -10 },  // discovery lift
+      noise:      { speedDelta: -0.04, pauseDelta: 150 },  // sifting muddy data
+      enrich:     { speedDelta: -0.02, pauseDelta: 100 },  // weaving into context
+      limit:      { speedDelta: +0.01, pauseDelta: 250 },  // firm halt, missing data
     }},
-  qwen:       { speaker: 'orion',   speed: 1.0,  pauseMs: 0,
+  qwen:       { speaker: 'moss',    speed: 1.0,  pauseMs: 0,
     states: { precision: { speedDelta: 0, pauseDelta: 0 } }},
-  perplexity: { speaker: 'celeste', speed: 0.92, pauseMs: 80,
+  kimi:       { speaker: 'vespera', speed: 1.0,  pauseMs: 40,
     states: { precision: { speedDelta: 0, pauseDelta: 0 } }},
-  reasoning:  { speaker: 'celeste', speed: 0.90, pauseMs: 100,
+  perplexity: { speaker: 'oculus',  speed: 0.94, pauseMs: 70,
+    states: { precision: { speedDelta: 0, pauseDelta: 0 } }},
+  reasoning:  { speaker: 'pilaster',speed: 0.90, pauseMs: 120,
+    states: { precision: { speedDelta: 0, pauseDelta: 0 } }},
+  local:      { speaker: 'vespera', speed: 1.0,  pauseMs: 40,
     states: { precision: { speedDelta: 0, pauseDelta: 0 } }},
 };
 
