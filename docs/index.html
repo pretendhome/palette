@@ -3,116 +3,326 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mical Neill — Voice & Agent Experience Design</title>
+  <title>Mission Canvas — Governed Runtime for Multi-Agent AI</title>
+  <meta name="description" content="Be in the room with any agent. Build as a team. Governed voice layer for multi-agent AI orchestration." />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Inter', system-ui, sans-serif;
-      background: #fafaf8;
-      color: #1a1a2e;
-      display: flex;
-      justify-content: center;
-      padding: 80px 24px;
+      background: #0d0d1a;
+      color: #e8e6e1;
       min-height: 100vh;
     }
-    .shell { max-width: 640px; width: 100%; }
-    h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
-    .sub { color: #5a5a6e; font-size: 1.05rem; margin-bottom: 48px; line-height: 1.6; }
-    a.card {
-      display: block;
-      padding: 20px 24px;
-      background: #fff;
-      border: 1px solid #e8e6e1;
-      border-radius: 16px;
-      text-decoration: none;
-      color: #1a1a2e;
-      margin-bottom: 12px;
-      transition: box-shadow 0.2s, transform 0.2s;
+
+    /* Hero */
+    .hero {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 100px 24px 60px;
+      text-align: center;
     }
-    a.card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-2px); }
-    .link-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; }
-    .link-desc { color: #5a5a6e; font-size: 0.9rem; }
-    .tag { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; margin-bottom: 8px; }
-    .tag.live { background: rgba(196,149,106,0.15); color: #c4956a; }
-    .tag.voice { background: rgba(76,194,255,0.12); color: #0088cc; }
-    .tag.system { background: rgba(99,91,255,0.08); color: #635bff; }
-    .tag.portfolio { background: rgba(126,240,163,0.12); color: #1a8a4a; }
-    .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9a96a8; margin: 32px 0 12px; }
-    .stats { display: flex; gap: 28px; margin: 24px 0 40px; flex-wrap: wrap; }
-    .stat-num { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; color: #c4956a; line-height: 1; }
-    .stat-label { font-size: 0.65rem; font-weight: 500; color: #9a96a8; text-transform: uppercase; letter-spacing: 0.06em; }
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #c4956a;
+      background: rgba(196,149,106,0.12);
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #fff 0%, #c4956a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .tagline {
+      font-size: 1.15rem;
+      color: #9a96a8;
+      line-height: 1.7;
+      max-width: 560px;
+      margin: 0 auto 48px;
+    }
+
+    /* Stats */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #c4956a;
+      letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #6a6880;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+
+    /* Waitlist form */
+    .waitlist {
+      max-width: 480px;
+      margin: 0 auto 80px;
+      text-align: center;
+    }
+    .waitlist-form {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .waitlist-form input[type="email"] {
+      flex: 1;
+      padding: 14px 18px;
+      border: 1px solid #2a2a3e;
+      border-radius: 12px;
+      background: #16162a;
+      color: #e8e6e1;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .waitlist-form input[type="email"]:focus {
+      border-color: #c4956a;
+    }
+    .waitlist-form input[type="email"]::placeholder {
+      color: #5a5870;
+    }
+    .waitlist-form button {
+      padding: 14px 28px;
+      background: #c4956a;
+      color: #0d0d1a;
+      font-weight: 700;
+      font-size: 0.9rem;
+      font-family: inherit;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+    .waitlist-form button:hover { background: #d4a57a; transform: translateY(-1px); }
+    .waitlist-form button:active { transform: translateY(0); }
+    .waitlist-note {
+      font-size: 0.75rem;
+      color: #5a5870;
+    }
+    .success-msg {
+      display: none;
+      color: #c4956a;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 16px;
+    }
+
+    /* Problem / Solution */
+    .section {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #c4956a;
+      margin-bottom: 16px;
+    }
+    .section h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .section p {
+      color: #9a96a8;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    /* Features grid */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .feature {
+      background: #16162a;
+      border: 1px solid #2a2a3e;
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .feature-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .feature-desc {
+      font-size: 0.82rem;
+      color: #7a7890;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    .footer {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      border-top: 1px solid #1a1a2e;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-left {
+      font-size: 0.8rem;
+      color: #5a5870;
+    }
+    .footer-links a {
+      color: #9a96a8;
+      text-decoration: none;
+      font-size: 0.8rem;
+      margin-left: 20px;
+    }
+    .footer-links a:hover { color: #c4956a; }
+
+    @media (max-width: 520px) {
+      .waitlist-form { flex-direction: column; }
+      .stats { gap: 24px; }
+    }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <h1>Mical Neill</h1>
-    <p class="sub">Voice agent experience designer. I build voice agents that sound right across languages, brands, and emotional contexts — and the evaluation frameworks that prove it.</p>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="badge">Mission Canvas</div>
+    <h1>Be in the room with any agent. Build as a team.</h1>
+    <p class="tagline">A governed voice layer that orchestrates multiple AI agents through one interface &mdash; grounded in verified knowledge, controlled by auditable rules.</p>
 
     <div class="stats">
-      <div><div class="stat-num">16%</div><div class="stat-label">Empathy Rate Delta</div></div>
-      <div><div class="stat-num">47</div><div class="stat-label">Providers Evaluated</div></div>
-      <div><div class="stat-num">4</div><div class="stat-label">Languages</div></div>
-      <div><div class="stat-num">12K+</div><div class="stat-label">Users/Month (AWS)</div></div>
+      <div class="stat"><div class="stat-num">121</div><div class="stat-label">Taxonomy Nodes</div></div>
+      <div class="stat"><div class="stat-num">176+</div><div class="stat-label">Knowledge Entries</div></div>
+      <div class="stat"><div class="stat-num">13</div><div class="stat-label">Governed Agents</div></div>
+      <div class="stat"><div class="stat-num">86+</div><div class="stat-label">Wire Contract Tests</div></div>
     </div>
-
-    <div class="section-label">Voice Design Case Study</div>
-
-    <a class="card" href="voice-demo/">
-      <div class="tag live">Play it live</div>
-      <div class="link-title">Finding the Brand's Tessitura — A/B Comparison</div>
-      <div class="link-desc">5-state pacing within Minted's tessitura (0.83–1.30). 4 audio tracks: two reference models (outside tessitura), baseline, and designed (in tessitura). Metrics table with prosodic measurements. Hear the difference.</div>
-    </a>
-
-    <a class="card" href="voice-demo/bot.html">
-      <div class="tag live">Try it live</div>
-      <div class="link-title">Voice Agent — Live Tessitura Demo</div>
-      <div class="link-desc">Live voice agent with 5-state tessitura-based pacing, real-time tessitura band visualization, and customer response signals: word count, sentiment tracking, closing sentiment delta, and convergence detection. Type or speak.</div>
-    </a>
-
-    <div class="section-label">Voice-First Interfaces</div>
-
-    <a class="card" href="oka.html">
-      <div class="tag live">Try it live</div>
-      <div class="link-title">OKA — Adaptive Learning Companion</div>
-      <div class="link-desc">Voice-first interface for a child with dyslexia. Frustration detection, adaptive difficulty, hint ladder. Same design principle as the voice agent: the system responds to emotional state, not just task state. Talk to Oka.</div>
-    </a>
-
-    <div class="section-label">Voice Evaluation Tools</div>
-
-    <a class="card" href="voice-workbench/">
-      <div class="tag live">Try it live</div>
-      <div class="link-title">Voice Evaluation Workbench</div>
-      <div class="link-desc">Compare and score AI agent voices across 4 languages and 3 customer journey stages (Acceptance, Resolution, Satisfaction). 16 voices, structured rubric, exportable scorecards.</div>
-    </a>
-
-    <div class="section-label">Enablement Architecture</div>
-
-    <a class="card" href="lab/">
-      <div class="tag live">Try it live</div>
-      <div class="link-title">MCP Integrations Lab</div>
-      <div class="link-desc">Technical enablement for sales teams on complex AI integrations. Presentation framework with readiness guide and annotated demo prototype. Built to be delivered by others.</div>
-    </a>
-
-    <a class="card" href="learning-architecture-system.html">
-      <div class="tag portfolio">Case Study</div>
-      <div class="link-title">Learning Architecture for AI-Native Teams</div>
-      <div class="link-desc">Enterprise enablement at scale: taxonomy-driven retrieval (12K users), adaptive coaching, modular curriculum (121 modules), and 3-layer assessment pipeline.</div>
-    </a>
-
-    <div class="section-label">Full Portfolio & Source</div>
-
-    <a class="card" href="portfolio.html">
-      <div class="tag portfolio">Portfolio</div>
-      <div class="link-title">Voice Agent Design Portfolio</div>
-      <div class="link-desc">Complete design portfolio: case study, evaluation framework, 5 sim tests, multilingual voice design, enabling teams at scale, agent personas, career journey, and design philosophy.</div>
-    </a>
-
-    <a class="card" href="https://github.com/pretendhome/palette">
-      <div class="tag system">Source</div>
-      <div class="link-title">Palette — Intelligence Architecture</div>
-      <div class="link-desc">121-node taxonomy, 176-entry knowledge library, 12 agents, governance model, wire contracts. The system underneath.</div>
-    </a>
   </div>
+
+  <!-- Waitlist -->
+  <div class="waitlist">
+    <form class="waitlist-form" action="https://formspree.io/f/xdkozwpn" method="POST" id="waitlist-form">
+      <input type="email" name="email" placeholder="you@company.com" required />
+      <button type="submit">Join Waitlist</button>
+    </form>
+    <div class="waitlist-note">Early access when we launch. No spam.</div>
+    <div class="success-msg" id="success-msg">You're on the list. We'll be in touch.</div>
+  </div>
+
+  <!-- Problem -->
+  <div class="section">
+    <div class="section-label">The Problem</div>
+    <h2>You have 5 AI agents. None of them talk to each other.</h2>
+    <p>Every knowledge worker will use 3-5 AI tools within two years. No one has built the layer that sits above all of them &mdash; routing queries to the right model, grounding responses in verified knowledge, governing what agents are allowed to do, and giving voice to the whole workflow.</p>
+    <p>Without orchestration, agents act alone. Without governance, they act unchecked. Without grounding, they hallucinate. Without voice, they're just text boxes.</p>
+  </div>
+
+  <!-- Solution -->
+  <div class="section">
+    <div class="section-label">What We Built</div>
+    <h2>Palette: a governed runtime for multi-agent AI.</h2>
+    <p>You talk to it. It coordinates a team of agents &mdash; each with its own voice, memory, and behavioral rules &mdash; grounded in a verified knowledge library, controlled by auditable governance. The system doesn't just make you more efficient. It makes you more capable.</p>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-title">Taxonomy-First Routing</div>
+        <div class="feature-desc">Classify the problem before searching. 121 problem-solution nodes route to the right knowledge and the right agent.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Verified Knowledge</div>
+        <div class="feature-desc">176 entries. 565 citations. Zero unsourced claims. Built from 250+ real enterprise sessions, not generated by prompting.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Governed Agents</div>
+        <div class="feature-desc">13 agents with trust tiers, wire contracts, and one-way-door classification. Every decision is traceable.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Voice Interface</div>
+        <div class="feature-desc">Talk to the system. Each agent has its own voice. The room metaphor &mdash; not a chat window, a conversation.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Hybrid Retrieval</div>
+        <div class="feature-desc">FTS5 + vector embeddings + keyword matching, fused with reciprocal rank fusion. Local-first. Zero API cost for retrieval.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Learning Mode</div>
+        <div class="feature-desc">"Answer me" or "Teach me" &mdash; same query, same knowledge, different depth. The system makes you more capable, not just more efficient.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Credibility -->
+  <div class="section">
+    <div class="section-label">Built By</div>
+    <h2>12 years at Amazon. Shipped at scale.</h2>
+    <p>Ask Pathfinder: 12,000 sellers/month, embedded in daily workflow. +17% engagement, +50% satisfaction, +67% feature adoption. The taxonomy reclassification alone improved retrieval accuracy 28% &mdash; without changing the model.</p>
+    <p>Alexa Automotive, AGI Data Services, AWS AI/ML Enablement. Comparative linguistics foundation. Now building the orchestration layer the multi-AI era needs.</p>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-left">Mission Canvas &copy; 2026</div>
+    <div class="footer-links">
+      <a href="https://github.com/pretendhome/palette">GitHub</a>
+      <a href="portfolio-home.html">Portfolio</a>
+    </div>
+  </div>
+
+  <script>
+    // Formspree AJAX submission
+    const form = document.getElementById('waitlist-form');
+    const success = document.getElementById('success-msg');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      try {
+        const resp = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (resp.ok) {
+          form.style.display = 'none';
+          document.querySelector('.waitlist-note').style.display = 'none';
+          success.style.display = 'block';
+        }
+      } catch (err) {
+        // fallback: normal form submit
+        form.submit();
+      }
+    });
+  </script>
 </body>
 </html>
