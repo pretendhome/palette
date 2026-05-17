@@ -34,6 +34,7 @@ let OPENAI_KEY = '';
 let PERPLEXITY_KEY = '';
 let DASHSCOPE_KEY = '';
 let KIRO_KEY = '';
+let GROQ_KEY = '';
 
 async function loadKeys() {
   // Read hub-local .env first (single source of truth)
@@ -51,6 +52,7 @@ async function loadKeys() {
       if (k === 'PERPLEXITY_API_KEY') PERPLEXITY_KEY = val;
       if (k === 'DASHSCOPE_API_KEY') DASHSCOPE_KEY = val;
       if (k === 'KIRO_API_KEY') KIRO_KEY = val;
+      if (k === 'GROQ_API_KEY') GROQ_KEY = val;
     }
   } catch { /* no .env */ }
 
@@ -90,7 +92,7 @@ const AGENT_APIS = {
   perplexity: { provider: 'perplexity', model: 'sonar-pro' },
   computer:   { provider: 'perplexity', model: 'sonar-deep-research' },
   reasoning:  { provider: 'perplexity', model: 'sonar-reasoning-pro' },
-  kimi:       { provider: 'ollama',    model: 'kimi-k2.6:cloud', fallback: 'qwen2.5:7b' },
+  kimi:       { provider: 'groq',     model: 'llama-3.3-70b-versatile', fallback: 'qwen2.5:7b' },
   local:      { provider: 'ollama',    model: 'qwen2.5:7b' },
   // gemini: not wired yet — no API key
 };
@@ -868,6 +870,7 @@ function providerConfig(provider, model) {
     case 'dashscope':  return { url: 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions', key: DASHSCOPE_KEY, label: 'DashScope' };
     case 'kiro':       return { url: 'https://api.kiro.dev/v1/chat/completions',                            key: KIRO_KEY,       label: 'Kiro', modelOverride: 'kiro' };
     case 'ollama':     return { url: 'http://localhost:11434/v1/chat/completions',                           key: 'ollama',       label: 'Ollama' };
+    case 'groq':       return { url: 'https://api.groq.com/openai/v1/chat/completions',                    key: GROQ_KEY,       label: 'Groq' };
     default: return null;
   }
 }
@@ -918,15 +921,16 @@ async function* callLLM(config, systemPrompt, userText) {
         signal: controller.signal,
       });
 
-      // Ollama fallback: if primary model fails (cloud auth, etc.), try fallback
-      if (!resp.ok && config.fallback && provider === 'ollama') {
+      // Fallback: if primary fails and a fallback model is configured, try local Ollama
+      if (!resp.ok && config.fallback) {
         clearTimeout(timeout);
+        const fbPc = providerConfig('ollama', config.fallback);
         const fb = new AbortController();
         const fbTimeout = setTimeout(() => fb.abort(), LLM_TIMEOUT_MS);
         try {
-          const fbResp = await fetch(pc.url, {
+          const fbResp = await fetch(fbPc.url, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${pc.key}` },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${fbPc.key}` },
             body: JSON.stringify({ model: config.fallback, ...buildMessages(systemPrompt, userText) }),
             signal: fb.signal,
           });
