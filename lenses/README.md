@@ -1,6 +1,6 @@
-# Palette Lenses (Optional Context Overlays)
+# Palette Lenses — Accumulated Context About People
 
-Lenses are optional context overlays that shape output framing for a session.
+Lenses are how the system remembers WHO it's working with. They capture a person's role, goals, working style, strengths, blind spots, and how to collaborate with them. This is part of the "accumulated context + intent" asset — the system knows how you think, not just what you asked.
 
 They do not replace agent roles and do not override:
 - RIU routing

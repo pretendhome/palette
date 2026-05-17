@@ -1,7 +1,11 @@
 # Palette — Claude Code Project Instructions
 
 ## What This Is
-Palette is a multi-agent intelligence system that routes any AI/ML decision to the right combination of internal knowledge and external services. It is NOT a wrapper around one LLM — it orchestrates 12 specialized agents, 121 problem-solution taxonomies (RIUs), 176 knowledge entries, 69 integration recipes, and 40+ external service routes.
+Palette is the operating system for human judgment. It remembers what you decided, why you decided it, and makes every future decision better. Your judgment compounds here.
+
+Under the hood: 13 governed agents, 121 taxonomy nodes, 183 knowledge entries (565 citations), 75 integration recipes, hybrid retrieval (FTS5 + vectors), voice interface, and a convergence protocol — all local-first, portable, glass-box.
+
+**Product truth**: `docs/product/PALETTE_MOAT_ITERATIONS_2026-05-16.md`
 
 ## Quick Orientation
 - **MANIFEST.yaml** — single source of truth for all current versions and paths. Read this first.
@@ -35,9 +39,9 @@ Palette is a multi-agent intelligence system that routes any AI/ML decision to t
 ## Architecture (6 Layers)
 1. **Core** (`core/`) — Governance tiers, immutable rules, assumptions
 2. **Taxonomy** (`taxonomy/releases/v1.3/`) — 121 RIUs mapping problems to solution categories
-3. **Knowledge Library** (`knowledge-library/v1.4/`) — 176 sourced, cited entries
-4. **Agents** (`agents/`) — 12 specialized agents with maturity tracking
-5. **Buy-vs-Build** (`buy-vs-build/`) — Service routing, people signals, 69 integration recipes
+3. **Knowledge Library** (`knowledge-library/v1.4/`) — 183 sourced, cited entries (565 citations)
+4. **Agents** (`agents/`) — 13 governed agents with maturity tracking
+5. **Buy-vs-Build** (`buy-vs-build/`) — Service routing, people signals, 75 integration recipes
 6. **Skills** (`skills/`) — Validated domain frameworks applied through implementations
 
 ## Agents

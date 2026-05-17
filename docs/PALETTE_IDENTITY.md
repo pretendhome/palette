@@ -1,14 +1,20 @@
 # What Is Palette?
 
-**Version**: 1.0
-**Date**: 2026-03-26
+**Version**: 2.0
+**Date**: 2026-05-16
 **Status**: Living document — updated as the system evolves
 
 ---
 
 ## One Sentence
 
-Palette is a governed intelligence system for AI adoption that routes decisions through structured knowledge, specialized agents, and human learning paths — built and validated through real enterprise enablement work.
+Palette is the operating system for human judgment — a governed runtime that remembers what you decided, why you decided it, and makes every future decision better. Your judgment compounds here.
+
+## The Moat
+
+Every AI tool gives you an answer and forgets why you asked. Palette builds a governed, portable, compounding record of what you are trying to do, what you decided, why you decided it, and what the system learned with you. This is architecturally impossible to bolt onto a chat interface — it requires taxonomy, governance, and memory to be the foundation, not features.
+
+See: `docs/product/PALETTE_MOAT_ITERATIONS_2026-05-16.md` for the full product truth.
 
 ---
 

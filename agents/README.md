@@ -1,6 +1,6 @@
-# Palette Agents
+# Palette Agents — The Room
 
-Eight specialized agents with bounded responsibilities and enforced constraints.
+13 governed agents that earn trust through measured performance. Each has bounded responsibilities, enforced constraints, and its own voice. When you speak to the system, they deliberate, disagree productively, and converge toward a decision. The relay model ensures different agents find different classes of problems — together they produce judgment no single agent could produce alone.
 
 ---
 

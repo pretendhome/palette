@@ -1,14 +1,14 @@
 # Palette Knowledge Library
 
-Validated solutions to recurring problems (86 questions).
+The governed memory of the system. 183 entries, 565 citations, zero unsourced claims. This is where judgment persists.
 
 ---
 
 ## What is the Library?
 
-The Knowledge Library contains validated answers to questions that recur across engagements. Each entry is evidence-based and cites sources.
+The Knowledge Library is Palette's long-term governed memory — verified answers to real questions from real practitioners, grounded in evidence-tiered sources. It compounds over time as the system learns from decisions, research, and session reflections. Every entry passes through the governance pipeline before promotion.
 
-**Current Version**: v1.2 (86 questions)
+**Current Version**: v1.4 (183 entries, 565 citations)
 
 ---
 

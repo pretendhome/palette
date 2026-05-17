@@ -1,6 +1,6 @@
-# Voice — Agent Voice & Personality Design
+# Voice — Tessitura: How the System Sounds When It Thinks With You
 
-A complete voice design practice: evaluation tools, pacing framework, live agents, and the methodology that connects them. Every artifact is working code.
+Voice is not cosmetic. It's how multi-agent reasoning becomes navigable, trustworthy, and alive. Tessitura is the orchestration of expressive range across roles, moments, and emotional states — each agent sounds like itself because it IS itself. Internal weight, not audience management. The pause is theirs, not yours.
 
 <p align="center">
   <a href="https://pretendhome.github.io/palette/"><img src="https://img.shields.io/badge/portfolio-live-c4956a?style=flat-square" alt="Portfolio"></a>

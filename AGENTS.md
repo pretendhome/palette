@@ -1,7 +1,7 @@
 # Palette — Codex Project Instructions
 
 ## Overview
-Palette is a multi-agent intelligence system for AI/ML decision routing. It combines 12 specialized agents, a 121-unit problem taxonomy, 176 knowledge entries, and 75 integration recipes to route any AI decision to the right combination of internal knowledge and external services.
+Palette is the operating system for human judgment. It remembers what you decided, why you decided it, and makes every future decision better. Under the hood: 13 governed agents, 121 taxonomy nodes, 183 knowledge entries (565 citations), 75 integration recipes, hybrid retrieval, voice interface, and convergence protocol — all local-first, portable, glass-box. Your judgment compounds here.
 
 ## Two Operating Modes
 

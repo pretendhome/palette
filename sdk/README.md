@@ -1,6 +1,6 @@
-# Palette SDK — Machine Enablement Interface
+# Palette SDK — The SDK for Machines (and Humans)
 
-The SDK is the machine half of Palette's Dual Enablement system. Where the human enablement coach teaches progressively over 7 stages, the SDK delivers the same knowledge as structured interfaces — all at once.
+One system, two audiences. The SDK is how agents access Palette's governed intelligence — taxonomy routing, knowledge retrieval, integrity gates, and decision logging. The same architecture that makes machines more capable also makes humans more capable (via Learning Mode, Voice Hub, and session reflection). That's the dual enablement thesis: Palette is the SDK for LLMs, mirrored as the SDK for Humans.
 
 ## 7-Stage Mapping
 

@@ -1,4 +1,6 @@
-# Palette Scripts
+# Palette Scripts — The Judgment Pipeline
+
+The scripts layer implements Palette's core promise: your judgment compounds here. Every script either helps you decide (query, retrieve, route), helps the system learn from decisions (reflect, extract), or verifies the system is healthy (integrity, health).
 
 ## `voice_interface.py`
 

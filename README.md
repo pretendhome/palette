@@ -4,18 +4,18 @@
 <br>
 <sup>™</sup>
 
-### A Knowledge Architecture for AI Competency, Assessment & Enablement
+### The Operating System for Human Judgment
 
-A governed system that maps enterprise AI problems to competency areas, structures knowledge with evidence tiers and learning progressions, evaluates understanding through AI-augmented assessment, and scales through intelligent automation — not headcount.
+Every AI tool gives you an answer and forgets why you asked. Palette remembers what you decided, why you decided it, and makes every future decision better. Your judgment compounds here.
 
 ---
 
-[![Status](https://img.shields.io/badge/status-active-blue)]()
-[![Integrity](https://img.shields.io/badge/integrity-8%2F8_passing-brightgreen)]()
-[![SLOs](https://img.shields.io/badge/SLOs-7%2F7_passing-brightgreen)]()
-[![RIUs](https://img.shields.io/badge/RIUs-121-blue)]()
-[![Knowledge](https://img.shields.io/badge/knowledge-176_entries-blue)]()
-[![Recipes](https://img.shields.io/badge/recipes-75-blue)]()
+[![Status](https://img.shields.io/badge/status-V3_active-blue)]()
+[![Health](https://img.shields.io/badge/health-84%2F85_passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-49%2F49_passing-brightgreen)]()
+[![RIUs](https://img.shields.io/badge/taxonomy-121_nodes-blue)]()
+[![Knowledge](https://img.shields.io/badge/knowledge-183_entries-blue)]()
+[![Agents](https://img.shields.io/badge/agents-13_governed-blue)]()
 [![License](https://img.shields.io/badge/license-private-lightgrey)]()
 
 </div>
@@ -24,18 +24,24 @@ A governed system that maps enterprise AI problems to competency areas, structur
 
 ## What Is Palette?
 
-Palette is a knowledge architecture that maps 121 enterprise AI competency areas across 6 structured data layers, maintains a 176-entry sourced knowledge library with evidence tiers and learning progressions, and evaluates understanding through governed assessment tooling. It was distilled from 8 years of knowledge engineering and 250+ enterprise enablement sessions — real questions from real practitioners — then systematically refined, source-verified, and indexed.
+Palette is a governed runtime for multi-agent AI. You talk to it. It coordinates a team of agents — each with its own voice, memory, and behavioral rules — grounded in verified knowledge, controlled by auditable governance. The system doesn't just make you more efficient. It makes you more capable.
 
-**The thesis**: competency in AI is not a binary. It's a progression — foundation → retrieval → orchestration → specialization — and each stage requires different knowledge, different assessment, and different tooling. Palette structures that progression and scales it through intelligent automation.
+**The moat**: Palette builds a governed, portable, compounding record of what you are trying to do, what you decided, why you decided it, and what the system learned with you. This is architecturally impossible to bolt onto a chat interface — it requires taxonomy, governance, and memory to be the foundation, not features.
 
-### Key Capabilities
+**The thesis**: accumulated context + intent is the defining asset of the AI-mediated information economy. Palette is the first system that architecturally encodes this asset at the protocol level — local-first, portable, glass-box.
 
-- **Competency Taxonomy** — 121 validated problem-solution nodes (RIUs) mapping enterprise AI challenges to measurable skill areas, with maturity classification (UNVALIDATED → WORKING → PRODUCTION)
-- **Knowledge Library** — 176 entries with sourced evidence tiers (Tier 1: Google/Anthropic/OpenAI/AWS; Tier 2: NIST/peer-reviewed; Tier 3: validated open-source) and learning progressions
-- **Assessment & Governance** — Every decision classified as `ship` / `ship_with_risks` / `ship_with_convergence` / `block` with explicit ONE-WAY DOOR / TWO-WAY DOOR reversibility gates
-- **Multi-Agent Evaluation** — 12 specialized agents with promotion/demotion logic, quality gates, GO/NO-GO verdicts, and automated integrity checks
-- **Integrity Engine** — 8 consistency checks across 6 data layers, catching structural gaps, regressions, and terminology drift in real time
-- **Skills** — 6 validated domain frameworks (retail-ai, talent, education, travel, enablement, lenses) applied through real implementations
+### Why ChatGPT Cannot Bolt This On
+
+The moat is not "memory." It is a stack of architectural primitives working together:
+
+- **Taxonomy-first routing** — 121 nodes classify your problem BEFORE retrieval. The system knows what kind of decision you're making.
+- **Governed knowledge** — 183 entries, 565 citations, evidence tiers. Every claim traces to a source. Zero unsourced assertions.
+- **Append-only decision history** — What you decided, why, and what evidence supported it. Judgment trail, not chat history.
+- **Portable local state** — YAML files on your machine. Take your judgment anywhere. No vendor lock-in.
+- **Multi-agent convergence** — 13 specialists disagree productively, then converge. The room where you think with AI.
+- **Capability-building** — Learning Mode teaches you while it works. The system makes you more capable, not more dependent.
+- **Hybrid retrieval** — FTS5 + vector embeddings + keyword matching, fused with reciprocal rank fusion. Local-first, zero API cost.
+- **Voice interface** — Talk to any agent. Each has its own voice (Tessitura). Spatial metaphor, not chat window.
 
 ---
 
@@ -60,15 +66,16 @@ A voice-first interface connecting 5 LLM agents (Claude, Mistral, GPT, Qwen, Per
 
 | Component | Specification |
 |:--|:--|
-| Competency Areas (RIUs) | 121 (81 internal, 40 service-routed) |
-| Knowledge Entries | 176 with verified source citations and evidence tiers |
+| Taxonomy Nodes (RIUs) | 121 (81 internal, 40 service-routed) |
+| Knowledge Entries | 183 with 565 verified source citations and evidence tiers |
+| Governed Agents | 13 (resolver, researcher, architect, builder, debugger, narrator, validator, monitor, orchestrator, remediation, business-plan-creation, health, total-health) |
 | Integration Recipes | 75 (auth, endpoints, cost, quality tier) |
 | Service Routing | 106 services across 40 routing profiles |
-| People Signals | 21 profiles, 33 tools tracked |
-| Override Registry | 19 explicit mappings for ambiguous cases |
-| Agents | 12 specialized (resolver, researcher, architect, builder, debugger, narrator, validator, monitor, orchestrator, business-plan-creation, health, total-health) |
+| Hybrid Retrieval | FTS5 + vector embeddings + keyword (reciprocal rank fusion) |
+| Voice Interface | 8 agents with unique Arcana v3 voices (Tessitura) |
+| Health Score | 84/85 passing (15 sections) |
+| Test Suite | 49/49 passing |
 | Skills | 6 domains (retail-ai, talent, education, travel, enablement, lenses) |
-| Active Projects | 9 (retail, talent, education, finance, dev) |
 
 </div>
 
@@ -379,6 +386,6 @@ The comparative linguistics foundation (MA, Université Paris-Sorbonne) directly
 
 <div align="center">
 
-*Competency mapped. Knowledge structured. Assessment governed. Scaled through automation.*
+*Your judgment compounds here.*
 
 </div>
