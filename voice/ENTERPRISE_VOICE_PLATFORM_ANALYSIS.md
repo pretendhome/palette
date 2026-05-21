@@ -1,8 +1,8 @@
-# Sierra AI Voice Infrastructure — Technical Intelligence Report
+# Enterprise Voice Platform Analysis — Why Emotion-Based Pacing Exists
 
 **Date:** April 15, 2026  
-**Purpose:** Pre-application technical intelligence for Agent Experience Designer, Voice (Multilingual) role  
-**Methodology:** Primary sources only — Sierra engineering blog, arXiv paper, Deepgram customer listing, job postings
+**Purpose:** Discovery research that led to the 5-state emotion-based pacing model. By analyzing how leading platforms (Sierra, ElevenLabs, Deepgram, Cartesia) evaluate and deploy voice agents, I identified the gap: no one was designing pacing around emotional state — only sentence length. This document is the evidence trail.  
+**Methodology:** Primary sources only — engineering blogs, arXiv papers, customer listings, job postings
 
 ---
 
@@ -349,7 +349,7 @@ Voice Sims run in:
 
 Your demo fills a gap Sierra's own public toolchain has: **a decision artifact for the human evaluation layer**. τ-Voice measures machine performance. Voice Sims catches bugs. The Voice Sommelier process is expert-dependent and undocumented. Your workbench makes that judgment repeatable and exportable.
 
-### Technical language to use in your application
+### Technical vocabulary for enterprise voice AI deployment
 
 - **TTFA** (not "response time") — Sierra's explicit metric name
 - **Acceptance/Resolution/Satisfaction** — Use exactly; they're Sierra's framework

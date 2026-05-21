@@ -154,7 +154,7 @@ customer:
 # SIERRA PARTNERSHIP (BENCHMARK)
 # ============================================================================
 
-sierra_benchmark:
+industry_benchmark:
   partner: "Sierra.ai (Bret Taylor + Clay Bavor, $10B valuation)"
   case_study_url: "https://sierra.ai/customers/minted"
 

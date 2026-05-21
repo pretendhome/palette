@@ -182,7 +182,7 @@ Multi-agent voice interface connecting 5 LLM agents through voice in 4 languages
 ## Research
 
 - **[Agentic Voice Industry — Technical Intelligence Report (PDF)](research/agentic_voice_industry_report.pdf)** — Architecture- and benchmark-led survey of the voice AI agent ecosystem as of May 2026. Covers STT/TTS providers, pipeline architecture (cascade vs. S2S), latency targets, multilingual deployment, and simulation infrastructure across 20+ platforms including Sierra, Vapi, Retell AI, PolyAI, Hume, ElevenLabs, Deepgram, Cartesia, and others. Confidence-rated claims with cited sources.
-- **[Sierra Voice Intelligence](SIERRA_VOICE_INTELLIGENCE.md)** — Sierra-specific technical analysis: tau-Voice scoring methodology, Voice Sommelier process, Voice Sims scenario structure, locale routing, and latency architecture. Primary sources only.
+- **[Enterprise Voice Platform Analysis](ENTERPRISE_VOICE_PLATFORM_ANALYSIS.md)** — Technical analysis of enterprise voice deployment: scoring methodologies, evaluation processes, scenario structures, locale routing, and latency architecture across leading platforms.
 
 ---
 
