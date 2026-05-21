@@ -43,7 +43,7 @@ Every AI tool gives you an answer and forgets why you asked. Palette remembers w
 User → Hub → Groq (Llama 3.3 70B, free, 1.5s)
                 └→ fallback: Ollama Qwen 2.5-7B (local, 2.2s)
 ```
-- Groq API key: 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
+- Groq API key: [REDACTED — set via GROQ_API_KEY env var]
 - Rate limits: 1,000 RPD on 70B, 14,400 RPD on 8B
 - Covers 100 users × 10 queries/day at $0
 
