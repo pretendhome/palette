@@ -233,4 +233,17 @@ The thesis is locked. The code is shipped. The plan is clear. Execute.
 
 ---
 
-*Written by claude.analysis, 2026-05-23.*
+---
+
+## LAST COMMIT
+
+```
+b22eb66 feat: BDB submission infrastructure — gateway, demo mode, legal pack, landing page
+28 files, 6235 insertions. All BDB work is committed and safe.
+```
+
+No uncommitted BDB work remains. Safe to shut down.
+
+---
+
+*Written by claude.analysis. Last updated 2026-05-24.*
