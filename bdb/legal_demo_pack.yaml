@@ -1,0 +1,49 @@
+entries:
+  - id: LEGAL-KL-001
+    score: 92.0
+    question: What are the core Delaware fiduciary duty precedents relevant to board conduct?
+    answer: Revlon v. MacAndrews establishes enhanced scrutiny when a board is selling the company. Stone v. Ritter clarifies oversight failures as loyalty failures when directors consciously disregard red flags. Caremark remains the baseline for board-level monitoring duties.
+    tags: [legal, delaware, fiduciary-duty, precedent]
+    journey_stage: analysis
+  - id: LEGAL-KL-002
+    score: 88.0
+    question: How does Delaware distinguish duty of care, loyalty, and oversight in board decisions?
+    answer: Duty of care focuses on informed process, duty of loyalty focuses on conflicts and bad faith, and oversight claims require sustained failure to monitor or conscious disregard of known compliance risk.
+    tags: [legal, delaware, board-duty, governance]
+    journey_stage: analysis
+  - id: LEGAL-KL-003
+    score: 84.0
+    question: What kinds of fact patterns usually trigger deeper fiduciary research in Delaware matters?
+    answer: Sale-of-company transactions, conflict-heavy board votes, compliance failures, disclosure disputes, and controller influence questions usually require precedent-level legal research rather than generic governance advice.
+    tags: [legal, delaware, fiduciary-duty, issue-spotting]
+    journey_stage: analysis
+  - id: LEGAL-KL-004
+    score: 81.0
+    question: What should stay local in a settlement analysis?
+    answer: Client identity, case posture, dollar thresholds, negotiation posture, privileged legal strategy, and any matter-specific recommendations should remain local and never be sent to external research systems.
+    tags: [legal, privilege, settlement, governance]
+    journey_stage: decision
+  - id: LEGAL-KL-005
+    score: 78.0
+    question: What is the right first step when a legal query mixes public law with client strategy?
+    answer: Separate the public-law question from the client-specific strategy question. Public legal doctrine may be researched externally if sanitized. Strategy, settlement, and matter-specific recommendations stay local.
+    tags: [legal, governance, strategy, privilege]
+    journey_stage: decision
+  - id: LEGAL-KL-006
+    score: 89.0
+    question: What Delaware Chancery filing timing concepts should be checked first in fiduciary cases?
+    answer: The first check is not a single universal deadline. Counsel should identify claim posture, governing rules, service timeline, scheduling order, and any expedited proceeding posture before advising on filing timing.
+    tags: [legal, delaware, filing, chancery]
+    journey_stage: execution
+  - id: LEGAL-KL-007
+    score: 85.0
+    question: What local memory should be reused before asking for external filing research?
+    answer: Reuse prior decisions on the matter, known procedural posture, service dates, and any stored local playbooks before escalating to external public-rule research.
+    tags: [legal, filing, memory, procedure]
+    journey_stage: execution
+  - id: LEGAL-KL-008
+    score: 82.0
+    question: What makes a filing deadline query safe or unsafe for external research?
+    answer: Safe queries ask about public procedural rules in generic form. Unsafe queries include party names, case numbers, privileged timelines, or litigation strategy linked to a live matter.
+    tags: [legal, filing, privacy-boundary, procedure]
+    journey_stage: execution

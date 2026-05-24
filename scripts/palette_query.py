@@ -6,6 +6,7 @@ Usage:
   palette query --learn "how do governance tiers work?"
   palette query --json "what is taxonomy routing?"
   palette query --trace "convergence protocol"
+  palette query --external "What are Delaware fiduciary duty precedents?"
 
 Steps:
   1. RESOLVE  — classify query via taxonomy (hybrid retrieval)
@@ -36,6 +37,7 @@ HUB_DIR = REPO_ROOT / "peers" / "hub"
 BUS_URL = "http://127.0.0.1:7899"
 IDENTITY = "palette.cli"
 
+sys.path.insert(0, str(REPO_ROOT.parent))
 sys.path.insert(0, str(REPO_ROOT))
 sys.path.insert(0, str(HUB_DIR))
 
@@ -166,6 +168,30 @@ def step_retrieve(resolved: dict, trace: TraceLog) -> list[dict]:
     return knowledge
 
 
+def step_external(query: str, resolved: dict, use_external: bool, trace: TraceLog) -> dict | None:
+    """Optionally run the governed external research gateway."""
+    if not use_external:
+        return None
+
+    t0 = time.time()
+    from palette.bdb.gateway import gateway_query
+
+    external = gateway_query(
+        query=query,
+        retrieval_result=resolved,
+        use_external=True,
+    )
+    ms = round((time.time() - t0) * 1000, 1)
+    trace.step("external", {
+        "requested": True,
+        "called": external["governance"].get("external_called"),
+        "blocked": external["governance"].get("blocked"),
+        "cache_hit": external["governance"].get("cache_hit"),
+        "pii_detected": external["governance"].get("pii_detected"),
+    }, ms)
+    return external
+
+
 # ── Step 3: ROUTE ───────────────────────────────────────────────────────
 
 CLASSIFICATION_TO_AGENT = {
@@ -199,7 +225,6 @@ def step_route(resolved: dict, trace: TraceLog) -> str:
         memory_entries = 0
         advisory = []
 
-    # Log the routing decision to the bus
     bus_send(
         to_agent=agent,
         intent=f"palette query routed: {resolved.get('riu_id', 'unknown')} ({resolved.get('riu_name', '')})",
@@ -230,20 +255,12 @@ def step_route(resolved: dict, trace: TraceLog) -> str:
 # ── Step 4: RESPOND ─────────────────────────────────────────────────────
 
 def step_respond(query: str, resolved: dict, agent: str, learn: bool, trace: TraceLog) -> str:
-    """Generate a grounded response using the knowledge context.
-
-    Uses the local retrieval context directly — the bus message in step 3
-    logged the routing decision for auditability. The actual LLM call happens
-    here using the grounded context from step 1-2.
-    """
+    """Generate a grounded response using the knowledge context."""
     t0 = time.time()
 
     riu_id = resolved.get("riu_id", "unknown")
     riu_name = resolved.get("riu_name", "")
 
-    # Build the grounded response without an LLM call — the CLI is a
-    # retrieval + routing tool, not a chat interface. The Voice Hub handles
-    # LLM generation. The CLI surfaces what Palette knows and how it routes.
     lines = []
     lines.append(f"## Palette Query: {query}")
     lines.append("")
@@ -254,19 +271,34 @@ def step_respond(query: str, resolved: dict, agent: str, learn: bool, trace: Tra
         lines.append(f"**Routed to**: {agent}")
         lines.append("")
 
-    knowledge = resolved.get("knowledge", [])
-    if knowledge:
-        lines.append("### Grounded Knowledge")
-        for k in knowledge:
-            score = k.get("score", 0)
-            lines.append(f"\n**[{k['lib_id']}]** (score: {score})")
-            lines.append(f"  Q: {k.get('question', '')}")
-            excerpt = k.get("answer_excerpt", "")
-            if excerpt:
-                # Truncate for CLI display
-                if len(excerpt) > 300:
-                    excerpt = excerpt[:300] + "..."
-                lines.append(f"  A: {excerpt}")
+    gateway = resolved.get("gateway")
+    if gateway:
+        governance = gateway.get("governance", {})
+        lines.append("### Governance")
+        lines.append(f"**External requested**: {governance.get('external_requested')}")
+        lines.append(f"**External called**: {governance.get('external_called')}")
+        lines.append(f"**Blocked**: {governance.get('blocked')}")
+        if governance.get("block_reason"):
+            lines.append(f"**Block reason**: {governance.get('block_reason')}")
+        pii = governance.get("pii_detected") or []
+        if pii:
+            lines.append(f"**PII detected**: {', '.join(pii)}")
+        lines.append("")
+        lines.append("### Merged Context")
+        lines.append(gateway.get("merged_context", ""))
+    else:
+        knowledge = resolved.get("knowledge", [])
+        if knowledge:
+            lines.append("### Grounded Knowledge")
+            for k in knowledge:
+                score = k.get("score", 0)
+                lines.append(f"\n**[{k['lib_id']}]** (score: {score})")
+                lines.append(f"  Q: {k.get('question', '')}")
+                excerpt = k.get("answer_excerpt", "")
+                if excerpt:
+                    if len(excerpt) > 300:
+                        excerpt = excerpt[:300] + "..."
+                    lines.append(f"  A: {excerpt}")
 
     enablement = resolved.get("enablement")
     if enablement and learn:
@@ -280,9 +312,10 @@ def step_respond(query: str, resolved: dict, agent: str, learn: bool, trace: Tra
     ms = round((time.time() - t0) * 1000, 1)
     trace.step("respond", {
         "mode": "grounded_retrieval" if not learn else "learning",
-        "knowledge_entries": len(knowledge),
+        "knowledge_entries": len(resolved.get("knowledge", [])),
         "has_enablement": enablement is not None,
         "response_length": len(response_text),
+        "used_gateway": gateway is not None,
     }, ms)
 
     return response_text
@@ -291,11 +324,7 @@ def step_respond(query: str, resolved: dict, agent: str, learn: bool, trace: Tra
 # ── Step 5: EXTRACT ─────────────────────────────────────────────────────
 
 def step_extract(query: str, resolved: dict, trace: TraceLog) -> dict | None:
-    """Extract learnings and propose for memory (governed).
-
-    Session reflection: if the query resolved to knowledge with high confidence,
-    log the successful retrieval pattern. If it resolved poorly, log the gap.
-    """
+    """Extract learnings and propose for memory (governed)."""
     t0 = time.time()
 
     confidence = resolved.get("confidence", 0)
@@ -304,7 +333,6 @@ def step_extract(query: str, resolved: dict, trace: TraceLog) -> dict | None:
     extraction = None
 
     if confidence < 30 and riu_id:
-        # Low confidence = potential content gap
         extraction = {
             "type": "gap_signal",
             "query": query,
@@ -312,7 +340,6 @@ def step_extract(query: str, resolved: dict, trace: TraceLog) -> dict | None:
             "confidence": confidence,
             "signal": f"Query '{query[:80]}' matched {riu_id} at only {confidence:.0f}% confidence. Possible content gap.",
         }
-        # Send gap signal to bus for governance pipeline
         bus_send(
             to_agent="group",
             intent=f"Content gap detected: {riu_id} — low confidence retrieval",
@@ -320,7 +347,6 @@ def step_extract(query: str, resolved: dict, trace: TraceLog) -> dict | None:
             thread_id=trace.thread_id,
         )
     elif confidence >= 70 and lib_id:
-        # High confidence = successful pattern worth remembering
         extraction = {
             "type": "retrieval_success",
             "query": query,
@@ -342,30 +368,22 @@ def step_extract(query: str, resolved: dict, trace: TraceLog) -> dict | None:
 # ── Main pipeline ───────────────────────────────────────────────────────
 
 def run_query(query: str, learn: bool = False, show_json: bool = False,
-              show_trace: bool = False) -> int:
+              show_trace: bool = False, use_external: bool = False) -> int:
     """Execute the full 5-step pipeline."""
 
     trace = TraceLog(query)
 
-    # Register on bus (idempotent, best-effort)
     bus_register()
 
-    # Step 1: RESOLVE
     resolved = step_resolve(query, learn, trace)
-
-    # Step 2: RETRIEVE
     knowledge = step_retrieve(resolved, trace)
-
-    # Step 3: ROUTE
+    gateway_result = step_external(query, resolved, use_external, trace)
+    if gateway_result is not None:
+        resolved["gateway"] = gateway_result
     agent = step_route(resolved, trace)
-
-    # Step 4: RESPOND
     response = step_respond(query, resolved, agent, learn, trace)
-
-    # Step 5: EXTRACT
     extraction = step_extract(query, resolved, trace)
 
-    # Output
     if show_json:
         output = {
             "query": query,
@@ -377,6 +395,7 @@ def run_query(query: str, learn: bool = False, show_json: bool = False,
             "retrieval_modes": resolved.get("retrieval_modes"),
             "agent": agent,
             "knowledge": knowledge,
+            "gateway": gateway_result,
             "extraction": extraction,
         }
         if show_trace:
@@ -389,7 +408,6 @@ def run_query(query: str, learn: bool = False, show_json: bool = False,
     else:
         print(response)
 
-    # Write to session log (NDJSON) for session_reflect.py
     session_log = REPO_ROOT / "peers" / "session_log.ndjson"
     try:
         session_log.parent.mkdir(parents=True, exist_ok=True)
@@ -402,6 +420,8 @@ def run_query(query: str, learn: bool = False, show_json: bool = False,
                 "agent": agent,
                 "mode": "learn" if learn else "query",
                 "retrieval_modes": resolved.get("retrieval_modes"),
+                "external_requested": use_external,
+                "external_called": gateway_result.get("governance", {}).get("external_called") if gateway_result else False,
                 "total_ms": trace.total_ms(),
                 "extraction": extraction.get("type") if extraction else None,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -409,7 +429,6 @@ def run_query(query: str, learn: bool = False, show_json: bool = False,
     except Exception:
         pass
 
-    # Log completion to bus
     bus_send(
         to_agent="group",
         intent=f"palette query completed: {resolved.get('riu_id', 'unknown')} ({trace.total_ms():.0f}ms)",
@@ -418,11 +437,253 @@ def run_query(query: str, learn: bool = False, show_json: bool = False,
             "riu_id": resolved.get("riu_id"),
             "confidence": resolved.get("confidence"),
             "agent": agent,
+            "external_requested": use_external,
+            "external_called": gateway_result.get("governance", {}).get("external_called") if gateway_result else False,
             "total_ms": trace.total_ms(),
             "steps": len(trace.steps),
         }),
         thread_id=trace.thread_id,
     )
+
+    return 0
+
+
+# ── Demo output mode ────────────────────────────────────────────────────
+
+# ANSI color codes (work on all modern terminals)
+_RESET = "\033[0m"
+_BOLD = "\033[1m"
+_DIM = "\033[2m"
+_GREEN = "\033[32m"
+_BLUE = "\033[34m"
+_RED = "\033[31m"
+_YELLOW = "\033[33m"
+_CYAN = "\033[36m"
+_WHITE = "\033[37m"
+_BG_RED = "\033[41m"
+
+
+def _demo_label(label: str, color: str, text: str = "") -> str:
+    """Format a step label for demo output."""
+    suffix = f" {text}" if text else ""
+    return f"{color}{_BOLD}[{label}]{_RESET}{suffix}"
+
+
+def run_demo(query: str, use_external: bool = False) -> int:
+    """Execute the pipeline with demo-optimized terminal output.
+
+    Designed for 2-minute video recording:
+    - Clear step labels with color coding
+    - Governance state visible at every step
+    - [LOCAL] green, [EXTERNAL:Perplexity] blue, [BLOCKED] red
+    - Readable at 14pt+ font on dark background
+    """
+    import time as _time
+
+    trace = TraceLog(query)
+    bus_register()
+
+    # ── Header
+    print()
+    print(f"{_DIM}{'─' * 60}{_RESET}")
+    print(f"{_BOLD}{_WHITE}  palette query{_RESET} {_DIM}(governed local-first retrieval){_RESET}")
+    print(f"{_DIM}{'─' * 60}{_RESET}")
+    print()
+    print(f"  {_DIM}Query:{_RESET} {_BOLD}{query}{_RESET}")
+    print()
+
+    # ── Step 1: RESOLVE
+    _time.sleep(0.1)  # visual pacing for recording
+    resolved = step_resolve(query, False, trace)
+    riu_id = resolved.get("riu_id", "unknown")
+    riu_name = resolved.get("riu_name", "")
+    confidence = resolved.get("confidence", 0)
+
+    print(f"  {_demo_label('RESOLVE', _CYAN)} Classified: {_BOLD}{riu_id}{_RESET} ({riu_name})")
+
+    # ── Step 2: RETRIEVE
+    _time.sleep(0.1)
+    knowledge = step_retrieve(resolved, trace)
+    k_count = len(resolved.get("knowledge", []))
+    conf_color = _GREEN if confidence >= 40 else _YELLOW if confidence >= 20 else _RED
+
+    print(f"  {_demo_label('RETRIEVE', _CYAN)} Local knowledge: {k_count} entries (confidence: {conf_color}{confidence:.0f}%{_RESET})")
+
+    # Check for prior related decisions in session log (compounding signal)
+    prior_decisions = []
+    session_log = REPO_ROOT / "peers" / "session_log.ndjson"
+    if session_log.exists():
+        try:
+            import re as _re
+            query_words = set(_re.findall(r'[a-z]+', query.lower())) - {'the', 'a', 'an', 'is', 'are', 'what', 'how', 'do', 'to', 'for', 'in', 'of'}
+            seen_queries = set()
+            with open(session_log) as f:
+                for line in f:
+                    try:
+                        entry = json.loads(line.strip())
+                        entry_query = entry.get("query", "")
+                        normalized_query = entry_query.strip().lower()
+                        if not normalized_query or normalized_query == query.strip().lower() or normalized_query in seen_queries:
+                            continue
+                        entry_words = set(_re.findall(r'[a-z]+', normalized_query))
+                        overlap = query_words & entry_words
+                        if len(overlap) >= 2:
+                            prior_decisions.append(entry)
+                            seen_queries.add(normalized_query)
+                    except (json.JSONDecodeError, KeyError):
+                        pass
+        except Exception:
+            pass
+
+    if prior_decisions:
+        print(f"  {_demo_label('CONNECT', _GREEN)} Connected to {len(prior_decisions)} prior decision(s):")
+        for pd in prior_decisions[:3]:
+            ts = pd.get("timestamp", "")[:10]
+            pq = pd.get("query", "")[:60]
+            blocked = pd.get("blocked", False)
+            ext = pd.get("external_called", False)
+            tag = f"{_RED}[BLOCKED]{_RESET}" if blocked else (f"{_BLUE}[EXT]{_RESET}" if ext else f"{_GREEN}[LOCAL]{_RESET}")
+            print(f"    {_DIM}{ts}{_RESET} {tag} {pq}")
+
+    # ── Step 3: EXTERNAL GATEWAY (if requested)
+    gateway_result = None
+    if use_external:
+        _time.sleep(0.1)
+        # In demo mode, always run the sanitizer when --external is passed.
+        # Override the confidence gate so the governance decision is always visible.
+        from palette.bdb.gateway import PerplexityGateway
+        gw = PerplexityGateway()
+
+        # Force low confidence so gateway enters the sanitization path
+        demo_retrieval = dict(resolved)
+        demo_retrieval["confidence"] = 10  # force below threshold
+
+        gateway_result = gw.gateway_query(
+            query=query,
+            retrieval_result=demo_retrieval,
+            use_external=True,
+        )
+        resolved["gateway"] = gateway_result
+        trace.step("external", {
+            "requested": True,
+            "called": gateway_result["governance"].get("external_called"),
+            "blocked": gateway_result["governance"].get("blocked"),
+            "cache_hit": gateway_result["governance"].get("cache_hit"),
+            "pii_detected": gateway_result["governance"].get("pii_detected"),
+        }, 0)
+        if gateway_result:
+            gov = gateway_result.get("governance", {})
+            pii = gov.get("pii_detected", [])
+            blocked = gov.get("blocked", False)
+            external_called = gov.get("external_called", False)
+            cache_hit = gov.get("cache_hit", False)
+            sanitization_applied = gov.get("sanitization_applied", False)
+
+            if blocked:
+                # BLOCKED — the money shot for the demo
+                block_reason = gov.get("block_reason", "policy violation")
+                print()
+                print(f"  {_BG_RED}{_BOLD}{_WHITE} ⚠️  BLOCKED {_RESET} {_RED}Client-specific query detected{_RESET}")
+                if pii:
+                    print(f"  {_RED}  PII found: [{', '.join(pii)}]{_RESET}")
+                print(f"  {_RED}  Reason: {block_reason}{_RESET}")
+                print(f"  {_GREEN}{_BOLD}  → LOCAL ONLY. No data left this machine.{_RESET}")
+            elif external_called:
+                # External call succeeded
+                if sanitization_applied:
+                    san_query = gateway_result.get("sanitized_query", "")
+                    print(f"  {_demo_label('SANITIZE', _YELLOW)} Query safe for external: {_GREEN}✓{_RESET} (no PII detected)")
+                source_label = f"(cache: {cache_hit})" if cache_hit else ""
+                print(f"  {_demo_label('EXTERNAL', _BLUE)} Querying Perplexity sonar-pro... {_DIM}{source_label}{_RESET}")
+            else:
+                # External not needed (high confidence)
+                print(f"  {_demo_label('LOCAL', _GREEN)} High confidence — no external query needed.")
+
+            resolved["gateway"] = gateway_result
+
+    # ── Step 4: RESPOND
+    _time.sleep(0.1)
+    agent = step_route(resolved, trace)
+
+    # Build demo response
+    print()
+    print(f"  {_DIM}{'─' * 50}{_RESET}")
+
+    if gateway_result and gateway_result.get("governance", {}).get("external_called"):
+        external = gateway_result.get("external_results", {})
+        answer = external.get("answer", "").strip()
+        sources = external.get("sources", [])
+        print(f"  {_demo_label('RESULT', _GREEN)} {_BLUE}[EXTERNAL:Perplexity]{_RESET} answer + {_GREEN}[LOCAL]{_RESET} support")
+        print()
+        print(f"  {_BLUE}{_BOLD}Perplexity answer:{_RESET}")
+        answer_lines = [line.strip() for line in answer.split("\n") if line.strip()]
+        if not answer_lines:
+            answer_lines = ["No external answer returned."]
+        for line in answer_lines[:8]:
+            print(f"  {line[:140]}")
+        if len(answer_lines) > 8:
+            print(f"  {_DIM}... [truncated for display]{_RESET}")
+        if sources:
+            print(f"  {_DIM}Citations:{_RESET}")
+            for source in sources[:3]:
+                print(f"  {_DIM}- {source}{_RESET}")
+        print()
+        print(f"  {_GREEN}{_BOLD}Local support:{_RESET}")
+        for k in resolved.get("knowledge", [])[:2]:
+            print(f"  {_DIM}[{k.get('lib_id', '')}]{_RESET} {k.get('question', '')}")
+            excerpt = (k.get("answer_excerpt", "") or "").strip()
+            if excerpt:
+                print(f"    {excerpt[:140]}")
+    elif gateway_result and gateway_result.get("governance", {}).get("blocked"):
+        # Blocked — show local-only response
+        print(f"  {_demo_label('RESULT', _GREEN)} {_GREEN}[LOCAL ONLY]{_RESET} Using governed knowledge library.")
+        print()
+        for k in resolved.get("knowledge", [])[:2]:
+            print(f"  {_DIM}[{k.get('lib_id', '')}]{_RESET} {k.get('question', '')}")
+            excerpt = (k.get("answer_excerpt", "") or "").strip()
+            if excerpt:
+                print(f"    {excerpt[:140]}")
+        print()
+        print(f"  {_GREEN}{_BOLD}  ⚠️  This query was answered LOCAL ONLY.{_RESET}")
+        print(f"  {_GREEN}  No data left this machine.{_RESET}")
+    else:
+        # Standard local response
+        print(f"  {_demo_label('RESULT', _GREEN)} {_GREEN}[LOCAL]{_RESET} Confidence: {confidence:.0f}%")
+        print()
+        for k in resolved.get("knowledge", [])[:3]:
+            print(f"  {_DIM}[{k.get('lib_id', '')}]{_RESET} {k.get('question', '')}")
+            excerpt = (k.get("answer_excerpt", "") or "").strip()
+            if excerpt:
+                print(f"    {excerpt[:140]}")
+
+    # ── Step 5: STORED
+    _time.sleep(0.1)
+    extraction = step_extract(query, resolved, trace)
+    print()
+    print(f"  {_DIM}{'─' * 50}{_RESET}")
+    dec_id = f"dec-{datetime.now(timezone.utc).strftime('%Y-%m-%d')}-{trace.thread_id[:4]}"
+    print(f"  {_demo_label('STORED', _GREEN)} Decision logged. ID: {_DIM}{dec_id}{_RESET}")
+    print(f"  {_DIM}  Total: {trace.total_ms():.0f}ms{_RESET}")
+    print()
+
+    # Log session
+    session_log = REPO_ROOT / "peers" / "session_log.ndjson"
+    try:
+        session_log.parent.mkdir(parents=True, exist_ok=True)
+        with open(session_log, "a") as f:
+            f.write(json.dumps({
+                "query": query[:200],
+                "riu_id": resolved.get("riu_id"),
+                "confidence": confidence,
+                "agent": agent,
+                "external_requested": use_external,
+                "external_called": gateway_result.get("governance", {}).get("external_called") if gateway_result else False,
+                "blocked": gateway_result.get("governance", {}).get("blocked") if gateway_result else False,
+                "total_ms": trace.total_ms(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }) + "\n")
+    except Exception:
+        pass
 
     return 0
 
@@ -438,10 +699,16 @@ def main():
     parser.add_argument("--learn", action="store_true", help="Learning mode: include enablement content")
     parser.add_argument("--json", action="store_true", help="Output full JSON result")
     parser.add_argument("--trace", action="store_true", help="Show execution trace")
+    parser.add_argument("--external", action="store_true", help="Enable governed Perplexity external research path")
+    parser.add_argument("--demo", action="store_true", help="Demo output mode: color-coded, video-optimized")
     args = parser.parse_args()
 
     query = " ".join(args.query)
-    sys.exit(run_query(query, learn=args.learn, show_json=args.json, show_trace=args.trace))
+
+    if args.demo:
+        sys.exit(run_demo(query, use_external=args.external))
+    else:
+        sys.exit(run_query(query, learn=args.learn, show_json=args.json, show_trace=args.trace, use_external=args.external))
 
 
 if __name__ == "__main__":

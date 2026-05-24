@@ -16,7 +16,7 @@ Every AI tool gives you an answer and forgets why you asked. Palette remembers w
 [![RIUs](https://img.shields.io/badge/taxonomy-121_nodes-blue)]()
 [![Knowledge](https://img.shields.io/badge/knowledge-183_entries-blue)]()
 [![Agents](https://img.shields.io/badge/agents-13_governed-blue)]()
-[![License](https://img.shields.io/badge/license-private-lightgrey)]()
+[![License](https://img.shields.io/badge/license-Apache_2.0-blue)](LICENSE)
 
 </div>
 
