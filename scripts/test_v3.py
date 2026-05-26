@@ -227,10 +227,11 @@ class TestPaletteQueryCLI(unittest.TestCase):
         extraction = step_extract("real", {"confidence": 80, "riu_id": "RIU-001", "lib_id": "LIB-001"}, trace)
         self.assertEqual(extraction["type"], "retrieval_success")
 
-    def test_extract_no_signal(self):
+    def test_extract_medium_confidence(self):
         trace = TraceLog("test")
         extraction = step_extract("mid", {"confidence": 50, "riu_id": "RIU-001", "lib_id": "LIB-001"}, trace)
-        self.assertIsNone(extraction)
+        self.assertIsNotNone(extraction)
+        self.assertEqual(extraction["type"], "medium_confidence")
 
 
 # ═══════════════════════════════════════════════════════════════════════

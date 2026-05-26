@@ -101,7 +101,7 @@ class PerplexityGateway:
             return result
 
         try:
-            external = self.query_perplexity(sanitized_query)
+            external = self.query_perplexity(sanitized_query, retrieval_result=retrieval_result)
         except Exception as exc:  # pragma: no cover - defensive path
             fallback = self.fallback.handle_perplexity_error(str(exc))
             result["governance"].update({"blocked": True, "block_reason": fallback["reason"]})
@@ -122,21 +122,80 @@ class PerplexityGateway:
         confidence = float(local_results.get("confidence") or 0)
         return confidence < self.threshold
 
-    def query_perplexity(self, sanitized_query: str, model: str | None = None) -> dict[str, Any]:
+    def _build_targeted_system_prompt(self, retrieval_result: dict[str, Any]) -> str:
+        """Build a taxonomy-aware system prompt that tells Perplexity what we already know."""
+        riu_id = retrieval_result.get("riu_id", "unknown")
+        riu_name = retrieval_result.get("riu_name", "")
+        confidence = float(retrieval_result.get("confidence") or 0)
+        knowledge = retrieval_result.get("knowledge", [])
+
+        known_questions = [k["question"] for k in knowledge[:3] if k.get("question")]
+
+        prompt = (
+            f"You are answering a {riu_name} ({riu_id}) query for a governed AI system.\n"
+            f"Local confidence: {confidence:.0f}%. "
+        )
+        if confidence > 20:
+            prompt += "Answer is partially known but needs supplementation.\n"
+        else:
+            prompt += "No local answer found.\n"
+
+        if known_questions:
+            prompt += f"Already known locally: {'; '.join(q[:80] for q in known_questions[:2])}. Do not repeat this.\n"
+
+        prompt += (
+            "Focus on: public sources, authoritative citations, recent developments (2024-2026).\n"
+            "Return: direct answer with citations. No client-specific advice."
+        )
+        return prompt
+
+    def _formulate_targeted_query(self, query: str, retrieval_result: dict[str, Any]) -> str:
+        """Shape the search query using what the taxonomy already knows is missing."""
+        riu_id = retrieval_result.get("riu_id", "")
+        riu_name = retrieval_result.get("riu_name", "")
+        confidence = float(retrieval_result.get("confidence") or 0)
+        knowledge = retrieval_result.get("knowledge", [])
+
+        known_summary = "; ".join(
+            k.get("question", "")[:80] for k in knowledge[:2] if k.get("question")
+        )
+
+        if confidence < 15:
+            gap_type = "completely absent from knowledge library"
+        elif confidence < 30:
+            gap_type = "partially covered — missing key precedents or recent developments"
+        else:
+            gap_type = "covered but confidence is marginal — may need current sources"
+
+        if known_summary:
+            return (
+                f"Context: This question relates to {riu_name} ({riu_id}). "
+                f"Known: {known_summary}. "
+                f"Knowledge gap: {gap_type}. "
+                f"Query: {query}"
+            )
+        return query
+
+    def query_perplexity(self, sanitized_query: str, model: str | None = None,
+                         retrieval_result: dict[str, Any] | None = None) -> dict[str, Any]:
         api_key = os.environ.get("PERPLEXITY_API_KEY")
         if not api_key:
             raise RuntimeError("PERPLEXITY_API_KEY is not set")
 
+        # Use targeted system prompt if retrieval context is available
+        if retrieval_result and retrieval_result.get("riu_id"):
+            system_content = self._build_targeted_system_prompt(retrieval_result)
+            sanitized_query = self._formulate_targeted_query(sanitized_query, retrieval_result)
+        else:
+            system_content = (
+                "You answer public legal research questions only. "
+                "Do not infer client-specific advice. Cite public sources when possible."
+            )
+
         payload = {
             "model": model or self.default_model,
             "messages": [
-                {
-                    "role": "system",
-                    "content": (
-                        "You answer public legal research questions only. "
-                        "Do not infer client-specific advice. Cite public sources when possible."
-                    ),
-                },
+                {"role": "system", "content": system_content},
                 {"role": "user", "content": sanitized_query},
             ],
         }

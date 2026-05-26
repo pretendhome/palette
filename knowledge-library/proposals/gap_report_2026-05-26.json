@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-05-26T21:24:52.802237+00:00",
+  "total_signals": 1,
+  "total_rius_affected": 1,
+  "high_priority": [],
+  "medium_priority": [],
+  "low_priority": [
+    {
+      "riu_id": "RIU-001",
+      "signal_count": 1,
+      "signal_types": [
+        "medium_confidence"
+      ],
+      "sample_queries": [
+        "What are the key criteria for evaluating AI systems?"
+      ],
+      "avg_confidence": 37.5
+    }
+  ],
+  "unclassified": []
+}

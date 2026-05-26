@@ -75,9 +75,16 @@ def bus_register():
 
 def bus_send(to_agent: str, intent: str, content: str,
              msg_type: str = "informational", risk: str = "none",
-             thread_id: str | None = None) -> dict | None:
+             thread_id: str | None = None,
+             riu_id: str | None = None,
+             confidence: float | None = None) -> dict | None:
     """Send a governed message through the bus."""
     msg_id = str(uuid.uuid4())
+    payload: dict = {"content": content}
+    if riu_id:
+        payload["riu_id"] = riu_id
+    if confidence is not None:
+        payload["confidence"] = confidence
     return bus_post("/send", {
         "protocol_version": "1.0.0",
         "message_id": msg_id,
@@ -89,7 +96,7 @@ def bus_send(to_agent: str, intent: str, content: str,
         "intent": intent,
         "risk_level": risk,
         "requires_ack": False,
-        "payload": {"content": content},
+        "payload": payload,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "ttl_seconds": 3600,
     })
@@ -125,6 +132,27 @@ class TraceLog:
             "total_ms": self.total_ms(),
             "steps": self.steps,
         }
+
+
+# ── Gap signal logging ─────────────────────────────────────────────────
+
+GAP_LOG = REPO_ROOT / "peers" / "gap_signals.ndjson"
+
+
+def _log_gap_signal(query: str, riu_id: str | None, confidence: float, signal_type: str):
+    """Append a gap signal to the persistent NDJSON log for auto_enrich."""
+    try:
+        GAP_LOG.parent.mkdir(parents=True, exist_ok=True)
+        with open(GAP_LOG, "a") as f:
+            f.write(json.dumps({
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "query": query[:200],
+                "riu_id": riu_id,
+                "confidence": confidence,
+                "signal_type": signal_type,
+            }) + "\n")
+    except Exception:
+        pass
 
 
 # ── Step 1: RESOLVE ─────────────────────────────────────────────────────
@@ -235,7 +263,10 @@ def step_route(resolved: dict, trace: TraceLog) -> str:
             "knowledge_context": resolved.get("context", "")[:500],
             "pre_dispatch_advisory": advisory,
         }),
+        msg_type="advisory",
         thread_id=trace.thread_id,
+        riu_id=resolved.get("riu_id"),
+        confidence=resolved.get("confidence"),
     )
 
     ms = round((time.time() - t0) * 1000, 1)
@@ -346,6 +377,15 @@ def step_extract(query: str, resolved: dict, trace: TraceLog) -> dict | None:
             content=json.dumps(extraction),
             thread_id=trace.thread_id,
         )
+        _log_gap_signal(query, riu_id, confidence, "low_confidence")
+    elif confidence < 70 and riu_id:
+        _log_gap_signal(query, riu_id, confidence, "medium_confidence")
+        extraction = {
+            "type": "medium_confidence",
+            "query": query,
+            "riu_id": riu_id,
+            "confidence": confidence,
+        }
     elif confidence >= 70 and lib_id:
         extraction = {
             "type": "retrieval_success",
@@ -376,6 +416,27 @@ def run_query(query: str, learn: bool = False, show_json: bool = False,
     bus_register()
 
     resolved = step_resolve(query, learn, trace)
+
+    # OBLIGATORY GATE: abort if classification failed entirely
+    if resolved.get("confidence", 0) == 0 and resolved.get("riu_id") is None:
+        extraction = {
+            "type": "classification_failure",
+            "query": query[:200],
+            "signal": "No taxonomy match. Cannot route without classification.",
+        }
+        bus_send(
+            to_agent="group",
+            intent="Classification failure — unroutable query",
+            content=json.dumps(extraction),
+            thread_id=trace.thread_id,
+        )
+        _log_gap_signal(query, None, 0, "classification_failure")
+        if show_json:
+            print(json.dumps({"error": "classification_failure", "query": query, "signal": extraction["signal"]}, indent=2))
+        else:
+            print(f"## Classification Failed\n\nQuery: {query}\nNo RIU match found. Gap signal logged.\n")
+        return 1
+
     knowledge = step_retrieve(resolved, trace)
     gateway_result = step_external(query, resolved, use_external, trace)
     if gateway_result is not None:

@@ -767,6 +767,57 @@ def section_9_retrieval_quality(report: HealthReport) -> None:
                       "warning" if precision_at_1 < 50 else "info"))
 
 
+def section_10_self_improvement(report: HealthReport) -> None:
+    """Check gap signal accumulation, proposal queue, and self-improvement loop health."""
+    gap_log = os.path.join(PALETTE_ROOT, "peers", "gap_signals.ndjson")
+    proposals_dir = os.path.join(PALETTE_ROOT, "knowledge-library", "proposals")
+
+    # Check gap signals (7-day rolling window)
+    recent_gaps = 0
+    gap_by_type = {"low_confidence": 0, "medium_confidence": 0, "classification_failure": 0}
+    if os.path.isfile(gap_log):
+        cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=7)
+        with open(gap_log) as f:
+            for line in f:
+                try:
+                    entry = json.loads(line.strip())
+                    ts_str = entry.get("timestamp", "")
+                    if ts_str:
+                        ts = datetime.datetime.fromisoformat(ts_str.replace("Z", "+00:00"))
+                        if ts > cutoff:
+                            recent_gaps += 1
+                            sig_type = entry.get("signal_type", "unknown")
+                            if sig_type in gap_by_type:
+                                gap_by_type[sig_type] += 1
+                except (json.JSONDecodeError, ValueError, KeyError):
+                    pass
+
+    report.add(Check(10, f"Gap signals (7-day): {recent_gaps} total",
+                      recent_gaps < 50,
+                      f"low_conf={gap_by_type['low_confidence']}, med_conf={gap_by_type['medium_confidence']}, "
+                      f"class_fail={gap_by_type['classification_failure']}",
+                      "warning" if recent_gaps > 20 else "info"))
+
+    # Check gap log exists (means the loop is wired)
+    report.add(Check(10, "Gap signal log exists", os.path.isfile(gap_log),
+                      gap_log, "warning" if not os.path.isfile(gap_log) else "info"))
+
+    # Check unreviewed proposals
+    unreviewed = 0
+    if os.path.isdir(proposals_dir):
+        unreviewed = len([f for f in os.listdir(proposals_dir)
+                          if f.endswith(".json") or f.endswith(".yaml")])
+    report.add(Check(10, f"Unreviewed KL proposals: {unreviewed}",
+                      unreviewed < 10,
+                      f"{unreviewed} pending human review" if unreviewed > 0 else "queue empty",
+                      "warning" if unreviewed >= 10 else "info"))
+
+    # Check auto_enrich.py exists
+    auto_enrich = os.path.join(PALETTE_ROOT, "scripts", "palette_intelligence_system", "auto_enrich.py")
+    report.add(Check(10, "auto_enrich.py exists", os.path.isfile(auto_enrich),
+                      auto_enrich, "warning" if not os.path.isfile(auto_enrich) else "info"))
+
+
 # ── Reflection Question ─────────────────────────────────────────────────────
 
 REFLECTION = """
@@ -808,6 +859,7 @@ def run_all(sections: list[int] | None = None) -> HealthReport:
         7: ("Repo Mirror Sync", section_7_repo_mirror),
         8: ("Governance Pipeline", section_8_governance_pipeline),
         9: ("Retrieval Quality", section_9_retrieval_quality),
+        10: ("Self-Improvement Loop", section_10_self_improvement),
     }
 
     for num, (label, fn) in runners.items():
@@ -837,6 +889,7 @@ def print_report(report: HealthReport) -> None:
         7: "Repo Mirror Sync",
         8: "Governance Pipeline",
         9: "Retrieval Quality",
+        10: "Self-Improvement Loop",
     }
 
     for check in report.checks:

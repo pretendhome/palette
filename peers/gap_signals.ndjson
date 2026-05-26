@@ -1,0 +1,7 @@
+{"timestamp": "2026-05-26T21:24:34.714722+00:00", "query": "What are the key criteria for evaluating AI systems?", "riu_id": "RIU-001", "confidence": 37.5, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-26T21:25:09.872193+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
+{"timestamp": "2026-05-26T21:25:09.872290+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-26T21:25:22.558640+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
+{"timestamp": "2026-05-26T21:25:22.558742+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-26T21:25:55.547575+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
+{"timestamp": "2026-05-26T21:25:55.547679+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
