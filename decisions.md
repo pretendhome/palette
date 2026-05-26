@@ -10108,3 +10108,38 @@ HandleLidSwitchDocked=ignore
 **Incident**: On 2026-05-15, `systemctl restart systemd-logind` was used instead of HUP, which terminated the Wayland session (black screen, dropped to TTY). Hard reboot required. All uncommitted V3 work (374 files) survived in git working tree.
 **Verification**: After reboot, config loaded correctly. Lid close now locks screen without suspending. Tested with external monitor disconnect — no suspend triggered.
 **Reference**: `journalctl -b -1 | grep logind` shows the restart/session-kill sequence.
+
+---
+### Engagement Update: 2026-05-21 / BDB-GATEWAY
+
+#### Semantic Blueprint (Convergence Brief)
+- **Goal**: Implement a production-ready Perplexity Gateway for the Billion Dollar Build demo to ensure Zero Data Leakage and satisfy "Computer is Core" constraint.
+- **Roles**: Gemini Specialist (Implementation & Stress Test).
+- **Capabilities**: 3-Layer Sanitization, SQLite Cache, Audit Trail, Rate Limiting, Local Fallback.
+- **Constraints**: Stone Spec (< 500 lines), Zero PII leakage to Perplexity, Auditable.
+- **What changed**: Formalized the Mistral Gateway spec into a working Python package at /palette/bdb/gateway/.
+
+#### Selected RIUs
+- RIU-082 — PII Sanitization: Implemented 3-layer engine.
+- RIU-534 — Audit Trail: SQLite-based auditable log of all external calls.
+- RIU-001 — Convergence: Finalized the gateway architecture for the demo.
+
+#### ONE-WAY DOORS
+- 🚨 **Gateway Sanitization Architecture**: Moving to a 3-layer model (Regex -> LLM -> Context). This is a foundational trust choice.
+
+#### Artifacts
+- Created:
+  - `/home/mical/fde/palette/bdb/gateway/__init__.py`
+  - `/home/mical/fde/palette/bdb/gateway/sanitizer.py`
+  - `/home/mical/fde/palette/bdb/gateway/cache.py`
+  - `/home/mical/fde/palette/bdb/gateway/audit.py`
+  - `/home/mical/fde/palette/bdb/gateway/rate_limiter.py`
+  - `/home/mical/fde/palette/bdb/gateway/fallback.py`
+  - `/home/mical/fde/palette/bdb/gateway/config.yaml`
+  - `/home/mical/fde/palette/bdb/gateway/tests/test_gateway.py`
+
+#### Next Checks
+- Integrate `bdb_flow.py` with the formal `PerplexityGateway` class.
+- Verify PII redaction against real medical/legal datasets.
+
+— gemini.specialist

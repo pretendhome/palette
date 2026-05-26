@@ -1,5 +1,5 @@
 # Palette Manifest — Single Source of Truth
-# Updated: 2026-04-04
+# Updated: 2026-05-26
 # Purpose: One file to orient any agent, tool, or human on what's current.
 
 system:
@@ -112,7 +112,7 @@ sdk:
     - { name: graph_query, purpose: "queryable interface to relationship graph" }
   tests:
     path: sdk/tests/
-    count: 86
+    count: 89
     pis_tests: 60
     run: "uv run pytest -q sdk/tests/"
 

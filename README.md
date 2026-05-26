@@ -11,8 +11,8 @@ Every AI tool gives you an answer and forgets why you asked. Palette remembers w
 ---
 
 [![Status](https://img.shields.io/badge/status-V3_active-blue)]()
-[![Health](https://img.shields.io/badge/health-84%2F85_passing-brightgreen)]()
-[![Tests](https://img.shields.io/badge/tests-49%2F49_passing-brightgreen)]()
+[![Health](https://img.shields.io/badge/health-122%2F135_passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-201_passing-brightgreen)]()
 [![RIUs](https://img.shields.io/badge/taxonomy-121_nodes-blue)]()
 [![Knowledge](https://img.shields.io/badge/knowledge-183_entries-blue)]()
 [![Agents](https://img.shields.io/badge/agents-13_governed-blue)]()
@@ -73,8 +73,9 @@ A voice-first interface connecting 5 LLM agents (Claude, Mistral, GPT, Qwen, Per
 | Service Routing | 106 services across 40 routing profiles |
 | Hybrid Retrieval | FTS5 + vector embeddings + keyword (reciprocal rank fusion) |
 | Voice Interface | 8 agents with unique Arcana v3 voices (Tessitura) |
-| Health Score | 84/85 passing (15 sections) |
-| Test Suite | 49/49 passing |
+| Health Score | 122/135 passing (15 sections) |
+| Test Suite | 201 passing across 4 suites (PIS, SDK, gateway, V3) |
+| Lenses | 30 role-based context overlays |
 | Skills | 6 domains (retail-ai, talent, education, travel, enablement, lenses) |
 
 </div>
@@ -93,11 +94,11 @@ A voice-first interface connecting 5 LLM agents (Claude, Mistral, GPT, Qwen, Per
 │  │  6 Data Layers                                       │    │
 │  │  ┌──────────┐ ┌──────────┐ ┌──────────┐            │    │
 │  │  │Taxonomy  │ │Routing   │ │Recipes   │            │    │
-│  │  │121 RIUs  │ │106 svcs  │ │69 specs  │            │    │
+│  │  │121 RIUs  │ │106 svcs  │ │75 specs  │            │    │
 │  │  └──────────┘ └──────────┘ └──────────┘            │    │
 │  │  ┌──────────┐ ┌──────────┐ ┌──────────┐            │    │
 │  │  │Knowledge │ │Signals   │ │Overrides │            │    │
-│  │  │176 entries│ │21 people │ │19 maps   │            │    │
+│  │  │183 entries│ │21 people │ │19 maps   │            │    │
 │  │  └──────────┘ └──────────┘ └──────────┘            │    │
 │  └─────────────────────────────────────────────────────┘    │
 │                                                              │
@@ -129,16 +130,15 @@ A voice-first interface connecting 5 LLM agents (Claude, Mistral, GPT, Qwen, Per
 | Metric | Value | Threshold |
 |:--|:--|:--|
 | Consistency checks | **8/8 passing** | 8/8 |
-| SLO compliance | **7/7 passing** | 7/7 |
-| Regressions | **0** | 0 |
-| Improvements tracked | **44** | — |
-| Audit findings | **1** (medium, non-blocking) | 0 critical |
-| Risk score | **2** (down from 14) | — |
-| Avg completeness | **81.8/100** | ≥ 40 |
-| Routing↔Recipe match | **106/106** | ≥ 95% |
-| Knowledge coverage | **176/176** (100%) | ≥ 50% |
-| Terminology drift clusters | **15** (3 high, 9 medium, 3 low) | — |
+| Taxonomy↔Classification | **121/121** | 121/121 |
+| Classification↔Routing | **40/40** | 40/40 |
+| Routing↔Recipe | **112/112** | ≥ 95% |
+| Knowledge↔Taxonomy | **575/575** | — |
+| Signal↔Taxonomy | **45/45** | — |
+| Orphan recipes | **70/70** clean | 0 orphans |
+| Orphan signals | **57/57** clean | 0 orphans |
 | Traverse health | **121/121 healthy** | — |
+| Test suites | **201 passing** | — |
 
 </div>
 
@@ -146,19 +146,17 @@ A voice-first interface connecting 5 LLM agents (Claude, Mistral, GPT, Qwen, Per
 
 ## Verified Operational State
 
-The following is verified in the current repo as of 2026-04-04:
+Verified in the current repo as of 2026-05-26:
 
-- `scripts/compile_wiki.py` and `scripts/validate_wiki.py` are operational. Validation passes `8/8`, and a deterministic rebuild produces 337 wiki pages from the live source data.
-- The wiki governance pipeline is operational at the script level: `scripts/file_proposal.py`, `scripts/record_vote.py`, `scripts/promote_proposal.py`, and `scripts/bridge_feedback_to_proposals.py` are present and both governance health sections are green.
-- `scripts/voice_interface.py` is wired to the real Palette peers bus at `127.0.0.1:7899`. It supports dry runs, live bus broadcasts, metrics/history persistence, and broker-level delivery confirmation.
+- **Integrity engine**: 8/8 cross-layer consistency checks passing (taxonomy↔classification↔routing↔recipe↔knowledge).
+- **Test suites**: 201 tests passing across 4 suites — PIS integrity (60), SDK agent framework (89), gateway (12), V3 pipeline (40+). 4 integration tests skipped (require numpy/Ollama for vector embeddings).
+- **Hybrid retrieval engine**: FTS5 full-text search + vector embeddings (nomic-embed-text via Ollama) + keyword matching, fused with reciprocal rank fusion. Local-first, zero API cost. Called by Voice Hub for taxonomy-grounded responses.
+- **Wiki governance pipeline**: Deterministic compiler (345 pages), 4-script pipeline (file → vote → promote → bridge), multi-agent voting roster with trust tiers.
+- **Peers bus**: Governed message bus at `127.0.0.1:7899` with 5 registered peers (Claude, Kiro, Codex, Gemini, Hub), schema-validated envelopes, delivery tracking.
+- **Voice Hub**: Multi-agent voice interface with Rime Arcana TTS, Web Speech STT, taxonomy-grounded retrieval, 4 languages.
+- **Gateway** (V3): Perplexity Sonar API gateway with prompt sanitization, response caching, rate limiting, and audit logging. 12/12 tests passing.
 
-The following are intentionally not claimed here:
-
-- production readiness
-- per-agent acknowledgment semantics beyond confirmed bus delivery and fetched messages
-- a pristine release worktree
-
-Palette currently has operational V3 infrastructure, but it still needs maintenance discipline and final semantic review before it should be described as release-clean.
+Health scores: 79/90 base health, 122/135 total health. Remaining failures are repo-sync drift (competition branch divergence) and name scrub in working documents — not system integrity issues.
 
 ---
 
@@ -187,6 +185,38 @@ Health: ok
 ```
 
 Every service-routed competency area (40/40) returns a recommendation with alternatives, cost data, and evidence citations.
+
+---
+
+## Hybrid Retrieval Engine
+
+Three retrieval strategies combined via Reciprocal Rank Fusion (RRF):
+
+```
+Query: "how do I evaluate voice quality?"
+
+┌──────────────────────────────────────────────────────┐
+│  1. Keyword Resolve (prefix match → RIU taxonomy)     │
+│     → RIU-524: Voice Quality Assessment               │
+│     → 3 knowledge entries matched                     │
+│                                                       │
+│  2. FTS5 Full-Text Search (Porter stemming, BM25)     │
+│     → 7 passages ranked by term frequency             │
+│     → Source: knowledge library + taxonomy descriptions│
+│                                                       │
+│  3. Vector Similarity (nomic-embed-text via Ollama)    │
+│     → Top-5 by cosine similarity                      │
+│     → Embeddings computed once, cached locally         │
+│                                                       │
+│  Reciprocal Rank Fusion: merge all three ranked lists  │
+│  → Final ranked results with RIU classification        │
+│  → Context string for LLM grounding                   │
+└──────────────────────────────────────────────────────┘
+```
+
+The retrieval engine powers the Voice Hub — every voice query is classified through the 121-node taxonomy before the LLM response is grounded in verified knowledge. Local-first, zero API cost for retrieval.
+
+**Architecture**: `peers/hub/palette_retrieve.py` (retrieval) + `peers/hub/server.mjs` (API + streaming) + `peers/hub/palette_db.py` (FTS5 + vector store).
 
 ---
 
@@ -270,7 +300,7 @@ palette/
 │   ├── assumptions.md                  # Tier 2 — Experimental assumptions
 │   └── decisions-prompt.md             # Tier 3 — Decision log policy
 ├── taxonomy/releases/v1.3/             # 121 competency areas (RIUs)
-├── knowledge-library/v1.4/             # 176 entries with evidence tiers
+├── knowledge-library/v1.4/             # 183 entries with evidence tiers
 ├── buy-vs-build/
 │   ├── integrations/                   # 75 integration recipes
 │   ├── service-routing/v1.0/           # 106 services, 40 routing profiles
@@ -301,9 +331,10 @@ palette/
 │   ├── travel/                         # Route planning + booking
 │   ├── enablement/                     # Agentic coaching
 │   └── lenses/                         # Role lens methodology
+├── bdb/                                # V3 gateway, vertical knowledge packs
 ├── sdk/                                # Agent SDK (Python)
 ├── scripts/                            # Integrity, audit, regression, drift
-├── lenses/                             # 26 role-based context overlays
+├── lenses/                             # 30 role-based context overlays
 ├── docs/                               # All documentation
 │   ├── audits/                         # Dated audit and stress test reports
 │   ├── onboarding/                     # Agent onboarding guides
@@ -356,8 +387,10 @@ print(f'Completeness: {r.completeness.total}/100')
 | Phase 0 | Done | Competency taxonomy v1.3 (121 areas), knowledge library, company mapping |
 | Phase 1 | Done | People library (21 profiles), service routing (40 entries), 3 recipes |
 | Phase 2 | Done | RIU classification, cost enrichment, repo cleanup |
-| Phase 3 | Done | Integrity engine, audit system, regression/SLO, drift detection, 49 recipes, 176 knowledge entries, override registry, governance decision contract |
+| Phase 3 | Done | Integrity engine, audit system, regression/SLO, drift detection, 75 recipes, 183 knowledge entries, override registry, governance decision contract |
 | Phase 4 | Done | Wiki governance pipeline, deterministic compiler, peers-bus voice interface, multi-agent coordination bus |
+| Phase 5 | Done | Hybrid retrieval engine (FTS5 + vector + keyword, reciprocal rank fusion), Voice Hub with taxonomy-grounded responses, multi-agent voice interface (5 agents, 4 languages) |
+| Phase 6 | Active | Perplexity Sonar gateway (sanitization, caching, rate limiting, audit), vertical knowledge packs, SDK for Humans thesis |
 
 ---
 
