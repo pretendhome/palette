@@ -4,9 +4,9 @@
 
 system:
   name: Palette
-  version: "2.2"
+  version: "3.1.0"
   status: active
-  integrity_checks: 8/8
+  integrity_checks: 10/10
   repository:
     origin: "git@github.com:pretendhome/pretendhome.git"
     palette: "git@github.com:pretendhome/palette.git"
@@ -15,10 +15,11 @@ system:
 layers:
 
   taxonomy:
-    version: v1.3
+    version: v1.3.2
     path: taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml
-    generated: 2026-01-29
-    entries: 121
+    generated: 2026-05-26
+    entries: 131
+    verticals: [ai-ml, legal]
     unit: RIU (Routing Intelligence Unit)
     status: current
     journey_stages: [foundation, retrieval, orchestration, specialization]
@@ -27,7 +28,7 @@ layers:
     version: v1.4
     path: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
     generated: 2026-02-05
-    entries: 183
+    entries: 193
     unit: LIB entry
     status: current
 
@@ -44,10 +45,10 @@ layers:
     version: v1.0
     path: buy-vs-build/v1.0/palette_company_riu_mapping_v1.0.yaml
     generated: 2026-02-10
-    entries: 12
+    entries: 127
     unit: company
     status: active
-    audit: 2026-04-21
+    audit: 2026-05-26
     features_added: [company_id, status, last_validated, build_vs_buy_assessment]
     related:
       lens_index: buy-vs-build/people-library/v1.1/lens_index.yaml
@@ -128,7 +129,7 @@ governance:
     record_vote: scripts/record_vote.py
     promote_proposal: scripts/promote_proposal.py
     bridge_feedback: scripts/bridge_feedback_to_proposals.py
-    auto_enrich: agents/researcher/auto_enrich.py
+    auto_enrich: scripts/palette_intelligence_system/auto_enrich.py
 
 scripts:
   integrity: "python3 -m scripts.palette_intelligence_system.integrity --checks-only"
@@ -214,6 +215,24 @@ peers:
     - name: hub.voice
       type: ADAPTER
       trust_tier: UNVALIDATED
+
+bdb:
+  competition: Perplexity Billion Dollar Build
+  deadline: 2026-06-02
+  thesis: "Palette is the operating system for professional judgment"
+  vertical: legal
+  path: bdb/
+  gateway: bdb/gateway/
+  tests: 12/12
+  north_star: bdb/NORTH_STAR_VISION_2026-05-26.md
+  routing_loop: bdb/OBLIGATORY_ROUTING_LOOP_SPEC_2026-05-26.md
+
+self_improvement:
+  gap_signals: peers/gap_signals.ndjson
+  auto_enrich: scripts/palette_intelligence_system/auto_enrich.py
+  proposals: knowledge-library/proposals/
+  health_section: 10 (Self-Improvement Loop)
+  status: active
 
 archive:
   path: archive/superseded-libraries/
