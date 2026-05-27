@@ -147,7 +147,7 @@ The trajectory of the industry (tab → multiline → agents → subagents → s
 - Ollama local inference (Qwen 2.5 7B) + Groq free tier (Llama 3.3 70B)
 
 ### UX Gaps (Honest)
-- **No one-click installer.** Requires Python, Node.js, env vars. Adam and Claudia both needed Mical to set it up.
+- **No one-click installer.** Requires Python, Node.js, env vars. Adam and Claudia both needed Founder to set it up.
 - **No onboarding wizard.** System arrives empty. No "what domain are you in?" No starter pack.
 - **API key complexity.** 7+ keys for full multi-model. Mitigated by Tier 1 (zero keys needed for local).
 - **Local model download.** Ollama models are 4-8GB. First run takes 10+ minutes.

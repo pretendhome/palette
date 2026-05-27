@@ -138,7 +138,7 @@ All drafts in `bdb/11_DAY_EXECUTION_PLAN_FINAL.md`:
 ### Kiro (9/10):
 1. Company name = Palette (not Mission Canvas)
 2. Demo timing contingency: cut interaction 3 to text card if over 1:50
-3. Terminal setup needed from Mical before CLI polish
+3. Terminal setup needed from Founder before CLI polish
 
 ### Gemini:
 1. Fallback demo: run from pre-warmed cache (0.004s)
@@ -150,28 +150,28 @@ All drafts in `bdb/11_DAY_EXECUTION_PLAN_FINAL.md`:
 
 | Day | Date | Task | Owner | Status |
 |-----|------|------|-------|--------|
-| 2 | May 23 | Computer Session 1: gateway proof thread | Mical | Not started |
-| 2 | May 23 | Computer Session 2: legal research thread | Mical | Not started |
-| 2 | May 23 | Demo rehearsal with --demo flag | Mical | Not started |
-| 3 | May 24 | Mical confirms terminal setup | Mical | Not started |
-| 3 | May 24 | Demo dry run with screen recording | Mical | Not started |
+| 2 | May 23 | Computer Session 1: gateway proof thread | Founder | Not started |
+| 2 | May 23 | Computer Session 2: legal research thread | Founder | Not started |
+| 2 | May 23 | Demo rehearsal with --demo flag | Founder | Not started |
+| 3 | May 24 | Founder confirms terminal setup | Founder | Not started |
+| 3 | May 24 | Demo dry run with screen recording | Founder | Not started |
 | 4 | May 25 | Buffer / rest | — | — |
-| 5 | May 26 | Landing page deployed to missioncanvas.ai | Mical | Draft ready |
-| 5 | May 26 | Waitlist form (Tally) | Mical | Not started |
-| 5 | May 26 | Computer Session 3: landing page positioning | Mical | Not started |
+| 5 | May 26 | Landing page deployed to missioncanvas.ai | Founder | Draft ready |
+| 5 | May 26 | Waitlist form (Tally) | Founder | Not started |
+| 5 | May 26 | Computer Session 3: landing page positioning | Founder | Not started |
 | 6 | May 27 | Narration script for video | Claude | Not started |
-| 6 | May 27 | Final demo rehearsal timed to 1:50 | Mical | Not started |
-| 7 | May 28 | RECORD FINAL DEMO VIDEO | Mical | Not started |
-| 7 | May 28 | Edit + upload video | Mical | Not started |
+| 6 | May 27 | Final demo rehearsal timed to 1:50 | Founder | Not started |
+| 7 | May 28 | RECORD FINAL DEMO VIDEO | Founder | Not started |
+| 7 | May 28 | Edit + upload video | Founder | Not started |
 | 8 | May 29 | PII audit second pass | Claude/Kiro | First pass done |
 | 8 | May 29 | README rewrite (product-first) | Claude | Not started |
-| 8 | May 29 | Push to public GitHub | Mical | Not started |
-| 9 | May 30 | Finalize submission answers | Mical + Claude | Drafted |
+| 8 | May 29 | Push to public GitHub | Founder | Not started |
+| 9 | May 30 | Finalize submission answers | Founder + Claude | Drafted |
 | 9 | May 30 | Computer prompt captions | Claude | Not started |
-| 9 | May 30 | LinkedIn update | Mical | Not started |
-| 10 | May 31 | Cold review of demo video | Mical | Not started |
-| 10 | May 31 | Stripe Atlas decision | Mical | Deferred |
-| 11 | Jun 1 | SUBMIT APPLICATION | Mical | Not started |
+| 9 | May 30 | LinkedIn update | Founder | Not started |
+| 10 | May 31 | Cold review of demo video | Founder | Not started |
+| 10 | May 31 | Stripe Atlas decision | Founder | Deferred |
+| 11 | Jun 1 | SUBMIT APPLICATION | Founder | Not started |
 
 ---
 

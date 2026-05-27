@@ -75,7 +75,7 @@ Changed license badge from `private` to `Apache 2.0` with link to LICENSE file.
 - All `.env` files with secrets are gitignored ✅
 - Groq key in `peers/hub/.env` is NOT tracked ✅
 - `mission-canvas/.env.production` is NOT tracked ✅
-- Personal name "Mical" appears in some lens/KL files — acceptable for public repo (it's the founder's name, not client PII)
+- Personal name "Founder" appears in some lens/KL files — acceptable for public repo (it's the founder's name, not client PII)
 - No SSNs, no client data, no secrets in committed files ✅
 
 ### 9. `.gitignore` for Gateway DBs
@@ -132,7 +132,7 @@ From the 11-Day Plan:
 
 ---
 
-## Decisions Still Needed from Mical
+## Decisions Still Needed from Founder
 
 1. **Terminal setup** — emulator, dark/light, font size, resolution. I can adjust colors if needed but the current scheme works on any dark terminal.
 2. **2 or 3 interactions in demo** — after Day 6 rehearsal with narration timing.

@@ -653,7 +653,18 @@ def run_demo(query: str, use_external: bool = False) -> int:
     if session_log.exists():
         try:
             import re as _re
-            query_words = set(_re.findall(r'[a-z]+', query.lower())) - {'the', 'a', 'an', 'is', 'are', 'what', 'how', 'do', 'to', 'for', 'in', 'of'}
+
+            def _stem(word):
+                """Minimal stemming for matching: duties→duty, fiduciary stays"""
+                if word.endswith('ies') and len(word) > 4:
+                    return word[:-3] + 'y'  # duties→duty, parties→party
+                for suffix in ('ing', 'tion', 'es', 'ed', 'ly', 's'):
+                    if word.endswith(suffix) and len(word) - len(suffix) >= 3:
+                        return word[:-len(suffix)]
+                return word
+
+            _stopwords = {'the', 'a', 'an', 'is', 'are', 'what', 'how', 'do', 'to', 'for', 'in', 'of', 'we', 'our', 'would', 'should', 'about', 'given', 'found', 'this', 'that', 'with', 'from', 'was', 'were', 'been', 'have', 'has', 'had', 'if', 'or', 'and', 'not', 'no', 'by', 'on', 'at', 'it'}
+            query_words = {_stem(w) for w in _re.findall(r'[a-z]+', query.lower())} - _stopwords
             seen_queries = set()
             with open(session_log) as f:
                 for line in f:
@@ -663,9 +674,18 @@ def run_demo(query: str, use_external: bool = False) -> int:
                         normalized_query = entry_query.strip().lower()
                         if not normalized_query or normalized_query == query.strip().lower() or normalized_query in seen_queries:
                             continue
-                        entry_words = set(_re.findall(r'[a-z]+', normalized_query))
+                        entry_words = {_stem(w) for w in _re.findall(r'[a-z]+', normalized_query)} - _stopwords
                         overlap = query_words & entry_words
-                        if len(overlap) >= 2:
+                        # Match on word overlap OR same RIU cluster (e.g., both RIU-7xx)
+                        same_cluster = False
+                        entry_riu = entry.get("riu_id", "")
+                        if riu_id and entry_riu:
+                            # Same hundred-group: RIU-7xx matches RIU-7xx, LEGAL-0xx matches LEGAL-0xx
+                            rid_prefix = riu_id.rsplit('-', 1)[0] + '-' + riu_id.rsplit('-', 1)[-1][0] if '-' in riu_id else ""
+                            ent_prefix = entry_riu.rsplit('-', 1)[0] + '-' + entry_riu.rsplit('-', 1)[-1][0] if '-' in entry_riu else ""
+                            if rid_prefix and ent_prefix and rid_prefix == ent_prefix:
+                                same_cluster = True
+                        if len(overlap) >= 2 or same_cluster:
                             prior_decisions.append(entry)
                             seen_queries.add(normalized_query)
                     except (json.JSONDecodeError, KeyError):
@@ -815,8 +835,7 @@ def run_demo(query: str, use_external: bool = False) -> int:
 
     elif gateway_result and gateway_result.get("governance", {}).get("blocked"):
         # Blocked — show local-only response with on-device model
-        print(f"  {_demo_label('RESULT', _GREEN)} {_GREEN}[LOCAL ONLY]{_RESET} Using governed knowledge library + on-device model.")
-        print(f"  {_DIM}  Model: Ollama (on-device){_RESET}")
+        print(f"  {_demo_label('RESULT', _GREEN)} {_GREEN}[LOCAL ONLY]{_RESET} Answered on-device. Zero external connection.")
         print()
 
         # Get local model response for the blocked query
@@ -839,12 +858,10 @@ def run_demo(query: str, use_external: bool = False) -> int:
             excerpt = (k.get("answer_excerpt", "") or "").strip()
             if excerpt:
                 print(f"    {excerpt[:140]}")
-        print()
-        print(f"  {_GREEN}{_BOLD}  ⚠️  This query was answered LOCAL ONLY.{_RESET}")
-        print(f"  {_GREEN}  No data left this machine.{_RESET}")
     else:
         # Standard local response
         print(f"  {_demo_label('RESULT', _GREEN)} {_GREEN}[LOCAL]{_RESET} Confidence: {confidence:.0f}%")
+        print(f"  {_DIM}  Model: Ollama qwen2.5 (on-device, zero external connection){_RESET}")
         print()
         for k in resolved.get("knowledge", [])[:3]:
             print(f"  {_DIM}[{k.get('lib_id', '')}]{_RESET} {k.get('question', '')}")

@@ -177,18 +177,18 @@ Text on screen: **"Your judgment compounds here. The tools come and go. The judg
 
 | Day | Priority | Task | Owner |
 |---|---|---|---|
-| **1** (May 26) | P0 | PII scrub + commit 367 files | Mical + Kiro |
+| **1** (May 26) | P0 | PII scrub + commit 367 files | Founder + Kiro |
 | **1** | P0 | Update MANIFEST (company_index: 12→127) | Kiro |
 | **2-3** (May 27-28) | P0 | **Build legal taxonomy (10-12 RIU nodes)** | Claude + Kiro |
 | **2-3** | P1 | Create BDB submission draft outline | Claude + Mistral |
-| **3-4** (May 28-29) | P1 | **Document one real professional session** | Mical |
-| **4** (May 29) | P1 | Add product truth to palette-core.md | Mical (approval) |
+| **3-4** (May 28-29) | P1 | **Document one real professional session** | Founder |
+| **4** (May 29) | P1 | Add product truth to palette-core.md | Founder (approval) |
 | **4-5** (May 29-30) | P1 | Draft full submission with Heppner hook | Claude + Mistral |
-| **5** (May 30) | P1 | Landing page rewrite + waitlist launch | Mical |
+| **5** (May 30) | P1 | Landing page rewrite + waitlist launch | Founder |
 | **5** (May 30) | P1 | Demo narration script | Claude |
-| **6** (May 31) | P0 | **Record demo video** | Mical |
+| **6** (May 31) | P0 | **Record demo video** | Founder |
 | **6** | P1 | README rewrite (product-first) + PII audit | Claude + Kiro |
-| **6** | P1 | Push to public GitHub | Mical |
+| **6** | P1 | Push to public GitHub | Founder |
 | **7** (June 1) | P0 | **Cold review + final edit + SUBMIT** | All |
 
 ---

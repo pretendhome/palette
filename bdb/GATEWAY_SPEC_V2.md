@@ -144,7 +144,7 @@ The demo cannot rely on simulation.
 
 Current state:
 
-- gateway modules assume `/home/mical/...`
+- gateway modules assume `~/...`
 
 Required:
 

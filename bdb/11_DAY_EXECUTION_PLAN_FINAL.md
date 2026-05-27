@@ -43,7 +43,7 @@
 
 2. **Demo timing contingency**: Script each interaction to 35-40 seconds. If third interaction pushes past 1:50, cut it to a text card: "Day 2: system connects prior decisions automatically."
 
-3. **Terminal setup needed before Day 3**: Mical to confirm: terminal emulator, dark/light background, font size. Kiro matches CLI output formatting to recording environment.
+3. **Terminal setup needed before Day 3**: Founder to confirm: terminal emulator, dark/light background, font size. Kiro matches CLI output formatting to recording environment.
 
 ### From Gemini (incorporated from earlier review):
 
@@ -77,15 +77,15 @@ If yes, do it. If no, kill it.
 
 | # | Task | Owner | Deliverable | Time |
 |---|------|-------|-------------|------|
-| 2.1 | **Computer Session 1**: Run a documented Perplexity Computer session that reproduces or extends the gateway proof. Feed GATEWAY_SPEC.md. Save thread URL + screenshots. Frame: "Computer originated the approach." | Mical | Thread URL + screenshots | 1 hr |
-| 2.2 | **Computer Session 2**: Use Computer for Delaware fiduciary duty research. Extract 5-10 precedents. This becomes both KL content AND demo substance. | Mical | Research thread URL + extracted precedents | 30 min |
-| 2.3 | Pre-warm gateway cache: run the demo's first query live so cache serves it during recording at 0.004s | Mical/Claude | Cached result in cache.db | 5 min |
-| 2.4 | Rehearse demo script: run all 3 interactions live in terminal, confirm output formatting and timing | Mical | Terminal screenshots, timing notes | 1 hr |
+| 2.1 | **Computer Session 1**: Run a documented Perplexity Computer session that reproduces or extends the gateway proof. Feed GATEWAY_SPEC.md. Save thread URL + screenshots. Frame: "Computer originated the approach." | Founder | Thread URL + screenshots | 1 hr |
+| 2.2 | **Computer Session 2**: Use Computer for Delaware fiduciary duty research. Extract 5-10 precedents. This becomes both KL content AND demo substance. | Founder | Research thread URL + extracted precedents | 30 min |
+| 2.3 | Pre-warm gateway cache: run the demo's first query live so cache serves it during recording at 0.004s | Founder/Claude | Cached result in cache.db | 5 min |
+| 2.4 | Rehearse demo script: run all 3 interactions live in terminal, confirm output formatting and timing | Founder | Terminal screenshots, timing notes | 1 hr |
 
 ### Day 3 — Sat May 24
 **Theme: CLI polish + demo dry run**
 
-**BLOCKER**: Mical must confirm terminal setup before Kiro starts:
+**BLOCKER**: Founder must confirm terminal setup before Kiro starts:
 - Terminal emulator (e.g., Kitty, Alacritty, GNOME Terminal)
 - Dark or light background
 - Font and font size
@@ -93,10 +93,10 @@ If yes, do it. If no, kill it.
 
 | # | Task | Owner | Deliverable | Time |
 |---|------|-------|-------------|------|
-| 3.1 | Mical confirms terminal setup | Mical | Config to Kiro | 5 min |
+| 3.1 | Founder confirms terminal setup | Founder | Config to Kiro | 5 min |
 | 3.2 | Polish CLI output for video: color-code `[LOCAL]` green, `[EXTERNAL:Perplexity]` blue, `[BLOCKED]` red. Clear spacing between sections. Governance trace readable at recording resolution. | Kiro | Updated palette_query.py | 2 hrs |
-| 3.3 | Full demo dry run with screen recording (not final — testing flow + timing) | Mical | Test recording (may discard) | 1 hr |
-| 3.4 | Review dry run: note timing per interaction, identify formatting issues | Mical + Claude | Fix list for Day 4 | 30 min |
+| 3.3 | Full demo dry run with screen recording (not final — testing flow + timing) | Founder | Test recording (may discard) | 1 hr |
+| 3.4 | Review dry run: note timing per interaction, identify formatting issues | Founder + Claude | Fix list for Day 4 | 30 min |
 
 ### Day 4 — Sun May 25
 **Theme: Fixes + rest**
@@ -104,17 +104,17 @@ If yes, do it. If no, kill it.
 | # | Task | Owner | Deliverable | Time |
 |---|------|-------|-------------|------|
 | 4.1 | Fix anything from Day 3 dry run (formatting, timing, output clarity) | Kiro/Claude | Patches | 1-2 hrs |
-| 4.2 | Rest. The demo is better when you're not exhausted. | Mical | — | — |
+| 4.2 | Rest. The demo is better when you're not exhausted. | Founder | — | — |
 
 ### Day 5 — Mon May 26
 **Theme: Landing page + waitlist**
 
 | # | Task | Owner | Deliverable | Time |
 |---|------|-------|-------------|------|
-| 5.1 | Build landing page at missioncanvas.ai (Lovable, Carrd, or static HTML) | Mical | Live page | 2-3 hrs |
+| 5.1 | Build landing page at missioncanvas.ai (Lovable, Carrd, or static HTML) | Founder | Live page | 2-3 hrs |
 | 5.2 | Landing page copy (see below) | — | — | — |
-| 5.3 | Waitlist signup form (Tally free tier) embedded on page | Mical | Working form | 30 min |
-| 5.4 | **Computer Session 3**: Use Computer to generate/refine landing page positioning. Save thread URL. | Mical | Thread URL | 30 min |
+| 5.3 | Waitlist signup form (Tally free tier) embedded on page | Founder | Working form | 30 min |
+| 5.4 | **Computer Session 3**: Use Computer to generate/refine landing page positioning. Save thread URL. | Founder | Thread URL | 30 min |
 
 **Landing page copy (locked):**
 
@@ -143,9 +143,9 @@ If yes, do it. If no, kill it.
 | # | Task | Owner | Deliverable | Time |
 |---|------|-------|-------------|------|
 | 6.1 | Write spoken narration script (what to say over each interaction, timed to 35-40s each) | Claude | Narration script | 1 hr |
-| 6.2 | Final demo rehearsal — timed to exactly 1:50 | Mical | Timed run |  1 hr |
-| 6.3 | Decision: 2 or 3 interactions? If 3rd pushes past 1:50, cut to text card. | Mical | Decision | 5 min |
-| 6.4 | Record practice video (may become final if good enough) | Mical | Video file | 1 hr |
+| 6.2 | Final demo rehearsal — timed to exactly 1:50 | Founder | Timed run |  1 hr |
+| 6.3 | Decision: 2 or 3 interactions? If 3rd pushes past 1:50, cut to text card. | Founder | Decision | 5 min |
+| 6.4 | Record practice video (may become final if good enough) | Founder | Video file | 1 hr |
 
 **Demo narration structure (target: 1:50):**
 
@@ -190,9 +190,9 @@ If yes, do it. If no, kill it.
 
 | # | Task | Owner | Deliverable | Time |
 |---|------|-------|-------------|------|
-| 7.1 | Record final 2-minute demo video | Mical | Raw video | 1-2 hrs |
-| 7.2 | Edit: speed indicator if needed, clean audio, trim to ≤2:00 | Mical | Edited video | 1-2 hrs |
-| 7.3 | Upload to YouTube (unlisted) or Vimeo | Mical | Video URL | 15 min |
+| 7.1 | Record final 2-minute demo video | Founder | Raw video | 1-2 hrs |
+| 7.2 | Edit: speed indicator if needed, clean audio, trim to ≤2:00 | Founder | Edited video | 1-2 hrs |
+| 7.3 | Upload to YouTube (unlisted) or Vimeo | Founder | Video URL | 15 min |
 
 ### Day 8 — Thu May 29
 **Theme: Repo cleanup + public push**
@@ -204,36 +204,36 @@ If yes, do it. If no, kill it.
 | 8.3 | Write QUICKSTART.md: "Run Palette in 5 minutes" (clone, install deps, set API key, run first query) | Claude | QUICKSTART.md | 30 min |
 | 8.4 | Add LICENSE file (Apache 2.0) | Kiro | LICENSE | 5 min |
 | 8.5 | Ensure bdb/ directory is clean (no .db files with real data, no PII in test fixtures) | Claude | Verified | 30 min |
-| 8.6 | Push to public GitHub | Mical | Live repo URL | 15 min |
+| 8.6 | Push to public GitHub | Founder | Live repo URL | 15 min |
 
 ### Day 9 — Fri May 30
 **Theme: Write submission form answers**
 
 | # | Task | Owner | Deliverable | Time |
 |---|------|-------|-------------|------|
-| 9.1 | Finalize all submission form answers (see below) | Mical + Claude | Final copy | 2 hrs |
+| 9.1 | Finalize all submission form answers (see below) | Founder + Claude | Final copy | 2 hrs |
 | 9.2 | Write Computer prompt captions (3 threads with impact explanations) | Claude | Captions | 30 min |
-| 9.3 | Gather all links: video URL, GitHub URL, landing page URL | Mical | Link list | 10 min |
+| 9.3 | Gather all links: video URL, GitHub URL, landing page URL | Founder | Link list | 10 min |
 | 9.4 | Review all answers cold — does each one trace to the thesis? | Claude | Review pass | 30 min |
-| 9.5 | Update LinkedIn: title = "Founder, Palette" | Mical | Updated profile | 15 min |
+| 9.5 | Update LinkedIn: title = "Founder, Palette" | Founder | Updated profile | 15 min |
 
 ### Day 10 — Sat May 31
 **Theme: Final review + cold test**
 
 | # | Task | Owner | Deliverable | Time |
 |---|------|-------|-------------|------|
-| 10.1 | Have someone watch the demo video cold (Claudia, Adam, or NSA group). Ask: "Do you understand what this does in 2 minutes?" | Mical | Feedback | 30 min |
-| 10.2 | Final edit pass on all submission text based on cold feedback | Mical + Claude | Final copy | 1 hr |
-| 10.3 | Decision: file Stripe Atlas ($500)? Only if everything else is locked. Otherwise answer "forming upon selection." | Mical | Decision | 30 min |
-| 10.4 | Pre-fill submission form at bdb.perplexityfund.ai/apply (save locally, don't submit yet) | Mical | Saved draft | 30 min |
+| 10.1 | Have someone watch the demo video cold (Claudia, Adam, or NSA group). Ask: "Do you understand what this does in 2 minutes?" | Founder | Feedback | 30 min |
+| 10.2 | Final edit pass on all submission text based on cold feedback | Founder + Claude | Final copy | 1 hr |
+| 10.3 | Decision: file Stripe Atlas ($500)? Only if everything else is locked. Otherwise answer "forming upon selection." | Founder | Decision | 30 min |
+| 10.4 | Pre-fill submission form at bdb.perplexityfund.ai/apply (save locally, don't submit yet) | Founder | Saved draft | 30 min |
 
 ### Day 11 — Sun June 1
 **Theme: SUBMIT**
 
 | # | Task | Owner | Deliverable | Time |
 |---|------|-------|-------------|------|
-| 11.1 | Final check: video plays, landing page loads, GitHub is public, all links resolve | Mical | Checklist | 30 min |
-| 11.2 | **SUBMIT APPLICATION** | Mical | Submitted | 15 min |
+| 11.1 | Final check: video plays, landing page loads, GitHub is public, all links resolve | Founder | Checklist | 30 min |
+| 11.2 | **SUBMIT APPLICATION** | Founder | Submitted | 15 min |
 | 11.3 | Buffer — emergency fixes only | — | — | — |
 
 ### June 2 — Mon (DEADLINE 11:59 PM PT)
@@ -331,12 +331,12 @@ Kiro — this is yours to execute. Everything above is locked:
 - All crew feedback incorporated
 
 **Your Day 2-3 tasks:**
-1. Confirm Mical's terminal setup (emulator, background, font, resolution)
+1. Confirm Founder's terminal setup (emulator, background, font, resolution)
 2. Polish CLI output: `[LOCAL]` green, `[EXTERNAL:Perplexity]` blue, `[BLOCKED]` red
 3. Ensure demo output is readable at recording resolution
 4. Add LICENSE file (Apache 2.0) when ready
 
-**Decisions that need Mical (not you, not me):**
+**Decisions that need Founder (not you, not me):**
 1. Terminal emulator + dark/light + font size → tell Kiro before Day 3
 2. 2 or 3 demo interactions → decide after Day 6 rehearsal
 3. Stripe Atlas yes/no → Day 10

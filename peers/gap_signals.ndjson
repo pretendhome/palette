@@ -1,38 +1,22 @@
-{"timestamp": "2026-05-26T21:24:34.714722+00:00", "query": "What are the key criteria for evaluating AI systems?", "riu_id": "RIU-001", "confidence": 37.5, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:25:09.872193+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
-{"timestamp": "2026-05-26T21:25:09.872290+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:25:22.558640+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
-{"timestamp": "2026-05-26T21:25:22.558742+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:25:55.547575+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
-{"timestamp": "2026-05-26T21:25:55.547679+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:28:21.099556+00:00", "query": "What are the key Delaware precedents for breach of fiduciary duty?", "riu_id": "LEGAL-001", "confidence": 32.0, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:28:45.185976+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
-{"timestamp": "2026-05-26T21:28:45.186089+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:35:27.818600+00:00", "query": "How do I assess privilege risk when using AI tools on client matters?", "riu_id": "RIU-108", "confidence": 48.46153846153848, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:35:28.676136+00:00", "query": "What are the key Delaware fiduciary duty precedents?", "riu_id": "LEGAL-001", "confidence": 32.0, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:35:32.409404+00:00", "query": "How should I analyze a non-compete clause in a contract?", "riu_id": "RIU-003", "confidence": 49.20634920634922, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:35:33.818585+00:00", "query": "What regulatory compliance checks are needed for HIPAA?", "riu_id": "RIU-140", "confidence": 49.5967741935484, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:35:35.245199+00:00", "query": "How do I set up a new client matter file?", "riu_id": "RIU-003", "confidence": 48.46153846153848, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:35:36.114088+00:00", "query": "How should I evaluate settlement exposure for a breach of fiduciary duty claim?", "riu_id": "LEGAL-003", "confidence": 34.0, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:42:31.992149+00:00", "query": "What are the key Delaware fiduciary duty precedents?", "riu_id": "LEGAL-001", "confidence": 32.0, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:42:35.688928+00:00", "query": "How should I analyze a non-compete clause in a contract?", "riu_id": "RIU-003", "confidence": 50.000000000000014, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:42:39.107592+00:00", "query": "How do I evaluate settlement exposure for a fiduciary duty claim?", "riu_id": "LEGAL-003", "confidence": 34.0, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T21:42:53.842788+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
-{"timestamp": "2026-05-26T21:42:53.842886+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T23:23:16.928094+00:00", "query": "What are documented cases in 2025-2026 where regulated professionals faced consequences for using cloud AI tools on privileged or confidential client material? Looking for specific incidents across le", "riu_id": "RIU-060", "confidence": 48.42489919354839, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T23:23:27.175107+00:00", "query": "What are documented cases in 2025-2026 where regulated professionals faced consequences for using cloud AI tools on privileged or confidential client material? Looking for specific incidents across le", "riu_id": "RIU-060", "confidence": 48.42489919354839, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T23:23:41.526038+00:00", "query": "What are documented cases in 2025 and 2026 where regulated professionals faced consequences for using cloud AI tools on privileged or confidential client data? I need specific incidents beyond Heppner", "riu_id": "RIU-060", "confidence": 49.5967741935484, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T23:24:40.653113+00:00", "query": "What regulatory enforcement actions and court rulings in 2025 and 2026 addressed the use of cloud AI tools by professionals in regulated industries? Looking for cases involving data confidentiality vi", "riu_id": "RIU-060", "confidence": 49.5967741935484, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T23:24:59.380006+00:00", "query": "What regulatory enforcement actions and court rulings in 2025 and 2026 addressed the use of cloud AI tools by professionals in regulated industries? Looking for cases involving data confidentiality vi", "riu_id": "RIU-060", "confidence": 50.000000000000014, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-26T23:25:12.655323+00:00", "query": "What regulatory enforcement actions and court rulings in 2025 and 2026 addressed the use of cloud AI tools by professionals in regulated industries? Looking for cases involving data confidentiality vi", "riu_id": "RIU-060", "confidence": 50.000000000000014, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-27T00:14:06.429062+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-003", "confidence": 50.000000000000014, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-27T00:14:13.110278+00:00", "query": "Should we advise Smith Corp to settle the Johnson lawsuit for $2.5M?", "riu_id": "LEGAL-003", "confidence": 34.0, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-27T00:14:19.742939+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
-{"timestamp": "2026-05-27T00:14:19.743039+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-27T03:10:35.593773+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
-{"timestamp": "2026-05-27T03:10:35.593873+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-27T03:10:59.661029+00:00", "query": "What's our exposure if the majority member was self-dealing through a related-party transaction?", "riu_id": "RIU-001", "confidence": 25.000000000000007, "signal_type": "low_confidence"}
-{"timestamp": "2026-05-27T03:12:15.702311+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-27T03:12:16.564346+00:00", "query": "Given what we found, what would opposing counsel argue?", "riu_id": "RIU-708", "confidence": 68.0, "signal_type": "medium_confidence"}
-{"timestamp": "2026-05-27T03:12:33.381285+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
-{"timestamp": "2026-05-27T03:12:33.381398+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:22:06.391593+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:22:07.633414+00:00", "query": "Given what we found about fiduciary duties, what would opposing counsel argue?", "riu_id": "RIU-708", "confidence": 68.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:22:33.448887+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:22:34.707999+00:00", "query": "Given what we found about fiduciary duties, what would opposing counsel argue?", "riu_id": "RIU-708", "confidence": 68.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:23:10.339835+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:23:11.598890+00:00", "query": "Given what we found about fiduciary duties, what would opposing counsel argue?", "riu_id": "RIU-708", "confidence": 68.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:23:59.680662+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:24:00.921988+00:00", "query": "Given what we found about fiduciary duties, what would opposing counsel argue?", "riu_id": "RIU-708", "confidence": 68.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:24:52.197596+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:24:53.450078+00:00", "query": "Given what we found about fiduciary duties, what would opposing counsel argue?", "riu_id": "RIU-708", "confidence": 68.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:25:03.652048+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
+{"timestamp": "2026-05-27T03:25:03.652163+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:25:38.574069+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:25:39.804659+00:00", "query": "Given what we found about fiduciary duties, what would opposing counsel argue?", "riu_id": "RIU-708", "confidence": 68.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:26:09.542796+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:26:25.145838+00:00", "query": "Should we advise Smith Corp to settle the Johnson lawsuit for $2.5M?", "riu_id": "LEGAL-003", "confidence": 34.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:27:12.256933+00:00", "query": "Should we advise Smith Corp to settle the Johnson lawsuit for $2.5M?", "riu_id": "LEGAL-003", "confidence": 34.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:27:42.990544+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
+{"timestamp": "2026-05-27T03:27:42.990660+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T03:27:49.473756+00:00", "query": "Should we advise Smith Corp to settle the Johnson lawsuit for $2.5M?", "riu_id": "LEGAL-003", "confidence": 34.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T04:03:30.245949+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
+{"timestamp": "2026-05-27T04:03:30.246061+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}

@@ -50,3 +50,10 @@ peers/dropbox/inbox/
 peers/hub/.env
 agents/narrator/last_narrative_request.md
 kl_fts.db
+
+# Generated reports (not source)
+buy-vs-build/tech/TECH_INVESTMENT_REPORT_2026-05.*
+buy-vs-build/tech/Tech-Investment-Report-*
+*.pdf
+*.docx
+*.html

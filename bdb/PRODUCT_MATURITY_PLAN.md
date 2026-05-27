@@ -6,11 +6,11 @@
 
 ---
 
-## The Founder Lens: Mical as Builder
+## The Founder Lens: Founder as Builder
 
 Before the plan, the lens — because the plan must fit the builder.
 
-Mical's career throughline: **see structural problems invisible to domain specialists → fix the structure → watch people succeed.** Milkshakes at 16. Publishing simulation in Paris. Carabinieri in Sardinia. Italian passive voice at Alexa. Taxonomy reclassification at Pathfinder. Palette.
+Founder's career throughline: **see structural problems invisible to domain specialists → fix the structure → watch people succeed.** Milkshakes at 16. Publishing simulation in Paris. Carabinieri in Sardinia. Italian passive voice at Alexa. Taxonomy reclassification at Pathfinder. Palette.
 
 His process: **fast iterative discovery, not plan-then-execute.** The plan below respects this — each level produces a working artifact, not a document. Each level is testable by contact with reality. The plan converges through iteration, not through speculation.
 
@@ -56,7 +56,7 @@ His risk as founder: **too open, too many directions, gives away credit, process
 
 | Component | Why it matters |
 |-----------|---------------|
-| Downloadable installer | Nobody can use this without being Mical |
+| Downloadable installer | Nobody can use this without being Founder |
 | Onboarding / domain packs | System arrives empty for new users |
 | Legal-domain KL entries | Demo vertical has no pre-built knowledge |
 | Local web UI | Lawyers won't use a terminal |
@@ -72,7 +72,7 @@ His risk as founder: **too open, too many directions, gives away credit, process
 ### LEVEL 1: FOUNDATION — "It works on my machine and I can show you"
 **Current state. Mostly complete.**
 
-What Foundation means: The core architecture works. Classification, retrieval, governance, gateway, decision history, voice. A single operator (Mical) can demonstrate every capability. The thesis is embodied in working code.
+What Foundation means: The core architecture works. Classification, retrieval, governance, gateway, decision history, voice. A single operator (Founder) can demonstrate every capability. The thesis is embodied in working code.
 
 **Remaining Foundation work (do before BDB submission):**
 
@@ -92,7 +92,7 @@ What Foundation means: The core architecture works. Classification, retrieval, g
 ### LEVEL 2: PARTICIPATION — "You can download it and it works for you"
 **Target: 90 days post-BDB (or immediately if no BDB win)**
 
-This is the level where Palette becomes a product, not a personal system. The key shift: **someone who isn't Mical can install it, choose a domain, and get value on day one.**
+This is the level where Palette becomes a product, not a personal system. The key shift: **someone who isn't Founder can install it, choose a domain, and get value on day one.**
 
 #### 2.1 Packaging (Week 1-2)
 | Task | What it enables | Effort |

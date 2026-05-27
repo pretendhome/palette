@@ -1,6 +1,6 @@
 # Palette BDB — Full Competitive Investigation
 **Generated:** Tuesday, May 26, 2026 | 7 days to June 2 deadline  
-**Prepared for:** Mical Neill | pretendhome/palette  
+**Prepared for:** Founder Neill | pretendhome/palette  
 **Context:** Billion Dollar Build competition submission + product truth alignment
 
 ---
@@ -302,9 +302,9 @@ All three trajectories independently converged on the same conclusion in 2026: l
 
 **Repo reality:** System health is 122/131 (93%). 61/61 tests pass. 49 V3 tests pass. The architecture is verified and working. But there is zero evidence in the repo of a real professional running a real problem and using the output.
 
-**What this means for judges:** Architecture without use is a prototype. Use without architecture is a demo. Both together is a product. The repo currently has architecture and tests. The session history mentions Adam and Claudia tested Palette, but needed Mical to set it up. That is a UX gap, not a use case.
+**What this means for judges:** Architecture without use is a prototype. Use without architecture is a demo. Both together is a product. The repo currently has architecture and tests. The session history mentions Adam and Claudia tested Palette, but needed Founder to set it up. That is a UX gap, not a use case.
 
-**7-day fix:** Document one session. One professional (Mical, or Adam/Claudia if available), one real problem, one decision made, one rationale captured, one output used. 500-word case study in `docs/case-studies/`. This converts "architecture is real" into "this was used in production."
+**7-day fix:** Document one session. One professional (Founder, or Adam/Claudia if available), one real problem, one decision made, one rationale captured, one output used. 500-word case study in `docs/case-studies/`. This converts "architecture is real" into "this was used in production."
 
 ---
 
@@ -326,7 +326,7 @@ All three trajectories independently converged on the same conclusion in 2026: l
 
 ### Gap 6 — Product Truth Section Missing from palette-core.md *(HIGH — Blocked)*
 
-**Repo reality:** `docs/PALETTE_IDENTITY.md` has the official product truth statement. `palette-core.md` does not include a product truth section. The V3 Refocus List flags this as HIGH — but notes it requires Mical approval as a "one-way door."
+**Repo reality:** `docs/PALETTE_IDENTITY.md` has the official product truth statement. `palette-core.md` does not include a product truth section. The V3 Refocus List flags this as HIGH — but notes it requires Founder approval as a "one-way door."
 
 **7-day assessment:** This is a governance decision, not a technical one. The current product truth statement is strong:
 
@@ -350,7 +350,7 @@ If this statement is approved, add it to `palette-core.md` before submission. It
 - **Taxonomy structure:** 121 RIU nodes, v1.3 — solid for non-legal verticals. Document as is.
 - **Knowledge Library:** 183 entries, 565 citations (v1.4) — strong. Cite this in the submission.
 - **SDK tests:** 86 total, 60 PIS tests, all passing — this is the "smallest system that can be trusted in production" proof. Put the test count in the pitch.
-- **Sierra AI traction signal:** Mical presented Palette's governed voice architecture on-site at Sierra AI ($15B, Bret Taylor). This is the strongest enterprise validation signal in the entire submission. **It should be in the first 90 seconds of the pitch.**
+- **Sierra AI traction signal:** Founder presented Palette's governed voice architecture on-site at Sierra AI ($15B, Bret Taylor). This is the strongest enterprise validation signal in the entire submission. **It should be in the first 90 seconds of the pitch.**
 
 ---
 
@@ -370,7 +370,7 @@ If this statement is approved, add it to `palette-core.md` before submission. It
 ### Day 4–5 (May 29–30)
 - [ ] Document one professional user session in `docs/case-studies/`
 - [ ] Draft full BDB submission in `docs/competitions/BDB_SUBMISSION_2026-06-02.md`
-- [ ] Add product truth section to `palette-core.md` (requires Mical approval)
+- [ ] Add product truth section to `palette-core.md` (requires Founder approval)
 
 ### Day 6 (May 31)
 - [ ] First full pitch run-through (5 min strict)

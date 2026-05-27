@@ -115,9 +115,9 @@ Every agent said a version of the same thing:
 
 | # | Task | Owner | Source |
 |---|------|-------|--------|
-| 5.1 | **Launch waitlist** (Tally form on landing page) | Mical | Mistral, Codex |
+| 5.1 | **Launch waitlist** (Tally form on landing page) | Founder | Mistral, Codex |
 | 5.2 | **Rewrite landing page hero** — lead with legal, user language, not architecture | Claude + Mistral | All 4 agents |
-| 5.3 | **Deploy landing page** to missioncanvas.ai | Mical | Execution plan |
+| 5.3 | **Deploy landing page** to missioncanvas.ai | Founder | Execution plan |
 
 ### Day 6 — Tue May 27
 
@@ -126,14 +126,14 @@ Every agent said a version of the same thing:
 | 6.1 | **Write demo narration script** — cold open (5s problem) + 3 interactions + compounding hero moment | Claude | Kiro (cold open), Gemini (CONNECT hero), Mistral (user voice) |
 | 6.2 | **Visual annotation plan** — what appears on screen during [CONNECT], how sanitization is shown | Kiro | Gemini, Mistral |
 | 6.3 | **Rewrite submission one-liner and copy** — replace first-touch "SDK for Humans" with user-outcome language | Claude | Codex (strongest copy recommendations) |
-| 6.4 | **Final demo rehearsal timed to 1:50** | Mical | Execution plan |
+| 6.4 | **Final demo rehearsal timed to 1:50** | Founder | Execution plan |
 
 ### Day 7 — Wed May 28
 
 | # | Task | Owner | Source |
 |---|------|-------|--------|
-| 7.1 | **RECORD FINAL DEMO VIDEO** with cold open + annotations | Mical | All |
-| 7.2 | **Edit video** — add on-screen text for [CONNECT] moment | Mical | Gemini, Mistral |
+| 7.1 | **RECORD FINAL DEMO VIDEO** with cold open + annotations | Founder | All |
+| 7.2 | **Edit video** — add on-screen text for [CONNECT] moment | Founder | Gemini, Mistral |
 
 ### Day 8 — Thu May 29
 
@@ -141,27 +141,27 @@ Every agent said a version of the same thing:
 |---|------|-------|--------|
 | 8.1 | **PII audit second pass** | Claude + Kiro | Execution plan |
 | 8.2 | **README rewrite** — problem-first, not architecture-first | Claude | Codex, Mistral |
-| 8.3 | **Push to public GitHub** | Mical | Execution plan |
+| 8.3 | **Push to public GitHub** | Founder | Execution plan |
 
 ### Day 9 — Fri May 30
 
 | # | Task | Owner | Source |
 |---|------|-------|--------|
-| 9.1 | **Finalize submission answers** using converged language | Mical + Claude | All |
+| 9.1 | **Finalize submission answers** using converged language | Founder + Claude | All |
 | 9.2 | **Computer prompt captions** | Claude | Execution plan |
 
 ### Day 10 — Sat May 31
 
 | # | Task | Owner | Source |
 |---|------|-------|--------|
-| 10.1 | **Cold review** — show demo to someone unfamiliar | Mical | Kiro, Mistral |
-| 10.2 | **Final edit pass** based on cold feedback | Mical + Claude | All |
+| 10.1 | **Cold review** — show demo to someone unfamiliar | Founder | Kiro, Mistral |
+| 10.2 | **Final edit pass** based on cold feedback | Founder + Claude | All |
 
 ### Day 11 — Sun June 1
 
 | # | Task | Owner | Source |
 |---|------|-------|--------|
-| 11.1 | **SUBMIT APPLICATION** | Mical | — |
+| 11.1 | **SUBMIT APPLICATION** | Founder | — |
 
 ---
 
