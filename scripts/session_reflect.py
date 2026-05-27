@@ -48,7 +48,7 @@ def bus_send(intent: str, content: str):
             "thread_id": None,
             "in_reply_to": None,
             "from_agent": "palette.session-reflect",
-            "to_agent": "group",
+            "to_agent": "all",
             "message_type": "informational",
             "intent": intent,
             "risk_level": "none",

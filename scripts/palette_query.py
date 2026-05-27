@@ -476,6 +476,8 @@ def run_query(query: str, learn: bool = False, show_json: bool = False,
             f.write(json.dumps({
                 "query": query[:200],
                 "riu_id": resolved.get("riu_id"),
+                "riu_name": resolved.get("riu_name"),
+                "classification": resolved.get("classification"),
                 "lib_id": resolved.get("lib_id"),
                 "confidence": resolved.get("confidence"),
                 "agent": agent,
@@ -483,8 +485,10 @@ def run_query(query: str, learn: bool = False, show_json: bool = False,
                 "retrieval_modes": resolved.get("retrieval_modes"),
                 "external_requested": use_external,
                 "external_called": gateway_result.get("governance", {}).get("external_called") if gateway_result else False,
+                "blocked": gateway_result.get("governance", {}).get("blocked", False) if gateway_result else False,
                 "total_ms": trace.total_ms(),
                 "extraction": extraction.get("type") if extraction else None,
+                "thread_id": trace.thread_id,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }) + "\n")
     except Exception:
@@ -888,12 +892,15 @@ def run_demo(query: str, use_external: bool = False) -> int:
             f.write(json.dumps({
                 "query": query[:200],
                 "riu_id": resolved.get("riu_id"),
+                "riu_name": resolved.get("riu_name"),
+                "classification": resolved.get("classification"),
                 "confidence": confidence,
                 "agent": agent,
                 "external_requested": use_external,
                 "external_called": gateway_result.get("governance", {}).get("external_called") if gateway_result else False,
                 "blocked": gateway_result.get("governance", {}).get("blocked") if gateway_result else False,
                 "total_ms": trace.total_ms(),
+                "thread_id": trace.thread_id,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }) + "\n")
     except Exception:

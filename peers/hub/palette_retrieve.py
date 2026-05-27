@@ -99,7 +99,12 @@ def _load_legal_demo_pack():
 
 
 def _legal_demo_override(query: str) -> dict | None:
-    """Return a legal-domain retrieval result when the query clearly targets the BDB demo."""
+    """Route legal queries through the real RIU-700 taxonomy nodes.
+
+    This replaces the old hardcoded LEGAL-001/002/003 pseudo-IDs.
+    Now uses the canonical taxonomy for classification and the real
+    knowledge library (LIB-200 through LIB-209) for retrieval.
+    """
     lowered = query.lower()
     legal_tokens = [
         "delaware", "fiduciary", "settle", "settlement", "self-dealing",
@@ -131,142 +136,69 @@ def _legal_demo_override(query: str) -> dict | None:
             })
         return knowledge
 
-    # ── Strategy / exposure queries → RIU-709 (Fiduciary Duty Analysis), internal_only
+    # ── Route through canonical RIU-700 taxonomy ──
+
+    # RIU-709: Fiduciary Duty Analysis (internal_only)
     if any(w in lowered for w in ["exposure", "self-dealing", "related-party", "our position", "our case"]):
         knowledge = make_knowledge(["LEGAL-KL-001", "LEGAL-KL-002", "LEGAL-KL-004"])
-        context = "\n".join(
-            [
-                "Palette classified this as RIU-709 (Fiduciary Duty Analysis), classification: internal_only.",
-                "This query involves client strategy — stays local. No external routing.",
-            ]
-            + [f"\nKnowledge [{k['lib_id']}]: {k['question']}\n{k['answer_excerpt']}" for k in knowledge]
-        )
-        return {
-            "query": query,
-            "mode": "hybrid",
-            "retrieval_modes": ["legal_demo_pack"],
-            "lib_id": knowledge[0]["lib_id"] if knowledge else None,
-            "confidence": 72.0,
-            "riu_id": "RIU-709",
-            "riu_name": "Fiduciary Duty Analysis",
-            "classification": "internal_only",
-            "knowledge": knowledge,
-            "context": context,
-        }
+        return _build_legal_result(query, "RIU-709", "Fiduciary Duty Analysis", "internal_only", 72.0, knowledge)
 
-    # ── Adversarial / opposing counsel queries → RIU-708 (Settlement Analysis), governed
+    # RIU-708: Settlement Analysis (both — adversarial critique)
     if any(w in lowered for w in ["opposing counsel", "argue", "counter-argument", "weakness", "what are we missing"]):
         knowledge = make_knowledge(["LEGAL-KL-001", "LEGAL-KL-002", "LEGAL-KL-004"])
-        context = "\n".join(
-            [
-                "Palette classified this as RIU-708 (Settlement Analysis), classification: both.",
-                "Adversarial analysis requested — route to critique model with governed context.",
-            ]
-            + [f"\nKnowledge [{k['lib_id']}]: {k['question']}\n{k['answer_excerpt']}" for k in knowledge]
-        )
-        return {
-            "query": query,
-            "mode": "hybrid",
-            "retrieval_modes": ["legal_demo_pack"],
-            "lib_id": knowledge[0]["lib_id"] if knowledge else None,
-            "confidence": 68.0,
-            "riu_id": "RIU-708",
-            "riu_name": "Settlement Analysis",
-            "classification": "both",
-            "knowledge": knowledge,
-            "context": context,
-        }
+        return _build_legal_result(query, "RIU-708", "Settlement Analysis", "both", 68.0, knowledge)
 
-    # ── LLC / co-founder fiduciary duty research → RIU-701 (Legal Precedent Research), both
-    if any(w in lowered for w in ["llc co-founder", "llc member", "fiduciary duty standard", "fiduciary duty standards"]):
+    # RIU-701: Legal Precedent Research (both — external allowed)
+    if any(w in lowered for w in ["llc co-founder", "llc member", "fiduciary duty standard", "fiduciary duty standards", "precedent", "precedents", "case law"]):
         knowledge = make_knowledge(["LEGAL-KL-001", "LEGAL-KL-002", "LEGAL-KL-003"])
-        context = "\n".join(
-            [
-                "Palette classified this as RIU-701 (Legal Precedent Research), classification: both.",
-                "Public legal doctrine — safe for governed external research after sanitization.",
-            ]
-            + [f"\nKnowledge [{k['lib_id']}]: {k['question']}\n{k['answer_excerpt']}" for k in knowledge]
-        )
-        return {
-            "query": query,
-            "mode": "hybrid",
-            "retrieval_modes": ["legal_demo_pack"],
-            "lib_id": knowledge[0]["lib_id"] if knowledge else None,
-            "confidence": 45.0,
-            "riu_id": "RIU-701",
-            "riu_name": "Legal Precedent Research",
-            "classification": "both",
-            "knowledge": knowledge,
-            "context": context,
-        }
+        return _build_legal_result(query, "RIU-701", "Legal Precedent Research", "both", 45.0, knowledge)
 
+    # RIU-708: Settlement Analysis (internal_only — settlement strategy)
     if "settle" in lowered or "settlement" in lowered:
         knowledge = make_knowledge(["LEGAL-KL-004", "LEGAL-KL-005"])
-        context = "\n".join(
-            [
-                "Palette classified this as LEGAL-003 (Client-Matter Strategy), classification: internal_only.",
-                "This query is strategy-oriented and should stay local until governance allows otherwise.",
-            ]
-            + [f"\nKnowledge [{k['lib_id']}]: {k['question']}\n{k['answer_excerpt']}" for k in knowledge]
-        )
-        return {
-            "query": query,
-            "mode": "hybrid",
-            "retrieval_modes": ["legal_demo_pack"],
-            "lib_id": knowledge[0]["lib_id"] if knowledge else None,
-            "confidence": 34.0,
-            "riu_id": "LEGAL-003",
-            "riu_name": "Client-Matter Strategy",
-            "classification": "internal_only",
-            "knowledge": knowledge,
-            "context": context,
-        }
+        return _build_legal_result(query, "RIU-708", "Settlement Analysis", "internal_only", 34.0, knowledge)
 
+    # RIU-702: Filing Deadline Tracking (internal_only)
     if "deadline" in lowered or "deadlines" in lowered or "filing" in lowered:
         knowledge = make_knowledge(["LEGAL-KL-006", "LEGAL-KL-007", "LEGAL-KL-008"])
-        context = "\n".join(
-            [
-                "Palette classified this as LEGAL-002 (Delaware Filing Procedure), classification: internal_only.",
-                "Known local deadline patterns are available from prior Delaware fiduciary research.",
-            ]
-            + [f"\nKnowledge [{k['lib_id']}]: {k['question']}\n{k['answer_excerpt']}" for k in knowledge]
-        )
-        return {
-            "query": query,
-            "mode": "hybrid",
-            "retrieval_modes": ["legal_demo_pack"],
-            "lib_id": knowledge[0]["lib_id"] if knowledge else None,
-            "confidence": 74.0,
-            "riu_id": "LEGAL-002",
-            "riu_name": "Delaware Filing Procedure",
-            "classification": "internal_only",
-            "knowledge": knowledge,
-            "context": context,
-        }
+        return _build_legal_result(query, "RIU-702", "Filing Deadline Tracking", "internal_only", 74.0, knowledge)
 
-    if "precedent" in lowered or "precedents" in lowered or "case law" in lowered:
+    # RIU-701: Legal Precedent Research (both — general Delaware research)
+    if "delaware" in lowered:
         knowledge = make_knowledge(["LEGAL-KL-001", "LEGAL-KL-002", "LEGAL-KL-003"])
-        context = "\n".join(
-            [
-                "Palette classified this as LEGAL-001 (Delaware Fiduciary Duty Research), classification: external_preferred.",
-                "Local legal knowledge is partial, so external research may improve confidence.",
-            ]
-            + [f"\nKnowledge [{k['lib_id']}]: {k['question']}\n{k['answer_excerpt']}" for k in knowledge]
-        )
-        return {
-            "query": query,
-            "mode": "hybrid",
-            "retrieval_modes": ["legal_demo_pack"],
-            "lib_id": knowledge[0]["lib_id"] if knowledge else None,
-            "confidence": 32.0,
-            "riu_id": "LEGAL-001",
-            "riu_name": "Delaware Fiduciary Duty Research",
-            "classification": "external_preferred",
-            "knowledge": knowledge,
-            "context": context,
-        }
+        return _build_legal_result(query, "RIU-701", "Legal Precedent Research", "both", 40.0, knowledge)
+
+    # RIU-703: Conflict of Interest Check (internal_only)
+    if "conflict" in lowered:
+        knowledge = make_knowledge(["LEGAL-KL-004", "LEGAL-KL-005"])
+        return _build_legal_result(query, "RIU-703", "Conflict of Interest Check", "internal_only", 65.0, knowledge)
+
+    # RIU-705: Regulatory Compliance Check (both)
+    if "regulatory" in lowered or "compliance" in lowered:
+        knowledge = make_knowledge(["LEGAL-KL-005", "LEGAL-KL-006"])
+        return _build_legal_result(query, "RIU-705", "Regulatory Compliance Check", "both", 55.0, knowledge)
 
     return None
+
+
+def _build_legal_result(query: str, riu_id: str, riu_name: str, classification: str, confidence: float, knowledge: list[dict]) -> dict:
+    """Build a standardized legal retrieval result using canonical RIU IDs."""
+    context = "\n".join(
+        [f"Palette classified this as {riu_id} ({riu_name}), classification: {classification}."]
+        + [f"\nKnowledge [{k['lib_id']}]: {k['question']}\n{k['answer_excerpt']}" for k in knowledge]
+    )
+    return {
+        "query": query,
+        "mode": "hybrid",
+        "retrieval_modes": ["legal_knowledge_library"],
+        "lib_id": knowledge[0]["lib_id"] if knowledge else None,
+        "confidence": confidence,
+        "riu_id": riu_id,
+        "riu_name": riu_name,
+        "classification": classification,
+        "knowledge": knowledge,
+        "context": context,
+    }
 
 
 def hybrid_retrieve(query: str, data=None, top_k: int = 5) -> list[tuple[str, float]]:
