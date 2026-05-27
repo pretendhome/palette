@@ -77,6 +77,8 @@ mapping:
   "OpenRouter": openrouter
   "Perplexity AI": perplexity-api
   "Perplexity API": perplexity-api
+  "Perplexity (Sonar Pro)": perplexity-api
+  "Perplexity Sonar Pro": perplexity-api
   "Runway (Aleph model)": runway
   "Seedance Pro (via Higgsfield AI)": seedance-pro
   "pgvector (PostgreSQL)": pgvector
@@ -93,6 +95,8 @@ mapping:
   "AWS Secrets Manager": null     # Low priority — Doppler covers use case
   "Guardrails AI": null           # Open-source guardrails framework
   "Redis (semantic layer)": null  # Upstash Redis covers managed use case
+  "Ollama (Qwen 2.5)": null      # Local model — no external recipe needed
+  "Ollama Qwen": null             # Alias
   "v0.dev": v0-dev                # No-code AI app generation (RIU-550)
 
 summary:

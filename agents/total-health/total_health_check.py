@@ -1172,6 +1172,244 @@ def section_15_v3_systems(report: HealthReport) -> None:
                           "Bus not responding on port 7899", "warning"))
 
 
+# ── Section 16: Intent System Health ──────────────────────────────────────
+
+
+def section_16_intent_system(report: HealthReport) -> None:
+    """Validate the 6-intent adaptive framework is operational."""
+    pr = Path(PALETTE_ROOT)
+
+    # 16a: CLI entry point exists
+    cli = pr / "scripts" / "palette_intent.py"
+    report.add(Check(16, "Intent CLI exists", cli.exists(),
+                      str(cli) if cli.exists() else "scripts/palette_intent.py missing"))
+
+    # 16b: All 6 intent modules exist
+    intents_dir = pr / "scripts" / "palette_intents"
+    intent_files = ["protect.py", "research.py", "decide.py", "create.py", "diagnose.py", "reflect.py"]
+    missing = [f for f in intent_files if not (intents_dir / f).exists()]
+    report.add(Check(16, "All 6 intent modules present",
+                      len(missing) == 0,
+                      f"Missing: {', '.join(missing)}" if missing else "6/6 intents present"))
+
+    # 16c: Shared infrastructure exists
+    infra = intents_dir / "infra.py"
+    report.add(Check(16, "Intent infrastructure (infra.py)", infra.exists()))
+
+    # 16d: Schema validation module exists
+    schemas = intents_dir / "schemas.py"
+    report.add(Check(16, "Artifact schemas (schemas.py)", schemas.exists()))
+
+    # 16e: Artifact storage directory exists
+    artifacts_dir = pr / ".palette" / "artifacts"
+    report.add(Check(16, "Artifact storage directory", artifacts_dir.exists(),
+                      str(artifacts_dir) if artifacts_dir.exists() else ".palette/artifacts/ missing"))
+
+    # 16f: All 6 artifact subdirectories exist
+    artifact_types = ["gate_decision", "evidence_brief", "decision_record",
+                       "artifact_lineage", "failure_lesson", "improvement_proposal"]
+    existing = [t for t in artifact_types if (artifacts_dir / t).exists()]
+    report.add(Check(16, "Artifact subdirectories",
+                      len(existing) == 6,
+                      f"{len(existing)}/6 present" + (f" — missing: {set(artifact_types) - set(existing)}" if len(existing) < 6 else "")))
+
+    # 16g: Intent test suite exists
+    tests_dir = intents_dir / "tests"
+    test_files = list(tests_dir.glob("test_*.py")) if tests_dir.exists() else []
+    report.add(Check(16, "Intent test suite",
+                      len(test_files) >= 3,
+                      f"{len(test_files)} test files found"))
+
+    # 16h: Infra exports required functions
+    if infra.exists():
+        infra_text = infra.read_text()
+        required_funcs = ["palette_checkpoint", "store_artifact", "emit_integrity_signal",
+                          "build_integrity_card", "pis_summary", "resolve_query"]
+        found = [f for f in required_funcs if f"def {f}" in infra_text]
+        report.add(Check(16, "Infrastructure completeness",
+                          len(found) == len(required_funcs),
+                          f"{len(found)}/{len(required_funcs)} required functions"))
+
+
+# ── Section 17: Integrity Signal Health ──────────────────────────────────
+
+
+def section_17_integrity_signals(report: HealthReport) -> None:
+    """Validate integrity signal pipeline and cache health."""
+    pr = Path(PALETTE_ROOT)
+
+    # 17a: Gap signals log exists
+    gap_log = pr / "peers" / "gap_signals.ndjson"
+    report.add(Check(17, "Gap signals log exists", gap_log.exists()))
+
+    # 17b: Recent signals are well-formed
+    if gap_log.exists():
+        lines = gap_log.read_text().strip().split("\n")
+        valid = 0
+        malformed = 0
+        recent_intents = set()
+        for line in lines[-50:]:
+            if not line.strip():
+                continue
+            try:
+                entry = json.loads(line)
+                if "timestamp" in entry and ("type" in entry or "signal_type" in entry or "intent" in entry):
+                    valid += 1
+                    if "intent" in entry:
+                        recent_intents.add(entry["intent"])
+                else:
+                    malformed += 1
+            except json.JSONDecodeError:
+                malformed += 1
+        report.add(Check(17, "Signal format integrity",
+                          malformed == 0,
+                          f"{valid} valid, {malformed} malformed in last 50 signals",
+                          "warning" if malformed > 0 else "info"))
+
+        # 17c: Intent execution signals present (proves intents are firing)
+        intent_signals = [l for l in lines[-100:] if '"intent_execution"' in l]
+        report.add(Check(17, "Intent execution signals present",
+                          len(intent_signals) > 0,
+                          f"{len(intent_signals)} intent signals in last 100 entries"))
+
+        # 17d: Signal diversity (multiple intents represented)
+        report.add(Check(17, "Signal diversity",
+                          len(recent_intents) >= 2,
+                          f"Intents represented: {', '.join(sorted(recent_intents)) or 'none'}",
+                          "warning" if len(recent_intents) < 2 else "info"))
+
+    # 17e: Integrity cache exists and is valid JSON
+    cache_path = pr / ".palette" / "integrity_cache.json"
+    if cache_path.exists():
+        try:
+            cache = json.loads(cache_path.read_text())
+            recipe_failures = cache.get("recipe_failures", {})
+            demoted = sum(1 for v in recipe_failures.values()
+                         if isinstance(v, dict) and v.get("count", 0) >= 3)
+            report.add(Check(17, "Integrity cache valid",
+                              True,
+                              f"Recipe failures tracked: {len(recipe_failures)}, auto-demoted: {demoted}"))
+        except (json.JSONDecodeError, OSError):
+            report.add(Check(17, "Integrity cache valid", False,
+                              "integrity_cache.json exists but is malformed", "warning"))
+    else:
+        report.add(Check(17, "Integrity cache valid", True,
+                          "No cache yet (created on first recipe failure)"))
+
+    # 17f: Firewall log health
+    fw_log = pr / ".palette" / "firewall_log.ndjson"
+    if fw_log.exists():
+        fw_lines = fw_log.read_text().strip().split("\n")
+        blocked_count = sum(1 for l in fw_lines if l.strip())
+        report.add(Check(17, "Socket firewall log",
+                          True,
+                          f"{blocked_count} blocked connection(s) logged"))
+    else:
+        report.add(Check(17, "Socket firewall log", True,
+                          "No blocks logged (clean or firewall not activated yet)"))
+
+
+# ── Section 18: Gateway & Trust Boundary Health ──────────────────────────
+
+
+def section_18_gateway_health(report: HealthReport) -> None:
+    """Validate the gateway, sanitizer, and socket firewall protect users."""
+    pr = Path(PALETTE_ROOT)
+
+    # 18a: Gateway module exists
+    gateway_init = pr / "bdb" / "gateway" / "__init__.py"
+    report.add(Check(18, "Gateway module exists", gateway_init.exists()))
+
+    # 18b: Sanitizer exists with required methods
+    sanitizer_path = pr / "bdb" / "gateway" / "sanitizer.py"
+    if sanitizer_path.exists():
+        san_text = sanitizer_path.read_text()
+        required = ["detect_pii", "is_safe_for_external", "sanitize_query"]
+        found = [m for m in required if f"def {m}" in san_text]
+        report.add(Check(18, "Sanitizer methods complete",
+                          len(found) == len(required),
+                          f"{len(found)}/{len(required)} required methods"))
+
+        # 18c: Sanitizer has blocked indicators
+        has_blocked = "blocked_indicators" in san_text or "BLOCKED_INDICATORS" in san_text or "our client" in san_text
+        report.add(Check(18, "Sanitizer blocked indicators configured", has_blocked))
+    else:
+        report.add(Check(18, "Sanitizer exists", False,
+                          "bdb/gateway/sanitizer.py missing", "failure"))
+
+    # 18d: Rate limiter exists
+    rate_limiter = pr / "bdb" / "gateway" / "rate_limiter.py"
+    report.add(Check(18, "Rate limiter exists", rate_limiter.exists()))
+
+    # 18e: Audit logger exists
+    audit = pr / "bdb" / "gateway" / "audit.py"
+    report.add(Check(18, "Audit logger exists", audit.exists()))
+
+    # 18f: Socket firewall exists
+    firewall = pr / "bdb" / "gateway" / "socket_firewall.py"
+    if firewall.exists():
+        fw_text = firewall.read_text()
+        has_allowlist = "ALLOWED_HOSTS" in fw_text
+        has_activate = "def activate_firewall" in fw_text
+        has_guard = "_guarded_create_connection" in fw_text
+        report.add(Check(18, "Socket firewall implemented",
+                          has_allowlist and has_activate and has_guard,
+                          "allowlist + activation + guard function present"))
+
+        # 18g: Firewall allowlist is restrictive (< 15 hosts)
+        import ast
+        try:
+            # Count entries by finding the set literal
+            match = re.search(r'ALLOWED_HOSTS.*?=.*?\{([^}]+)\}', fw_text, re.DOTALL)
+            if match:
+                entries = [e.strip().strip('"').strip("'").strip(",")
+                           for e in match.group(1).split("\n")
+                           if e.strip() and not e.strip().startswith("#")]
+                entries = [e for e in entries if e]
+                report.add(Check(18, "Firewall allowlist restrictive",
+                                  len(entries) <= 15,
+                                  f"{len(entries)} hosts allowed (max 15 recommended)",
+                                  "warning" if len(entries) > 15 else "info"))
+        except Exception:
+            report.add(Check(18, "Firewall allowlist readable", False,
+                              "Could not parse ALLOWED_HOSTS", "warning"))
+    else:
+        report.add(Check(18, "Socket firewall exists", False,
+                          "bdb/gateway/socket_firewall.py missing", "failure"))
+
+    # 18h: PROTECT intent enforces boundary before external calls
+    protect_path = pr / "scripts" / "palette_intents" / "protect.py"
+    if protect_path.exists():
+        protect_text = protect_path.read_text()
+        has_strategy_detect = "detect_strategy_language" in protect_text
+        has_pii_detect = "detect_pii" in protect_text or "QuerySanitizer" in protect_text
+        has_redaction = "redaction_map" in protect_text
+        report.add(Check(18, "PROTECT intent enforces boundaries",
+                          has_strategy_detect and has_pii_detect and has_redaction,
+                          "strategy detection + PII detection + referential redaction"))
+
+    # 18i: RESEARCH intent re-checks before external call
+    research_path = pr / "scripts" / "palette_intents" / "research.py"
+    if research_path.exists():
+        research_text = research_path.read_text()
+        has_recheck = "is_safe_for_external" in research_text
+        has_recipe_failure = "record_recipe_failure" in research_text
+        report.add(Check(18, "RESEARCH re-evaluates boundary before external",
+                          has_recheck and has_recipe_failure,
+                          "re-evaluation hook + recipe failure tracking"))
+
+    # 18j: Artifact schema validation exists
+    schemas_path = pr / "scripts" / "palette_intents" / "schemas.py"
+    if schemas_path.exists():
+        schemas_text = schemas_path.read_text()
+        schema_classes = ["GateDecision", "EvidenceBrief", "DecisionRecord",
+                          "ArtifactLineage", "FailureLesson", "ImprovementProposal"]
+        found = [c for c in schema_classes if f"class {c}" in schemas_text]
+        report.add(Check(18, "Artifact schema contracts",
+                          len(found) == 6,
+                          f"{len(found)}/6 schema classes defined"))
+
+
 # ── Main ────────────────────────────────────────────────────────────────────
 
 SECTION_NAMES = {
@@ -1190,6 +1428,9 @@ SECTION_NAMES = {
     13: "Governance Pipeline Integrity",
     14: "New Systems (v3.1)",
     15: "V3 Systems Health",
+    16: "Intent System Health",
+    17: "Integrity Signal Health",
+    18: "Gateway & Trust Boundary Health",
 }
 
 EXTENDED_RUNNERS = {
@@ -1201,6 +1442,9 @@ EXTENDED_RUNNERS = {
     13: section_13_governance_pipeline,
     14: section_14_new_systems,
     15: section_15_v3_systems,
+    16: section_16_intent_system,
+    17: section_17_integrity_signals,
+    18: section_18_gateway_health,
 }
 
 
@@ -1215,8 +1459,8 @@ def run_all(sections: list[int] | None = None) -> HealthReport:
     if base_sections:
         run_base_health(report, base_sections)
 
-    # Run extended sections (8-15)
-    for num in range(8, 16):
+    # Run extended sections (8-18)
+    for num in range(8, 19):
         if sections and num not in sections:
             continue
         fn = EXTENDED_RUNNERS.get(num)
@@ -1264,7 +1508,7 @@ def print_report(report: HealthReport) -> None:
 def main():
     parser = argparse.ArgumentParser(description="Palette Total Health Agent")
     parser.add_argument("--json", action="store_true", help="Output as JSON")
-    parser.add_argument("--section", type=int, help="Run only this section (1-13)")
+    parser.add_argument("--section", type=int, help="Run only this section (1-18)")
     parser.add_argument("--sections", type=str, help="Comma-separated sections to run (e.g., 8,9,10)")
     parser.add_argument("--extended-only", action="store_true",
                         help="Run only extended sections (8-12), skip base health")

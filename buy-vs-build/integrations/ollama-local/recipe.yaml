@@ -1,0 +1,30 @@
+# Ollama (Local) — Integration Recipe
+# Type: Local inference — no external API, no cost, no auth
+service_name: "Ollama (Qwen 2.5)"
+category: local_inference
+status: active
+rius_served:
+  - RIU-705
+  - RIU-700
+  - RIU-708
+  - RIU-709
+
+endpoint:
+  type: local
+  url: "http://127.0.0.1:11434/api/generate"
+  auth: none
+
+models:
+  - qwen2.5:3b
+  - qwen2.5:7b
+
+cost:
+  per_query: "$0.00"
+  note: "Runs on-device. Zero external cost."
+
+free_tier:
+  availability: "Always — local hardware"
+
+quality_tier: tier_2
+integration_status: active
+notes: "Local model for privileged reasoning. Zero data leaves the machine."

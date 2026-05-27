@@ -28,7 +28,7 @@ layers:
     version: v1.4
     path: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
     generated: 2026-02-05
-    entries: 193
+    entries: 203
     unit: LIB entry
     status: current
 
@@ -66,7 +66,7 @@ layers:
 
   integrations:
     path: buy-vs-build/integrations/
-    entries: 75
+    entries: 76
     unit: recipe directory
     status: active
 

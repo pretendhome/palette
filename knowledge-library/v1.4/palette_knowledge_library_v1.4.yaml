@@ -1,7 +1,7 @@
 metadata:
   version: '1.4'
   generated_date: '2026-02-05'
-  total_questions: 81
+  total_questions: 203
   complete_questions: 76
   gap_additions: 5
   problem_types: 7
@@ -8627,6 +8627,330 @@ gap_additions:
   - RIU-700
   - RIU-701
   journey_stage: foundation
+- id: LIB-210
+  question: How does using consumer AI tools risk waiving attorney-client privilege, and what did the Heppner ruling establish?
+  answer: In United States v. Heppner (SDNY, February 2026), Judge Rakoff ruled that documents generated using a consumer
+    AI tool are not protected by attorney-client privilege. The court found no reasonable expectation of confidentiality because
+    Anthropic's privacy policy allows collection and use of inputs/outputs for model training. The privilege must exist at
+    the time of communication — routing previously disclosed materials through an attorney afterward cannot cure the waiver.
+    This ruling establishes that consumer-grade AI platforms (ChatGPT, Claude consumer, Gemini) create privilege waiver risk
+    by default. Enterprise or local-first AI tools that never transmit client data externally preserve the privilege boundary.
+    In contrast, Warner v. Gilbarco treated AI as 'a tool, not a person' and preserved work product protection, showing courts
+    are still developing the framework.
+  rationale: Critical for RIU-700 (Privilege Risk Assessment). The Heppner ruling is the legal foundation for Palette's local-first
+    architecture.
+  difficulty: advanced
+  industries:
+  - legal
+  tags:
+  - privilege
+  - attorney-client
+  - AI-risk
+  - Heppner
+  - local-first
+  - governance
+  - RIU-700
+  sources:
+  - title: 'AI Privilege Waivers: SDNY Rules Against Privilege Protection for Consumer AI Outputs'
+    url: https://www.gibsondunn.com/ai-privilege-waivers-sdny-rules-against-privilege-protection-for-consumer-ai-outputs/
+  - title: 'When AI Meets Privilege: Early Court Decisions'
+    url: https://www.morganlewis.com/pubs/2026/02/when-ai-meets-privilege-early-court-decisions
+  - title: The Perils of Privilege Waivers Through AI
+    url: https://www.duanemorris.com/alerts/perils_privilege_waivers_through_ai_0326.html
+  related_rius: &id001
+  - RIU-700
+  journey_stage: analysis
+  riu_ids: *id001
+- id: LIB-211
+  question: How should AI-assisted legal precedent research be conducted and validated against authoritative sources?
+  answer: 'AI-assisted legal research should follow a local-first retrieval pattern: check internal knowledge library for
+    known precedents before querying external sources. External queries must be sanitized — strip client names, case numbers,
+    and strategy language. Results from AI research tools must be validated against authoritative databases (Westlaw, LexisNexis,
+    court records) before citation. Key risk: AI can generate plausible-sounding but fabricated case citations (hallucinated
+    precedents). Mitigation: require source URLs for every cited case, cross-reference against official reporters, and flag
+    any citation that cannot be independently verified. The ABA''s 2025 Legal Technology Survey found 79% of legal professionals
+    use AI, but the standard remains human review of AI output before it reaches a counterparty.'
+  rationale: Covers RIU-701 (Legal Precedent Research). Establishes validation methodology.
+  difficulty: intermediate
+  industries:
+  - legal
+  tags:
+  - precedent
+  - legal-research
+  - validation
+  - hallucination-risk
+  - citation
+  - RIU-701
+  sources:
+  - title: 'AI Legal Document Review: Beyond Contracts in 2026'
+    url: https://justee.ai/blog/ai-legal-document-review
+  - title: ABA 2025 Legal Technology Survey
+    url: https://www.americanbar.org/groups/law_practice/publications/techreport/
+  related_rius: &id002
+  - RIU-701
+  journey_stage: analysis
+  riu_ids: *id002
+- id: LIB-212
+  question: What are the malpractice risks of deadline tracking and how should AI-assisted systems handle jurisdictional rules?
+  answer: 'Missed deadlines are the leading cause of legal malpractice claims, accounting for 24.6% of all claims with an
+    average cost of $42,000 per claim. Jurisdictional rule miscalculation accounts for 40% of deadline-related claims. Federal
+    courts, state courts, and administrative agencies each maintain different calculation rules for response deadlines, service
+    requirements, and filing windows. AI-assisted deadline systems must implement rules-based calendaring that accounts for
+    jurisdiction-specific counting methods, holidays, and electronic filing extensions. Critical constraint: deadline queries
+    that include party names, case numbers, or litigation strategy are privileged and must stay local. Only generic procedural
+    rule questions (e.g., ''What is the response deadline for a motion to dismiss in Delaware Chancery Court?'') are safe
+    for external research.'
+  rationale: Covers RIU-702 (Filing Deadline Tracking). Establishes privacy boundary for deadline queries.
+  difficulty: intermediate
+  industries:
+  - legal
+  tags:
+  - deadlines
+  - malpractice
+  - jurisdiction
+  - calendaring
+  - privilege-boundary
+  - RIU-702
+  sources:
+  - title: How to Keep Track of Court Deadlines
+    url: https://www.clio.com/blog/track-court-deadlines-court-rules/
+  - title: 'Law Firm Deadline Tracking Automation: Zero Missed Filing Deadlines'
+    url: https://ustechautomations.com/resources/blog/law-firm-deadline-tracking-automation-zero-missed-filings
+  related_rius: &id003
+  - RIU-702
+  journey_stage: execution
+  riu_ids: *id003
+- id: LIB-213
+  question: How should AI-powered conflict of interest screening work during new matter intake at law firms?
+  answer: 'Conflict screening must check new client names, opposing parties, and related entities against all active matters,
+    closed cases, contact records, billing entries, and documents. AI-powered systems use fuzzy matching to catch name variants,
+    nicknames, and spelling differences. The screening must run at five trigger points: new client intake, new matter creation,
+    addition of parties to existing matters, lateral hire processing, and periodic re-screening of active matters. All conflict
+    check data is inherently privileged — client lists, matter details, and party relationships must never leave the local
+    system. External AI tools should never be used for conflict screening. ABA Model Rules 1.7 and 1.10 govern the ethical
+    obligations. Firms with visible AI strategies for conflict management were twice as likely to experience revenue growth
+    in 2025.'
+  rationale: Covers RIU-703 (Conflict of Interest Check). Strictly internal_only — no external routing.
+  difficulty: intermediate
+  industries:
+  - legal
+  tags:
+  - conflicts
+  - intake
+  - screening
+  - fuzzy-matching
+  - privilege
+  - ABA-rules
+  - RIU-703
+  sources:
+  - title: Automatic Conflict Checks for Law Firms
+    url: https://www.ai.law/features/conflict-checks
+  - title: How to Set Up a Conflict Check Process for Your Law Firm
+    url: https://www.clio.com/blog/conflict-check-how-to/
+  - title: ERs 1.7 & 1.10 Conflicts of Interest and Screening Tips
+    url: https://www.azbar.org/for-legal-professionals/ethics/best-practices/ers-1-7-1-10-conflicts-of-interest-and-screening-tips/
+  related_rius: &id004
+  - RIU-703
+  journey_stage: intake
+  riu_ids: *id004
+- id: LIB-214
+  question: How do AI contract review tools analyze clauses and what are the accuracy and liability considerations?
+  answer: 'Purpose-built legal AI tools achieve over 90% accuracy in clause identification for established document types.
+    AI contract review scored 94% accuracy spotting risks in NDAs versus 85% for experienced lawyers (December 2025 survey).
+    Purpose-built legal AI platforms show 21% greater perceived accuracy than generalist AI on the same tasks. Key capabilities:
+    clause extraction, risk flagging, deviation detection from playbook standards, and revision suggestions. Critical constraints:
+    (1) human lawyer must review AI output before it reaches a counterparty, (2) contract-specific details (party names, deal
+    terms, confidential provisions) are privileged and must stay local, (3) only general clause pattern analysis (e.g., ''What
+    is standard indemnification language?'') is safe for external research. Character-level citation against uploaded documents
+    and playbook-driven review produce the most reliable results.'
+  rationale: Covers RIU-704 (Contract Clause Review). Establishes accuracy benchmarks and privacy boundary.
+  difficulty: intermediate
+  industries:
+  - legal
+  tags:
+  - contracts
+  - clause-review
+  - accuracy
+  - playbook
+  - privilege-boundary
+  - RIU-704
+  sources:
+  - title: 'AI Contract Review for In-House Counsel: The 2026 Guide'
+    url: https://gc.ai/blog/ai-contract-review
+  - title: Best Legal AI Contract Review Software 2026 (6 Tools Tested)
+    url: https://spellbook.com/learn/ai-legal-contract-review-faster-analysis
+  related_rius: &id005
+  - RIU-704
+  journey_stage: analysis
+  riu_ids: *id005
+- id: LIB-215
+  question: What frameworks exist for AI-assisted regulatory compliance verification, and what are the current regulatory
+    obligations?
+  answer: 'The EU AI Act (effective August 2025 for GPAI, August 2026 for high-risk) requires risk assessments, documentation,
+    and human oversight for AI in high-stakes decisions. The U.S. landscape is fragmented: over 1,100 AI-related bills were
+    introduced at state level in 2025 alone. ISO/IEC 42001:2023 is the first international standard for AI management systems.
+    For legal practice: compliance queries about general regulations are safe for external research; queries about specific
+    client compliance posture, audit findings, or regulatory exposure are privileged and must stay local. AI compliance tools
+    automate evidence collection, risk scoring, and regulatory monitoring across frameworks. Key insight: organizations deploying
+    AI in employment, financial services, healthcare, or housing should build compliance infrastructure now — enforcement
+    is accelerating.'
+  rationale: Covers RIU-705 (Regulatory Compliance Check). Maps to both governance boundary.
+  difficulty: advanced
+  industries:
+  - legal
+  - cross-industry
+  tags:
+  - compliance
+  - EU-AI-Act
+  - ISO-42001
+  - regulatory
+  - governance
+  - RIU-705
+  sources:
+  - title: '2026 AI Legal Forecast: From Innovation to Compliance'
+    url: https://www.cpomagazine.com/data-protection/2026-ai-legal-forecast-from-innovation-to-compliance/
+  - title: 'Regulatory Compliance AI in 2026: Tools, Use Cases & Guide'
+    url: https://spellbook.com/briefs/regulatory-compliance-ai
+  - title: '2026 Year in Preview: AI Regulatory Developments'
+    url: https://www.wsgr.com/en/insights/2026-year-in-preview-ai-regulatory-developments-for-companies-to-watch-out-for.html
+  related_rius: &id006
+  - RIU-705
+  journey_stage: analysis
+  riu_ids: *id006
+- id: LIB-216
+  question: What is the standard process for client matter intake at law firms and how can AI improve classification and risk
+    tiering?
+  answer: 'Client matter intake involves: (1) initial inquiry qualification, (2) conflict-of-interest screening, (3) matter
+    classification by practice area and risk tier, (4) engagement letter generation, and (5) workspace/file creation. AI-assisted
+    intake automates conflict screening (fuzzy matching across all firm data), classifies matters by practice area and complexity,
+    assigns risk tiers (routine/complex/high-stakes), and generates structured intake records. All intake data is inherently
+    privileged — client identity, matter description, adverse parties, and fee arrangements must stay local. The intake agent
+    should handle initial qualification before a partner reviews, reducing partner time on non-viable matters. Modern firms
+    configure automatic triggers for: new client intake, new matter creation, party additions, lateral hire processing, and
+    periodic re-screening.'
+  rationale: Covers RIU-706 (Client Matter Intake). Strictly internal_only.
+  difficulty: intermediate
+  industries:
+  - legal
+  tags:
+  - intake
+  - classification
+  - risk-tiering
+  - privilege
+  - workflow
+  - RIU-706
+  sources:
+  - title: 'AI Agents For Law Firms: The Ultimate Guide (2026)'
+    url: https://www.kinematiclabs.dev/blog/legal/ai-agents-for-law-firms
+  - title: 'Law Firm Conflict Check Software: Complete Implementation Guide'
+    url: https://vida.io/blog/law-firm-conflict-check-software-bd9f0
+  related_rius: &id007
+  - RIU-706
+  journey_stage: intake
+  riu_ids: *id007
+- id: LIB-217
+  question: How do legal teams manage document discovery and production while protecting privileged materials using AI?
+  answer: 'Technology-assisted review (TAR) is court-accepted for document review (affirmed in Rio Tinto v. Vale). Privilege
+    review is the dominant AI use case in eDiscovery — AI flags potentially privileged content before it reaches opposing
+    counsel. Key developments: (1) courts increasingly require disclosure of AI usage in discovery and penalize teams that
+    cannot account for what their AI did, (2) generative AI in discovery lacks the defensibility precedent that TAR/CAL has
+    built over a decade, (3) 61% of legal professionals use AI-assisted review but fewer than one-third have formal documentation
+    protocols. Critical constraint: all document review data (client documents, privilege logs, production decisions) must
+    stay local. Only general legal research about discovery procedures is safe for external queries. The emerging standard:
+    AI identifies responsive and privileged documents, but a human reviewer makes the final privilege designation.'
+  rationale: Covers RIU-707 (Discovery and Document Production). Establishes AI defensibility requirements.
+  difficulty: advanced
+  industries:
+  - legal
+  tags:
+  - discovery
+  - eDiscovery
+  - TAR
+  - privilege-review
+  - document-production
+  - RIU-707
+  sources:
+  - title: 'Thinking Beyond Doc Review: AI''s Expanded Role in Modern Discovery'
+    url: https://www.integreon.com/ai-in-modern-discovery-beyond-document-review/
+  - title: '2025 AI in eDiscovery Report: Key Insights & Trends'
+    url: https://www.lighthouseglobal.com/ai-in-ediscovery-report-2025
+  - title: 'From Technology-Assisted Review to Generative AI: A Practical Guide'
+    url: https://www.minterellison.com/articles/ai-and-the-evolution-of-document-review-and-production
+  related_rius: &id008
+  - RIU-707
+  journey_stage: execution
+  riu_ids: *id008
+- id: LIB-218
+  question: How do legal practitioners evaluate exposure and model settlement ranges, and what analytical frameworks guide
+    the settle-or-litigate decision?
+  answer: 'Settlement analysis uses decision tree modeling to map possible litigation outcomes and their probabilities. Key
+    components: (1) exposure assessment — calculate worst-case, best-case, and expected-value outcomes including attorney
+    fees and opportunity costs, (2) BATNA analysis — define the best alternative to negotiated agreement, (3) reservation
+    point — minimum acceptable settlement, (4) predictive analytics — ML identifies patterns in opposing counsel tactics,
+    settlement timelines, and historical outcomes in similar cases. The hybrid approach combines rule-based legal expertise
+    with data-driven probabilities. Critical constraint: ALL settlement analysis is privileged — client exposure, dollar thresholds,
+    negotiation posture, case strategy, and settlement recommendations must stay local. Only general questions about settlement
+    frameworks or public settlement data are safe for external research. The one-way door principle applies: settlement is
+    irreversible once accepted.'
+  rationale: Covers RIU-708 (Settlement Analysis). Internal_only for strategy, both for general frameworks.
+  difficulty: advanced
+  industries:
+  - legal
+  tags:
+  - settlement
+  - exposure
+  - decision-analysis
+  - BATNA
+  - privilege
+  - one-way-door
+  - RIU-708
+  sources:
+  - title: 'Litigation Risk and the Valuation of Legal Claims: A Real Option Approach'
+    url: https://www.nber.org/papers/w33790
+  - title: How to Conduct Litigation Risk Assessment with Predictive Analytics
+    url: https://bronson.ai/resources/litigation-risk-assessment/
+  related_rius: &id009
+  - RIU-708
+  journey_stage: decision
+  riu_ids: *id009
+- id: LIB-219
+  question: What are the key fiduciary duty standards under Delaware law for LLC members and corporate officers, and how do
+    courts evaluate breaches?
+  answer: 'Under the Delaware LLC Act (DLLCA §18-1101), LLC agreements may expand, restrict, or eliminate fiduciary duties
+    — but cannot eliminate the implied covenant of good faith and fair dealing. Three core duties: (1) Duty of care — informed
+    decision-making process, (2) Duty of loyalty — no self-dealing, conflicts, or bad faith, (3) Oversight (Caremark) — sustained
+    failure to monitor constitutes loyalty breach. Key precedents: Revlon v. MacAndrews (enhanced scrutiny in sale of company),
+    Stone v. Ritter (oversight failures as loyalty violations), In re Caremark (board monitoring duties). Critical 2025-2026
+    development: Delaware courts held that where an LLC agreement eliminates fiduciary duties, authorizes conflicted action,
+    and addresses the challenged conduct through detailed governance provisions, plaintiffs cannot repackage claims as implied
+    covenant violations (Sidley Austin, March 2026). The Corwin doctrine can dismiss Revlon claims when stockholders give
+    fully informed, uncoerced approval.'
+  rationale: Covers RIU-709 (Fiduciary Duty Analysis). Core legal knowledge for the BDB demo.
+  difficulty: advanced
+  industries:
+  - legal
+  tags:
+  - fiduciary-duty
+  - Delaware
+  - LLC
+  - Revlon
+  - Caremark
+  - self-dealing
+  - governance
+  - RIU-709
+  sources:
+  - title: Delaware Law on Fiduciary Duties and Stockholder Agreements
+    url: https://www.foley.com/insights/publications/2025/04/delaware-law-fiduciary-duties-stockholder-agreements/
+  - title: Delaware LLC Act §18-1101
+    url: https://delcode.delaware.gov/title6/c018/sc11/index.html
+  - title: Parties to Delaware LLC Agreements Cannot Circumvent Fiduciary Duty Waivers
+    url: https://www.sidley.com/en/insights/newsupdates/2026/03/parties-to-delaware-llc-agreements-cannot-circumvent-fiduciary-duty-waivers
+  - title: Delaware Court Applies Corwin to Dismiss Fiduciary Duty Claims
+    url: https://corpgov.law.harvard.edu/2026/01/12/delaware-court-applies-corwin-to-dismiss-fiduciary-duty-claims/
+  related_rius: &id010
+  - RIU-709
+  journey_stage: analysis
+  riu_ids: *id010
 usage_instructions:
   for_researcher:
     description: Resource Gatherer agent should check this library before web search

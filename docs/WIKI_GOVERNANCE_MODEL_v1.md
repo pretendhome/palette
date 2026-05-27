@@ -260,7 +260,7 @@ content:
       title: "Source title"
       accessed: "YYYY-MM-DD"
   related_rius:
-    - "RIU-001"                     # Standard RIU IDs per taxonomy v1.3
+    - "RIU-001"                     # Standard RIU IDs per taxonomy v1.3.2
     - "RIU-042"
   evidence_tier: 2                  # Numeric: 1, 2, 3, or 4 (matches KL convention)
   evidence_tier_justification: "Why this tier matches the source quality"
@@ -362,7 +362,7 @@ Every binding voter must evaluate each Tier 2 proposal against these five criter
 |---|---|---|
 | 1 | **Has source** | At least 1 citation with a verifiable URL is present in `content.sources`. |
 | 2 | **No contradiction** | Does not conflict with any existing KL entry. The `contradiction_check` section must be filled with entries checked and conflicts found (or explicitly "none"). |
-| 3 | **Valid mapping** | Maps to at least 1 real RIU ID (e.g., RIU-001) that exists in the current taxonomy release. The IDs in `content.related_rius` must resolve against `taxonomy/releases/v1.3/`. |
+| 3 | **Valid mapping** | Maps to at least 1 real RIU ID (e.g., RIU-001) that exists in the current taxonomy release. The IDs in `content.related_rius` must resolve against `taxonomy/releases/v1.3/` (currently v1.3.2). |
 | 4 | **Tier justified** | The `content.evidence_tier` matches the quality of the cited sources. The `content.evidence_tier_justification` must explain why. |
 | 5 | **Substantive** | The `content.answer` is longer than 100 words and is actionable (provides guidance a practitioner can follow). |
 

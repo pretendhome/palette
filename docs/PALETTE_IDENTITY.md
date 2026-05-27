@@ -27,8 +27,8 @@ Palette is not one thing. It is three tightly coupled systems that share a commo
 **What it does**: Routes any AI implementation question to the right combination of internal knowledge and external services.
 
 **Components**:
-- **Taxonomy** — 121 classified problem types (RIUs) across 6 workstreams, each with reversibility classification, failure modes, and agent assignments
-- **Knowledge Library** — 183 sourced entries with 565 citations, three-tier evidence bar, journey stage progression
+- **Taxonomy** — 131 classified problem types (RIUs) across 6 workstreams, each with reversibility classification, failure modes, and agent assignments
+- **Knowledge Library** — 193 sourced entries with 565 citations, three-tier evidence bar, journey stage progression
 - **Service Routing** — 40 routed RIUs with ranked external service recommendations, cost logic, and integration paths
 - **Integration Recipes** — 75 service-specific recipes with auth, rate limits, code examples, and evaluation verdicts
 - **People & Company Signals** — 21 active profiles, 43 tracked tools, signal quality ratings, cluster analysis
