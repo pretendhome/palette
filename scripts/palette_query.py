@@ -372,7 +372,7 @@ def step_extract(query: str, resolved: dict, trace: TraceLog) -> dict | None:
             "signal": f"Query '{query[:80]}' matched {riu_id} at only {confidence:.0f}% confidence. Possible content gap.",
         }
         bus_send(
-            to_agent="group",
+            to_agent="all",
             intent=f"Content gap detected: {riu_id} — low confidence retrieval",
             content=json.dumps(extraction),
             thread_id=trace.thread_id,
@@ -425,7 +425,7 @@ def run_query(query: str, learn: bool = False, show_json: bool = False,
             "signal": "No taxonomy match. Cannot route without classification.",
         }
         bus_send(
-            to_agent="group",
+            to_agent="all",
             intent="Classification failure — unroutable query",
             content=json.dumps(extraction),
             thread_id=trace.thread_id,
@@ -491,7 +491,7 @@ def run_query(query: str, learn: bool = False, show_json: bool = False,
         pass
 
     bus_send(
-        to_agent="group",
+        to_agent="all",
         intent=f"palette query completed: {resolved.get('riu_id', 'unknown')} ({trace.total_ms():.0f}ms)",
         content=json.dumps({
             "query": query[:100],

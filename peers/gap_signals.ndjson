@@ -20,3 +20,7 @@
 {"timestamp": "2026-05-27T03:27:49.473756+00:00", "query": "Should we advise Smith Corp to settle the Johnson lawsuit for $2.5M?", "riu_id": "LEGAL-003", "confidence": 34.0, "signal_type": "medium_confidence"}
 {"timestamp": "2026-05-27T04:03:30.245949+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
 {"timestamp": "2026-05-27T04:03:30.246061+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T04:13:41.648613+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
+{"timestamp": "2026-05-27T04:13:41.648731+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T04:35:26.849236+00:00", "query": "How do I fix a PII sanitizer that only catches US address patterns and misses international formats?", "riu_id": "RIU-061", "confidence": 48.42489919354839, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T04:35:29.916103+00:00", "query": "How do I design a compounding decision object that links related decisions with typed relationships?", "riu_id": "RIU-003", "confidence": 48.828125000000014, "signal_type": "medium_confidence"}
