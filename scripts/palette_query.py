@@ -521,13 +521,91 @@ _RED = "\033[31m"
 _YELLOW = "\033[33m"
 _CYAN = "\033[36m"
 _WHITE = "\033[37m"
+_MAGENTA = "\033[35m"
 _BG_RED = "\033[41m"
+_BG_GREEN = "\033[42m"
 
 
 def _demo_label(label: str, color: str, text: str = "") -> str:
     """Format a step label for demo output."""
     suffix = f" {text}" if text else ""
     return f"{color}{_BOLD}[{label}]{_RESET}{suffix}"
+
+
+def _demo_boundary(label: str) -> str:
+    """Visual governance boundary marker."""
+    return f"\n  {_DIM}{'━' * 4}{_RESET} {_YELLOW}{_BOLD}{label}{_RESET} {_DIM}{'━' * 40}{_RESET}\n"
+
+
+def _call_model_api(model_name: str, system_prompt: str, user_prompt: str, timeout: int = 30) -> str | None:
+    """Call an external model API and return the response text. Best-effort."""
+    import os as _os
+
+    if model_name == "ollama":
+        try:
+            import httpx
+            resp = httpx.post("http://127.0.0.1:11434/api/generate", json={
+                "model": "qwen2.5:3b",
+                "prompt": f"{system_prompt}\n\n{user_prompt}",
+                "stream": False,
+            }, timeout=60.0)
+            if resp.status_code == 200:
+                return resp.json().get("response", "")
+        except Exception:
+            # Fallback to 7B
+            try:
+                resp = httpx.post("http://127.0.0.1:11434/api/generate", json={
+                    "model": "qwen2.5:7b",
+                    "prompt": f"{system_prompt}\n\n{user_prompt}",
+                    "stream": False,
+                }, timeout=60.0)
+                if resp.status_code == 200:
+                    return resp.json().get("response", "")
+            except Exception:
+                pass
+        return None
+
+    # Claude via CLI (uses OAuth subscription, no API key)
+    if model_name == "claude":
+        try:
+            import subprocess
+            result = subprocess.run(
+                ["claude", "-p", f"{system_prompt}\n\n{user_prompt}"],
+                capture_output=True, text=True, timeout=timeout,
+                env={**_os.environ, "CLAUDE_CODE_ENTRYPOINT": "palette-demo"},
+            )
+            if result.returncode == 0:
+                return result.stdout.strip()
+        except Exception:
+            pass
+        return None
+
+    # Mistral via API
+    if model_name == "mistral":
+        api_key = _os.environ.get("MISTRAL_API_KEY")
+        if not api_key:
+            return None
+        try:
+            payload = json.dumps({
+                "model": "mistral-large-latest",
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+            }).encode()
+            req = request.Request(
+                "https://api.mistral.ai/v1/chat/completions",
+                data=payload,
+                headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            )
+            with request.urlopen(req, timeout=timeout) as resp:
+                body = json.loads(resp.read())
+                return body["choices"][0]["message"]["content"]
+        except Exception:
+            pass
+        return None
+
+    return None
 
 
 def run_demo(query: str, use_external: bool = False) -> int:
@@ -546,11 +624,11 @@ def run_demo(query: str, use_external: bool = False) -> int:
 
     # ── Header
     print()
-    print(f"{_DIM}{'─' * 60}{_RESET}")
-    print(f"{_BOLD}{_WHITE}  palette query{_RESET} {_DIM}(governed local-first retrieval){_RESET}")
-    print(f"{_DIM}{'─' * 60}{_RESET}")
+    print(f"  {_DIM}{'━' * 60}{_RESET}")
+    print(f"  {_BOLD}{_WHITE}  ◆ palette{_RESET}  {_DIM}the operating system for professional judgment{_RESET}")
+    print(f"  {_DIM}{'━' * 60}{_RESET}")
     print()
-    print(f"  {_DIM}Query:{_RESET} {_BOLD}{query}{_RESET}")
+    print(f"  {_DIM}Query:{_RESET}  {_BOLD}{query}{_RESET}")
     print()
 
     # ── Step 1: RESOLVE
@@ -563,7 +641,6 @@ def run_demo(query: str, use_external: bool = False) -> int:
     print(f"  {_demo_label('RESOLVE', _CYAN)} Classified: {_BOLD}{riu_id}{_RESET} ({riu_name})")
 
     # ── Step 2: RETRIEVE
-    _time.sleep(0.1)
     knowledge = step_retrieve(resolved, trace)
     k_count = len(resolved.get("knowledge", []))
     conf_color = _GREEN if confidence >= 40 else _YELLOW if confidence >= 20 else _RED
@@ -643,19 +720,23 @@ def run_demo(query: str, use_external: bool = False) -> int:
             if blocked:
                 # BLOCKED — the money shot for the demo
                 block_reason = gov.get("block_reason", "policy violation")
-                print()
+                print(_demo_boundary("GOVERNANCE BOUNDARY"))
                 print(f"  {_BG_RED}{_BOLD}{_WHITE} ⚠️  BLOCKED {_RESET} {_RED}Client-specific query detected{_RESET}")
                 if pii:
                     print(f"  {_RED}  PII found: [{', '.join(pii)}]{_RESET}")
                 print(f"  {_RED}  Reason: {block_reason}{_RESET}")
-                print(f"  {_GREEN}{_BOLD}  → LOCAL ONLY. No data left this machine.{_RESET}")
+                print()
+                print(f"  {_BG_GREEN}{_BOLD}{_WHITE} → LOCAL ONLY {_RESET} {_GREEN}Zero data left this machine.{_RESET}")
+                print(f"  {_DIM}  Model: Ollama (on-device){_RESET}")
             elif external_called:
                 # External call succeeded
                 if sanitization_applied:
                     san_query = gateway_result.get("sanitized_query", "")
                     print(f"  {_demo_label('SANITIZE', _YELLOW)} Query safe for external: {_GREEN}✓{_RESET} (no PII detected)")
+                print(_demo_boundary("GOVERNANCE BOUNDARY"))
                 source_label = f"(cache: {cache_hit})" if cache_hit else ""
-                print(f"  {_demo_label('EXTERNAL', _BLUE)} Querying Perplexity sonar-pro... {_DIM}{source_label}{_RESET}")
+                print(f"  {_demo_label('EXTERNAL', _BLUE)} Routed to Perplexity sonar-pro {_DIM}{source_label}{_RESET}")
+                print(f"  {_DIM}  Model: Perplexity (governed external research){_RESET}")
             else:
                 # External not needed (high confidence)
                 print(f"  {_demo_label('LOCAL', _GREEN)} High confidence — no external query needed.")
@@ -668,7 +749,7 @@ def run_demo(query: str, use_external: bool = False) -> int:
 
     # Build demo response
     print()
-    print(f"  {_DIM}{'─' * 50}{_RESET}")
+    print(f"  {_DIM}{'━' * 50}{_RESET}")
 
     if gateway_result and gateway_result.get("governance", {}).get("external_called"):
         external = gateway_result.get("external_results", {})
@@ -695,10 +776,64 @@ def run_demo(query: str, use_external: bool = False) -> int:
             excerpt = (k.get("answer_excerpt", "") or "").strip()
             if excerpt:
                 print(f"    {excerpt[:140]}")
+
+        # ── Multi-model routing: Claude synthesis or Mistral critique
+        query_lower = query.lower()
+        is_adversarial = any(w in query_lower for w in ["opposing counsel", "argue", "missing", "counter", "weakness", "risk"])
+
+        if is_adversarial:
+            # Route to Mistral for adversarial critique
+            print()
+            print(f"  {_demo_label('CRITIQUE', _MAGENTA)} Routed to Mistral for adversarial analysis")
+            print(f"  {_DIM}  Model: Mistral (governed — client identity stripped){_RESET}")
+            critique_ctx = answer[:500] if answer else ""
+            local_ctx = "\n".join(k.get("question", "") for k in resolved.get("knowledge", [])[:3])
+            critique = _call_model_api("mistral",
+                "You are an adversarial legal analyst. Identify the 3 strongest counter-arguments opposing counsel would raise. Be specific about legal standards. Do not reference any client names.",
+                f"Legal context:\n{critique_ctx}\n\nLocal knowledge:\n{local_ctx}\n\nQuestion: {query}")
+            if critique:
+                print()
+                print(f"  {_MAGENTA}{_BOLD}Mistral critique:{_RESET}")
+                for line in critique.split("\n")[:12]:
+                    if line.strip():
+                        print(f"  {line[:140]}")
+        else:
+            # Route to Claude for synthesis
+            print()
+            print(f"  {_demo_label('SYNTHESIS', _CYAN)} Routed to Claude for analysis")
+            print(f"  {_DIM}  Model: Claude (governed — client identity stripped){_RESET}")
+            local_ctx = "\n".join(k.get("question", "") for k in resolved.get("knowledge", [])[:3])
+            synthesis = _call_model_api("claude",
+                "You are a legal analyst. Synthesize the research into a concise analysis. Connect the precedents to the fact pattern. Do not reference any client names. Be specific about applicable legal standards. Keep it under 150 words.",
+                f"Research results:\n{answer[:500]}\n\nLocal knowledge:\n{local_ctx}\n\nQuestion: {query}")
+            if synthesis:
+                print()
+                print(f"  {_CYAN}{_BOLD}Claude synthesis:{_RESET}")
+                for line in synthesis.split("\n")[:8]:
+                    if line.strip():
+                        print(f"  {line[:140]}")
+
     elif gateway_result and gateway_result.get("governance", {}).get("blocked"):
-        # Blocked — show local-only response
-        print(f"  {_demo_label('RESULT', _GREEN)} {_GREEN}[LOCAL ONLY]{_RESET} Using governed knowledge library.")
+        # Blocked — show local-only response with on-device model
+        print(f"  {_demo_label('RESULT', _GREEN)} {_GREEN}[LOCAL ONLY]{_RESET} Using governed knowledge library + on-device model.")
+        print(f"  {_DIM}  Model: Ollama (on-device){_RESET}")
         print()
+
+        # Get local model response for the blocked query
+        local_ctx = "\n".join(
+            f"- {k.get('question', '')}: {(k.get('answer_excerpt', '') or '')[:200]}"
+            for k in resolved.get("knowledge", [])[:3]
+        )
+        local_response = _call_model_api("ollama",
+            "You are a legal research assistant running entirely on-device. Answer based ONLY on the provided knowledge. Do not speculate. Keep it concise — under 100 words.",
+            f"Knowledge:\n{local_ctx}\n\nQuestion: {query}")
+        if local_response:
+            print(f"  {_GREEN}{_BOLD}On-device analysis:{_RESET}")
+            for line in local_response.split("\n")[:6]:
+                if line.strip():
+                    print(f"  {line[:140]}")
+            print()
+
         for k in resolved.get("knowledge", [])[:2]:
             print(f"  {_DIM}[{k.get('lib_id', '')}]{_RESET} {k.get('question', '')}")
             excerpt = (k.get("answer_excerpt", "") or "").strip()
@@ -721,10 +856,11 @@ def run_demo(query: str, use_external: bool = False) -> int:
     _time.sleep(0.1)
     extraction = step_extract(query, resolved, trace)
     print()
-    print(f"  {_DIM}{'─' * 50}{_RESET}")
+    print(f"  {_DIM}{'━' * 50}{_RESET}")
     dec_id = f"dec-{datetime.now(timezone.utc).strftime('%Y-%m-%d')}-{trace.thread_id[:4]}"
-    print(f"  {_demo_label('STORED', _GREEN)} Decision logged. ID: {_DIM}{dec_id}{_RESET}")
-    print(f"  {_DIM}  Total: {trace.total_ms():.0f}ms{_RESET}")
+    print(f"  {_demo_label('STORED', _GREEN)} Decision logged → {_DIM}{dec_id}{_RESET}")
+    print(f"  {_DIM}  Compounding: this decision improves future queries in {riu_id}{_RESET}")
+    print(f"  {_DIM}  Time: {trace.total_ms():.0f}ms{_RESET}")
     print()
 
     # Log session

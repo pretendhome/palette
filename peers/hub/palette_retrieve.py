@@ -101,7 +101,13 @@ def _load_legal_demo_pack():
 def _legal_demo_override(query: str) -> dict | None:
     """Return a legal-domain retrieval result when the query clearly targets the BDB demo."""
     lowered = query.lower()
-    if not any(token in lowered for token in ["delaware", "fiduciary", "settle", "settlement"]):
+    legal_tokens = [
+        "delaware", "fiduciary", "settle", "settlement", "self-dealing",
+        "opposing counsel", "exposure", "breach of duty", "llc co-founder",
+        "related-party", "privilege", "filing deadline", "conflict of interest",
+        "contract clause", "indemnification", "regulatory compliance",
+    ]
+    if not any(token in lowered for token in legal_tokens):
         return None
 
     pack = _load_legal_demo_pack()
@@ -124,6 +130,75 @@ def _legal_demo_override(query: str) -> dict | None:
                 "journey_stage": entry.get("journey_stage", "analysis"),
             })
         return knowledge
+
+    # ── Strategy / exposure queries → RIU-709 (Fiduciary Duty Analysis), internal_only
+    if any(w in lowered for w in ["exposure", "self-dealing", "related-party", "our position", "our case"]):
+        knowledge = make_knowledge(["LEGAL-KL-001", "LEGAL-KL-002", "LEGAL-KL-004"])
+        context = "\n".join(
+            [
+                "Palette classified this as RIU-709 (Fiduciary Duty Analysis), classification: internal_only.",
+                "This query involves client strategy — stays local. No external routing.",
+            ]
+            + [f"\nKnowledge [{k['lib_id']}]: {k['question']}\n{k['answer_excerpt']}" for k in knowledge]
+        )
+        return {
+            "query": query,
+            "mode": "hybrid",
+            "retrieval_modes": ["legal_demo_pack"],
+            "lib_id": knowledge[0]["lib_id"] if knowledge else None,
+            "confidence": 72.0,
+            "riu_id": "RIU-709",
+            "riu_name": "Fiduciary Duty Analysis",
+            "classification": "internal_only",
+            "knowledge": knowledge,
+            "context": context,
+        }
+
+    # ── Adversarial / opposing counsel queries → RIU-708 (Settlement Analysis), governed
+    if any(w in lowered for w in ["opposing counsel", "argue", "counter-argument", "weakness", "what are we missing"]):
+        knowledge = make_knowledge(["LEGAL-KL-001", "LEGAL-KL-002", "LEGAL-KL-004"])
+        context = "\n".join(
+            [
+                "Palette classified this as RIU-708 (Settlement Analysis), classification: both.",
+                "Adversarial analysis requested — route to critique model with governed context.",
+            ]
+            + [f"\nKnowledge [{k['lib_id']}]: {k['question']}\n{k['answer_excerpt']}" for k in knowledge]
+        )
+        return {
+            "query": query,
+            "mode": "hybrid",
+            "retrieval_modes": ["legal_demo_pack"],
+            "lib_id": knowledge[0]["lib_id"] if knowledge else None,
+            "confidence": 68.0,
+            "riu_id": "RIU-708",
+            "riu_name": "Settlement Analysis",
+            "classification": "both",
+            "knowledge": knowledge,
+            "context": context,
+        }
+
+    # ── LLC / co-founder fiduciary duty research → RIU-701 (Legal Precedent Research), both
+    if any(w in lowered for w in ["llc co-founder", "llc member", "fiduciary duty standard", "fiduciary duty standards"]):
+        knowledge = make_knowledge(["LEGAL-KL-001", "LEGAL-KL-002", "LEGAL-KL-003"])
+        context = "\n".join(
+            [
+                "Palette classified this as RIU-701 (Legal Precedent Research), classification: both.",
+                "Public legal doctrine — safe for governed external research after sanitization.",
+            ]
+            + [f"\nKnowledge [{k['lib_id']}]: {k['question']}\n{k['answer_excerpt']}" for k in knowledge]
+        )
+        return {
+            "query": query,
+            "mode": "hybrid",
+            "retrieval_modes": ["legal_demo_pack"],
+            "lib_id": knowledge[0]["lib_id"] if knowledge else None,
+            "confidence": 45.0,
+            "riu_id": "RIU-701",
+            "riu_name": "Legal Precedent Research",
+            "classification": "both",
+            "knowledge": knowledge,
+            "context": context,
+        }
 
     if "settle" in lowered or "settlement" in lowered:
         knowledge = make_knowledge(["LEGAL-KL-004", "LEGAL-KL-005"])
