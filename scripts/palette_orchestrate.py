@@ -433,28 +433,54 @@ def orchestrate(query: str, show_json: bool = False, show_trace: bool = False) -
         steps["synthesize"] = {"model": "claude", "ms": ms, "success": synthesis is not None}
 
     # ═══════════════════════════════════════════════════════════════
-    # STEP 6: CRITIQUE (Mistral, always runs if we have content)
+    # STEP 6: CRITIQUE
+    # If internal_only → critique runs LOCAL (Ollama). No external call.
+    # If external allowed → critique runs via Mistral (governed).
+    # The trust boundary is absolute: internal_only means NOTHING leaves.
     # ═══════════════════════════════════════════════════════════════
     critique = None
     critique_input = synthesis or (local_response if local_response else "")
-    if critique_input:
-        print()
-        print(f"  {_MAGENTA}{_BOLD}[6 CRITIQUE]{_RESET} Adversarial analysis (Mistral)")
-        print(f"  {_DIM}  Model: Mistral (governed — client identity stripped){_RESET}")
+    blocked_from_external = is_internal or steps.get("research", {}).get("blocked", False)
 
-        t0 = time.time()
-        critique = call_mistral(
-            f"Analysis to critique:\n{critique_input[:500]}\n\nContext:\n{governed_context}\n\nQuestion: {query}",
-            system="You are an adversarial analyst. Identify the 2-3 strongest counter-arguments or risks. Be specific about legal standards. No client names. Under 100 words."
-        )
-        ms = round((time.time() - t0) * 1000, 1)
+    if critique_input:
+        critique_system = "You are an adversarial analyst. Identify the 2-3 strongest counter-arguments or risks. Be specific about legal standards. No client names. Under 100 words."
+        critique_prompt = f"Analysis to critique:\n{critique_input[:500]}\n\nContext:\n{governed_context}\n\nQuestion: {query}"
+
+        if blocked_from_external:
+            # INTERNAL ONLY — critique runs on-device. Zero external connection.
+            print()
+            print(f"  {_GREEN}{_BOLD}[6 CRITIQUE]{_RESET} Adversarial analysis (on-device)")
+            print(f"  {_DIM}  Model: Ollama (local — trust boundary enforced){_RESET}")
+
+            t0 = time.time()
+            critique = call_ollama(critique_prompt, system=critique_system)
+            ms = round((time.time() - t0) * 1000, 1)
+            critique_model = "ollama"
+        else:
+            # EXTERNAL ALLOWED — critique via Mistral (governed, context stripped)
+            print()
+            print(f"  {_MAGENTA}{_BOLD}[6 CRITIQUE]{_RESET} Adversarial analysis (Mistral)")
+            print(f"  {_DIM}  Model: Mistral (governed — client identity stripped){_RESET}")
+
+            t0 = time.time()
+            critique = call_mistral(critique_prompt, system=critique_system)
+            ms = round((time.time() - t0) * 1000, 1)
+            critique_model = "mistral"
+
+            # Fallback to local if Mistral unavailable
+            if not critique:
+                print(f"  {_DIM}  Mistral unavailable — falling back to on-device{_RESET}")
+                critique = call_ollama(critique_prompt, system=critique_system)
+                critique_model = "ollama"
+                ms = round((time.time() - t0) * 1000, 1)
 
         if critique:
             for line in critique.split("\n")[:6]:
                 if line.strip():
-                    print(f"  {_MAGENTA}{line[:140]}{_RESET}")
+                    color = _GREEN if critique_model == "ollama" else _MAGENTA
+                    print(f"  {color}{line[:140]}{_RESET}")
         print(f"  {_DIM}  Time: {ms:.0f}ms{_RESET}")
-        steps["critique"] = {"model": "mistral", "ms": ms, "success": critique is not None}
+        steps["critique"] = {"model": critique_model, "ms": ms, "success": critique is not None}
 
     # ═══════════════════════════════════════════════════════════════
     # STEP 7: STORE + IMPROVE
@@ -468,7 +494,7 @@ def orchestrate(query: str, show_json: bool = False, show_trace: bool = False) -
     if synthesis:
         models_used.append("claude")
     if critique:
-        models_used.append("mistral")
+        models_used.append(steps.get("critique", {}).get("model", "unknown"))
 
     print()
     print(f"  {_DIM}{'━' * 60}{_RESET}")

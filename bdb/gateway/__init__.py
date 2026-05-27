@@ -256,10 +256,17 @@ class PerplexityGateway:
             return yaml.safe_load(handle) or {}
 
     def _build_local_only_result(self, query: str, retrieval_result: dict[str, Any], external_requested: bool) -> dict[str, Any]:
+        # Shallow copy to prevent circular reference when caller does resolved["gateway"] = result
+        local_summary = {
+            "riu_id": retrieval_result.get("riu_id"),
+            "confidence": retrieval_result.get("confidence"),
+            "classification": retrieval_result.get("classification"),
+            "knowledge_count": len(retrieval_result.get("knowledge", [])),
+        }
         return {
             "query": query,
             "sanitized_query": None,
-            "local_results": retrieval_result,
+            "local_results": local_summary,
             "external_results": None,
             "merged_context": self._local_context(retrieval_result),
             "sources": {

@@ -24,3 +24,27 @@
 {"timestamp": "2026-05-27T04:13:41.648731+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
 {"timestamp": "2026-05-27T04:35:26.849236+00:00", "query": "How do I fix a PII sanitizer that only catches US address patterns and misses international formats?", "riu_id": "RIU-061", "confidence": 48.42489919354839, "signal_type": "medium_confidence"}
 {"timestamp": "2026-05-27T04:35:29.916103+00:00", "query": "How do I design a compounding decision object that links related decisions with typed relationships?", "riu_id": "RIU-003", "confidence": 48.828125000000014, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T04:57:02.411731+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
+{"timestamp": "2026-05-27T04:57:02.411847+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T04:57:35.993228+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T04:57:37.276987+00:00", "query": "Given what we found about fiduciary duties, what would opposing counsel argue?", "riu_id": "RIU-708", "confidence": 68.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T04:57:45.278408+00:00", "query": "Given what we found about fiduciary duties, what would opposing counsel argue?", "riu_id": "RIU-708", "confidence": 68.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T04:57:55.283859+00:00", "query": "Should we advise Smith Corp to settle the Johnson lawsuit for $2.5M?", "riu_id": "RIU-708", "confidence": 34.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T04:58:07.017385+00:00", "query": "Should we advise Smith Corp to settle the Johnson lawsuit for $2.5M?", "riu_id": "RIU-708", "confidence": 34.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T04:58:24.168885+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
+{"timestamp": "2026-05-27T04:58:24.168996+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T05:00:12.557307+00:00", "query": "Should we advise Smith Corp to settle the Johnson lawsuit for $2.5M?", "riu_id": "RIU-708", "confidence": 34.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T05:02:05.492976+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
+{"timestamp": "2026-05-27T05:02:05.493078+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T14:33:28.976852+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T14:33:43.531946+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
+{"timestamp": "2026-05-27T14:33:43.532045+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T15:35:27.924306+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T15:35:42.282577+00:00", "query": "What are the Delaware fiduciary duty precedents?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T15:35:43.421879+00:00", "query": "How should we handle a settlement analysis in Delaware?", "riu_id": "RIU-708", "confidence": 34.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T15:35:47.703982+00:00", "query": "What is the Delaware fiduciary duty standard for llc members?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T15:37:24.400386+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T15:37:42.266261+00:00", "query": "What fiduciary duty standards apply to LLC co-founders in Delaware?", "riu_id": "RIU-701", "confidence": 45.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T15:38:01.024310+00:00", "query": "Given what we found, what would opposing counsel argue?", "riu_id": "RIU-708", "confidence": 68.0, "signal_type": "medium_confidence"}
+{"timestamp": "2026-05-27T15:47:07.292035+00:00", "query": "nonsense", "riu_id": "RIU-999", "confidence": 10, "signal_type": "low_confidence"}
+{"timestamp": "2026-05-27T15:47:07.292135+00:00", "query": "mid", "riu_id": "RIU-001", "confidence": 50, "signal_type": "medium_confidence"}
