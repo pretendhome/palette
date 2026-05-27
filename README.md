@@ -41,6 +41,7 @@ The moat is not "memory." It is a stack of architectural primitives working toge
 - **Multi-agent convergence** — 13 specialists disagree productively, then converge. The room where you think with AI.
 - **Capability-building** — Learning Mode teaches you while it works. The system makes you more capable, not more dependent.
 - **Hybrid retrieval** — FTS5 + vector embeddings + keyword matching, fused with reciprocal rank fusion. Local-first, zero API cost.
+- **Adaptive Intent Framework** — Designed experiences that guide professionals through governed multi-model workflows. CONVERGE, CREATE, DIAGNOSE, RESEARCH, TEACH, EVALUATE, COMMUNICATE, REFLECT. Each intent is a heuristic sequence where Palette checkpoints between every step — the OS can branch, loop back, or switch intents mid-flow based on what it learns. Nobody else has this.
 - **Voice interface** — Talk to any agent. Each has its own voice (Tessitura). Spatial metaphor, not chat window.
 
 ---

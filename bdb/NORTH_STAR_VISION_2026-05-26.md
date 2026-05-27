@@ -39,6 +39,26 @@ This table converts "OS" from metaphor to mechanism. It is the most important as
 
 ---
 
+## The Adaptive Intent Framework — The Experience Layer
+
+An OS needs more than a kernel — it needs designed experiences. Palette's **intents** are governed multi-model workflows where each step has a purpose, a model assignment, and a Palette checkpoint. Between every model call, the OS checks: did the classification hold? Should governance shift? Has the problem morphed into something else?
+
+**Core intents** (from 30 candidates, merged by purpose):
+- **CONVERGE** — understand a problem from multiple angles, reach a judgment
+- **CREATE** — build an artifact from what you know
+- **DIAGNOSE** — find what's broken, fix it minimally
+- **RESEARCH** — investigate deeply before deciding
+- **TEACH** — help someone learn (or learn yourself)
+- **EVALUATE** — assess quality, risk, or readiness against a standard
+- **COMMUNICATE** — explain, persuade, or negotiate with a specific audience
+- **REFLECT** — look back, extract lessons, make the system stronger
+
+**What makes this a moat**: The sequences are governed, not hardcoded. Palette checkpoints between every step can redirect the flow. A CONVERGE can become a CREATE. A DIAGNOSE can reveal a RESEARCH gap. The intents aren't silos — they're entry points into an adaptive flow that the OS steers. Nobody else has this: adaptive, governed, multi-model intent sequences with an ontology in the middle.
+
+Full specification: `docs/specs/ADAPTIVE_INTENT_FRAMEWORK.md`
+
+---
+
 ## Why NOW
 
 ### The Market-Making Event
