@@ -178,6 +178,11 @@ def _legal_demo_override(query: str) -> dict | None:
         knowledge = make_knowledge(["LEGAL-KL-005", "LEGAL-KL-006"])
         return _build_legal_result(query, "RIU-705", "Regulatory Compliance Check", "both", 55.0, knowledge)
 
+    # RIU-700: Privilege Risk Assessment (internal_only)
+    if "privilege" in lowered or "privileged" in lowered or "confidential" in lowered:
+        knowledge = make_knowledge(["LEGAL-KL-004", "LEGAL-KL-005"])
+        return _build_legal_result(query, "RIU-700", "Privilege Risk Assessment", "internal_only", 70.0, knowledge)
+
     return None
 
 
