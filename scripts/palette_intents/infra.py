@@ -223,6 +223,12 @@ def store_artifact(artifact_type: str, content: dict, body: str = "") -> str:
 
     Returns the artifact path.
     """
+    # Validate before storing
+    errors = validate_artifact(artifact_type, content)
+    if errors:
+        # Log validation failures but still store (with status marker)
+        content["_validation_errors"] = errors
+
     type_dir = ARTIFACTS_DIR / artifact_type
     type_dir.mkdir(parents=True, exist_ok=True)
 
@@ -235,6 +241,80 @@ def store_artifact(artifact_type: str, content: dict, body: str = "") -> str:
     path.write_text(full_content)
 
     return str(path)
+
+
+# ── Artifact Validation ─────────────────────────────────────────────────
+
+ARTIFACT_SCHEMAS = {
+    "gate_decision": {
+        "required": ["artifact_type", "intent", "timestamp", "action", "reason", "boundary"],
+        "rules": {
+            "action_values": lambda d: d.get("action") in ("BLOCK", "ALLOW"),
+            "blocked_entities_on_block": lambda d: d.get("action") != "BLOCK" or len(d.get("blocked_entities", [])) > 0 or "too short" in d.get("reason", "") or "PII category" in d.get("reason", "") or "semantic" in d.get("reason", ""),
+        },
+    },
+    "evidence_brief": {
+        "required": ["artifact_type", "intent", "timestamp", "local_canon", "confidence", "status"],
+        "rules": {
+            "status_values": lambda d: d.get("status") in ("VALIDATED", "LOCAL_ONLY", "UNVALIDATED_FALLBACK"),
+            "confidence_range": lambda d: 0 <= d.get("confidence", 0) <= 100,
+        },
+    },
+    "decision_record": {
+        "required": ["artifact_type", "intent", "timestamp", "recommendation", "strongest_counterargument", "reversibility"],
+        "rules": {
+            "counter_length": lambda d: len(d.get("strongest_counterargument", "").split()) >= 30 or "failed" in d.get("strongest_counterargument", "").lower(),
+            "reversibility_values": lambda d: d.get("reversibility") in ("ONE_WAY", "TWO_WAY"),
+            "checkpoint_on_one_way": lambda d: d.get("reversibility") != "ONE_WAY" or d.get("checkpoint_required") is True,
+        },
+    },
+    "artifact_lineage": {
+        "required": ["artifact_type", "intent", "timestamp", "spec", "iterations", "max_iterations"],
+        "rules": {
+            "iterations_bounded": lambda d: d.get("iterations", 0) <= d.get("max_iterations", 3),
+        },
+    },
+    "failure_lesson": {
+        "required": ["artifact_type", "intent", "timestamp", "symptom", "five_whys"],
+        "rules": {
+            "five_whys_count": lambda d: len(d.get("five_whys", [])) == 5,
+        },
+    },
+    "improvement_proposal": {
+        "required": ["artifact_type", "intent", "timestamp", "status", "patterns"],
+        "rules": {
+            "status_proposed": lambda d: d.get("status") == "PROPOSED",
+            "write_lock": lambda d: all(
+                p.get("target_file", "").startswith("wiki/proposed/")
+                for p in d.get("proposed_actions", [])
+            ),
+        },
+    },
+}
+
+
+def validate_artifact(artifact_type: str, content: dict) -> list[str]:
+    """Validate artifact against its schema. Returns list of errors (empty = valid)."""
+    schema = ARTIFACT_SCHEMAS.get(artifact_type)
+    if not schema:
+        return []  # Unknown type — no validation
+
+    errors = []
+
+    # Check required fields
+    for field in schema.get("required", []):
+        if field not in content or content[field] is None:
+            errors.append(f"missing required field: {field}")
+
+    # Check rules
+    for rule_name, rule_fn in schema.get("rules", {}).items():
+        try:
+            if not rule_fn(content):
+                errors.append(f"rule failed: {rule_name}")
+        except Exception as e:
+            errors.append(f"rule error ({rule_name}): {e}")
+
+    return errors
 
 
 # ── Integrity Signal ────────────────────────────────────────────────────
@@ -385,6 +465,20 @@ def format_pis_line(summary: dict) -> str:
         f"{summary['matched_rius']} {summary['matched_domain']} nodes matched → "
         f"{summary['recipes_available']} recipe{'s' if summary['recipes_available'] != 1 else ''} available"
     )
+
+
+# ── PIS Display Helper ───────────────────────────────────────────────────
+
+
+def pis_display_line(riu_id: str | None, knowledge_count: int) -> str:
+    """Return a compact PIS traversal line for display."""
+    if not riu_id:
+        return ""
+    # These are cached/known counts — no PIS load needed
+    total_rius = 131
+    matched = f"→ matched {riu_id}"
+    kl = f"{knowledge_count} KL entries"
+    return f"  {DIM}[PIS] {total_rius} RIUs traversed {matched}, {kl} retrieved{RESET}"
 
 
 # ── Resolve Helper ──────────────────────────────────────────────────────

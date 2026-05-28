@@ -35,6 +35,7 @@ from scripts.palette_intents.infra import (
     IntentState,
     build_integrity_card_fast,
     emit_integrity_signal,
+    palette_checkpoint,
     print_unvalidated_warning,
     resolve_query,
     store_artifact,
@@ -216,6 +217,11 @@ def run_reflect(
         boundary="local_only",
         matter_id=matter_id,
     )
+
+    # 2b. Checkpoint (REFLECT is always local, but check anyway)
+    checked = palette_checkpoint(state)
+    if checked.intent != "REFLECT" and not show_json:
+        print(f"  {YELLOW}[CHECKPOINT]{RESET} Transition suggested: → {checked.intent}")
 
     # 3. Gather session artifacts
     artifacts = gather_session_artifacts(matter_id)

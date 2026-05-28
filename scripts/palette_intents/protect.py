@@ -377,6 +377,7 @@ def run_protect(
                 print()
                 print(f"  {YELLOW}[SAFE REWRITE]{RESET} Available for RESEARCH transition:")
                 print(f"  {DIM}  {safe_rewrite}{RESET}")
+                print(f"  {DIM}  Next: palette research {f'--matter {matter_id} ' if matter_id else ''}\"{safe_rewrite}\"{RESET}")
         else:
             print(f"  {GREEN}{BOLD}✓  ALLOWED{RESET}   {reason_str}")
             print()

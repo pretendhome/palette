@@ -40,6 +40,7 @@ from scripts.palette_intents.infra import (
     palette_checkpoint,
     pis_summary,
     print_unvalidated_warning,
+    record_recipe_failure,
     resolve_query,
     store_artifact,
 )
@@ -250,6 +251,7 @@ Be direct. No hedging."""
     recommendation = call_ollama(recommendation_prompt, system="You are a decisive legal strategist. Be direct and specific.")
 
     if not recommendation:
+        record_recipe_failure("ollama")
         if not show_json:
             print_unvalidated_warning("Local model unavailable")
         recommendation = "Unable to generate recommendation — local model unavailable."
@@ -285,6 +287,7 @@ Write AT LEAST 80 words of specific, concrete counterargument. Name real risks. 
         if counterargument_retry and len(counterargument_retry.split()) > 50:
             counterargument = counterargument_retry
         elif not counterargument:
+            record_recipe_failure("ollama")
             counterargument = "Counterargument generation failed. Human review required before proceeding."
 
     # 8. Extract change_my_mind trigger (use smaller model — it's just one sentence)

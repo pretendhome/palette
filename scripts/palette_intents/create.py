@@ -36,6 +36,10 @@ from scripts.palette_intents.infra import (
     IntentState,
     build_integrity_card_fast,
     emit_integrity_signal,
+    palette_checkpoint,
+    pis_display_line,
+    pis_summary,
+    format_pis_line,
     print_unvalidated_warning,
     resolve_query,
     store_artifact,
@@ -136,6 +140,11 @@ def run_create(
     card = build_integrity_card_fast(riu_id or "unknown", classification, len(knowledge_entries))
     state.integrity_card = asdict(card)
 
+    # 3b. Checkpoint
+    checked = palette_checkpoint(state)
+    if checked.intent != "CREATE" and not show_json:
+        print(f"  {YELLOW}[CHECKPOINT]{RESET} Transition suggested: → {checked.intent}")
+
     # 4. Gather matter context
     matter_context = gather_matter_context(matter_id)
 
@@ -166,6 +175,8 @@ def run_create(
         print()
         if riu_id:
             print(f"  {CYAN}[RESOLVE]{RESET} {riu_id} ({riu_name}) — {confidence:.0f}% confidence")
+            pis = pis_summary(riu_id, len(knowledge_entries), classification)
+            print(f"  {CYAN}[PIS]{RESET}     {format_pis_line(pis)}")
         if constraints:
             print(f"  {CYAN}[CONSTRAINTS]{RESET} {len(constraints)} active")
             for c in constraints:

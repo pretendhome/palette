@@ -47,6 +47,13 @@ sys.path.insert(0, str(REPO_ROOT.parent))
 sys.path.insert(0, str(REPO_ROOT))
 sys.path.insert(0, str(HUB_DIR))
 
+# ── Socket Firewall ─────────────────────────────────────────────────────
+try:
+    from bdb.gateway.socket_firewall import activate_firewall
+    activate_firewall()
+except Exception:
+    pass  # firewall module may not exist in all environments
+
 # ANSI colors
 _RESET = "\033[0m"
 _BOLD = "\033[1m"
