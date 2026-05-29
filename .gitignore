@@ -57,3 +57,15 @@ buy-vs-build/tech/Tech-Investment-Report-*
 *.pdf
 *.docx
 *.html
+mission-canvas/.env.production
+
+# ── PII: Person lenses (real people — keep generic role lenses only) ──
+lenses/releases/v0/LENS-PERSON-*
+lenses/releases/v0/LENS-FOUNDER-001_steph_ango.yaml
+lenses/onboarding/
+
+# ── PII: Job search materials with real emails/names ──
+skills/talent/claudia-canu-fautre-*
+
+# ── PII: Knowledge library backup (contains /home paths) ──
+knowledge-library/v1.4/*_backup.yaml
