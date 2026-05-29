@@ -23,7 +23,7 @@ const HUB_PORT  = parseInt(process.env.PALETTE_HUB_PORT  || '7890', 10);
 const BUS_URL   = process.env.PALETTE_BUS_URL   || 'http://127.0.0.1:7899';
 const WIKI_ROOT = resolve(process.env.PALETTE_WIKI_ROOT || join(__dirname, '../../wiki'));
 const RIME_API  = 'https://users.rime.ai/v1/rime-tts';
-const RIME_MODEL = 'arcana';  // Arcana v3 — 94 voices, identity-rich (switched from arcanav2)
+const RIME_MODEL = 'coda';  // Coda — 236 voices, 8 languages, LLM backbone (upgraded from Arcana v3)
 
 // ── API keys and credentials ──────────────────────────────────────────────
 
