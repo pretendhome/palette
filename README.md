@@ -4,14 +4,29 @@
 
 ### Your judgment compounds here.
 
-Governed AI for professionals who can't send client data to the cloud.
+**Local-first AI for regulated professionals.**  
+Safe research. Governed memory. Smarter every time.
 
 [![License](https://img.shields.io/badge/license-Apache_2.0-blue)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-129_passing-brightgreen)]()
-[![RIUs](https://img.shields.io/badge/routing_nodes-131-blue)]()
+[![Capability Areas](https://img.shields.io/badge/capability_areas-131-blue)]()
 [![Knowledge](https://img.shields.io/badge/knowledge-203_entries-blue)]()
 
 </div>
+
+---
+
+## The Problem
+
+25 million professionals in legal, finance, and healthcare are currently locked out of the AI revolution. Sending client data to the cloud isn't just a "setting"—it's a malpractice risk. Today, high-agency operators are improvising with disconnected local models and private notes. Their work is safe, but it doesn't compound.
+
+## The Solution
+
+**Mission Canvas** is the governed alternative. It is a local-first AI runtime designed for work that cannot leak.
+
+- **Classify before Action**: Every query is mapped to a professional competency node (RIU) before it's processed.
+- **Structural Security**: PII detection and strategy language blocking are built into the architecture, not added as a filter.
+- **Governed Memory**: Your research and decisions are stored as typed artifacts that automatically connect to future work.
 
 ---
 
@@ -23,42 +38,43 @@ cd palette
 bash setup.sh
 ```
 
-That's it. Checks dependencies, installs packages, prompts for API keys (all optional), starts services, opens your browser.
+Mission Canvas checks dependencies, installs required packages, and starts the governed runtime.
 
-**Requirements**: Python 3.10+, Node.js 18+. Optional: Ollama (fully local queries), Perplexity API key (external research).
+**Requirements**: Python 3.10+, Node.js 18+.  
+**Optional**: Ollama (fully local reasoning), Perplexity API key (governed external research).
 
 ---
 
-## See It Work
+## See It Work: Sarah's Morning
 
 ```bash
 palette demo sarah
 ```
 
-Three moments. Three intents. Three typed artifacts. Zero data leakage.
+Follow a solo attorney through a high-stakes morning. Three moments, three intents, zero data leakage.
 
-1. **PROTECT** — "What's our exposure?" → BLOCKED. Strategy language detected. Zero data left the machine.
-2. **RESEARCH** — "Delaware fiduciary duty standards?" → Sanitized, routed to Perplexity, citations returned. Client identity stripped.
-3. **DECIDE** — "Should we settle or litigate?" → Connected to 2 prior decisions. Reversibility checked. Judgment compounded.
+1.  **PROTECT** — "What's our exposure?" → **BLOCKED**. Strategy language detected at the gate. Zero data leaves the machine.
+2.  **RESEARCH** — "Delaware fiduciary duty standards?" → Query sanitized, routed to Perplexity, results merged with verified local knowledge.
+3.  **DECIDE** — "Should Sarah settle or litigate?" → **[CONNECT]** signal fires. Palette connects today's question to yesterday's research. Your judgment compounds.
 
 ---
 
 ## Your Judgment Trail
 
+Every interaction improves the system. Use `palette stats` to see your professional footprint grow.
+
 ```bash
 palette stats
 ```
 
-```
+```text
   mission canvas — your judgment trail
 
-  Artifacts stored:     260
-  RIUs activated:       29 / 131 (22%)
-  Cron executions:      1 (100% governed)
-  PII blocks:           89
-  Integrity signals:    401
-  First artifact:       2026-05-27
-  Compounding for:      1 days
+  Artifacts stored:     277
+  Capability nodes:     29 / 131 (22%) active
+  PII blocks:           95
+  Integrity signals:    434
+  Compounding for:      2 days
 
   Your judgment compounds here.
 ```
@@ -67,100 +83,58 @@ palette stats
 
 ## 6 Governed Intents
 
-Every interaction is classified before it's acted on. That's the difference.
+Mission Canvas uses **Intents** to enforce boundaries between different types of work.
 
-| Intent | What It Does | Governance |
-|:--|:--|:--|
-| `palette protect` | PII detection, local-only routing | Blocks client data at architecture level |
-| `palette research` | Governed external research via Perplexity | Query sanitized, citations returned |
-| `palette decide` | Decision with reversibility check | Prior decisions connected, one-way doors flagged |
-| `palette create` | Artifact creation with provenance | Who created what, when, why — tracked |
-| `palette diagnose` | Root cause isolation, fix verification | Failure patterns captured as lessons |
-| `palette reflect` | System self-audit | Improvement proposals through governance |
+| Intent | Purpose | Governance |
+|:---|:---|:---|
+| `palette protect` | Safety gate | Blocks PII and strategy language at the source. |
+| `palette research` | Evidence gathering | Sanitizes queries for safe external research via Perplexity. |
+| `palette decide` | Decision support | Connects prior work and flags irreversible ONE-WAY DOORS. |
+| `palette create` | Documentation | Generates typed artifacts with full provenance tracking. |
+| `palette diagnose` | Problem isolation | Captures failure patterns as reusable lessons. |
+| `palette reflect` | System audit | Proposes improvements to the local knowledge base. |
 
 ---
 
-## Scheduled Tasks (Governed Crons)
+## Governed Automations (Crons)
+
+Automate your high-stakes workflows without losing control.
 
 ```bash
 palette cron create morning-brief RESEARCH "Delaware corporate law changes this week"
-palette cron list
 palette cron daemon
 ```
 
-Every scheduled task is governance-gated: approved, not expired, boundary enforced. Results stored as typed artifacts for compounding. This is what makes Mission Canvas crons different — scheduled tasks with trust boundaries.
+Every scheduled task follows the same governance rules as manual queries: boundary enforced, results stored for compounding.
 
 ---
 
-## Telegram Bot
+## Built for Reliability
 
-```bash
-MC_BOT_TOKEN="your-token" python3 mission-canvas/mc_telegram.py
-```
-
-"Who are you?" → role selection → governed queries with visible governance signals. Works where you already are.
-
----
-
-## Built for Work That Cannot Leak
-
-- Socket firewall — 10-host allowlist, unauthorized connections blocked
-- PII sanitizer — 3-layer detection before any external call
-- Governance tiers — irreversible actions require human sign-off
-- Append-only decision log — immutable audit trail
-- Approval workflows — scheduled tasks require sign-off and expiry
-- Trust boundaries — internal-only vs governed-external classification
-- Zero CVEs — security designed in, not bolted on
+- **Socket Firewall**: 10-host allowlist; unauthorized external connections are physically impossible.
+- **Risk-Tiered Execution**: Decisions involving irreversible steps require explicit human sign-off.
+- **Local-First Knowledge**: Ships with a library of 203 verified legal and professional entries.
+- **Append-only Audit**: Every signal is captured in an immutable integrity log.
 
 ---
 
-## Architecture
+## Architecture: The 6 Layers of Palette
 
-Mission Canvas is powered by Palette — a governed runtime with 6 layers:
+Mission Canvas is powered by the **Palette Intelligence System**, a modular runtime for professional judgment.
 
-| Layer | What | Scale |
-|:--|:--|:--|
-| **Core** | Governance tiers, immutable rules, ONE-WAY DOOR classification | 3 tiers |
-| **Taxonomy** | Problem classification before retrieval | 131 RIU nodes |
-| **Knowledge** | Evidence-tiered, cited entries | 203 entries, 565 citations |
-| **Agents** | Governed specialists with maturity tracking | 13 agents |
-| **Buy-vs-Build** | Service routing with integration recipes | 106 services, 75 recipes |
-| **Skills** | Validated domain frameworks | 6 domains |
-
-### Hybrid Retrieval
-
-FTS5 full-text + vector embeddings + keyword matching, fused with reciprocal rank fusion. Local-first, zero API cost. Every query is classified through the taxonomy before the LLM response is grounded in verified knowledge.
-
-### Multi-Agent Coordination
-
-13 governed agents. Each earns trust through performance (UNVALIDATED → WORKING → PRODUCTION). Automatic demotion on repeated failures. Message bus with schema-validated envelopes, risk gates, and human checkpoints.
-
-### Voice Interface
-
-Talk to any agent. 5 LLMs (Claude, Mistral, GPT, Qwen, Perplexity) in 4 languages. Rime Arcana TTS. Web Speech STT.
-
----
-
-## Run Tests
-
-```bash
-uv run pytest -q scripts/palette_intelligence_system/test_*.py
-```
-
----
-
-## Origin
-
-Palette was distilled from 12 years of knowledge engineering at Amazon and 250+ enterprise AI enablement sessions reaching 20,000+ users annually. The 131 competency areas emerged from real questions asked by real practitioners. The knowledge library was built through iterative research, source verification, and evidence tiering — not generated from a prompt.
-
-The comparative linguistics foundation (MA, Universite Paris-Sorbonne) directly informed the architecture: mapping natural language to structured competency is the same discipline as intent classification.
+1.  **Core**: Governance tiers and immutable execution rules.
+2.  **Taxonomy**: 131 capability nodes that classify intent before action.
+3.  **Knowledge**: Evidence-tiered library with 565+ citations.
+4.  **Agents**: 13 specialized agents with performance-based trust tracking.
+5.  **Service Mesh**: Governed routing to local (Ollama) or external (Perplexity/Claude) models.
+6.  **Skills**: Domain-specific frameworks for legal, finance, and architecture.
 
 ---
 
 <div align="center">
 
-*Your judgment compounds here.*
+*Your judgment compounds here. Never elsewhere.*
 
-[Quick Start](QUICKSTART.md) · [Architecture](CLAUDE.md) · [Landing Page](https://missioncanvas.ai) · [Competitive Analysis](bdb/COMPETITIVE_INTELLIGENCE_2026-05-28.md)
+[Quick Start](QUICKSTART.md) · [Architecture](CLAUDE.md) · [missioncanvas.ai](https://missioncanvas.ai)
 
 </div>
