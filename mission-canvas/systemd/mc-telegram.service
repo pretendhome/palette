@@ -1,0 +1,22 @@
+[Unit]
+Description=Mission Canvas Telegram Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mical
+Group=mical
+WorkingDirectory=/home/mical/fde/palette/mission-canvas
+EnvironmentFile=/home/mical/fde/palette/mission-canvas/mc_telegram.env
+ExecStart=/usr/bin/python3 /home/mical/fde/palette/mission-canvas/mc_telegram.py
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/home/mical/fde/palette/mission-canvas/mc_telegram_data
+ReadOnlyPaths=/home/mical/fde/palette
+
+[Install]
+WantedBy=multi-user.target

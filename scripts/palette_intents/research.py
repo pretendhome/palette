@@ -37,6 +37,7 @@ from scripts.palette_intents.infra import (
     build_integrity_card_fast,
     bus_post,
     emit_integrity_signal,
+    find_related_artifacts,
     format_pis_line,
     palette_checkpoint,
     pis_summary,
@@ -188,6 +189,8 @@ def run_research(
 
     # 6. Prior artifacts (compounding)
     prior_artifacts = find_prior_artifacts(matter_id)
+    if not prior_artifacts and riu_id:
+        prior_artifacts = find_related_artifacts(riu_id)
 
     # 7. External research (if allowed)
     external_delta = []

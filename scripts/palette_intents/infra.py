@@ -507,6 +507,62 @@ def resolve_query(query: str) -> dict:
 # ── Bus Helper ──────────────────────────────────────────────────────────
 
 
+def find_related_artifacts(riu_id: str, limit: int = 5) -> list[dict]:
+    """Find prior artifacts with the same RIU — the compounding proof.
+
+    Scans all artifact types. Returns most recent matches (up to limit).
+    Includes BLOCKED artifacts (a blocked decision is high-value context).
+    """
+    if not riu_id:
+        return []
+
+    results = []
+    for type_dir in sorted(ARTIFACTS_DIR.iterdir()) if ARTIFACTS_DIR.exists() else []:
+        if not type_dir.is_dir():
+            continue
+        for f in sorted(type_dir.rglob("*.md"), reverse=True)[:30]:
+            try:
+                found_riu = None
+                intent = ""
+                action = ""
+                timestamp = ""
+                artifact_type = ""
+                query_text = ""
+                for line in f.open():
+                    if line.startswith("riu_id:"):
+                        val = line.split(":", 1)[1].strip().strip("'\"")
+                        if val and val != "null":
+                            found_riu = val
+                    elif line.startswith("intent:"):
+                        intent = line.split(":", 1)[1].strip().strip("'\"")
+                    elif line.startswith("action:"):
+                        action = line.split(":", 1)[1].strip().strip("'\"")
+                    elif line.startswith("artifact_type:"):
+                        artifact_type = line.split(":", 1)[1].strip().strip("'\"")
+                    elif line.startswith("timestamp:"):
+                        timestamp = line.split(":", 1)[1].strip().strip("'\"")
+                    elif not line.startswith(("---", " ", "\n", "#")) and ":" not in line:
+                        break
+                if found_riu == riu_id:
+                    label = f"{artifact_type}"
+                    if action == "BLOCK":
+                        label += " (BLOCKED)"
+                    results.append({
+                        "path": str(f),
+                        "type": artifact_type,
+                        "intent": intent,
+                        "action": action,
+                        "timestamp": timestamp,
+                        "label": label,
+                    })
+            except (OSError, UnicodeDecodeError):
+                pass
+
+    # Sort by timestamp descending, return top N
+    results.sort(key=lambda x: x.get("timestamp", ""), reverse=True)
+    return results[:limit]
+
+
 def bus_post(endpoint: str, payload: dict) -> dict | None:
     """POST JSON to the peers bus. Best-effort."""
     from urllib import request as urllib_request

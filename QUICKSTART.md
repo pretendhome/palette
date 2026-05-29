@@ -1,25 +1,30 @@
-# Quickstart — Run Palette in 5 Minutes
+# Quickstart — Run Mission Canvas in 60 Seconds
 
-Palette is on-premise AI that compounds your judgment. It classifies every question, retrieves from governed knowledge, and uses Perplexity only for public research — your client data never leaves your machine.
+Mission Canvas is on-premise AI that compounds your professional judgment. It classifies every question, retrieves from governed knowledge, and uses Perplexity only for public research — your client data never leaves your machine.
 
-## Requirements
-
-- Python 3.10+
-- A Perplexity API key (for external research — optional, system works without it)
-
-## Setup
+## One-Command Setup
 
 ```bash
-# Clone
 git clone https://github.com/pretendhome/palette.git
 cd palette
-
-# Install dependencies
-pip install numpy httpx pyyaml
-
-# (Optional) Set Perplexity API key for external research
-export PERPLEXITY_API_KEY="your-key-here"
+bash setup.sh
 ```
+
+This checks dependencies, installs packages, prompts for API keys (all optional), starts services, and opens your browser. The whole system runs locally.
+
+**Requirements**: Python 3.10+, Node.js 18+. Optional: Ollama (for fully local queries), Perplexity API key (for external research).
+
+## What You Get
+
+- **Voice Hub** at http://localhost:7890 — voice + text interface with governance signals
+- **CLI** — `palette query`, `palette protect`, `palette research`, `palette decide`
+- **Demo** — `palette demo sarah` (3-moment governed legal demo)
+
+---
+
+## CLI-Only Setup (no Voice Hub)
+
+If you only want the Palette query engine:
 
 ## Run Your First Query
 
@@ -84,8 +89,20 @@ Your question
 
 Everything runs on your machine. Perplexity is used only as a controlled window to public knowledge.
 
+## Intents (6 Governed Commands)
+
+```bash
+palette protect "What's our exposure on the Smith case?"     # LOCAL ONLY — blocks PII
+palette research "Delaware fiduciary duty precedents"         # Governed external via Perplexity
+palette decide "Should we settle or litigate?"                # Reversibility check + prior decisions
+palette create "Draft a client memo on fiduciary standards"   # Artifact lineage tracking
+palette diagnose "Why did the connector deployment fail?"     # Root cause + fix verification
+palette reflect "What did we learn from the Acme engagement?" # Improvement proposals
+```
+
 ## Learn More
 
 - [Product thesis](docs/product/PALETTE_MOAT_ITERATIONS_2026-05-16.md)
 - [Gateway spec](bdb/GATEWAY_SPEC.md)
 - [System identity](docs/PALETTE_IDENTITY.md)
+- [Competitive positioning](bdb/COMPETITIVE_INTELLIGENCE_2026-05-28.md)

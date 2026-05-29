@@ -36,6 +36,7 @@ from scripts.palette_intents.infra import (
     build_integrity_card_fast,
     bus_post,
     emit_integrity_signal,
+    find_related_artifacts,
     format_pis_line,
     palette_checkpoint,
     pis_summary,
@@ -191,6 +192,11 @@ def run_decide(
 
     # 4. Retrieve prior evidence (THE COMPOUNDING MOMENT)
     prior_evidence = find_matter_evidence(matter_id)
+    if not prior_evidence and riu_id:
+        # RIU-based connection: find related artifacts even without matter_id
+        riu_related = find_related_artifacts(riu_id)
+        if riu_related:
+            prior_evidence = riu_related
     evidence_context = build_evidence_context(prior_evidence)
 
     # 4b. If no prior evidence and matter was specified, degrade to UNVALIDATED

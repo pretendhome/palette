@@ -77,6 +77,9 @@ def main():
     elif intent == "reflect":
         from scripts.palette_intents.reflect import main as reflect_main
         reflect_main()
+    elif intent == "stats":
+        from scripts.palette_stats import run as stats_run
+        stats_run(as_json="--json" in sys.argv or "-j" in sys.argv)
     elif intent == "query":
         # Legacy: forward to palette_query
         from scripts.palette_query import main as query_main
