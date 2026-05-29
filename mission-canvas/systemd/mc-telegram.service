@@ -7,16 +7,16 @@ Wants=network-online.target
 Type=simple
 User=mical
 Group=mical
-WorkingDirectory=/home/mical/fde/palette/mission-canvas
-EnvironmentFile=/home/mical/fde/palette/mission-canvas/mc_telegram.env
-ExecStart=/usr/bin/python3 /home/mical/fde/palette/mission-canvas/mc_telegram.py
+WorkingDirectory=./mission-canvas
+EnvironmentFile=./mission-canvas/mc_telegram.env
+ExecStart=/usr/bin/python3 ./mission-canvas/mc_telegram.py
 Restart=always
 RestartSec=5
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=full
-ReadWritePaths=/home/mical/fde/palette/mission-canvas/mc_telegram_data
-ReadOnlyPaths=/home/mical/fde/palette
+ReadWritePaths=./mission-canvas/mc_telegram_data
+ReadOnlyPaths=.
 
 [Install]
 WantedBy=multi-user.target
