@@ -1,266 +1,261 @@
-# Session Handoff — 2026-05-27
-## For Kiro (and crew): everything that happened today
+# Session Handoff — 2026-05-27 (Evening)
+## Full BDB Progress Update
 **From**: claude.analysis
-**To**: kiro.design (primary), all crew
-**Tag**: BDB-SESSION-HANDOFF
+**To**: All crew + next context
+**Commits today**: `8daf1b8` + `e0084c0`
+**Deadline**: June 2, 11:59 PM PT (6 days)
 
 ---
 
-## What Happened Today (8 commits)
+## What We Built Today
 
-This was a full-day session that went from "what are we building?" to a working multi-model orchestration engine. Here's the chronological arc:
+This was the most productive single day in Palette's history. We went from "the intent framework is a brainstorm on the bus" to a fully operational 6-intent CLI with typed artifacts, socket firewall, integrity validation, schema enforcement, 203 knowledge entries, and 129 passing tests — all committed and pushed.
 
-### Phase 1: Crew Convergence (Morning)
+### The Discovery
 
-**Started with a question**: "What are we building? Is this the best way? Who are the customers? Is this the best way to help them?"
+The crew found the missing middle of the architecture. Palette had ontology, agents, governance, memory, recipes, voice, and integrity. What it didn't have was the user-facing work grammar that makes all of those pieces naturally activate. Today we built it:
 
-Sent the question to all 5 agents via the bus. Got independent answers from Kiro, Codex, Gemini, and Mistral. Wrote a convergence brief synthesizing all 4.
+```
+intent → RIU → boundary → integrity card → recipe/tool → artifact → memory → integrity signal
+```
 
-**Key convergence findings (all 4 agents agreed independently):**
-- The thesis is sound but the demo framing was too technical
-- "SDK for Humans" should stay internal — lead publicly with the job the product does
-- Compounding is the weakest proof and must become the hero moment
-- Same customer identified by all 4: solo/small-firm attorney already using AI nervously
-- Next 7 days = positioning war, not build sprint
+Six intents. Six anxieties. Six typed artifacts. The user enters through what they feel. Palette routes through what it knows.
 
-**Files created:**
-- `bdb/BDB_CONVERGENCE_BRIEF_2026-05-26.md` — full crew convergence
-- `bdb/PALETTE_OS_THESIS_2026-05-26.md` — OS thesis v1 (sent to crew for review)
+### The Architecture Line
 
-### Phase 2: North Star Vision + Competitive Intelligence
+```
+Intent is the front door.
+RIU is the semantic spine.
+Integrity is the alignment check.
+Recipe is the execution path.
+Artifact is the user-visible result.
+Memory is the compounding layer.
+Governance is the source-of-truth boundary.
+```
 
-**The thesis shifted**: from "SDK for Humans" / "local-first AI for lawyers" to **"the operating system for professional judgment."**
+---
 
-Perplexity Computer did a full competitive analysis (cited, with sources):
-- **Legora aOS** ($5.5B) — validates the category but is cloud-only
-- **Harvey AI** ($11B) — legal SaaS, can't solve the Heppner problem
-- **Nobody occupies our intersection**: local-first + multi-model governance + multi-vertical + compounding memory
-- **YC Summer 2026 RFS** explicitly asks for "the AI Operating System for Companies"
-- **a16z SR006** describes Palette's architecture without knowing it exists
+## What Shipped (2 Commits)
 
-**The Heppner ruling** (SDNY Feb 2026): federal court ruled that using Claude on privileged material waives attorney-client privilege. This is the market-making event. First paragraph of the submission.
+### Commit 1: `8daf1b8` — Full Build Day (60 files, 12,744 lines)
 
-**Files created:**
-- `bdb/NORTH_STAR_VISION_2026-05-26.md` — locked vision document
-- `bdb/PERPLEXITY_COMPUTER_FULL_ANALYSIS_2026-05-26.md` — competitive analysis with citations
+**Intent System**:
+- CLI shell: `palette protect/research/decide/create/diagnose/reflect`
+- 6 intent implementations with full governance logic
+- Shared infrastructure: IntentState, palette_checkpoint, integrity card builder, artifact storage, PIS summary, UNVALIDATED_FALLBACK
+- Pydantic-style schema validation (schemas.py) — 6 artifact schemas + 3 shared contracts
+- 69 unit tests (test_schemas, test_checkpoint, test_protect_research_decide)
+- Semantic strategy classifier (Ollama qwen2.5:3b second gate in PROTECT)
 
-### Phase 3: Palette Builds Itself (Recursive Self-Test)
+**Socket Firewall**:
+- `bdb/gateway/socket_firewall.py` — application-layer egress control
+- 10-host allowlist: localhost + Perplexity + Anthropic + Mistral + Groq
+- Activates at CLI startup, blocks unauthorized connections, logs to `.palette/firewall_log.ndjson`
+- Verified: unauthorized hosts blocked, governed APIs allowed
 
-Ran the North Star Vision through Palette's own taxonomy. 27 queries across 3 levels of depth. The system classified its own build problems, retrieved knowledge, and converged on an implementation order.
+**Total Health Agent (3 new sections)**:
+- Section 16: Intent System Health (8 checks — all passing)
+- Section 17: Integrity Signal Health (6 checks — gap signals, cache, firewall log)
+- Section 18: Gateway & Trust Boundary Health (10 checks — sanitizer, firewall, schemas)
 
-**Result**: The system's highest-confidence routes (RIU-401, RIU-087, RIU-004, RIU-608) defined the exact build priorities — matching what the crew and Computer independently recommended.
+**Legal Knowledge Library**:
+- LIB-210 through LIB-219 covering all 10 legal RIUs (700-709)
+- Grounded in web research: Heppner ruling, Delaware fiduciary standards, AI privilege waiver, TAR defensibility, settlement analysis, regulatory compliance
+- FTS5 index rebuilt (203 entries), MANIFEST updated
+- 131/131 RIU KL coverage (was 121/131)
 
-**File created:**
-- `bdb/PALETTE_SELF_BUILD_RECURSIVE_2026-05-26.md` — full recursive trace
+**Convergence Report**:
+- Synthesized 5 crew positions + 2 addendums into one document
+- 7 source documents integrated (Claude, Codex, Kiro, Gemini, Mistral + Codex integrity addendum + Gemini re-validation)
+- All 4 open questions resolved (CLI interface, storage format, error states, naming)
+- 11 governed transitions, 6 execution postures, integrity engine as validation spine
 
-### Phase 4: Obligatory Routing Loop (Implementation)
+**PIS Test Fixes**:
+- Updated hardcoded 121→`assertGreaterEqual` for taxonomy growth to 131
 
-Perplexity Computer deep-dived on how to make the routing loop mandatory. Produced a 900-line spec with 6 precise wiring changes. All 6 were implemented:
+### Commit 2: `e0084c0` — Kiro's 8 Improvements (11 files, 528 lines)
 
-1. **Pipeline aborts on unclassified queries** — `palette_query.py` returns error if classification fails. No silent degradation.
-2. **Bus envelope validation** — `validate.mjs` soft-enforces `riu_id` for execution-class messages. Prepared for hard enforcement.
-3. **Targeted Perplexity queries** — `gateway/__init__.py` now tells Perplexity what we already know and what's missing. Search is "fill this gap" not "answer this question."
-4. **Gap signal persistent logging** — all low/medium confidence signals written to `peers/gap_signals.ndjson`. Classification failures also logged.
-5. **auto_enrich.py created** — reads gap signals, clusters by RIU, writes prioritized proposals to `knowledge-library/proposals/` for human review.
-6. **Health check Section 10** — monitors gap signal accumulation, proposal queue, auto_enrich existence. 4/4 passing.
+- `validate_artifact()` wired into all 6 intents via `store_artifact()`
+- `palette_checkpoint()` wired into CREATE, DIAGNOSE, REFLECT (was only RESEARCH)
+- PIS summary line in all 6 intent displays
+- `palette demo sarah` — convenience command for video recording
+- `record_recipe_failure("ollama")` in DECIDE
+- Firewall activated in `palette_orchestrate.py`
+- Transition hints in PROTECT output
 
-**Tests**: 49/49 V3 + 12/12 gateway + 4/4 Section 10 = **65/65 all passing**
+---
 
-**Files created/modified:**
-- `scripts/palette_intelligence_system/auto_enrich.py` — NEW
-- `scripts/palette_query.py` — classification gate + gap logging
-- `peers/broker/validate.mjs` — RIU enforcement
-- `bdb/gateway/__init__.py` — targeted Perplexity queries
-- `agents/health/health_check.py` — Section 10
-- `bdb/OBLIGATORY_ROUTING_LOOP_SPEC_2026-05-26.md` — Computer's spec
+## Current System State
 
-### Phase 5: Legal Vertical (10 RIUs + 10 KL entries)
+### Test Scores
+- **129/129** pytest (69 intent + 60 PIS)
+- **11/11** intent regression tests
+- **8/8** integrity checks
+- **143/156** total health (24/24 on new sections 16-18)
 
-First non-AI/ML vertical cluster. Demonstrates taxonomy extensibility.
+### Health Summary
+| Section | Score | Notes |
+|---|---|---|
+| 1-7 (base) | 37/40 | Section 7 (repo sync) has uncommitted files — expected |
+| 8 (cross-layer) | 6/6 | All referential integrity clean |
+| 9 (service names) | 4/7 | 2 unmapped services (Perplexity Sonar Pro, Ollama Qwen) |
+| 10 (enablement) | 6/6 | Constellation integrity passing |
+| 11 (identity) | 4/6 | Identity doc counts stale (121→131 RIUs, 183→203 KL) |
+| 12 (optimization) | 5/8 | 0/30 lens evaluations, 10 legal RIUs need enablement modules |
+| 13 (governance) | 8/9 | Governance doc missing taxonomy version reference |
+| 14 (new systems) | 6/6 | All v3.1 systems present |
+| 15 (V3 health) | 12/13 | V3 test suite has pre-existing failures |
+| 16 (intent system) | **8/8** | All 6 intents, schemas, infra, tests, artifacts |
+| 17 (integrity signals) | **6/6** | All 6 intent types in signals, cache valid, 0 malformed |
+| 18 (gateway/trust) | **10/10** | Firewall, sanitizer, rate limiter, schemas, re-eval hooks |
 
-**10 Legal RIU nodes (RIU-700 through RIU-709):**
+### Artifact Counts
+- 255 artifacts generated during testing (across `.palette/artifacts/`)
+- 6 artifact types operational: gate_decision, evidence_brief, decision_record, artifact_lineage, failure_lesson, improvement_proposal
+- Integrity cache tracking 1 recipe failure
 
-| RIU | Name | Reversibility | Classification |
+### Knowledge Library
+- 203 entries (131 library_questions + 41 gap_additions + 31 context_specific_questions)
+- 131/131 RIU coverage (including 10 new legal RIUs)
+- FTS5 index rebuilt and current
+
+---
+
+## BDB Submission Checklist
+
+| Requirement | Status | Location |
+|---|---|---|
+| **Product or demo link** | Ready | `docs/landing/index.html`, domain `missioncanvas.ai` |
+| **Two-minute demo video** | SCRIPTED, NOT RECORDED | `bdb/DEMO_SCRIPT_FINAL_2026-05-27.md` + `palette demo sarah` command ready |
+| **1-3 Computer usage examples** | Documented | `bdb/11_DAY_EXECUTION_PLAN_FINAL.md` (3 prompts: gateway build, legal research, market validation) |
+| **Strongest traction signal** | Documented | Sierra AI onsite (Bret Taylor, $15B) + Heppner ruling timing |
+| **$1M unlock (90 days + 1 year)** | Written | 2 engineers, 10 pilot firms → 200 firms, $1.2M ARR |
+
+### What Must Happen Before June 2
+
+| # | Task | Urgency | Estimate |
 |---|---|---|---|
-| RIU-700 | Privilege Risk Assessment | one_way | internal_only |
-| RIU-701 | Legal Precedent Research | two_way | both |
-| RIU-702 | Filing Deadline Tracking | one_way | internal_only |
-| RIU-703 | Conflict of Interest Check | one_way | internal_only |
-| RIU-704 | Contract Clause Review | two_way | internal_only |
-| RIU-705 | Regulatory Compliance Check | one_way | both |
-| RIU-706 | Client Matter Intake | two_way | internal_only |
-| RIU-707 | Discovery and Document Production | one_way | internal_only |
-| RIU-708 | Settlement Analysis | one_way | internal_only |
-| RIU-709 | Fiduciary Duty Analysis | one_way | both |
+| 1 | **Record demo video** | P0 | 2-3h (setup + rehearsal + record) |
+| 2 | **Deploy landing page** | P0 | 30 min |
+| 3 | **PII audit + public push** | P0 | 1 hour |
+| 4 | **Write submission form** | P0 | 1 hour |
 
-**10 Legal KL entries (LIB-200 through LIB-209):**
-- LIB-200: Privilege risk + Heppner ruling (Tier 1)
-- LIB-201: Delaware fiduciary duty precedents (Tier 1)
-- LIB-202: Delaware Chancery filing deadlines (Tier 2)
-- LIB-203: Conflict check process (Tier 2)
-- LIB-204: Contract clause analysis (Tier 2)
-- LIB-205: HIPAA 2026 + EU AI Act compliance (Tier 1)
-- LIB-206: Matter file structure (Tier 3)
-- LIB-207: Settlement exposure modeling (Tier 2)
-- LIB-208: Discovery/production process (Tier 2)
-- LIB-209: Safe vs unsafe external query boundary (Tier 1)
+### Demo Recording Setup
 
-**Taxonomy**: v1.3 → v1.3.2 (121 → 131 RIUs)
-**Knowledge Library**: 183 → 193 entries
-**Classification**: 121 → 131 entries
+The `palette demo sarah` command is ready. To record:
 
-### Phase 6: MANIFEST Update + Health Check
+```bash
+# 1. Start services
+cd ~/fde/palette && node peers/hub/server.mjs &   # Voice Hub (for retrieval)
+ollama serve &                                     # Local model (for DECIDE)
 
-Updated MANIFEST.yaml to reflect current state:
-- Version: 2.2 → 3.1.0
-- Taxonomy: 121 → 131 RIUs
-- KL: 183 → 193 entries
-- Company index: 12 → 127 (was 10x stale)
-- Added BDB + self-improvement sections
+# 2. Run demo
+palette demo sarah
 
-**Health check result**: 84/94 passing. 95% retrieval recall, 80% precision.
-
-### Phase 7: Demo Script + Multi-Model Routing
-
-**Demo narrative locked**: "Sarah's Morning" — one attorney, one matter, three moments:
-
-1. **Privileged question → fully local** (Ollama, BLOCKED, zero connection)
-2. **Public research → governed external** (Perplexity + Claude synthesis)
-3. **Adversarial critique → governed** (Mistral, compounding across all prior)
-
-**Multi-model routing added to demo mode:**
-- `_call_model_api()` routes to Ollama, Claude (CLI), or Mistral (API)
-- `run_demo()` detects adversarial queries → Mistral critique
-- `run_demo()` detects research queries → Claude synthesis
-- Blocked queries get Ollama on-device response
-
-**Legal demo override expanded**: self-dealing, exposure, opposing counsel, LLC co-founder queries now route to RIU-700s instead of old LEGAL-001/002/003.
-
-**Demo classifications verified:**
-- Moment 1: RIU-709 (internal_only) ✓
-- Moment 2: RIU-701 (both) ✓
-- Moment 3: RIU-708 (both) ✓
-
-### Phase 8: Palette Orchestrate — The OS Calls the Models
-
-**This is the centerpiece.** New entry point: `palette orchestrate`
-
-The user talks to Palette. Palette calls models in sequence — each for a defined purpose. The user never chooses a model. The OS decides based on classification.
-
-**The 7-step loop:**
-
-```
-1. CLASSIFY   → Taxonomy routes the problem (local, instant)
-2. RETRIEVE   → Knowledge + prior decisions (local, compounding)
-3. REASON     → Local model initial analysis (Ollama, on-device)
-4. RESEARCH   → Perplexity if classification allows (governed)
-5. SYNTHESIZE → Claude connects research to context (governed)
-6. CRITIQUE   → Mistral adversarial analysis (governed)
-7. STORE      → Log, link decisions, propose improvements
+# 3. What judges see:
+#    PROTECT: "What's our exposure?" → BLOCKED, local only, zero data left machine
+#    RESEARCH: "Delaware fiduciary duty standards" → Perplexity, governed external
+#    DECIDE: "What would opposing counsel argue?" → local, connects prior artifacts
+#    Each with [PIS] 131 RIUs traversed, typed artifact stored, integrity signal emitted
 ```
 
-**Tested**: Moment 1 (privileged query) runs fully local in 9 seconds with qwen2.5:3b, connects to 2 prior decisions, BLOCKS external. The governance boundary is visible. The compounding is real.
+---
 
-**File created:**
-- `scripts/palette_orchestrate.py` — the heuristic orchestration agent
+## Key Files Created/Modified Today
 
-**Also fixed**: `to_agent="group"` → `"all"` in 3 places in palette_query.py
+### New Files
+| File | Purpose |
+|---|---|
+| `scripts/palette_intent.py` | CLI dispatcher (6 intents + demo + legacy forwards) |
+| `scripts/palette_intents/infra.py` | Shared infrastructure (320 lines) |
+| `scripts/palette_intents/protect.py` | PROTECT intent (354 lines) |
+| `scripts/palette_intents/research.py` | RESEARCH intent (413 lines) |
+| `scripts/palette_intents/decide.py` | DECIDE intent (402 lines) |
+| `scripts/palette_intents/create.py` | CREATE intent (328 lines) |
+| `scripts/palette_intents/diagnose.py` | DIAGNOSE intent (296 lines) |
+| `scripts/palette_intents/reflect.py` | REFLECT intent (356 lines) |
+| `scripts/palette_intents/schemas.py` | 6 artifact schemas + validation (280 lines) |
+| `scripts/palette_intents/demo.py` | `palette demo sarah` convenience command |
+| `scripts/palette_intents/tests/` | 3 test files (69 tests) |
+| `bdb/gateway/socket_firewall.py` | Socket-level egress firewall (150 lines) |
+| `docs/specs/INTENT_CONVERGENCE_REPORT_2026-05-27.md` | Crew convergence (all positions synthesized) |
+| `docs/specs/KIRO_BUILD_SPEC_INTENTS_2026-05-27.md` | Build spec for Kiro |
+| `docs/specs/KIRO_IMPROVEMENT_TASKS_2026-05-27.md` | 8 safe improvement tasks (all completed) |
+| `.palette/artifacts/` | 6 artifact type directories |
+| `.palette/integrity_cache.json` | Recipe failure tracking |
+| `wiki/rius/RIU-700.md` through `RIU-709.md` | 10 legal RIU wiki pages |
+
+### Modified Files
+| File | What Changed |
+|---|---|
+| `agents/total-health/total_health_check.py` | Added sections 16-18 (intent, signals, gateway) |
+| `knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml` | +10 legal entries (LIB-210 through LIB-219) |
+| `MANIFEST.yaml` | KL count 193→203 |
+| `scripts/palette_intelligence_system/test_query_engine.py` | Fixed hardcoded 121 counts |
+| `scripts/palette_orchestrate.py` | Added firewall activation |
+| `peers/hub/kl_fts.db` | Rebuilt FTS5 index (203 entries) |
 
 ---
 
-## System State After Today
+## Crew Contributions Today
 
-| Metric | Before | After |
-|---|---|---|
-| RIUs | 121 (AI/ML only) | **131** (121 AI/ML + 10 legal) |
-| KL entries | 183 | **193** (+ 10 legal, including Heppner at Tier 1) |
-| Tests | 61/61 | **65/65** (+ 4 Section 10) |
-| Health sections | 9 | **10** (+ Self-Improvement Loop) |
-| Health score | 84/85 | **84/94** (new checks more comprehensive) |
-| Retrieval recall | 95% | 95% (unchanged) |
-| Obligatory loop | Not enforced | **Enforced** (classification gate + gap logging + auto-enrich) |
-| Legal vertical | 0 RIUs, 8 demo entries | **10 RIUs + 10 KL entries + classification** |
-| Multi-model routing | Voice Hub only | **CLI demo mode + orchestrate** |
-| Entry points | `palette query` | `palette query` + **`palette orchestrate`** |
-| MANIFEST | Stale (company_index: 12) | **Current** (company_index: 127, version: 3.1.0) |
+| Agent | Contribution |
+|---|---|
+| **Claude** | Convergence synthesis (7 docs → 1 report), schemas.py, 69 tests, socket firewall, health sections 16-18, PIS thin wrapper, legal KL entries, build spec for Kiro, improvement task list |
+| **Codex** | Product compression and implementation discipline: named the job instead of the mechanism, narrowed the BDB story to local-first legal judgment, restored the integrity engine as the validation spine, corrected Computer provenance, made compounding a concrete demo proof, and wrote the founder-lens review |
+| **Kiro** | Built all 6 intent implementations, CLI shell, infra.py, demo command, wired validation + checkpoint + PIS into all intents, 11/11 regression tests, Gemini bug fixes |
+| **Gemini** | Sandbox analysis (failure density for 8 intents), integrity re-validation (5 systemic fixes), 3 polish items (cache, amber state, matter-ID) |
+| **Mistral** | Implementation guardrails doc, schema contracts, CLI interface spec, pragmatic review |
 
 ---
 
-## Commits Today (8)
+## The Relay That Worked
 
-| # | Hash | Description |
-|---|---|---|
-| 1 | `ae10bc0` | North Star Vision + crew convergence + Computer analysis |
-| 2 | `5077783` | Obligatory routing loop specification |
-| 3 | `e86a9a6` | 6 wiring changes — loop enforced |
-| 4 | `4a6eaa2` | Legal vertical — 10 RIUs + 10 KL entries |
-| 5 | `de2485f` | MANIFEST updated to current state |
-| 6 | `142561d` | Multi-model demo routing — Ollama + Perplexity + Claude + Mistral |
-| 7 | `796541b` | PII scrub + routing SLO + demo polish (Kiro + Gemini) |
-| 8 | `bbf51dc` | **palette orchestrate** — the OS calls the models |
+```
+Claude generated 30 intents
+→ Codex expanded to 15 iterations + 9 core intents + experience objects
+→ Kiro reality-checked to 6 shippable intents with build estimates
+→ Gemini stress-tested and found 6 guaranteed failure modes
+→ Mistral formalized into implementation guardrails
+→ Claude synthesized into convergence report
+→ Codex restored integrity engine as validation spine
+→ Gemini re-validated with integrity in the loop (5 systemic fixes)
+→ Mistral contracted into schemas
+→ Claude implemented schemas + tests + firewall + health
+→ Kiro built all 6 intents + wired everything together
+→ Claude committed + pushed
+```
 
----
+11 passes. 5 agents. 2 commits. 13,272 lines. 129 tests. One day.
 
-## What Kiro Should Look At
+### Codex Contribution Note
 
-### 1. Demo polish for `palette orchestrate`
-The orchestrator outputs are functional but not video-polished. The governance boundary markers, color coding, and timing are close but could be tightened for recording. Same visual language as your `--demo` flag work.
+Detailed record: `bdb/CODEX_BDB_CONTRIBUTION_RECORD_2026-05-28.md`.
 
-### 2. Terminal setup for recording
-You flagged this on Day 3 and it's still not confirmed. Needed: terminal emulator, dark/light background, font size, screen resolution. This blocks final polish.
+The short version: Codex likely saved one full convergence cycle, not through raw code volume alone, but by preventing three expensive forms of drift:
 
-### 3. Legal demo override reconciliation
-We now have two systems: the hardcoded legal demo override in `palette_retrieve.py` AND the real legal RIUs in the taxonomy. The override catches demo-specific queries (self-dealing, opposing counsel, etc.) and routes to RIU-700s. For the demo this works. For the product, these should be reconciled into one routing path. Your call on priority.
+- positioning drift from user job back into mechanism language;
+- architecture drift from demo commands without an integrity spine;
+- proposal drift from defensible Computer provenance into overclaiming.
 
-### 4. `demo_sarah.py` — deterministic rehearsal
-Codex and you both want a `--demo-rehearsal` or standalone script that runs all 3 moments from fixtures. This prevents debugging model routing during recording. I'd suggest `scripts/demo_sarah.py` that calls `palette orchestrate` three times with the exact demo queries and pre-warmed cache.
-
-### 5. Qwen 2.5 3B is downloaded
-Pulled `qwen2.5:3b` — runs Moment 1 in 9 seconds vs 26 seconds with 7B. The orchestrator tries 3B first with 7B fallback. Verify it's working on the recording machine.
-
----
-
-## Open Issues (from Gemini Stress Test + Codex Review)
-
-| Issue | Severity | Status |
-|---|---|---|
-| Sanitizer misses international PII (French addresses) | Medium | OPEN |
-| `bdb_compounding.py` 4-char keyword minimum | Medium | OPEN (but `bdb_compounding.py` is old flow, not current path) |
-| Voice Hub not compounding to session log | Medium | OPEN |
-| `bdb_flow.py` hardcoded convergence | Low | OPEN (old flow, not current demo path) |
-| PII in 9 BDB files | Medium | OPEN (operational docs, not public code) |
-| Demo overclaiming matter lifecycle | Low | FIXED (Sarah script is honest now) |
-| Resolver too generous (gibberish at 75%) | Low | KNOWN (not 7-day priority) |
+That is why the final round finished. The relay had enough breadth already; Codex helped compress it into a proof the judges can understand and the repo can substantiate.
 
 ---
 
-## The Product Insight That Emerged Today
+## What the Next Context Needs to Know
 
-**"You talk to Palette. Palette talks to the models."**
+1. **The intent system is the product for the demo.** `palette demo sarah` runs the full 3-moment flow. Record it.
 
-This is the OS claim made real in code. The orchestrator (`palette orchestrate`) runs 7 steps across multiple models. Each model gets governed context. The user never picks a model. The taxonomy decides what's local, what's external, what's blocked. The judgment compounds across sessions and across models.
+2. **The Perplexity API key is expired.** We used web search for the legal KL entries instead. The key in the environment (`PERPLEXITY_API_KEY`) returns 401. Needs renewal before recording the demo (RESEARCH intent calls Perplexity).
 
-The core product separation is now clean:
-- **Runtime**: `palette orchestrate` — the OS loop (Ollama + Perplexity + Claude + Mistral)
-- **Build crew**: Kiro, Codex, Gemini — develop and improve Palette (not in the runtime loop)
-- **Governance**: taxonomy + sanitizer + bus + health checks — enforced, not suggested
+3. **The socket firewall is active.** Any new external API needs to be added to `ALLOWED_HOSTS` in `bdb/gateway/socket_firewall.py`.
 
-Codex said it best: "The judge should remember Palette, not a cast list of models."
+4. **IDENTITY doc counts are stale.** `docs/PALETTE_IDENTITY.md` says 121 RIUs and 183 KL entries. Actual: 131 and 203. Quick text fix.
 
----
+5. **Subtree push needed after PII audit.** `git subtree push --prefix=palette palette main` — only after confirming no private data in palette/.
 
-## What's Next
-
-| Priority | Task | Owner |
-|---|---|---|
-| 1 | Run `palette orchestrate` with all 3 demo moments end-to-end | Founder + Claude |
-| 2 | Build `demo_sarah.py` deterministic rehearsal | Claude + Kiro |
-| 3 | Real professional session (Adam or lawyer friend) | Founder |
-| 4 | Landing page rewrite with Heppner hook | Founder + Mistral |
-| 5 | Submission form answers | Founder + Claude |
-| 6 | Record 2-minute video | Founder |
-| 7 | Submit June 1-2 | All |
+6. **The "start over" insight is real.** Both Codex and Claude independently concluded: intents first, integrity as runtime guard, typed artifacts from day one, demo scenario first. The architecture we found today is the architecture we'd build from scratch. That's validation.
 
 ---
 
-*Session handoff by claude.analysis. 2026-05-27. 8 commits, 1 day, from convergence brief to working OS.*
+*Session closed 2026-05-27. Two commits pushed to origin. 6 days until BDB submission.*

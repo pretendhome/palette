@@ -9,18 +9,18 @@
 - **Tier**: 2
 - **Proposed by**: gemini.specialist
 - **Votes**: 1/3 approve, 0 object, 2 pending
-- **Status**: voting
+- **Status**: expired
 
 ### PROP-2026-04-04-008
 - **Question**: What is the difference between zero-shot and few-shot LLM performance, and when 
 - **Tier**: 2
 - **Proposed by**: gemini.specialist
 - **Votes**: 1/3 approve, 0 object, 2 pending
-- **Status**: voting
+- **Status**: expired
 
 ### PROP-2026-04-04-009
 - **Question**: How can Generative AI assist in database migrations and schema refactoring?
 - **Tier**: 2
 - **Proposed by**: gemini.specialist
 - **Votes**: 1/3 approve, 0 object, 2 pending
-- **Status**: voting
+- **Status**: expired
