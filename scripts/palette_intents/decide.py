@@ -116,14 +116,16 @@ def build_evidence_context(evidence: list[dict]) -> str:
 
     parts = []
     for e in evidence:
-        if e["type"] == "GateDecision":
-            parts.append(f"[PROTECT] Action: {e['action']} | Boundary: {e['boundary']}")
-        elif e["type"] == "EvidenceBrief":
+        if e.get("type") == "GateDecision":
+            parts.append(f"[PROTECT] Action: {e.get('action', 'unknown')} | Boundary: {e.get('boundary', 'local_only')}")
+        elif e.get("type") == "EvidenceBrief":
             canon = e.get("local_canon", [])
             for lc in canon[:3]:
                 parts.append(f"[RESEARCH] {lc.get('question', '')}: {lc.get('content', '')[:200]}")
-        elif e["type"] == "DecisionRecord":
+        elif e.get("type") == "DecisionRecord":
             parts.append(f"[PRIOR DECISION] {e.get('recommendation', '')[:200]}")
+        elif e.get("intent"):
+            parts.append(f"[{e['intent']}] {e.get('type', 'artifact')} ({e.get('timestamp', '')[:10]})")
     return "\n".join(parts) if parts else "No prior evidence available."
 
 
