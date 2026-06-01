@@ -908,8 +908,8 @@ function getIntentAgent(intent) {
     protect: 'kimi',          // vespera @ 1.0x — guarded, local-only
     decide: 'reasoning',      // pilaster @ 0.90x — slow, deliberate
     create: 'mistral',        // luna @ 1.0x — creative flow
-    diagnose: 'claude',       // astra @ 0.95x — deep reader, synthesizer
-    reflect: 'computer',      // celeste @ 0.90x — measured self-audit
+    diagnose: 'perplexity',   // astra @ 0.95x — deep reader (research + reasoning for root cause)
+    reflect: 'reasoning',     // celeste @ 0.90x — measured self-audit (reasoning-pro)
   };
   return routing[intent] || 'perplexity';
 }
