@@ -727,38 +727,43 @@ function toggleMic(btn, targetInput, onFinal) {
 
   if (state.listening) {
     state.recognition.stop();
-    state.listening = false;
-    btn.classList.remove('listening');
     return;
   }
 
   state.listening = true;
   btn.classList.add('listening');
+  let collected = '';
+
+  state.recognition.onstart = () => {
+    collected = '';
+    if (targetInput) targetInput.placeholder = 'Listening...';
+  };
 
   state.recognition.onresult = (e) => {
-    let transcript = '';
+    let interim = '';
     for (let i = e.resultIndex; i < e.results.length; i++) {
-      transcript += e.results[i][0].transcript;
+      const chunk = e.results[i][0].transcript;
+      if (e.results[i].isFinal) collected += chunk + ' ';
+      else interim += chunk;
     }
-    if (targetInput) targetInput.value = transcript;
-    if (e.results[e.results.length - 1].isFinal) {
-      state.listening = false;
-      btn.classList.remove('listening');
-      if (onFinal) onFinal(transcript.trim());
-    }
+    if (targetInput) targetInput.value = (collected + interim).trim();
   };
 
   state.recognition.onerror = () => {
     state.listening = false;
     btn.classList.remove('listening');
+    if (targetInput) targetInput.placeholder = getIntentPlaceholder(state.intent);
   };
 
   state.recognition.onend = () => {
     state.listening = false;
     btn.classList.remove('listening');
+    if (targetInput) targetInput.placeholder = getIntentPlaceholder(state.intent);
+    const message = collected.trim();
+    if (message && onFinal) onFinal(message);
   };
 
-  state.recognition.start();
+  try { state.recognition.start(); } catch { state.listening = false; btn.classList.remove('listening'); }
 }
 
 // Opening mic → identify role from speech
