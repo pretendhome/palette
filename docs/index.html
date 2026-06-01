@@ -269,6 +269,34 @@
     }
 
     /* ── Query input ── */
+    .intent-bar {
+      display: flex;
+      gap: 6px;
+      padding: 10px 16px;
+      overflow-x: auto;
+      border-bottom: 1px solid #1a1a1a;
+      background: #0a0a0a;
+    }
+    .intent-chip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border: 1px solid #333;
+      border-radius: 16px;
+      background: transparent;
+      color: #888;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .intent-chip:hover { border-color: #666; color: #ccc; }
+    .intent-chip.active { border-color: #4ade80; color: #4ade80; background: rgba(74,222,128,0.08); }
+    .intent-icon { font-size: 13px; }
+
     .query-bar {
       display: flex;
       gap: 8px;
@@ -554,6 +582,28 @@
         <span class="session-id" id="session-id"></span>
       </div>
 
+      <!-- ── Intent selector ── -->
+      <div class="intent-bar" id="intent-bar">
+        <button class="intent-chip active" data-intent="research" title="Governed external research. Query sanitized before it leaves.">
+          <span class="intent-icon">🔍</span> RESEARCH
+        </button>
+        <button class="intent-chip" data-intent="protect" title="PII detection. Client data stays local. Zero external routing.">
+          <span class="intent-icon">🛡️</span> PROTECT
+        </button>
+        <button class="intent-chip" data-intent="decide" title="Reversibility check. One-way doors flagged before action.">
+          <span class="intent-icon">⚖️</span> DECIDE
+        </button>
+        <button class="intent-chip" data-intent="create" title="Typed artifacts with provenance. Who created what, when, why.">
+          <span class="intent-icon">🔨</span> CREATE
+        </button>
+        <button class="intent-chip" data-intent="diagnose" title="Root cause isolation. Fix verification. Failure patterns captured.">
+          <span class="intent-icon">🔬</span> DIAGNOSE
+        </button>
+        <button class="intent-chip" data-intent="reflect" title="The system audits itself. Improvement proposals generated.">
+          <span class="intent-icon">🪞</span> REFLECT
+        </button>
+      </div>
+
       <div class="messages" id="messages"></div>
 
       <div class="query-bar">
@@ -586,6 +636,7 @@ const HUB = location.hostname === 'localhost' || location.hostname === '127.0.0.
 // ── State ───────────────────────────────────────────────────────────────────
 const state = {
   role: null,
+  intent: 'research',
   sessionId: 'mc-' + Date.now().toString(36),
   messages: [],
   recognition: null,
@@ -609,6 +660,29 @@ const queryMic  = document.getElementById('query-mic');
 document.querySelectorAll('.role-chip').forEach(btn => {
   btn.addEventListener('click', () => enterWorkspace(btn.dataset.role));
 });
+
+// ── Intent selection ────────────────────────────────────────────────────────
+document.querySelectorAll('.intent-chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.intent-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.intent = btn.dataset.intent;
+    queryIn.placeholder = getIntentPlaceholder(state.intent);
+    queryIn.focus();
+  });
+});
+
+function getIntentPlaceholder(intent) {
+  const placeholders = {
+    research: 'Ask a research question...',
+    protect: 'Paste sensitive content to analyze locally...',
+    decide: 'Describe a decision you need to make...',
+    create: 'What do you need to create?',
+    diagnose: 'What\'s broken? Describe the problem...',
+    reflect: 'What should the system learn from this session?',
+  };
+  return placeholders[intent] || 'Ask a question...';
+}
 
 function enterWorkspace(role) {
   state.role = role;
@@ -744,9 +818,10 @@ async function submitQuery(text) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        agent: 'perplexity',
+        agent: getIntentAgent(state.intent),
         text: text,
         lang: 'eng',
+        mode: state.intent,
         system: buildSystemPrompt(),
       }),
     });
@@ -826,7 +901,20 @@ async function submitQuery(text) {
   queryIn.focus();
 }
 
-// ── Build system prompt based on role ───────────────────────────────────────
+// ── Intent → Agent routing ──────────────────────────────────────────────────
+function getIntentAgent(intent) {
+  const routing = {
+    research: 'perplexity',
+    protect: 'kimi',        // Groq/local — never sends externally for PII
+    decide: 'reasoning',    // Perplexity reasoning-pro for decision analysis
+    create: 'mistral',      // Mistral for artifact generation
+    diagnose: 'perplexity', // Research + reasoning for root cause
+    reflect: 'mistral',     // Mistral for self-audit synthesis
+  };
+  return routing[intent] || 'perplexity';
+}
+
+// ── Build system prompt based on role + intent ──────────────────────────────
 function buildSystemPrompt() {
   const roleContext = {
     'attorney': 'The user is an attorney. Frame responses in legal terms. Cite case law when relevant. Flag anything that could implicate attorney-client privilege.',
@@ -836,20 +924,66 @@ function buildSystemPrompt() {
     'other': 'Frame responses for a professional audience. Flag sensitive data.',
   };
 
-  return `You are Mission Canvas — a governed AI assistant for regulated professionals.
+  const intentContext = {
+    research: `INTENT: RESEARCH — Governed external research.
+Your job: Investigate the question deeply. Cite sources. Ground every claim in evidence.
+Pipeline: Taxonomy classification → Knowledge retrieval → Sanitized external query → Synthesis with citations.
+If the query contains PII, note it would be stripped before external routing in production.`,
+    protect: `INTENT: PROTECT — Local-only analysis. NOTHING leaves this machine.
+Your job: Analyze the content provided. Detect PII, privileged information, trade secrets, or sensitive data. Classify what's present and advise on handling.
+Pipeline: Local classification → PII detection → Risk assessment → Handling recommendation.
+CRITICAL: Do NOT reference external sources. Do NOT search. Everything stays local. This is the airgapped path.`,
+    decide: `INTENT: DECIDE — Decision analysis with reversibility checking.
+Your job: Help the user make a decision. Identify if this is a ONE-WAY DOOR (irreversible) or TWO-WAY DOOR (reversible). Connect to prior decisions if context exists. Flag risks.
+Pipeline: Classify decision type → Retrieve prior decisions → Analyze reversibility → Present options with tradeoffs → Flag one-way doors explicitly.
+Format: State the decision clearly, classify its reversibility, present 2-3 options with tradeoffs, and recommend.`,
+    create: `INTENT: CREATE — Artifact generation with provenance.
+Your job: Create a concrete artifact (document, plan, brief, analysis, code, framework). Track what you created, why, and what it's based on.
+Pipeline: Classify artifact type → Retrieve relevant knowledge → Generate artifact → Self-critique → Note provenance.
+Format: Produce the artifact directly. End with a provenance block noting sources and confidence.`,
+    diagnose: `INTENT: DIAGNOSE — Root cause isolation and fix verification.
+Your job: Find what's broken and why. Use the 5-whys method. Propose a minimal fix. Verify the fix addresses root cause, not symptoms.
+Pipeline: Classify failure type → Retrieve similar past failures → Isolate root cause → Propose minimal fix → Verify fix logic.
+Format: State the symptom, walk through root cause analysis, propose the minimal fix, explain why it works.`,
+    reflect: `INTENT: REFLECT — System self-audit and improvement.
+Your job: Look at what happened in this session (or the topic provided) and extract lessons. Propose concrete improvements. Be honest about what worked and what didn't.
+Pipeline: Review context → Identify patterns → Extract lessons → Propose improvements → Rate confidence.
+Format: What happened → What worked → What didn't → Concrete improvement proposals.`,
+  };
+
+  return `You are Mission Canvas — a governed AI operating system for regulated professionals.
 
 ${roleContext[state.role] || roleContext['other']}
 
+${intentContext[state.intent] || intentContext['research']}
+
 Rules:
-- If the query contains client-specific information (names, dollar amounts, case details, patient info), note that in production this would be handled LOCAL ONLY with no external routing.
 - Ground responses in verifiable sources when possible.
-- Be concise and direct. Cite sources.
-- Never fabricate case law, medical guidelines, or financial regulations.`;
+- Be concise and direct. No filler.
+- Never fabricate case law, medical guidelines, or financial regulations.
+- Show your reasoning. Professionals need to verify your work.`;
 }
 
 // ── Governance signals ──────────────────────────────────────────────────────
 function showGovernanceSignals(container, meta, query) {
   container.innerHTML = '';
+
+  // Intent badge
+  const intentLabels = {
+    research: '🔍 RESEARCH', protect: '🛡️ PROTECT', decide: '⚖️ DECIDE',
+    create: '🔨 CREATE', diagnose: '🔬 DIAGNOSE', reflect: '🪞 REFLECT'
+  };
+  addGovChip(container, 'classify', `INTENT  ${intentLabels[state.intent] || state.intent}`);
+
+  // Model routing
+  const agentName = getIntentAgent(state.intent);
+  const modelLabels = {
+    perplexity: 'Perplexity sonar-pro', reasoning: 'Perplexity reasoning-pro',
+    mistral: 'Mistral Large', kimi: 'Groq (local-class)',
+  };
+  const routeType = (state.intent === 'protect') ? 'LOCAL' : 'EXTERNAL';
+  addGovChip(container, routeType === 'LOCAL' ? 'blocked' : 'external',
+    `${routeType}  → ${modelLabels[agentName] || agentName}`);
 
   // Classification
   if (meta.riu_id) {
@@ -864,10 +998,6 @@ function showGovernanceSignals(container, meta, query) {
     container.appendChild(hr);
   } else {
     addGovChip(container, 'safe', 'SAFE  no PII detected');
-    const hr = document.createElement('hr');
-    hr.className = 'gov-boundary';
-    container.appendChild(hr);
-    addGovChip(container, 'external', 'EXTERNAL  routed to Perplexity');
   }
 
   // Knowledge sources
@@ -879,15 +1009,26 @@ function showGovernanceSignals(container, meta, query) {
 
 function showBasicSignals(container, query) {
   container.innerHTML = '';
+  const intentLabels = {
+    research: '🔍 RESEARCH', protect: '🛡️ PROTECT', decide: '⚖️ DECIDE',
+    create: '🔨 CREATE', diagnose: '🔬 DIAGNOSE', reflect: '🪞 REFLECT'
+  };
+  addGovChip(container, 'classify', `INTENT  ${intentLabels[state.intent] || state.intent}`);
+
+  const agentName = getIntentAgent(state.intent);
+  const modelLabels = {
+    perplexity: 'Perplexity sonar-pro', reasoning: 'Perplexity reasoning-pro',
+    mistral: 'Mistral Large', kimi: 'Groq (local-class)',
+  };
+  const routeType = (state.intent === 'protect') ? 'LOCAL' : 'EXTERNAL';
+  addGovChip(container, routeType === 'LOCAL' ? 'blocked' : 'external',
+    `${routeType}  → ${modelLabels[agentName] || agentName}`);
+
   if (hasSensitiveContent(query)) {
     addGovChip(container, 'blocked', 'PII DETECTED  would be local only in production');
   } else {
     addGovChip(container, 'safe', 'SAFE  no PII detected');
   }
-  const hr = document.createElement('hr');
-  hr.className = 'gov-boundary';
-  container.appendChild(hr);
-  addGovChip(container, 'external', 'EXTERNAL  routed to Perplexity');
 }
 
 function hasSensitiveContent(text) {
