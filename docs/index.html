@@ -909,7 +909,7 @@ function getIntentAgent(intent) {
     decide: 'reasoning',      // pilaster @ 0.90x — slow, deliberate
     create: 'mistral',        // luna @ 1.0x — creative flow
     diagnose: 'perplexity',   // astra @ 0.95x — deep reader (research + reasoning for root cause)
-    reflect: 'reasoning',     // celeste @ 0.90x — measured self-audit (reasoning-pro)
+    reflect: 'mistral',       // luna @ 1.0x — reflective synthesis (reasoning-pro chokes on long system prompts)
   };
   return routing[intent] || 'perplexity';
 }
