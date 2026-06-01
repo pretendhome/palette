@@ -901,13 +901,15 @@ async function submitQuery(text) {
 
 // ── Intent → Agent routing ──────────────────────────────────────────────────
 function getIntentAgent(intent) {
+  // Each intent routes to a different agent → different Rime voice identity
+  // perplexity=oculus, kimi=vespera, reasoning=pilaster, mistral=luna, claude=astra, computer=celeste
   const routing = {
-    research: 'perplexity',
-    protect: 'kimi',        // Groq/local — never sends externally for PII
-    decide: 'reasoning',    // Perplexity reasoning-pro for decision analysis
-    create: 'mistral',      // Mistral for artifact generation
-    diagnose: 'perplexity', // Research + reasoning for root cause
-    reflect: 'mistral',     // Mistral for self-audit synthesis
+    research: 'perplexity',   // oculus @ 0.94x — methodical research tone
+    protect: 'kimi',          // vespera @ 1.0x — guarded, local-only
+    decide: 'reasoning',      // pilaster @ 0.90x — slow, deliberate
+    create: 'mistral',        // luna @ 1.0x — creative flow
+    diagnose: 'claude',       // astra @ 0.95x — deep reader, synthesizer
+    reflect: 'computer',      // celeste @ 0.90x — measured self-audit
   };
   return routing[intent] || 'perplexity';
 }
@@ -978,6 +980,7 @@ function showGovernanceSignals(container, meta, query) {
   const modelLabels = {
     perplexity: 'Perplexity sonar-pro', reasoning: 'Perplexity reasoning-pro',
     mistral: 'Mistral Large', kimi: 'Groq (local-class)',
+    claude: 'Claude Sonnet', computer: 'Perplexity deep-research',
   };
   const routeType = (state.intent === 'protect') ? 'LOCAL' : 'EXTERNAL';
   addGovChip(container, routeType === 'LOCAL' ? 'blocked' : 'external',
@@ -1017,6 +1020,7 @@ function showBasicSignals(container, query) {
   const modelLabels = {
     perplexity: 'Perplexity sonar-pro', reasoning: 'Perplexity reasoning-pro',
     mistral: 'Mistral Large', kimi: 'Groq (local-class)',
+    claude: 'Claude Sonnet', computer: 'Perplexity deep-research',
   };
   const routeType = (state.intent === 'protect') ? 'LOCAL' : 'EXTERNAL';
   addGovChip(container, routeType === 'LOCAL' ? 'blocked' : 'external',
