@@ -37,14 +37,13 @@
     /* ── Logo ── */
     .logo {
       position: fixed;
-      top: 24px;
-      right: 32px;
-      font-family: 'Permanent Marker', cursive;
-      font-size: 18px;
-      color: #111;
-      letter-spacing: 0.02em;
-      opacity: 0.7;
+      top: 16px;
+      right: 24px;
       z-index: 100;
+    }
+    .logo img {
+      height: 36px;
+      opacity: 0.85;
     }
 
     /* ── Opening: who are you? ── */
@@ -477,7 +476,8 @@
 
     /* ── Responsive ── */
     @media (max-width: 640px) {
-      .logo { font-size: 15px; top: 16px; right: 20px; }
+      .logo { top: 12px; right: 14px; }
+      .logo img { height: 28px; }
       .prompt-text { font-size: 22px; }
       .roles { gap: 8px; }
       .role-chip { font-size: 13px; padding: 6px 16px; }
@@ -495,13 +495,13 @@
 </head>
 <body>
 
-  <div class="logo">mission canvas</div>
+  <div class="logo"><img src="logo-mc.png" alt="Mission Canvas"></div>
 
   <div class="canvas" id="canvas">
 
     <!-- ── Opening ── -->
     <div class="opening" id="opening">
-      <h1>mission canvas</h1>
+      <h1><img src="logo-mc.png" alt="Mission Canvas" style="height: 64px;"></h1>
       <p class="prompt-text">Who are you?</p>
 
       <button class="mic-btn" id="open-mic" title="Speak">
