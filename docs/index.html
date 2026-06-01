@@ -501,7 +501,7 @@
 
     <!-- ── Opening ── -->
     <div class="opening" id="opening">
-      <h1><img src="logo-mc.png" alt="Mission Canvas" style="height: 64px;"></h1>
+      <h1><img src="logo-mc.png" alt="Mission Canvas" style="width: min(80vw, 500px);"></h1>
       <p class="prompt-text">Who are you?</p>
 
       <button class="mic-btn" id="open-mic" title="Speak">
@@ -639,8 +639,6 @@ const state = {
   intent: 'research',
   sessionId: 'mc-' + Date.now().toString(36),
   messages: [],
-  recognition: null,
-  listening: false,
   streaming: false,
 };
 
@@ -710,86 +708,81 @@ function enterWorkspace(role) {
 }
 
 // ── Voice: STT via Web Speech API ───────────────────────────────────────────
-function setupSTT() {
+let recog = null;
+let isListening = false;
+let collectedText = '';
+
+function initSTT() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return null;
-  const rec = new SR();
-  rec.continuous = false;
-  rec.interimResults = true;
-  rec.lang = 'en-US';
-  state.recognition = rec;
-  return rec;
-}
+  if (!SR) return;
+  recog = new SR();
+  recog.continuous = false;
+  recog.interimResults = true;
+  recog.lang = 'en-US';
 
-function toggleMic(btn, targetInput, onFinal) {
-  if (!state.recognition) setupSTT();
-  if (!state.recognition) return;
-
-  if (state.listening) {
-    state.recognition.stop();
-    return;
-  }
-
-  state.listening = true;
-  btn.classList.add('listening');
-  let collected = '';
-
-  state.recognition.onstart = () => {
-    collected = '';
-    if (targetInput) targetInput.placeholder = 'Listening...';
+  recog.onstart = () => {
+    isListening = true;
+    collectedText = '';
+    queryIn.placeholder = 'Listening...';
+    queryMic.classList.add('listening');
   };
 
-  state.recognition.onresult = (e) => {
+  recog.onresult = (e) => {
     let interim = '';
     for (let i = e.resultIndex; i < e.results.length; i++) {
       const chunk = e.results[i][0].transcript;
-      if (e.results[i].isFinal) collected += chunk + ' ';
+      if (e.results[i].isFinal) collectedText += chunk + ' ';
       else interim += chunk;
     }
-    if (targetInput) targetInput.value = (collected + interim).trim();
+    queryIn.value = (collectedText + interim).trim();
   };
 
-  state.recognition.onerror = () => {
-    state.listening = false;
-    btn.classList.remove('listening');
-    if (targetInput) targetInput.placeholder = getIntentPlaceholder(state.intent);
+  recog.onerror = (e) => {
+    isListening = false;
+    queryMic.classList.remove('listening');
+    if (e.error !== 'no-speech') queryIn.placeholder = 'Mic error — try again';
+    else queryIn.placeholder = getIntentPlaceholder(state.intent);
   };
 
-  state.recognition.onend = () => {
-    state.listening = false;
-    btn.classList.remove('listening');
-    if (targetInput) targetInput.placeholder = getIntentPlaceholder(state.intent);
-    const message = collected.trim();
-    if (message && onFinal) onFinal(message);
+  recog.onend = () => {
+    isListening = false;
+    queryMic.classList.remove('listening');
+    queryIn.placeholder = getIntentPlaceholder(state.intent);
+    const message = collectedText.trim();
+    collectedText = '';
+    if (message) submitQuery(message);
   };
-
-  try { state.recognition.start(); } catch { state.listening = false; btn.classList.remove('listening'); }
 }
 
 // Opening mic → identify role from speech
 openMic.addEventListener('click', () => {
-  toggleMic(openMic, null, (text) => {
-    const lower = text.toLowerCase();
-    if (lower.includes('lawyer') || lower.includes('attorney') || lower.includes('legal')) {
-      enterWorkspace('attorney');
-    } else if (lower.includes('doctor') || lower.includes('physician') || lower.includes('medical')) {
-      enterWorkspace('doctor');
-    } else if (lower.includes('financial') || lower.includes('advisor') || lower.includes('finance')) {
-      enterWorkspace('financial-advisor');
-    } else if (lower.includes('executive') || lower.includes('ceo') || lower.includes('founder')) {
-      enterWorkspace('executive');
-    } else {
-      enterWorkspace('other');
-    }
-  });
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return;
+  const rec = new SR();
+  rec.continuous = false;
+  rec.interimResults = false;
+  rec.lang = 'en-US';
+  rec.onresult = (e) => {
+    const text = e.results[0][0].transcript.toLowerCase();
+    if (text.includes('lawyer') || text.includes('attorney') || text.includes('legal')) enterWorkspace('attorney');
+    else if (text.includes('doctor') || text.includes('physician')) enterWorkspace('doctor');
+    else if (text.includes('financial') || text.includes('advisor')) enterWorkspace('financial-advisor');
+    else if (text.includes('executive') || text.includes('ceo')) enterWorkspace('executive');
+    else enterWorkspace('other');
+  };
+  rec.onerror = () => {};
+  try { rec.start(); } catch {}
 });
 
 // Workspace mic → query
 queryMic.addEventListener('click', () => {
-  toggleMic(queryMic, queryIn, (text) => {
-    if (text) submitQuery(text);
-  });
+  if (!recog) initSTT();
+  if (!recog) return;
+  if (isListening) { recog.stop(); }
+  else { try { recog.start(); } catch { queryIn.placeholder = 'Tap mic again in a second'; } }
 });
+
+initSTT();
 
 // ── Send query ──────────────────────────────────────────────────────────────
 sendBtn.addEventListener('click', () => {
