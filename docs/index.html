@@ -581,7 +581,7 @@
 // Voice Hub backend — auto-detect local vs production
 const HUB = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
   ? 'http://localhost:7890'
-  : 'https://srv1390882.hstgr.cloud:7890';  // Production Voice Hub
+  : 'https://srv1390882.hstgr.cloud';  // Production Voice Hub (nginx HTTPS proxy)
 
 // ── State ───────────────────────────────────────────────────────────────────
 const state = {
