@@ -83,7 +83,20 @@ async function loadKeys() {
 }
 
 // Agent → API config
-const AGENT_APIS = {
+// If LiteLLM is running (port 4000), all external agents route through it.
+// Otherwise fall back to direct provider calls.
+let LITELLM_AVAILABLE = false;
+
+async function checkLiteLLM() {
+  try {
+    const resp = await fetch('http://127.0.0.1:4000/health', { signal: AbortSignal.timeout(2000) });
+    LITELLM_AVAILABLE = resp.ok;
+  } catch { LITELLM_AVAILABLE = false; }
+  if (LITELLM_AVAILABLE) console.log('  LiteLLM    ✓ router on port 4000');
+}
+
+// Direct provider configs (fallback when LiteLLM is not running)
+const DIRECT_APIS = {
   claude:     { provider: 'anthropic',  model: 'claude-sonnet-4-20250514' },
   mistral:    { provider: 'mistral',    model: 'mistral-large-latest' },
   codex:      { provider: 'openai',     model: 'gpt-4o' },
@@ -94,8 +107,36 @@ const AGENT_APIS = {
   reasoning:  { provider: 'perplexity', model: 'sonar-reasoning-pro' },
   kimi:       { provider: 'groq',     model: 'llama-3.3-70b-versatile', fallback: 'qwen2.5:7b' },
   local:      { provider: 'ollama',    model: 'qwen2.5:7b' },
-  // gemini: not wired yet — no API key
+  gemini:     { provider: 'litellm',   model: 'gemini' },
 };
+
+// LiteLLM configs (used when LiteLLM proxy is running)
+const LITELLM_APIS = {
+  claude:     { provider: 'litellm', model: 'claude' },
+  mistral:    { provider: 'litellm', model: 'mistral' },
+  codex:      { provider: 'litellm', model: 'codex' },
+  qwen:       { provider: 'litellm', model: 'local' },
+  kiro:       { provider: 'litellm', model: 'local' },
+  perplexity: { provider: 'litellm', model: 'perplexity' },
+  computer:   { provider: 'litellm', model: 'perplexity' },
+  reasoning:  { provider: 'litellm', model: 'reasoning' },
+  kimi:       { provider: 'litellm', model: 'groq', fallback: 'qwen2.5:7b' },
+  local:      { provider: 'ollama',  model: 'qwen2.5:7b' },
+  gemini:     { provider: 'litellm', model: 'gemini' },
+};
+
+// Dynamic getter — checks LiteLLM availability
+const AGENT_APIS = new Proxy({}, {
+  get(_, agent) {
+    if (LITELLM_AVAILABLE && LITELLM_APIS[agent]) return LITELLM_APIS[agent];
+    return DIRECT_APIS[agent];
+  },
+  has(_, agent) { return agent in DIRECT_APIS || agent in LITELLM_APIS; },
+  ownKeys() { return Object.keys(DIRECT_APIS); },
+  getOwnPropertyDescriptor(_, agent) {
+    if (agent in DIRECT_APIS) return { configurable: true, enumerable: true, value: DIRECT_APIS[agent] };
+  },
+});
 
 // ── Agent steering (loaded once at startup) ─────────────────────────────────
 
@@ -871,6 +912,7 @@ function providerConfig(provider, model) {
     case 'kiro':       return { url: 'https://api.kiro.dev/v1/chat/completions',                            key: KIRO_KEY,       label: 'Kiro', modelOverride: 'kiro' };
     case 'ollama':     return { url: 'http://localhost:11434/v1/chat/completions',                           key: 'ollama',       label: 'Ollama' };
     case 'groq':       return { url: 'https://api.groq.com/openai/v1/chat/completions',                    key: GROQ_KEY,       label: 'Groq' };
+    case 'litellm':    return { url: 'http://127.0.0.1:4000/v1/chat/completions',                       key: 'sk-mc-local',  label: 'LiteLLM' };
     default: return null;
   }
 }
@@ -949,6 +991,7 @@ async function* callLLM(config, systemPrompt, userText) {
 
 await loadKeys();
 await loadSteering();
+await checkLiteLLM();
 const server = createServer(handleRequest);
 server.listen(HUB_PORT, '127.0.0.1', async () => {
   console.log(`\n  Voice Hub  http://127.0.0.1:${HUB_PORT}`);

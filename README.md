@@ -7,7 +7,7 @@
 **Local-first AI for regulated professionals.**  
 Safe research. Governed memory. Smarter every time.
 
-[![License](https://img.shields.io/badge/license-Apache_2.0-blue)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-129_passing-brightgreen)]()
 [![Capability Areas](https://img.shields.io/badge/capability_areas-131-blue)]()
 [![Knowledge](https://img.shields.io/badge/knowledge-203_entries-blue)]()

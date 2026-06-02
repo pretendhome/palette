@@ -1,0 +1,55 @@
+# LiteLLM Config — Mission Canvas Model Router
+# Place your API keys below. Only configure providers you have keys for.
+# Start with: litellm --config litellm_config.yaml
+
+model_list:
+  # Anthropic (Claude)
+  - model_name: claude
+    litellm_params:
+      model: anthropic/claude-sonnet-4-20250514
+      api_key: os.environ/ANTHROPIC_API_KEY
+
+  # OpenAI (GPT/Codex)
+  - model_name: codex
+    litellm_params:
+      model: openai/gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+
+  # Mistral
+  - model_name: mistral
+    litellm_params:
+      model: mistral/mistral-large-latest
+      api_key: os.environ/MISTRAL_API_KEY
+
+  # Google Gemini
+  - model_name: gemini
+    litellm_params:
+      model: gemini/gemini-2.5-pro
+      api_key: os.environ/GEMINI_API_KEY
+
+  # Perplexity (research)
+  - model_name: perplexity
+    litellm_params:
+      model: perplexity/sonar-pro
+      api_key: os.environ/PERPLEXITY_API_KEY
+
+  # Perplexity (reasoning)
+  - model_name: reasoning
+    litellm_params:
+      model: perplexity/sonar-reasoning-pro
+      api_key: os.environ/PERPLEXITY_API_KEY
+
+  # Groq (fast, free-tier available)
+  - model_name: groq
+    litellm_params:
+      model: groq/llama-3.3-70b-versatile
+      api_key: os.environ/GROQ_API_KEY
+
+  # Local (Ollama — no key needed)
+  - model_name: local
+    litellm_params:
+      model: ollama/qwen2.5:7b
+      api_base: http://localhost:11434
+
+general_settings:
+  master_key: sk-mc-local  # local-only, no external auth needed
