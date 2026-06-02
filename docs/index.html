@@ -3,1087 +3,367 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mission Canvas</title>
-  <meta name="description" content="Your judgment compounds here. Governed AI for professionals who can't send client data to the cloud.">
+  <title>Mission Canvas — Governed AI for Professional Judgment</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; }
+    body { font-family: 'Inter', sans-serif; background: #fff; color: #111; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
 
-    body {
-      font-family: 'Inter', -apple-system, system-ui, sans-serif;
-      background: #fff;
-      color: #111;
-      overflow-x: hidden;
-    }
+    /* ── Nav ── */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #eee; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; }
+    .nav-brand { font-family: 'Permanent Marker', cursive; font-size: 20px; cursor: pointer; }
+    .nav-links { display: flex; gap: 24px; font-size: 14px; font-weight: 500; color: #555; }
+    .nav-links a:hover { color: #111; }
 
-    /* ── Canvas: the whole page IS the canvas ── */
-    .canvas {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      padding: 24px;
-      transition: all 0.6s ease;
-    }
-    .canvas.shifted {
-      justify-content: flex-start;
-      padding-top: 48px;
-    }
+    /* ── Hero ── */
+    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 24px 48px; text-align: center; }
+    .hero-logo { width: min(70vw, 420px); margin-bottom: 16px; }
+    .hero-tagline { font-size: 20px; color: #555; margin-bottom: 40px; max-width: 500px; }
 
-    /* ── Logo ── */
-    .logo {
-      position: fixed;
-      top: 16px;
-      right: 24px;
-      z-index: 100;
-    }
-    .logo img {
-      height: 36px;
-      opacity: 0.85;
-    }
+    /* ── Chat input in hero ── */
+    .hero-input-wrap { width: min(90vw, 600px); position: relative; margin-bottom: 28px; }
+    .hero-input { width: 100%; height: 56px; border: 2px solid #ddd; border-radius: 28px; padding: 0 56px 0 24px; font-size: 16px; font-family: inherit; outline: none; transition: border-color 0.2s; }
+    .hero-input:focus { border-color: #111; }
+    .hero-input::placeholder { color: #999; }
+    .hero-input-mic { position: absolute; right: 8px; top: 8px; width: 40px; height: 40px; border-radius: 50%; border: none; background: #f5f5f5; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    .hero-input-mic:hover { background: #eee; }
+    .hero-input-mic.listening { background: #fee2e2; }
+    .hero-input-mic svg { width: 18px; height: 18px; color: #666; }
+    .hero-input-mic.listening svg { color: #ef4444; }
+    .hero-send { position: absolute; right: 52px; top: 12px; width: 32px; height: 32px; border: none; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0.5; transition: opacity 0.2s; }
+    .hero-send:hover { opacity: 1; }
+    .hero-send svg { width: 18px; height: 18px; }
 
-    /* ── Opening: who are you? ── */
-    .opening {
-      text-align: center;
-      transition: all 0.5s ease;
-    }
-    .opening.hidden {
-      opacity: 0;
-      transform: translateY(-20px);
-      pointer-events: none;
-      position: absolute;
-    }
-
-    .opening h1 {
-      font-family: 'Permanent Marker', cursive;
-      font-size: clamp(36px, 6vw, 56px);
-      font-weight: 400;
-      letter-spacing: 0.01em;
-      color: #111;
-      margin-bottom: 48px;
-      line-height: 1.2;
-    }
-
-    .prompt-text {
-      font-size: 28px;
-      font-weight: 400;
-      color: #333;
-      margin-bottom: 40px;
-    }
-
-    /* ── Mic button ── */
-    .mic-btn {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      border: 2px solid #ddd;
-      background: #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      margin-bottom: 16px;
-    }
-    .mic-btn:hover {
-      border-color: #111;
-      transform: scale(1.05);
-    }
-    .mic-btn.listening {
-      border-color: #ef4444;
-      background: #fef2f2;
-      animation: pulse 1.5s ease infinite;
-    }
-    .mic-btn svg { color: #666; transition: color 0.2s; }
-    .mic-btn:hover svg { color: #111; }
-    .mic-btn.listening svg { color: #ef4444; }
-
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.3); }
-      50% { box-shadow: 0 0 0 12px rgba(239,68,68,0); }
-    }
-
-    .hint {
-      font-size: 13px;
-      color: #999;
-      margin-top: 8px;
-    }
-
-    /* ── Role chips (alternative to voice) ── */
-    .roles {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 32px;
-    }
-    .role-chip {
-      padding: 8px 20px;
-      border: 1px solid #e0e0e0;
-      border-radius: 20px;
-      font-size: 14px;
-      color: #555;
-      background: #fff;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .role-chip:hover {
-      border-color: #111;
-      color: #111;
-    }
-
-    /* ── Workspace: appears after identification ── */
-    .workspace {
-      width: 100%;
-      max-width: 720px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.5s ease;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      min-height: 0;
-    }
-    .workspace.active {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: all;
-    }
-
-    .workspace-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 0;
-      border-bottom: 1px solid #eee;
-      margin-bottom: 16px;
-    }
-    .role-badge {
-      font-size: 13px;
-      font-weight: 500;
-      color: #666;
-      padding: 4px 12px;
-      background: #f5f5f5;
-      border-radius: 12px;
-    }
-    .session-id {
-      font-size: 12px;
-      color: #bbb;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-    }
-
-    /* ── Messages ── */
-    .messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 8px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      min-height: 0;
-    }
-
-    .message {
-      max-width: 100%;
-    }
-    .message .meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-    .message .sender {
-      font-size: 12px;
-      font-weight: 600;
-      color: #111;
-    }
-    .message .time {
-      font-size: 11px;
-      color: #bbb;
-    }
-    .message .body {
-      font-size: 15px;
-      line-height: 1.65;
-      color: #333;
-    }
-
-    /* ── Governance signals ── */
-    .gov-signal {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      padding: 3px 10px;
-      border-radius: 4px;
-      margin-bottom: 8px;
-    }
-    .gov-signal.classify {
-      background: #f0f4ff;
-      color: #3b5bdb;
-    }
-    .gov-signal.safe {
-      background: #ecfdf5;
-      color: #059669;
-    }
-    .gov-signal.blocked {
-      background: #fef2f2;
-      color: #dc2626;
-    }
-    .gov-signal.external {
-      background: #eff6ff;
-      color: #2563eb;
-    }
-    .gov-signal.stored {
-      background: #f5f5f5;
-      color: #666;
-    }
-
-    .gov-boundary {
-      width: 100%;
-      border: none;
-      border-top: 1px dashed #ddd;
-      margin: 4px 0;
-      position: relative;
-    }
-    .gov-boundary::after {
-      content: 'governance boundary';
-      position: absolute;
-      top: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fff;
-      padding: 0 8px;
-      font-size: 10px;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      color: #ccc;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* ── Query input ── */
-    .intent-bar {
-      display: flex;
-      gap: 6px;
-      padding: 10px 16px;
-      overflow-x: auto;
-      border-bottom: 1px solid #1a1a1a;
-      background: #0a0a0a;
-    }
-    .intent-chip {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 6px 12px;
-      border: 1px solid #333;
-      border-radius: 16px;
-      background: transparent;
-      color: #888;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-    .intent-chip:hover { border-color: #666; color: #ccc; }
-    .intent-chip.active { border-color: #4ade80; color: #4ade80; background: rgba(74,222,128,0.08); }
-    .intent-icon { font-size: 13px; }
-
-    .query-bar {
-      display: flex;
-      gap: 8px;
-      padding: 16px 0;
-      border-top: 1px solid #eee;
-      align-items: center;
-    }
-    .query-bar input {
-      flex: 1;
-      padding: 12px 16px;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 15px;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .query-bar input:focus {
-      border-color: #111;
-    }
-    .query-bar input::placeholder {
-      color: #bbb;
-    }
-
-    .query-mic {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 1px solid #e0e0e0;
-      background: #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: all 0.15s;
-    }
-    .query-mic:hover { border-color: #111; }
-    .query-mic.listening {
-      border-color: #ef4444;
-      background: #fef2f2;
-    }
-    .query-mic svg { width: 18px; height: 18px; color: #888; }
-    .query-mic.listening svg { color: #ef4444; }
-
-    .send-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 8px;
-      border: none;
-      background: #111;
-      color: #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: background 0.15s;
-    }
-    .send-btn:hover { background: #333; }
-    .send-btn:disabled { background: #ddd; cursor: default; }
-    .send-btn svg { width: 18px; height: 18px; }
-
-    /* ── Streaming indicator ── */
-    .streaming-dot {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      background: #111;
-      border-radius: 50%;
-      animation: blink 1s ease infinite;
-      margin-left: 2px;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.2; }
-    }
-
-    /* ── Capabilities section ── */
-    .capabilities {
-      width: 100%;
-      max-width: 800px;
-      margin: 48px auto 0;
-      padding: 0 24px;
-    }
-    .capabilities h2 {
-      font-size: 14px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #999;
-      margin-bottom: 24px;
-      text-align: center;
-    }
-    .cap-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    .cap {
-      padding: 20px;
-      border: 1px solid #eee;
-      border-radius: 8px;
-    }
-    .cap h3 {
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 13px;
-      font-weight: 600;
-      color: #111;
-      margin-bottom: 8px;
-      letter-spacing: 0.02em;
-    }
-    .cap p {
-      font-size: 13px;
-      line-height: 1.5;
-      color: #666;
-    }
+    /* ── Intent chips ── */
+    .intents { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; max-width: 600px; }
+    .intent-chip { padding: 8px 16px; border: 1px solid #ddd; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s; position: relative; background: #fff; }
+    .intent-chip:hover { border-color: #111; background: #f9f9f9; }
+    .intent-chip.active { border-color: #111; background: #111; color: #fff; }
+    .intent-tooltip { display: none; position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: #111; color: #fff; font-size: 11px; font-weight: 400; padding: 6px 12px; border-radius: 6px; white-space: nowrap; z-index: 10; }
+    .intent-chip:hover .intent-tooltip { display: block; }
 
     /* ── Proof strip ── */
-    .proof-strip {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      margin-top: 24px;
-      padding: 12px 0;
-      border-top: 1px solid #f0f0f0;
-    }
-    .proof-strip span {
-      font-size: 12px;
-      color: #999;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-    }
+    .proof-strip { font-size: 13px; color: #888; font-family: 'SF Mono', 'Fira Code', monospace; }
+    .proof-strip span { margin: 0 8px; }
 
-    /* ── Security section ── */
-    .security {
-      width: 100%;
-      max-width: 800px;
-      margin: 32px auto 0;
-      padding: 24px;
-      border: 1px solid #eee;
-      border-radius: 8px;
-      background: #fafafa;
-    }
-    .security h2 {
-      font-size: 14px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #999;
-      margin-bottom: 16px;
-      text-align: center;
-    }
-    .security p.tagline {
-      font-size: 15px;
-      color: #333;
-      text-align: center;
-      margin-bottom: 16px;
-    }
-    .trust-list {
-      list-style: none;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px 24px;
-    }
-    .trust-list li {
-      font-size: 13px;
-      color: #555;
-      padding-left: 20px;
-      position: relative;
-    }
-    .trust-list li::before {
-      content: '✓';
-      position: absolute;
-      left: 0;
-      color: #059669;
-      font-weight: 600;
-    }
+    /* ── Sections ── */
+    section { padding: 80px 24px; max-width: 680px; margin: 0 auto; border-top: 1px solid #eee; }
+    section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #999; margin-bottom: 24px; }
+    section p { margin-bottom: 16px; color: #333; font-size: 16px; }
+    section .cta-row { margin-top: 24px; display: flex; gap: 16px; flex-wrap: wrap; }
+    section .cta-row a { padding: 10px 20px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-weight: 500; transition: all 0.2s; }
+    section .cta-row a:hover { border-color: #111; background: #f9f9f9; }
+
+    /* ── Start section ── */
+    .install-block { background: #111; color: #eee; padding: 16px 20px; border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 14px; margin: 16px 0; overflow-x: auto; }
+    .check-list { list-style: none; margin: 16px 0; }
+    .check-list li { padding: 4px 0; font-size: 15px; color: #444; }
+    .check-list li::before { content: "✓ "; color: #22c55e; font-weight: 700; }
+
+    /* ── Workspace (post-input state) ── */
+    .workspace { display: none; position: fixed; inset: 0; top: 56px; background: #fff; flex-direction: column; z-index: 50; }
+    .workspace.active { display: flex; }
+    .workspace-messages { flex: 1; overflow-y: auto; padding: 24px; }
+    .workspace-bar { padding: 12px 24px; border-top: 1px solid #eee; display: flex; gap: 8px; align-items: center; }
+    .workspace-bar input { flex: 1; height: 44px; border: 1px solid #ddd; border-radius: 22px; padding: 0 16px; font-size: 15px; outline: none; }
+    .workspace-bar input:focus { border-color: #111; }
+    .workspace-bar button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #ddd; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .workspace-intent-bar { display: flex; gap: 6px; padding: 8px 24px; overflow-x: auto; border-bottom: 1px solid #f0f0f0; }
+    .workspace-intent-bar .intent-chip { font-size: 11px; padding: 5px 12px; }
+    .workspace-intent-bar .intent-chip .intent-tooltip { display: none !important; }
+
+    /* ── Messages ── */
+    .msg { margin-bottom: 16px; max-width: 80%; }
+    .msg.user { margin-left: auto; background: #f3f4f6; padding: 10px 16px; border-radius: 16px 16px 4px 16px; font-size: 15px; }
+    .msg.canvas { padding: 10px 0; }
+    .msg .gov-signals { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+    .msg .gov-chip { font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 600; letter-spacing: 0.3px; font-family: monospace; }
+    .msg .gov-chip.classify { background: #e0f2fe; color: #0369a1; }
+    .msg .gov-chip.safe { background: #dcfce7; color: #166534; }
+    .msg .gov-chip.blocked { background: #fee2e2; color: #991b1b; }
+    .msg .gov-chip.external { background: #f3e8ff; color: #6b21a8; }
+    .msg .body { font-size: 15px; line-height: 1.7; color: #222; }
+    .streaming-dot { display: inline-block; width: 8px; height: 8px; background: #111; border-radius: 50%; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
 
     /* ── Responsive ── */
-    @media (max-width: 640px) {
-      .logo { top: 12px; right: 14px; }
-      .logo img { height: 28px; }
-      .prompt-text { font-size: 22px; }
-      .roles { gap: 8px; }
-      .role-chip { font-size: 13px; padding: 6px 16px; }
-      .canvas.shifted { padding-top: 24px; }
-      .cap-grid { grid-template-columns: 1fr; }
-      .trust-list { grid-template-columns: 1fr; }
-      .proof-strip { flex-wrap: wrap; gap: 16px; }
-      .capabilities, .security { display: none; }
-      .canvas.shifted .capabilities, .canvas.shifted .security { display: none; }
-    }
-    @media (min-width: 641px) and (max-width: 900px) {
-      .cap-grid { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 600px) {
+      .nav-links { gap: 16px; font-size: 13px; }
+      .hero-tagline { font-size: 17px; }
+      .intents { gap: 8px; }
+      .intent-chip { font-size: 11px; padding: 6px 12px; }
+      section { padding: 48px 20px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="logo"><img src="logo-mc.png" alt="Mission Canvas"></div>
+<!-- ── Nav ── -->
+<nav class="nav">
+  <a class="nav-brand" href="#" onclick="goHome()">MISSION CANVAS</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#secure">Secure</a>
+    <a href="#start">Start</a>
+    <a href="https://github.com/pretendhome/palette" target="_blank">GitHub</a>
+  </div>
+</nav>
 
-  <div class="canvas" id="canvas">
+<!-- ── Hero ── -->
+<div class="hero" id="hero">
+  <img src="logo-mc.png" alt="Mission Canvas" class="hero-logo">
+  <p class="hero-tagline">The governed agent OS for sensitive professional work.</p>
 
-    <!-- ── Opening ── -->
-    <div class="opening" id="opening">
-      <h1><img src="logo-mc.png" alt="Mission Canvas" style="width: min(80vw, 500px);"></h1>
-      <p class="prompt-text">Who are you?</p>
-
-      <button class="mic-btn" id="open-mic" title="Speak">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-          <line x1="12" y1="19" x2="12" y2="23"/>
-          <line x1="8" y1="23" x2="16" y2="23"/>
-        </svg>
-      </button>
-      <p class="hint">or pick one</p>
-
-      <div class="roles">
-        <button class="role-chip" data-role="attorney">Attorney</button>
-        <button class="role-chip" data-role="doctor">Doctor</button>
-        <button class="role-chip" data-role="financial-advisor">Financial Advisor</button>
-        <button class="role-chip" data-role="executive">Executive</button>
-        <button class="role-chip" data-role="other">Other</button>
-      </div>
-    </div>
-
-    <!-- ── Capabilities ── -->
-    <section class="capabilities" id="capabilities">
-      <h2>What it does</h2>
-      <div class="cap-grid">
-        <div class="cap">
-          <h3>PROTECT</h3>
-          <p>PII detection. Client data stays local. Zero external routing for sensitive queries.</p>
-        </div>
-        <div class="cap">
-          <h3>RESEARCH</h3>
-          <p>Governed external research. Query sanitized before it leaves. Citations returned.</p>
-        </div>
-        <div class="cap">
-          <h3>DECIDE</h3>
-          <p>Reversibility check. Prior decisions connected. One-way doors flagged before action.</p>
-        </div>
-        <div class="cap">
-          <h3>CREATE</h3>
-          <p>Typed artifacts with provenance. Who created what, when, why — tracked and linked.</p>
-        </div>
-        <div class="cap">
-          <h3>DIAGNOSE</h3>
-          <p>Root cause isolation. Fix verification. Failure patterns captured as lessons.</p>
-        </div>
-        <div class="cap">
-          <h3>REFLECT</h3>
-          <p>The system audits itself. Improvement proposals generated through governance.</p>
-        </div>
-      </div>
-      <div class="proof-strip">
-        <span>131 routing nodes</span>
-        <span>203 knowledge entries</span>
-        <span>129 tests passing</span>
-      </div>
-    </section>
-
-    <!-- ── Security / Trust ── -->
-    <section class="security" id="security">
-      <h2>Built for work that cannot leak</h2>
-      <p class="tagline">Local-first by default. External only after classification, sanitization, and policy check.</p>
-      <ul class="trust-list">
-        <li>Socket firewall — 10-host allowlist, unauthorized connections blocked</li>
-        <li>PII sanitizer — 3-layer detection before any external call</li>
-        <li>Governance tiers — irreversible actions require human sign-off</li>
-        <li>Append-only decision log — immutable audit trail</li>
-        <li>Approval workflows — scheduled tasks require sign-off and expiry</li>
-        <li>Trust boundaries — internal-only vs governed-external classification</li>
-        <li>No skill marketplace — no third-party supply chain attack surface</li>
-        <li>Zero CVEs — security designed in, not bolted on</li>
-      </ul>
-    </section>
-
-    <!-- ── Workspace (appears after identification) ── -->
-    <div class="workspace" id="workspace">
-      <div class="workspace-header">
-        <span class="role-badge" id="role-label"></span>
-        <span class="session-id" id="session-id"></span>
-      </div>
-
-      <!-- ── Intent selector ── -->
-      <div class="intent-bar" id="intent-bar">
-        <button class="intent-chip active" data-intent="research" title="Governed external research. Query sanitized before it leaves.">
-          <span class="intent-icon">🔍</span> RESEARCH
-        </button>
-        <button class="intent-chip" data-intent="protect" title="PII detection. Client data stays local. Zero external routing.">
-          <span class="intent-icon">🛡️</span> PROTECT
-        </button>
-        <button class="intent-chip" data-intent="decide" title="Reversibility check. One-way doors flagged before action.">
-          <span class="intent-icon">⚖️</span> DECIDE
-        </button>
-        <button class="intent-chip" data-intent="create" title="Typed artifacts with provenance. Who created what, when, why.">
-          <span class="intent-icon">🔨</span> CREATE
-        </button>
-        <button class="intent-chip" data-intent="diagnose" title="Root cause isolation. Fix verification. Failure patterns captured.">
-          <span class="intent-icon">🔬</span> DIAGNOSE
-        </button>
-        <button class="intent-chip" data-intent="reflect" title="The system audits itself. Improvement proposals generated.">
-          <span class="intent-icon">🪞</span> REFLECT
-        </button>
-      </div>
-
-      <div class="messages" id="messages"></div>
-
-      <div class="query-bar">
-        <input type="text" id="query-input" placeholder="Ask a question..." autocomplete="off">
-        <button class="query-mic" id="query-mic" title="Speak">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-            <line x1="12" y1="19" x2="12" y2="23"/>
-            <line x1="8" y1="23" x2="16" y2="23"/>
-          </svg>
-        </button>
-        <button class="send-btn" id="send-btn" title="Send">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="22" y1="2" x2="11" y2="13"/>
-            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-          </svg>
-        </button>
-      </div>
-    </div>
+  <div class="hero-input-wrap">
+    <input type="text" class="hero-input" id="hero-input" placeholder="Who are you? Ask anything..." autocomplete="off">
+    <button class="hero-send" id="hero-send" title="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+    <button class="hero-input-mic" id="hero-mic" title="Speak">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+    </button>
   </div>
 
+  <div class="intents" id="intents">
+    <div class="intent-chip active" data-intent="research">🔍 RESEARCH<span class="intent-tooltip">Public information only. Query sanitized before it leaves.</span></div>
+    <div class="intent-chip" data-intent="protect">🛡️ PROTECT<span class="intent-tooltip">Client data stays on this machine. Zero external routing.</span></div>
+    <div class="intent-chip" data-intent="decide">⚖️ DECIDE<span class="intent-tooltip">Records your reasoning. Flags irreversible actions.</span></div>
+    <div class="intent-chip" data-intent="create">🔨 CREATE<span class="intent-tooltip">Tracks what you made, when, and why.</span></div>
+    <div class="intent-chip" data-intent="diagnose">🔬 DIAGNOSE<span class="intent-tooltip">Finds what went wrong. Captures the fix.</span></div>
+    <div class="intent-chip" data-intent="reflect">🪞 REFLECT<span class="intent-tooltip">The system reviews itself. Surfaces what it learned.</span></div>
+  </div>
+
+  <div class="proof-strip">
+    <span>131 routing nodes</span> · <span>203 knowledge entries</span> · <span>129 tests passing</span>
+  </div>
+</div>
+
+<!-- ── About ── -->
+<section id="about">
+  <h2>About</h2>
+  <p>Most AI products send your work to someone else's server. Mission Canvas doesn't. It runs on your machine, routes every query through a classification layer, and stores your decisions as a judgment trail that compounds over time.</p>
+  <p>Legal is the proof. In February 2026, a federal court ruled that using cloud AI on privileged material waives attorney-client privilege. Mission Canvas is the architectural answer: local by default, external only after sanitization.</p>
+  <p>The same pattern applies anywhere the useful context is also the dangerous context: medical, finance, accounting, startup strategy.</p>
+  <div class="cta-row">
+    <a href="https://github.com/pretendhome/palette" target="_blank">View on GitHub →</a>
+  </div>
+</section>
+
+<!-- ── Secure ── -->
+<section id="secure">
+  <h2>Built for work that cannot leak</h2>
+  <p><strong>Your client data never leaves this machine.</strong> Not sent to a server. Not stored in a cloud. Not shared with any AI provider. Classification happens locally.</p>
+  <p><strong>External search is governed, not automatic.</strong> When you need public information, Mission Canvas strips everything sensitive before the query leaves, and integrates the results back under your control.</p>
+  <p><strong>Every decision is logged, not forgotten.</strong> An immutable audit trail records what was asked, what was retrieved, what model answered, and what boundary applied.</p>
+  <p style="font-size:13px;color:#888;margin-top:24px;">Technical: socket firewall · 3-layer PII sanitizer · governance tiers · append-only decision log · approval workflows · zero CVEs</p>
+</section>
+
+<!-- ── Start ── -->
+<section id="start">
+  <h2>Get started in 60 seconds</h2>
+  <div class="install-block">
+    git clone https://github.com/pretendhome/palette.git<br>
+    cd palette && bash setup.sh
+  </div>
+  <p>One command. Running locally. No cloud account required.</p>
+  <ul class="check-list">
+    <li>131 classified problem types</li>
+    <li>203 knowledge entries with evidence tiers</li>
+    <li>Governed Perplexity integration for public research</li>
+    <li>Voice interface via browser mic</li>
+    <li>PII sanitizer — nothing sensitive leaves without clearance</li>
+    <li>Append-only decision log</li>
+  </ul>
+  <p style="font-size:13px;color:#888;">Requires: macOS 12+ or Linux · Node.js 18+ · Python 3.10+ · Ollama (optional)</p>
+  <div class="cta-row">
+    <a href="https://github.com/pretendhome/palette" target="_blank">Download from GitHub →</a>
+  </div>
+</section>
+
+<!-- ── Workspace ── -->
+<div class="workspace" id="workspace">
+  <div class="workspace-intent-bar" id="workspace-intent-bar">
+    <div class="intent-chip active" data-intent="research">🔍 RESEARCH</div>
+    <div class="intent-chip" data-intent="protect">🛡️ PROTECT</div>
+    <div class="intent-chip" data-intent="decide">⚖️ DECIDE</div>
+    <div class="intent-chip" data-intent="create">🔨 CREATE</div>
+    <div class="intent-chip" data-intent="diagnose">🔬 DIAGNOSE</div>
+    <div class="intent-chip" data-intent="reflect">🪞 REFLECT</div>
+  </div>
+  <div class="workspace-messages" id="messages"></div>
+  <div class="workspace-bar">
+    <input type="text" id="ws-input" placeholder="Ask anything..." autocomplete="off">
+    <button id="ws-mic" title="Speak">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+    </button>
+    <button id="ws-send" title="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
 <script>
-// ── Config ──────────────────────────────────────────────────────────────────
-// Voice Hub backend — auto-detect local vs production
+// ── Config ──
 const HUB = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
   ? 'http://localhost:7890'
-  : 'https://srv1390882.hstgr.cloud';  // Production Voice Hub (nginx HTTPS proxy)
+  : 'https://srv1390882.hstgr.cloud';
 
-// ── State ───────────────────────────────────────────────────────────────────
-const state = {
-  role: null,
-  intent: 'research',
-  sessionId: 'mc-' + Date.now().toString(36),
-  messages: [],
-  streaming: false,
-};
+// ── State ──
+const state = { intent: 'research', streaming: false, sessionId: 'mc-' + Date.now().toString(36) };
 
-// ── DOM refs ────────────────────────────────────────────────────────────────
-const canvas    = document.getElementById('canvas');
-const opening   = document.getElementById('opening');
+// ── DOM ──
+const heroInput = document.getElementById('hero-input');
+const heroSend = document.getElementById('hero-send');
+const heroMic = document.getElementById('hero-mic');
 const workspace = document.getElementById('workspace');
-const msgEl     = document.getElementById('messages');
-const queryIn   = document.getElementById('query-input');
-const sendBtn   = document.getElementById('send-btn');
-const roleLabel = document.getElementById('role-label');
-const sessionEl = document.getElementById('session-id');
-const openMic   = document.getElementById('open-mic');
-const queryMic  = document.getElementById('query-mic');
+const wsInput = document.getElementById('ws-input');
+const wsSend = document.getElementById('ws-send');
+const wsMic = document.getElementById('ws-mic');
+const msgEl = document.getElementById('messages');
 
-// ── Role selection ──────────────────────────────────────────────────────────
-document.querySelectorAll('.role-chip').forEach(btn => {
-  btn.addEventListener('click', () => enterWorkspace(btn.dataset.role));
-});
-
-// ── Intent selection ────────────────────────────────────────────────────────
-document.querySelectorAll('.intent-chip').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.intent-chip').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    state.intent = btn.dataset.intent;
-    queryIn.placeholder = getIntentPlaceholder(state.intent);
-    queryIn.focus();
+// ── Intent chips (both hero and workspace) ──
+document.querySelectorAll('.intent-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    chip.closest('.intents, .workspace-intent-bar').querySelectorAll('.intent-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    state.intent = chip.dataset.intent;
+    // Sync both bars
+    document.querySelectorAll(`.intent-chip[data-intent="${state.intent}"]`).forEach(c => c.classList.add('active'));
   });
 });
 
-function getIntentPlaceholder(intent) {
-  const placeholders = {
-    research: 'Ask a research question...',
-    protect: 'Paste sensitive content to analyze locally...',
-    decide: 'Describe a decision you need to make...',
-    create: 'What do you need to create?',
-    diagnose: 'What\'s broken? Describe the problem...',
-    reflect: 'What should the system learn from this session?',
-  };
-  return placeholders[intent] || 'Ask a question...';
+// ── Go home ──
+function goHome() {
+  workspace.classList.remove('active');
+  document.getElementById('hero').style.display = '';
+  document.querySelectorAll('section').forEach(s => s.style.display = '');
 }
 
-function enterWorkspace(role) {
-  state.role = role;
-  const labels = {
-    'attorney': 'Attorney',
-    'doctor': 'Physician',
-    'financial-advisor': 'Financial Advisor',
-    'executive': 'Executive',
-    'other': 'Professional',
-  };
-
-  roleLabel.textContent = labels[role] || role;
-  sessionEl.textContent = state.sessionId;
-
-  opening.classList.add('hidden');
-  document.getElementById('capabilities').style.display = 'none';
-  document.getElementById('security').style.display = 'none';
-  document.body.style.overflow = 'hidden';
-  canvas.classList.add('shifted');
-  setTimeout(() => workspace.classList.add('active'), 200);
-
-  // Welcome message
-  addMessage('system', `Welcome. Your queries are governed — client data stays local. Ask anything.`);
-  queryIn.focus();
+// ── Enter workspace ──
+function enterWorkspace(text) {
+  document.getElementById('hero').style.display = 'none';
+  document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+  workspace.classList.add('active');
+  if (text) submitQuery(text);
 }
 
-// ── Voice: STT via Web Speech API ───────────────────────────────────────────
-let recog = null;
-let isListening = false;
-let collectedText = '';
+// ── Hero submit ──
+heroSend.addEventListener('click', () => { const t = heroInput.value.trim(); if (t) enterWorkspace(t); });
+heroInput.addEventListener('keydown', e => { if (e.key === 'Enter') { const t = heroInput.value.trim(); if (t) enterWorkspace(t); } });
 
-function initSTT() {
+// ── Workspace submit ──
+wsSend.addEventListener('click', () => { const t = wsInput.value.trim(); if (t && !state.streaming) submitQuery(t); });
+wsInput.addEventListener('keydown', e => { if (e.key === 'Enter') { const t = wsInput.value.trim(); if (t && !state.streaming) submitQuery(t); } });
+
+// ── Voice (initSTT pattern from bot.html) ──
+let recog = null, isListening = false, collectedText = '';
+function initSTT(inputEl, onDone) {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return;
-  recog = new SR();
-  recog.continuous = false;
-  recog.interimResults = true;
-  recog.lang = 'en-US';
-
-  recog.onstart = () => {
-    isListening = true;
-    collectedText = '';
-    queryIn.placeholder = 'Listening...';
-    queryMic.classList.add('listening');
-  };
-
-  recog.onresult = (e) => {
-    let interim = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) {
-      const chunk = e.results[i][0].transcript;
-      if (e.results[i].isFinal) collectedText += chunk + ' ';
-      else interim += chunk;
-    }
-    queryIn.value = (collectedText + interim).trim();
-  };
-
-  recog.onerror = (e) => {
-    isListening = false;
-    queryMic.classList.remove('listening');
-    if (e.error !== 'no-speech') queryIn.placeholder = 'Mic error — try again';
-    else queryIn.placeholder = getIntentPlaceholder(state.intent);
-  };
-
-  recog.onend = () => {
-    isListening = false;
-    queryMic.classList.remove('listening');
-    queryIn.placeholder = getIntentPlaceholder(state.intent);
-    const message = collectedText.trim();
-    collectedText = '';
-    if (message) submitQuery(message);
-  };
+  if (!SR) return null;
+  const r = new SR();
+  r.continuous = false; r.interimResults = true; r.lang = 'en-US';
+  r.onstart = () => { isListening = true; collectedText = ''; };
+  r.onresult = e => { let interim = ''; for (let i = e.resultIndex; i < e.results.length; i++) { if (e.results[i].isFinal) collectedText += e.results[i][0].transcript + ' '; else interim += e.results[i][0].transcript; } inputEl.value = (collectedText + interim).trim(); };
+  r.onerror = () => { isListening = false; };
+  r.onend = () => { isListening = false; const msg = collectedText.trim(); collectedText = ''; if (msg && onDone) onDone(msg); };
+  return r;
 }
 
-// Opening mic → identify role from speech
-openMic.addEventListener('click', () => {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return;
-  const rec = new SR();
-  rec.continuous = false;
-  rec.interimResults = false;
-  rec.lang = 'en-US';
-  rec.onresult = (e) => {
-    const text = e.results[0][0].transcript.toLowerCase();
-    if (text.includes('lawyer') || text.includes('attorney') || text.includes('legal')) enterWorkspace('attorney');
-    else if (text.includes('doctor') || text.includes('physician')) enterWorkspace('doctor');
-    else if (text.includes('financial') || text.includes('advisor')) enterWorkspace('financial-advisor');
-    else if (text.includes('executive') || text.includes('ceo')) enterWorkspace('executive');
-    else enterWorkspace('other');
-  };
-  rec.onerror = () => {};
-  try { rec.start(); } catch {}
-});
-
-// Workspace mic → query
-queryMic.addEventListener('click', () => {
-  if (!recog) initSTT();
+heroMic.addEventListener('click', () => {
+  if (!recog) recog = initSTT(heroInput, t => enterWorkspace(t));
   if (!recog) return;
-  if (isListening) { recog.stop(); }
-  else { try { recog.start(); } catch { queryIn.placeholder = 'Tap mic again in a second'; } }
+  if (isListening) { recog.stop(); heroMic.classList.remove('listening'); }
+  else { try { recog.start(); heroMic.classList.add('listening'); } catch {} }
 });
 
-initSTT();
-
-// ── Send query ──────────────────────────────────────────────────────────────
-sendBtn.addEventListener('click', () => {
-  const text = queryIn.value.trim();
-  if (text && !state.streaming) submitQuery(text);
+wsMic.addEventListener('click', () => {
+  if (!recog) recog = initSTT(wsInput, t => { if (t && !state.streaming) submitQuery(t); });
+  if (!recog) return;
+  if (isListening) recog.stop();
+  else { try { recog.start(); } catch {} }
 });
 
-queryIn.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    const text = queryIn.value.trim();
-    if (text && !state.streaming) submitQuery(text);
-  }
-});
+// ── Intent → agent routing ──
+function getAgent() {
+  const map = { research: 'perplexity', protect: 'kimi', decide: 'reasoning', create: 'mistral', diagnose: 'perplexity', reflect: 'reasoning' };
+  return map[state.intent] || 'perplexity';
+}
 
+function getSystemPrompt() {
+  const prompts = {
+    research: 'INTENT: RESEARCH. Governed external research. Cite sources. Ground every claim.',
+    protect: 'INTENT: PROTECT. Local-only analysis. Detect PII, privileged info, sensitive data. Do NOT reference external sources.',
+    decide: 'INTENT: DECIDE. Decision analysis. Identify ONE-WAY DOOR (irreversible) vs TWO-WAY DOOR. Present options with tradeoffs.',
+    create: 'INTENT: CREATE. Generate a concrete artifact. Track provenance.',
+    diagnose: 'INTENT: DIAGNOSE. Root cause isolation. 5-whys. Propose minimal fix.',
+    reflect: 'INTENT: REFLECT. Self-audit. Extract lessons. Propose improvements.',
+  };
+  return `You are Mission Canvas — a governed AI for professional judgment.\n\n${prompts[state.intent] || prompts.research}\n\nRules: Be concise. Cite sources when possible. Never fabricate. Show reasoning.`;
+}
+
+// ── Submit query ──
 async function submitQuery(text) {
-  queryIn.value = '';
+  wsInput.value = '';
   state.streaming = true;
-  sendBtn.disabled = true;
+  addMsg('user', text);
+  const el = addMsg('canvas', '');
+  const body = el.querySelector('.body');
+  const gov = el.querySelector('.gov-signals');
 
-  // User message
-  addMessage('user', text);
-
-  // Response container
-  const responseEl = addMessage('canvas', '', true);
-  const bodyEl = responseEl.querySelector('.body');
-  const govEl = responseEl.querySelector('.gov-signals');
+  // Show intent + routing chips
+  const agent = getAgent();
+  const labels = { perplexity: 'Perplexity sonar-pro', reasoning: 'Perplexity reasoning-pro', mistral: 'Mistral Large', kimi: 'Groq (local)' };
+  const isLocal = state.intent === 'protect';
+  addGov(gov, 'classify', `INTENT: ${state.intent.toUpperCase()}`);
+  addGov(gov, isLocal ? 'blocked' : 'external', `${isLocal ? 'LOCAL' : 'EXTERNAL'} → ${labels[agent] || agent}`);
 
   try {
     const res = await fetch(HUB + '/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        agent: getIntentAgent(state.intent),
-        text: text,
-        lang: 'eng',
-        mode: state.intent,
-        system: buildSystemPrompt(),
-      }),
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ agent, text, lang: 'eng', mode: state.intent, system: getSystemPrompt() }),
     });
+    if (!res.ok) { body.textContent = `Connection error (${res.status}).`; state.streaming = false; return; }
 
-    if (!res.ok) {
-      bodyEl.textContent = `Connection error (${res.status}). Is the server running?`;
-      state.streaming = false;
-      sendBtn.disabled = false;
-      return;
-    }
-
-    // Parse SSE stream
     const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-    let fullText = '';
-    let gotPalette = false;
-
+    const dec = new TextDecoder();
+    let buf = '', full = '', evt = '';
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop();
-
-      let currentEvent = '';
+      buf += dec.decode(value, { stream: true });
+      const lines = buf.split('\n'); buf = lines.pop();
       for (const line of lines) {
-        if (line.startsWith('event: ')) {
-          currentEvent = line.slice(7).trim();
-        } else if (line.startsWith('data: ')) {
+        if (line.startsWith('event: ')) evt = line.slice(7).trim();
+        else if (line.startsWith('data: ')) {
           const raw = line.slice(6);
-          if (currentEvent === 'palette') {
-            // Governance metadata from Palette retrieval
-            try {
-              const meta = JSON.parse(raw);
-              gotPalette = true;
-              showGovernanceSignals(govEl, meta, text);
-            } catch {}
-          } else if (currentEvent === 'token' || currentEvent === '') {
-            try {
-              const d = JSON.parse(raw);
-              if (d.token) {
-                fullText += d.token;
-                bodyEl.textContent = fullText;
-                msgEl.scrollTop = msgEl.scrollHeight;
-              }
-            } catch {
-              // Plain text token
-              fullText += raw;
-              bodyEl.textContent = fullText;
-            }
-          }
-          currentEvent = '';
+          if (evt === 'palette') { try { const m = JSON.parse(raw); if (m.riu_id) addGov(gov, 'classify', `RIU: ${m.riu_id} ${m.riu_name||''}`); if (m.lib_ids?.length) addGov(gov, 'classify', `RETRIEVE: ${m.lib_ids.length} entries`); } catch {} }
+          else if (evt === 'token' || evt === '') { try { const d = JSON.parse(raw); if (d.token) { full += d.token; body.textContent = full; msgEl.scrollTop = msgEl.scrollHeight; } } catch {} }
+          evt = '';
         }
       }
     }
-
-    // If no palette metadata came back, show basic signals
-    if (!gotPalette) {
-      showBasicSignals(govEl, text);
-    }
-
-    // Show stored signal
-    addGovChip(govEl, 'stored', 'STORED  ' + state.sessionId);
-
-    // Remove streaming dot
-    const dot = bodyEl.querySelector('.streaming-dot');
-    if (dot) dot.remove();
-
-  } catch (err) {
-    bodyEl.textContent = `Could not reach the server. Start it with: cd ~/fde/palette/peers/hub && node server.mjs`;
+  } catch {
+    body.innerHTML = `Mission Canvas connects to a local server for full functionality. <a href="#start" onclick="goHome()" style="text-decoration:underline">Get started →</a>`;
   }
-
   state.streaming = false;
-  sendBtn.disabled = false;
-  queryIn.focus();
 }
 
-// ── Intent → Agent routing ──────────────────────────────────────────────────
-function getIntentAgent(intent) {
-  // Each intent routes to a different agent → different Rime voice identity
-  // perplexity=oculus, kimi=vespera, reasoning=pilaster, mistral=luna, claude=astra, computer=celeste
-  const routing = {
-    research: 'perplexity',   // oculus @ 0.94x — methodical research tone
-    protect: 'kimi',          // vespera @ 1.0x — guarded, local-only
-    decide: 'reasoning',      // pilaster @ 0.90x — slow, deliberate
-    create: 'mistral',        // luna @ 1.0x — creative flow
-    diagnose: 'perplexity',   // astra @ 0.95x — deep reader (research + reasoning for root cause)
-    reflect: 'mistral',       // luna @ 1.0x — reflective synthesis (reasoning-pro chokes on long system prompts)
-  };
-  return routing[intent] || 'perplexity';
+function addMsg(role, text) {
+  const d = document.createElement('div');
+  d.className = `msg ${role}`;
+  if (role === 'canvas') d.innerHTML = `<div class="gov-signals"></div><div class="body"><span class="streaming-dot"></span></div>`;
+  else d.textContent = text;
+  msgEl.appendChild(d); msgEl.scrollTop = msgEl.scrollHeight;
+  return d;
 }
 
-// ── Build system prompt based on role + intent ──────────────────────────────
-function buildSystemPrompt() {
-  const roleContext = {
-    'attorney': 'The user is an attorney. Frame responses in legal terms. Cite case law when relevant. Flag anything that could implicate attorney-client privilege.',
-    'doctor': 'The user is a physician. Frame responses with clinical precision. Flag anything that could implicate patient data (HIPAA).',
-    'financial-advisor': 'The user is a financial advisor. Frame responses with fiduciary awareness. Flag anything that could implicate client financial data.',
-    'executive': 'The user is a business executive. Frame responses for strategic decision-making. Flag irreversible decisions.',
-    'other': 'Frame responses for a professional audience. Flag sensitive data.',
-  };
-
-  const intentContext = {
-    research: `INTENT: RESEARCH — Governed external research.
-Your job: Investigate the question deeply. Cite sources. Ground every claim in evidence.
-Pipeline: Taxonomy classification → Knowledge retrieval → Sanitized external query → Synthesis with citations.
-If the query contains PII, note it would be stripped before external routing in production.`,
-    protect: `INTENT: PROTECT — Local-only analysis. NOTHING leaves this machine.
-Your job: Analyze the content provided. Detect PII, privileged information, trade secrets, or sensitive data. Classify what's present and advise on handling.
-Pipeline: Local classification → PII detection → Risk assessment → Handling recommendation.
-CRITICAL: Do NOT reference external sources. Do NOT search. Everything stays local. This is the airgapped path.`,
-    decide: `INTENT: DECIDE — Decision analysis with reversibility checking.
-Your job: Help the user make a decision. Identify if this is a ONE-WAY DOOR (irreversible) or TWO-WAY DOOR (reversible). Connect to prior decisions if context exists. Flag risks.
-Pipeline: Classify decision type → Retrieve prior decisions → Analyze reversibility → Present options with tradeoffs → Flag one-way doors explicitly.
-Format: State the decision clearly, classify its reversibility, present 2-3 options with tradeoffs, and recommend.`,
-    create: `INTENT: CREATE — Artifact generation with provenance.
-Your job: Create a concrete artifact (document, plan, brief, analysis, code, framework). Track what you created, why, and what it's based on.
-Pipeline: Classify artifact type → Retrieve relevant knowledge → Generate artifact → Self-critique → Note provenance.
-Format: Produce the artifact directly. End with a provenance block noting sources and confidence.`,
-    diagnose: `INTENT: DIAGNOSE — Root cause isolation and fix verification.
-Your job: Find what's broken and why. Use the 5-whys method. Propose a minimal fix. Verify the fix addresses root cause, not symptoms.
-Pipeline: Classify failure type → Retrieve similar past failures → Isolate root cause → Propose minimal fix → Verify fix logic.
-Format: State the symptom, walk through root cause analysis, propose the minimal fix, explain why it works.`,
-    reflect: `INTENT: REFLECT — System self-audit and improvement.
-Your job: Look at what happened in this session (or the topic provided) and extract lessons. Propose concrete improvements. Be honest about what worked and what didn't.
-Pipeline: Review context → Identify patterns → Extract lessons → Propose improvements → Rate confidence.
-Format: What happened → What worked → What didn't → Concrete improvement proposals.`,
-  };
-
-  return `You are Mission Canvas — a governed AI operating system for regulated professionals.
-
-${roleContext[state.role] || roleContext['other']}
-
-${intentContext[state.intent] || intentContext['research']}
-
-Rules:
-- Ground responses in verifiable sources when possible.
-- Be concise and direct. No filler.
-- Never fabricate case law, medical guidelines, or financial regulations.
-- Show your reasoning. Professionals need to verify your work.`;
+function addGov(container, type, text) {
+  const s = document.createElement('span');
+  s.className = `gov-chip ${type}`; s.textContent = text;
+  container.appendChild(s);
 }
-
-// ── Governance signals ──────────────────────────────────────────────────────
-function showGovernanceSignals(container, meta, query) {
-  container.innerHTML = '';
-
-  // Intent badge
-  const intentLabels = {
-    research: '🔍 RESEARCH', protect: '🛡️ PROTECT', decide: '⚖️ DECIDE',
-    create: '🔨 CREATE', diagnose: '🔬 DIAGNOSE', reflect: '🪞 REFLECT'
-  };
-  addGovChip(container, 'classify', `INTENT  ${intentLabels[state.intent] || state.intent}`);
-
-  // Model routing
-  const agentName = getIntentAgent(state.intent);
-  const modelLabels = {
-    perplexity: 'Perplexity sonar-pro', reasoning: 'Perplexity reasoning-pro',
-    mistral: 'Mistral Large', kimi: 'Groq (local-class)',
-    claude: 'Claude Sonnet', computer: 'Perplexity deep-research',
-  };
-  const routeType = (state.intent === 'protect') ? 'LOCAL' : 'EXTERNAL';
-  addGovChip(container, routeType === 'LOCAL' ? 'blocked' : 'external',
-    `${routeType}  → ${modelLabels[agentName] || agentName}`);
-
-  // Classification
-  if (meta.riu_id) {
-    addGovChip(container, 'classify', `CLASSIFY  ${meta.riu_id} ${meta.riu_name || ''}`);
-  }
-
-  // PII check
-  if (hasSensitiveContent(query)) {
-    addGovChip(container, 'blocked', 'PII DETECTED  local only');
-    const hr = document.createElement('hr');
-    hr.className = 'gov-boundary';
-    container.appendChild(hr);
-  } else {
-    addGovChip(container, 'safe', 'SAFE  no PII detected');
-  }
-
-  // Knowledge sources
-  if (meta.lib_ids && meta.lib_ids.length > 0) {
-    addGovChip(container, 'classify',
-      `RETRIEVE  ${meta.lib_ids.length} entries (${Math.round((meta.confidence || 0) * 100)}% confidence)`);
-  }
-}
-
-function showBasicSignals(container, query) {
-  container.innerHTML = '';
-  const intentLabels = {
-    research: '🔍 RESEARCH', protect: '🛡️ PROTECT', decide: '⚖️ DECIDE',
-    create: '🔨 CREATE', diagnose: '🔬 DIAGNOSE', reflect: '🪞 REFLECT'
-  };
-  addGovChip(container, 'classify', `INTENT  ${intentLabels[state.intent] || state.intent}`);
-
-  const agentName = getIntentAgent(state.intent);
-  const modelLabels = {
-    perplexity: 'Perplexity sonar-pro', reasoning: 'Perplexity reasoning-pro',
-    mistral: 'Mistral Large', kimi: 'Groq (local-class)',
-    claude: 'Claude Sonnet', computer: 'Perplexity deep-research',
-  };
-  const routeType = (state.intent === 'protect') ? 'LOCAL' : 'EXTERNAL';
-  addGovChip(container, routeType === 'LOCAL' ? 'blocked' : 'external',
-    `${routeType}  → ${modelLabels[agentName] || agentName}`);
-
-  if (hasSensitiveContent(query)) {
-    addGovChip(container, 'blocked', 'PII DETECTED  would be local only in production');
-  } else {
-    addGovChip(container, 'safe', 'SAFE  no PII detected');
-  }
-}
-
-function hasSensitiveContent(text) {
-  const lower = text.toLowerCase();
-  const patterns = [
-    /\$[\d,.]+/,                          // dollar amounts
-    /\b(our|my|we)\b.*(exposure|strategy|settle|advise|client)/i,
-    /\b(smith|jones|johnson|corp|inc|llc)\b/i,  // common entity names
-    /\b\d{3}-\d{2}-\d{4}\b/,             // SSN pattern
-    /\bpatient\b/i,
-    /\bshould (we|i) (advise|settle|file|disclose)/i,
-  ];
-  return patterns.some(p => p.test(text));
-}
-
-function addGovChip(container, type, label) {
-  const chip = document.createElement('div');
-  chip.className = `gov-signal ${type}`;
-  chip.textContent = label;
-  container.appendChild(chip);
-}
-
-// ── Message rendering ───────────────────────────────────────────────────────
-function addMessage(sender, text, isStreaming = false) {
-  const el = document.createElement('div');
-  el.className = 'message';
-
-  const now = new Date();
-  const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-  const senderLabels = {
-    'user': 'You',
-    'canvas': 'Mission Canvas',
-    'system': 'System',
-  };
-
-  el.innerHTML = `
-    <div class="meta">
-      <span class="sender">${senderLabels[sender] || sender}</span>
-      <span class="time">${time}</span>
-    </div>
-    <div class="gov-signals"></div>
-    <div class="body">${text}${isStreaming ? '<span class="streaming-dot"></span>' : ''}</div>
-  `;
-
-  msgEl.appendChild(el);
-  msgEl.scrollTop = msgEl.scrollHeight;
-  return el;
-}
-
-// ── Init ────────────────────────────────────────────────────────────────────
-setupSTT();
 </script>
-
 </body>
 </html>
