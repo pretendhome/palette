@@ -469,12 +469,13 @@ async function handleRequest(req, res) {
 
       // Palette retrieval — classify query through taxonomy, pull knowledge
       let paletteContext = '';
+      let retrieve = null;
       const learnMode = mode === 'learn';
       try {
         const retrieveArgs = ['run', 'python3', join(__dirname, 'palette_retrieve.py')];
         if (learnMode) retrieveArgs.push('--learn');
         retrieveArgs.push(text);
-        const retrieve = await new Promise((resolve) => {
+        retrieve = await new Promise((resolve) => {
           const proc = spawn('uv', retrieveArgs, {
             cwd: join(process.env.HOME, 'fde'),
             env: { ...process.env, PALETTE_ROOT: join(process.env.HOME, 'fde', 'palette') },
