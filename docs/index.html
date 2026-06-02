@@ -21,7 +21,7 @@
     /* ── Hero ── */
     .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 24px 48px; text-align: center; }
     .hero-logo { width: min(80vw, 500px); margin-bottom: 16px; }
-    .hero-tagline { font-size: 20px; color: #555; margin-bottom: 40px; max-width: 500px; }
+    .hero-tagline { font-size: 20px; color: #555; margin-bottom: 40px; max-width: 700px; white-space: nowrap; }
 
     /* ── Chat input in hero ── */
     .hero-input-wrap { width: min(90vw, 600px); position: relative; margin-bottom: 28px; }
@@ -115,7 +115,7 @@
 <!-- ── Hero ── -->
 <div class="hero" id="hero">
   <img src="logo-mc.png" alt="Mission Canvas" class="hero-logo">
-  <p class="hero-tagline">The governed agent OS for sensitive professional work.</p>
+  <p class="hero-tagline">Governed Agent OS — AI for work that can't leave the room.</p>
 
   <div class="hero-input-wrap">
     <input type="text" class="hero-input" id="hero-input" placeholder="Who are you? Ask anything..." autocomplete="off">
@@ -128,7 +128,7 @@
   </div>
 
   <div class="intents" id="intents">
-    <div class="intent-chip active" data-intent="research">🔍 RESEARCH<span class="intent-tooltip">Public information only. Query sanitized before it leaves.</span></div>
+    <div class="intent-chip active" data-intent="research">🔍 RESEARCH<span class="intent-tooltip">Public information only. Client facts stay local.</span></div>
     <div class="intent-chip" data-intent="protect">🛡️ PROTECT<span class="intent-tooltip">Client data stays on this machine. Zero external routing.</span></div>
     <div class="intent-chip" data-intent="decide">⚖️ DECIDE<span class="intent-tooltip">Records your reasoning. Flags irreversible actions.</span></div>
     <div class="intent-chip" data-intent="create">🔨 CREATE<span class="intent-tooltip">Tracks what you made, when, and why.</span></div>
@@ -145,7 +145,7 @@
 <section id="about">
   <h2>About</h2>
   <p>Most AI products send your work to someone else's server. Mission Canvas doesn't. It runs on your machine, routes every query through a classification layer, and stores your decisions as a judgment trail that compounds over time.</p>
-  <p>Legal is the proof. In February 2026, a federal court ruled that using cloud AI on privileged material waives attorney-client privilege. Mission Canvas is the architectural answer: local by default, external only after sanitization.</p>
+  <p>Legal is the proof. In February 2026, a federal court showed how uncontrolled AI use can put privilege at risk. Mission Canvas is the architectural answer: local by default, external only after the boundary is clear.</p>
   <p>The same pattern applies anywhere the useful context is also the dangerous context: medical, finance, accounting, startup strategy.</p>
   <div class="cta-row">
     <a href="https://github.com/pretendhome/palette" target="_blank">View on GitHub →</a>
@@ -156,7 +156,7 @@
 <section id="secure">
   <h2>Built for work that cannot leak</h2>
   <p><strong>Your client data never leaves this machine.</strong> Not sent to a server. Not stored in a cloud. Not shared with any AI provider. Classification happens locally.</p>
-  <p><strong>External search is governed, not automatic.</strong> When you need public information, Mission Canvas strips everything sensitive before the query leaves, and integrates the results back under your control.</p>
+  <p><strong>External search is governed, not automatic.</strong> When you need public information, Mission Canvas keeps client-specific strategy local, opens a governed research route, and integrates results back under your control.</p>
   <p><strong>Every decision is logged, not forgotten.</strong> An immutable audit trail records what was asked, what was retrieved, what model answered, and what boundary applied.</p>
   <p style="font-size:13px;color:#888;margin-top:24px;">Technical: socket firewall · 3-layer PII sanitizer · governance tiers · append-only decision log · approval workflows · zero CVEs</p>
 </section>
@@ -173,7 +173,7 @@
     <li>203 knowledge entries with evidence tiers</li>
     <li>Governed Perplexity integration for public research</li>
     <li>Voice interface via browser mic</li>
-    <li>PII sanitizer — nothing sensitive leaves without clearance</li>
+    <li>PII gateway — nothing sensitive leaves without clearance</li>
     <li>Append-only decision log</li>
   </ul>
   <p style="font-size:13px;color:#888;">Requires: macOS 12+ or Linux · Node.js 18+ · Python 3.10+ · Ollama (optional)</p>
@@ -246,6 +246,7 @@ function enterWorkspace(text) {
   document.getElementById('hero').style.display = 'none';
   document.querySelectorAll('section').forEach(s => s.style.display = 'none');
   workspace.classList.add('active');
+  recog = null;
   if (text) submitQuery(text);
 }
 
