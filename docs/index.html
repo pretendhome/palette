@@ -312,12 +312,9 @@ async function submitQuery(text) {
   const body = el.querySelector('.body');
   const gov = el.querySelector('.gov-signals');
 
-  // Show intent + routing chips
+  // Show intent chip
   const agent = getAgent();
-  const labels = { perplexity: 'Perplexity sonar-pro', reasoning: 'Perplexity reasoning-pro', mistral: 'Mistral Large', kimi: 'Groq (local)' };
-  const isLocal = state.intent === 'protect';
   addGov(gov, 'classify', `INTENT: ${state.intent.toUpperCase()}`);
-  addGov(gov, isLocal ? 'blocked' : 'external', `${isLocal ? 'LOCAL' : 'EXTERNAL'} → ${labels[agent] || agent}`);
 
   try {
     const res = await fetch(HUB + '/api/chat', {
@@ -338,8 +335,38 @@ async function submitQuery(text) {
         if (line.startsWith('event: ')) evt = line.slice(7).trim();
         else if (line.startsWith('data: ')) {
           const raw = line.slice(6);
-          if (evt === 'palette') { try { const m = JSON.parse(raw); if (m.riu_id) addGov(gov, 'classify', `RIU: ${m.riu_id} ${m.riu_name||''}`); if (m.lib_ids?.length) addGov(gov, 'classify', `RETRIEVE: ${m.lib_ids.length} entries`); } catch {} }
-          else if (evt === 'token' || evt === '') { try { const d = JSON.parse(raw); if (d.token) { full += d.token; body.innerHTML = renderMarkdown(full); msgEl.scrollTop = msgEl.scrollHeight; } } catch {} }
+          if (evt === 'palette') {
+            try { const m = JSON.parse(raw); if (m.riu_id) addGov(gov, 'classify', `🏷️ CLASSIFY → ${m.riu_id} ${m.riu_name||''} (${Math.round((m.confidence||0)*100)}%)`); if (m.lib_ids?.length) addGov(gov, 'classify', `📚 RETRIEVE → ${m.lib_ids.length} knowledge entries`); } catch {}
+          } else if (evt === 'pipeline') {
+            try {
+              const p = JSON.parse(raw);
+              const icons = { reason: '🧠', research: '🔍', synthesize: '⚡', stored: '💾' };
+              const icon = icons[p.step] || '→';
+              if (p.status === 'start') {
+                addGov(gov, 'classify', `${icon} ${p.step.toUpperCase()} ...`);
+              } else if (p.status === 'done') {
+                // Replace the "..." chip with the final result
+                const chips = gov.querySelectorAll('.gov-chip');
+                for (const c of chips) { if (c.textContent.includes(`${p.step.toUpperCase()} ...`)) c.remove(); }
+                if (p.step === 'stored') {
+                  addGov(gov, 'safe', `${icon} STORED → ${(p.models_used||[]).join(' → ')}`);
+                } else {
+                  const routeClass = p.route === 'LOCAL' ? 'safe' : 'external';
+                  addGov(gov, routeClass, `${icon} ${p.step.toUpperCase()} ✓ ${p.model||''} ${p.route} ${p.ms ? p.ms+'ms' : ''}`);
+                }
+              } else if (p.status === 'blocked') {
+                const chips = gov.querySelectorAll('.gov-chip');
+                for (const c of chips) { if (c.textContent.includes(`${p.step.toUpperCase()} ...`)) c.remove(); }
+                addGov(gov, 'blocked', `${icon} ${p.step.toUpperCase()} ✗ BLOCKED — ${p.reason||'governance boundary'}`);
+              } else if (p.status === 'skipped') {
+                const chips = gov.querySelectorAll('.gov-chip');
+                for (const c of chips) { if (c.textContent.includes(`${p.step.toUpperCase()} ...`)) c.remove(); }
+                addGov(gov, 'classify', `${icon} ${p.step.toUpperCase()} — skipped`);
+              }
+            } catch {}
+          } else if (evt === 'token' || evt === '') {
+            try { const d = JSON.parse(raw); if (d.token) { full += d.token; body.innerHTML = renderMarkdown(full); msgEl.scrollTop = msgEl.scrollHeight; } } catch {}
+          }
           evt = '';
         }
       }

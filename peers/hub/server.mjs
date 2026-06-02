@@ -32,6 +32,7 @@ let CLAUDE_TOKEN = '';
 let MISTRAL_KEY = '';
 let OPENAI_KEY = '';
 let PERPLEXITY_KEY = '';
+let GEMINI_API_KEY = '';
 let DASHSCOPE_KEY = '';
 let KIRO_KEY = '';
 let GROQ_KEY = '';
@@ -50,6 +51,7 @@ async function loadKeys() {
       if (k === 'MISTRAL_API_KEY') MISTRAL_KEY = val;
       if (k === 'OPENAI_API_KEY') OPENAI_KEY = val;
       if (k === 'PERPLEXITY_API_KEY') PERPLEXITY_KEY = val;
+      if (k === 'GEMINI_API_KEY') GEMINI_API_KEY = val;
       if (k === 'DASHSCOPE_API_KEY') DASHSCOPE_KEY = val;
       if (k === 'KIRO_API_KEY') KIRO_KEY = val;
       if (k === 'GROQ_API_KEY') GROQ_KEY = val;
@@ -76,6 +78,7 @@ async function loadKeys() {
   if (MISTRAL_KEY) loaded.push('mistral');
   if (OPENAI_KEY) loaded.push('openai');
   if (PERPLEXITY_KEY) loaded.push('perplexity');
+  if (GEMINI_API_KEY) loaded.push('gemini');
   if (DASHSCOPE_KEY) loaded.push('qwen');
   if (KIRO_KEY) loaded.push('kiro');
   if (RIME_KEY) loaded.push('rime');
@@ -89,7 +92,10 @@ let LITELLM_AVAILABLE = false;
 
 async function checkLiteLLM() {
   try {
-    const resp = await fetch('http://127.0.0.1:4000/health', { signal: AbortSignal.timeout(2000) });
+    const resp = await fetch('http://127.0.0.1:4000/health', {
+      headers: { 'Authorization': 'Bearer sk-mc-local' },
+      signal: AbortSignal.timeout(2000)
+    });
     LITELLM_AVAILABLE = resp.ok;
   } catch { LITELLM_AVAILABLE = false; }
   if (LITELLM_AVAILABLE) console.log('  LiteLLM    ✓ router on port 4000');
@@ -407,6 +413,7 @@ async function handleRequest(req, res) {
         qwen: !!DASHSCOPE_KEY,
         kiro: !!KIRO_KEY,
         perplexity: !!PERPLEXITY_KEY,
+        gemini: !!GEMINI_API_KEY,
         rime: !!RIME_KEY,
       },
       bus: await fetch(`${BUS_URL}/recent`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{"limit":1}' })
@@ -495,6 +502,68 @@ async function handleRequest(req, res) {
         }
       } catch { /* retrieval failed, continue without context */ }
 
+      const isInternalOnly = retrieve?.classification === 'internal_only';
+
+      // ── PIPELINE STEP 3: LOCAL REASON (Ollama) ─────────────────────
+      let localReasoning = '';
+      try {
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'reason', status: 'start', model: 'ollama/qwen2.5:3b', route: 'LOCAL' })}\n\n`);
+        const reasonStart = Date.now();
+        const ollamaResp = await fetch('http://127.0.0.1:11434/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'qwen2.5:3b',
+            prompt: `Brief initial analysis (2-3 sentences). No external search.\n\nQuery: ${text}\n\nContext:\n${paletteContext.slice(0, 500)}`,
+            stream: false,
+          }),
+          signal: AbortSignal.timeout(10000),
+        });
+        if (ollamaResp.ok) localReasoning = (await ollamaResp.json()).response || '';
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'reason', status: localReasoning ? 'done' : 'skipped', model: 'ollama/qwen2.5:3b', route: 'LOCAL', ms: Date.now() - reasonStart, summary: localReasoning.slice(0, 150) })}\n\n`);
+      } catch {
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'reason', status: 'skipped', model: 'ollama', route: 'LOCAL' })}\n\n`);
+      }
+
+      // ── PIPELINE STEP 4: RESEARCH (Perplexity, governed) ───────────
+      let externalResearch = '';
+      const researchIntents = ['research', 'decide', 'diagnose', 'create'];
+      const needsResearch = researchIntents.includes(mode) && !isInternalOnly && PERPLEXITY_KEY;
+
+      if (needsResearch) {
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'research', status: 'start', model: 'perplexity/sonar-pro', route: 'EXTERNAL' })}\n\n`);
+        const researchStart = Date.now();
+        try {
+          const pplxResp = await fetch('https://api.perplexity.ai/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${PERPLEXITY_KEY}` },
+            body: JSON.stringify({
+              model: 'sonar-pro',
+              messages: [
+                { role: 'system', content: `Research for a ${retrieve?.riu_name || 'general'} query. Focus on what is MISSING from local knowledge. Cite sources. 3-5 sentences.` },
+                { role: 'user', content: text },
+              ],
+              max_tokens: 300,
+            }),
+            signal: AbortSignal.timeout(15000),
+          });
+          if (pplxResp.ok) externalResearch = (await pplxResp.json()).choices?.[0]?.message?.content || '';
+        } catch { /* Perplexity failed */ }
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'research', status: externalResearch ? 'done' : 'skipped', model: 'perplexity/sonar-pro', route: 'EXTERNAL', ms: Date.now() - researchStart, summary: externalResearch.slice(0, 150) })}\n\n`);
+      } else if (mode === 'protect' || isInternalOnly) {
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'research', status: 'blocked', route: 'BLOCKED', reason: 'Sensitive query — no external routing' })}\n\n`);
+      } else if (mode === 'reflect') {
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'research', status: 'skipped', route: 'LOCAL', reason: 'Reflect uses local context only' })}\n\n`);
+      }
+
+      // ── Enrich context with pipeline results ───────────────────────
+      let pipelineContext = paletteContext;
+      if (localReasoning) pipelineContext += `\n\nLocal reasoning (on-device):\n${localReasoning}`;
+      if (externalResearch) pipelineContext += `\n\nExternal research (Perplexity, sanitized):\n${externalResearch}`;
+
+      // ── PIPELINE STEP 5: SYNTHESIZE (intent-specific model) ────────
+      res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'synthesize', status: 'start', model: `${config.provider}/${config.model}`, route: config.provider === 'ollama' || config.provider === 'groq' ? 'LOCAL' : 'EXTERNAL' })}\n\n`);
+
       const langInstruction = lang && lang !== 'eng'
         ? `Respond in the same language the user is speaking. If they speak French, respond in French. If Italian, respond in Italian. If Spanish, respond in Spanish. `
         : '';
@@ -502,17 +571,13 @@ async function handleRequest(req, res) {
       const voiceInstruction = clientSystem ? '' : (learnMode
         ? 'You are a voice tutor. Walk the learner through the topic step by step. Ask questions to check understanding. Be encouraging but rigorous. Adapt if they seem stuck. Keep responses conversational (3-5 sentences). Do NOT use markdown formatting. Your response will be spoken aloud.'
         : 'Be concise — 2-3 sentences for spoken conversation. Do NOT use markdown formatting (no **bold**, no *italic*, no bullet points, no numbered lists, no headers). Your response will be spoken aloud through a voice synthesizer.');
-      const systemPrompt = `${steering}\n\n${langInstruction}${voiceInstruction}${clientSystem ? '' : paletteContext}`;
+      const systemPrompt = `${steering}\n\n${langInstruction}${voiceInstruction}${clientSystem ? '' : pipelineContext}`;
 
       let fullText = '';
       let sentenceBuffer = '';
 
       // Sentence boundary detection for token-by-token streaming.
-      // Fires when buffer has a sentence ender (.!?) followed by whitespace or end,
-      // AND the buffer is long enough to be a real sentence (>15 chars).
       function extractCompleteSentences() {
-        // Match everything up to and including the last sentence-ending punctuation
-        // that is followed by whitespace (meaning a new sentence has started)
         const match = sentenceBuffer.match(/^([\s\S]*?[.!?][\])\u201D"']*)\s+([\s\S]*)$/);
         if (match && match[1].trim().length > 5) {
           const complete = match[1].trim();
@@ -591,6 +656,16 @@ async function handleRequest(req, res) {
           } catch { /* TTS failed for this sentence, continue */ }
         }
       }
+
+      // ── PIPELINE STEP 6: STORE ──────────────────────────────────
+      const modelsUsed = ['ollama'];
+      if (externalResearch) modelsUsed.push('perplexity');
+      modelsUsed.push(`${config.provider}/${config.model}`);
+      res.write(`event: pipeline\ndata: ${JSON.stringify({
+        step: 'stored', status: 'done',
+        models_used: modelsUsed,
+        route: modelsUsed.length > 2 ? 'MULTI-MODEL' : modelsUsed.length > 1 ? 'LOCAL+EXTERNAL' : 'LOCAL',
+      })}\n\n`);
 
       res.write(`event: done\ndata: ${JSON.stringify({ text: fullText })}\n\n`);
       res.end();
