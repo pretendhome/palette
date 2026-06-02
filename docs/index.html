@@ -66,8 +66,8 @@
     /* ── Workspace (post-input state) ── */
     .workspace { display: none; position: fixed; inset: 0; top: 56px; background: #fff; flex-direction: column; z-index: 50; }
     .workspace.active { display: flex; }
-    .workspace-messages { flex: 1; overflow-y: auto; padding: 24px; }
-    .workspace-bar { padding: 12px 24px; border-top: 1px solid #eee; display: flex; gap: 8px; align-items: center; }
+    .workspace-messages { flex: 1; overflow-y: auto; padding: 24px; min-height: 0; }
+    .workspace-bar { padding: 12px 24px; border-top: 1px solid #eee; display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
     .workspace-bar input { flex: 1; height: 44px; border: 1px solid #ddd; border-radius: 22px; padding: 0 16px; font-size: 15px; outline: none; }
     .workspace-bar input:focus { border-color: #111; }
     .workspace-bar button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #ddd; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; }
@@ -105,9 +105,9 @@
 <nav class="nav">
   <a class="nav-brand" href="#" onclick="goHome()"><img src="logo-mc.png" alt="Mission Canvas"></a>
   <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#secure">Secure</a>
-    <a href="#start">Start</a>
+    <a href="#about" onclick="goHome()">About</a>
+    <a href="#secure" onclick="goHome()">Secure</a>
+    <a href="#start" onclick="goHome()">Start</a>
     <a href="https://github.com/pretendhome/palette" target="_blank">GitHub</a>
   </div>
 </nav>
