@@ -339,7 +339,7 @@ async function submitQuery(text) {
         else if (line.startsWith('data: ')) {
           const raw = line.slice(6);
           if (evt === 'palette') { try { const m = JSON.parse(raw); if (m.riu_id) addGov(gov, 'classify', `RIU: ${m.riu_id} ${m.riu_name||''}`); if (m.lib_ids?.length) addGov(gov, 'classify', `RETRIEVE: ${m.lib_ids.length} entries`); } catch {} }
-          else if (evt === 'token' || evt === '') { try { const d = JSON.parse(raw); if (d.token) { full += d.token; body.textContent = full; msgEl.scrollTop = msgEl.scrollHeight; } } catch {} }
+          else if (evt === 'token' || evt === '') { try { const d = JSON.parse(raw); if (d.token) { full += d.token; body.innerHTML = renderMarkdown(full); msgEl.scrollTop = msgEl.scrollHeight; } } catch {} }
           evt = '';
         }
       }
@@ -363,6 +363,19 @@ function addGov(container, type, text) {
   const s = document.createElement('span');
   s.className = `gov-chip ${type}`; s.textContent = text;
   container.appendChild(s);
+}
+
+function renderMarkdown(text) {
+  return text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/^### (.+)$/gm, '<h4>$1</h4>')
+    .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^# (.+)$/gm, '<h3>$1</h3>')
+    .replace(/\[(\d+)\]/g, '<sup>$1</sup>')
+    .replace(/^---$/gm, '<hr>')
+    .replace(/\n/g, '<br>');
 }
 </script>
 </body>
