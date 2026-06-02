@@ -287,7 +287,7 @@ wsMic.addEventListener('click', () => {
 
 // ── Intent → agent routing ──
 function getAgent() {
-  const map = { research: 'perplexity', protect: 'kimi', decide: 'reasoning', create: 'mistral', diagnose: 'perplexity', reflect: 'reasoning' };
+  const map = { research: 'perplexity', protect: 'kimi', decide: 'reasoning', create: 'mistral', diagnose: 'claude', reflect: 'reasoning' };
   return map[state.intent] || 'perplexity';
 }
 
