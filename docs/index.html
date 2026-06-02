@@ -364,6 +364,8 @@ async function submitQuery(text) {
                 addGov(gov, 'classify', `${icon} ${p.step.toUpperCase()} — skipped`);
               }
             } catch {}
+          } else if (evt === 'audio') {
+            try { const d = JSON.parse(raw); if (d.audio) playAudioChunk(d.audio, d.format || 'mp3'); } catch {}
           } else if (evt === 'token' || evt === '') {
             try { const d = JSON.parse(raw); if (d.token) { full += d.token; body.innerHTML = renderMarkdown(full); msgEl.scrollTop = msgEl.scrollHeight; } } catch {}
           }
@@ -390,6 +392,26 @@ function addGov(container, type, text) {
   const s = document.createElement('span');
   s.className = `gov-chip ${type}`; s.textContent = text;
   container.appendChild(s);
+}
+
+// ── Audio playback (Rime TTS) ───────────────────────────────────────────────
+const audioQueue = [];
+let audioPlaying = false;
+
+function playAudioChunk(base64, format) {
+  const blob = new Blob([Uint8Array.from(atob(base64), c => c.charCodeAt(0))], { type: `audio/${format}` });
+  const url = URL.createObjectURL(blob);
+  audioQueue.push(url);
+  if (!audioPlaying) playNext();
+}
+
+function playNext() {
+  if (audioQueue.length === 0) { audioPlaying = false; return; }
+  audioPlaying = true;
+  const audio = new Audio(audioQueue.shift());
+  audio.onended = () => { URL.revokeObjectURL(audio.src); playNext(); };
+  audio.onerror = () => { playNext(); };
+  audio.play().catch(() => playNext());
 }
 
 function renderMarkdown(text) {
