@@ -29,17 +29,44 @@ esac
 echo -e "\n${B}Checking dependencies...${NC}"
 MISSING=0
 
-command -v python3 &>/dev/null && ok "Python $(python3 --version 2>&1 | cut -d' ' -f2)" || { warn "Python 3.10+ required"; MISSING=1; }
-command -v node &>/dev/null && ok "Node.js $(node -v)" || { warn "Node.js 18+ required"; MISSING=1; }
-command -v git &>/dev/null && ok "Git $(git --version | cut -d' ' -f3)" || { fail "Git is required"; }
-
-if [ "$MISSING" -gt 0 ]; then
-  echo ""
-  echo -e "  ${Y}Install missing deps first:${NC}"
-  echo "    Python: https://python.org or 'sudo apt install python3'"
-  echo "    Node:   https://nodejs.org or 'nvm install 20'"
-  exit 1
+# Python
+if ! command -v python3 &>/dev/null || [ "$(python3 -c 'import sys;print(sys.version_info.minor)')" -lt 10 ]; then
+  warn "Python 3.10+ not found — installing..."
+  if command -v apt-get &>/dev/null; then
+    sudo apt-get update -qq && sudo apt-get install -y -qq python3 python3-pip python3-venv >/dev/null 2>&1 && ok "Python installed" || { fail "Could not install Python"; }
+  elif command -v brew &>/dev/null; then
+    brew install python@3.12 >/dev/null 2>&1 && ok "Python installed" || { fail "Could not install Python"; }
+  else
+    fail "Install Python 3.10+ manually: https://python.org"
+  fi
+else
+  ok "Python $(python3 --version 2>&1 | cut -d' ' -f2)"
 fi
+
+# Node.js
+if ! command -v node &>/dev/null || [ "$(node -v | sed 's/v//' | cut -d. -f1)" -lt 18 ]; then
+  warn "Node.js 18+ not found — installing..."
+  if command -v apt-get &>/dev/null; then
+    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - >/dev/null 2>&1 && sudo apt-get install -y -qq nodejs >/dev/null 2>&1 && ok "Node.js installed" || { fail "Could not install Node.js"; }
+  elif command -v brew &>/dev/null; then
+    brew install node@20 >/dev/null 2>&1 && ok "Node.js installed" || { fail "Could not install Node.js"; }
+  else
+    fail "Install Node.js 18+: https://nodejs.org"
+  fi
+else
+  ok "Node.js $(node -v)"
+fi
+
+# Build tools (for better-sqlite3)
+if command -v apt-get &>/dev/null && ! dpkg -s build-essential &>/dev/null 2>&1; then
+  warn "Installing build tools..."
+  sudo apt-get install -y -qq build-essential python3-dev >/dev/null 2>&1 && ok "Build tools" || warn "Build tools install failed — npm may have issues"
+elif command -v xcode-select &>/dev/null && ! xcode-select -p &>/dev/null 2>&1; then
+  warn "Installing Xcode CLI tools..."
+  xcode-select --install 2>/dev/null || true
+fi
+
+command -v git &>/dev/null && ok "Git $(git --version | cut -d' ' -f3)" || { fail "Git is required"; }
 
 # ── Install location ──
 INSTALL_DIR="${MISSION_CANVAS_HOME:-$HOME/.mission-canvas}"

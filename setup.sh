@@ -79,12 +79,21 @@ else
   ERRORS=$((ERRORS + 1))
 fi
 
-# Ollama (optional)
+# Ollama (optional — auto-install if missing)
 if command -v ollama &>/dev/null; then
   ok "Ollama (local models available)"
 else
-  warn "Ollama not found — PROTECT intent will use external models"
-  info "Install for fully local queries: https://ollama.com"
+  echo -e "  ${Y}?${NC} Ollama not found — install for fully local AI? (recommended)"
+  read -rp "    Install Ollama? [Y/n]: " INSTALL_OLLAMA
+  if [ "${INSTALL_OLLAMA:-Y}" != "n" ] && [ "${INSTALL_OLLAMA:-Y}" != "N" ]; then
+    curl -fsSL https://ollama.com/install.sh | sh 2>/dev/null && ok "Ollama installed" || warn "Ollama install failed — continuing without it"
+    if command -v ollama &>/dev/null; then
+      info "Pulling small local model (qwen2.5:3b)..."
+      ollama pull qwen2.5:3b 2>/dev/null && ok "Local model ready" || warn "Model pull failed — you can run 'ollama pull qwen2.5:3b' later"
+    fi
+  else
+    info "Skipped — PROTECT intent will use external models"
+  fi
 fi
 
 # uv (optional, speeds up Python)
@@ -107,7 +116,7 @@ echo ""
 # 2. Install Python dependencies
 # ════════════════════════════════════════════════════════════════════
 echo -e "${BOLD}Installing Python packages...${NC}"
-$PIP_CMD -q httpx pyyaml ruamel.yaml numpy 2>/dev/null && ok "Core packages" || warn "Some packages may need manual install"
+$PIP_CMD -q httpx pyyaml ruamel.yaml numpy anthropic 2>/dev/null && ok "Core packages" || warn "Some packages may need manual install"
 
 echo ""
 
@@ -184,12 +193,24 @@ else
 fi
 
 # ════════════════════════════════════════════════════════════════════
-# 5. Create default directories
+# 5. Create default directories + PATH
 # ════════════════════════════════════════════════════════════════════
 mkdir -p "$SCRIPT_DIR/.palette/artifacts"
 mkdir -p "$SCRIPT_DIR/.palette/schedules"
 mkdir -p "$SCRIPT_DIR/.palette/lenses"
 ok "Workspace directories ready"
+
+# Add palette to PATH
+mkdir -p "$HOME/.local/bin"
+ln -sf "$SCRIPT_DIR/scripts/palette_intents/palette" "$HOME/.local/bin/palette" 2>/dev/null || true
+if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+  echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.bashrc" 2>/dev/null || true
+  echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc" 2>/dev/null || true
+  export PATH="$HOME/.local/bin:$PATH"
+  ok "Added palette to PATH (restart shell or: source ~/.bashrc)"
+else
+  ok "PATH configured"
+fi
 
 echo ""
 
