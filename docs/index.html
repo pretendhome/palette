@@ -254,7 +254,7 @@ heroSend.addEventListener('click', () => { const t = heroInput.value.trim(); if 
 heroInput.addEventListener('keydown', e => { if (e.key === 'Enter') { const t = heroInput.value.trim(); if (t) enterWorkspace(t); } });
 
 // ── Workspace submit ──
-wsSend.addEventListener('click', () => { const t = wsInput.value.trim(); if (t && !state.streaming) submitQuery(t); });
+wsSend.addEventListener('click', () => { stopAudio(); const t = wsInput.value.trim(); if (t && !state.streaming) submitQuery(t); });
 wsInput.addEventListener('keydown', e => { if (e.key === 'Enter') { const t = wsInput.value.trim(); if (t && !state.streaming) submitQuery(t); } });
 
 // ── Voice (initSTT pattern from bot.html) ──
@@ -279,6 +279,7 @@ heroMic.addEventListener('click', () => {
 });
 
 wsMic.addEventListener('click', () => {
+  stopAudio();
   if (!recog) recog = initSTT(wsInput, t => { if (t && !state.streaming) submitQuery(t); });
   if (!recog) return;
   if (isListening) recog.stop();
@@ -300,7 +301,7 @@ function getSystemPrompt() {
     diagnose: 'INTENT: DIAGNOSE. Root cause isolation. 5-whys. Propose minimal fix.',
     reflect: 'INTENT: REFLECT. Self-audit. Extract lessons. Propose improvements.',
   };
-  return `You are Mission Canvas — a governed AI for professional judgment.\n\n${prompts[state.intent] || prompts.research}\n\nRules: Be concise. Cite sources when possible. Never fabricate. Show reasoning.`;
+  return `You are Mission Canvas — a governed AI for professional judgment.\n\n${prompts[state.intent] || prompts.research}\n\nRules: Be concise (3-5 sentences). Cite sources when possible. Never fabricate. Show reasoning. Do NOT output code blocks, HTML, or markdown formatting — your response will be spoken aloud through a voice synthesizer.`;
 }
 
 // ── Submit query ──
@@ -397,6 +398,13 @@ function addGov(container, type, text) {
 // ── Audio playback (Rime TTS) ───────────────────────────────────────────────
 const audioQueue = [];
 let audioPlaying = false;
+let currentAudio = null;
+
+function stopAudio() {
+  audioQueue.length = 0;
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  audioPlaying = false;
+}
 
 function playAudioChunk(base64, format) {
   const blob = new Blob([Uint8Array.from(atob(base64), c => c.charCodeAt(0))], { type: `audio/${format}` });
@@ -406,12 +414,12 @@ function playAudioChunk(base64, format) {
 }
 
 function playNext() {
-  if (audioQueue.length === 0) { audioPlaying = false; return; }
+  if (audioQueue.length === 0) { audioPlaying = false; currentAudio = null; return; }
   audioPlaying = true;
-  const audio = new Audio(audioQueue.shift());
-  audio.onended = () => { URL.revokeObjectURL(audio.src); playNext(); };
-  audio.onerror = () => { playNext(); };
-  audio.play().catch(() => playNext());
+  currentAudio = new Audio(audioQueue.shift());
+  currentAudio.onended = () => { URL.revokeObjectURL(currentAudio.src); playNext(); };
+  currentAudio.onerror = () => { playNext(); };
+  currentAudio.play().catch(() => playNext());
 }
 
 function renderMarkdown(text) {
