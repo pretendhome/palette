@@ -6186,7 +6186,7 @@ rius:
   notes: This RIU directly maps to the BDB demo — Delaware fiduciary duty is the primary example. Connects to LEGAL-KL-001
     through LEGAL-KL-003.
 taxonomy_statistics:
-  total_rius: 121
+  total_rius: 131
   v1_2_base: 94
   essential_added: 10
   v1_3_added: 4
