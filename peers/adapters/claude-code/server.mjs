@@ -14,7 +14,7 @@
  * Usage in .claude/settings.local.json mcpServers:
  *   "palette-peers": {
  *     "command": "node",
- *     "args": ["/home/mical/fde/palette/peers/adapters/claude-code/server.mjs"]
+ *     "args": ["./peers/adapters/claude-code/server.mjs"]
  *   }
  */
 import { createInterface } from 'node:readline';

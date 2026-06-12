@@ -52,6 +52,9 @@ ALLOWED_KEYWORDS = {
 BLOCKED_INDICATORS_DEFAULT = [
     "our client",
     "my client",
+    "our exposure",
+    "our position",
+    "our strategy",
     "should we",
     "strategy",
     "settlement",
@@ -61,6 +64,10 @@ BLOCKED_INDICATORS_DEFAULT = [
     "active case",
     "our case",
     "this matter",
+    "opposing counsel",
+    "negotiation position",
+    "confidential",
+    "work product",
 ]
 
 CONTEXTUAL_PHRASES = [

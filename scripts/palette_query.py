@@ -408,12 +408,14 @@ def step_extract(query: str, resolved: dict, trace: TraceLog) -> dict | None:
 # ── Main pipeline ───────────────────────────────────────────────────────
 
 def run_query(query: str, learn: bool = False, show_json: bool = False,
-              show_trace: bool = False, use_external: bool = False) -> int:
+              show_trace: bool = False, use_external: bool = False,
+              eval_mode: bool = False) -> int:
     """Execute the full 5-step pipeline."""
 
     trace = TraceLog(query)
 
-    bus_register()
+    if not eval_mode:
+        bus_register()
 
     resolved = step_resolve(query, learn, trace)
 
@@ -469,46 +471,47 @@ def run_query(query: str, learn: bool = False, show_json: bool = False,
     else:
         print(response)
 
-    session_log = REPO_ROOT / "peers" / "session_log.ndjson"
-    try:
-        session_log.parent.mkdir(parents=True, exist_ok=True)
-        with open(session_log, "a") as f:
-            f.write(json.dumps({
-                "query": query[:200],
+    if not eval_mode:
+        session_log = REPO_ROOT / "peers" / "session_log.ndjson"
+        try:
+            session_log.parent.mkdir(parents=True, exist_ok=True)
+            with open(session_log, "a") as f:
+                f.write(json.dumps({
+                    "query": query[:200],
+                    "riu_id": resolved.get("riu_id"),
+                    "riu_name": resolved.get("riu_name"),
+                    "classification": resolved.get("classification"),
+                    "lib_id": resolved.get("lib_id"),
+                    "confidence": resolved.get("confidence"),
+                    "agent": agent,
+                    "mode": "learn" if learn else "query",
+                    "retrieval_modes": resolved.get("retrieval_modes"),
+                    "external_requested": use_external,
+                    "external_called": gateway_result.get("governance", {}).get("external_called") if gateway_result else False,
+                    "blocked": gateway_result.get("governance", {}).get("blocked", False) if gateway_result else False,
+                    "total_ms": trace.total_ms(),
+                    "extraction": extraction.get("type") if extraction else None,
+                    "thread_id": trace.thread_id,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }) + "\n")
+        except Exception:
+            pass
+
+        bus_send(
+            to_agent="all",
+            intent=f"palette query completed: {resolved.get('riu_id', 'unknown')} ({trace.total_ms():.0f}ms)",
+            content=json.dumps({
+                "query": query[:100],
                 "riu_id": resolved.get("riu_id"),
-                "riu_name": resolved.get("riu_name"),
-                "classification": resolved.get("classification"),
-                "lib_id": resolved.get("lib_id"),
                 "confidence": resolved.get("confidence"),
                 "agent": agent,
-                "mode": "learn" if learn else "query",
-                "retrieval_modes": resolved.get("retrieval_modes"),
                 "external_requested": use_external,
                 "external_called": gateway_result.get("governance", {}).get("external_called") if gateway_result else False,
-                "blocked": gateway_result.get("governance", {}).get("blocked", False) if gateway_result else False,
                 "total_ms": trace.total_ms(),
-                "extraction": extraction.get("type") if extraction else None,
-                "thread_id": trace.thread_id,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }) + "\n")
-    except Exception:
-        pass
-
-    bus_send(
-        to_agent="all",
-        intent=f"palette query completed: {resolved.get('riu_id', 'unknown')} ({trace.total_ms():.0f}ms)",
-        content=json.dumps({
-            "query": query[:100],
-            "riu_id": resolved.get("riu_id"),
-            "confidence": resolved.get("confidence"),
-            "agent": agent,
-            "external_requested": use_external,
-            "external_called": gateway_result.get("governance", {}).get("external_called") if gateway_result else False,
-            "total_ms": trace.total_ms(),
-            "steps": len(trace.steps),
-        }),
-        thread_id=trace.thread_id,
-    )
+                "steps": len(trace.steps),
+            }),
+            thread_id=trace.thread_id,
+        )
 
     return 0
 
@@ -922,6 +925,7 @@ def main():
     parser.add_argument("--trace", action="store_true", help="Show execution trace")
     parser.add_argument("--external", action="store_true", help="Enable governed Perplexity external research path")
     parser.add_argument("--demo", action="store_true", help="Demo output mode: color-coded, video-optimized")
+    parser.add_argument("--eval", action="store_true", help="Evaluation mode: no session log, no bus writes")
     args = parser.parse_args()
 
     query = " ".join(args.query)
@@ -929,7 +933,7 @@ def main():
     if args.demo:
         sys.exit(run_demo(query, use_external=args.external))
     else:
-        sys.exit(run_query(query, learn=args.learn, show_json=args.json, show_trace=args.trace, use_external=args.external))
+        sys.exit(run_query(query, learn=args.learn, show_json=args.json, show_trace=args.trace, use_external=args.external, eval_mode=args.eval))
 
 
 if __name__ == "__main__":

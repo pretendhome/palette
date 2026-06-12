@@ -180,14 +180,16 @@ def call_perplexity(query: str, system: str = "") -> dict | None:
 
 
 def call_claude(prompt: str, system: str = "") -> str | None:
-    """Call Claude via CLI. Uses OAuth subscription."""
+    """Call Claude via CLI. Uses OAuth subscription — never API credits."""
     import os, subprocess
     try:
         full_prompt = f"{system}\n\n{prompt}" if system else prompt
+        env = {**os.environ, "CLAUDE_CODE_ENTRYPOINT": "palette-orchestrate"}
+        env.pop("ANTHROPIC_API_KEY", None)  # force OAuth, never API credits
         result = subprocess.run(
             ["claude", "-p", full_prompt],
             capture_output=True, text=True, timeout=45,
-            env={**os.environ, "CLAUDE_CODE_ENTRYPOINT": "palette-orchestrate"},
+            env=env,
         )
         if result.returncode == 0:
             return result.stdout.strip()

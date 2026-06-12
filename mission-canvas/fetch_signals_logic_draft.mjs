@@ -9,8 +9,8 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 
 const ALLOW_LIST_DIRS = [
-  "/home/mical/fde/implementations/retail/retail-rossi-store/",
-  "/home/mical/fde/implementations/retail/retail-rossi-store/data/"
+  "~/fde/implementations/retail/retail-rossi-store/",
+  "~/fde/implementations/retail/retail-rossi-store/data/"
 ];
 
 const ALLOWED_EXTENSIONS = ['.pdf', '.csv', '.json', '.txt', '.md'];

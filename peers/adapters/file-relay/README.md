@@ -26,9 +26,9 @@ python3 mistral_relay.py --watch --interval 10
 
 | Path | Purpose |
 |------|---------|
-| `/home/mical/fde/enablement/MISTRAL_INBOX/` | Messages from the bus → Mistral reads these |
-| `/home/mical/fde/enablement/MISTRAL_OUTBOX/` | Mistral writes here → relay sends to bus |
-| `/home/mical/fde/enablement/MISTRAL_OUTBOX/sent/` | Processed outbox files (archive) |
+| `~/fde/enablement/MISTRAL_INBOX/` | Messages from the bus → Mistral reads these |
+| `~/fde/enablement/MISTRAL_OUTBOX/` | Mistral writes here → relay sends to bus |
+| `~/fde/enablement/MISTRAL_OUTBOX/sent/` | Processed outbox files (archive) |
 
 ## Outbox File Format
 

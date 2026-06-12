@@ -20,7 +20,7 @@ It is NOT a chatbot. It is NOT a prompt router. It is a system where:
 
 The conversation is the control surface. The artifacts are the product. The project state is the memory.
 
-**Location**: `/home/mical/fde/missioncanvas-site/`
+**Location**: `~/fde/missioncanvas-site/`
 
 ---
 
@@ -468,7 +468,7 @@ User speaks/types
 ## Running the System
 
 ```bash
-cd /home/mical/fde/missioncanvas-site
+cd ~/fde/missioncanvas-site
 
 # Start server
 node server.mjs

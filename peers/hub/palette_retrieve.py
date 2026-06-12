@@ -332,6 +332,32 @@ def retrieve(query: str) -> dict:
                 result["riu_name"] = cls_entry.get("name", riu_id)
                 break
 
+    # RIU-indexed knowledge retrieval: once we know the RIU, find ALL KL
+    # entries that list this RIU in their related_rius. This is the MC pattern
+    # (route first → look up knowledge by matched RIU) which dramatically
+    # outperforms content-similarity-only retrieval.
+    if result["riu_id"]:
+        riu_indexed = []
+        for lib_id, entry in data.knowledge.items():
+            entry_rius = entry.get("related_rius", [])
+            if result["riu_id"] in entry_rius:
+                riu_indexed.append({
+                    "lib_id": lib_id,
+                    "score": 100.0,  # RIU-indexed = maximum relevance
+                    "question": str(entry.get("question", ""))[:200],
+                    "answer_excerpt": str(entry.get("answer", entry.get("content", "")))[:500],
+                    "tags": entry.get("tags", []),
+                    "journey_stage": entry.get("journey_stage", ""),
+                })
+        # Replace content-similarity results with RIU-indexed results
+        # (keep content-similarity as fallback only if RIU lookup is empty)
+        if riu_indexed:
+            result["knowledge"] = riu_indexed[:5]
+            result["retrieval_modes"].append("riu_indexed")
+        # Also update lib_id to the first RIU-indexed entry
+        if riu_indexed:
+            result["lib_id"] = riu_indexed[0]["lib_id"]
+
     # Build context string for LLM injection
     ctx_parts = []
     if result["riu_id"]:

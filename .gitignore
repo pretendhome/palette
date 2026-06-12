@@ -20,6 +20,19 @@ scripts/palette_intelligence_system/state/
 scripts/palette_intelligence_system/pis_query_log.jsonl
 scripts/enrichment/enrichment_log.jsonl
 peers/broker/palette_peers.db
+agents/debugger/diagnostic_cache.json
+.palette/artifacts/
+gap_signals.ndjson
+
+# Archived — rebuildable or historical
+archive/standby-2026-05-29/
+peers/dropbox/inbox/
+artifacts/validation/
+artifacts/patches/
+wiki/entries/
+wiki/rius/
+wiki/proposed/archive/
+voice/
 
 # Obsolete agent references
 agents/corythosaurus/history.jsonl

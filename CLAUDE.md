@@ -10,7 +10,7 @@ Under the hood: 13 governed agents, 121 taxonomy nodes, 183 knowledge entries (5
 ## Quick Orientation
 - **MANIFEST.yaml** — single source of truth for all current versions and paths. Read this first.
 - **docs/CLAUDE_OPERATIONAL_RUNBOOK.md** — fast orientation, common operations, grep patterns.
-- **core/palette-core.md** — Tier 1 immutable rules. Never violate these.
+- **core/palette-core.md** — Tier 1 immutable rules. Never violate these. Includes Retrieval Principles (retrieval ≠ authorization, memory ≠ retrieval, similarity ≠ relevance).
 - **decisions.md** — Tier 3 execution log. Append decisions here, never delete.
 
 ## Two Operating Modes

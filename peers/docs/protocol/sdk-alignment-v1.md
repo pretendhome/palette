@@ -16,9 +16,9 @@ The canonical intra-agent work unit remains:
 
 Source of truth:
 
-- [packet.schema.json](/home/mical/fde/palette/core/schema/packet.schema.json)
-- [result.schema.json](/home/mical/fde/palette/core/schema/result.schema.json)
-- [agent_base.py](/home/mical/fde/palette/sdk/agent_base.py)
+- [packet.schema.json](./core/schema/packet.schema.json)
+- [result.schema.json](./core/schema/result.schema.json)
+- [agent_base.py](./sdk/agent_base.py)
 
 ## Mapping
 

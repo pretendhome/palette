@@ -16,8 +16,8 @@
 **Required controls**:
 ```
 ALLOW_LIST_DIRS = [
-  "/home/mical/fde/implementations/retail/retail-rossi-store/",
-  "/home/mical/fde/implementations/retail/retail-rossi-store/data/"
+  "~/fde/implementations/retail/retail-rossi-store/",
+  "~/fde/implementations/retail/retail-rossi-store/data/"
 ]
 ```
 

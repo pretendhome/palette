@@ -19,11 +19,11 @@ The CLI reads Palette artifacts and emits JSON. It does not write to People Libr
 ## Commands
 
 ```bash
-python3 /home/mical/fde/palette/scripts/external_reality/ers.py --help
-python3 /home/mical/fde/palette/scripts/external_reality/ers.py query "Lovable company index gap"
-python3 /home/mical/fde/palette/scripts/external_reality/ers.py run "Codeium Windsurf rename"
-python3 /home/mical/fde/palette/scripts/external_reality/ers.py proof
-python3 /home/mical/fde/palette/scripts/external_reality/ers.py selftest
+python3 ./scripts/external_reality/ers.py --help
+python3 ./scripts/external_reality/ers.py query "Lovable company index gap"
+python3 ./scripts/external_reality/ers.py run "Codeium Windsurf rename"
+python3 ./scripts/external_reality/ers.py proof
+python3 ./scripts/external_reality/ers.py selftest
 ```
 
 ## Implemented Iterations

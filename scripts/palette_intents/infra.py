@@ -240,7 +240,10 @@ def store_artifact(artifact_type: str, content: dict, body: str = "") -> str:
     full_content = f"---\n{frontmatter}---\n\n{body}\n"
     path.write_text(full_content)
 
-    return str(path)
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)
 
 
 # ── Artifact Validation ─────────────────────────────────────────────────
@@ -547,8 +550,14 @@ def find_related_artifacts(riu_id: str, limit: int = 5) -> list[dict]:
                     label = f"{artifact_type}"
                     if action == "BLOCK":
                         label += " (BLOCKED)"
+                    
+                    try:
+                        rel_path = str(f.relative_to(REPO_ROOT))
+                    except ValueError:
+                        rel_path = str(f)
+
                     results.append({
-                        "path": str(f),
+                        "path": rel_path,
                         "type": artifact_type,
                         "intent": intent,
                         "action": action,

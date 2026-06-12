@@ -34,8 +34,8 @@ When a peer registers with the broker, it sends:
   "agent_name": "kiro",
   "runtime": "kiro-cli",
   "pid": 12345,
-  "cwd": "/home/mical/fde",
-  "git_root": "/home/mical/fde",
+  "cwd": "~/fde",
+  "git_root": "~/fde",
   "capabilities": [
     "architecture",
     "convergence",

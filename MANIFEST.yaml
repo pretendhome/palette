@@ -219,9 +219,14 @@ peers:
 bdb:
   competition: Perplexity Billion Dollar Build
   deadline: 2026-06-02
+  finalist_event: 2026-06-09
+  winners_announced: 2026-06-10
+  prize_pool: "Up to 3 winners share up to $1M seed investment and up to $1M Perplexity Computer credits"
+  computer_requirement: "Perplexity Computer must be the primary and most important AI; companion tools are allowed"
   thesis: "Palette is the operating system for professional judgment"
   vertical: legal
   path: bdb/
+  facts: bdb/BDB_COMPETITION_FACTS_2026-06-01.md
   gateway: bdb/gateway/
   tests: 12/12
   north_star: bdb/NORTH_STAR_VISION_2026-05-26.md

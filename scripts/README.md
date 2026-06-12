@@ -95,7 +95,7 @@ These scripts are part of the current verified V3 operational surface:
 
 **Purpose**: Aggregate agent impressions from implementation decision logs to global agent maturity tracker.
 
-**Location**: `/home/mical/fde/palette/scripts/sync-impressions.py`
+**Location**: `./scripts/sync-impressions.py`
 
 ---
 
@@ -177,7 +177,7 @@ Found impressions for 4 agents:
 Generating status table...
 
 Updating agents/README.md...
-✅ Updated /home/mical/fde/palette/agents/README.md
+✅ Updated ./agents/README.md
 
 ✅ Sync complete. Review changes and commit.
 ```
@@ -197,7 +197,7 @@ Updating agents/README.md...
 - Check for duplicate entries in same file
 
 **Script fails?**
-- Ensure running from `/home/mical/fde/` directory
+- Ensure running from `~/fde/` directory
 - Check Python 3.11+ installed
 - Verify file paths haven't changed
 

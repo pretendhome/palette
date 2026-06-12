@@ -106,7 +106,7 @@ Researcher checks this library as Step 1 before any external search:
 
 ```
 Checking knowledge library for: [topic]
-Search: /home/mical/fde/palette/knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
+Search: ./knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
 ```
 
 If a `journey_stage` match is available, Researcher surfaces it alongside the answer:

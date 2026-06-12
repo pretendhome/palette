@@ -10,10 +10,10 @@
 This is the **Palette Intelligence System (PIS)** — a market intelligence and service routing layer for Palette, an agentic AI system with a long-term goal of disrupting SageMaker ("one interface that routes any task to the cheapest/best service").
 
 **Key files you need to know:**
-- Source library: `/home/mical/fde/palette/buy-vs-build/people-library/v1.0/people_library_v1.0.yaml`
-- Output target: `/home/mical/fde/palette/buy-vs-build/people-library/v1.1/people_library_v1.1.yaml` *(create this)*
-- Architecture doc: `/home/mical/fde/palette/buy-vs-build/PALETTE_INTELLIGENCE_SYSTEM_v1.0.md`
-- Knowledge library (for reference): `/home/mical/fde/palette/knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml`
+- Source library: `./buy-vs-build/people-library/v1.0/people_library_v1.0.yaml`
+- Output target: `./buy-vs-build/people-library/v1.1/people_library_v1.1.yaml` *(create this)*
+- Architecture doc: `./buy-vs-build/PALETTE_INTELLIGENCE_SYSTEM_v1.0.md`
+- Knowledge library (for reference): `./knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml`
 
 **The people library** is a signal network — 18 profiles of AI influencers, founders, VCs, and builders. Their tool recommendations feed the buy-vs-build → service routing decisions → integration roadmap.
 
@@ -283,7 +283,7 @@ The watch list agent hit the credit limit before returning results. These 10 can
 
 ## What to Build: `people_library_v1.1.yaml`
 
-Create `/home/mical/fde/palette/buy-vs-build/people-library/v1.1/people_library_v1.1.yaml`
+Create `./buy-vs-build/people-library/v1.1/people_library_v1.1.yaml`
 
 **Schema changes from v1.0 → v1.1:**
 
@@ -347,9 +347,9 @@ These are new signals that should also feed the **buy-vs-build** and **service r
 
 ## Files to Create / Update After v1.1
 
-1. `/home/mical/fde/palette/buy-vs-build/people-library/v1.1/README.md` — document what changed
-2. Update `/home/mical/fde/palette/buy-vs-build/people-library/v1.0/README.md` — note superseded by v1.1
-3. Update `/home/mical/.claude/projects/-home-mical/memory/MEMORY.md` — update library path to v1.1
+1. `./buy-vs-build/people-library/v1.1/README.md` — document what changed
+2. Update `./buy-vs-build/people-library/v1.0/README.md` — note superseded by v1.1
+3. Update `~/.claude/projects/-home-mical/memory/MEMORY.md` — update library path to v1.1
 4. (Optional) Update `people_library_company_signals_v1.0.yaml` — add Krea, Granola, Julius AI, HappyRobot
 
 ---

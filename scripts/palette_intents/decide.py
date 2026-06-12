@@ -65,7 +65,7 @@ def call_ollama(prompt: str, system: str = "", model: str = "qwen2.5:7b") -> str
         headers={"Content-Type": "application/json"},
     )
     try:
-        with request.urlopen(req, timeout=60) as resp:
+        with request.urlopen(req, timeout=120) as resp:
             return json.loads(resp.read()).get("response", "")
     except Exception:
         return None
