@@ -21,7 +21,7 @@
     /* ── Hero ── */
     .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 24px 48px; text-align: center; }
     .hero-logo { width: min(80vw, 500px); margin-bottom: 16px; }
-    .hero-tagline { font-size: 20px; color: #555; margin-bottom: 40px; max-width: 700px; white-space: nowrap; }
+    .hero-tagline { font-size: 20px; color: #555; margin-bottom: 40px; max-width: 700px; }
 
     /* ── Chat input in hero ── */
     .hero-input-wrap { width: min(90vw, 600px); position: relative; margin-bottom: 28px; }
@@ -44,6 +44,10 @@
     .intent-chip.active { border-color: #111; background: #111; color: #fff; }
     .intent-tooltip { display: none; position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: #111; color: #fff; font-size: 11px; font-weight: 400; padding: 6px 12px; border-radius: 6px; white-space: nowrap; z-index: 10; }
     .intent-chip:hover .intent-tooltip { display: block; }
+
+    /* ── Direct agent badge ── */
+    .direct-badge { position: absolute; top: -24px; left: 24px; font-size: 11px; font-weight: 600; background: #111; color: #fff; padding: 2px 10px; border-radius: 10px; display: none; }
+    .direct-badge.visible { display: inline-block; }
 
     /* ── Proof strip ── */
     .proof-strip { font-size: 13px; color: #888; font-family: 'SF Mono', 'Fira Code', monospace; }
@@ -91,7 +95,7 @@
 
     /* ── Responsive ── */
     @media (max-width: 600px) {
-      .nav-links { gap: 16px; font-size: 13px; }
+      .nav-links { gap: 12px; font-size: 13px; }
       .hero-tagline { font-size: 17px; }
       .intents { gap: 8px; }
       .intent-chip { font-size: 11px; padding: 6px 12px; }
@@ -115,9 +119,10 @@
 <!-- ── Hero ── -->
 <div class="hero" id="hero">
   <img src="logo-mc.png" alt="Mission Canvas" class="hero-logo">
-  <p class="hero-tagline">Governed Agent OS — AI for work that can't leave the room.</p>
+  <p class="hero-tagline">Governed Agent OS<br>AI that never leaves the room.</p>
 
   <div class="hero-input-wrap">
+    <span class="direct-badge" id="direct-badge"></span>
     <input type="text" class="hero-input" id="hero-input" placeholder="Who are you? Ask anything..." autocomplete="off">
     <button class="hero-send" id="hero-send" title="Send">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
@@ -211,7 +216,15 @@ const HUB = location.hostname === 'localhost' || location.hostname === '127.0.0.
   : 'https://srv1390882.hstgr.cloud';
 
 // ── State ──
-const state = { intent: 'research', streaming: false, sessionId: 'mc-' + Date.now().toString(36) };
+const state = { intent: 'research', streaming: false, sessionId: 'mc-' + Date.now().toString(36), directAgent: null };
+
+// ── @mention parsing ──
+const DIRECT_AGENTS = ['claude', 'codex', 'mistral', 'gemini', 'kiro', 'perplexity'];
+function parseDirectAgent(text) {
+  const m = text.match(/^@(claude|codex|mistral|gemini|kiro|perplexity)\b\s*/i);
+  if (!m) return { agent: null, text };
+  return { agent: m[1].toLowerCase(), text: text.slice(m[0].length) };
+}
 
 // ── DOM ──
 const heroInput = document.getElementById('hero-input');
@@ -222,6 +235,16 @@ const wsInput = document.getElementById('ws-input');
 const wsSend = document.getElementById('ws-send');
 const wsMic = document.getElementById('ws-mic');
 const msgEl = document.getElementById('messages');
+const directBadge = document.getElementById('direct-badge');
+
+// ── Live @mention badge ──
+function updateDirectBadge(inputEl) {
+  const { agent } = parseDirectAgent(inputEl.value);
+  if (agent) { directBadge.textContent = '→ ' + agent.charAt(0).toUpperCase() + agent.slice(1); directBadge.classList.add('visible'); }
+  else { directBadge.classList.remove('visible'); }
+}
+heroInput.addEventListener('input', () => updateDirectBadge(heroInput));
+wsInput.addEventListener('input', () => updateDirectBadge(wsInput));
 
 // ── Intent chips (both hero and workspace) ──
 document.querySelectorAll('.intent-chip').forEach(chip => {
@@ -309,19 +332,26 @@ function getSystemPrompt() {
 async function submitQuery(text) {
   wsInput.value = '';
   state.streaming = true;
-  addMsg('user', text);
+
+  // Parse @mention
+  const { agent: directAgent, text: cleanText } = parseDirectAgent(text);
+  const displayText = directAgent ? cleanText : text;
+  const agent = directAgent || getAgent();
+  const isDirect = !!directAgent;
+
+  addMsg('user', displayText);
   const el = addMsg('canvas', '');
   const body = el.querySelector('.body');
   const gov = el.querySelector('.gov-signals');
 
-  // Show intent chip
-  const agent = getAgent();
-  addGov(gov, 'classify', `INTENT: ${state.intent.toUpperCase()}`);
+  // Show intent/direct chip
+  if (isDirect) addGov(gov, 'classify', `🎯 DIRECT → ${directAgent.toUpperCase()}`);
+  else addGov(gov, 'classify', `INTENT: ${state.intent.toUpperCase()}`);
 
   try {
     const res = await fetch(HUB + '/api/chat', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ agent, text, lang: 'eng', mode: state.intent, system: getSystemPrompt() }),
+      body: JSON.stringify({ agent, text: displayText, lang: 'eng', mode: state.intent, system: getSystemPrompt(), direct: isDirect }),
     });
     if (!res.ok) { body.textContent = `Connection error (${res.status}).`; state.streaming = false; return; }
 
