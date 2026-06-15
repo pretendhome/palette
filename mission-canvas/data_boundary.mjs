@@ -34,6 +34,29 @@ const PII_PATTERNS = [
   { name: 'file_path_windows', pattern: /[A-Z]:\\(?:Users|Documents|Desktop)\\[^\s,;'"]+/g, severity: 'medium' },
 ];
 
+const BLOCK_SIGNALS = [
+  'privileged',
+  'confidential',
+  'secret',
+  'nda',
+  'trade secret',
+  'proprietary',
+  'internal only',
+  'off the record',
+  'not for sharing',
+  'client',
+  'patient',
+  'matter',
+];
+
+const EXTERNAL_REDACTION_PATTERNS = [
+  ...PII_PATTERNS,
+  { name: 'medical_record', pattern: /\b(?:MRN|medical record)[#:\s]*\d{6,12}\b/gi, severity: 'critical' },
+  { name: 'case_number', pattern: /\b\d{1,2}[-:]\w{2,4}[-:]\d{4,8}\b/g, severity: 'high' },
+  { name: 'client_reference', pattern: /\b(?:client|patient|matter|case|file|docket)\s*(?:#|number|no\.?|:)\s*\S+\b/gi, severity: 'high' },
+  { name: 'titled_person_name', pattern: /\b(?:Mr|Mrs|Ms|Dr|Prof|Judge|Justice|Attorney|Counsel|Director|CEO|CFO|CTO)\.\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,2}\b/g, severity: 'high' },
+];
+
 // ── Validation ──────────────────────────────────────────────────────────────
 
 /**
@@ -88,6 +111,96 @@ export function validateText(text, options = {}) {
       ? 'clean'
       : `${violations.length} PII pattern(s) detected: ${violations.map(v => v.name).join(', ')}`,
   };
+}
+
+
+function hasBlockSignal(text) {
+  const lower = String(text || '').toLowerCase();
+  return BLOCK_SIGNALS.find((signal) => {
+    if (signal.includes(' ')) return lower.includes(signal);
+    return new RegExp(`\\b${signal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(lower);
+  }) || null;
+}
+
+/**
+ * Sanitize text before it leaves the machine for an external model/API.
+ * Critical block signals stop the outbound call; PII patterns are redacted.
+ */
+export function sanitizeForExternal(text, options = {}) {
+  if (!text || typeof text !== 'string') {
+    return { ok: true, blocked: false, text, redactions: [], reason: null };
+  }
+
+  if (options.classification?.blocks_external) {
+    return {
+      ok: false,
+      blocked: true,
+      text: '',
+      redactions: [],
+      reason: 'classification_blocks_external',
+    };
+  }
+
+  const signal = hasBlockSignal(text);
+  if (signal) {
+    return {
+      ok: false,
+      blocked: true,
+      text: '',
+      redactions: [],
+      reason: `block_signal:${signal}`,
+    };
+  }
+
+  let sanitized = text;
+  const redactions = [];
+  for (const rule of EXTERNAL_REDACTION_PATTERNS) {
+    sanitized = sanitized.replace(rule.pattern, () => {
+      redactions.push({ name: rule.name, severity: rule.severity });
+      return `[REDACTED:${rule.name}]`;
+    });
+  }
+
+  return {
+    ok: true,
+    blocked: false,
+    text: sanitized,
+    redactions,
+    reason: redactions.length ? 'redacted' : null,
+  };
+}
+
+/**
+ * Recursively sanitize strings inside an outbound payload.
+ */
+export function sanitizePayloadForExternal(value, options = {}) {
+  if (typeof value === 'string') {
+    const result = sanitizeForExternal(value, options);
+    return { ...result, value: result.text };
+  }
+  if (Array.isArray(value)) {
+    const out = [];
+    const redactions = [];
+    for (const item of value) {
+      const result = sanitizePayloadForExternal(item, options);
+      if (result.blocked) return result;
+      out.push(result.value);
+      redactions.push(...result.redactions);
+    }
+    return { ok: true, blocked: false, value: out, text: out, redactions, reason: redactions.length ? 'redacted' : null };
+  }
+  if (value && typeof value === 'object') {
+    const out = {};
+    const redactions = [];
+    for (const [key, item] of Object.entries(value)) {
+      const result = sanitizePayloadForExternal(item, options);
+      if (result.blocked) return result;
+      out[key] = result.value;
+      redactions.push(...result.redactions);
+    }
+    return { ok: true, blocked: false, value: out, text: out, redactions, reason: redactions.length ? 'redacted' : null };
+  }
+  return { ok: true, blocked: false, value, text: value, redactions: [], reason: null };
 }
 
 /**
