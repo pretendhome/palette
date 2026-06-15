@@ -76,7 +76,7 @@ if [ -d "$INSTALL_DIR/.git" ]; then
   ok "Existing install found — updating..."
   (cd "$INSTALL_DIR" && git pull --quiet)
 else
-  git clone --quiet --depth 1 https://github.com/pretendhome/palette.git "$INSTALL_DIR"
+  git clone --quiet --depth 1 https://github.com/pretendhome/mission-canvas.git "$INSTALL_DIR"
 fi
 ok "Repository ready"
 
