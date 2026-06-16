@@ -38,6 +38,38 @@ STOP_WORDS = frozenset(
     "with that this be from or and".split()
 )
 
+# ── MC Ontology Integration ──────────────────────────────────────────
+# Use MC's OntologyEngine for classification (two-pass, recursive composable).
+# Falls back to Kiro's keyword_resolve if MC is unavailable.
+MC_ROOT = None
+_mc_engine = None
+
+def _get_mc_engine():
+    """Lazy-load MC OntologyEngine. Returns None if MC not available."""
+    global _mc_engine, MC_ROOT
+    if _mc_engine is not None:
+        return _mc_engine
+    # Try to find MC: check env, then sibling directory, then palette parent
+    import os
+    candidates = [
+        os.environ.get("MC_ROOT", ""),
+        str(Path(__file__).resolve().parents[3] / "mission-canvas"),  # /fde/mission-canvas
+        str(Path.home() / "fde" / "mission-canvas"),
+    ]
+    for candidate in candidates:
+        if candidate and Path(candidate).joinpath("ontology", "engine.py").exists():
+            MC_ROOT = candidate
+            break
+    if not MC_ROOT:
+        return None
+    try:
+        sys.path.insert(0, MC_ROOT)
+        from ontology.engine import OntologyEngine
+        _mc_engine = OntologyEngine()
+        return _mc_engine
+    except Exception:
+        return None
+
 
 def _load_embeddings():
     """Load pre-computed KL embeddings from JSON."""
@@ -274,32 +306,63 @@ def hybrid_retrieve(query: str, data=None, top_k: int = 5) -> list[tuple[str, fl
 
 
 def retrieve(query: str) -> dict:
-    """Full retrieval pipeline: classify + hybrid retrieve + build context."""
+    """Full retrieval pipeline: MC ontology classify + hybrid retrieve + build context.
+
+    Classification: MC OntologyEngine (two-pass: intent + domain, recursive composable)
+    Knowledge: Kiro's hybrid retrieval (keyword + FTS5 + vector with RRF reranking)
+    Context: MC traversal data (artifacts, failure modes, success conditions) + knowledge
+    """
     legal_override = _legal_demo_override(query)
     if legal_override:
         return legal_override
 
     data = load_all()
 
-    # Hybrid retrieval
+    # ── MC ONTOLOGY CLASSIFICATION (primary) ──
+    # Two-pass classification: intent + domain, never competing.
+    # Falls back to hybrid retrieval RIU lookup if MC unavailable.
+    mc_engine = _get_mc_engine()
+    mc_classification = None
+    mc_node = None
+    if mc_engine:
+        try:
+            mc_classification = mc_engine.classify(query)
+            mc_node = mc_engine.nodes.get(mc_classification.riu_id)
+        except Exception:
+            mc_classification = None
+
+    # Hybrid retrieval (always runs — for knowledge, not classification)
     ranked = hybrid_retrieve(query, data, top_k=5)
 
-    # Build result
+    # Build result — MC classification is primary if available
     result = {
         "query": query,
-        "mode": "hybrid",
+        "mode": "mc_hybrid" if mc_classification else "hybrid",
         "retrieval_modes": [],
         "lib_id": ranked[0][0] if ranked else None,
-        "confidence": ranked[0][1] if ranked else 0,
-        "riu_id": None,
-        "riu_name": None,
-        "classification": None,
+        "confidence": mc_classification.confidence * 100 if mc_classification else (ranked[0][1] if ranked else 0),
+        "riu_id": mc_classification.riu_id if mc_classification else None,
+        "riu_name": mc_classification.name if mc_classification else None,
+        "classification": ("internal_only" if mc_classification and mc_classification.blocks_external else "both") if mc_classification else None,
+        "intent": mc_classification.default_intent if mc_classification else None,
         "knowledge": [],
         "context": "",
     }
 
+    # Traversal data from MC ontology (artifacts, failure modes, success conditions)
+    if mc_node:
+        result["traversal"] = {
+            "artifacts": getattr(mc_node, "artifacts", []),
+            "failure_modes": getattr(mc_node, "failure_modes", {}),
+            "success_conditions": getattr(mc_node, "success_conditions", {}),
+            "suggests_next": getattr(mc_node, "suggests_next", []),
+            "produces": getattr(mc_node, "produces", []),
+            "requires": getattr(mc_node, "requires", []),
+            "reversibility": getattr(mc_node, "reversibility", "two_way"),
+        }
+
     # Track which modes contributed
-    modes = ["keyword"]
+    modes = ["mc_ontology"] if mc_classification else ["keyword"]
     if FTS_DB_PATH.exists():
         modes.append("fts5")
     if EMBEDDINGS_PATH.exists():
@@ -319,8 +382,9 @@ def retrieve(query: str) -> dict:
                 "journey_stage": entry.get("journey_stage", ""),
             })
 
-    # Find RIU from top result (fall through if top has no RIU)
-    if ranked:
+    # Find RIU from top result — ONLY if MC classification didn't already set it.
+    # MC ontology classification is the primary source of truth.
+    if not mc_classification and ranked:
         for lib_id, _ in ranked[:5]:
             top_entry = data.knowledge.get(lib_id, {})
             related_rius = top_entry.get("related_rius", [])
@@ -361,10 +425,27 @@ def retrieve(query: str) -> dict:
     # Build context string for LLM injection
     ctx_parts = []
     if result["riu_id"]:
+        label = "Mission Canvas" if mc_classification else "Palette"
         ctx_parts.append(
-            f"Palette classified this as {result['riu_id']} ({result['riu_name']}), "
+            f"{label} classified this as {result['riu_id']} ({result['riu_name']}), "
+            f"intent: {result.get('intent', 'unknown')}, "
             f"classification: {result['classification']}."
         )
+
+    # MC traversal data — inject artifacts, failure modes, success conditions
+    traversal = result.get("traversal", {})
+    if traversal.get("artifacts"):
+        ctx_parts.append(f"\nExpected artifacts: {', '.join(traversal['artifacts'])}")
+    if traversal.get("failure_modes"):
+        for cat, modes in traversal["failure_modes"].items():
+            if modes:
+                ctx_parts.append(f"Failure mode ({cat}): {'; '.join(modes)}")
+    if traversal.get("success_conditions"):
+        for dim, criterion in traversal["success_conditions"].items():
+            ctx_parts.append(f"Success ({dim}): {criterion}")
+    if traversal.get("suggests_next"):
+        ctx_parts.append(f"Suggested next: {', '.join(traversal['suggests_next'])}")
+
     for ke in result["knowledge"][:3]:
         ctx_parts.append(f"\nKnowledge [{ke['lib_id']}]: {ke['question']}")
         if ke["answer_excerpt"]:
