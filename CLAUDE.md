@@ -38,8 +38,8 @@ Under the hood: 7 intent agents + orchestrator, 174 ontology nodes (31 MC-native
 
 ## Architecture (6 Layers)
 1. **Core** (`core/`) — Governance tiers, immutable rules, assumptions
-2. **Taxonomy** (`taxonomy/releases/v1.3/`) — 121 RIUs mapping problems to solution categories
-3. **Knowledge Library** (`knowledge-library/v1.4/`) — 183 sourced, cited entries (565 citations)
+2. **Taxonomy** (`taxonomy/releases/v1.3/`) — 131 RIUs + 31 MC-native nodes + 6 intents = 174 total
+3. **Knowledge Library** (`knowledge-library/v1.4/`) — 148 entries (526 citations)
 4. **Agents** (`agents/`) — 7 intent agents + orchestrator
 5. **Buy-vs-Build** (`buy-vs-build/`) — Service routing, people signals, 75 integration recipes
 6. **Skills** (`skills/`) — Validated domain frameworks applied through implementations
