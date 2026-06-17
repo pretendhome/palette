@@ -47,18 +47,15 @@ Under the hood: 13 governed agents, 121 taxonomy nodes, 183 knowledge entries (5
 ## Agents
 | Agent | Purpose | Implementation |
 |-------|---------|---------------|
-| resolver | Intent classification, maps input to RIU | Design spec |
-| researcher | Research with Perplexity Sonar API as primary backend | Python (`researcher.py`) |
-| architect | System design and tradeoff evaluation | Design spec |
-| builder | Implementation within bounded spec | Design spec |
-| debugger | Failure diagnosis and minimal repair | Design spec |
-| narrator | GTM/narrative, evidence-based only | Design spec |
-| validator | Plan assessment, GO/NO-GO verdicts | Design spec |
-| monitor | Signal monitoring and anomaly detection | Go + Python |
-| orchestrator | Workflow routing between agents | Go |
-| business-plan-creation | Multi-agent business plan workflow | Design spec |
-| health | System integrity checklist (8 sections) | Python (`health_check.py`) |
-| total-health | Cross-layer audit (13 sections) | Python (`total_health_check.py`) |
+| protect | Local-only analysis, PII/PHI lock | Python (`agents/protect/`) |
+| research | Governed external research via Perplexity | Python (`agents/research/`) |
+| decide | Reversibility analysis, one-way door detection | Python (`agents/decide/`) |
+| create | Artifact generation with provenance | Python (`agents/create/`) |
+| diagnose | Root cause analysis, failure mode matching | Python (`agents/diagnose/`) |
+| reflect | Self-audit, pattern extraction, path review | Python (`agents/reflect/`) |
+| orchestrator | Parallel fan-out, convergence, multi-intent coordination | Python (`agents/orchestrator/`) |
+| health | System integrity (59 checks, 16 sections) | Python (`src/integrity/health_check.py`) |
+| total-health | Recursive self-improvement loop | Python (`src/integrity/total_health.py`) |
 
 ## Repository Structure — Sandbox vs Production
 
