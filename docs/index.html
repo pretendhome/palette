@@ -170,8 +170,15 @@
 <!-- ── Start ── -->
 <section id="start">
   <h2>Get started in 60 seconds</h2>
-  <div class="install-block">
+  <div style="display:flex;gap:8px;margin-bottom:8px;">
+    <button onclick="showInstall('unix')" id="btn-unix" style="background:#333;color:#eee;border:1px solid #555;padding:6px 16px;border-radius:4px;cursor:pointer;font-size:13px;">macOS / Linux</button>
+    <button onclick="showInstall('win')" id="btn-win" style="background:#1a1a1a;color:#888;border:1px solid #333;padding:6px 16px;border-radius:4px;cursor:pointer;font-size:13px;">Windows</button>
+  </div>
+  <div class="install-block" id="install-unix">
     curl -fsSL https://missioncanvas.ai/install.sh | bash
+  </div>
+  <div class="install-block" id="install-win" style="display:none;">
+    irm https://missioncanvas.ai/install.ps1 | iex
   </div>
   <p>One command. Running locally. No cloud account required. No portal. Your keys, your machine.</p>
   <ul class="check-list">
@@ -182,7 +189,17 @@
     <li>PII gateway — nothing sensitive leaves without clearance</li>
     <li>Append-only decision log</li>
   </ul>
-  <p style="font-size:13px;color:#888;">Requires: macOS 12+ or Linux · Node.js 18+ · Python 3.10+ · Ollama (optional)</p>
+  <p style="font-size:13px;color:#888;">Requires: Python 3.11+ · Git · Node.js 18+ (optional) · Ollama (optional)</p>
+  <script>
+  function showInstall(os) {
+    document.getElementById('install-unix').style.display = os === 'unix' ? 'block' : 'none';
+    document.getElementById('install-win').style.display = os === 'win' ? 'block' : 'none';
+    document.getElementById('btn-unix').style.background = os === 'unix' ? '#333' : '#1a1a1a';
+    document.getElementById('btn-unix').style.color = os === 'unix' ? '#eee' : '#888';
+    document.getElementById('btn-win').style.background = os === 'win' ? '#333' : '#1a1a1a';
+    document.getElementById('btn-win').style.color = os === 'win' ? '#eee' : '#888';
+  }
+  </script>
   <div class="cta-row">
     <a href="https://github.com/pretendhome/mission-canvas" target="_blank">Download from GitHub →</a>
   </div>
