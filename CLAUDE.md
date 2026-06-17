@@ -3,7 +3,7 @@
 ## What This Is
 Palette is the operating system for human judgment. It remembers what you decided, why you decided it, and makes every future decision better. Your judgment compounds here.
 
-Under the hood: 13 governed agents, 121 taxonomy nodes, 183 knowledge entries (565 citations), 75 integration recipes, hybrid retrieval (FTS5 + vectors), voice interface, and a convergence protocol — all local-first, portable, glass-box.
+Under the hood: 7 intent agents + orchestrator, 174 ontology nodes (31 MC-native + 6 intents + 137 legacy), 148 knowledge entries (526 citations), 75 integration recipes, 30 lenses, hybrid retrieval (FTS5 + vectors), voice interface, and a convergence protocol — all local-first, portable, glass-box.
 
 **Product truth**: `docs/product/PALETTE_MOAT_ITERATIONS_2026-05-16.md`
 
@@ -40,7 +40,7 @@ Under the hood: 13 governed agents, 121 taxonomy nodes, 183 knowledge entries (5
 1. **Core** (`core/`) — Governance tiers, immutable rules, assumptions
 2. **Taxonomy** (`taxonomy/releases/v1.3/`) — 121 RIUs mapping problems to solution categories
 3. **Knowledge Library** (`knowledge-library/v1.4/`) — 183 sourced, cited entries (565 citations)
-4. **Agents** (`agents/`) — 13 governed agents with maturity tracking
+4. **Agents** (`agents/`) — 7 intent agents + orchestrator
 5. **Buy-vs-Build** (`buy-vs-build/`) — Service routing, people signals, 75 integration recipes
 6. **Skills** (`skills/`) — Validated domain frameworks applied through implementations
 
