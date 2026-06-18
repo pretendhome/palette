@@ -43,15 +43,15 @@ else
   ok "Python $(python3 --version 2>&1 | cut -d' ' -f2)"
 fi
 
-# Node.js
+# Node.js (optional — only needed for Voice Hub)
 if ! command -v node &>/dev/null || [ "$(node -v | sed 's/v//' | cut -d. -f1)" -lt 18 ]; then
-  warn "Node.js 18+ not found — installing..."
+  warn "Node.js 18+ not found — trying to install..."
   if command -v apt-get &>/dev/null; then
-    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - >/dev/null 2>&1 && sudo apt-get install -y -qq nodejs >/dev/null 2>&1 && ok "Node.js installed" || { fail "Could not install Node.js"; }
+    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - >/dev/null 2>&1 && sudo apt-get install -y -qq nodejs >/dev/null 2>&1 && ok "Node.js installed" || warn "Could not install Node.js — Voice Hub will be unavailable. Install later: https://nodejs.org"
   elif command -v brew &>/dev/null; then
-    brew install node@20 >/dev/null 2>&1 && ok "Node.js installed" || { fail "Could not install Node.js"; }
+    brew install node@20 >/dev/null 2>&1 && ok "Node.js installed" || warn "Could not install Node.js — Voice Hub will be unavailable. Install later: https://nodejs.org"
   else
-    fail "Install Node.js 18+: https://nodejs.org"
+    warn "Node.js 18+ not found — Voice Hub will be unavailable. Install later: https://nodejs.org"
   fi
 else
   ok "Node.js $(node -v)"
