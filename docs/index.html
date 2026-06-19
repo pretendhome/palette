@@ -179,7 +179,7 @@
     docker build -t mission-canvas https://github.com/pretendhome/mission-canvas.git<br>docker run -d -p 7891:7891 mission-canvas
   </div>
   <div class="install-block" id="install-unix" style="display:none;">
-    curl -fsSL https://missioncanvas.ai/install.sh | bash
+    curl -fsSL https://missioncanvas.ai/install.sh | sh
   </div>
   <div class="install-block" id="install-win" style="display:none;">
     irm https://missioncanvas.ai/install.ps1 | iex
@@ -193,7 +193,7 @@
     <li>PII gateway — nothing sensitive leaves without clearance</li>
     <li>Append-only decision log</li>
   </ul>
-  <p style="font-size:13px;color:#888;">Requires: Python 3.11+ · Git · Node.js 18+ (optional) · Ollama (optional) · Docker (optional)</p>
+  <p style="font-size:13px;color:#888;">No dependencies. Downloads a pre-built binary. Requires Ollama for local reasoning.</p>
   <script>
   function showInstall(os) {
     document.getElementById('install-unix').style.display = os === 'unix' ? 'block' : 'none';
