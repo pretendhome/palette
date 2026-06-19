@@ -110,14 +110,31 @@ fi
 echo ""
 python3 "$INSTALL_DIR/src/mc_cli.py" status 2>/dev/null || echo "  (Run 'mc status' to verify)"
 
+# Auto-start web server
+echo ""
+echo "  → Starting Mission Canvas web UI..."
+cd "$INSTALL_DIR"
+python3 src/api_server.py &
+MC_PID=$!
+sleep 2
+
+# Open browser
+if [ "$(uname -s)" = "Darwin" ]; then
+  open "http://localhost:7891" 2>/dev/null
+elif command -v xdg-open >/dev/null 2>&1; then
+  xdg-open "http://localhost:7891" 2>/dev/null
+fi
+
 echo ""
 echo "  ╔══════════════════════════════════════════╗"
-echo "  ║   Installation complete!                 ║"
+echo "  ║   Mission Canvas is running!             ║"
 echo "  ╠══════════════════════════════════════════╣"
 echo "  ║                                          ║"
-echo "  ║  CLI:  cd $INSTALL_DIR && python3 src/mc_cli.py shell"
-echo "  ║  Web:  python3 src/api_server.py         ║"
-echo "  ║        → http://localhost:7891            ║"
+echo "  ║  → http://localhost:7891 (open in browser)"
+echo "  ║                                          ║"
+echo "  ║  Stop:  kill $MC_PID                     ║"
+echo "  ║  Restart: cd $INSTALL_DIR"
+echo "  ║           python3 src/api_server.py      ║"
 echo "  ║                                          ║"
 echo "  ║  Requires: Ollama (ollama.com/download)  ║"
 echo "  ║  Then: ollama pull qwen2.5:7b            ║"
