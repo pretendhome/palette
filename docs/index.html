@@ -170,6 +170,13 @@
 <!-- ── Start ── -->
 <section id="start">
   <h2>Get started in 60 seconds</h2>
+
+  <p style="margin-bottom:12px;font-weight:bold;">Step 1: Install Ollama (required — runs AI locally on your machine)</p>
+  <div class="install-block">
+    <a href="https://ollama.com/download" target="_blank" style="color:#4a9;text-decoration:none;">→ Download Ollama</a> &nbsp;then run: &nbsp;<span style="color:#eee;">ollama pull qwen2.5:7b</span>
+  </div>
+
+  <p style="margin:20px 0 12px 0;font-weight:bold;">Step 2: Install Mission Canvas</p>
   <div style="display:flex;gap:8px;margin-bottom:8px;">
     <button onclick="showInstall('docker')" id="btn-docker" style="background:#333;color:#eee;border:1px solid #555;padding:6px 16px;border-radius:4px;cursor:pointer;font-size:13px;">Docker</button>
     <button onclick="showInstall('unix')" id="btn-unix" style="background:#1a1a1a;color:#888;border:1px solid #333;padding:6px 16px;border-radius:4px;cursor:pointer;font-size:13px;">macOS / Linux</button>
@@ -184,16 +191,16 @@
   <div class="install-block" id="install-win" style="display:none;">
     irm https://missioncanvas.ai/install.ps1 | iex
   </div>
-  <p>One command. Running locally. No cloud account required. No portal. Your keys, your machine.</p>
+
+  <p style="margin-top:20px;">Open <code>http://localhost:7891</code> → connect Ollama → start asking questions.</p>
   <ul class="check-list">
     <li>174 classified problem types</li>
     <li>148 knowledge entries with evidence tiers</li>
-    <li>Governed Perplexity integration for public research</li>
-    <li>Voice interface via browser mic</li>
     <li>PII gateway — nothing sensitive leaves without clearance</li>
     <li>Append-only decision log</li>
+    <li>Multi-model routing: Ollama (local) + Claude/GPT (optional, for non-sensitive queries)</li>
   </ul>
-  <p style="font-size:13px;color:#888;">No dependencies. Downloads a pre-built binary. Requires Ollama for local reasoning.</p>
+  <p style="font-size:13px;color:#888;">No Python, Git, or Homebrew needed. Just Ollama + one install command.</p>
   <script>
   function showInstall(os) {
     document.getElementById('install-unix').style.display = os === 'unix' ? 'block' : 'none';
