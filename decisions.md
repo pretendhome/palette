@@ -10088,3 +10088,30 @@ All agents: success=1, fail=0, fail_gap=1, status=UNVALIDATED
 **Time**: 2026-04-23 15:58:25.393303
 **File**: None
 **Outcome**: FAIL
+
+---
+### Convergence: Tier 1 Recovery — Judgment Layer Re-integrated
+**Time**: 2026-06-19
+**Author**: Palette maintainer / Claude Code session
+**Scope**: Local base only — no commit pushed; Mission-Canvas (pretendhome/mission-canvas) untouched.
+
+**Context**: Kiro background cross-sync scattered the GitHub remote (origin/main: 109 commits ahead, +48k/-125k since base 4a88cb5). The local copy on this computer is authoritative. See docs/product/CONVERGENCE_BRIEF_2026-06-19.md and docs/product/PALETTE_TO_MC_CONVERGENCE_2026-06-19.md.
+
+**Key finding**: agents/ lost NOTHING (roster byte-identical on both sides). The actual loss was the intent/judgment layer that sits ON TOP of the agents.
+
+**Recovered from origin/main into local base**:
+- scripts/palette_intents/ — 6-intent judgment OS (protect, research, decide, create, diagnose, reflect) + infra.py + schemas.py + tests
+- scripts/palette_intent.py (unified CLI), palette_query.py, palette_orchestrate.py, session_reflect.py, query_before_act.py
+- tests/golden_dataset_v1.yaml + tests/validate_golden.py
+
+**Gateway relocation (OWD-1)**: bdb/gateway/ -> core/gateway/; all 13 import sites rewired (bdb.gateway / palette.bdb.gateway -> core.gateway). Rationale: the BDB competition is over, core code must not reference the bdb scatter folder, and this avoids the Python stdlib `bdb` name collision.
+
+**Excluded scatter**: bdb/ (except gateway); palette_intents/demo.py (BDB demo) pruned and its CLI branch removed; tests/golden_results.json (regeneratable byproduct).
+
+**OWD-2/3 (keep local)**: peers/ bus + hub files are Palette-only (not present in MC, or MC has its own fork). Newer remote versions NOT adopted; local retained.
+
+**Deferred to Tier 2**: palette_query.py is recovered but DORMANT — it requires the peers bus (127.0.0.1:7899) and the newer peers/hub/palette_retrieve.py (retrieve_learn / hybrid). That retrieval engine is a lossless superset of local but carries a dormant optional MC-ontology coupling, so the swap is deferred to a deliberate Tier-2 pass.
+
+**Verification**: 61 tests green offline — schemas 37/37, checkpoint 12/12, core/gateway 12/12. All recovered files compile.
+
+**Outcome**: PASS (Tier 1 recovered + verified; staged locally, not committed/pushed)

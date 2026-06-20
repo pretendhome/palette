@@ -1,0 +1,31 @@
+gateway:
+  perplexity_model: "sonar-pro"
+  timeout_seconds: 60
+  cache_ttl_hours: 24
+  max_external_calls_per_day: 100
+  confidence_threshold: 40
+
+allowed_external_query_types:
+  - legal_precedent
+  - statutory_interpretation
+  - regulatory_requirement
+  - standard_contract_clause
+  - jurisdictional_rules
+  - filing_procedure
+
+blocked_indicators:
+  - "our client"
+  - "my client"
+  - "should we"
+  - "strategy"
+  - "settlement"
+  - "settle"
+  - "privileged"
+  - "attorney-client"
+  - "active case"
+  - "our case"
+  - "this matter"
+
+custom_patterns:
+  - ['\\bJean Dupont\\b', '[CLIENT]']
+  - ['\\bAcme Corp\\b', '[CLIENT]']

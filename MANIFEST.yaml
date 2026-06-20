@@ -1,5 +1,5 @@
 # Palette Manifest — Single Source of Truth
-# Updated: 2026-04-04
+# Updated: 2026-06-19
 # Purpose: One file to orient any agent, tool, or human on what's current.
 
 system:
@@ -137,6 +137,24 @@ scripts:
   drift: "python3 -m scripts.palette_intelligence_system.drift"
   para_decision: "python3 -m scripts.palette_intelligence_system.para_decision"
   tests: "uv run pytest -q scripts/palette_intelligence_system/test_*.py"
+
+intents:
+  path: scripts/palette_intents/
+  status: recovered            # 2026-06-19 Tier-1 convergence — see decisions.md
+  unit: intent (typed-artifact producer)
+  list: [protect, research, decide, create, diagnose, reflect]
+  cli: scripts/palette_intent.py
+  schemas: scripts/palette_intents/schemas.py   # GateDecision, EvidenceBrief, DecisionRecord, FailureLesson
+  engine: scripts/palette_intents/infra.py
+  verification: "61 tests green offline (schemas 37, checkpoint 12, gateway 12)"
+  note: "palette_query.py recovered but DORMANT — needs peers bus + Tier-2 palette_retrieve (retrieve_learn)"
+
+gateway:
+  path: core/gateway/          # relocated from bdb/gateway/ on 2026-06-19 (OWD-1)
+  module: core.gateway
+  exports: [PerplexityGateway, gateway_query]
+  components: [socket_firewall, sanitizer, rate_limiter, cache, audit, fallback]
+  purpose: "trust-boundary / PII-sanitizing egress gate used by the intent layer"
 
 bridges:
   - { name: telegram, path: bridges/telegram/ }
