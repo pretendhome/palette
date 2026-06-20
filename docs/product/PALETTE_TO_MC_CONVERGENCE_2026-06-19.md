@@ -1,9 +1,18 @@
 # Palette → Mission-Canvas Convergence Brief — What Palette Gives Up the Stack
 
 Date: 2026-06-19
-Status: Fresh convergence pass — reverse direction (Palette → MC contributions)
+Status: Reverse direction (Palette → MC) + cross-repo dependency inventory & MC-independence plan
+Revised: 2026-06-19 — added the dependency inventory and explicit instructions for making
+Mission-Canvas completely independent, with safe reconcile sequencing (post Tier-1/2/3 recovery).
 Owner: Palette maintainer (working session with Claude Code)
 Companion to: `docs/product/CONVERGENCE_BRIEF_2026-06-19.md` (which covers MC/remote → Palette)
+
+> This brief now has two jobs:
+> 1. **What Mission-Canvas could *gain* from Palette** (the composability/ontology/integrity
+>    mechanisms — see "The Core Idea" onward).
+> 2. **What Mission-Canvas must *do* to be completely independent of Palette** (the dependency
+>    inventory and independence plan immediately below).
+> Independence comes first because it is the prerequisite for safely cleaning up either repo.
 
 ## Framing — This Is Not a Ranking
 
@@ -22,6 +31,78 @@ This brief is the *reverse* of the recovery brief: it catalogs what Palette can 
 to MC without compromising MC's lightness. The rule is: **send mechanisms, not bulk.** MC
 should receive Palette's *engines* (composable traversal, the graph, the integrity gate),
 never Palette's heavy hand-authored corpus — that would defeat MC's transplantability.
+
+## Dependency & Coupling Inventory (as of 2026-06-19)
+
+Every coupling found between Palette and Mission-Canvas this session. Good news first:
+**MC's runtime is already code-independent** — `grep` for `import palette` / `from palette` /
+`palette_retrieve` across the MC repo returns nothing. MC carries only a *static data snapshot*
+of Palette knowledge, and MC's own installer clones the MC repo. The only *live* coupling is
+website hosting.
+
+| # | Coupling | Direction | Status | What it is | Action to sever |
+|---|----------|-----------|--------|-----------|-----------------|
+| 1 | **missioncanvas.ai web hosting** | MC ⇐ Palette repo | **ACTIVE / LIVE** | GitHub Pages serves missioncanvas.ai from `pretendhome/palette/docs/` — `CNAME=missioncanvas.ai`, `index.html`, `install.sh`, `install.ps1`, `install-windows.txt`, `logo-mc.png`. (The served `install.sh` already pulls the *product* from `pretendhome/mission-canvas` — only the *hosting* lives in palette.) | Move the `docs/` site into `pretendhome/mission-canvas`; repoint the Pages custom domain to the MC repo. **Until done, do NOT delete/force-push over `palette/docs/` — it is the live site.** |
+| 2 | **Palette retrieval → MC ontology** | Palette ⇒ MC | **SEVERED 2026-06-19** | `peers/hub/palette_retrieve.py::_get_mc_engine()` imported `ontology.engine.OntologyEngine` from a `mission-canvas/` dir. | Done — now returns `None` unconditionally; Palette stands MC-independent. |
+| 3 | **MC knowledge snapshot** | MC ⇐ Palette (data) | **STATIC** (no live dep) | MC repo carries `knowledge/palette_imported.yaml`, a frozen import of Palette knowledge. | MC owns it (curate/rename) or documents a versioned export-sync; drop the implicit "imported" framing. |
+| 4 | **Kiro cross-sync** | bidirectional | **ROOT CAUSE** | The Kiro background agent syncing both repos is what scattered Palette in the first place. | Stop Kiro writing across repos; give each repo its own steering. |
+| 5 | *(internal)* `palette_query` → `palette_retrieve` | within Palette | resolved 2026-06-19 | needed `retrieve_learn` (Tier-2 adopted). | n/a — internal Palette. |
+| 6 | *(internal)* intent layer → `core.gateway` | within Palette | resolved 2026-06-19 | relocated from `bdb/gateway`. | n/a — internal Palette. |
+
+## What Mission-Canvas Must Do to Be Completely Independent
+
+The list is short because MC is already 90% independent. Do these in order; each is reconcile-safe
+(see sequencing below).
+
+1. **Take ownership of the missioncanvas.ai deployment (the only live coupling).**
+   - MC already has `static/index.html`, `install.sh`, and `install-binary.sh`. Reconcile so the
+     MC repo holds the *canonical, current* versions of the site + installers (copy across anything
+     newer that currently lives only in `palette/docs/`: the latest `index.html`, `install.sh`,
+     `install.ps1`, `install-windows.txt`, `logo-mc.png`).
+   - Add `CNAME=missioncanvas.ai` to the MC repo's Pages source and set `pretendhome/mission-canvas`
+     as the GitHub Pages source; move the custom domain to it.
+   - **Verify**: missioncanvas.ai loads from the MC repo; `curl -fsSL https://missioncanvas.ai/install.sh | sh`
+     installs from `pretendhome/mission-canvas`; binary-release download resolves.
+   - **Only then** remove the site assets from `pretendhome/palette/docs/`.
+
+2. **Own the knowledge snapshot.** Decide whether `knowledge/palette_imported.yaml` is permanently
+   MC-owned (curate + rename, drop "imported") or refreshed via a documented, versioned export from
+   Palette. Either way, remove the implicit live-import expectation.
+
+3. **Lock in zero runtime coupling (already true — keep it true).** MC imports no Palette module
+   today. Add a CI guard / lint that fails the MC build if anything ever imports a `palette*` path,
+   so independence cannot silently regress.
+
+4. **Stop the cross-repo sync.** Disable Kiro (or any agent) from syncing content between
+   `pretendhome/palette` and `pretendhome/mission-canvas`. Each repo gets isolated steering. This is
+   the root cause of the original scatter; until it stops, any cleanup will be re-polluted.
+
+5. **Keep installers pointed at their own repo.** Both installers already clone
+   `pretendhome/mission-canvas` for the product — never repoint an MC installer at the palette repo.
+
+## Safe Reconcile Sequencing (do not break anything)
+
+> **Reconcile additively → verify → only then eliminate/replace.** Never remove a live asset before
+> its replacement is proven.
+
+- **Phase 1 — Additive (nothing removed).** MC repo gains its own canonical site + installers + CNAME
+  and begins serving missioncanvas.ai. `palette/docs/` stays exactly as-is. Both work simultaneously.
+- **Phase 2 — Verify.** Confirm a full cycle works entirely from the MC repo: site loads at
+  missioncanvas.ai, `install.sh`/`install.ps1` install correctly, binary releases resolve. Run it end
+  to end before touching anything in palette.
+- **Phase 3 — Eliminate/replace.** *Only after Phase 2 is green*: remove the site assets from
+  `pretendhome/palette/docs/` and stop the Kiro cross-sync.
+
+**Hard rule until Phase 2 is green:** do **not** force-push, delete, or otherwise overwrite
+`docs/` on `pretendhome/palette` — GitHub Pages serves the live missioncanvas.ai from it, and the
+local Palette base intentionally does not carry those files. (This is exactly why the Tier-1/2/3
+recovery publishes to a **new branch**, not a force-push over `main`.)
+
+**Honest note on cost vs. gain:** the only *required* work for independence is Phase 1–3 above
+(a deployment move + stopping the sync). It is modest, and the gain is real: two repos that can each
+be cleaned, released, and reasoned about without the other — and no more Kiro scatter. Everything
+below ("what MC gains from Palette") is *optional upside*, to be pursued only after independence is
+secured.
 
 ## The Core Idea — Composable Atomic Traversal (the robotics insight)
 
