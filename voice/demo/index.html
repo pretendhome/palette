@@ -71,31 +71,31 @@
   <strong>Core thesis:</strong> In vocal performance, <em>tessitura</em> is the range where a voice sounds most natural — narrower than the full range. Every brand has a tessitura too. This case study finds Minted's: a 5-state pacing model where each conversational state sits at a measured point within the brand's emotional range (0.83–1.30 speedAlpha). The improvement comes from constraining to tessitura, not from a different voice.
 </div>
 
-<!-- Track 1: Baseline Sample A -->
-<div class="track" id="t-baseline-a">
+<!-- Track 1: Sierra Sample A -->
+<div class="track" id="t-sierra-a">
   <div class="track-header">
     <span class="track-label">Sample A — Weaker Model</span>
     <span class="track-tag tag-reference">Reference</span>
   </div>
   <div class="track-desc">Original test sample — outside the brand's tessitura. Higher bandwidth (32kHz) but length-based pacing. Opening rushes, empathy is flat, +46% pitch spike on goodbye.</div>
   <div class="player-row">
-    <button class="play-btn" onclick="toggle('baseline-a')">▶</button>
-    <div class="progress-wrap" onclick="seek(event,'baseline-a')"><div class="progress-bar" id="bar-baseline-a"></div></div>
-    <span class="time" id="time-baseline-a">0:00</span>
+    <button class="play-btn" onclick="toggle('sierra-a')">▶</button>
+    <div class="progress-wrap" onclick="seek(event,'sierra-a')"><div class="progress-bar" id="bar-sierra-a"></div></div>
+    <span class="time" id="time-sierra-a">0:00</span>
   </div>
 </div>
 
-<!-- Track 2: Baseline Sample B -->
-<div class="track" id="t-baseline-b">
+<!-- Track 2: Sierra Sample B -->
+<div class="track" id="t-sierra-b">
   <div class="track-header">
     <span class="track-label">Sample B — Stronger Model</span>
     <span class="track-tag tag-reference">Reference</span>
   </div>
   <div class="track-desc">Original test sample — outside the brand's tessitura. Better opening warmth, cleaner brand name. Still length-based pacing — empathy lines show 0% rate delta from informational.</div>
   <div class="player-row">
-    <button class="play-btn" onclick="toggle('baseline-b')">▶</button>
-    <div class="progress-wrap" onclick="seek(event,'baseline-b')"><div class="progress-bar" id="bar-baseline-b"></div></div>
-    <span class="time" id="time-baseline-b">0:00</span>
+    <button class="play-btn" onclick="toggle('sierra-b')">▶</button>
+    <div class="progress-wrap" onclick="seek(event,'sierra-b')"><div class="progress-bar" id="bar-sierra-b"></div></div>
+    <span class="time" id="time-sierra-b">0:00</span>
   </div>
 </div>
 
@@ -358,8 +358,8 @@ function renderMarkers(containerId, markers, totalDuration) {
 }
 
 // Init all players
-initPlayer('baseline-a', 'audio/sample-a.mp3');
-initPlayer('baseline-b', 'audio/sample-b.mp3');
+initPlayer('sierra-a', 'audio/sample-a.mp3');
+initPlayer('sierra-b', 'audio/sample-b.mp3');
 initPlayer('baseline', 'audio/baseline-full.mp3');
 initPlayer('designed', 'audio/designed-full.mp3');
 

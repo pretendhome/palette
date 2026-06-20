@@ -1,0 +1,54 @@
+# Oil Investor — Workspace Configuration
+# Created: 2026-03-29
+# Updated: 2026-03-31 — added monitors and BYOS config
+
+workspace:
+  id: "oil-investor"
+  name: "Mission Control"
+  description: "Oil & energy investment decision support + AI portfolio tracking"
+  user_name: "Joseph"
+  user_role: "owner"
+  domain: "oil-energy-investment"
+  primary_frontend: "telegram"
+
+frx:
+  greeting_style: "executive"
+  startup_artifact: "daily_brief"
+  show_top_blockers: true
+  nudge_threshold_days: 7
+  max_nudges: 5
+
+artifacts:
+  defaults:
+    - "daily_brief"
+    - "what_changed_brief"
+    - "recommendation_note"
+    - "meeting_brief"
+
+retrieval:
+  static_knowledge_pack: "oil_v1"
+  live_retrieval_enabled: false
+
+governance:
+  risk_posture: "medium"
+  require_owd_confirmation: true
+
+# BYOS — Bring Your Own Subscriptions
+# API keys are stored as env vars on the host, never in this file.
+# This section documents which services are connected.
+subscriptions:
+  perplexity:
+    enabled: false   # set PERPLEXITY_API_KEY env var to enable
+    use_for: "research questions, monitor alerts"
+  claude:
+    enabled: true    # via MCP in Claude Desktop — user's own subscription
+    use_for: "primary reasoning via MCP tools"
+  telegram:
+    enabled: true
+    bot: "@joseph_palette_bot"
+    use_for: "mobile alerts, quick queries"
+
+# Active monitors — see monitors/ directory for definitions
+monitors:
+  - energy-markets    # every 2h — oil, gas, geopolitical events
+  - ai-investments    # every 6h — AI company funding, launches, moves

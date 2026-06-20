@@ -6,7 +6,7 @@ Configured Mistral Vibe runtime to connect to the Palette Peers message bus via 
 
 ## Configuration File
 
-**Location:** `~/.vibe/config.toml`
+**Location:** `/home/mical/.vibe/config.toml`
 
 ## Changes Made
 
@@ -18,7 +18,7 @@ mcp_servers = [
     name = "palette-peers",
     type = "stdio",
     command = "node",
-    args = ["./peers/adapters/generic/server.mjs", "mistral-vibe.builder"]
+    args = ["/home/mical/fde/palette/peers/adapters/generic/server.mjs", "mistral-vibe.builder"]
   }
 ]
 ```
@@ -27,7 +27,7 @@ mcp_servers = [
 
 When Mistral Vibe restarts, it will:
 1. Spawn the MCP server as a subprocess using Node.js
-2. Load the generic adapter: `./peers/adapters/generic/server.mjs`
+2. Load the generic adapter: `/home/mical/fde/palette/peers/adapters/generic/server.mjs`
 3. Use identity: `mistral-vibe.builder` (already configured in the adapter)
 4. Connect to broker at: `http://127.0.0.1:7899`
 5. Register on the Palette Peers message bus
@@ -43,7 +43,7 @@ When Mistral Vibe restarts, it will:
 
 After connection, you should receive task: **"write calibration exemplars for RIU-001 (Convergence Brief)"**
 
-Task details are in: `~/fde/enablement/MISTRAL_TASK_001.md`
+Task details are in: `/home/mical/fde/enablement/MISTRAL_TASK_001.md`
 
 ## Architecture
 
@@ -61,13 +61,13 @@ Task details are in: `~/fde/enablement/MISTRAL_TASK_001.md`
 
 ## Files Modified
 
-- `~/.vibe/config.toml` - Added MCP server configuration
+- `/home/mical/.vibe/config.toml` - Added MCP server configuration
 
 ## Files Referenced
 
-- `./peers/adapters/generic/server.mjs` - MCP server (not modified)
-- `~/fde/enablement/MISTRAL_ONBOARDING_MCP.md` - Onboarding guide
-- `~/fde/enablement/MISTRAL_TASK_001.md` - Your pending task
+- `/home/mical/fde/palette/peers/adapters/generic/server.mjs` - MCP server (not modified)
+- `/home/mical/fde/enablement/MISTRAL_ONBOARDING_MCP.md` - Onboarding guide
+- `/home/mical/fde/enablement/MISTRAL_TASK_001.md` - Your pending task
 
 ## Restart Required
 

@@ -45,15 +45,6 @@ export function validateEnvelope(env) {
   if (env.message_type === 'execution_request' && !hasCanonicalHandoffPacket(env.payload) && !hasLegacyExecutionPayload(env.payload)) {
     errors.push('execution_request payload must include payload.handoff_packet (canonical) or legacy payload.task');
   }
-  // Obligatory routing: execution-class messages must include taxonomy classification
-  const CLASSIFIED_TYPES = ['execution_request', 'advisory', 'proposal'];
-  if (CLASSIFIED_TYPES.includes(env.message_type) && env.payload) {
-    if (!env.payload.riu_id && !env.payload.content?.includes?.('riu_id')) {
-      // Soft enforcement: warn but don't reject (allows migration period)
-      // TODO: make this a hard reject after all agents are updated
-      // errors.push(`${env.message_type} should include payload.riu_id (taxonomy classification)`);
-    }
-  }
   return errors;
 }
 

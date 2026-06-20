@@ -1,8 +1,6 @@
-# Mission Canvas — The Interface
+# Mission Canvas
 
-Mission Canvas is how you experience Palette. It's the room where your judgment compounds — speak a question, get a team of governed agents deliberating on your behalf, grounded in verified knowledge, teaching you while they work.
-
-Palette is the system. Mission Canvas is the surface. The moat belongs to Palette; Mission Canvas makes the moat visible.
+Voice-first execution platform for [Palette](https://github.com/pretendhome/palette). Speak a question, get structured intelligence back — routing, coaching, workspace health, and governed decisions.
 
 ---
 

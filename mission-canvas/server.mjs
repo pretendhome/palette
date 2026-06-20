@@ -10,7 +10,7 @@ import {
   ROUTES
 } from './openclaw_adapter_core.mjs';
 import { fetchSignals } from './fetch_signals_logic_draft.mjs';
-import { validateFact, validateText, scrubText, sanitizeForExternal, sanitizePayloadForExternal } from './data_boundary.mjs';
+import { validateFact, validateText, scrubText } from './data_boundary.mjs';
 import {
   detectProjectQuery,
   handleProjectQuery,
@@ -181,51 +181,6 @@ function trace(action, requestId, direction, meta = {}) {
     ...meta
   };
   console.log(`[trace] ${JSON.stringify(event)}`);
-}
-
-
-const FIREWALL_LOG_PATH = process.env.MISSIONCANVAS_FIREWALL_LOG_PATH || path.join(__dirname, 'firewall_log.ndjson');
-
-async function logFirewallEvent(event) {
-  const record = {
-    trace_id: makeRequestId(),
-    timestamp: new Date().toISOString(),
-    ...event,
-  };
-  trace('external_sanitizer', event.request_id || null, event.blocked ? 'blocked' : 'sanitized', {
-    target: event.target,
-    reason: event.reason || null,
-    redactions: event.redactions || 0,
-  });
-  try {
-    await appendFile(FIREWALL_LOG_PATH, JSON.stringify(record) + '\n', { encoding: 'utf-8' });
-  } catch (err) {
-    trace('external_sanitizer', event.request_id || null, 'log_failed', { error: err.message });
-  }
-}
-
-async function sanitizeOutboundText(target, text, requestId = null, options = {}) {
-  const result = sanitizeForExternal(String(text || ''), options);
-  if (result.blocked) {
-    await logFirewallEvent({ target, request_id: requestId, blocked: true, reason: result.reason, redactions: 0 });
-    throw new Error(`External call blocked by sanitizer: ${result.reason}`);
-  }
-  if (result.redactions.length > 0) {
-    await logFirewallEvent({ target, request_id: requestId, blocked: false, reason: result.reason, redactions: result.redactions.length });
-  }
-  return result.text;
-}
-
-async function sanitizeOutboundPayload(target, payload, requestId = null, options = {}) {
-  const result = sanitizePayloadForExternal(payload, options);
-  if (result.blocked) {
-    await logFirewallEvent({ target, request_id: requestId, blocked: true, reason: result.reason, redactions: 0 });
-    throw new Error(`External call blocked by sanitizer: ${result.reason}`);
-  }
-  if (result.redactions.length > 0) {
-    await logFirewallEvent({ target, request_id: requestId, blocked: false, reason: result.reason, redactions: result.redactions.length });
-  }
-  return result.value;
 }
 
 const MIME = {
@@ -921,10 +876,10 @@ async function callOpenAIResponses({ systemPrompt, history, message }) {
     if (!item || !item.role || !item.content) continue;
     input.push({
       role: item.role === 'assistant' ? 'assistant' : 'user',
-      content: await sanitizeOutboundText('openai.responses.history', item.content)
+      content: String(item.content)
     });
   }
-  input.push({ role: 'user', content: await sanitizeOutboundText('openai.responses.message', message) });
+  input.push({ role: 'user', content: String(message || '') });
 
   const res = await fetch('https://api.openai.com/v1/responses', {
     method: 'POST',
@@ -951,10 +906,10 @@ async function callPerplexityOka({ systemPrompt, history, message }) {
     if (!item || !item.role || !item.content) continue;
     messages.push({
       role: item.role === 'assistant' ? 'assistant' : 'user',
-      content: await sanitizeOutboundText('perplexity.oka.history', item.content)
+      content: String(item.content)
     });
   }
-  messages.push({ role: 'user', content: await sanitizeOutboundText('perplexity.oka.message', message) });
+  messages.push({ role: 'user', content: String(message || '') });
 
   const res = await fetch('https://api.perplexity.ai/chat/completions', {
     method: 'POST',
@@ -1063,11 +1018,10 @@ async function generateOkaTurn({ message, history = [], readingState = null }) {
 
 async function fetchJson(url, payload, headers = {}) {
   const mergedHeaders = { 'Content-Type': 'application/json', ...headers };
-  const sanitizedPayload = await sanitizeOutboundPayload(url, payload, payload?.request_id || null, payload?.classification ? { classification: payload.classification } : {});
   const res = await fetch(url, {
     method: 'POST',
     headers: mergedHeaders,
-    body: JSON.stringify(sanitizedPayload)
+    body: JSON.stringify(payload)
   });
 
   if (!res.ok) {

@@ -5,15 +5,12 @@ Mission Canvas is local-first AI that compounds your professional judgment. It c
 ## One-Command Setup
 
 ```bash
-git clone https://github.com/pretendhome/palette.git
-cd palette
-bash setup.sh
+curl -fsSL https://missioncanvas.ai/install.sh | bash
 ```
 
-This script checks dependencies, installs required packages, and starts the governed runtime.
+One command. Running locally. No cloud account required. No portal. Your keys, your machine.
 
-**Requirements**: Python 3.10+, Node.js 18+.  
-**Optional**: Ollama (fully local reasoning), Perplexity API key (governed external research).
+**Requires**: macOS 12+ or Linux · Node.js 18+ · Python 3.10+ · Ollama (optional)
 
 ---
 

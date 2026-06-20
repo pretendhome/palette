@@ -1,16 +1,14 @@
-# Palette Taxonomy — Classify Before Retrieving
+# Palette Taxonomy
 
-The taxonomy is Palette's intent layer — it classifies WHAT KIND of problem you're solving before the system retrieves or routes anything. This is the architectural primitive that makes compounding judgment possible: the system doesn't just remember answers, it remembers what kind of decisions you keep making.
-
-121 nodes. Every node maps a problem class to the right knowledge, the right agent, and the right governance level.
+Problem classification system with 104 Reusable Intelligence Units (RIUs).
 
 ---
 
 ## What is the Taxonomy?
 
-The taxonomy classifies problems into RIUs (Reusable Intelligence Units) — discrete problem patterns that route work to appropriate agents, knowledge, and solutions. Taxonomy-first routing is Palette's primary differentiator: classify, then retrieve — not the other way around.
+The taxonomy classifies problems into RIUs—discrete, reusable problem patterns that help route work to appropriate agents and solutions.
 
-**Current Version**: v1.3 (121 RIUs)
+**Current Version**: v1.2 (104 RIUs)
 
 ---
 

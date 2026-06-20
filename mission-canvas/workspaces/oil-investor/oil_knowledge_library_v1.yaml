@@ -1,0 +1,713 @@
+metadata:
+  version: '1.0'
+  generated_date: '2026-03-30'
+  domain: oil-energy-investment
+  total_entries: 28
+  source_document: PERPLEXITY_OIL_WORKSPACE_RESEARCH_PROMPT.md + oil-energy-investor-workspace-research.md + PERPLEXITY_OIL_RESEARCH_SUPPLEMENT.md
+  evidence_bar: Tier 1 (EIA, IEA, SEC, FERC, OPEC), Tier 2 (Platts, Rystad, Wood Mac, Deloitte, CFA Institute), Tier 3 (RBN Energy, OilPrice.com, AEGIS)
+  categories:
+    commodity_frameworks: 6
+    industry_structure: 4
+    financial_interpretation: 6
+    regulatory: 5
+    geopolitical: 3
+    data_sources: 2
+    midstream_ngl: 2
+
+library_questions:
+
+# ═══ COMMODITY FRAMEWORKS ═══
+
+- id: OIL-001
+  question: What is the difference between WTI and Brent crude oil, and why does the spread matter?
+  answer: 'WTI (West Texas Intermediate) is the US crude benchmark, priced at Cushing, Oklahoma and traded on NYMEX. Brent is the international benchmark reflecting North Sea seaborne oil, used to price approximately two-thirds of globally traded crude. The WTI-Brent spread typically reflects logistical and quality differences — when US export infrastructure is constrained, WTI trades at a discount to Brent. The spread matters for investment decisions because it affects US refiner input costs, E&P netback realizations, and international trade routing. As of March 2026, WTI trades ~$6-10/bbl below Brent due to Hormuz disruption affecting seaborne grades more than landlocked WTI. Historical 5-year range: $1.50-$6/bbl WTI discount under normal conditions.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: medium
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - commodity-pricing
+  - benchmarks
+  - crude-oil
+  - wti
+  - brent
+  sources:
+  - title: EIA Short-Term Energy Outlook
+    url: https://www.eia.gov/outlooks/steo/
+  - title: FRED - WTI-Brent Spread
+    url: https://fred.stlouisfed.org/graph?graph_id=126777
+  - title: RBN Energy Brent vs WTI Spread Tracker
+    url: https://rbnenergy.com/market-data/brent-vs-wti-spread
+  journey_stage: foundation
+
+- id: OIL-002
+  question: What is the 3-2-1 crack spread and why do refiners watch it?
+  answer: 'The 3-2-1 crack spread is the industry standard benchmark for US refining margins. It models a refinery converting 3 barrels of crude into 2 barrels of gasoline and 1 barrel of distillate (diesel/heating oil). Formula: (2 x Gasoline + 1 x Distillate) / 3 - Crude. Expressed in $/barrel, it represents the gross refining margin before operating costs. A widening crack spread signals better refining economics; narrowing signals compression. Real refiners track "margin capture" — the percentage of the 3-2-1 they actually realize as EBITDA. A well-run refinery with 80% margin capture on a $25/bbl 3-2-1 earns $20/bbl EBITDA. Variations include 2-1-1 (European diesel-heavy) and 5-3-2 (distillate-heavy). As of March 2026, the 3-2-1 hit $55.78/bbl — a crisis-driven spike from typical $12-18/bbl levels.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: medium
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - refining
+  - crack-spread
+  - margins
+  - downstream
+  sources:
+  - title: EIA Crack Spread Explainer
+    url: https://www.eia.gov/todayinenergy/includes/crackspread_explain.php
+  - title: IB Interview Questions - Crack Spreads and Refining Margins
+    url: https://ibinterviewquestions.com/guides/energy-investment-banking/crack-spreads-refining-margins-3-2-1
+  - title: Deloitte 2026 Oil and Gas Industry Outlook
+    url: https://www.deloitte.com/us/en/insights/industry/oil-and-gas/oil-and-gas-industry-outlook.html
+  journey_stage: foundation
+
+- id: OIL-003
+  question: How does oil price sensitivity differ between upstream, midstream, and downstream companies?
+  answer: 'Upstream E&P companies are highly leveraged to oil prices — revenue is production volume x realized price, so a $10/bbl move directly impacts EBITDA (amplified because operating costs are largely fixed short-term). Downstream refiners have a more complex relationship: when crude rises, input costs rise faster if product price response lags, so net effect depends on the crack spread. Refiners can see improved margins during price collapses if product prices fall more slowly. Midstream operators (pipelines, storage) are the most insulated — revenues are primarily fee-based via take-or-pay contracts tied to throughput volumes, not commodity prices. They function more like infrastructure utilities. Price sensitivity is indirect: prolonged low prices that kill upstream production eventually reduce throughput volumes.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: medium
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - upstream
+  - midstream
+  - downstream
+  - price-sensitivity
+  sources:
+  - title: ScienceDirect - Volatility Transmission in Oil Sector
+    url: https://www.sciencedirect.com/science/article/abs/pii/S1059056024001540
+  - title: AFPM Industry Overview
+    url: https://www.afpm.org/newsroom/infographic/infographic-downstream-midstream-and-upstream
+  journey_stage: foundation
+
+- id: OIL-004
+  question: What are the break-even prices for US shale producers by basin?
+  answer: 'Break-evens come in two forms: half-cycle (incremental — covers well-level costs on already-acquired acreage) and full-cycle (covers all costs including land, G&A, infrastructure). Per the Dallas Fed Energy Survey Q1 2026, the average break-even to profitably drill across all basins is $66/bbl, with Permian Basin at $67/bbl (up from $65 YoY). Basin break-evens for new wells: Permian Delaware ~$61/bbl, Eagle Ford ~$55-65/bbl, Bakken ~$58/bbl. Full-cycle Permian: most productive wells ~$36.40/bbl, average $50-65/bbl depending on acreage vintage. For comparison, Saudi Arabia lifting costs are ~$2-4/bbl but fiscal break-even (government budget balance) is ~$70-80/bbl. The Dallas Fed survey is a quarterly leading indicator — 135 respondents, data collected March 11-19, 2026. Now available on FRED.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: high
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - break-even
+  - shale
+  - permian
+  - eagle-ford
+  - bakken
+  - dallas-fed
+  sources:
+  - title: Dallas Fed Energy Survey Q1 2026
+    url: https://www.dallasfed.org/research/surveys/des/2026/2601
+  - title: Statista - Breakeven Prices for US Oil Producers 2026
+    url: https://www.statista.com/statistics/748207/breakeven-prices-for-us-oil-producers-by-oilfield/
+  - title: FRED - Dallas Fed Energy Survey Data
+    url: https://news.research.stlouisfed.org/2026/01/fred-adds-dallas-fed-energy-survey-data/
+  - title: Incorrys Full-Cycle Cost Study
+    url: https://www.incorrys.com/videos/NorthAmericanOilandGasFulCycleCost-Aug2021.pdf
+  journey_stage: foundation
+
+- id: OIL-005
+  question: What is the Henry Hub natural gas benchmark and how does it relate to oil and LNG pricing?
+  answer: 'Henry Hub is the US natural gas benchmark, priced at the Erath, Louisiana pipeline hub and traded on NYMEX. It reached a historic low averaging $2.21/MMBtu in 2024. LNG export pricing is not based on Henry Hub directly — US LNG exports are priced at Henry Hub plus liquefaction fee (~$3.00-3.50/MMBtu) plus shipping. European and Asian LNG trades at JKM (Japan-Korea Marker) or TTF (Dutch) prices, substantially higher. This disconnect (US gas ~$2/MMBtu vs European $10-15/MMBtu) is the economic engine for US LNG export expansion. The historic gas-to-oil ratio is 6:1 by energy content (1 barrel oil = 6 MMBtu gas). At $60/bbl oil and $3/MMBtu gas, oil carries a 3:1 energy-equivalent premium, driving decisions about associated gas management and resource prioritization. Capital Economics forecasts Henry Hub to rise to $4.00 by end-2026 and $4.50/MMBtu by end-2027 as LNG export capacity expands.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: medium
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - natural-gas
+  - henry-hub
+  - lng
+  - pricing
+  sources:
+  - title: EIA - Natural Gas 2024 Analysis
+    url: https://www.eia.gov/todayinenergy/detail.php?id=64184
+  - title: Capital Economics - LNG Demand and Henry Hub Forecast
+    url: https://www.capitaleconomics.com/publications/commodities-update/higher-lng-demand-drive-henry-hub-prices
+  journey_stage: foundation
+
+- id: OIL-006
+  question: What is the EIA Weekly Petroleum Status Report and why does it move oil prices?
+  answer: 'Published every Wednesday at 10:30 AM ET, the EIA Weekly Petroleum Status Report is the most market-moving weekly data release in oil. It reports US crude oil inventories (including Cushing, Oklahoma — the WTI delivery point), total petroleum inventories, refinery utilization rates, import/export volumes, and gasoline/distillate stocks. Cushing is critical because it is the physical delivery point for NYMEX WTI futures. When Cushing fills, WTI faces downward pressure (the April 2020 negative price event was Cushing overflow). When Cushing draws down rapidly, it signals strong demand and is bullish. Traders and algorithms react within seconds of the 10:30 release — a larger-than-expected inventory draw can move WTI $1-2/bbl instantly. The EIA API provides this data for free with no rate limits on daily queries.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: low
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - eia
+  - inventory
+  - cushing
+  - weekly-report
+  - data-sources
+  sources:
+  - title: EIA Weekly Petroleum Status Report
+    url: https://www.eia.gov/petroleum/supply/weekly/
+  - title: EIA Open Data API
+    url: https://www.eia.gov/opendata/
+  journey_stage: foundation
+
+# ═══ INDUSTRY STRUCTURE ═══
+
+- id: OIL-007
+  question: Who are the top integrated oil majors (supermajors) and how do they differ from independents?
+  answer: 'The 5 supermajors — ExxonMobil (~$640B market cap), Chevron (~$394B), Shell (~$200B+), BP (~$100B+), TotalEnergies (~$150B+) — operate across upstream, midstream, and downstream, providing natural hedges. Their strategy emphasizes balance sheet strength, dividends, and energy transition positioning. Top US independents by 2025 production: Expand Energy (1.75 MMboe/d), ConocoPhillips (1.42 MMboe/d), Devon Energy/Coterra merger (~1.6 MMboe/d, now largest Lower 48 independent), EOG Resources, Diamondback Energy. Key strategy divergence: independents now return >68% of FCF to shareholders (up from 35% in 2019) via buybacks and dividends. Supermajors maintain both capital returns and energy transition spending. The Devon-Coterra $58B merger (2026) exemplifies the consolidation trend — scale and stable cash flows over growth.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: medium
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - supermajors
+  - independents
+  - e-and-p
+  - consolidation
+  sources:
+  - title: Blackridge Research - Largest Oil and Gas Companies
+    url: https://www.blackridgeresearch.com/blog/list-of-largest-major-top-oil-and-gas-companies-in-united-states-of-america-usa
+  - title: Marcellus Drilling News / Enverus 2026 Ranking
+    url: https://marcellusdrilling.com/2026/01/top-50-public-ep-operators-of-2025-ranked-by-og-production/
+  - title: Wood Mackenzie - US Oil Industry Consolidation
+    url: https://www.woodmac.com/blogs/energy-pulse/the-us-oil-industry-is-consolidating-as-growth-slows/
+  journey_stage: foundation
+
+- id: OIL-008
+  question: What is capital discipline in US shale and how did it change the industry post-2020?
+  answer: 'Post-2020, US shale shifted fundamentally from growth-at-all-costs to free cash flow maximization. Cumulative FCF was approximately -$300B from 2010-2020 as operators subsidized production growth. In 2022 alone, FCF reached +$210B — a structural reversal. Rystad Energy calls this "Shale 4.0" — capital discipline and inventory quality gate decisions, not price optimism. Top 20 independents now return 68% of FCF to shareholders vs 35% in 2019. Capex guidance across the industry for 2026 is flat to modestly higher with low-single-digit production growth expected. The rig count declined ~7% in 2025 and ~5% in 2024. US crude production is forecast at 13.6 million b/d in 2026, rising to 13.8 million in 2027. This discipline means higher oil prices no longer trigger a supply surge — a structural change in market dynamics.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: high
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - capital-discipline
+  - shale
+  - fcf
+  - production-growth
+  - rig-count
+  sources:
+  - title: OilPrice.com / Rystad Energy - Shale 4.0
+    url: https://oilprice.com/Energy/Crude-Oil/Shale-40s-Capital-Discipline-Outweighs-Trump-20s-Pro-Growth-Rhetoric.html
+  - title: EIA Short-Term Energy Outlook
+    url: https://www.eia.gov/outlooks/steo/
+  - title: Reuters / Baker Hughes Rig Count
+    url: https://www.reuters.com/business/energy/us-drillers-cut-oil-gas-rigs-first-time-three-weeks-says-baker-hughes-2026-03-20/
+  journey_stage: foundation
+
+- id: OIL-009
+  question: What do oilfield service companies do and how does their revenue correlate with upstream capex?
+  answer: 'The Big Three OFS companies — SLB (Schlumberger), Baker Hughes (BKR), and Halliburton (HAL) — provide drilling, completion, production, and digital services to E&P operators. SLB is the largest (digital + subsurface leadership, >$1B digital ARR), Baker Hughes is diversifying into industrial energy tech (record $32.4B backlog, power systems and data centers), and Halliburton is most North America and completions-focused (most cyclical). OFS revenue is a lagging function of upstream capex with a 6-12 month lag. When E&P companies increase drilling budgets, OFS revenues follow. The current cycle: Halliburton operating income fell 39.8% as North America activity softened, while Baker Hughes grew revenue as its non-cyclical segments offset upstream exposure. The Baker Hughes rig count (published every Friday at 1:00 PM ET) is the key weekly activity indicator — 592 US rigs as of late March 2026.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: medium
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - oilfield-services
+  - slb
+  - baker-hughes
+  - halliburton
+  - rig-count
+  sources:
+  - title: 24/7 Wall Street - OFS Company Analysis March 2026
+    url: https://247wallst.com/investing/2026/03/18/one-of-these-oil-services-stocks-is-pulling-away-from-the-pack-baker-hughes-haliburton-slb/
+  - title: Baker Hughes Rig Count
+    url: https://rigcount.bakerhughes.com/north-america-rig-count
+  journey_stage: foundation
+
+- id: OIL-010
+  question: What is reserve replacement ratio and reserve life index, and why do they matter?
+  answer: 'Reserve Replacement Ratio (RRR) = new reserves added / reserves produced. Above 100% means the company is growing its reserve base; below 100% means depletion outpaces discovery. Reserve Life Index (RLI) = proved reserves / annual production, measuring how many years of current production remain without new investment. Healthy RLI: >10-15 years acceptable, >15 years signals a strong position. Global oil and gas average is ~12 years. Nuance: RLI can be misleading — a low RLI may mean a company prioritizes high-return, fast-payback inventory rather than booking marginal reserves. Reserve data is published in company 10-K filings per SEC Subpart 1200, using 12-month average pricing (not current spot). The post-2020 capital discipline trend pressures reserve replacement across the sector as less exploratory drilling occurs.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: medium
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - reserves
+  - reserve-replacement
+  - reserve-life-index
+  - sec-reporting
+  sources:
+  - title: KPI Depot - Reserve Life Index
+    url: https://kpidepot.com/kpi/reserve-life-index
+  - title: Energy Income Partners - RLI Interpretation
+    url: https://eipinvestments.com/eva-pao-february-4-2023/
+  - title: SEC Modernization of Oil and Gas Reporting
+    url: https://www.sec.gov/rules-regulations/2008/12/modernization-oil-gas-reporting
+  journey_stage: foundation
+
+# ═══ FINANCIAL INTERPRETATION ═══
+
+- id: OIL-011
+  question: What is EBITDAX and when should it be used instead of EBITDA for oil and gas companies?
+  answer: 'EBITDAX = Earnings Before Interest, Taxes, Depreciation/Depletion, Amortization, and Exploration Expense. The X matters because E&P companies use different accounting methods: successful efforts (dry hole costs expensed immediately) vs full cost (all exploration costs pooled and amortized). This creates non-comparability. EBITDAX removes exploration expense, normalizing both methods for apples-to-apples comparison. Use EBITDAX for companies with significant exploration spending; use standard EBITDA for mature producers with steady production and minimal exploration. Key leverage metric in energy: Net Debt/EBITDAX — above 2.5x triggers caution. Lenders typically require <3.0-3.5x. Reserve-Based Lending (RBL) facilities have semi-annual borrowing base redeterminations tied to proved reserves value — the key covenant risk event for smaller E&Ps.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: high
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - ebitdax
+  - financial-metrics
+  - accounting
+  - leverage
+  - rbl
+  sources:
+  - title: Mercer Capital - How to Value Your E&P Company
+    url: https://mercercapital.com/insights/blogs/energy-valuation-insights-blog/2019/how-to-value-your-ep-company/
+  - title: Weaver - EBITDAX or EBITDA for E&P Valuation
+    url: https://weaver.com/resources/using-ebitdax-or-ebitda-ep-company-valuation/
+  - title: Investopedia - EBITDAX Definition
+    url: https://www.investopedia.com/terms/e/ebitdax.asp
+  journey_stage: foundation
+
+- id: OIL-012
+  question: What are lifting costs (LOE) and how do they vary by basin?
+  answer: 'Lifting costs (Lease Operating Expenses / LOE) are the cash operating costs to produce a barrel of oil equivalent from an existing well. They include artificial lift, well maintenance, water disposal, field processing, and labor. Typical LOE ranges (2025-2026): Permian Delaware ~$5.45/Boe (lowest — per Permian Resources 2026 guidance), Bakken ~$9-12/Boe (higher artificial lift and water disposal costs), Eagle Ford ~$8-11/Boe (significant water disposal), conventional vertical wells vary widely but have low volumes. Conventional wells often have lower per-barrel LOE due to natural reservoir pressure but lower production rates mean fixed costs dominate. LOE is reported quarterly in company earnings and annually in 10-K filings. It is the key metric for determining which existing wells remain economic at any given oil price — if LOE exceeds the realized price, the well should be shut in.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: medium
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - lifting-costs
+  - loe
+  - operating-costs
+  - basin-economics
+  sources:
+  - title: Permian Resources IR - 2026 Plan
+    url: https://permianres.com/permian-resources-announces-strong-fourth-quarter-2025-results-and-provides-full-year-2026-plan-with-improved-capital-efficiency-and-increased-base-dividend/
+  - title: EIA Upstream Cost Trends Study
+    url: https://www.eia.gov/analysis/studies/drilling/pdf/upstream.pdf
+  journey_stage: foundation
+
+- id: OIL-013
+  question: How do E&P companies hedge production and what instruments do they use?
+  answer: 'E&P companies hedge to protect cash flow and satisfy lender requirements. Three primary instruments: fixed-price swaps (lock a set price, no upside, no cost), costless collars (buy a put floor + sell a call ceiling, partial upside capped at ceiling, no upfront cost), and put options (right to sell at strike price, full upside above strike, premium cost $3-9/bbl). Post-2020 trend: producers shifted toward outright puts wanting full upside exposure while protecting downside. Typical hedge ratios: PE-backed/leveraged E&Ps hedge 70-90% of PDP production for 12-24 months (lender requirement); large-cap investment-grade (XOM, CVX) minimal or zero hedging; mid-cap public E&Ps 30-60%. As of early 2025, only 19% of Q4 production from 38 tracked companies was hedged — over 80% unhedged at elevated prices. Hedge books are disclosed in 10-Q filings.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: high
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - hedging
+  - swaps
+  - collars
+  - puts
+  - risk-management
+  sources:
+  - title: IB Interview Questions - Hedging Toolkit
+    url: https://ibinterviewquestions.com/guides/energy-investment-banking/hedging-toolkit-swaps-collars-puts
+  - title: Evaluate Energy - North American Oil Production Hedging
+    url: https://info.evaluateenergy.com/most-north-american-oil-production-left-unhedged-in-early-2025/
+  journey_stage: foundation
+
+- id: OIL-014
+  question: What are the key leverage metrics for oil and gas companies and when do they signal distress?
+  answer: 'Key metrics: Net Debt/EBITDA (general leverage — concern above 2.5-3.0x, lenders require <3.0-3.5x), Net Debt/EBITDAX (E&P-specific — caution above 2.5x), Debt/Proved Reserves (asset-based, used in Reserve-Based Lending), Interest Coverage EBITDA/Interest (stress below 3.0x). Reserve-Based Lending (RBL) facilities are the critical covenant mechanism — semi-annual borrowing base redeterminations tied to proved reserves value. When oil prices drop, proved reserve values decline (SEC uses 12-month average pricing), which can trigger borrowing base reductions, forced repayments, or covenant breaches. This is the primary leverage risk event for smaller E&Ps. Investment-grade midstream leverage (Debt/EBITDA) averaged 3.7x at year-end 2024, down from 5.6x in June 2021 — a 22.3% sector-wide deleveraging.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: high
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - leverage
+  - debt
+  - covenants
+  - rbl
+  - distress
+  sources:
+  - title: Damodaran 2026 Debt Update
+    url: https://www.linkedin.com/pulse/data-update-7-2026-debt-default-taxes-aswath-damodaran-jk9gc
+  - title: ETF Trends - MLP Leverage Ratios 2025
+    url: https://www.etftrends.com/energy-infrastructure-content-hub/2025-midstream-mlp-leverage-ratios-signal-flexibility/
+  journey_stage: foundation
+
+- id: OIL-015
+  question: What is the frac spread and why does it matter for midstream companies?
+  answer: 'The frac spread is the difference between NGL (natural gas liquids) prices and the natural gas price — the economic incentive for gas processors to extract NGLs rather than reject them (leave them in the gas stream). A wider frac spread means more profitable midstream processing. When frac spreads are negative or near zero, processors reject ethane and lighter NGLs back into the gas stream, reducing NGL supply and midstream processing revenue. NGLs are priced at Mont Belvieu, Texas — the US pricing hub. The 5 NGL components: ethane (~35-40% of mix, priced between gas floor and propane ceiling), propane (~30%, record US exports of 1.8 million b/d in 2025), normal butane (~10%), isobutane (~5%), and natural gasoline (~15-20%). MPLX reported adjusted EBITDA from NGL rose 19% YoY in Q1 2025 due to higher weighted average frac spreads.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: medium
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - ngl
+  - frac-spread
+  - midstream
+  - mont-belvieu
+  - processing
+  sources:
+  - title: EIA - Prices for Hydrocarbon Gas Liquids
+    url: https://www.eia.gov/energyexplained/hydrocarbon-gas-liquids/prices-for-hydrocarbon-gas-liquids.php
+  - title: EIA - NGL Exports Record 2025
+    url: https://www.eia.gov/todayinenergy/detail.php?id=67387
+  - title: MPLX IR - Q3 2025 Results
+    url: https://ir.mplx.com/CorporateProfile/press-releases/news-release/2025/MPLX-LP-Reports-Third-Quarter-2025-Financial-Results-Announces-Increase-to-Quarterly-Distribution-of-12-5/default.aspx
+  journey_stage: foundation
+
+- id: OIL-016
+  question: What are the key financial metrics for midstream MLPs and what is a healthy distribution coverage ratio?
+  answer: 'Midstream MLPs (Master Limited Partnerships) use different metrics than upstream E&Ps. Distribution Coverage Ratio (DCR) = Distributable Cash Flow / Distributions Paid — below 1.0x means paying out more than earned (unsustainable). Current average: 1.7-1.8x, forecast 1.8-1.9x over next 5 years. Distributable Cash Flow (DCF) = EBITDA - Maintenance Capex - Interest - Taxes (MLP equivalent of FCF). Debt/EBITDA: most midstream names target 3.0-4.0x (current investment-grade average 3.7x). Fee-based revenue percentage: >80% preferred for commodity price insulation. Key midstream companies: Enterprise Products Partners (EPD, largest US midstream MLP), MPLX (Marathon midstream, DCR 1.5x, Debt/EBITDA 3.3x), Williams Companies (WMB, Transco pipeline), Kinder Morgan (KMI, largest US gas pipeline network). Index-level distributions have grown 69.2% since cycle low.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: high
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - midstream
+  - mlp
+  - distribution-coverage
+  - dcf
+  - fee-based
+  sources:
+  - title: Global X ETFs - Midstream and MLP Insights
+    url: https://www.globalxetfs.com/articles/midstream-and-mlp-insights-natural-gas-the-fuel-behind-midstream-resilience-in-2025/
+  - title: AInvest - MLP Dividend Coverage 2024
+    url: https://www.ainvest.com/news/examining-2024-midstream-mlp-dividend-coverage-stability-evolution-2505/
+  journey_stage: foundation
+
+# ═══ REGULATORY ═══
+
+- id: OIL-017
+  question: What does FERC regulate and where can investors find its filings?
+  answer: 'FERC (Federal Energy Regulatory Commission) regulates interstate natural gas pipelines (rates, terms, construction), LNG export/import facility siting under Section 3 of the Natural Gas Act, and electricity markets. Actions that matter to investors: approving/denying LNG terminal permits (multi-year process gating US LNG export capacity), setting pipeline tariff rates (affects midstream revenue), and environmental review (NEPA impact statements). Currently regulates 27 operational LNG facilities with active proceedings for new terminals. Key recent policy: the OBBBA (2025) mandated 36 offshore lease sales through 2040, accelerating BOEM schedules. All FERC orders, tariff filings, and environmental documents are publicly accessible at the FERC eLibrary (elibrary.ferc.gov) — searchable by docket number, company name, or document type. FERC also provides a submission API for automated monitoring.'
+  problem_type: Trust_Governance_and_Adoption
+  related_rius:
+  - RIU-001
+  difficulty: medium
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - ferc
+  - regulation
+  - lng
+  - pipelines
+  - filings
+  sources:
+  - title: FERC LNG Regulation Page
+    url: https://www.ferc.gov/natural-gas/lng
+  - title: FERC eLibrary
+    url: https://elibrary.ferc.gov
+  - title: FERC Submission API Guide
+    url: https://www.ferc.gov/media/ferc-submission-api-step-step-guide
+  journey_stage: foundation
+
+- id: OIL-018
+  question: How do OPEC+ quotas work and what is the current compliance picture?
+  answer: 'OPEC (12 members, ~40% global production) + OPEC+ (22 countries adding Russia, Kazakhstan, etc., ~53 million b/d of ~106 million b/d global demand). Ministers meet periodically — monthly JMMC plus full ministerial ~twice yearly. Each member gets a quota; JMMC monitors compliance. Quotas are regularly exceeded by chronic overproducers (Iraq, Kazakhstan, UAE). In March 2025, OPEC+ producers pumped 319,000 b/d above target. Overproducers agree to compensation cuts but rarely fully deliver. Saudi Arabia is the key swing producer — can adjust rapidly by hundreds of thousands of b/d. In February 2026, Saudi increased production by 340,000-782,000 b/d despite formal freeze agreements in response to the Hormuz crisis. New Maximum Sustainable Capacity (MSC) mechanism approved November 2025 will set 2027 production baselines — expected to reward UAE and Saudi Arabia while disadvantaging African members with declining capacity.'
+  problem_type: Trust_Governance_and_Adoption
+  related_rius:
+  - RIU-001
+  difficulty: high
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - opec
+  - quotas
+  - compliance
+  - saudi-arabia
+  - swing-producer
+  sources:
+  - title: S&P Global Platts OPEC+ Survey
+    url: https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/041025-opec-nudges-up-crude-output-amid-mounting-volatility-poor-compliance
+  - title: Reuters - OPEC Capacity Mechanism
+    url: https://www.reuters.com/markets/commodities/energy/opec-spark-spending-race-with-new-oil-quota-system-2025-12-02/
+  - title: Discovery Alert - Strategic Production Decisions 2026
+    url: https://discoveryalert.com.au/strategic-production-decisions-opec-market-2026/
+  journey_stage: foundation
+
+- id: OIL-019
+  question: How does the SEC require oil and gas companies to report reserves?
+  answer: 'The SEC Modernization of Oil and Gas Reporting rules (effective January 2010) govern public company reserve disclosures in 10-K filings under Subpart 1200 (Items 1201-1208). Key rules: companies must use the 12-month average of first-day-of-month prices (not current spot) to calculate proved reserves, improving comparability. Proved reserves definition was expanded to include unconventional resources (shale, oil sands). Companies may (but are not required to) disclose 2P (proved + probable) and 3P (plus possible) reserves. Third-party qualified engineers are required for reserve reports. Reserve categories: 1P (proved — 90%+ probability), 2P (proved + probable — 50%+ probability), 3P (plus possible — 10%+ probability). To find reserve data: search SEC EDGAR (sec.gov) for 10-K filings; reserves are disclosed in the Standardized Measure of Discounted Future Net Cash Flows section.'
+  problem_type: Trust_Governance_and_Adoption
+  related_rius:
+  - RIU-001
+  difficulty: medium
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - sec
+  - reserves
+  - reporting
+  - 10-k
+  - proved-reserves
+  sources:
+  - title: SEC Modernization of Oil and Gas Reporting
+    url: https://www.sec.gov/rules-regulations/2008/12/modernization-oil-gas-reporting
+  - title: SEC EDGAR
+    url: https://www.sec.gov/cgi-bin/browse-edgar
+  journey_stage: foundation
+
+- id: OIL-020
+  question: What does the Texas Railroad Commission regulate and why do investors track its permit data?
+  answer: 'The Texas Railroad Commission (RRC) is the primary regulator for the world most productive onshore oil region. Despite the name, it has not regulated railroads since that function moved to TxDOT. Functions: issues drilling permits for all Texas oil and gas wells, collects production and well completion reports (P5 forms), regulates well plugging and remediation, pipeline safety, natural gas utilities, and sets spacing and density rules. Investors track RRC permit filings as a leading indicator of future drilling activity — a surge in Permian Basin permit applications signals upcoming production growth (with a 3-6 month lag). RRC production data is public records. Other key state regulators: NDIC (North Dakota) for Bakken production, and New Mexico OCD (Oil Conservation Division) for the Delaware Basin portion of the Permian — increasingly important as Delaware Basin production rivals the Midland.'
+  problem_type: Trust_Governance_and_Adoption
+  related_rius:
+  - RIU-001
+  difficulty: low
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - texas-railroad-commission
+  - permits
+  - state-regulation
+  - leading-indicator
+  sources:
+  - title: Texas Railroad Commission Oil and Gas Division
+    url: https://www.rrc.texas.gov/oil-and-gas/
+  journey_stage: foundation
+
+- id: OIL-021
+  question: What are the key US environmental regulators affecting oil and gas operations?
+  answer: 'EPA (Environmental Protection Agency) regulates methane emissions (NSPS OOOOa/OOOOb rules), air quality, water disposal from drilling (produced water), and Clean Air Act permitting. Methane regulation directly increases E&P operating costs. Evolving rules on produced water affect Permian economics. BSEE (Bureau of Safety and Environmental Enforcement) handles offshore safety — drilling permits, production safety systems, equipment inspections on the Outer Continental Shelf. Can halt offshore drilling via permit moratoria or enforce safety shutdowns. BOEM (Bureau of Ocean Energy Management) manages offshore leasing — the 5-year OCS Leasing Program determines who can drill where and when. The OBBBA (2025) mandated 36 lease sales through 2040. DOE (Department of Energy) manages the Strategic Petroleum Reserve (SPR releases inject supply into market), LNG export authorization (separate from FERC construction permits), and energy policy.'
+  problem_type: Trust_Governance_and_Adoption
+  related_rius:
+  - RIU-001
+  difficulty: medium
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - epa
+  - bsee
+  - boem
+  - doe
+  - environmental
+  - offshore
+  sources:
+  - title: EPA Oil and Natural Gas
+    url: https://www.epa.gov/oil-natural-gas
+  - title: BSEE
+    url: https://www.bsee.gov
+  - title: BOEM Lease Sales
+    url: https://www.boem.gov/oil-gas-energy/lease-sales
+  - title: Harvard EELP Offshore Drilling Tracker
+    url: https://eelp.law.harvard.edu/tracker/offshore-oil-and-gas-drilling-leasing-program/
+  journey_stage: foundation
+
+# ═══ GEOPOLITICAL ═══
+
+- id: OIL-022
+  question: What is the Strait of Hormuz and what happens to oil prices when it is disrupted?
+  answer: 'The Strait of Hormuz is a 21-mile-wide waterway connecting the Persian Gulf to the Gulf of Oman. Approximately 20 million b/d flowed through it in 2024, representing ~20% of global petroleum consumption and ~27% of seaborne oil trade. Key exporters: Saudi Arabia (38% of Hormuz crude, 5.5 million b/d), UAE, Iraq, Kuwait, Iran. 84% of Hormuz crude flows to Asia — China, India, Japan, South Korea. Historical price impact: 1987-88 Tanker War (+30%), 2019 Iranian attacks (+$5-8/bbl), 2024 Houthi Red Sea attacks (freight cost increase), 2026 Hormuz conflict (+~50% from year-start to March 9). Risk premium bands: minor escalation $2-5/bbl, moderate disruption $5-15/bbl, major disruption $20-40+/bbl. There is no adequate bypass for Persian Gulf producers — Saudi East-West pipeline has limited capacity. Closure would be catastrophically disruptive.'
+  problem_type: Trust_Governance_and_Adoption
+  related_rius:
+  - RIU-001
+  difficulty: high
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - hormuz
+  - geopolitical-risk
+  - chokepoints
+  - supply-disruption
+  sources:
+  - title: EIA - Strait of Hormuz Analysis
+    url: https://www.eia.gov/todayinenergy/detail.php?id=65504
+  - title: IEA Oil Market Report March 2026
+    url: https://iea.blob.core.windows.net/assets/a25ddf53-cd6c-4910-ac90-16bfd28399e7/-12MAR2026_OilMarketReport.pdf
+  journey_stage: foundation
+
+- id: OIL-023
+  question: How do sanctions on Iran, Venezuela, and Russia affect global oil supply?
+  answer: 'Iran: under US sanctions since 1979 (with gaps). Production ~3.23 million b/d, exempt from OPEC+ quotas. In March 2026, IEA member countries released 400 million barrels from emergency reserves in response to Iran conflict. Venezuela: US eased PDVSA sanctions in March 2026 via comprehensive authorization allowing direct sales to US businesses — a supply offset during Hormuz disruption. Russia: sanctioned post-2022 Ukraine invasion with a $60/bbl price cap on seaborne crude. In March 2026, US issued 30-day waivers allowing purchase of Russian oil already at sea, avoiding simultaneous Russian + Iranian supply shock. Sanctions are a policy tool used for geopolitical leverage but create complex supply dynamics — removing barrels from official markets pushes them to shadow fleets and discounted trade routes. Actual production impact is often less than headline sanctions suggest.'
+  problem_type: Trust_Governance_and_Adoption
+  related_rius:
+  - RIU-001
+  difficulty: high
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - sanctions
+  - iran
+  - venezuela
+  - russia
+  - supply
+  sources:
+  - title: AP News - Venezuela Oil Sanctions Easing March 2026
+    url: https://apnews.com/article/trump-iran-war-venezuela-oil-supplies-prices-3a3ca446459b3ab0127c08ad0808cc15
+  - title: Steptoe Sanctions Update March 2026
+    url: https://www.steptoe.com/en/news-publications/stepwise-risk-outlook/sanctions-update-march-23-2026.html
+  - title: IEA Oil Market Report March 2026
+    url: https://iea.blob.core.windows.net/assets/a25ddf53-cd6c-4910-ac90-16bfd28399e7/-12MAR2026_OilMarketReport.pdf
+  journey_stage: foundation
+
+- id: OIL-024
+  question: What is peak oil demand and when is it projected?
+  answer: 'Per the IEA World Energy Outlook 2025, under the Stated Policies Scenario (STEPS), oil demand is expected to plateau around 2030 at ~102 million b/d before a slow decline. Under the Current Policies Scenario (CPS — actual policies without new commitments), demand rises to 105 million b/d by 2035 and 113 million by 2050. Key shift in WEO 2025 vs prior years: IEA extended its gas demand peak from 2030 to 2035 and softened the fossil fuel peak narrative, driven by weak climate action and energy security fears. Rystad Energy projects clean energy investment surpassing oil and gas by 2025 — data center capex reached $770B in 2025, exceeding upstream oil and gas for the first time. For investors: peak demand ~2030 per STEPS means 4 years of growth before plateau — short enough to make 20-year oilfield investments questionable without high return hurdles. The "when" of peak demand is central to long-cycle capex decisions.'
+  problem_type: Trust_Governance_and_Adoption
+  related_rius:
+  - RIU-001
+  difficulty: high
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - peak-demand
+  - energy-transition
+  - iea
+  - scenarios
+  - long-cycle
+  sources:
+  - title: IEA / S&P Global - WEO 2025 Oil Demand Scenarios
+    url: https://www.spglobal.com/energy/en/news-research/latest-news/refined-products/111225-iea-sees-global-oil-demand-rising-until-2050-under-current-policies
+  - title: Scientific American - IEA Oil and Gas Demand Beyond 2030
+    url: https://www.scientificamerican.com/article/iea-now-predicts-oil-and-gas-demand-to-rise-beyond-2030-departing-from/
+  - title: Rystad Energy Global Energy Scenarios 2025
+    url: https://www.rystadenergy.com/flagship-report-energy-scenarios-2025
+  journey_stage: foundation
+
+# ═══ DATA SOURCES ═══
+
+- id: OIL-025
+  question: What are the essential data sources an oil investor needs and how often are they updated?
+  answer: 'Daily: EIA spot prices via API (WTI, Brent, Henry Hub — free, unlimited), OilPriceAPI for real-time intraday ($9/mo). Weekly: EIA Weekly Petroleum Status Report (Wednesday 10:30 AM ET — inventories, Cushing, refinery utilization), Baker Hughes Rig Count (Friday 1:00 PM ET — active rigs by basin). Monthly: EIA Short-Term Energy Outlook (price/supply/demand forecasts), IEA Oil Market Report (global supply/demand balance), S&P Global Platts OPEC+ Survey (actual production vs quotas). Quarterly: Dallas Fed Energy Survey (executive sentiment, break-evens — March/June/September/December). Annual: EIA Annual Energy Outlook (long-term to 2050), IEA World Energy Outlook (scenarios). SEC EDGAR for 10-K reserve disclosures (annual), 10-Q quarterly financials, 8-K material events. FERC eLibrary for pipeline/LNG filings (ongoing). Bloomberg Terminal for real-time streaming and analytics ($2,000+/mo).'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: low
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - data-sources
+  - eia
+  - iea
+  - bloomberg
+  - platts
+  - baker-hughes
+  - schedule
+  sources:
+  - title: EIA Open Data API
+    url: https://www.eia.gov/opendata/
+  - title: Baker Hughes Rig Count
+    url: https://rigcount.bakerhughes.com/north-america-rig-count
+  - title: Dallas Fed Energy Survey
+    url: https://www.dallasfed.org/research/surveys/des
+  - title: IEA Oil Market Report
+    url: https://www.iea.org/topics/oil-market-report
+  journey_stage: foundation
+
+- id: OIL-026
+  question: How do I integrate the EIA API for live commodity price data in a workspace?
+  answer: 'The EIA Open Data API v2 is a free RESTful JSON API. Register for a key at eia.gov/opendata. All endpoints follow: https://api.eia.gov/v2/{route}/data/?api_key={KEY}&{parameters}. Key petroleum endpoints: /v2/petroleum/pri/spt/data/ (crude spot prices, daily), /v2/petroleum/sum/sndw/data/ (weekly petroleum status), /v2/petroleum/stoc/wstk/data/ (Cushing inventories, weekly), /v2/natural-gas/pri/fut/data/ (Henry Hub spot, daily). Use facets to filter: facets[product][]=EPCWTI for WTI. Max 5,000 rows per request. No hard rate limit but throttling at heavy use. Recommended caching strategy: prices TTL 4 hours (update once/day for spot), inventory TTL 24 hours (weekly release), static reference TTL 6 months. For real-time intraday: OilPriceAPI at $9/mo covers 100+ commodities. Bloomberg API for institutional-grade real-time ($2,000+/mo terminal subscription).'
+  problem_type: Systems_Integration
+  related_rius:
+  - RIU-001
+  difficulty: medium
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - eia-api
+  - integration
+  - commodity-data
+  - caching
+  - live-data
+  sources:
+  - title: EIA API Documentation
+    url: https://www.eia.gov/opendata/documentation.php
+  - title: EIA API v2.1.0 PDF
+    url: https://www.eia.gov/opendata/documentation/APIv2.1.0.pdf
+  - title: EIA Petroleum Price Browser
+    url: https://www.eia.gov/opendata/browser/petroleum/pri/
+  journey_stage: retrieval
+
+# ═══ MARKET CONTEXT (March 2026) ═══
+
+- id: OIL-027
+  question: What is the current oil market situation as of March 2026?
+  answer: 'Brent: $100-105/bbl (hit $105.85 on March 26), up ~40% in one month and ~50% from January 1. WTI: ~$94-100/bbl. Spread: $6-10/bbl WTI discount. Primary driver: active military conflict near the Strait of Hormuz with Iranian production shut-ins. IEA released 400 million barrels from emergency reserves on March 11. US eased Venezuela sanctions as a supply offset. Saudi Arabia overrode OPEC+ freeze, increasing production by 340,000-782,000 b/d as swing producer. US issued 30-day waivers on Russian oil at sea to prevent simultaneous supply shocks. EIA forecasts Brent averaging $79/bbl for 2026 (revised up 37%) and $64/bbl for 2027, highly dependent on Hormuz conflict duration. Pre-conflict forecast was $58/bbl for 2026. US shale production forecast: 13.6 million b/d in 2026. Crack spread hit $55.78/bbl on March 20 — a crisis-driven spike from typical $12-18/bbl. 592 US rigs as of late March, down 29 YoY.'
+  problem_type: Data_Semantics_and_Quality
+  related_rius:
+  - RIU-001
+  difficulty: low
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - market-context
+  - hormuz-crisis
+  - current-prices
+  - opec-response
+  - march-2026
+  sources:
+  - title: Fortune - Oil Price March 26 2026
+    url: https://fortune.com/article/price-of-oil-03-26-2026/
+  - title: EIA Short-Term Energy Outlook March 2026
+    url: https://www.eia.gov/outlooks/steo/
+  - title: IEA Oil Market Report March 2026
+    url: https://iea.blob.core.windows.net/assets/a25ddf53-cd6c-4910-ac90-16bfd28399e7/-12MAR2026_OilMarketReport.pdf
+  - title: S&P Global Ratings Oil Price Revision March 2026
+    url: https://www.spglobal.com/ratings
+  journey_stage: foundation
+
+# ═══ AI PRODUCT CONTEXT ═══
+
+- id: OIL-028
+  question: What AI tools exist for oil and gas investment intelligence and what is the market gap?
+  answer: 'Enverus AI (December 2025) is the most oil-specific: trained on petabytes of lease terms, production data, and invoices across 8,000+ companies. Offers acquisition target identification, drilling benchmarking, and earnings call summarization. Rystad Energy provides proprietary supply/demand models and project-level forecasts for IOCs, hedge funds, and governments. Kensho (S&P Global) does NLP and event-driven analysis — geopolitical impact on prices, sentiment, M&A signals. Orbital Insight uses satellite imagery to track oil storage fill levels from space (institutional hedge fund product). Bloomberg ASKB (February 2026) is the first agentic AI on a professional financial terminal — multi-agent, hundreds of millions of documents, generates BQL code. The market gap: no voice-first, portfolio-aware, decision-convergence workspace exists for oil investors. The infrastructure components are production-ready (Deepgram Nova-3 STT, ElevenLabs/OpenAI TTS, LiveKit, EIA API) but no one has assembled them with persistent project state, dependency chain reasoning, and proactive nudging.'
+  problem_type: Systems_Integration
+  related_rius:
+  - RIU-001
+  difficulty: high
+  industries:
+  - Oil and Gas
+  - Energy Investment
+  tags:
+  - ai-tools
+  - enverus
+  - bloomberg
+  - market-gap
+  - voice-first
+  sources:
+  - title: Enverus AI Announcement
+    url: https://www.enverus.com/newsroom/enverus-ai-powering-the-next-era-of-energy-intelligence/
+  - title: Bloomberg ASKB Announcement
+    url: https://www.bloomberg.com/company/stories/meet-askb-bloomberg-introduces-agentic-ai-to-the-bloomberg-terminal/
+  - title: Moody's Agentic AI in Financial Services
+    url: https://www.moodys.com/web/en/us/creditview/blog/agentic-ai-in-financial-services.html
+  journey_stage: specialization

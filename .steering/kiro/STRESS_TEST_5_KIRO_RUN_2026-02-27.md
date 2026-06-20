@@ -13,7 +13,7 @@
 
 **Command**:
 ```bash
-cd .
+cd /home/mical/fde/palette
 python3 -m scripts.pis.coordination run "add observability to my system" --fail-step traversal
 ```
 

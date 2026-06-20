@@ -15,12 +15,12 @@ This should feel:
 ## Read Order
 Read these before making changes:
 
-1. `~/fde/implementations/education/adaptive-learning-architecture/nora/NORA_INTAKE_ANSWERS.md`
-2. `~/fde/implementations/education/adaptive-learning-architecture/nora/NORA_OKA_CONVERGENCE_BRIEF.md`
-3. `./mission-canvas/OKA_TULLIA_LENS_DESIGN_SPEC.md`
-4. `./mission-canvas/oka_system_prompt_active.md`
-5. `./mission-canvas/oka.html`
-6. `./mission-canvas/server.mjs`
+1. `/home/mical/fde/implementations/education/adaptive-learning-architecture/nora/NORA_INTAKE_ANSWERS.md`
+2. `/home/mical/fde/implementations/education/adaptive-learning-architecture/nora/NORA_OKA_CONVERGENCE_BRIEF.md`
+3. `/home/mical/fde/palette/mission-canvas/OKA_TULLIA_LENS_DESIGN_SPEC.md`
+4. `/home/mical/fde/palette/mission-canvas/oka_system_prompt_active.md`
+5. `/home/mical/fde/palette/mission-canvas/oka.html`
+6. `/home/mical/fde/palette/mission-canvas/server.mjs`
 
 ## What Already Exists
 - `oka.html` — current `/oka` frontend

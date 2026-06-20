@@ -1967,13 +1967,7 @@
       "agent coordination",
       "workflow orchestration",
       "complex workflow",
-      "agent handoff",
-      "design a multi-agent",
-      "agent workflow",
-      "orchestrate agents",
-      "agents working together",
-      "build a multi-agent",
-      "how do agents work together"
+      "agent handoff"
     ],
     "agent_types": [
       "Architect",
@@ -2001,12 +1995,7 @@
       "checkpointing",
       "session persistence",
       "state recovery",
-      "long-running agent",
-      "state across workflow",
-      "state management between agents",
-      "long-running workflow",
-      "persist agent state",
-      "state between steps"
+      "long-running agent"
     ],
     "agent_types": [
       "Builder",
@@ -2034,12 +2023,7 @@
       "graceful degradation",
       "retry logic",
       "fallback",
-      "fault tolerance",
-      "agent recovered",
-      "agent broke",
-      "agent crashed",
-      "recover from failure",
-      "what if the agent fails"
+      "fault tolerance"
     ],
     "agent_types": [
       "Architect",
@@ -2067,13 +2051,7 @@
       "agent communication",
       "message passing",
       "inter-agent",
-      "agent protocol",
-      "agents communicate",
-      "agents talk to each other",
-      "agents stepping on each other",
-      "agent conflict",
-      "one agent undoes",
-      "agents coordinate"
+      "agent protocol"
     ],
     "agent_types": [
       "Architect",
@@ -2101,15 +2079,7 @@
       "capability limits",
       "action validation",
       "scope enforcement",
-      "agent constraints",
-      "agent shouldn't",
-      "agent does things it shouldn't",
-      "agent boundary",
-      "agent limits",
-      "restrict agent",
-      "agent permissions",
-      "agent can't do",
-      "agent scope"
+      "agent constraints"
     ],
     "agent_types": [
       "Architect",
@@ -3260,11 +3230,7 @@
       "workflow formalization",
       "quality gates",
       "agent assignment",
-      "engagement phases",
-      "define workflow",
-      "workflow definition",
-      "multi-agent workflow",
-      "quality gates for agents"
+      "engagement phases"
     ],
     "agent_types": [
       "Orchestrator",
@@ -3281,214 +3247,6 @@
     "workstreams": [
       "Ops & Delivery",
       "Core Logic"
-    ]
-  },
-  {
-    "id": "RIU-700",
-    "name": "Privilege Risk Assessment",
-    "trigger_signals": [
-      "privilege",
-      "attorney-client privilege",
-      "work product"
-    ],
-    "agent_types": [
-      "Researcher",
-      "Human:Legal"
-    ],
-    "artifacts": [],
-    "execution_intent": "Classify the query for privilege risk. Identify privileged elements (client identity, legal strategy, matter-specific advice). If privileged content is detected, block external routing and respond local-only. Log the gate decision with matter reference. Reference: United States v. Heppner (SDNY 2026) \u2014 cloud AI use waives privilege.",
-    "reversibility": "one_way",
-    "journey_stage": "foundation",
-    "workstreams": [
-      "Legal"
-    ]
-  },
-  {
-    "id": "RIU-701",
-    "name": "Legal Precedent Research",
-    "trigger_signals": [
-      "legal precedent",
-      "case law",
-      "court ruling",
-      "jurisdiction"
-    ],
-    "agent_types": [
-      "Researcher",
-      "Human:Legal"
-    ],
-    "artifacts": [],
-    "execution_intent": "Classify the research question by jurisdiction and legal domain. Search local knowledge library first. If confidence is low, formulate a targeted external query (Perplexity) with jurisdiction and domain context. Sanitize before sending \u2014 no client identifiers, no matter numbers, no strategy language. Merge external results with local knowledge. Store with evidence tier and citations.",
-    "reversibility": "two_way",
-    "journey_stage": "analysis",
-    "workstreams": [
-      "Legal"
-    ]
-  },
-  {
-    "id": "RIU-702",
-    "name": "Filing Deadline Tracking",
-    "trigger_signals": [
-      "filing deadline",
-      "statute of limitations",
-      "court date"
-    ],
-    "agent_types": [
-      "Researcher",
-      "Human:Legal"
-    ],
-    "artifacts": [],
-    "execution_intent": "Identify the jurisdiction, court, case type, and procedural posture. Look up applicable rules (statute of limitations, service requirements, motion deadlines, scheduling orders). Return structured timeline with dates, rules, and sources. Flag any deadline within 30 days as urgent. Store locally \u2014 deadlines are often matter-specific.",
-    "reversibility": "one_way",
-    "journey_stage": "execution",
-    "workstreams": [
-      "Legal"
-    ]
-  },
-  {
-    "id": "RIU-703",
-    "name": "Conflict of Interest Check",
-    "trigger_signals": [
-      "conflict of interest",
-      "conflict check",
-      "dual representation"
-    ],
-    "agent_types": [
-      "Researcher",
-      "Human:Legal"
-    ],
-    "artifacts": [],
-    "execution_intent": "Cross-reference parties (individuals, entities, related parties) against the local matter database. Flag potential conflicts by type: direct adverse, material limitation, former client, positional. Require human review for any flagged conflict before proceeding. Log the check with full party list and result.",
-    "reversibility": "one_way",
-    "journey_stage": "foundation",
-    "workstreams": [
-      "Legal"
-    ]
-  },
-  {
-    "id": "RIU-704",
-    "name": "Contract Clause Review",
-    "trigger_signals": [
-      "contract clause",
-      "contract review",
-      "enforceable",
-      "indemnification"
-    ],
-    "agent_types": [
-      "Researcher",
-      "Human:Legal"
-    ],
-    "artifacts": [],
-    "execution_intent": "Parse the clause type (indemnification, limitation of liability, IP assignment, non-compete, termination, force majeure, etc.). Compare against standard market terms in the knowledge library. Flag deviations \u2014 above-market, below-market, unusual. Classify risk tier. Never send contract text externally \u2014 all analysis is local.",
-    "reversibility": "two_way",
-    "journey_stage": "analysis",
-    "workstreams": [
-      "Legal"
-    ]
-  },
-  {
-    "id": "RIU-705",
-    "name": "Regulatory Compliance Check",
-    "trigger_signals": [
-      "regulatory compliance",
-      "regulation",
-      "compliance check",
-      "regulatory requirement"
-    ],
-    "agent_types": [
-      "Researcher",
-      "Human:Legal"
-    ],
-    "artifacts": [],
-    "execution_intent": "Identify the regulatory domain (securities, environmental, healthcare, data privacy, employment, antitrust). Map the specific regulation and applicable requirements. Check the proposed action against the requirements. Flag compliance gaps. Public regulatory text can be researched externally; client-specific compliance status stays local.",
-    "reversibility": "one_way",
-    "journey_stage": "analysis",
-    "workstreams": [
-      "Legal"
-    ]
-  },
-  {
-    "id": "RIU-706",
-    "name": "Client Matter Intake",
-    "trigger_signals": [
-      "client intake",
-      "new matter",
-      "engagement letter",
-      "retainer"
-    ],
-    "agent_types": [
-      "Researcher",
-      "Human:Legal"
-    ],
-    "artifacts": [],
-    "execution_intent": "Collect matter type, parties, jurisdiction, risk tier. Run conflict check (RIU-703). Classify matter by practice area and complexity. Create structured matter file (YAML). Assign governance tier (routine, complex, high-risk). Log the intake decision. All intake data is privileged \u2014 stays local.",
-    "reversibility": "two_way",
-    "journey_stage": "foundation",
-    "workstreams": [
-      "Legal"
-    ]
-  },
-  {
-    "id": "RIU-707",
-    "name": "Discovery and Document Production",
-    "trigger_signals": [
-      "discovery",
-      "document production",
-      "interrogatories",
-      "deposition"
-    ],
-    "agent_types": [
-      "Researcher",
-      "Human:Legal"
-    ],
-    "artifacts": [],
-    "execution_intent": "Organize documents by relevance category. Flag privileged material for exclusion from production. Create privilege log entries for withheld documents. Build production schedule with deadlines. All document content is privileged \u2014 review and classification is strictly local.",
-    "reversibility": "one_way",
-    "journey_stage": "execution",
-    "workstreams": [
-      "Legal"
-    ]
-  },
-  {
-    "id": "RIU-708",
-    "name": "Settlement Analysis",
-    "trigger_signals": [
-      "settlement",
-      "mediation",
-      "negotiation",
-      "settlement value"
-    ],
-    "agent_types": [
-      "Researcher",
-      "Human:Legal"
-    ],
-    "artifacts": [],
-    "execution_intent": "Evaluate legal exposure based on claims and defenses. Model settlement ranges using comparable precedent outcomes (can research public verdicts/settlements externally after sanitization). Factor in litigation costs, timeline, and risk tolerance. Present structured analysis with range, recommendation, and rationale. All client-specific analysis stays local \u2014 only generic precedent research can go external.",
-    "reversibility": "one_way",
-    "journey_stage": "decision",
-    "workstreams": [
-      "Legal"
-    ]
-  },
-  {
-    "id": "RIU-709",
-    "name": "Fiduciary Duty Analysis",
-    "trigger_signals": [
-      "fiduciary duty",
-      "fiduciary",
-      "duty of care",
-      "duty of loyalty",
-      "LLC member"
-    ],
-    "agent_types": [
-      "Researcher",
-      "Human:Legal"
-    ],
-    "artifacts": [],
-    "execution_intent": "Identify the fiduciary role (director, officer, trustee, partner, adviser). Determine applicable standard of care (business judgment, enhanced scrutiny, entire fairness). Map to relevant precedents by jurisdiction. Assess whether the proposed action meets the applicable standard. Flag enhanced scrutiny triggers (conflict, sale-of-company, controller transaction). Public precedent research can go external; specific client analysis stays local.",
-    "reversibility": "one_way",
-    "journey_stage": "analysis",
-    "workstreams": [
-      "Legal"
     ]
   }
 ]

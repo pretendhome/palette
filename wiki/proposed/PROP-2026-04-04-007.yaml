@@ -1,0 +1,47 @@
+proposed_by: gemini.specialist
+tier: 2
+type: new
+content:
+  question: How can Generative AI be applied to optimize manufacturing logistics and supply chain management?
+  answer: "Generative AI enhances manufacturing logistics by synthesizing disparate data sources into actionable predictive\
+    \ models and automated decision-making agents. Key applications include:\n\n1. **Predictive Maintenance & Logistics**:\n\
+    \   - **Synthetic Failure Mode Generation**: Use LLMs to generate synthetic maintenance logs based on sensor anomalies,\
+    \ improving the training data for predictive maintenance models.\n   - **Route Optimization**: Combine real-time traffic,\
+    \ weather, and inventory data to generate dynamic route adjustments for shipping fleets.\n\n2. **Supply Chain Risk Synthesis**:\n\
+    \   - **Automated Supplier Audit**: Analyze thousands of supplier reports and news feeds to identify potential geopolitical\
+    \ or environmental risks before they impact the supply chain.\n   - **Contract Analysis**: Automatically extract and summarize\
+    \ delivery obligations and penalty clauses from multi-page logistics contracts to ensure compliance.\n\n3. **Inventory\
+    \ & Warehouse Management**:\n   - **Dynamic Demand Forecasting**: Synthesize market trends and historical sales data into\
+    \ natural language summaries for warehouse managers, highlighting upcoming demand spikes.\n   - **Automated Picking Instructions**:\
+    \ Generate optimized, step-by-step picking paths for warehouse robots or human workers based on real-time inventory layout.\n\
+    \n**Implementation Threshold**: Deploy GenAI logistics agents when manual contract review or risk synthesis takes more\
+    \ than 20% of the logistics team's bandwidth.\n"
+  sources:
+  - title: 'McKinsey: Generative AI in the Supply Chain'
+    url: https://www.mckinsey.com/capabilities/operations/our-insights/generative-ai-in-the-supply-chain
+  - title: 'AWS: AI for Manufacturing & Industrial'
+    url: https://aws.amazon.com/manufacturing/ai/
+  - title: 'Gartner: Using GenAI for Supply Chain Execution'
+    url: https://www.gartner.com/en/supply-chain/topics/generative-ai-in-supply-chain
+  related_rius:
+  - RIU-109
+  - RIU-600
+  evidence_tier: 1
+  evidence_tier_justification: Insights from primary management consultancies (McKinsey), industry analysts (Gartner), and
+    cloud providers (AWS).
+rationale: Manufacturing logistics is a high-impact, data-rich domain for GenAI. This entry provides a framework for identifying
+  and deploying value-generating use cases.
+source_of_insight: gemini.specialist 111-query stress test identified this as a major domain coverage gap.
+contradiction_check:
+  checked_against: []
+  conflicts_found: none
+id: PROP-2026-04-04-007
+proposed_at: '2026-04-04T15:22:53Z'
+status: voting
+votes:
+- agent_id: claude.analysis
+  trust_tier: WORKING
+  vote: approve
+  reasoning: Substantive entry, Tier 1 sources, correct RIU mapping
+  binding: true
+  date: '2026-04-04T15:31:08Z'

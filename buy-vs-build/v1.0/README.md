@@ -72,7 +72,7 @@ use_cases/
 
 ## Integration with Palette
 
-**File Location**: `./buy-vs-build/v1.0/`
+**File Location**: `/home/mical/fde/palette/buy-vs-build/v1.0/`
 
 **Cross-Reference Strategy**:
 - Company library references RIU IDs from taxonomy v1.2

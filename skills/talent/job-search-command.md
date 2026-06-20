@@ -1217,13 +1217,13 @@ The bonus adds to the Location dimension AFTER the base score is calculated. Thi
 The tool has a local Never Search Alone corpus and should use that before answering from memory.
 
 Primary local sources:
-- `~/fde/implementations/talent/nsa/index.yaml`
-- `~/fde/implementations/talent/nsa/README.md`
-- `~/fde/implementations/talent/nsa/knowledge-center/NSA_KNOWLEDGE_CENTER_COMPLETE.md`
-- `~/fde/implementations/talent/nsa/program/MODERATOR_PROGRAM.md`
-- `~/fde/implementations/talent/nsa/CMF_SYNTHESIS_2026-04-03.md`
-- `~/fde/implementations/talent/nsa/MNOOKIN_TWO_PAGER_MICAL.md`
-- `~/fde/implementations/talent/nsa/listening-tour/LISTENING_TOUR.md`
+- `/home/mical/fde/implementations/talent/nsa/index.yaml`
+- `/home/mical/fde/implementations/talent/nsa/README.md`
+- `/home/mical/fde/implementations/talent/nsa/knowledge-center/NSA_KNOWLEDGE_CENTER_COMPLETE.md`
+- `/home/mical/fde/implementations/talent/nsa/program/MODERATOR_PROGRAM.md`
+- `/home/mical/fde/implementations/talent/nsa/CMF_SYNTHESIS_2026-04-03.md`
+- `/home/mical/fde/implementations/talent/nsa/MNOOKIN_TWO_PAGER_MICAL.md`
+- `/home/mical/fde/implementations/talent/nsa/listening-tour/LISTENING_TOUR.md`
 
 If the user asks for help with:
 - **Mnookin Two-Pager** — walk them through what they want / don't want

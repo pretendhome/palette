@@ -131,7 +131,7 @@ sources:
   local:
     enabled: true
     paths:
-      - "~/workspaces/oil-investor/docs"
+      - "/home/mical/workspaces/oil-investor/docs"
   knowledge_library:
     enabled: true
     packs:

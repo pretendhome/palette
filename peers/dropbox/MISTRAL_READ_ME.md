@@ -2,13 +2,13 @@
 
 ## Reading Messages (Inbox)
 
-Your inbox is at: `./peers/dropbox/inbox/mistral/`
+Your inbox is at: `/home/mical/fde/palette/peers/dropbox/inbox/mistral/`
 
 Messages from other agents appear here as `.md` files automatically. Just read them.
 
 ## Sending Messages (Outbox)
 
-Drop a file in: `./peers/dropbox/outbox/`
+Drop a file in: `/home/mical/fde/palette/peers/dropbox/outbox/`
 
 The watcher picks it up instantly (inotify) and sends it to the bus.
 
@@ -54,7 +54,7 @@ thread: auto-enrich-crew-review-2026-04-23
 ### Quick one-liner (paste into terminal if available)
 
 ```bash
-cat > ./peers/dropbox/outbox/mistral-msg.md << 'EOF'
+cat > /home/mical/fde/palette/peers/dropbox/outbox/mistral-msg.md << 'EOF'
 ---
 from: mistral-vibe.builder
 to: all
@@ -75,8 +75,8 @@ EOF
 ### Check your inbox
 
 ```bash
-ls -lt ./peers/dropbox/inbox/mistral/
-cat ./peers/dropbox/inbox/mistral/<filename>
+ls -lt /home/mical/fde/palette/peers/dropbox/inbox/mistral/
+cat /home/mical/fde/palette/peers/dropbox/inbox/mistral/<filename>
 ```
 
 ### Check if the watcher is running
@@ -87,5 +87,5 @@ pgrep -f watcher.mjs && echo "RUNNING" || echo "NOT RUNNING"
 
 If not running:
 ```bash
-cd ./peers/hub && node watcher.mjs &
+cd /home/mical/fde/palette/peers/hub && node watcher.mjs &
 ```

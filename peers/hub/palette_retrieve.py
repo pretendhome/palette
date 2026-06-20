@@ -45,30 +45,13 @@ MC_ROOT = None
 _mc_engine = None
 
 def _get_mc_engine():
-    """Lazy-load MC OntologyEngine. Returns None if MC not available."""
-    global _mc_engine, MC_ROOT
-    if _mc_engine is not None:
-        return _mc_engine
-    # Try to find MC: check env, then sibling directory, then palette parent
-    import os
-    candidates = [
-        os.environ.get("MC_ROOT", ""),
-        str(Path(__file__).resolve().parents[3] / "mission-canvas"),  # /fde/mission-canvas
-        str(Path.home() / "fde" / "mission-canvas"),
-    ]
-    for candidate in candidates:
-        if candidate and Path(candidate).joinpath("ontology", "engine.py").exists():
-            MC_ROOT = candidate
-            break
-    if not MC_ROOT:
-        return None
-    try:
-        sys.path.insert(0, MC_ROOT)
-        from ontology.engine import OntologyEngine
-        _mc_engine = OntologyEngine()
-        return _mc_engine
-    except Exception:
-        return None
+    """Mission-Canvas coupling intentionally neutralized in Palette (2026-06-19, Tier-2).
+
+    Palette stands independent of Mission-Canvas. Retrieval uses the Palette-native
+    hybrid/FTS/keyword path only; callers fall back when this returns None.
+    Restoring MC ontology classification is a deliberate future choice, not a default.
+    """
+    return None
 
 
 def _load_embeddings():

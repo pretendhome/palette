@@ -119,7 +119,7 @@ The canonical form embeds a Palette `HandoffPacket` so the peers bus does not cr
 
 Legacy compatibility:
 - Older payloads with top-level `task`, `context`, `artifacts`, and `constraints` are still accepted during migration.
-- New adapters should emit `payload.handoff_packet` using the canonical schema from [packet.schema.json](./core/schema/packet.schema.json).
+- New adapters should emit `payload.handoff_packet` using the canonical schema from [packet.schema.json](/home/mical/fde/palette/core/schema/packet.schema.json).
 
 ### `one_way_door`
 A decision that is irreversible or high-cost to undo. **Cannot auto-execute.** Must transition through human checkpoint.

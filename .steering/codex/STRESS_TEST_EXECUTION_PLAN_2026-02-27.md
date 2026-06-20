@@ -7,11 +7,11 @@ Source: `.codex/STRESS_TESTS_PROPOSED_BY_KIRO.md`
 This plan operationalizes Kiro's Stress Tests 4-6 and adds two follow-on tests (7-8) for current Telegram relay usage.
 
 ## Preflight (Run Once)
-- From repo root: `~/fde`
+- From repo root: `/home/mical/fde`
 - Use local Python env where `scripts.pis` works.
 
 ```bash
-cd ~/fde
+cd /home/mical/fde
 python3 -m scripts.pis.query_engine check
 python3 -m scripts.pis.coordination run "sanity check task"
 python3 -m scripts.pis.coordination list | tail -5
@@ -29,7 +29,7 @@ Goal: prove `query_engine check` catches taxonomy/classification/routing/recipe 
 
 ### 6A Baseline
 ```bash
-cd ~/fde
+cd /home/mical/fde
 python3 -m scripts.pis.query_engine check
 ```
 Pass if baseline is clean.
@@ -70,7 +70,7 @@ Goal: validate replay semantics and data consistency markers.
 
 ### 5A Create controlled failure
 ```bash
-cd ~/fde
+cd /home/mical/fde
 python3 -m scripts.pis.coordination run "add observability to my system" --fail-step traversal
 python3 -m scripts.pis.coordination list | tail -3
 ```

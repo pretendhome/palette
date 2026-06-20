@@ -74,11 +74,9 @@ mapping:
   "LiteLLM (self-hosted)": litellm
   "NotebookLM (Google)": notebooklm
   "OpenAI (GPT-4/o series)": openai-api
-  "OpenRouter": openrouter
+  "OpenRouter (built-in)": openrouter
   "Perplexity AI": perplexity-api
   "Perplexity API": perplexity-api
-  "Perplexity (Sonar Pro)": perplexity-api
-  "Perplexity Sonar Pro": perplexity-api
   "Runway (Aleph model)": runway
   "Seedance Pro (via Higgsfield AI)": seedance-pro
   "pgvector (PostgreSQL)": pgvector
@@ -95,13 +93,11 @@ mapping:
   "AWS Secrets Manager": null     # Low priority — Doppler covers use case
   "Guardrails AI": null           # Open-source guardrails framework
   "Redis (semantic layer)": null  # Upstash Redis covers managed use case
-  "Ollama (Qwen 2.5)": null      # Local model — no external recipe needed
-  "Ollama Qwen": null             # Alias
-  "v0.dev": v0-dev                # No-code AI app generation (RIU-550)
+  "v0.dev": null                  # No-code AI app generation (RIU-550)
 
 summary:
   total_services: 80
-  mapped_to_recipes: 75
-  genuinely_missing: 5
+  mapped_to_recipes: 74
+  genuinely_missing: 6
   recipe_dirs_total: 69
   recipe_dirs_with_routing: 69

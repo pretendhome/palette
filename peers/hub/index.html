@@ -3,407 +3,1002 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mission Canvas — Governed AI for Professional Judgment</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: #fff; color: #111; line-height: 1.6; }
-    a { color: inherit; text-decoration: none; }
-
-    /* ── Nav ── */
-    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #eee; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; }
-    .nav-brand { font-family: 'Permanent Marker', cursive; font-size: 20px; cursor: pointer; }
-    .nav-brand img { height: 36px; }
-    .nav-links { display: flex; gap: 24px; font-size: 14px; font-weight: 500; color: #555; }
-    .nav-links a:hover { color: #111; }
-
-    /* ── Hero ── */
-    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 24px 48px; text-align: center; }
-    .hero-logo { width: min(80vw, 500px); margin-bottom: 16px; }
-    .hero-tagline { font-size: 20px; color: #555; margin-bottom: 40px; max-width: 500px; }
-
-    /* ── Chat input in hero ── */
-    .hero-input-wrap { width: min(90vw, 600px); position: relative; margin-bottom: 28px; }
-    .hero-input { width: 100%; height: 56px; border: 2px solid #ddd; border-radius: 28px; padding: 0 56px 0 24px; font-size: 16px; font-family: inherit; outline: none; transition: border-color 0.2s; }
-    .hero-input:focus { border-color: #111; }
-    .hero-input::placeholder { color: #999; }
-    .hero-input-mic { position: absolute; right: 8px; top: 8px; width: 40px; height: 40px; border-radius: 50%; border: none; background: #f5f5f5; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
-    .hero-input-mic:hover { background: #eee; }
-    .hero-input-mic.listening { background: #fee2e2; }
-    .hero-input-mic svg { width: 18px; height: 18px; color: #666; }
-    .hero-input-mic.listening svg { color: #ef4444; }
-    .hero-send { position: absolute; right: 52px; top: 12px; width: 32px; height: 32px; border: none; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0.5; transition: opacity 0.2s; }
-    .hero-send:hover { opacity: 1; }
-    .hero-send svg { width: 18px; height: 18px; }
-
-    /* ── Intent chips ── */
-    .intents { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; max-width: 600px; }
-    .intent-chip { padding: 8px 16px; border: 1px solid #ddd; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s; position: relative; background: #fff; }
-    .intent-chip:hover { border-color: #111; background: #f9f9f9; }
-    .intent-chip.active { border-color: #111; background: #111; color: #fff; }
-    .intent-tooltip { display: none; position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: #111; color: #fff; font-size: 11px; font-weight: 400; padding: 6px 12px; border-radius: 6px; white-space: nowrap; z-index: 10; }
-    .intent-chip:hover .intent-tooltip { display: block; }
-
-    /* ── Proof strip ── */
-    .proof-strip { font-size: 13px; color: #888; font-family: 'SF Mono', 'Fira Code', monospace; }
-    .proof-strip span { margin: 0 8px; }
-
-    /* ── Sections ── */
-    section { padding: 80px 24px; max-width: 680px; margin: 0 auto; border-top: 1px solid #eee; }
-    section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #999; margin-bottom: 24px; }
-    section p { margin-bottom: 16px; color: #333; font-size: 16px; }
-    section .cta-row { margin-top: 24px; display: flex; gap: 16px; flex-wrap: wrap; }
-    section .cta-row a { padding: 10px 20px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-weight: 500; transition: all 0.2s; }
-    section .cta-row a:hover { border-color: #111; background: #f9f9f9; }
-
-    /* ── Start section ── */
-    .install-block { background: #111; color: #eee; padding: 16px 20px; border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 14px; margin: 16px 0; overflow-x: auto; }
-    .check-list { list-style: none; margin: 16px 0; }
-    .check-list li { padding: 4px 0; font-size: 15px; color: #444; }
-    .check-list li::before { content: "✓ "; color: #22c55e; font-weight: 700; }
-
-    /* ── Workspace (post-input state) ── */
-    .workspace { display: none; position: fixed; inset: 0; top: 56px; background: #fff; flex-direction: column; z-index: 50; }
-    .workspace.active { display: flex; }
-    .workspace-messages { flex: 1; overflow-y: auto; padding: 24px; }
-    .workspace-bar { padding: 12px 24px; border-top: 1px solid #eee; display: flex; gap: 8px; align-items: center; }
-    .workspace-bar input { flex: 1; height: 44px; border: 1px solid #ddd; border-radius: 22px; padding: 0 16px; font-size: 15px; outline: none; }
-    .workspace-bar input:focus { border-color: #111; }
-    .workspace-bar button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #ddd; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .workspace-intent-bar { display: flex; gap: 6px; padding: 8px 24px; overflow-x: auto; border-bottom: 1px solid #f0f0f0; }
-    .workspace-intent-bar .intent-chip { font-size: 11px; padding: 5px 12px; }
-    .workspace-intent-bar .intent-chip .intent-tooltip { display: none !important; }
-
-    /* ── Messages ── */
-    .msg { margin-bottom: 16px; max-width: 80%; }
-    .msg.user { margin-left: auto; background: #f3f4f6; padding: 10px 16px; border-radius: 16px 16px 4px 16px; font-size: 15px; }
-    .msg.canvas { padding: 10px 0; }
-    .msg .gov-signals { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-    .msg .gov-chip { font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 600; letter-spacing: 0.3px; font-family: monospace; }
-    .msg .gov-chip.classify { background: #e0f2fe; color: #0369a1; }
-    .msg .gov-chip.safe { background: #dcfce7; color: #166534; }
-    .msg .gov-chip.blocked { background: #fee2e2; color: #991b1b; }
-    .msg .gov-chip.external { background: #f3e8ff; color: #6b21a8; }
-    .msg .body { font-size: 15px; line-height: 1.7; color: #222; }
-    .streaming-dot { display: inline-block; width: 8px; height: 8px; background: #111; border-radius: 50%; animation: pulse 1s infinite; }
-    @keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
-
-    /* ── Responsive ── */
-    @media (max-width: 600px) {
-      .nav-links { gap: 16px; font-size: 13px; }
-      .hero-tagline { font-size: 17px; }
-      .intents { gap: 8px; }
-      .intent-chip { font-size: 11px; padding: 6px 12px; }
-      section { padding: 48px 20px; }
-    }
-  </style>
+  <title>Voice Hub — Palette Peers</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="app">
 
-<!-- ── Nav ── -->
-<nav class="nav">
-  <a class="nav-brand" href="#" onclick="goHome()"><img src="logo-mc.png" alt="Mission Canvas"></a>
-  <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#secure">Secure</a>
-    <a href="#start">Start</a>
-    <a href="https://github.com/pretendhome/palette" target="_blank">GitHub</a>
-  </div>
-</nav>
+    <!-- ── Left: Conversation ──────────────────────────────────────────── -->
+    <main id="chat-panel">
+      <header>
+        <h1>Voice Hub</h1>
+        <div class="header-controls">
+          <button id="tts-toggle" class="toggle-btn active" title="Toggle voice output">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            </svg>
+          </button>
+          <div id="bus-status" class="status offline">bus offline</div>
+        </div>
+      </header>
 
-<!-- ── Hero ── -->
-<div class="hero" id="hero">
-  <img src="logo-mc.png" alt="Mission Canvas" class="hero-logo">
-  <p class="hero-tagline">Governed Agent OS — AI for work that can't leave the room.</p>
+      <div id="messages"></div>
 
-  <div class="hero-input-wrap">
-    <input type="text" class="hero-input" id="hero-input" placeholder="Who are you? Ask anything..." autocomplete="off">
-    <button class="hero-send" id="hero-send" title="Send">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
-    <button class="hero-input-mic" id="hero-mic" title="Speak">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-    </button>
-  </div>
+      <div id="input-bar">
+        <select id="target-agent">
+          <option value="claude.analysis">@ Claude</option>
+          <option value="all">@ all agents</option>
+          <option value="mistral-vibe.builder">@ Mistral</option>
+          <option value="codex.implementation">@ Codex / GPT</option>
+          <option value="qwen.specialist">@ Qwen</option>
+          <option value="perplexity.research">@ Perplexity</option>
+        </select>
+        <select id="lang-select" title="Voice language">
+          <option value="en-US" data-rime="eng">EN</option>
+          <option value="fr-FR" data-rime="fra">FR</option>
+          <option value="it-IT" data-rime="ita">IT</option>
+          <option value="es-ES" data-rime="spa">ES</option>
+        </select>
+        <input type="text" id="text-input" placeholder="Type or press mic to speak…" autocomplete="off">
+        <button id="mic-btn" title="Hold to speak">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+        <button id="send-btn" title="Send">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+    </main>
 
-  <div class="intents" id="intents">
-    <div class="intent-chip active" data-intent="research">🔍 RESEARCH<span class="intent-tooltip">Public information only. Client facts stay local.</span></div>
-    <div class="intent-chip" data-intent="protect">🛡️ PROTECT<span class="intent-tooltip">Client data stays on this machine. Zero external routing.</span></div>
-    <div class="intent-chip" data-intent="decide">⚖️ DECIDE<span class="intent-tooltip">Records your reasoning. Flags irreversible actions.</span></div>
-    <div class="intent-chip" data-intent="create">🔨 CREATE<span class="intent-tooltip">Tracks what you made, when, and why.</span></div>
-    <div class="intent-chip" data-intent="diagnose">🔬 DIAGNOSE<span class="intent-tooltip">Finds what went wrong. Captures the fix.</span></div>
-    <div class="intent-chip" data-intent="reflect">🪞 REFLECT<span class="intent-tooltip">The system reviews itself. Surfaces what it learned.</span></div>
-  </div>
+    <!-- ── Right: Sidebar ──────────────────────────────────────────────── -->
+    <aside id="sidebar">
 
-  <div class="proof-strip">
-    <span>131 routing nodes</span> · <span>203 knowledge entries</span> · <span>129 tests passing</span>
-  </div>
-</div>
+      <!-- Convergence tracker -->
+      <section id="convergence">
+        <h2>Convergence</h2>
+        <div id="conv-status" class="conv-badge open">open</div>
 
-<!-- ── About ── -->
-<section id="about">
-  <h2>About</h2>
-  <p>Most AI products send your work to someone else's server. Mission Canvas doesn't. It runs on your machine, routes every query through a classification layer, and stores your decisions as a judgment trail that compounds over time.</p>
-  <p>Legal is the proof. In February 2026, a federal court showed how uncontrolled AI use can put privilege at risk. Mission Canvas is the architectural answer: local by default, external only after the boundary is clear.</p>
-  <p>The same pattern applies anywhere the useful context is also the dangerous context: medical, finance, accounting, startup strategy.</p>
-  <div class="cta-row">
-    <a href="https://github.com/pretendhome/palette" target="_blank">View on GitHub →</a>
-  </div>
-</section>
+        <h3>Known <button class="add-btn" data-list="known">+</button></h3>
+        <ul id="known-list"></ul>
 
-<!-- ── Secure ── -->
-<section id="secure">
-  <h2>Built for work that cannot leak</h2>
-  <p><strong>Your client data never leaves this machine.</strong> Not sent to a server. Not stored in a cloud. Not shared with any AI provider. Classification happens locally.</p>
-  <p><strong>External search is governed, not automatic.</strong> When you need public information, Mission Canvas keeps client-specific strategy local, opens a governed research route, and integrates results back under your control.</p>
-  <p><strong>Every decision is logged, not forgotten.</strong> An immutable audit trail records what was asked, what was retrieved, what model answered, and what boundary applied.</p>
-  <p style="font-size:13px;color:#888;margin-top:24px;">Technical: socket firewall · 3-layer PII sanitizer · governance tiers · append-only decision log · approval workflows · zero CVEs</p>
-</section>
+        <h3>Open questions <button class="add-btn" data-list="missing">+</button></h3>
+        <ul id="missing-list"></ul>
 
-<!-- ── Start ── -->
-<section id="start">
-  <h2>Get started in 60 seconds</h2>
-  <div class="install-block">
-    curl -fsSL https://missioncanvas.ai/install.sh | bash
-  </div>
-  <p>One command. Running locally. No cloud account required. No portal. Your keys, your machine.</p>
-  <ul class="check-list">
-    <li>131 classified problem types</li>
-    <li>203 knowledge entries with evidence tiers</li>
-    <li>Governed Perplexity integration for public research</li>
-    <li>Voice interface via browser mic</li>
-    <li>PII gateway — nothing sensitive leaves without clearance</li>
-    <li>Append-only decision log</li>
-  </ul>
-  <p style="font-size:13px;color:#888;">Requires: macOS 12+ or Linux · Node.js 18+ · Python 3.10+ · Ollama (optional)</p>
-  <div class="cta-row">
-    <a href="https://github.com/pretendhome/palette" target="_blank">Download from GitHub →</a>
-  </div>
-</section>
+        <h3>Next action</h3>
+        <div id="next-action" contenteditable="true" class="editable" data-placeholder="What happens next?"></div>
 
-<!-- ── Workspace ── -->
-<div class="workspace" id="workspace">
-  <div class="workspace-intent-bar" id="workspace-intent-bar">
-    <div class="intent-chip active" data-intent="research">🔍 RESEARCH</div>
-    <div class="intent-chip" data-intent="protect">🛡️ PROTECT</div>
-    <div class="intent-chip" data-intent="decide">⚖️ DECIDE</div>
-    <div class="intent-chip" data-intent="create">🔨 CREATE</div>
-    <div class="intent-chip" data-intent="diagnose">🔬 DIAGNOSE</div>
-    <div class="intent-chip" data-intent="reflect">🪞 REFLECT</div>
+        <div id="conv-actions">
+          <button id="read-status-btn">Read status aloud</button>
+          <button id="decide-btn">Mark as decided</button>
+        </div>
+
+        <div id="decisions-log"></div>
+      </section>
+
+      <!-- Agent roster -->
+      <section id="agents">
+        <h2>Agents</h2>
+        <div id="agent-roster"></div>
+      </section>
+
+      <!-- Wiki browser -->
+      <section id="wiki">
+        <h2>Wiki</h2>
+        <div id="wiki-nav">
+          <button data-path="index.md" class="wiki-link">Index</button>
+          <button data-path="indexes/all-rius.md" class="wiki-link">RIUs</button>
+          <button data-path="indexes/all-agents.md" class="wiki-link">Agents</button>
+          <button data-path="indexes/all-knowledge-entries.md" class="wiki-link">Knowledge</button>
+        </div>
+        <div id="wiki-content"></div>
+      </section>
+
+    </aside>
   </div>
-  <div class="workspace-messages" id="messages"></div>
-  <div class="workspace-bar">
-    <input type="text" id="ws-input" placeholder="Ask anything..." autocomplete="off">
-    <button id="ws-mic" title="Speak">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
-    </button>
-    <button id="ws-send" title="Send">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
-  </div>
-</div>
 
 <script>
-// ── Config ──
-const HUB = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
-  ? 'http://localhost:7890'
-  : 'https://srv1390882.hstgr.cloud';
+// ── State ───────────────────────────────────────────────────────────────────
 
-// ── State ──
-const state = { intent: 'research', streaming: false, sessionId: 'mc-' + Date.now().toString(36) };
+const state = {
+  messages: [],
+  seenIds: new Set(),
+  peers: [],
+  convergence: null,
+  ttsEnabled: true,
+  listening: false,
+  recognition: null,
+  lang: 'en-US',
+  rimeLang: 'eng',
+};
 
-// ── DOM ──
-const heroInput = document.getElementById('hero-input');
-const heroSend = document.getElementById('hero-send');
-const heroMic = document.getElementById('hero-mic');
-const workspace = document.getElementById('workspace');
-const wsInput = document.getElementById('ws-input');
-const wsSend = document.getElementById('ws-send');
-const wsMic = document.getElementById('ws-mic');
-const msgEl = document.getElementById('messages');
-
-// ── Intent chips (both hero and workspace) ──
-document.querySelectorAll('.intent-chip').forEach(chip => {
-  chip.addEventListener('click', () => {
-    chip.closest('.intents, .workspace-intent-bar').querySelectorAll('.intent-chip').forEach(c => c.classList.remove('active'));
-    chip.classList.add('active');
-    state.intent = chip.dataset.intent;
-    // Sync both bars
-    document.querySelectorAll(`.intent-chip[data-intent="${state.intent}"]`).forEach(c => c.classList.add('active'));
-  });
-});
-
-// ── Go home ──
-function goHome() {
-  workspace.classList.remove('active');
-  document.getElementById('hero').style.display = '';
-  document.querySelectorAll('section').forEach(s => s.style.display = '');
-}
-
-// ── Enter workspace ──
-function enterWorkspace(text) {
-  document.getElementById('hero').style.display = 'none';
-  document.querySelectorAll('section').forEach(s => s.style.display = 'none');
-  workspace.classList.add('active');
-  if (text) submitQuery(text);
-}
-
-// ── Hero submit ──
-heroSend.addEventListener('click', () => { const t = heroInput.value.trim(); if (t) enterWorkspace(t); });
-heroInput.addEventListener('keydown', e => { if (e.key === 'Enter') { const t = heroInput.value.trim(); if (t) enterWorkspace(t); } });
-
-// ── Workspace submit ──
-wsSend.addEventListener('click', () => { const t = wsInput.value.trim(); if (t && !state.streaming) submitQuery(t); });
-wsInput.addEventListener('keydown', e => { if (e.key === 'Enter') { const t = wsInput.value.trim(); if (t && !state.streaming) submitQuery(t); } });
-
-// ── Voice (initSTT pattern from bot.html) ──
-let recog = null, isListening = false, collectedText = '';
-function initSTT(inputEl, onDone) {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return null;
-  const r = new SR();
-  r.continuous = false; r.interimResults = true; r.lang = 'en-US';
-  r.onstart = () => { isListening = true; collectedText = ''; };
-  r.onresult = e => { let interim = ''; for (let i = e.resultIndex; i < e.results.length; i++) { if (e.results[i].isFinal) collectedText += e.results[i][0].transcript + ' '; else interim += e.results[i][0].transcript; } inputEl.value = (collectedText + interim).trim(); };
-  r.onerror = () => { isListening = false; };
-  r.onend = () => { isListening = false; const msg = collectedText.trim(); collectedText = ''; if (msg && onDone) onDone(msg); };
-  return r;
-}
-
-heroMic.addEventListener('click', () => {
-  if (!recog) recog = initSTT(heroInput, t => enterWorkspace(t));
-  if (!recog) return;
-  if (isListening) { recog.stop(); heroMic.classList.remove('listening'); }
-  else { try { recog.start(); heroMic.classList.add('listening'); } catch {} }
-});
-
-wsMic.addEventListener('click', () => {
-  if (!recog) recog = initSTT(wsInput, t => { if (t && !state.streaming) submitQuery(t); });
-  if (!recog) return;
-  if (isListening) recog.stop();
-  else { try { recog.start(); } catch {} }
-});
-
-// ── Intent → agent routing ──
-function getAgent() {
-  const map = { research: 'perplexity', protect: 'kimi', decide: 'reasoning', create: 'mistral', diagnose: 'claude', reflect: 'reasoning' };
-  return map[state.intent] || 'perplexity';
-}
-
-function getSystemPrompt() {
-  const prompts = {
-    research: 'INTENT: RESEARCH. Governed external research. Cite sources. Ground every claim.',
-    protect: 'INTENT: PROTECT. Local-only analysis. Detect PII, privileged info, sensitive data. Do NOT reference external sources.',
-    decide: 'INTENT: DECIDE. Decision analysis. Identify ONE-WAY DOOR (irreversible) vs TWO-WAY DOOR. Present options with tradeoffs.',
-    create: 'INTENT: CREATE. Generate a concrete artifact. Track provenance.',
-    diagnose: 'INTENT: DIAGNOSE. Root cause isolation. 5-whys. Propose minimal fix.',
-    reflect: 'INTENT: REFLECT. Self-audit. Extract lessons. Propose improvements.',
+function getCurrentLang() {
+  const sel = document.getElementById('lang-select');
+  return {
+    stt: sel.value,
+    rime: sel.selectedOptions[0].dataset.rime,
   };
-  return `You are Mission Canvas — a governed AI for professional judgment.\n\n${prompts[state.intent] || prompts.research}\n\nRules: Be concise. Cite sources when possible. Never fabricate. Show reasoning.`;
 }
 
-// ── Submit query ──
-async function submitQuery(text) {
-  wsInput.value = '';
-  state.streaming = true;
-  addMsg('user', text);
-  const el = addMsg('canvas', '');
-  const body = el.querySelector('.body');
-  const gov = el.querySelector('.gov-signals');
+// Agent → Rime voice mapping (arcanav2: astra, luna, orion, celeste confirmed)
+// Speed variation differentiates agents sharing a speaker
+const AGENT_VOICES = {
+  'claude.analysis':      { speaker: 'astra',   speed: 1.0,  label: 'Claude' },
+  'mistral-vibe.builder': { speaker: 'luna',    speed: 1.0,  label: 'Mistral' },
+  'kiro.design':          { speaker: 'orion',   speed: 1.1,  label: 'Kiro' },
+  'codex.implementation': { speaker: 'celeste', speed: 1.0,  label: 'Codex' },
+  'qwen.specialist':      { speaker: 'orion',   speed: 1.0,  label: 'Qwen' },
+  'gemini.specialist':    { speaker: 'astra',   speed: 1.12, label: 'Gemini' },
+  'perplexity.research':  { speaker: 'celeste', speed: 0.92, label: 'Perplexity' },
+  'hub.voice':            { speaker: 'celeste', speed: 1.05, label: 'Hub' },
+};
 
-  // Show intent chip
-  const agent = getAgent();
-  addGov(gov, 'classify', `INTENT: ${state.intent.toUpperCase()}`);
+function voiceFor(agent) {
+  return AGENT_VOICES[agent] || { speaker: 'astra', speed: 1.0, label: agent };
+}
+
+// ── Voice commands for convergence ──────────────────────────────────────────
+
+const VOICE_COMMANDS = [
+  { pattern: /^what do we know/i,         action: 'read_known' },
+  { pattern: /^what('s| is) still open/i, action: 'read_missing' },
+  { pattern: /^what('s| is) next/i,       action: 'read_next' },
+  { pattern: /^status report/i,           action: 'read_all' },
+  { pattern: /^add to known[:\s]+(.+)/i,  action: 'add_known',   capture: 1 },
+  { pattern: /^we know[:\s]+(.+)/i,       action: 'add_known',   capture: 1 },
+  { pattern: /^open question[:\s]+(.+)/i, action: 'add_missing', capture: 1 },
+  { pattern: /^we need to know[:\s]+(.+)/i, action: 'add_missing', capture: 1 },
+  { pattern: /^next action[:\s]+(.+)/i,   action: 'set_next',    capture: 1 },
+  { pattern: /^decide[:\s]+(.+)/i,        action: 'decide',      capture: 1 },
+  { pattern: /^resolve[:\s]+(.+)/i,       action: 'resolve',     capture: 1 },
+];
+
+async function handleVoiceCommand(text) {
+  for (const cmd of VOICE_COMMANDS) {
+    const match = text.match(cmd.pattern);
+    if (!match) continue;
+
+    const c = state.convergence || getDefaultConvergence();
+
+    switch (cmd.action) {
+      case 'read_known': {
+        const items = c.known.length ? c.known.join('. ') : 'Nothing yet.';
+        await speakHub(`We know: ${items}`);
+        return true;
+      }
+      case 'read_missing': {
+        const items = c.missing.length ? c.missing.join('. ') : 'No open questions.';
+        await speakHub(`Open questions: ${items}`);
+        return true;
+      }
+      case 'read_next': {
+        await speakHub(c.next_action ? `Next action: ${c.next_action}` : 'No next action set.');
+        return true;
+      }
+      case 'read_all': {
+        const known = c.known.length ? `Known: ${c.known.join('. ')}.` : 'Nothing known yet.';
+        const open = c.missing.length ? `Open: ${c.missing.join('. ')}.` : 'No open questions.';
+        const next = c.next_action ? `Next: ${c.next_action}.` : '';
+        await speakHub(`Status: ${c.status}. ${known} ${open} ${next}`);
+        return true;
+      }
+      case 'add_known':
+        await updateConvergence({ add_known: match[cmd.capture] });
+        await speakHub(`Noted: ${match[cmd.capture]}`);
+        return true;
+      case 'add_missing':
+        await updateConvergence({ add_missing: match[cmd.capture] });
+        await speakHub(`Open question added: ${match[cmd.capture]}`);
+        return true;
+      case 'set_next':
+        await updateConvergence({ next_action: match[cmd.capture] });
+        await speakHub(`Next action: ${match[cmd.capture]}`);
+        return true;
+      case 'decide':
+        await updateConvergence({ decide: match[cmd.capture], status: 'decided' });
+        await speakHub(`Decision recorded: ${match[cmd.capture]}`);
+        return true;
+      case 'resolve':
+        await updateConvergence({ resolve_missing: match[cmd.capture], resolved_as: match[cmd.capture] });
+        await speakHub(`Resolved: ${match[cmd.capture]}`);
+        return true;
+    }
+  }
+  return false;
+}
+
+function getDefaultConvergence() {
+  return { status: 'open', known: [], missing: [], next_action: '', decisions: [] };
+}
+
+async function speakHub(text) {
+  // Speak via Rime as the hub voice and show in chat
+  const msg = {
+    message_id: crypto.randomUUID(),
+    from_agent: HUB_IDENTITY,
+    to_agent: 'human',
+    message_type: 'informational',
+    intent: text,
+    risk_level: 'none',
+    payload: { text },
+    created_at: new Date().toISOString(),
+    state: 'local',
+  };
+  renderMessage(msg);
+  const voice = voiceFor(HUB_IDENTITY);
+  const { rime } = getCurrentLang();
+  ttsQueue.push({ text, speaker: voice.speaker, speed: voice.speed, lang: rime });
+  if (!ttsPlaying) drainTTSQueue();
+}
+
+// ── SSE connection ──────────────────────────────────────────────────────────
+
+let evtSource;
+function connectSSE() {
+  evtSource = new EventSource('/api/stream');
+
+  evtSource.addEventListener('connected', () => {
+    document.getElementById('bus-status').className = 'status online';
+    document.getElementById('bus-status').textContent = 'bus connected';
+  });
+
+  evtSource.addEventListener('message', (e) => {
+    const msg = JSON.parse(e.data);
+    if (state.seenIds.has(msg.message_id)) return;
+    // Skip our own outgoing messages echoed back from bus
+    if (msg.from_agent === HUB_IDENTITY) { state.seenIds.add(msg.message_id); return; }
+    state.seenIds.add(msg.message_id);
+    state.messages.push(msg);
+    renderMessage(msg);
+    // Auto-TTS for messages addressed to human or hub
+    if (state.ttsEnabled && (msg.to_agent === 'human' || msg.to_agent === HUB_IDENTITY || msg.to_agent === 'all')) {
+      speakMessage(msg);
+    }
+  });
+
+  evtSource.addEventListener('convergence', (e) => {
+    state.convergence = JSON.parse(e.data);
+    renderConvergence();
+  });
+
+  evtSource.onerror = () => {
+    document.getElementById('bus-status').className = 'status offline';
+    document.getElementById('bus-status').textContent = 'bus offline';
+  };
+}
+
+const HUB_IDENTITY = 'hub.voice';
+
+// ── Rendering ───────────────────────────────────────────────────────────────
+
+function renderMessage(msg) {
+  const el = document.createElement('div');
+  el.className = `message ${msg.from_agent === HUB_IDENTITY ? 'outgoing' : 'incoming'}`;
+
+  const voice = voiceFor(msg.from_agent);
+  const risk = msg.risk_level !== 'none' ? `<span class="risk risk-${msg.risk_level}">${msg.risk_level}</span>` : '';
+  const gate = msg.state === 'waiting_human' ? '<span class="gate">awaiting approval</span>' : '';
+
+  const payloadText = typeof msg.payload === 'object'
+    ? (msg.payload.text || msg.payload.task || msg.payload.decision || msg.intent || JSON.stringify(msg.payload))
+    : String(msg.payload);
+
+  el.innerHTML = `
+    <div class="msg-header">
+      <strong class="agent-name">${voice.label}</strong>
+      <span class="msg-type">${msg.message_type}</span>
+      ${risk}${gate}
+      <time>${new Date(msg.created_at).toLocaleTimeString()}</time>
+    </div>
+    <div class="msg-body">${escapeHtml(cleanForDisplay(payloadText))}</div>
+  `;
+
+  const container = document.getElementById('messages');
+  container.appendChild(el);
+  container.scrollTop = container.scrollHeight;
+}
+
+function renderConvergence() {
+  const c = state.convergence;
+  if (!c) return;
+
+  document.getElementById('conv-status').textContent = c.status;
+  document.getElementById('conv-status').className = `conv-badge ${c.status}`;
+
+  renderList('known-list', c.known, 'known');
+  renderList('missing-list', c.missing, 'missing');
+
+  const na = document.getElementById('next-action');
+  if (document.activeElement !== na) na.textContent = c.next_action || '';
+
+  const log = document.getElementById('decisions-log');
+  log.innerHTML = c.decisions.map(d =>
+    `<div class="decision-entry"><strong>Decided:</strong> ${escapeHtml(d.decision)} <time>${new Date(d.decided_at).toLocaleTimeString()}</time></div>`
+  ).join('');
+}
+
+function renderList(elId, items, listName) {
+  const ul = document.getElementById(elId);
+  ul.innerHTML = items.map((item, i) =>
+    `<li>${escapeHtml(item)} <button class="remove-btn" data-list="${listName}" data-item="${escapeAttr(item)}">×</button></li>`
+  ).join('');
+}
+
+const STATIC_AGENTS = [
+  { value: 'claude.analysis', label: '@ Claude' },
+  { value: 'all', label: '@ all agents' },
+  { value: 'mistral-vibe.builder', label: '@ Mistral' },
+  { value: 'codex.implementation', label: '@ Codex / GPT' },
+  { value: 'qwen.specialist', label: '@ Qwen' },
+  { value: 'perplexity.research', label: '@ Perplexity' },
+];
+
+async function renderAgents() {
+  try {
+    const res = await fetch('/api/agents');
+    const data = await res.json();
+    const roster = document.getElementById('agent-roster');
+    const select = document.getElementById('target-agent');
+    const currentValue = select.value;
+
+    // Rebuild dropdown: static API agents first
+    roster.innerHTML = '';
+    select.innerHTML = STATIC_AGENTS.map(a => `<option value="${a.value}">${a.label}</option>`).join('');
+
+    const staticValues = new Set(STATIC_AGENTS.map(a => a.value));
+
+    // Show static API agents in sidebar (always available via direct call)
+    for (const sa of STATIC_AGENTS) {
+      if (sa.value === 'all') continue;
+      const voice = voiceFor(sa.value);
+      const el = document.createElement('div');
+      el.className = 'agent-card';
+      el.style.cursor = 'pointer';
+      el.title = `Click to chat with ${voice.label}`;
+      const livePeer = (data.live_peers || []).find(p => p.identity === sa.value);
+      const isLive = !!livePeer;
+      el.innerHTML = `
+        <div class="agent-dot ${isLive ? 'online' : 'api'}"></div>
+        <div class="agent-info">
+          <strong>${voice.label}</strong>
+          <span class="agent-identity">${sa.value}</span>
+          <span class="agent-role">direct API</span>
+        </div>
+      `;
+      el.addEventListener('click', () => {
+        document.getElementById('target-agent').value = sa.value;
+        document.getElementById('text-input').focus();
+      });
+      roster.appendChild(el);
+    }
+
+    for (const peer of (data.live_peers || [])) {
+      // Skip bus peers that are already shown as static API agents
+      if (staticValues.has(peer.identity)) continue;
+      const voice = voiceFor(peer.identity);
+      const el = document.createElement('div');
+      el.className = 'agent-card';
+      el.style.cursor = 'pointer';
+      el.title = `Click to chat with ${voice.label}`;
+      el.innerHTML = `
+        <div class="agent-dot online"></div>
+        <div class="agent-info">
+          <strong>${voice.label}</strong>
+          <span class="agent-identity">${peer.identity}</span>
+          <span class="agent-role">${peer.palette_role || peer.runtime}</span>
+        </div>
+      `;
+      el.addEventListener('click', () => {
+        const select = document.getElementById('target-agent');
+        const chatName = AGENT_CHAT_NAMES[peer.identity];
+        if (chatName && DIRECT_AGENTS.has(chatName)) {
+          // Direct API agent — select it
+          const match = Array.from(select.options).find(o => o.value === peer.identity);
+          if (match) select.value = peer.identity;
+        } else {
+          // Bus-only agent — select "all" and hint the name
+          select.value = 'all';
+          const input = document.getElementById('text-input');
+          input.value = `@${voice.label} `;
+        }
+        document.getElementById('text-input').focus();
+      });
+      roster.appendChild(el);
+      // Only add to dropdown if not already a static agent
+      if (!staticValues.has(peer.identity)) {
+        select.innerHTML += `<option value="${peer.identity}">${voice.label}</option>`;
+      }
+    }
+
+    // Restore previous selection
+    if (currentValue) select.value = currentValue;
+  } catch { /* bus down */ }
+}
+
+// ── Rime TTS ────────────────────────────────────────────────────────────────
+
+const ttsQueue = [];
+let ttsPlaying = false;
+
+async function speakMessage(msg) {
+  const voice = voiceFor(msg.from_agent);
+  const text = typeof msg.payload === 'object'
+    ? (msg.payload.text || msg.payload.task || msg.payload.decision || msg.intent)
+    : String(msg.payload);
+  if (!text) return;
+  const { rime } = getCurrentLang();
+  ttsQueue.push({ text, speaker: voice.speaker, speed: voice.speed, lang: rime });
+  if (!ttsPlaying) drainTTSQueue();
+}
+
+async function drainTTSQueue() {
+  ttsPlaying = true;
+  while (ttsQueue.length > 0) {
+    const { text, speaker, speed, lang } = ttsQueue.shift();
+    try {
+      const res = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, speaker, speed: speed || 1.0, lang: lang || 'eng' }),
+      });
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        await new Promise((resolve) => {
+          const audio = new Audio(url);
+          audio.onended = () => { URL.revokeObjectURL(url); resolve(); };
+          audio.onerror = () => { URL.revokeObjectURL(url); resolve(); };
+          audio.play().catch(resolve);
+        });
+      }
+    } catch { /* TTS failed, continue */ }
+  }
+  ttsPlaying = false;
+}
+
+// ── Speech-to-text (Web Speech API + Whisper fallback) ──────────────────────
+
+function setupSTT() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SpeechRecognition) {
+    console.log('STT: Web Speech API available, using as primary');
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = state.lang;
+    state.recognition = recognition;
+    state.sttMode = 'webspeech';
+
+    const input = document.getElementById('text-input');
+    recognition.onresult = (e) => {
+      state.webSpeechGotResult = true;
+      clearTimeout(state.webSpeechTimeout);
+      let transcript = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        transcript += e.results[i][0].transcript;
+      }
+      input.value = transcript;
+      if (e.results[e.results.length - 1].isFinal) {
+        sendMessage(transcript);
+        input.value = '';
+      }
+    };
+    recognition.onend = () => {
+      state.listening = false;
+      document.getElementById('mic-btn').classList.remove('active');
+    };
+    recognition.onerror = (e) => {
+      console.warn('STT error:', e.error);
+      // Any error except 'no-speech' means Web Speech is broken — switch to Whisper
+      if (e.error !== 'no-speech') {
+        console.log('STT: Web Speech failed (' + e.error + '), switching to Whisper mode');
+        state.recognition = null;
+        state.sttMode = 'whisper';
+        // If we were trying to listen, start Whisper recording immediately
+        if (state.listening) {
+          state.listening = false;
+          document.getElementById('mic-btn').classList.remove('active');
+          startWhisperRecording();
+          return;
+        }
+      }
+      state.listening = false;
+      document.getElementById('mic-btn').classList.remove('active');
+    };
+  } else {
+    console.log('STT: No Web Speech API, using Whisper mode');
+    state.sttMode = 'whisper';
+  }
+}
+
+// ── Whisper recording via MediaRecorder ─────────────────────────────────────
+
+let mediaRecorder = null;
+let audioChunks = [];
+
+async function startWhisperRecording() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+    audioChunks = [];
+    mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) audioChunks.push(e.data); };
+    mediaRecorder.onstop = async () => {
+      stream.getTracks().forEach(t => t.stop());
+      if (audioChunks.length === 0) return;
+      const blob = new Blob(audioChunks, { type: 'audio/webm' });
+      document.getElementById('mic-btn').classList.add('transcribing');
+      document.getElementById('text-input').placeholder = 'Transcribing...';
+      try {
+        const { stt } = getCurrentLang();
+        const langCode = stt.split('-')[0]; // en-US → en
+        const res = await fetch(`/api/transcribe?lang=${langCode}`, { method: 'POST', body: blob });
+        const data = await res.json();
+        if (data.text) {
+          document.getElementById('text-input').value = data.text;
+          sendMessage(data.text);
+          document.getElementById('text-input').value = '';
+        } else {
+          showError('No speech detected. Try again.');
+        }
+      } catch (e) {
+        showError('Transcription failed: ' + e.message);
+      }
+      document.getElementById('mic-btn').classList.remove('transcribing');
+      document.getElementById('text-input').placeholder = 'Type or press mic to speak…';
+    };
+    mediaRecorder.start();
+    state.listening = true;
+    document.getElementById('mic-btn').classList.add('active');
+  } catch (e) {
+    showError('Microphone not available: ' + e.message);
+  }
+}
+
+function stopWhisperRecording() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    mediaRecorder.stop();
+  }
+  state.listening = false;
+  document.getElementById('mic-btn').classList.remove('active');
+}
+
+function toggleMic() {
+  if (state.sttMode === 'webspeech' && state.recognition) {
+    // Web Speech API path
+    if (state.listening) {
+      state.recognition.stop();
+      clearTimeout(state.webSpeechTimeout);
+      state.listening = false;
+      document.getElementById('mic-btn').classList.remove('active');
+    } else {
+      try {
+        state.recognition.start();
+        state.listening = true;
+        document.getElementById('mic-btn').classList.add('active');
+        // If no result within 3s, Web Speech is silently broken — switch to Whisper
+        state.webSpeechGotResult = false;
+        state.webSpeechTimeout = setTimeout(() => {
+          if (!state.webSpeechGotResult && state.listening) {
+            console.log('STT: Web Speech timeout (no result in 3s), switching to Whisper');
+            try { state.recognition.stop(); } catch {}
+            state.recognition = null;
+            state.sttMode = 'whisper';
+            state.listening = false;
+            document.getElementById('mic-btn').classList.remove('active');
+            startWhisperRecording();
+          }
+        }, 3000);
+      } catch (e) {
+        // Fall back to Whisper
+        console.log('STT: Web Speech start failed, switching to Whisper');
+        state.sttMode = 'whisper';
+        startWhisperRecording();
+      }
+    }
+  } else {
+    // Whisper path
+    if (state.listening) {
+      stopWhisperRecording();
+    } else {
+      startWhisperRecording();
+    }
+  }
+}
+
+// ── Send message to bus ─────────────────────────────────────────────────────
+
+// Map dropdown agent identities to /api/chat agent names
+const AGENT_CHAT_NAMES = {
+  'claude.analysis':      'claude',
+  'claude-code':          'claude',
+  'mistral-vibe.builder': 'mistral',
+  'kiro.design':          'kiro',
+  'codex.implementation': 'codex',
+  'qwen.specialist':      'qwen',
+  'gemini.specialist':    'gemini',
+  'perplexity.research':  'perplexity',
+};
+
+// Direct voice agents (agents that have API routing)
+const DIRECT_AGENTS = new Set(['claude', 'mistral', 'codex', 'qwen', 'kiro', 'perplexity']);
+
+async function sendMessage(text) {
+  if (!text.trim()) return;
+
+  // Check for voice commands first
+  const handled = await handleVoiceCommand(text.trim());
+  if (handled) return;
+
+  const target = document.getElementById('target-agent').value;
+  const chatAgent = AGENT_CHAT_NAMES[target] || target;
+  const { rime } = getCurrentLang();
+
+  // Show user message (once — mark as seen so SSE poll won't duplicate it)
+  const userMsgId = crypto.randomUUID();
+  const userMsg = {
+    message_id: userMsgId,
+    from_agent: HUB_IDENTITY,
+    to_agent: target,
+    message_type: 'informational',
+    intent: text.trim(),
+    risk_level: 'none',
+    payload: { text: text.trim() },
+    created_at: new Date().toISOString(),
+    state: 'local',
+  };
+  renderMessage(userMsg);
+  state.seenIds.add(userMsgId);
+
+  // If targeting a specific agent with API routing, use direct chat
+  if (DIRECT_AGENTS.has(chatAgent)) {
+    await directChat(chatAgent, text.trim(), rime, target);
+    return;
+  }
+
+  // If "all" is selected, default to claude for direct chat
+  if (target === 'all') {
+    await directChat('claude', text.trim(), rime, 'claude.analysis');
+    return;
+  }
+
+  // Otherwise, broadcast to bus (only for bus-only agents like gemini)
+  const busEnvelopeId = crypto.randomUUID();
+  state.seenIds.add(busEnvelopeId); // pre-mark so SSE poll won't duplicate
+  const envelope = {
+    protocol_version: '1.0.0',
+    message_id: busEnvelopeId,
+    thread_id: null,
+    in_reply_to: null,
+    from_agent: HUB_IDENTITY,
+    to_agent: target,
+    message_type: 'informational',
+    intent: text.trim(),
+    risk_level: 'none',
+    requires_ack: false,
+    payload: { text: text.trim() },
+    created_at: new Date().toISOString(),
+    ttl_seconds: 3600,
+  };
 
   try {
-    const res = await fetch(HUB + '/api/chat', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ agent, text, lang: 'eng', mode: state.intent, system: getSystemPrompt() }),
+    const res = await fetch('/api/bus/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(envelope),
     });
-    if (!res.ok) { body.textContent = `Connection error (${res.status}).`; state.streaming = false; return; }
+    const data = await res.json();
+    if (!data.ok) showError(`Send failed: ${data.reason || 'unknown'}`);
+  } catch (e) {
+    showError(`Could not reach bus: ${e.message}`);
+  }
+}
+
+async function directChat(agent, text, lang, agentIdentity) {
+  const voice = voiceFor(agentIdentity);
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ agent, text, lang }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      showError(`${agent} API error: ${err.error || res.status}`);
+      return;
+    }
 
     const reader = res.body.getReader();
-    const dec = new TextDecoder();
-    let buf = '', full = '', evt = '';
+    const decoder = new TextDecoder();
+    let buf = '';
+    let fullText = '';
+    let eventType = '';
+    let pendingPalette = null;
+    let responseMsg = null;
+    const audioQueue = [];
+    let audioPlaying = false;
+
+    async function drainAudioQueue() {
+      if (audioPlaying) return;
+      audioPlaying = true;
+      let chunkIndex = 0;
+      while (audioQueue.length > 0) {
+        const b64 = audioQueue.shift();
+        chunkIndex++;
+        try {
+          const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+          const blob = new Blob([bytes], { type: 'audio/mp3' });
+          const url = URL.createObjectURL(blob);
+          console.log(`[TTS] Playing chunk ${chunkIndex}, queue remaining: ${audioQueue.length}`);
+          await new Promise((resolve, reject) => {
+            const audio = new Audio(url);
+            audio.onended = () => { console.log(`[TTS] Chunk ${chunkIndex} ended`); URL.revokeObjectURL(url); resolve(); };
+            audio.onerror = (e) => { console.error(`[TTS] Chunk ${chunkIndex} error:`, e); URL.revokeObjectURL(url); resolve(); };
+            audio.play().then(() => {
+              console.log(`[TTS] Chunk ${chunkIndex} playing, duration: ${audio.duration}s`);
+            }).catch(e => {
+              console.error(`[TTS] Chunk ${chunkIndex} play failed:`, e);
+              resolve();
+            });
+          });
+        } catch (e) { console.error(`[TTS] Chunk ${chunkIndex} exception:`, e); }
+      }
+      console.log(`[TTS] Queue drained, ${chunkIndex} chunks played`);
+      audioPlaying = false;
+    }
+
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-      buf += dec.decode(value, { stream: true });
-      const lines = buf.split('\n'); buf = lines.pop();
+      buf += decoder.decode(value, { stream: true });
+
+      const lines = buf.split('\n');
+      buf = lines.pop() || '';
+
       for (const line of lines) {
-        if (line.startsWith('event: ')) evt = line.slice(7).trim();
-        else if (line.startsWith('data: ')) {
-          const raw = line.slice(6);
-          if (evt === 'palette') {
-            try { const m = JSON.parse(raw); if (m.riu_id) addGov(gov, 'classify', `🏷️ CLASSIFY → ${m.riu_id} ${m.riu_name||''} (${Math.round((m.confidence||0)*100)}%)`); if (m.lib_ids?.length) addGov(gov, 'classify', `📚 RETRIEVE → ${m.lib_ids.length} knowledge entries`); } catch {}
-          } else if (evt === 'pipeline') {
-            try {
-              const p = JSON.parse(raw);
-              const icons = { reason: '🧠', research: '🔍', synthesize: '⚡', stored: '💾' };
-              const icon = icons[p.step] || '→';
-              if (p.status === 'start') {
-                addGov(gov, 'classify', `${icon} ${p.step.toUpperCase()} ...`);
-              } else if (p.status === 'done') {
-                // Replace the "..." chip with the final result
-                const chips = gov.querySelectorAll('.gov-chip');
-                for (const c of chips) { if (c.textContent.includes(`${p.step.toUpperCase()} ...`)) c.remove(); }
-                if (p.step === 'stored') {
-                  addGov(gov, 'safe', `${icon} STORED → ${(p.models_used||[]).join(' → ')}`);
-                } else {
-                  const routeClass = p.route === 'LOCAL' ? 'safe' : 'external';
-                  addGov(gov, routeClass, `${icon} ${p.step.toUpperCase()} ✓ ${p.model||''} ${p.route} ${p.ms ? p.ms+'ms' : ''}`);
+        if (line.startsWith('event: ')) {
+          eventType = line.slice(7);
+        }
+        if (!line.startsWith('data: ')) continue;
+        const data = JSON.parse(line.slice(6));
+
+        if (eventType === 'palette' && data.riu_id) {
+          // Store palette data — will attach to response bubble once it exists
+          pendingPalette = data;
+        }
+
+        if (eventType === 'token') {
+          fullText += data.token;
+          // Create or update the response message bubble
+          if (!responseMsg) {
+            responseMsg = {
+              message_id: crypto.randomUUID(),
+              from_agent: agentIdentity,
+              to_agent: 'human',
+              message_type: 'informational',
+              intent: fullText,
+              risk_level: 'none',
+              payload: { text: fullText },
+              created_at: new Date().toISOString(),
+              state: 'local',
+            };
+            renderMessage(responseMsg);
+            // Attach palette tag now that the response bubble exists
+            if (pendingPalette) {
+              const msgs = document.getElementById('messages');
+              const lastMsg = msgs.lastElementChild;
+              if (lastMsg) {
+                const header = lastMsg.querySelector('.msg-header');
+                if (header && !header.querySelector('.palette-tag')) {
+                  header.insertAdjacentHTML('beforeend',
+                    `<span class="palette-tag" title="${pendingPalette.riu_name} (${pendingPalette.confidence.toFixed(0)}% confidence)">${pendingPalette.riu_id}</span>`
+                  );
                 }
-              } else if (p.status === 'blocked') {
-                const chips = gov.querySelectorAll('.gov-chip');
-                for (const c of chips) { if (c.textContent.includes(`${p.step.toUpperCase()} ...`)) c.remove(); }
-                addGov(gov, 'blocked', `${icon} ${p.step.toUpperCase()} ✗ BLOCKED — ${p.reason||'governance boundary'}`);
-              } else if (p.status === 'skipped') {
-                const chips = gov.querySelectorAll('.gov-chip');
-                for (const c of chips) { if (c.textContent.includes(`${p.step.toUpperCase()} ...`)) c.remove(); }
-                addGov(gov, 'classify', `${icon} ${p.step.toUpperCase()} — skipped`);
               }
-            } catch {}
-          } else if (evt === 'token' || evt === '') {
-            try { const d = JSON.parse(raw); if (d.token) { full += d.token; body.innerHTML = renderMarkdown(full); msgEl.scrollTop = msgEl.scrollHeight; } } catch {}
+              pendingPalette = null;
+            }
+          } else {
+            // Update the last message bubble with new text
+            const msgs = document.getElementById('messages');
+            const lastMsg = msgs.lastElementChild;
+            if (lastMsg) {
+              const body = lastMsg.querySelector('.msg-body');
+              if (body) body.textContent = cleanForDisplay(fullText);
+            }
+            requestAnimationFrame(() => { msgs.scrollTop = msgs.scrollHeight; });
           }
-          evt = '';
+        }
+
+        if (eventType === 'audio' && state.ttsEnabled) {
+          audioQueue.push(data.audio);
+          if (!audioPlaying) drainAudioQueue();
+        }
+
+        if (eventType === 'error') {
+          showError(data.error || 'Unknown server error');
         }
       }
     }
-  } catch {
-    body.innerHTML = `Mission Canvas connects to a local server for full functionality. <a href="#start" onclick="goHome()" style="text-decoration:underline">Get started →</a>`;
+  } catch (e) {
+    showError(`Chat failed: ${e.message}`);
   }
-  state.streaming = false;
 }
 
-function addMsg(role, text) {
-  const d = document.createElement('div');
-  d.className = `msg ${role}`;
-  if (role === 'canvas') d.innerHTML = `<div class="gov-signals"></div><div class="body"><span class="streaming-dot"></span></div>`;
-  else d.textContent = text;
-  msgEl.appendChild(d); msgEl.scrollTop = msgEl.scrollHeight;
-  return d;
+// ── Convergence actions ─────────────────────────────────────────────────────
+
+async function updateConvergence(update) {
+  try {
+    const res = await fetch('/api/convergence?session=default', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(update),
+    });
+    state.convergence = await res.json();
+    renderConvergence();
+  } catch (e) {
+    console.error('Convergence update failed:', e);
+  }
 }
 
-function addGov(container, type, text) {
-  const s = document.createElement('span');
-  s.className = `gov-chip ${type}`; s.textContent = text;
-  container.appendChild(s);
+// ── Wiki browser ────────────────────────────────────────────────────────────
+
+async function loadWikiPage(path) {
+  const container = document.getElementById('wiki-content');
+  try {
+    const res = await fetch(`/api/wiki/${path}`);
+    if (!res.ok) throw new Error('not found');
+    const text = await res.text();
+    // Simple markdown → HTML (headings, bold, links, lists)
+    container.innerHTML = `<pre class="wiki-page">${escapeHtml(text)}</pre>`;
+  } catch {
+    container.innerHTML = '<p class="error">Could not load wiki page</p>';
+  }
 }
 
-function renderMarkdown(text) {
+// ── Utility ─────────────────────────────────────────────────────────────────
+
+function showError(text) {
+  renderMessage({
+    message_id: crypto.randomUUID(),
+    from_agent: HUB_IDENTITY,
+    to_agent: 'human',
+    message_type: 'error',
+    intent: text,
+    risk_level: 'none',
+    payload: { text: '⚠ ' + text },
+    created_at: new Date().toISOString(),
+    state: 'local',
+  });
+}
+
+function cleanForDisplay(text) {
   return text
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    .replace(/^### (.+)$/gm, '<h4>$1</h4>')
-    .replace(/^## (.+)$/gm, '<h3>$1</h3>')
-    .replace(/^# (.+)$/gm, '<h3>$1</h3>')
-    .replace(/\[(\d+)\]/g, '<sup>$1</sup>')
-    .replace(/^---$/gm, '<hr>')
-    .replace(/\n/g, '<br>');
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/__([^_]+)__/g, '$1')
+    .replace(/_([^_]+)_/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/^\s*[-*+]\s+/gm, '• ')
+    .replace(/^\s*\d+\.\s+/gm, '')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/\[\d+\]/g, '')
+    .trim();
 }
+
+function escapeHtml(s) {
+  const div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+function escapeAttr(s) {
+  return s.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// ── Event listeners ─────────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+  connectSSE();
+  setupSTT();
+  renderAgents();
+  setInterval(renderAgents, 10000);
+
+  // Load initial convergence
+  fetch('/api/convergence?session=default')
+    .then(r => r.json())
+    .then(c => { state.convergence = c; renderConvergence(); })
+    .catch(() => {});
+
+  // Text input send
+  document.getElementById('text-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(e.target.value);
+      e.target.value = '';
+    }
+  });
+
+  document.getElementById('send-btn').addEventListener('click', () => {
+    const input = document.getElementById('text-input');
+    sendMessage(input.value);
+    input.value = '';
+  });
+
+  // Language selector — switches STT and TTS language
+  document.getElementById('lang-select').addEventListener('change', (e) => {
+    const { stt, rime } = getCurrentLang();
+    state.lang = stt;
+    state.rimeLang = rime;
+    if (state.recognition) {
+      const wasListening = state.listening;
+      if (wasListening) { try { state.recognition.stop(); } catch {} }
+      state.recognition.lang = stt;
+      if (wasListening) {
+        setTimeout(() => { try { state.recognition.start(); state.listening = true; } catch {} }, 200);
+      }
+    }
+    document.getElementById('text-input').placeholder =
+      stt === 'en-US' ? 'Type or press mic to speak…' :
+      stt === 'fr-FR' ? 'Tapez ou appuyez pour parler…' :
+      stt === 'it-IT' ? 'Scrivi o premi il mic per parlare…' :
+      stt === 'es-ES' ? 'Escribe o pulsa el mic para hablar…' :
+      'Type or press mic to speak…';
+  });
+
+  // Mic toggle
+  document.getElementById('mic-btn').addEventListener('click', toggleMic);
+
+  // TTS toggle
+  document.getElementById('tts-toggle').addEventListener('click', () => {
+    state.ttsEnabled = !state.ttsEnabled;
+    const btn = document.getElementById('tts-toggle');
+    btn.classList.toggle('active', state.ttsEnabled);
+    btn.title = state.ttsEnabled ? 'Voice on (click to mute)' : 'Voice off (click to unmute)';
+  });
+
+  // Read convergence status aloud
+  document.getElementById('read-status-btn').addEventListener('click', () => {
+    handleVoiceCommand('status report');
+  });
+
+  // Convergence: add items
+  document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('add-btn')) {
+      const list = e.target.dataset.list;
+      const text = prompt(`Add to ${list}:`);
+      if (text) updateConvergence({ [`add_${list}`]: text });
+    }
+    if (e.target.classList.contains('remove-btn')) {
+      const list = e.target.dataset.list;
+      const item = e.target.dataset.item;
+      updateConvergence({ [`remove_${list}`]: item });
+    }
+    if (e.target.classList.contains('wiki-link')) {
+      loadWikiPage(e.target.dataset.path);
+    }
+  });
+
+  // Convergence: next action
+  document.getElementById('next-action').addEventListener('blur', (e) => {
+    updateConvergence({ next_action: e.target.textContent });
+  });
+
+  // Decide
+  document.getElementById('decide-btn').addEventListener('click', () => {
+    const decision = prompt('What was decided?');
+    if (decision) updateConvergence({ decide: decision, status: 'decided' });
+  });
+});
 </script>
 </body>
 </html>

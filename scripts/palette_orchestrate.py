@@ -49,7 +49,7 @@ sys.path.insert(0, str(HUB_DIR))
 
 # ── Socket Firewall ─────────────────────────────────────────────────────
 try:
-    from bdb.gateway.socket_firewall import activate_firewall
+    from core.gateway.socket_firewall import activate_firewall
     activate_firewall()
 except Exception:
     pass  # firewall module may not exist in all environments
@@ -379,7 +379,7 @@ def orchestrate(query: str, show_json: bool = False, show_trace: bool = False) -
         steps["research"] = {"blocked": True, "reason": "internal_only classification"}
     else:
         # Check sanitizer
-        from palette.bdb.gateway.sanitizer import QuerySanitizer
+        from core.gateway.sanitizer import QuerySanitizer
         sanitizer = QuerySanitizer()
         is_safe, reason = sanitizer.is_safe_for_external(query)
         sanitized, pii_found = sanitizer.sanitize_query(query)

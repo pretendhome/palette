@@ -118,9 +118,3 @@ overrides:
     recipe_key: "microsoft-presidio"
     confidence: 1.0
     note: "PII detection/anonymization library"
-
-  # Local models — no external recipe needed (they run on-device)
-  - service_name: "Ollama (Qwen 2.5)"
-    recipe_key: "ollama-local"
-    confidence: 1.0
-    note: "Local model — no integration recipe needed, runs on-device"

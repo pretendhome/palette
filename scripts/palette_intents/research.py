@@ -89,7 +89,7 @@ def call_perplexity(query: str) -> dict | None:
 def is_safe_for_external(query: str) -> tuple[bool, str]:
     """Re-verify query safety immediately before Perplexity call."""
     try:
-        from bdb.gateway.sanitizer import QuerySanitizer
+        from core.gateway.sanitizer import QuerySanitizer
 
         sanitizer = QuerySanitizer()
         return sanitizer.is_safe_for_external(query)

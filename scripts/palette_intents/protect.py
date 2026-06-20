@@ -176,7 +176,7 @@ def attempt_safe_rewrite(query: str, blocked: list[str]) -> str | None:
     # Otherwise, try stripping blocked indicators and generalizing
     try:
         sys.path.insert(0, str(REPO_ROOT))
-        from bdb.gateway.sanitizer import QuerySanitizer
+        from core.gateway.sanitizer import QuerySanitizer
 
         sanitizer = QuerySanitizer()
         sanitized, _categories = sanitizer.sanitize_query(query)
@@ -233,7 +233,7 @@ def run_protect(
     pii_categories: set[str] = set()
     try:
         sys.path.insert(0, str(REPO_ROOT))
-        from bdb.gateway.sanitizer import QuerySanitizer
+        from core.gateway.sanitizer import QuerySanitizer
 
         sanitizer = QuerySanitizer()
         findings = sanitizer.detect_pii(query)

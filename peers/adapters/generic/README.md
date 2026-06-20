@@ -23,7 +23,7 @@ Add to `.claude/settings.local.json`:
   "mcpServers": {
     "palette-peers": {
       "command": "node",
-      "args": ["./peers/adapters/generic/server.mjs", "claude.analysis"]
+      "args": ["/home/mical/fde/palette/peers/adapters/generic/server.mjs", "claude.analysis"]
     }
   }
 }
@@ -38,7 +38,7 @@ Add to `.kiro/settings.json` (or equivalent MCP config):
   "mcpServers": {
     "palette-peers": {
       "command": "node",
-      "args": ["./peers/adapters/generic/server.mjs", "kiro.design"]
+      "args": ["/home/mical/fde/palette/peers/adapters/generic/server.mjs", "kiro.design"]
     }
   }
 }
@@ -53,7 +53,7 @@ Add to Codex MCP config:
   "mcpServers": {
     "palette-peers": {
       "command": "node",
-      "args": ["./peers/adapters/generic/server.mjs", "codex.implementation"]
+      "args": ["/home/mical/fde/palette/peers/adapters/generic/server.mjs", "codex.implementation"]
     }
   }
 }
@@ -68,7 +68,7 @@ If Mistral supports MCP servers:
   "mcpServers": {
     "palette-peers": {
       "command": "node",
-      "args": ["./peers/adapters/generic/server.mjs", "mistral-vibe.builder"]
+      "args": ["/home/mical/fde/palette/peers/adapters/generic/server.mjs", "mistral-vibe.builder"]
     }
   }
 }
@@ -117,4 +117,4 @@ Once connected, agents get 8 tools:
 
 - Node.js 18+ (uses native `fetch` and `crypto.randomUUID`)
 - Palette Peers broker running at `localhost:7899`
-- Start broker: `node ./peers/broker/index.mjs`
+- Start broker: `node /home/mical/fde/palette/peers/broker/index.mjs`

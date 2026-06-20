@@ -1,12 +1,12 @@
 # Palette Manifest — Single Source of Truth
-# Updated: 2026-05-26
+# Updated: 2026-06-19
 # Purpose: One file to orient any agent, tool, or human on what's current.
 
 system:
   name: Palette
-  version: "3.1.0"
+  version: "2.2"
   status: active
-  integrity_checks: 10/10
+  integrity_checks: 8/8
   repository:
     origin: "git@github.com:pretendhome/pretendhome.git"
     palette: "git@github.com:pretendhome/palette.git"
@@ -15,11 +15,10 @@ system:
 layers:
 
   taxonomy:
-    version: v1.3.2
+    version: v1.3
     path: taxonomy/releases/v1.3/palette_taxonomy_v1.3.yaml
-    generated: 2026-05-26
+    generated: 2026-01-29
     entries: 131
-    verticals: [ai-ml, legal]
     unit: RIU (Routing Intelligence Unit)
     status: current
     journey_stages: [foundation, retrieval, orchestration, specialization]
@@ -28,7 +27,7 @@ layers:
     version: v1.4
     path: knowledge-library/v1.4/palette_knowledge_library_v1.4.yaml
     generated: 2026-02-05
-    entries: 203
+    entries: 196
     unit: LIB entry
     status: current
 
@@ -45,10 +44,10 @@ layers:
     version: v1.0
     path: buy-vs-build/v1.0/palette_company_riu_mapping_v1.0.yaml
     generated: 2026-02-10
-    entries: 127
+    entries: 12
     unit: company
     status: active
-    audit: 2026-05-26
+    audit: 2026-04-21
     features_added: [company_id, status, last_validated, build_vs_buy_assessment]
     related:
       lens_index: buy-vs-build/people-library/v1.1/lens_index.yaml
@@ -66,14 +65,14 @@ layers:
 
   integrations:
     path: buy-vs-build/integrations/
-    entries: 76
+    entries: 75
     unit: recipe directory
     status: active
 
   lenses:
     version: v0
     path: lenses/releases/v0/
-    entries: 30
+    entries: 28
     unit: role lens
     status: pilot
     creation_skill: skills/lenses/lens-creation-methodology.md
@@ -83,7 +82,7 @@ layers:
     path: wiki/
     compiler: scripts/compile_wiki.py
     validator: scripts/validate_wiki.py
-    pages: 345
+    pages: 337
     validation: "8/8 PASS"
     status: current
 
@@ -113,7 +112,7 @@ sdk:
     - { name: graph_query, purpose: "queryable interface to relationship graph" }
   tests:
     path: sdk/tests/
-    count: 89
+    count: 86
     pis_tests: 60
     run: "uv run pytest -q sdk/tests/"
 
@@ -129,7 +128,7 @@ governance:
     record_vote: scripts/record_vote.py
     promote_proposal: scripts/promote_proposal.py
     bridge_feedback: scripts/bridge_feedback_to_proposals.py
-    auto_enrich: scripts/palette_intelligence_system/auto_enrich.py
+    auto_enrich: agents/researcher/auto_enrich.py
 
 scripts:
   integrity: "python3 -m scripts.palette_intelligence_system.integrity --checks-only"
@@ -138,6 +137,30 @@ scripts:
   drift: "python3 -m scripts.palette_intelligence_system.drift"
   para_decision: "python3 -m scripts.palette_intelligence_system.para_decision"
   tests: "uv run pytest -q scripts/palette_intelligence_system/test_*.py"
+
+intents:
+  path: scripts/palette_intents/
+  status: recovered            # 2026-06-19 Tier-1 convergence — see decisions.md
+  unit: intent (typed-artifact producer)
+  list: [protect, research, decide, create, diagnose, reflect]
+  cli: scripts/palette_intent.py
+  schemas: scripts/palette_intents/schemas.py   # GateDecision, EvidenceBrief, DecisionRecord, FailureLesson
+  engine: scripts/palette_intents/infra.py
+  verification: "61 tests green offline (schemas 37, checkpoint 12, gateway 12)"
+  note: "palette_query.py code-complete — retrieve/retrieve_learn resolve (Tier-2); live end-to-end run still requires the peers bus"
+
+gateway:
+  path: core/gateway/          # relocated from bdb/gateway/ on 2026-06-19 (OWD-1)
+  module: core.gateway
+  exports: [PerplexityGateway, gateway_query]
+  components: [socket_firewall, sanitizer, rate_limiter, cache, audit, fallback]
+  purpose: "trust-boundary / PII-sanitizing egress gate used by the intent layer"
+
+retrieval:
+  engine: peers/hub/palette_retrieve.py     # adopted Tier-2 (2026-06-19): hybrid FTS5 + vector + keyword; adds retrieve_learn
+  mc_coupling: neutralized                  # _get_mc_engine() returns None — Palette stands independent of Mission-Canvas
+  degrades: "offline → keyword/FTS when ollama embeddings unavailable (verified: legal query → RIU-700 conf 100)"
+  note: "lossless superset of the prior 103-line local retriever (zero local-only functions); unblocks palette_query"
 
 bridges:
   - { name: telegram, path: bridges/telegram/ }
@@ -162,6 +185,7 @@ peers_bus:
     generic: peers/adapters/generic/server.mjs
     claude: peers/adapters/claude-code/server.mjs
     gemini: peers/adapters/gemini-cli/server.mjs
+    perplexity: peers/adapters/perplexity/adapter.mjs   # adopted Tier-4 (2026-06-19)
   endpoints:
     - /health
     - /register
@@ -215,29 +239,6 @@ peers:
     - name: hub.voice
       type: ADAPTER
       trust_tier: UNVALIDATED
-
-bdb:
-  competition: Perplexity Billion Dollar Build
-  deadline: 2026-06-02
-  finalist_event: 2026-06-09
-  winners_announced: 2026-06-10
-  prize_pool: "Up to 3 winners share up to $1M seed investment and up to $1M Perplexity Computer credits"
-  computer_requirement: "Perplexity Computer must be the primary and most important AI; companion tools are allowed"
-  thesis: "Palette is the operating system for professional judgment"
-  vertical: legal
-  path: bdb/
-  facts: bdb/BDB_COMPETITION_FACTS_2026-06-01.md
-  gateway: bdb/gateway/
-  tests: 12/12
-  north_star: bdb/NORTH_STAR_VISION_2026-05-26.md
-  routing_loop: bdb/OBLIGATORY_ROUTING_LOOP_SPEC_2026-05-26.md
-
-self_improvement:
-  gap_signals: peers/gap_signals.ndjson
-  auto_enrich: scripts/palette_intelligence_system/auto_enrich.py
-  proposals: knowledge-library/proposals/
-  health_section: 10 (Self-Improvement Loop)
-  status: active
 
 archive:
   path: archive/superseded-libraries/

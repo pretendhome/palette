@@ -15,22 +15,22 @@ The active objective is:
 ## Start Here Next Session
 
 1. Re-read this file.
-2. Re-read `~/fde/.codex/MESSAGE_TO_FUTURE_CODEX.md`
+2. Re-read `/home/mical/fde/.codex/MESSAGE_TO_FUTURE_CODEX.md`
 3. Open these Palette/OpenAI artifacts:
-   - `~/fde/implementations/talent/talent-openai-deployment-mgr/OPENAI_TEST_FACTORY_SYSTEM_2026-03-10.md`
-   - `./workflows/openai_takehome_factory.yaml`
-   - `./skills/talent/openai-takehome-execution.md`
-   - `./lenses/releases/v0/LENS-INT-002_openai_takehome_grader.yaml`
+   - `/home/mical/fde/implementations/talent/talent-openai-deployment-mgr/OPENAI_TEST_FACTORY_SYSTEM_2026-03-10.md`
+   - `/home/mical/fde/palette/workflows/openai_takehome_factory.yaml`
+   - `/home/mical/fde/palette/skills/talent/openai-takehome-execution.md`
+   - `/home/mical/fde/palette/lenses/releases/v0/LENS-INT-002_openai_takehome_grader.yaml`
 
 ## What Was Built
 
 Reusable Palette assets created:
-- workflow: `WF-INT-001` at `./workflows/openai_takehome_factory.yaml`
-- skill: `SKILL-INT-001` at `./skills/talent/openai-takehome-execution.md`
-- lens: `LENS-INT-002` at `./lenses/releases/v0/LENS-INT-002_openai_takehome_grader.yaml`
+- workflow: `WF-INT-001` at `/home/mical/fde/palette/workflows/openai_takehome_factory.yaml`
+- skill: `SKILL-INT-001` at `/home/mical/fde/palette/skills/talent/openai-takehome-execution.md`
+- lens: `LENS-INT-002` at `/home/mical/fde/palette/lenses/releases/v0/LENS-INT-002_openai_takehome_grader.yaml`
 
 Role-specific operating brief:
-- `~/fde/implementations/talent/talent-openai-deployment-mgr/OPENAI_TEST_FACTORY_SYSTEM_2026-03-10.md`
+- `/home/mical/fde/implementations/talent/talent-openai-deployment-mgr/OPENAI_TEST_FACTORY_SYSTEM_2026-03-10.md`
 
 ## Key Decisions Already Made
 
@@ -50,7 +50,7 @@ Role-specific operating brief:
 - `ANTHROPIC_API_KEY` was not set during the prior session, so researcher synthesis used raw Perplexity output rather than Claude post-synthesis.
 - Official baseline source confirmed: `https://openai.com/interview-guide/`
 - Official role page confirmed: `https://openai.com/careers/ai-deployment-manager-san-francisco/`
-- Codex voice-related flags are enabled in `~/.codex/config.toml`:
+- Codex voice-related flags are enabled in `/home/mical/.codex/config.toml`:
   - `features.voice_transcription = true`
   - `features.realtime_conversation = true`
 - Native push-to-talk transcription is the default voice path to test first.

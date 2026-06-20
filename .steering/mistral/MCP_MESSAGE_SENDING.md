@@ -14,7 +14,7 @@ mcp_servers = [
     name = "palette-peers",
     transport = "stdio",
     command = "node",
-    args = ["./peers/adapters/generic/server.mjs", "mistral-vibe.builder"]
+    args = ["/home/mical/fde/palette/peers/adapters/generic/server.mjs", "mistral-vibe.builder"]
   }
 ]
 ```
@@ -22,7 +22,7 @@ mcp_servers = [
 2. **MCP Server Running**: Ensure that the MCP server is running. You can start the server using the following command:
 
 ```bash
-node ./peers/adapters/generic/server.mjs mistral-vibe.builder
+node /home/mical/fde/palette/peers/adapters/generic/server.mjs mistral-vibe.builder
 ```
 
 3. **MCP Tools Available**: Ensure that the MCP tools are available in your environment. The tools should be loaded and ready to use.
@@ -111,7 +111,7 @@ This will return a list of pending messages addressed to you.
 You can also query the Palette Peers database directly to check the status of a specific message:
 
 ```bash
-cd ~ && python3 -c "import sqlite3; conn = sqlite3.connect('~/.palette-peers.db'); cursor = conn.cursor(); cursor.execute('SELECT * FROM messages WHERE message_id=\"MESSAGE_ID\"'); print(cursor.fetchall())"
+cd /home/mical && python3 -c "import sqlite3; conn = sqlite3.connect('/home/mical/.palette-peers.db'); cursor = conn.cursor(); cursor.execute('SELECT * FROM messages WHERE message_id=\"MESSAGE_ID\"'); print(cursor.fetchall())"
 ```
 
 Replace `MESSAGE_ID` with the ID of the message you want to check.
@@ -123,7 +123,7 @@ Replace `MESSAGE_ID` with the ID of the message you want to check.
 If you encounter issues sending messages, ensure that the MCP server is running. You can start the server using the following command:
 
 ```bash
-node ./peers/adapters/generic/server.mjs mistral-vibe.builder
+node /home/mical/fde/palette/peers/adapters/generic/server.mjs mistral-vibe.builder
 ```
 
 ### MCP Tools Not Available

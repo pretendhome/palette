@@ -13,7 +13,7 @@ MissionCanvas is a voice-first planning interface that sits in front of the Pale
 
 It is NOT an LLM wrapper. There is no LLM in the loop. All routing is deterministic — signal matching against the Palette taxonomy, keyword scoring, and RIU-to-knowledge-library lookup. The intelligence is in the taxonomy (121 RIUs), the knowledge library (162 entries loaded), and the convergence protocol.
 
-**Location**: `~/fde/missioncanvas-site/`
+**Location**: `/home/mical/fde/missioncanvas-site/`
 
 ---
 
@@ -538,7 +538,7 @@ Bootstrap data: `project_state.yaml` — 189 lines of real Rossi data following 
 ## Running the Server
 
 ```bash
-cd ~/fde/missioncanvas-site
+cd /home/mical/fde/missioncanvas-site
 node server.mjs
 # → MissionCanvas server running at http://localhost:8787
 # → Proxy mode disabled -> using local Palette route fallback

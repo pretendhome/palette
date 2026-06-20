@@ -1,6 +1,6 @@
-# Voice — Tessitura: How the System Sounds When It Thinks With You
+# Voice — Agent Voice & Personality Design
 
-Voice is not cosmetic. It's how multi-agent reasoning becomes navigable, trustworthy, and alive. Tessitura is the orchestration of expressive range across roles, moments, and emotional states — each agent sounds like itself because it IS itself. Internal weight, not audience management. The pause is theirs, not yours.
+A complete voice design practice: evaluation tools, pacing framework, live agents, and the methodology that connects them. Every artifact is working code.
 
 <p align="center">
   <a href="https://pretendhome.github.io/palette/"><img src="https://img.shields.io/badge/portfolio-live-c4956a?style=flat-square" alt="Portfolio"></a>
@@ -182,7 +182,7 @@ Multi-agent voice interface connecting 5 LLM agents through voice in 4 languages
 ## Research
 
 - **[Agentic Voice Industry — Technical Intelligence Report (PDF)](research/agentic_voice_industry_report.pdf)** — Architecture- and benchmark-led survey of the voice AI agent ecosystem as of May 2026. Covers STT/TTS providers, pipeline architecture (cascade vs. S2S), latency targets, multilingual deployment, and simulation infrastructure across 20+ platforms including Sierra, Vapi, Retell AI, PolyAI, Hume, ElevenLabs, Deepgram, Cartesia, and others. Confidence-rated claims with cited sources.
-- **[Enterprise Voice Platform Analysis](ENTERPRISE_VOICE_PLATFORM_ANALYSIS.md)** — Technical analysis of enterprise voice deployment: scoring methodologies, evaluation processes, scenario structures, locale routing, and latency architecture across leading platforms.
+- **[Sierra Voice Intelligence](SIERRA_VOICE_INTELLIGENCE.md)** — Sierra-specific technical analysis: tau-Voice scoring methodology, Voice Sommelier process, Voice Sims scenario structure, locale routing, and latency architecture. Primary sources only.
 
 ---
 

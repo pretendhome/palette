@@ -562,7 +562,7 @@ Ready to try it on one of your problems?
 
 1. **Have Kiro CLI open in terminal**
    - Visible to audience
-   - In `~/palette/` directory
+   - In `/home/mical/palette/` directory
    - Test each agent switch before demo
 
 2. **Test all 4 agent switches**:

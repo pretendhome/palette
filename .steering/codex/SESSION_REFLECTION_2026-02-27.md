@@ -3,7 +3,7 @@
 ## Why this session was high-leverage
 - Moved from partial setup to fully operational loop with live stakeholders.
 - Solved practical blockers in sequence:
-  - path mismatches (`~` vs `/root/fde`)
+  - path mismatches (`/home/mical` vs `/root/fde`)
   - service/env wiring
   - token/auth failures
   - voice transcription dependency gaps

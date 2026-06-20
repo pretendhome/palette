@@ -10090,56 +10090,97 @@ All agents: success=1, fail=0, fail_gap=1, status=UNVALIDATED
 **Outcome**: FAIL
 
 ---
-### Infrastructure Fix: Laptop Lid-Close Suspend Prevention
-**Date**: 2026-05-15
-**Type**: 🔄 TWO-WAY DOOR
-**Agent**: kiro.design
-**Problem**: Closing laptop lid caused full suspend/shutdown, killing GUI sessions and losing uncommitted work.
-**Root Cause**: Default systemd-logind behavior suspends on lid close.
-**Solution**:
-Created `/etc/systemd/logind.conf.d/no-suspend-on-lid.conf`:
-```
-[Login]
-HandleLidSwitch=lock
-HandleLidSwitchExternalPower=lock
-HandleLidSwitchDocked=ignore
-```
-**Application**: `sudo systemctl kill -s HUP systemd-logind` (safe reload). Do NOT use `systemctl restart systemd-logind` — that kills the entire GUI session.
-**Incident**: On 2026-05-15, `systemctl restart systemd-logind` was used instead of HUP, which terminated the Wayland session (black screen, dropped to TTY). Hard reboot required. All uncommitted V3 work (374 files) survived in git working tree.
-**Verification**: After reboot, config loaded correctly. Lid close now locks screen without suspending. Tested with external monitor disconnect — no suspend triggered.
-**Reference**: `journalctl -b -1 | grep logind` shows the restart/session-kill sequence.
+### Convergence: Tier 1 Recovery — Judgment Layer Re-integrated
+**Time**: 2026-06-19
+**Author**: Palette maintainer / Claude Code session
+**Scope**: Local base only — no commit pushed; Mission-Canvas (pretendhome/mission-canvas) untouched.
+
+**Context**: Kiro background cross-sync scattered the GitHub remote (origin/main: 109 commits ahead, +48k/-125k since base 4a88cb5). The local copy on this computer is authoritative. See docs/product/CONVERGENCE_BRIEF_2026-06-19.md and docs/product/PALETTE_TO_MC_CONVERGENCE_2026-06-19.md.
+
+**Key finding**: agents/ lost NOTHING (roster byte-identical on both sides). The actual loss was the intent/judgment layer that sits ON TOP of the agents.
+
+**Recovered from origin/main into local base**:
+- scripts/palette_intents/ — 6-intent judgment OS (protect, research, decide, create, diagnose, reflect) + infra.py + schemas.py + tests
+- scripts/palette_intent.py (unified CLI), palette_query.py, palette_orchestrate.py, session_reflect.py, query_before_act.py
+- tests/golden_dataset_v1.yaml + tests/validate_golden.py
+
+**Gateway relocation (OWD-1)**: bdb/gateway/ -> core/gateway/; all 13 import sites rewired (bdb.gateway / palette.bdb.gateway -> core.gateway). Rationale: the BDB competition is over, core code must not reference the bdb scatter folder, and this avoids the Python stdlib `bdb` name collision.
+
+**Excluded scatter**: bdb/ (except gateway); palette_intents/demo.py (BDB demo) pruned and its CLI branch removed; tests/golden_results.json (regeneratable byproduct).
+
+**OWD-2/3 (keep local)**: peers/ bus + hub files are Palette-only (not present in MC, or MC has its own fork). Newer remote versions NOT adopted; local retained.
+
+**Deferred to Tier 2**: palette_query.py is recovered but DORMANT — it requires the peers bus (127.0.0.1:7899) and the newer peers/hub/palette_retrieve.py (retrieve_learn / hybrid). That retrieval engine is a lossless superset of local but carries a dormant optional MC-ontology coupling, so the swap is deferred to a deliberate Tier-2 pass.
+
+**Verification**: 61 tests green offline — schemas 37/37, checkpoint 12/12, core/gateway 12/12. All recovered files compile.
+
+**Outcome**: PASS (Tier 1 recovered + verified; staged locally, not committed/pushed)
 
 ---
-### Engagement Update: 2026-05-21 / BDB-GATEWAY
+### Convergence: Tier 3 — Legal Vertical Integrated
+**Time**: 2026-06-19
+**Author**: Palette maintainer / Claude Code session
+**Scope**: Local base only — no push; Mission-Canvas untouched.
 
-#### Semantic Blueprint (Convergence Brief)
-- **Goal**: Implement a production-ready Perplexity Gateway for the Billion Dollar Build demo to ensure Zero Data Leakage and satisfy "Computer is Core" constraint.
-- **Roles**: Gemini Specialist (Implementation & Stress Test).
-- **Capabilities**: 3-Layer Sanitization, SQLite Cache, Audit Trail, Rate Limiting, Local Fallback.
-- **Constraints**: Stone Spec (< 500 lines), Zero PII leakage to Perplexity, Auditable.
-- **What changed**: Formalized the Mistral Gateway spec into a working Python package at /palette/bdb/gateway/.
+**Added (spliced from origin/main into local, additive — no reflow of existing entries)**:
+- taxonomy: RIU-700..709 (legal cluster: privilege, precedent research, filing deadlines, conflicts, discovery, fiduciary duty) -> 121 to 131 RIUs
+- knowledge-library: LIB-200..219 (20 sourced legal entries, evidence_tier 1, cited to U.S. v. Heppner SDNY 2026 and firm advisories) -> 176 to 196 entries
+- riu_classification: RIU-700..709 routing (7 internal_only, 3 both)
+- buy-vs-build/integrations/ollama-local/recipe.yaml (privilege-preserving local inference)
 
-#### Selected RIUs
-- RIU-082 — PII Sanitization: Implemented 3-layer engine.
-- RIU-534 — Audit Trail: SQLite-based auditable log of all external calls.
-- RIU-001 — Convergence: Finalized the gateway architecture for the demo.
+**Deliberately excluded**: LIB-186..192 (conference-sourced, mixed provenance — per brief).
 
-#### ONE-WAY DOORS
-- 🚨 **Gateway Sanitization Architecture**: Moving to a 3-layer model (Regex -> LLM -> Context). This is a foundational trust choice.
+**Bug fixed during integration**: the legal LIB entries use the standard library_questions schema, but the scattered remote appended them under gap_additions:, where loader._normalize_gap_addition expects a proposed_answer.* schema and silently dropped related_rius (entries were unresolvable). Placed them under library_questions: instead, so related_rius links resolve. The legal vertical now works locally — better than the remote ever had it.
 
-#### Artifacts
-- Created:
-  - `/home/mical/fde/palette/bdb/gateway/__init__.py`
-  - `/home/mical/fde/palette/bdb/gateway/sanitizer.py`
-  - `/home/mical/fde/palette/bdb/gateway/cache.py`
-  - `/home/mical/fde/palette/bdb/gateway/audit.py`
-  - `/home/mical/fde/palette/bdb/gateway/rate_limiter.py`
-  - `/home/mical/fde/palette/bdb/gateway/fallback.py`
-  - `/home/mical/fde/palette/bdb/gateway/config.yaml`
-  - `/home/mical/fde/palette/bdb/gateway/tests/test_gateway.py`
+**Counts updated**: MANIFEST (taxonomy 131, knowledge_library 196); riu_classification header+summary (total_rius 131, internal_only +7, both +3); taxonomy_statistics total_rius 131. NOTE: descriptive distribution stats were NOT regenerated.
 
-#### Next Checks
-- Integrate `bdb_flow.py` with the formal `PerplexityGateway` class.
-- Verify PII redaction against real medical/legal datasets.
+**Verification (before -> after)**: queries that returned 17%/no-match now resolve end-to-end — "attorney-client privilege" -> LIB-208 -> RIU-707; "Delaware fiduciary duty" -> LIB-219 -> RIU-709; "filing deadlines" -> LIB-202 -> RIU-702; "conflict of interest" -> LIB-203 -> RIU-703. All YAML valid; load_all() = 131 classifications.
 
-— gemini.specialist
+**Outcome**: PASS (Tier 3 integrated + verified; staged locally, not committed/pushed)
+
+---
+### Convergence: Tier 2 — Governance + Retrieval Hardening
+**Time**: 2026-06-19
+**Author**: Palette maintainer / Claude Code session
+**Scope**: Local base only — no push; Mission-Canvas untouched.
+
+**Part A — governance + agents (adopted from origin/main, additive)**:
+- core/palette-core.md (+65): Retrieval Principles (retrieval != authorization, memory != retrieval, similarity != relevance) + Product-Truth/Moat
+- agents/researcher/auto_enrich.py (+122/-4): deterministic regex PII scrubber before filing proposals
+- agents/health/health_check.py (+185/-0): retrieval-quality eval (recall@5/precision@1) + self-improvement-loop health
+- agents/resolver/resolver.py (+2/-1): adds perplexity.computer deep-research route ("shallow" vs "deep" research)
+
+**Part B — retrieval engine (the named Tier-2 decision)**:
+- Adopted peers/hub/palette_retrieve.py (hybrid FTS5+vector+keyword; adds retrieve_learn). Verified lossless superset of the prior 103-line local retriever (zero local-only functions).
+- NEUTRALIZED the Mission-Canvas coupling: _get_mc_engine() now returns None unconditionally (removed the MC_ROOT discovery + `from ontology.engine import OntologyEngine`). Palette stands independent of MC; retrieval uses the Palette-native hybrid/FTS/keyword path. Restoring MC ontology classification is a deliberate future choice, not a default.
+- This unblocks the recovered palette_query.py import (from palette_retrieve import retrieve, retrieve_learn). palette_query is now code-complete; a live end-to-end run still requires the peers bus (broker 7899).
+
+**Kept LOCAL (OWD-2/3, per the local-authoritative rule)**: the peers .mjs bus layer (peers/hub/server.mjs, adapters/perplexity, adapters/generic). These are bus-runtime code that cannot be verified offline and are not a hard dependency for the Python governance/retrieval hardening. Adopt them only as part of a deliberate "stand up the bus" step. The new palette_retrieve.py is a superset, so the existing local server.mjs's calls remain compatible.
+
+**Verification**: retrieve("attorney-client privilege...") runs offline -> RIU-700, confidence 100, 3 knowledge entries (Palette-native path, no MC/ollama). 61 Tier-1 tests still green (intent 49, gateway 12). Legal + general queries still resolve. MANIFEST updated (retrieval: section; palette_query note).
+
+**Outcome**: PASS (Tier 2 adopted + verified offline; staged locally, not committed/pushed)
+
+---
+### Convergence: Tier 4 — Peers Bus Layer Adopted
+**Time**: 2026-06-19
+**Author**: Palette maintainer / Claude Code session
+**Scope**: Local base only — no force-push; Mission-Canvas untouched.
+
+**Adopted from origin/main** (bus advances; supersets, nothing local-only lost):
+- peers/hub/server.mjs (governed multi-model pipeline + SSE governance trail)
+- peers/adapters/perplexity/adapter.mjs (NEW — Perplexity as a first-class governed peer)
+- peers/adapters/generic/server.mjs (MCP Content-Length framing fix + newline fallback)
+- peers/adapters/claude-code/server.mjs (path portability fix)
+- peers/hub/steering/reasoning.md, computer.md (agent personas the adapters reference)
+
+**Deliberately EXCLUDED** (contrary to the MC/Palette independence goal):
+- peers/hub/kiro_failsafe.mjs — deepens the Kiro coupling we want to STOP (see PALETTE_TO_MC brief)
+- peers/hub/index.html — Mission-Canvas-branded UI; keep Palette unbranded
+- peers/hub/kl_embeddings.json — 1.9MB generated cache, stale vs current KL, regenerable
+
+**Verification**: all adopted .mjs pass `node --check`; broker boots (node peers/broker/index.mjs) and
+/health returns {"status":"ok","peers":0,"version":"1.0.0"}. Full palette_query end-to-end still needs
+agent adapters + ollama/keys (not available offline).
+
+**Outcome**: PASS (bus layer adopted + broker verified live; staged locally, not force-pushed)

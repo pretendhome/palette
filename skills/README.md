@@ -1,8 +1,6 @@
-# Palette Skills — Codified Methodology
+# Palette Skill Packs
 
-Skills are how judgment becomes transferable. Every time Palette solves a real problem — building a resume, prepping for an interview, designing a learning program — the methodology gets extracted, validated, and stored here. Skills are built using the Palette protocol but executed without re-routing through RIUs every time.
-
-This is the "SDK for Humans" in action: validated domain knowledge that makes the next person more capable.
+Skill packs inject validated domain knowledge into agent sessions. They bridge the gap between Palette's RIU taxonomy (which routes problems) and agent execution (which solves them).
 
 ## Format
 

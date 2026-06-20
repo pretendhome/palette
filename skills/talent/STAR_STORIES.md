@@ -191,54 +191,6 @@ Once the value became real in their own workflow, adoption increased quickly and
 
 ---
 
-## STORY 11: FRITES — Italian Grammar Redesign
-**Era**: Alexa Automotive (ERA-2)
-**Theme**: Voice output design + cultural judgment under technical constraint
-**Tags**: `voice_design`, `internationalization`, `cultural_judgment`, `trade_off`, `grammar`, `frites`
-**When to use**: "Iterate on a design based on data", "Data contradicted your instinct", "Voice quality across cultures", "Trade-off you had to make"
-
-### 90-Second Version
-"At Alexa, Italian voice output had persistent grammar failures. Our Java Lexi structure couldn't guarantee grammatical agreement in every case — and in Italian, agreement isn't optional, it's everything. My instinct was to fix the grammar engine. But the data said we'd never get 100% accuracy that way.
-
-So I redesigned all Italian output from active to passive voice. 'Go to this place to find this thing' became 'This thing is found in this place.' Less natural, but grammatically bulletproof every time. This contradicted a core Alexa principle — responses should be direct and active.
-
-But in Italy, if Alexa speaks to your children with incorrect grammar, you're throwing the device away. Italians hear agreement errors the way a musician hears a wrong note — the whole room stops. So the bar was 'never wrong,' not 'good enough.' The data on device returns made the argument for me."
-
-### Extended Version — Cultural Variation Across FRITES
-"The Italian grammar case was the clearest trade-off, but every locale had its own voice output design challenges. Germans didn't want responses at all — 'turn on the lights' should just turn them on. Italians wanted full worded responses with correct grammar — it was almost enjoyable for them to hear Alexa speak. Spanish was the hardest because of within-language variation: Chile wanted their own accent, Madrid wanted German-level brevity, Bogota and Lima had different preferences entirely. India required code-switching — Hindi words inserted into English responses because users switch languages mid-sentence.
-
-I also built the CS knowledge base before Alexa by going to the highest-CSAT associates and asking for their personal notepads — they'd internalized cultural preferences the system didn't capture. Germans wanted short and direct, Italians wanted longer and warmer. I turned that into a tone-and-length rubric per country that outperformed straight translation immediately."
-
----
-
-## STORY 12: Evaluation Teams at Scale
-**Era**: Alexa Automotive (ERA-2)
-**Theme**: Building evaluation infrastructure across locales
-**Tags**: `evaluation`, `annotation`, `scale`, `multilingual`, `rubrics`, `voice_quality`
-**When to use**: "How do you evaluate at scale?", "Tell me about managing a team", "How do you handle quality across languages?"
-
-### 90-Second Version
-"At Alexa I managed two evaluation teams — about 30 people — conducting ongoing quality assessment across all supported locales. The challenge was that different teams were using different criteria and different standards. A good result in Germany looked different from a good result in Italy.
-
-I designed rubrics with explicit dimensions — accuracy, completeness, relevance, cultural appropriateness — and trained annotators to score consistently. I built the underlying tooling that combined ASR and NLU measurements to improve comprehension rates. It was an end-to-end system that normalized how things got graded across native speakers and language learners working in their own language.
-
-I also guided the Arabic locale launch without speaking Arabic — which proved the evaluation frameworks transfer across language families. The methodology is universal. The cultural calibration is not."
-
----
-
-## STORY 13: CS Tone Rubrics by Culture
-**Era**: Amazon Italy (ERA-1)
-**Theme**: Designing how a system speaks differently across cultures
-**Tags**: `voice_design`, `cultural_design`, `customer_service`, `tone`, `internationalization`
-**When to use**: "First voice design experience", "Cultural adaptation", "How do you start designing for a new market?"
-
-### 90-Second Version
-"Before Alexa, I built the knowledge base that customer service associates used across European markets. The existing approach was translating US English response templates. I went to the highest-CSAT associates and asked for their personal notepads. The best performers had internalized cultural preferences the system didn't capture — Germans wanted short and direct, Italians wanted longer and warmer.
-
-I turned that into a tone-and-length rubric per country, and it outperformed straight translation immediately. This was my first time designing how a system should speak differently across cultures — the seed of everything that followed. The pattern is the same one I use now: start with what the people closest to the customer already know, give them a framework to articulate it, build the system around that signal."
-
----
-
 ## COMMIT-BASED STAR ANSWERS
 **Source**: Palette git history
 **When to use**: When interviewers want concrete, recent evidence of shipping, quality discipline, and governance.
@@ -309,11 +261,11 @@ Use this to quickly find the right story for a given question type:
 |---|---|---|
 | "Tell me about yourself" | STORY 1 (Pathfinder) | STORY 7 (Multilingual) |
 | "Technical depth" | STORY 2 (POI Graph) | STORY 8 (Palette) extended |
-| "Design decision" | STORY 4 (Taxonomy) | STORY 11 (FRITES Grammar) |
+| "Design decision" | STORY 4 (Taxonomy) | STORY 2 (Entity Resolution) |
 | "Executive audience" | STORY 3 (Forum) | STORY 5 (Partner) |
 | "Low adoption" | STORY 10 (Rescue) | STORY 1 (Pathfinder) |
 | "Cross-functional conflict" | STORY 1 (Pathfinder) | STORY 2 (POI Graph) |
-| "AI evaluation / quality" | STORY 6 (Attribution) | STORY 12 (Eval Teams) |
+| "AI evaluation / quality" | STORY 6 (Attribution) | STORY 9 (MCP Verification) |
 | "Why this company?" | STORY 5 (Partner) | STORY 7 (Multilingual) |
 | "Recent hands-on work" | STORY 9 (MCP) | COMMIT-STARs 1-3 |
 | "Failure / setback" | STORY 10 (Rescue) | STORY 2 (Italy launch) |
@@ -322,12 +274,6 @@ Use this to quickly find the right story for a given question type:
 | "Background / what makes you different" | STORY 7 (Multilingual) | STORY 1 (Pathfinder) |
 | "Governance / safety" | STORY 8 (Palette) extended | STORY 9 (MCP) |
 | "Scaling knowledge" | STORY 4 (Taxonomy) | STORY 2 (POI Graph) |
-| "Data contradicted instinct" | STORY 11 (FRITES Grammar) | STORY 4 (Taxonomy) |
-| "Voice quality / voice design" | STORY 11 (FRITES Grammar) | STORY 13 (CS Tone Rubrics) |
-| "Cultural adaptation / i18n" | STORY 11 (FRITES) extended | STORY 13 (CS Tone Rubrics) |
-| "Managing evaluation teams" | STORY 12 (Eval Teams) | STORY 6 (Attribution) |
-| "Trade-off / compromise" | STORY 11 (FRITES Grammar) | STORY 10 (Rescue) |
-| "Entering new markets" | STORY 12 (Eval Teams — Arabic) | STORY 11 (FRITES) extended |
 
 ---
 

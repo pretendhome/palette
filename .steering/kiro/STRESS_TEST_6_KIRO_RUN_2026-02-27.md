@@ -13,7 +13,7 @@
 
 **Command**:
 ```bash
-cd . && python3 -m scripts.pis.query_engine check
+cd /home/mical/fde/palette && python3 -m scripts.pis.query_engine check
 ```
 
 **Result**: 5/6 checks passed

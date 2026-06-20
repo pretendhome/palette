@@ -1,0 +1,119 @@
+# Known Marketing — Knowledge Library v1
+# Created: 2026-04-01
+# Source: TechCrunch, Bumble/Match earnings, industry research
+
+entries:
+  - id: KNOWN-001
+    question: What is Known and how does it work?
+    answer: Known is a voice-first dating app that replaces swipe-based profiles with a 26-minute voice AI onboarding conversation. The AI asks dynamic follow-up questions, building a deep understanding of each user. Users get one match at a time with 24-hour windows to accept introductions and agree to dates. 80% of introductions led to in-person dates in SF beta.
+    sources:
+      - title: "TechCrunch: Known uses voice AI to help you go on more in-person dates"
+        url: "https://techcrunch.com/2025/12/19/known-uses-voice-ai-to-help-you-go-on-more-in-person-dates/"
+    related_rius: [RIU-505, RIU-001]
+
+  - id: KNOWN-002
+    question: Who founded Known and what is the funding?
+    answer: "Co-founded by Celeste Amadon (CEO) and Asher Allen, both Stanford dropouts. Raised $9.7M seed in December 2025 from Forerunner Ventures (Eurie Kim, first-ever dating investment), NFX, Pear VC, and Coelius Capital. Originally building an AI restaurant booking app for dates — pivoted when voice conversations produced dramatically more authentic user data."
+    sources:
+      - title: "TechCrunch: Known funding announcement"
+        url: "https://techcrunch.com/2025/12/19/known-uses-voice-ai-to-help-you-go-on-more-in-person-dates/"
+    related_rius: [RIU-001]
+
+  - id: KNOWN-003
+    question: What is the dating app market size and who are the major players?
+    answer: "Global online dating market is $10-12B (2024), projected $14-16B by 2028. Match Group (Tinder, Hinge, Match) holds ~55-60% of US revenue. Bumble Inc ~15-18%. Hinge is the growth engine — $400M+ run rate. Grindr ~5%, profitable. The market is mature but incumbents are struggling: Bumble paying users dropped 16% in Q3 2025, Tinder is losing Gen Z."
+    sources:
+      - title: "Bumble Q3 2025 Earnings"
+      - title: "Match Group Annual Report"
+    related_rius: [RIU-014, RIU-062]
+
+  - id: KNOWN-004
+    question: What are the top user pain points with current dating apps?
+    answer: "1) Low-quality matches / nobody is serious. 2) Ghosting and dead conversations. 3) Pay-to-play frustration (paywalls feel punitive). 4) Bots and scam accounts. 5) Gender imbalance (60-70% male on most apps). 6) Swipe fatigue / commodification of people. 7) Algorithm opacity. 8) Hard to assess personality from photos and prompts."
+    sources:
+      - title: "Pew Research: Online Dating Survey"
+      - title: "Morning Consult: Dating App User Satisfaction"
+    related_rius: [RIU-014, RIU-001]
+
+  - id: KNOWN-005
+    question: What growth strategies worked for recent dating startups?
+    answer: "Thursday went viral through guerrilla marketing (founders holding signs in London streets) + TikTok organic content + scarcity mechanic (app only works Thursdays). Rizz (AI wingman) went viral on TikTok by solving conversation anxiety. Duolicious went viral on Reddit with personality-quiz matching and deliberately unserious vibe. Key insight: paid UA for dating apps is $5-15 CPI — organic/viral is the only viable startup path."
+    sources:
+      - title: "TechCrunch: Thursday dating app"
+      - title: "App Store / social media analysis"
+    related_rius: [RIU-062, RIU-014]
+
+  - id: KNOWN-006
+    question: What revenue models work for dating apps?
+    answer: "Freemium + subscription tiers is standard (Tinder $30-50/mo, HingeX $50/mo) but users increasingly resist. A la carte micro-transactions (boosts, roses, super likes) are growing — users pay $3-5 for single interactions more readily than $30/mo subscriptions. Known's $30/date model is novel — aligns revenue with user success. Premium luxury tiers work for high-intent users (Tinder Select $499/mo)."
+    sources:
+      - title: "Match Group / Bumble earnings reports"
+    related_rius: [RIU-006, RIU-001]
+
+  - id: KNOWN-007
+    question: What is Known's competitive advantage?
+    answer: "1) Voice-first — no other major app uses deep voice AI onboarding. 2) No swiping — single match at a time. 3) Anti-ghosting — 24h action windows. 4) Date-outcome oriented — product optimized for IRL dates, not engagement time. 5) Per-date pricing aligns revenue with user success. 6) 80% intro-to-date rate vs industry ~10-15% match-to-date rate. Investor framing: 'In the past, this required a $10,000 matchmaker.'"
+    sources:
+      - title: "TechCrunch: Known"
+        url: "https://techcrunch.com/2025/12/19/known-uses-voice-ai-to-help-you-go-on-more-in-person-dates/"
+    related_rius: [RIU-014, RIU-505]
+
+  - id: KNOWN-008
+    question: What threatens Known?
+    answer: "1) Match Group copying voice features — Hinge founder left to start Overtone (AI dating, Match Group backing). 2) Voice AI becoming commodity as models improve. 3) Gender imbalance — if Known skews male like every other app, the product breaks. 4) Scaling voice onboarding (26 min per user is expensive). 5) AI companion apps (Character.ai, Replika) competing for same emotional need. 6) Regulatory risk around AI in dating (bias, discrimination, data privacy)."
+    sources:
+      - title: "Industry analysis"
+      - title: "TechCrunch: Overtone"
+    related_rius: [RIU-014, RIU-001]
+
+  - id: KNOWN-009
+    question: What does Gen Z want from dating apps?
+    answer: "Authenticity over polished profiles. Humor and vulnerability. Voice notes popular (convey personality better than text). Less likely to pay for subscriptions. Use TikTok/Instagram as de facto dating platforms. 40-50% report dating app fatigue. Want to meet in person sooner — average 2-3 weeks from match to date is too long. Prefer niche communities over broad-market apps."
+    sources:
+      - title: "Pew Research Center"
+      - title: "Morning Consult Gen Z survey"
+    related_rius: [RIU-062, RIU-014]
+
+  - id: KNOWN-010
+    question: What cities should Known expand to after SF?
+    answer: "Criteria: high density of 22-35 year olds, tech-forward demographics, dating app saturation (users ready for alternatives), social media influence (TikTok content travels from these cities). Top candidates: 1) LA — largest US dating market, entertainment industry amplifies brand. 2) NYC — highest density, highest dating app usage. 3) Austin — tech hub, younger demographics, lower competition. 4) Chicago — large market, underserved by innovation. Consider starting with 1-2 and building waitlist hype before launch."
+    sources:
+      - title: "Census data / dating app usage statistics"
+    related_rius: [RIU-062]
+
+  - id: KNOWN-011
+    question: How is Known different from a traditional matchmaker?
+    answer: "Known sits between dating apps and matchmakers — it combines the scalability of an app with the depth of a matchmaker. Traditional matchmakers charge $5,000-$10,000+ and conduct manual interviews. Known's voice AI onboarding captures similar depth in 26 minutes at $30/date. Key differences: 1) Matchmakers use human judgment — Known uses AI-analyzed voice data, 2) Matchmakers serve 10-50 clients — Known can scale to thousands, 3) Matchmakers take days/weeks to find a match — Known introduces one person at a time with 24h windows, 4) Cost: Known is 100-300x cheaper per date than a matchmaker. The investor pitch captures this: 'In the past, this required a $10,000 matchmaker.' Known democratizes high-intent dating."
+    sources:
+      - title: "TechCrunch: Known uses voice AI"
+        url: "https://techcrunch.com/2025/12/19/known-uses-voice-ai-to-help-you-go-on-more-in-person-dates/"
+    related_rius: [RIU-014, RIU-505]
+
+  - id: KNOWN-012
+    question: Who is Known's ideal customer?
+    answer: "Known's ideal customer is dating-fatigued, 24-34 years old, urban professional, and ready for a serious relationship but burned out on swiping. Psychographic: values authenticity over optimization, willing to invest time upfront for better outcomes, comfortable with voice communication, frustrated by ghosting and low-intent matches. Behavioral: has used 2+ dating apps and is dissatisfied, spends 30-90 min/day on apps with poor results, has disposable income for $30/date (comparable to a nice coffee date). Geographic: lives in dense urban market (SF now, then LA/NYC/Austin). Gender: Known must attract both equally — marketing to women should emphasize safety, depth, and control; marketing to men should emphasize high match quality and real dates."
+    sources:
+      - title: "Known workspace facts and market analysis"
+    related_rius: [RIU-014, RIU-062]
+
+  - id: KNOWN-013
+    question: How should Known optimize its App Store listing?
+    answer: "App Store optimization for Known should lead with the outcome, not the mechanic. Recommended title: 'Known — Voice Dating, Real Dates.' Subtitle: 'Talk first. Meet someone real.' Description hierarchy: 1) Open with the contrast — '80% of our intros become real dates' vs industry norms, 2) Explain the voice model in one sentence, 3) Social proof (TechCrunch coverage, funding, waitlist demand), 4) How it works in 3 steps (voice onboarding → one intro at a time → real date). Screenshots should show the voice interface, not profiles. A/B test: voice waveform visual vs. real-date outcome imagery. Keywords to target: 'voice dating,' 'serious dating,' 'real dates,' 'no swiping,' 'dating app for relationships.' Avoid: 'AI dating' (crowded), 'matchmaking app' (old-fashioned)."
+    sources:
+      - title: "App Store best practices and competitive analysis"
+    related_rius: [RIU-014]
+
+  - id: KNOWN-014
+    question: What do we know about Known user retention and why do users leave?
+    answer: "Current status: retention data is a CRITICAL evidence gap (ME-006). We do not yet have d7 or d30 retention numbers. What we know: 80% of intros lead to dates in SF beta, and the 26-minute onboarding suggests high initial user intent. Common reasons users leave dating apps generally: 1) Found a partner (good churn), 2) Low match quality or too few matches, 3) Ghosting fatigue, 4) Subscription fatigue / paywall frustration, 5) Privacy concerns, 6) Boredom / novelty wearing off. Known-specific risks: users may churn after first successful date if there's no re-engagement loop. The 'novelty fade' risk (R-002) means Known must transition from 'voice is cool' to 'voice is deep' branding. Until ME-006 is resolved, retention assumptions are speculative — Agnes needs to get this data from the product team."
+    sources:
+      - title: "Known project state and risk register"
+    related_rius: [RIU-014, RIU-001]
+
+  - id: KNOWN-015
+    question: Who are our investors? What are Known's investors and key funding details?
+    answer: "Known raised a $9.7M seed round in December 2025. Our investors: 1) Forerunner Ventures (led by Eurie Kim — this was Forerunner's first-ever dating investment, signaling conviction in the category), 2) NFX (network effects specialist — validates the marketplace dynamics), 3) Pear VC, 4) Coelius Capital. Total raised: $9.7M. Stage: Seed. The funding enables Known to scale from SF beta to multi-city launch. Key talking points: Forerunner's first dating bet signals institutional belief in voice-first dating. NFX's involvement validates the network-effects thesis. The round was announced alongside the 80% intro-to-date rate, which likely drove investor interest."
+    sources:
+      - title: "TechCrunch: Known funding announcement"
+        url: "https://techcrunch.com/2025/12/19/known-uses-voice-ai-to-help-you-go-on-more-in-person-dates/"
+    related_rius: [RIU-001]

@@ -1,6 +1,6 @@
-# Voice Hub — The Room Where You Think With AI
+# Voice Hub — Multi-Agent Voice Interface
 
-Be in the room with any agent. Build as a team. The Voice Hub is Mission Canvas's primary interface — a governed voice layer where multiple AI agents help you research, deliberate, decide, and learn. Each agent has its own voice, memory, and behavioral rules.
+A voice-first interface for talking to multiple AI agents through a single multilingual surface.
 
 ![Voice Hub — 4 agents, 4 languages, one workflow](../../docs/images/voice-hub-screenshot.png)
 
@@ -12,9 +12,7 @@ Select an agent, select a language, speak. The agent responds through voice.
 
 - **5 agents**: Claude, Mistral, Codex/GPT, Qwen, Perplexity — each with a distinct voice
 - **4 languages**: English, French, Italian, Spanish — STT recognition and TTS output
-- **Taxonomy-routed retrieval**: Every query classified through 121 RIU nodes and grounded in 183 knowledge entries via hybrid retrieval (FTS5 + vectors + keyword) before the agent responds
-- **Learning Mode**: "Answer me" or "Teach me" — same knowledge, different depth. The system makes you more capable.
-- **Tessitura**: Each agent has its own voice identity with emotional state modulation. Not personas — internal weight expressed through pace and pause.
+- **Taxonomy-routed retrieval**: Every query classified through 121 RIU nodes and grounded in 168 knowledge entries before the agent responds
 - **Sentence-boundary streaming**: Rime Arcana v2 TTS fires at each sentence boundary for sub-700ms time to first audio
 - **Governed message bus**: SQLite bus with risk gates, human checkpoints, and audit trails
 

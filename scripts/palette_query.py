@@ -202,7 +202,7 @@ def step_external(query: str, resolved: dict, use_external: bool, trace: TraceLo
         return None
 
     t0 = time.time()
-    from palette.bdb.gateway import gateway_query
+    from core.gateway import gateway_query
 
     external = gateway_query(
         query=query,
@@ -716,7 +716,7 @@ def run_demo(query: str, use_external: bool = False) -> int:
         _time.sleep(0.1)
         # In demo mode, always run the sanitizer when --external is passed.
         # Override the confidence gate so the governance decision is always visible.
-        from palette.bdb.gateway import PerplexityGateway
+        from core.gateway import PerplexityGateway
         gw = PerplexityGateway()
 
         # Force low confidence so gateway enters the sanitization path

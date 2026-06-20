@@ -14,7 +14,7 @@ Primary user goal right now:
 - execute well on the OpenAI take-home / skills assessment when it lands
 
 Voice-first operating note:
-- Codex voice setup now lives in `~/.codex/config.toml`
+- Codex voice setup now lives in `/home/mical/.codex/config.toml`
 - `features.voice_transcription = true`
 - `features.realtime_conversation = true`
 - native push-to-talk transcription is the first path to use
@@ -35,7 +35,7 @@ Start sequence for a fresh session:
 1. Re-read `MESSAGE_TO_FUTURE_CODEX.md`
 2. Re-read `PALETTE_SYSTEM_SYNTHESIS_FOR_CODEX.md`
 3. Re-read `OPENAI_TAKEHOME_HANDOFF_2026-03-11.md`
-4. Confirm Codex voice status in `~/.codex/config.toml`
+4. Confirm Codex voice status in `/home/mical/.codex/config.toml`
 5. Prefer voice-driven prompting for ideation, rehearsal, and interview prep
 6. When the take-home arrives, switch immediately from broad prep to execution mode
 

@@ -25,7 +25,7 @@ def main():
     # Only governed external APIs (Perplexity, Anthropic, Mistral, Groq)
     # and local services (Ollama, bus) are permitted.
     try:
-        from bdb.gateway.socket_firewall import activate_firewall
+        from core.gateway.socket_firewall import activate_firewall
         activate_firewall()
     except Exception:
         pass  # firewall module may not exist in all environments
@@ -55,11 +55,7 @@ def main():
     # Remove the intent from argv so argparse in sub-commands works
     sys.argv = [sys.argv[0]] + sys.argv[2:]
 
-    if intent == "demo":
-        # Convenience: palette demo sarah runs the full 3-moment flow
-        from scripts.palette_intents.demo import main as demo_main
-        demo_main()
-    elif intent == "protect":
+    if intent == "protect":
         from scripts.palette_intents.protect import main as protect_main
         protect_main()
     elif intent == "research":
