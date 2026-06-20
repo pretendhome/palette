@@ -221,6 +221,22 @@ def main():
         },
         "created_at": datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
     }
+    # Register validator.engine so it can send messages
+    reg_req = urllib.request.Request(
+        f"{debugger_v2.BROKER_BASE}/register",
+        data=json.dumps({
+            "identity": "validator.engine",
+            "agent_name": "validator",
+            "runtime": "python-script",
+            "capabilities": ["validation"],
+            "palette_role": "validator",
+            "trust_tier": "WORKING",
+            "version": "2.0"
+        }).encode('utf-8'),
+        headers={'Content-Type': 'application/json'}
+    )
+    urllib.request.urlopen(reg_req)
+
     # Send it
     req = urllib.request.Request(
         f"{debugger_v2.BROKER_BASE}/send",
@@ -378,10 +394,10 @@ def main():
     # 35. Test Node.js Traceback (Imp #16)
     print("\n--- Test 35: Node.js Traceback Parsing (Imp #16) ---")
     # Simulate a Node.js stack trace pointing to RELATIONSHIP_GRAPH.yaml (arbitrary existing file)
-    node_tb = "Error: fail\n    at Object.<anonymous> (/home/user/fde/palette/RELATIONSHIP_GRAPH.yaml:10:5)"
+    node_tb = f"Error: fail\n    at Object.<anonymous> ({engine.palette_root}/MANIFEST.yaml:10:5)"
     ctx = engine.extract_source_context(node_tb)
     assert ctx is not None
-    assert "RELATIONSHIP_GRAPH.yaml" in ctx['file']
+    assert "MANIFEST.yaml" in ctx['file']
     print("  ✓ Node.js traceback correctly parsed.")
 
     # 36. Test Diagnostic Depth (Imp #17)

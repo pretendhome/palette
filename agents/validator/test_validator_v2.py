@@ -309,6 +309,16 @@ def main():
     assert success is False
     print(f"  ✓ Caught expected Audit Gap: {err}")
 
+    # Create temporary graph file for testing coherence
+    import yaml
+    temp_graph = {
+        "quads": [
+            {"subject": "Architect", "predicate": "handles_riu", "object": "RIU-001"}
+        ]
+    }
+    with open(engine.graph_path, 'w') as f:
+        yaml.safe_dump(temp_graph, f)
+
     # 16. Test Graph Coherence
     print("\n--- Test 16: Relationship Graph Coherence ---")
     # Valid link (from line 25 of RELATIONSHIP_GRAPH.yaml)
@@ -320,6 +330,10 @@ def main():
     success, err = engine.validate_graph_link("Gemini", "is_a", "Robot")
     assert success is False
     print(f"  ✓ Caught expected Graph Gap: {err}")
+
+    # Cleanup graph file
+    if engine.graph_path.exists():
+        engine.graph_path.unlink()
 
     # 17. Test Handoff Proof
     print("\n--- Test 17: Proof of Handoff (Identity Audit) ---")

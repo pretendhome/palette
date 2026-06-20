@@ -1,1 +1,15 @@
-{}
+{
+  "Evidence Test Task": {
+    "payload": {
+      "a": 100,
+      "b": "bad"
+    },
+    "detected_at": "2026-06-20T06:59:26.984833+00:00"
+  },
+  "Regression Target": {
+    "payload": {
+      "val": 123
+    },
+    "detected_at": "2026-06-20T06:59:27.024743+00:00"
+  }
+}
