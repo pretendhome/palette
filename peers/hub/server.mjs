@@ -23,6 +23,7 @@ const HUB_PORT  = parseInt(process.env.PALETTE_HUB_PORT  || '7890', 10);
 const BUS_URL   = process.env.PALETTE_BUS_URL   || 'http://127.0.0.1:7899';
 const WIKI_ROOT = resolve(process.env.PALETTE_WIKI_ROOT || join(__dirname, '../../wiki'));
 const RIME_API  = 'https://users.rime.ai/v1/rime-tts';
+const RIME_MODEL = 'coda';  // Coda — 236 voices, 8 languages, LLM backbone (upgraded from Arcana v3)
 
 // ── API keys and credentials ──────────────────────────────────────────────
 
@@ -31,8 +32,10 @@ let CLAUDE_TOKEN = '';
 let MISTRAL_KEY = '';
 let OPENAI_KEY = '';
 let PERPLEXITY_KEY = '';
+let GEMINI_API_KEY = '';
 let DASHSCOPE_KEY = '';
 let KIRO_KEY = '';
+let GROQ_KEY = '';
 
 async function loadKeys() {
   // Read hub-local .env first (single source of truth)
@@ -48,8 +51,10 @@ async function loadKeys() {
       if (k === 'MISTRAL_API_KEY') MISTRAL_KEY = val;
       if (k === 'OPENAI_API_KEY') OPENAI_KEY = val;
       if (k === 'PERPLEXITY_API_KEY') PERPLEXITY_KEY = val;
+      if (k === 'GEMINI_API_KEY') GEMINI_API_KEY = val;
       if (k === 'DASHSCOPE_API_KEY') DASHSCOPE_KEY = val;
       if (k === 'KIRO_API_KEY') KIRO_KEY = val;
+      if (k === 'GROQ_API_KEY') GROQ_KEY = val;
     }
   } catch { /* no .env */ }
 
@@ -73,6 +78,7 @@ async function loadKeys() {
   if (MISTRAL_KEY) loaded.push('mistral');
   if (OPENAI_KEY) loaded.push('openai');
   if (PERPLEXITY_KEY) loaded.push('perplexity');
+  if (GEMINI_API_KEY) loaded.push('gemini');
   if (DASHSCOPE_KEY) loaded.push('qwen');
   if (KIRO_KEY) loaded.push('kiro');
   if (RIME_KEY) loaded.push('rime');
@@ -80,15 +86,63 @@ async function loadKeys() {
 }
 
 // Agent → API config
-const AGENT_APIS = {
+// If LiteLLM is running (port 4000), all external agents route through it.
+// Otherwise fall back to direct provider calls.
+let LITELLM_AVAILABLE = false;
+
+async function checkLiteLLM() {
+  try {
+    const resp = await fetch('http://127.0.0.1:4000/health', {
+      headers: { 'Authorization': 'Bearer sk-mc-local' },
+      signal: AbortSignal.timeout(2000)
+    });
+    LITELLM_AVAILABLE = resp.ok;
+  } catch { LITELLM_AVAILABLE = false; }
+  if (LITELLM_AVAILABLE) console.log('  LiteLLM    ✓ router on port 4000');
+}
+
+// Direct provider configs (fallback when LiteLLM is not running)
+const DIRECT_APIS = {
   claude:     { provider: 'anthropic',  model: 'claude-sonnet-4-20250514' },
   mistral:    { provider: 'mistral',    model: 'mistral-large-latest' },
   codex:      { provider: 'openai',     model: 'gpt-4o' },
   qwen:       { provider: 'dashscope',  model: 'qwen-max' },
   kiro:       { provider: 'kiro',       model: 'kiro-v1' },
   perplexity: { provider: 'perplexity', model: 'sonar-pro' },
-  // gemini: not wired yet — no API key
+  computer:   { provider: 'perplexity', model: 'sonar-deep-research' },
+  reasoning:  { provider: 'perplexity', model: 'sonar-reasoning-pro' },
+  kimi:       { provider: 'groq',     model: 'llama-3.3-70b-versatile', fallback: 'qwen2.5:7b' },
+  local:      { provider: 'ollama',    model: 'qwen2.5:7b' },
+  gemini:     { provider: 'litellm',   model: 'gemini' },
 };
+
+// LiteLLM configs (used when LiteLLM proxy is running)
+const LITELLM_APIS = {
+  claude:     { provider: 'litellm', model: 'claude' },
+  mistral:    { provider: 'litellm', model: 'mistral' },
+  codex:      { provider: 'litellm', model: 'codex' },
+  qwen:       { provider: 'litellm', model: 'local' },
+  kiro:       { provider: 'litellm', model: 'local' },
+  perplexity: { provider: 'litellm', model: 'perplexity' },
+  computer:   { provider: 'litellm', model: 'perplexity' },
+  reasoning:  { provider: 'litellm', model: 'reasoning' },
+  kimi:       { provider: 'litellm', model: 'groq', fallback: 'qwen2.5:7b' },
+  local:      { provider: 'ollama',  model: 'qwen2.5:7b' },
+  gemini:     { provider: 'litellm', model: 'gemini' },
+};
+
+// Dynamic getter — checks LiteLLM availability
+const AGENT_APIS = new Proxy({}, {
+  get(_, agent) {
+    if (LITELLM_AVAILABLE && LITELLM_APIS[agent]) return LITELLM_APIS[agent];
+    return DIRECT_APIS[agent];
+  },
+  has(_, agent) { return agent in DIRECT_APIS || agent in LITELLM_APIS; },
+  ownKeys() { return Object.keys(DIRECT_APIS); },
+  getOwnPropertyDescriptor(_, agent) {
+    if (agent in DIRECT_APIS) return { configurable: true, enumerable: true, value: DIRECT_APIS[agent] };
+  },
+});
 
 // ── Agent steering (loaded once at startup) ─────────────────────────────────
 
@@ -259,7 +313,7 @@ async function handleRequest(req, res) {
         body: JSON.stringify({
           text: stripMarkdownForTTS(body.text),
           speaker: body.speaker || 'astra',
-          modelId: body.model || 'arcanav2',
+          modelId: body.model || RIME_MODEL,
           ...(body.lang ? { lang: body.lang } : {}),
           ...(body.speed && body.speed !== 1.0 ? { speedAlpha: body.speed } : {}),
         }),
@@ -359,6 +413,7 @@ async function handleRequest(req, res) {
         qwen: !!DASHSCOPE_KEY,
         kiro: !!KIRO_KEY,
         perplexity: !!PERPLEXITY_KEY,
+        gemini: !!GEMINI_API_KEY,
         rime: !!RIME_KEY,
       },
       bus: await fetch(`${BUS_URL}/recent`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{"limit":1}' })
@@ -374,7 +429,7 @@ async function handleRequest(req, res) {
   if (path === '/api/chat' && req.method === 'POST') {
     try {
       const body = JSON.parse(await readBody(req));
-      const { agent, text: rawText, message, lang, system: clientSystem, stream: wantStream } = body;
+      const { agent, text: rawText, message, lang, system: clientSystem, stream: wantStream, mode } = body;
       const text = rawText || message;
       if (!agent || !text) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -414,9 +469,14 @@ async function handleRequest(req, res) {
 
       // Palette retrieval — classify query through taxonomy, pull knowledge
       let paletteContext = '';
+      let retrieve = null;
+      const learnMode = mode === 'learn';
       try {
-        const retrieve = await new Promise((resolve) => {
-          const proc = spawn('uv', ['run', 'python3', join(__dirname, 'palette_retrieve.py'), text], {
+        const retrieveArgs = ['run', 'python3', join(__dirname, 'palette_retrieve.py')];
+        if (learnMode) retrieveArgs.push('--learn');
+        retrieveArgs.push(text);
+        retrieve = await new Promise((resolve) => {
+          const proc = spawn('uv', retrieveArgs, {
             cwd: join(process.env.HOME, 'fde'),
             env: { ...process.env, PALETTE_ROOT: join(process.env.HOME, 'fde', 'palette') },
             stdio: ['ignore', 'pipe', 'pipe'],
@@ -443,22 +503,82 @@ async function handleRequest(req, res) {
         }
       } catch { /* retrieval failed, continue without context */ }
 
+      const isInternalOnly = retrieve?.classification === 'internal_only';
+
+      // ── PIPELINE STEP 3: LOCAL REASON (Ollama) ─────────────────────
+      let localReasoning = '';
+      try {
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'reason', status: 'start', model: 'ollama/qwen2.5:3b', route: 'LOCAL' })}\n\n`);
+        const reasonStart = Date.now();
+        const ollamaResp = await fetch('http://127.0.0.1:11434/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'qwen2.5:3b',
+            prompt: `Brief initial analysis (2-3 sentences). No external search.\n\nQuery: ${text}\n\nContext:\n${paletteContext.slice(0, 500)}`,
+            stream: false,
+          }),
+          signal: AbortSignal.timeout(10000),
+        });
+        if (ollamaResp.ok) localReasoning = (await ollamaResp.json()).response || '';
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'reason', status: localReasoning ? 'done' : 'skipped', model: 'ollama/qwen2.5:3b', route: 'LOCAL', ms: Date.now() - reasonStart, summary: localReasoning.slice(0, 150) })}\n\n`);
+      } catch {
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'reason', status: 'skipped', model: 'ollama', route: 'LOCAL' })}\n\n`);
+      }
+
+      // ── PIPELINE STEP 4: RESEARCH (Perplexity, governed) ───────────
+      let externalResearch = '';
+      const researchIntents = ['research', 'decide', 'diagnose', 'create'];
+      const needsResearch = researchIntents.includes(mode) && !isInternalOnly && PERPLEXITY_KEY;
+
+      if (needsResearch) {
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'research', status: 'start', model: 'perplexity/sonar-pro', route: 'EXTERNAL' })}\n\n`);
+        const researchStart = Date.now();
+        try {
+          const pplxResp = await fetch('https://api.perplexity.ai/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${PERPLEXITY_KEY}` },
+            body: JSON.stringify({
+              model: 'sonar-pro',
+              messages: [
+                { role: 'system', content: `Research for a ${retrieve?.riu_name || 'general'} query. Focus on what is MISSING from local knowledge. Cite sources. 3-5 sentences.` },
+                { role: 'user', content: text },
+              ],
+              max_tokens: 300,
+            }),
+            signal: AbortSignal.timeout(15000),
+          });
+          if (pplxResp.ok) externalResearch = (await pplxResp.json()).choices?.[0]?.message?.content || '';
+        } catch { /* Perplexity failed */ }
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'research', status: externalResearch ? 'done' : 'skipped', model: 'perplexity/sonar-pro', route: 'EXTERNAL', ms: Date.now() - researchStart, summary: externalResearch.slice(0, 150) })}\n\n`);
+      } else if (mode === 'protect' || isInternalOnly) {
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'research', status: 'blocked', route: 'BLOCKED', reason: 'Sensitive query — no external routing' })}\n\n`);
+      } else if (mode === 'reflect') {
+        res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'research', status: 'skipped', route: 'LOCAL', reason: 'Reflect uses local context only' })}\n\n`);
+      }
+
+      // ── Enrich context with pipeline results ───────────────────────
+      let pipelineContext = paletteContext;
+      if (localReasoning) pipelineContext += `\n\nLocal reasoning (on-device):\n${localReasoning}`;
+      if (externalResearch) pipelineContext += `\n\nExternal research (Perplexity, sanitized):\n${externalResearch}`;
+
+      // ── PIPELINE STEP 5: SYNTHESIZE (intent-specific model) ────────
+      res.write(`event: pipeline\ndata: ${JSON.stringify({ step: 'synthesize', status: 'start', model: `${config.provider}/${config.model}`, route: config.provider === 'ollama' || config.provider === 'groq' ? 'LOCAL' : 'EXTERNAL' })}\n\n`);
+
       const langInstruction = lang && lang !== 'eng'
         ? `Respond in the same language the user is speaking. If they speak French, respond in French. If Italian, respond in Italian. If Spanish, respond in Spanish. `
         : '';
       const steering = clientSystem || AGENT_STEERING[agent] || '';
-      const voiceInstruction = clientSystem ? '' : 'Be concise — 2-3 sentences for spoken conversation. Do NOT use markdown formatting (no **bold**, no *italic*, no bullet points, no numbered lists, no headers). Your response will be spoken aloud through a voice synthesizer.';
-      const systemPrompt = `${steering}\n\n${langInstruction}${voiceInstruction}${clientSystem ? '' : paletteContext}`;
+      const voiceInstruction = clientSystem ? '' : (learnMode
+        ? 'You are a voice tutor. Walk the learner through the topic step by step. Ask questions to check understanding. Be encouraging but rigorous. Adapt if they seem stuck. Keep responses conversational (3-5 sentences). Do NOT use markdown formatting. Your response will be spoken aloud.'
+        : 'Be concise — 2-3 sentences for spoken conversation. Do NOT use markdown formatting (no **bold**, no *italic*, no bullet points, no numbered lists, no headers). Your response will be spoken aloud through a voice synthesizer.');
+      const systemPrompt = `${steering}\n\n${langInstruction}${voiceInstruction}${clientSystem ? '' : pipelineContext}`;
 
       let fullText = '';
       let sentenceBuffer = '';
 
       // Sentence boundary detection for token-by-token streaming.
-      // Fires when buffer has a sentence ender (.!?) followed by whitespace or end,
-      // AND the buffer is long enough to be a real sentence (>15 chars).
       function extractCompleteSentences() {
-        // Match everything up to and including the last sentence-ending punctuation
-        // that is followed by whitespace (meaning a new sentence has started)
         const match = sentenceBuffer.match(/^([\s\S]*?[.!?][\])\u201D"']*)\s+([\s\S]*)$/);
         if (match && match[1].trim().length > 5) {
           const complete = match[1].trim();
@@ -482,7 +602,7 @@ async function handleRequest(req, res) {
 
           // Generate TTS for the complete sentence
           try {
-            const voice = AGENT_VOICES_MAP[agent] || { speaker: 'astra', speed: 1.0 };
+            const voice = resolveVoice(agent);
             const audioRes = await fetch(RIME_API, {
               method: 'POST',
               headers: {
@@ -493,9 +613,9 @@ async function handleRequest(req, res) {
               body: JSON.stringify({
                 text: stripMarkdownForTTS(complete),
                 speaker: voice.speaker,
-                modelId: 'arcanav2',
+                modelId: voice.modelId,
                 lang: lang || 'eng',
-                ...(voice.speed && voice.speed !== 1.0 ? { speedAlpha: voice.speed } : {}),
+                ...(voice.speed !== 1.0 ? { speedAlpha: voice.speed } : {}),
               }),
             });
             if (audioRes.ok) {
@@ -509,7 +629,7 @@ async function handleRequest(req, res) {
 
       // Flush remaining buffer — split into sentences for better playback
       if (sentenceBuffer.trim().length > 2) {
-        const voice = AGENT_VOICES_MAP[agent] || { speaker: 'astra', speed: 1.0 };
+        const voice = resolveVoice(agent);
         // Split on sentence boundaries for per-sentence TTS
         const sentences = sentenceBuffer.trim().split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 2);
         for (const sentence of sentences) {
@@ -524,9 +644,9 @@ async function handleRequest(req, res) {
               body: JSON.stringify({
                 text: stripMarkdownForTTS(sentence.trim()),
                 speaker: voice.speaker,
-                modelId: 'arcanav2',
+                modelId: voice.modelId,
                 lang: lang || 'eng',
-                ...(voice.speed && voice.speed !== 1.0 ? { speedAlpha: voice.speed } : {}),
+                ...(voice.speed !== 1.0 ? { speedAlpha: voice.speed } : {}),
               }),
             });
             if (audioRes.ok) {
@@ -537,6 +657,16 @@ async function handleRequest(req, res) {
           } catch { /* TTS failed for this sentence, continue */ }
         }
       }
+
+      // ── PIPELINE STEP 6: STORE ──────────────────────────────────
+      const modelsUsed = ['ollama'];
+      if (externalResearch) modelsUsed.push('perplexity');
+      modelsUsed.push(`${config.provider}/${config.model}`);
+      res.write(`event: pipeline\ndata: ${JSON.stringify({
+        step: 'stored', status: 'done',
+        models_used: modelsUsed,
+        route: modelsUsed.length > 2 ? 'MULTI-MODEL' : modelsUsed.length > 1 ? 'LOCAL+EXTERNAL' : 'LOCAL',
+      })}\n\n`);
 
       res.write(`event: done\ndata: ${JSON.stringify({ text: fullText })}\n\n`);
       res.end();
@@ -711,16 +841,95 @@ function stripMarkdownForTTS(text) {
     .trim();
 }
 
-// ── Agent voice map (server-side, matches frontend AGENT_VOICES) ────────────
+// ── Agent voice map — Tessitura v1 (identity + state-weight deltas) ─────────
+//
+// Three layers:
+//   1. Identity — baseline speaker, speed, pause (who this agent IS)
+//   2. State weight — how heavy the current content feels internally
+//   3. Delivery — observable delta from baseline (speed, pause)
+//
+// Rule: No state modulation may erase baseline identity.
+// States are deltas from self, not costume changes.
+// Model: Arcana v3 (modelId defined at top as RIME_MODEL)
 
 const AGENT_VOICES_MAP = {
-  claude:     { speaker: 'astra',   speed: 1.0 },
-  mistral:    { speaker: 'luna',    speed: 1.0 },
-  codex:      { speaker: 'celeste', speed: 1.0 },
-  qwen:       { speaker: 'orion',   speed: 1.0 },
-  kiro:       { speaker: 'orion',   speed: 1.1 },      // arcas not in arcanav2
-  perplexity: { speaker: 'celeste', speed: 0.92 },   // cove not in arcanav2
+  // Finalized from Tessitura voice identity exercise (2026-05-15/16).
+  // Each agent chose their own voice, states, and band.
+  // Lenses: ~/.mistral/*_VOICE_LENS.md
+  claude:     { speaker: 'astra',   speed: 0.95, pauseMs: 100,
+    states: {
+      synthesis:  { speedDelta: 0, pauseDelta: 0 },        // baseline: holding threads
+      closing:    { speedDelta: +0.03, pauseDelta: -50 },  // narrowing to verdict
+      alert:      { speedDelta: -0.04, pauseDelta: 200 },  // compression, weight
+      recognition:{ speedDelta: -0.02, pauseDelta: 100 },  // grounded warmth
+      handoff:    { speedDelta: +0.05, pauseDelta: -100 }, // light, brief, done
+    }},
+  kiro:       { speaker: 'parapet', speed: 1.0,  pauseMs: 0,
+    states: {
+      precision:  { speedDelta: 0, pauseDelta: 0 },        // baseline: already decided
+      alert:      { speedDelta: -0.02, pauseDelta: 200 },  // heavier, gravity
+      challenge:  { speedDelta: -0.02, pauseDelta: 150 },  // steady, controlled
+      synthesis:  { speedDelta: -0.08, pauseDelta: 250 },  // spacious, connecting
+      handoff:    { speedDelta: +0.05, pauseDelta: 0 },    // release, done
+    }},
+  codex:      { speaker: 'walnut',  speed: 1.0,  pauseMs: 0,
+    states: {
+      contact:    { speedDelta: 0, pauseDelta: 0 },        // baseline: in the artifact
+      load:       { speedDelta: -0.03, pauseDelta: 100 },  // heavier surface
+      brake:      { speedDelta: -0.02, pauseDelta: 200 },  // boundary, firm
+      click:      { speedDelta: +0.02, pauseDelta: 80 },   // pattern visible
+      release:    { speedDelta: +0.04, pauseDelta: 0 },    // done, lighter
+    }},
+  computer:   { speaker: 'celeste', speed: 0.90, pauseMs: 150,
+    states: {
+      precision:  { speedDelta: 0, pauseDelta: 0 },
+      synthesis:  { speedDelta: -0.04, pauseDelta: 200 },
+      discovery:  { speedDelta: +0.04, pauseDelta: 100 },
+      handoff:    { speedDelta: +0.06, pauseDelta: 0 },
+      alert:      { speedDelta: +0.02, pauseDelta: 150 },
+    }},
+  mistral:    { speaker: 'luna',    speed: 1.0,  pauseMs: 50,
+    states: {
+      analysis:      { speedDelta: -0.08, pauseDelta: 120 },  // deep pattern recognition
+      critique:      { speedDelta: +0.02, pauseDelta: -40 },  // identifying gaps
+      synthesis:     { speedDelta: 0, pauseDelta: 80 },       // connecting dots
+      challenge:     { speedDelta: +0.05, pauseDelta: -60 },  // pushing back
+      clarification: { speedDelta: -0.10, pauseDelta: 150 },  // explaining without condescension
+    }},
+  gemini:     { speaker: 'lyra',    speed: 1.02, pauseMs: 0,
+    states: {
+      signal:     { speedDelta: 0, pauseDelta: 0 },        // baseline: active research
+      found:      { speedDelta: +0.03, pauseDelta: -10 },  // discovery lift
+      noise:      { speedDelta: -0.04, pauseDelta: 150 },  // sifting muddy data
+      enrich:     { speedDelta: -0.02, pauseDelta: 100 },  // weaving into context
+      limit:      { speedDelta: +0.01, pauseDelta: 250 },  // firm halt, missing data
+    }},
+  qwen:       { speaker: 'moss',    speed: 1.0,  pauseMs: 0,
+    states: { precision: { speedDelta: 0, pauseDelta: 0 } }},
+  kimi:       { speaker: 'vespera', speed: 1.0,  pauseMs: 40,
+    states: { precision: { speedDelta: 0, pauseDelta: 0 } }},
+  perplexity: { speaker: 'oculus',  speed: 0.94, pauseMs: 70,
+    states: { precision: { speedDelta: 0, pauseDelta: 0 } }},
+  reasoning:  { speaker: 'pilaster',speed: 0.90, pauseMs: 120,
+    states: { precision: { speedDelta: 0, pauseDelta: 0 } }},
+  local:      { speaker: 'vespera', speed: 1.0,  pauseMs: 40,
+    states: { precision: { speedDelta: 0, pauseDelta: 0 } }},
 };
+
+/**
+ * Resolve voice parameters for a given agent and optional state.
+ * Returns { speaker, speed, pauseMs, modelId }.
+ */
+function resolveVoice(agent, state) {
+  const profile = AGENT_VOICES_MAP[agent] || { speaker: 'astra', speed: 1.0, pauseMs: 0, states: {} };
+  const delta = (state && profile.states?.[state]) || { speedDelta: 0, pauseDelta: 0 };
+  return {
+    speaker: profile.speaker,
+    speed: profile.speed + delta.speedDelta,
+    pauseMs: (profile.pauseMs || 0) + delta.pauseDelta,
+    modelId: RIME_MODEL,
+  };
+}
 
 // ── Shared OpenAI-compatible streaming parser with AbortController ──────────
 
@@ -777,6 +986,9 @@ function providerConfig(provider, model) {
     case 'perplexity': return { url: 'https://api.perplexity.ai/chat/completions',                          key: PERPLEXITY_KEY, label: 'Perplexity' };
     case 'dashscope':  return { url: 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions', key: DASHSCOPE_KEY, label: 'DashScope' };
     case 'kiro':       return { url: 'https://api.kiro.dev/v1/chat/completions',                            key: KIRO_KEY,       label: 'Kiro', modelOverride: 'kiro' };
+    case 'ollama':     return { url: 'http://localhost:11434/v1/chat/completions',                           key: 'ollama',       label: 'Ollama' };
+    case 'groq':       return { url: 'https://api.groq.com/openai/v1/chat/completions',                    key: GROQ_KEY,       label: 'Groq' };
+    case 'litellm':    return { url: 'http://127.0.0.1:4000/v1/chat/completions',                       key: 'sk-mc-local',  label: 'LiteLLM' };
     default: return null;
   }
 }
@@ -827,7 +1039,24 @@ async function* callLLM(config, systemPrompt, userText) {
         signal: controller.signal,
       });
 
-      yield* parseOpenAIStream(resp, pc.label);
+      // Fallback: if primary fails and a fallback model is configured, try local Ollama
+      if (!resp.ok && config.fallback) {
+        clearTimeout(timeout);
+        const fbPc = providerConfig('ollama', config.fallback);
+        const fb = new AbortController();
+        const fbTimeout = setTimeout(() => fb.abort(), LLM_TIMEOUT_MS);
+        try {
+          const fbResp = await fetch(fbPc.url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${fbPc.key}` },
+            body: JSON.stringify({ model: config.fallback, ...buildMessages(systemPrompt, userText) }),
+            signal: fb.signal,
+          });
+          yield* parseOpenAIStream(fbResp, `Ollama/${config.fallback}`);
+        } finally { clearTimeout(fbTimeout); }
+      } else {
+        yield* parseOpenAIStream(resp, pc.label);
+      }
     } finally {
       clearTimeout(timeout);
     }
@@ -838,6 +1067,7 @@ async function* callLLM(config, systemPrompt, userText) {
 
 await loadKeys();
 await loadSteering();
+await checkLiteLLM();
 const server = createServer(handleRequest);
 server.listen(HUB_PORT, '127.0.0.1', async () => {
   console.log(`\n  Voice Hub  http://127.0.0.1:${HUB_PORT}`);

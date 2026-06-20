@@ -185,6 +185,7 @@ peers_bus:
     generic: peers/adapters/generic/server.mjs
     claude: peers/adapters/claude-code/server.mjs
     gemini: peers/adapters/gemini-cli/server.mjs
+    perplexity: peers/adapters/perplexity/adapter.mjs   # adopted Tier-4 (2026-06-19)
   endpoints:
     - /health
     - /register

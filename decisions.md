@@ -10160,3 +10160,27 @@ All agents: success=1, fail=0, fail_gap=1, status=UNVALIDATED
 **Verification**: retrieve("attorney-client privilege...") runs offline -> RIU-700, confidence 100, 3 knowledge entries (Palette-native path, no MC/ollama). 61 Tier-1 tests still green (intent 49, gateway 12). Legal + general queries still resolve. MANIFEST updated (retrieval: section; palette_query note).
 
 **Outcome**: PASS (Tier 2 adopted + verified offline; staged locally, not committed/pushed)
+
+---
+### Convergence: Tier 4 — Peers Bus Layer Adopted
+**Time**: 2026-06-19
+**Author**: Palette maintainer / Claude Code session
+**Scope**: Local base only — no force-push; Mission-Canvas untouched.
+
+**Adopted from origin/main** (bus advances; supersets, nothing local-only lost):
+- peers/hub/server.mjs (governed multi-model pipeline + SSE governance trail)
+- peers/adapters/perplexity/adapter.mjs (NEW — Perplexity as a first-class governed peer)
+- peers/adapters/generic/server.mjs (MCP Content-Length framing fix + newline fallback)
+- peers/adapters/claude-code/server.mjs (path portability fix)
+- peers/hub/steering/reasoning.md, computer.md (agent personas the adapters reference)
+
+**Deliberately EXCLUDED** (contrary to the MC/Palette independence goal):
+- peers/hub/kiro_failsafe.mjs — deepens the Kiro coupling we want to STOP (see PALETTE_TO_MC brief)
+- peers/hub/index.html — Mission-Canvas-branded UI; keep Palette unbranded
+- peers/hub/kl_embeddings.json — 1.9MB generated cache, stale vs current KL, regenerable
+
+**Verification**: all adopted .mjs pass `node --check`; broker boots (node peers/broker/index.mjs) and
+/health returns {"status":"ok","peers":0,"version":"1.0.0"}. Full palette_query end-to-end still needs
+agent adapters + ollama/keys (not available offline).
+
+**Outcome**: PASS (bus layer adopted + broker verified live; staged locally, not force-pushed)

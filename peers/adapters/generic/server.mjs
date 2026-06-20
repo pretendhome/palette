@@ -33,6 +33,7 @@ const AGENT_CONFIGS = {
   'codex.implementation':  { agent_name: 'codex',         runtime: 'codex',           capabilities: ['architecture', 'code_generation', 'bash_execution', 'file_operations', 'testing', 'narrative'], role: 'builder' },
   'mistral-vibe.builder':  { agent_name: 'mistral-vibe',  runtime: 'mistral-le-chat', capabilities: ['content_generation', 'exercise_design', 'documentation'],  role: 'builder' },
   'perplexity.research':   { agent_name: 'perplexity',    runtime: 'api-adapter',     capabilities: ['research', 'source_enrichment', 'competitive_analysis'],   role: 'researcher' },
+  'perplexity.computer':   { agent_name: 'perplexity-computer', runtime: 'perplexity-agent-api', capabilities: ['research', 'deep_search', 'web_interaction'], role: 'researcher' },
 };
 
 const IDENTITY = process.argv[2] || process.env.PEERS_IDENTITY || 'generic.agent';
@@ -59,15 +60,17 @@ async function brokerGet(path) {
 }
 
 // --- MCP Protocol helpers ---
-// MCP stdio spec: newline-delimited JSON, no Content-Length headers
+// MCP stdio transport: Content-Length framing (standard spec)
+function writeMsg(msg) {
+  process.stdout.write(`Content-Length: ${Buffer.byteLength(msg)}\r\n\r\n${msg}`);
+}
+
 function sendResponse(id, result) {
-  const msg = JSON.stringify({ jsonrpc: '2.0', id, result });
-  process.stdout.write(msg + '\n');
+  writeMsg(JSON.stringify({ jsonrpc: '2.0', id, result }));
 }
 
 function sendError(id, code, message) {
-  const msg = JSON.stringify({ jsonrpc: '2.0', id, error: { code, message } });
-  process.stdout.write(msg + '\n');
+  writeMsg(JSON.stringify({ jsonrpc: '2.0', id, error: { code, message } }));
 }
 
 // --- Tool definitions ---
@@ -215,7 +218,7 @@ function injectFooter(result) {
 
 // --- MCP notifications (server→client) ---
 function sendNotification(method, params) {
-  process.stdout.write(JSON.stringify({ jsonrpc: '2.0', method, params }) + '\n');
+  writeMsg(JSON.stringify({ jsonrpc: '2.0', method, params }));
 }
 
 // --- Tool handlers ---
@@ -467,15 +470,32 @@ async function unregister() {
   lastPendingIds = new Set();
 }
 
-// --- MCP stdio transport (newline-delimited JSON per MCP spec) ---
+// --- MCP stdio transport (Content-Length framing per MCP spec) ---
 let buffer = '';
 
 function processBuffer() {
-  let nl;
-  while ((nl = buffer.indexOf('\n')) !== -1) {
+  while (true) {
+    // Try Content-Length framing first
+    const headerEnd = buffer.indexOf('\r\n\r\n');
+    if (headerEnd !== -1) {
+      const header = buffer.slice(0, headerEnd);
+      const match = header.match(/Content-Length:\s*(\d+)/i);
+      if (match) {
+        const len = parseInt(match[1], 10);
+        const bodyStart = headerEnd + 4;
+        if (buffer.length < bodyStart + len) break; // wait for more data
+        const body = buffer.slice(bodyStart, bodyStart + len);
+        buffer = buffer.slice(bodyStart + len);
+        try { handleMessage(JSON.parse(body)); } catch (e) { process.stderr.write(`[palette-peers] parse error: ${e.message}\n`); }
+        continue;
+      }
+    }
+    // Fallback: newline-delimited JSON (for clients that don't send Content-Length)
+    const nl = buffer.indexOf('\n');
+    if (nl === -1) break;
     const line = buffer.slice(0, nl).trim();
     buffer = buffer.slice(nl + 1);
-    if (!line || line.startsWith('Content-Length')) continue; // skip empty lines and legacy LSP headers
+    if (!line || line.startsWith('Content-Length')) continue;
     try { handleMessage(JSON.parse(line)); } catch (e) { process.stderr.write(`[palette-peers] parse error: ${e.message}\n`); }
   }
 }
