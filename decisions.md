@@ -10137,3 +10137,26 @@ All agents: success=1, fail=0, fail_gap=1, status=UNVALIDATED
 **Verification (before -> after)**: queries that returned 17%/no-match now resolve end-to-end — "attorney-client privilege" -> LIB-208 -> RIU-707; "Delaware fiduciary duty" -> LIB-219 -> RIU-709; "filing deadlines" -> LIB-202 -> RIU-702; "conflict of interest" -> LIB-203 -> RIU-703. All YAML valid; load_all() = 131 classifications.
 
 **Outcome**: PASS (Tier 3 integrated + verified; staged locally, not committed/pushed)
+
+---
+### Convergence: Tier 2 — Governance + Retrieval Hardening
+**Time**: 2026-06-19
+**Author**: Palette maintainer / Claude Code session
+**Scope**: Local base only — no push; Mission-Canvas untouched.
+
+**Part A — governance + agents (adopted from origin/main, additive)**:
+- core/palette-core.md (+65): Retrieval Principles (retrieval != authorization, memory != retrieval, similarity != relevance) + Product-Truth/Moat
+- agents/researcher/auto_enrich.py (+122/-4): deterministic regex PII scrubber before filing proposals
+- agents/health/health_check.py (+185/-0): retrieval-quality eval (recall@5/precision@1) + self-improvement-loop health
+- agents/resolver/resolver.py (+2/-1): adds perplexity.computer deep-research route ("shallow" vs "deep" research)
+
+**Part B — retrieval engine (the named Tier-2 decision)**:
+- Adopted peers/hub/palette_retrieve.py (hybrid FTS5+vector+keyword; adds retrieve_learn). Verified lossless superset of the prior 103-line local retriever (zero local-only functions).
+- NEUTRALIZED the Mission-Canvas coupling: _get_mc_engine() now returns None unconditionally (removed the MC_ROOT discovery + `from ontology.engine import OntologyEngine`). Palette stands independent of MC; retrieval uses the Palette-native hybrid/FTS/keyword path. Restoring MC ontology classification is a deliberate future choice, not a default.
+- This unblocks the recovered palette_query.py import (from palette_retrieve import retrieve, retrieve_learn). palette_query is now code-complete; a live end-to-end run still requires the peers bus (broker 7899).
+
+**Kept LOCAL (OWD-2/3, per the local-authoritative rule)**: the peers .mjs bus layer (peers/hub/server.mjs, adapters/perplexity, adapters/generic). These are bus-runtime code that cannot be verified offline and are not a hard dependency for the Python governance/retrieval hardening. Adopt them only as part of a deliberate "stand up the bus" step. The new palette_retrieve.py is a superset, so the existing local server.mjs's calls remain compatible.
+
+**Verification**: retrieve("attorney-client privilege...") runs offline -> RIU-700, confidence 100, 3 knowledge entries (Palette-native path, no MC/ollama). 61 Tier-1 tests still green (intent 49, gateway 12). Legal + general queries still resolve. MANIFEST updated (retrieval: section; palette_query note).
+
+**Outcome**: PASS (Tier 2 adopted + verified offline; staged locally, not committed/pushed)

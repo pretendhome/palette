@@ -147,7 +147,7 @@ intents:
   schemas: scripts/palette_intents/schemas.py   # GateDecision, EvidenceBrief, DecisionRecord, FailureLesson
   engine: scripts/palette_intents/infra.py
   verification: "61 tests green offline (schemas 37, checkpoint 12, gateway 12)"
-  note: "palette_query.py recovered but DORMANT — needs peers bus + Tier-2 palette_retrieve (retrieve_learn)"
+  note: "palette_query.py code-complete — retrieve/retrieve_learn resolve (Tier-2); live end-to-end run still requires the peers bus"
 
 gateway:
   path: core/gateway/          # relocated from bdb/gateway/ on 2026-06-19 (OWD-1)
@@ -155,6 +155,12 @@ gateway:
   exports: [PerplexityGateway, gateway_query]
   components: [socket_firewall, sanitizer, rate_limiter, cache, audit, fallback]
   purpose: "trust-boundary / PII-sanitizing egress gate used by the intent layer"
+
+retrieval:
+  engine: peers/hub/palette_retrieve.py     # adopted Tier-2 (2026-06-19): hybrid FTS5 + vector + keyword; adds retrieve_learn
+  mc_coupling: neutralized                  # _get_mc_engine() returns None — Palette stands independent of Mission-Canvas
+  degrades: "offline → keyword/FTS when ollama embeddings unavailable (verified: legal query → RIU-700 conf 100)"
+  note: "lossless superset of the prior 103-line local retriever (zero local-only functions); unblocks palette_query"
 
 bridges:
   - { name: telegram, path: bridges/telegram/ }

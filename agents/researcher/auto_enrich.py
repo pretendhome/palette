@@ -7,6 +7,7 @@ high-quality candidates as governed proposals via file_proposal.py.
 
 Design: ERS Slice 1 source path. Stateless, best-effort, never blocking.
 Line cap: 300 (crew constraint from 2026-04-23 review).
+PII scrubbing: regex-only layer added per Gemini security review (V3 plan).
 
 Crew decisions:
   - Confidence threshold: 75 (configurable via threshold param)
@@ -33,6 +34,9 @@ _HERE = Path(__file__).resolve().parent
 PALETTE_ROOT = _HERE.parent.parent
 KL_PATH = PALETTE_ROOT / "knowledge-library" / "v1.4" / "palette_knowledge_library_v1.4.yaml"
 TAXONOMY_PATH = PALETTE_ROOT / "taxonomy" / "releases" / "v1.3" / "palette_taxonomy_v1.3.yaml"
+PEOPLE_LIB_PATH = (
+    PALETTE_ROOT / "buy-vs-build" / "people-library" / "v1.1" / "people_library_v1.1.yaml"
+)
 
 # ── Defaults ─────────────────────────────────────────────────────────────────
 
@@ -84,6 +88,105 @@ def _load_valid_rius() -> set[str]:
     return {r["riu_id"] for r in tax.get("rius", []) if r.get("riu_id")}
 
 
+# ── PII scrubbing ───────────────────────────────────────────────────────────
+#
+# Gemini security review flagged that raw claim/evidence/source text flows
+# into governance proposals without sanitisation.  This layer applies
+# deterministic regex-only redaction (no NLP models, no new deps) before
+# any content enters a proposal dict or is filed.  Conservative: better to
+# over-redact in governance artefacts than to leak PII.
+
+# Compiled once at module level for performance.
+_PII_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
+    # Email addresses
+    ("EMAIL", re.compile(
+        r"[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}", re.ASCII)),
+
+    # US Social Security Numbers  (XXX-XX-XXXX only; bare 9-digit match removed
+    # to avoid false positives on ZIP+4, model IDs, etc.)
+    ("SSN", re.compile(
+        r"\b\d{3}-\d{2}-\d{4}\b")),
+
+    # Credit card numbers — 4 groups of 4 digits (most common formats)
+    # Tightened from 13-19 arbitrary digits to reduce false positives on hashes/IDs
+    ("CREDIT-CARD", re.compile(
+        r"\b\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{4}\b"
+        r"|\b\d{4}[\s\-]\d{6}[\s\-]\d{5}\b")),  # Amex format
+
+    # US phone numbers — (xxx) xxx-xxxx, xxx-xxx-xxxx, xxx.xxx.xxxx, +1xxxxxxxxxx
+    ("PHONE", re.compile(
+        r"(?:\+?1[\s.\-]?)?"                       # optional country code
+        r"(?:\(\d{3}\)|\d{3})"                      # area code
+        r"[\s.\-]?\d{3}[\s.\-]?\d{4}\b")),
+
+    # Street addresses — number + street name + suffix
+    ("ADDRESS", re.compile(
+        r"\b\d{1,6}\s+"                             # house number
+        r"(?:[A-Z][a-zA-Z]+\s+){1,4}"              # street words
+        r"(?:St(?:reet)?|Ave(?:nue)?|Blvd|Boulevard|Dr(?:ive)?|Ln|Lane|Rd|Road"
+        r"|Ct|Court|Pl(?:ace)?|Way|Cir(?:cle)?|Pkwy|Parkway|Ter(?:race)?)"
+        r"\.?"                                      # optional period
+        r"(?:\s*,?\s*(?:Apt|Suite|Unit|#)\s*\S+)?"  # optional unit
+        r"\b", re.IGNORECASE)),
+]
+
+
+def _load_known_names() -> list[str]:
+    """Load person names from the people library for name-redaction.
+
+    Returns full names sorted longest-first so that "Maria Zhanette Yap" is
+    matched before "Maria".
+    """
+    if not PEOPLE_LIB_PATH.exists():
+        return []
+    try:
+        with PEOPLE_LIB_PATH.open(encoding="utf-8") as f:
+            data = yaml.safe_load(f) or {}
+    except Exception:
+        return []
+    names: list[str] = []
+    for profile in data.get("profiles", []):
+        name = profile.get("name", "").strip()
+        if name:
+            names.append(name)
+    # Sort longest-first so multi-word names match before substrings
+    names.sort(key=len, reverse=True)
+    return names
+
+
+def _scrub_pii(text: str, known_names: list[str]) -> str:
+    """Deterministic PII redaction using regex patterns and a known-name list.
+
+    Applied to claim, evidence, and source fields before they enter any
+    governance proposal.  Uses only Python's built-in ``re`` module.
+
+    Redaction tags follow the format ``[REDACTED-{TYPE}]`` so downstream
+    consumers can see *what* was removed without seeing the data.
+
+    Args:
+        text:        The raw text to scrub.
+        known_names: Pre-sorted (longest-first) list of names from the
+                     people library.
+
+    Returns:
+        The scrubbed text with all detected PII replaced.
+    """
+    if not text:
+        return text
+
+    # 1. Redact known names (longest-first to avoid partial matches)
+    for name in known_names:
+        # Word-boundary match, case-insensitive
+        pattern = re.compile(re.escape(name), re.IGNORECASE)
+        text = pattern.sub("[REDACTED-NAME]", text)
+
+    # 2. Apply structural PII patterns
+    for label, pattern in _PII_PATTERNS:
+        text = pattern.sub(f"[REDACTED-{label}]", text)
+
+    return text
+
+
 # ── Core filter ──────────────────────────────────────────────────────────────
 
 def evaluate_and_propose(
@@ -103,6 +206,7 @@ def evaluate_and_propose(
 
     kl_entries = _load_kl_questions()
     valid_rius = _load_valid_rius()
+    known_names = _load_known_names()
     kl_tokens = [(e, _tokenize(e.get("question", "") + " " + e.get("answer", "")[:200]))
                  for e in kl_entries]
 
@@ -115,9 +219,9 @@ def evaluate_and_propose(
     filtered: list[dict[str, Any]] = []
 
     for finding in findings:
-        claim = finding.get("claim", "")
-        evidence = finding.get("evidence", "")
-        source = finding.get("source", "")
+        claim = _scrub_pii(finding.get("claim", ""), known_names)
+        evidence = _scrub_pii(finding.get("evidence", ""), known_names)
+        source = finding.get("source", "")  # URL kept intact for verification
         confidence = int(finding.get("confidence", 0))
 
         # Filter 1: Confidence threshold
@@ -230,7 +334,12 @@ def _evidence_tier(source: str) -> int:
 # ── Filing interface ─────────────────────────────────────────────────────────
 
 def file_proposals(proposals: list[dict[str, Any]]) -> list[str]:
-    """File proposals through the governance pipeline. Returns list of filed IDs."""
+    """File proposals through the governance pipeline. Returns list of filed IDs.
+
+    Applies a second PII scrub pass on content fields immediately before
+    filing as a defense-in-depth measure (proposals may arrive from paths
+    that bypass evaluate_and_propose).
+    """
     sys.path.insert(0, str(PALETTE_ROOT / "scripts"))
     try:
         from file_proposal import file_proposal
@@ -238,8 +347,17 @@ def file_proposals(proposals: list[dict[str, Any]]) -> list[str]:
         _log(f"cannot import file_proposal: {e}")
         return []
 
+    known_names = _load_known_names()
+
     filed: list[str] = []
     for prop in proposals:
+        # Defense-in-depth: scrub content fields before filing
+        content = prop.get("content", {})
+        for field in ("question", "answer"):
+            if field in content and isinstance(content[field], str):
+                content[field] = _scrub_pii(content[field], known_names)
+        if "rationale" in prop and isinstance(prop["rationale"], str):
+            prop["rationale"] = _scrub_pii(prop["rationale"], known_names)
         try:
             prop_id = file_proposal(prop_data=prop)
             if prop_id:

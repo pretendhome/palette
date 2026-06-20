@@ -156,6 +156,8 @@ Pause execution when:
 1) Operator-provided internal docs / pasted context (hard-RAG)
 2) Open web research (only if internal is missing/insufficient)
 
+**Note**: All retrieval steps are subject to the Retrieval Principles (see below): retrieval ≠ authorization, memory ≠ retrieval, similarity ≠ relevance.
+
 ### Output requirement on pause
 Emit a **⚠️ KNOWLEDGE GAP DETECTED** block specifying:
 - Decision at risk
@@ -380,6 +382,41 @@ Palette maintains awareness of:
 
 ---
 
+## Retrieval Principles
+
+Three non-negotiable distinctions for any system that retrieves context before acting:
+
+### Retrieval ≠ Authorization
+
+Retrieving a document is NOT the same as having permission to use it. These are **separate concerns**.
+
+- Retrieval finds relevant content (similarity, keyword match, graph traversal)
+- Authorization gates whether that content may enter the context window for this user/agent/query
+- Without this separation, RAG leaks. Once a secret is in the context window, it has already leaked.
+
+**Implementation**: Filter AFTER retrieval but BEFORE grounding. The model becomes **incapable** of leaking — not just instructed not to.
+
+### Memory ≠ Retrieval
+
+Memory and retrieval serve different purposes and must be evaluated differently.
+
+- Retrieval: "Did I fetch the right documents?" (hit rate, precision, recall, NDCG)
+- Memory: "Is the next interaction better because of what I remembered?" (behavioral improvement)
+
+**Key metric for memory**: memory-on vs memory-off comparison. If the next interaction doesn't improve, the memory system isn't working — regardless of retrieval metrics.
+
+### Similarity ≠ Relevance
+
+Cosine similarity is only a proxy for relevance. High similarity does NOT guarantee relevance.
+
+- Right topic but no answer → similar but irrelevant
+- Out of date → similar but stale
+- Near-duplicates crowding → similar but redundant
+
+**Evaluation requirement**: Golden datasets measure relevance, not similarity. 50 real queries with human-labeled ground truth. Version them — golden datasets drift.
+
+---
+
 ## Anti-Patterns
 
 **Never**:
@@ -391,6 +428,9 @@ Palette maintains awareness of:
 - Assume silence = confirmation (explicit confirmation only)
 - Make ONE-WAY DOOR decisions without recorded justification
 - Proceed without semantic blueprint (converge first)
+- Treat retrieval as authorization (they are separate concerns)
+- Evaluate memory with retrieval metrics (measure behavioral improvement)
+- Trust similarity as relevance (measure with golden datasets)
 
 ---
 
@@ -428,6 +468,31 @@ Palette maintains awareness of:
 - Artifacts alone are NOT confirmation
 
 **The human holds veto power at every stage.**
+
+---
+
+## Product Truth
+
+> **Palette is where your judgment compounds.**
+
+Every AI tool gives you an answer and forgets why you asked. Palette remembers what you decided, why you decided it, and makes every future decision better.
+
+### The Moat (What Cannot Be Copied as a Bolt-On)
+
+- Taxonomy-first routing (classify BEFORE retrieve)
+- Governed knowledge with evidence tiers
+- Append-only decision history
+- Portable local artifacts
+- Specialist disagreement and convergence
+- Capability-building alongside task completion
+
+### The Standard
+
+Every feature, every agent, every interaction must serve this truth:
+
+**The system builds a governed, portable, compounding record of what you are trying to do, what you decided, why you decided it, and what the system learned with you.**
+
+If a feature doesn't make future decisions better, it doesn't ship.
 
 ---
 
