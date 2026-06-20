@@ -5708,8 +5708,504 @@ rius:
   - workflow
   - quality-gates
   - multi-agent
+- riu_id: RIU-700
+  name: Privilege Risk Assessment
+  problem_pattern: A query or action may expose attorney-client privileged material
+    to a third party, including cloud AI tools.
+  execution_intent: 'Classify the query for privilege risk. Identify privileged elements
+    (client identity, legal strategy, matter-specific advice). If privileged content
+    is detected, block external routing and respond local-only. Log the gate decision
+    with matter reference. Reference: United States v. Heppner (SDNY 2026) — cloud
+    AI use waives privilege.'
+  trigger_signals:
+  - client name mentioned
+  - legal strategy discussed
+  - settlement terms
+  - privileged communication
+  - attorney work product
+  - case-specific advice
+  reversibility: one_way
+  workstreams:
+  - Quality & Safety
+  journey_stage: foundation
+  coordinates:
+    category: legal
+    industry: legal-services
+    use_case: privilege-protection
+  agent_types:
+  - Human:Delivery
+  - Validator
+  artifacts:
+  - privilege_gate_log.md
+  - matter_classification.yaml
+  dependencies: []
+  tags:
+  - legal
+  - privilege
+  - governance
+  - pii
+  - one-way-door
+  failure_modes:
+    silent:
+    - privileged content sent to external API without detection
+    loud:
+    - false positive blocks legitimate public research
+    clustered:
+    - multi-party matters with complex privilege chains
+  success_conditions:
+    execution: Every query classified for privilege risk before any external call.
+    outcome: Zero privileged data reaches external services.
+    safety_quality: Heppner-compliant — no third-party exposure of privileged input.
+  notes: The Heppner ruling (SDNY Feb 2026) makes this the most critical legal RIU.
+    Local-first architecture is the architectural solution to privilege preservation.
+- riu_id: RIU-701
+  name: Legal Precedent Research
+  problem_pattern: Practitioner needs case law, statutory authority, or regulatory
+    guidance on a legal question that can be researched from public sources.
+  execution_intent: Classify the research question by jurisdiction and legal domain.
+    Search local knowledge library first. If confidence is low, formulate a targeted
+    external query (Perplexity) with jurisdiction and domain context. Sanitize before
+    sending — no client identifiers, no matter numbers, no strategy language. Merge
+    external results with local knowledge. Store with evidence tier and citations.
+  trigger_signals:
+  - case law question
+  - statutory interpretation
+  - regulatory guidance needed
+  - precedent search
+  - jurisdiction-specific question
+  reversibility: two_way
+  workstreams:
+  - Core Logic
+  journey_stage: analysis
+  coordinates:
+    category: legal
+    industry: legal-services
+    use_case: legal-research
+  agent_types:
+  - Researcher
+  - Human:Delivery
+  artifacts:
+  - research_memo.md
+  - citation_list.yaml
+  dependencies:
+  - RIU-700
+  tags:
+  - legal
+  - research
+  - precedent
+  - case-law
+  - external-research
+  failure_modes:
+    silent:
+    - stale precedent returned without freshness check
+    loud:
+    - external search blocked when query was actually safe
+    clustered:
+    - multi-jurisdiction questions requiring parallel research
+  success_conditions:
+    execution: Relevant precedents retrieved with citations and evidence tier.
+    outcome: Practitioner has grounded legal authority for their question.
+    safety_quality: No client-identifying information in external queries.
+  notes: This is the governed external research pattern — Perplexity as the window
+    to public legal knowledge, with Palette governing the boundary.
+- riu_id: RIU-702
+  name: Filing Deadline Tracking
+  problem_pattern: Practitioner needs to identify applicable filing deadlines by jurisdiction,
+    case type, and procedural posture.
+  execution_intent: Identify the jurisdiction, court, case type, and procedural posture.
+    Look up applicable rules (statute of limitations, service requirements, motion
+    deadlines, scheduling orders). Return structured timeline with dates, rules, and
+    sources. Flag any deadline within 30 days as urgent. Store locally — deadlines
+    are often matter-specific.
+  trigger_signals:
+  - filing deadline question
+  - statute of limitations
+  - service deadline
+  - motion deadline
+  - scheduling order
+  reversibility: one_way
+  workstreams:
+  - Ops & Delivery
+  journey_stage: execution
+  coordinates:
+    category: legal
+    industry: legal-services
+    use_case: deadline-tracking
+  agent_types:
+  - Human:Delivery
+  - Researcher
+  artifacts:
+  - deadline_timeline.yaml
+  - procedural_checklist.md
+  dependencies:
+  - RIU-700
+  tags:
+  - legal
+  - filing
+  - deadlines
+  - procedure
+  - compliance
+  failure_modes:
+    silent:
+    - missed deadline due to wrong jurisdiction lookup
+    loud:
+    - false urgency on inapplicable deadline
+    clustered:
+    - complex multi-jurisdictional matters
+  success_conditions:
+    execution: All applicable deadlines identified with rule citations.
+    outcome: No missed filing deadlines.
+    safety_quality: Matter-specific details stay local.
+  notes: Filing deadlines are ONE-WAY DOOR — a missed deadline is often irrecoverable.
+    Always flag as high-risk.
+- riu_id: RIU-703
+  name: Conflict of Interest Check
+  problem_pattern: New matter intake or party change requires checking for conflicts
+    against existing representations.
+  execution_intent: 'Cross-reference parties (individuals, entities, related parties)
+    against the local matter database. Flag potential conflicts by type: direct adverse,
+    material limitation, former client, positional. Require human review for any flagged
+    conflict before proceeding. Log the check with full party list and result.'
+  trigger_signals:
+  - new matter intake
+  - new party identified
+  - opposing counsel named
+  - corporate family discovered
+  - lateral hire with prior representations
+  reversibility: one_way
+  workstreams:
+  - Quality & Safety
+  journey_stage: foundation
+  coordinates:
+    category: legal
+    industry: legal-services
+    use_case: conflict-check
+  agent_types:
+  - Validator
+  - Human:Delivery
+  artifacts:
+  - conflict_check_report.md
+  - cleared_matter.yaml
+  dependencies: []
+  tags:
+  - legal
+  - conflicts
+  - ethics
+  - intake
+  - one-way-door
+  failure_modes:
+    silent:
+    - related entity not in database — conflict missed
+    loud:
+    - false positive on common name
+    clustered:
+    - large corporate families with overlapping interests
+  success_conditions:
+    execution: All parties checked against complete database.
+    outcome: No conflicted representations.
+    safety_quality: Human review required for every flagged conflict.
+  notes: Conflict checks are the highest-stakes ONE-WAY DOOR in legal practice. A
+    missed conflict can result in disqualification, malpractice, and bar discipline.
+- riu_id: RIU-704
+  name: Contract Clause Review
+  problem_pattern: Practitioner needs to analyze specific contract clauses against
+    standard terms, identify non-standard provisions, and flag risk.
+  execution_intent: Parse the clause type (indemnification, limitation of liability,
+    IP assignment, non-compete, termination, force majeure, etc.). Compare against
+    standard market terms in the knowledge library. Flag deviations — above-market,
+    below-market, unusual. Classify risk tier. Never send contract text externally
+    — all analysis is local.
+  trigger_signals:
+  - contract review requested
+  - clause flagged as unusual
+  - counterparty redline received
+  - template deviation detected
+  reversibility: two_way
+  workstreams:
+  - Core Logic
+  journey_stage: analysis
+  coordinates:
+    category: legal
+    industry: legal-services
+    use_case: contract-review
+  agent_types:
+  - Researcher
+  - Human:Delivery
+  artifacts:
+  - clause_analysis.md
+  - risk_flag_report.yaml
+  dependencies:
+  - RIU-700
+  tags:
+  - legal
+  - contracts
+  - clause-review
+  - risk-assessment
+  failure_modes:
+    silent:
+    - non-standard clause missed because template was stale
+    loud:
+    - standard clause flagged as non-standard
+    clustered:
+    - complex multi-agreement deals
+  success_conditions:
+    execution: Every flagged clause has risk tier and comparison to market standard.
+    outcome: Practitioner knows where the contract deviates from norms.
+    safety_quality: Contract text never sent externally.
+  notes: Contract text is always privileged and must stay local. Only generic legal
+    questions about clause types can be researched externally.
+- riu_id: RIU-705
+  name: Regulatory Compliance Check
+  problem_pattern: Action or decision needs verification against applicable regulations
+    before proceeding.
+  execution_intent: Identify the regulatory domain (securities, environmental, healthcare,
+    data privacy, employment, antitrust). Map the specific regulation and applicable
+    requirements. Check the proposed action against the requirements. Flag compliance
+    gaps. Public regulatory text can be researched externally; client-specific compliance
+    status stays local.
+  trigger_signals:
+  - regulatory question
+  - compliance review needed
+  - new regulation applicable
+  - audit preparation
+  - regulatory filing required
+  reversibility: one_way
+  workstreams:
+  - Quality & Safety
+  journey_stage: analysis
+  coordinates:
+    category: legal
+    industry: legal-services
+    use_case: regulatory-compliance
+  agent_types:
+  - Researcher
+  - Validator
+  - Human:Delivery
+  artifacts:
+  - compliance_assessment.md
+  - gap_analysis.yaml
+  dependencies:
+  - RIU-700
+  tags:
+  - legal
+  - compliance
+  - regulation
+  - governance
+  failure_modes:
+    silent:
+    - outdated regulation applied — new version not in library
+    loud:
+    - overcautious interpretation blocks legitimate action
+    clustered:
+    - multi-jurisdictional compliance requirements
+  success_conditions:
+    execution: Applicable regulations identified and requirements mapped.
+    outcome: No compliance violations in proposed action.
+    safety_quality: Client-specific compliance status stays local.
+  notes: HIPAA 2026, EU AI Act, state privacy laws — regulatory landscape is changing
+    rapidly. Freshness is critical.
+- riu_id: RIU-706
+  name: Client Matter Intake
+  problem_pattern: New client or new matter requires structured intake — classification,
+    risk tier, conflict check, and matter file creation.
+  execution_intent: Collect matter type, parties, jurisdiction, risk tier. Run conflict
+    check (RIU-703). Classify matter by practice area and complexity. Create structured
+    matter file (YAML). Assign governance tier (routine, complex, high-risk). Log
+    the intake decision. All intake data is privileged — stays local.
+  trigger_signals:
+  - new client engagement
+  - new matter opened
+  - engagement letter signed
+  - referral received
+  reversibility: two_way
+  workstreams:
+  - Clarify & Bound
+  journey_stage: foundation
+  coordinates:
+    category: legal
+    industry: legal-services
+    use_case: matter-intake
+  agent_types:
+  - Human:Delivery
+  - Validator
+  artifacts:
+  - matter_file.yaml
+  - intake_checklist.md
+  dependencies:
+  - RIU-703
+  tags:
+  - legal
+  - intake
+  - matter-management
+  - onboarding
+  failure_modes:
+    silent:
+    - incomplete intake — missing party leads to conflict later
+    loud:
+    - over-complicated intake for simple matters
+    clustered:
+    - high-volume intake periods
+  success_conditions:
+    execution: Matter file created with all required fields.
+    outcome: Clear classification and governance tier from day one.
+    safety_quality: Conflict check completed before any work begins.
+  notes: Intake is where the matter file is created and the governance posture is
+    set. Getting this right prevents downstream problems.
+- riu_id: RIU-707
+  name: Discovery and Document Production
+  problem_pattern: Matter requires organizing, reviewing, and producing documents
+    while protecting privileged material.
+  execution_intent: Organize documents by relevance category. Flag privileged material
+    for exclusion from production. Create privilege log entries for withheld documents.
+    Build production schedule with deadlines. All document content is privileged —
+    review and classification is strictly local.
+  trigger_signals:
+  - discovery request received
+  - document production deadline
+  - privilege log needed
+  - document review required
+  reversibility: one_way
+  workstreams:
+  - Ops & Delivery
+  journey_stage: execution
+  coordinates:
+    category: legal
+    industry: legal-services
+    use_case: discovery
+  agent_types:
+  - Human:Delivery
+  - Researcher
+  artifacts:
+  - production_schedule.yaml
+  - privilege_log.md
+  dependencies:
+  - RIU-700
+  tags:
+  - legal
+  - discovery
+  - production
+  - privilege-log
+  failure_modes:
+    silent:
+    - privileged document produced without review
+    loud:
+    - over-designation of privilege — clawback burden
+    clustered:
+    - high-volume productions with tight deadlines
+  success_conditions:
+    execution: All responsive documents categorized; privilege log complete.
+    outcome: Compliant production with no privilege waiver.
+    safety_quality: Zero privileged documents in production set.
+  notes: Inadvertent privilege waiver in document production is a major malpractice
+    risk. This is a ONE-WAY DOOR — once produced, it cannot be unproduced.
+- riu_id: RIU-708
+  name: Settlement Analysis
+  problem_pattern: Matter requires evaluating exposure, modeling settlement ranges,
+    and comparing against precedent outcomes.
+  execution_intent: Evaluate legal exposure based on claims and defenses. Model settlement
+    ranges using comparable precedent outcomes (can research public verdicts/settlements
+    externally after sanitization). Factor in litigation costs, timeline, and risk
+    tolerance. Present structured analysis with range, recommendation, and rationale.
+    All client-specific analysis stays local — only generic precedent research can
+    go external.
+  trigger_signals:
+  - settlement discussion initiated
+  - demand received
+  - mediation scheduled
+  - exposure assessment requested
+  reversibility: one_way
+  workstreams:
+  - Core Logic
+  journey_stage: decision
+  coordinates:
+    category: legal
+    industry: legal-services
+    use_case: settlement-analysis
+  agent_types:
+  - Architect
+  - Human:Delivery
+  artifacts:
+  - settlement_analysis.md
+  - exposure_model.yaml
+  dependencies:
+  - RIU-700
+  - RIU-701
+  tags:
+  - legal
+  - settlement
+  - analysis
+  - exposure
+  - strategy
+  failure_modes:
+    silent:
+    - comparable case data is stale or wrong jurisdiction
+    loud:
+    - range too wide to be actionable
+    clustered:
+    - multi-claim matters with interrelated exposure
+  success_conditions:
+    execution: Settlement range with evidence, comparables, and rationale.
+    outcome: Informed settlement decision.
+    safety_quality: Client-specific strategy never reaches external services.
+  notes: Settlement analysis is inherently privileged. Only generic verdict/settlement
+    research (no party names, no matter details) can go external.
+- riu_id: RIU-709
+  name: Fiduciary Duty Analysis
+  problem_pattern: Action by a board, officer, trustee, or fiduciary requires analysis
+    against applicable duty standards.
+  execution_intent: Identify the fiduciary role (director, officer, trustee, partner,
+    adviser). Determine applicable standard of care (business judgment, enhanced scrutiny,
+    entire fairness). Map to relevant precedents by jurisdiction. Assess whether the
+    proposed action meets the applicable standard. Flag enhanced scrutiny triggers
+    (conflict, sale-of-company, controller transaction). Public precedent research
+    can go external; specific client analysis stays local.
+  trigger_signals:
+  - board action proposed
+  - fiduciary duty question
+  - conflict of interest at board level
+  - sale or merger transaction
+  - trustee action questioned
+  reversibility: one_way
+  workstreams:
+  - Core Logic
+  - Quality & Safety
+  journey_stage: analysis
+  coordinates:
+    category: legal
+    industry: legal-services
+    use_case: fiduciary-analysis
+  agent_types:
+  - Researcher
+  - Architect
+  - Human:Delivery
+  artifacts:
+  - fiduciary_analysis.md
+  - standard_of_review.yaml
+  dependencies:
+  - RIU-700
+  - RIU-701
+  tags:
+  - legal
+  - fiduciary
+  - governance
+  - board
+  - delaware
+  failure_modes:
+    silent:
+    - wrong standard of review applied
+    loud:
+    - over-flagging routine business judgment decisions
+    clustered:
+    - complex transactions with multiple fiduciary roles
+  success_conditions:
+    execution: Correct standard of review identified with supporting precedent.
+    outcome: Fiduciary action is defensible under applicable law.
+    safety_quality: Client-specific analysis stays local; only generic precedent research
+      goes external.
+  notes: This RIU directly maps to the BDB demo — Delaware fiduciary duty is the primary
+    example. Connects to LEGAL-KL-001 through LEGAL-KL-003.
 taxonomy_statistics:
-  total_rius: 121
+  total_rius: 131
   v1_2_base: 94
   essential_added: 10
   v1_3_added: 4

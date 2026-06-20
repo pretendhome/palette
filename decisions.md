@@ -10115,3 +10115,25 @@ All agents: success=1, fail=0, fail_gap=1, status=UNVALIDATED
 **Verification**: 61 tests green offline — schemas 37/37, checkpoint 12/12, core/gateway 12/12. All recovered files compile.
 
 **Outcome**: PASS (Tier 1 recovered + verified; staged locally, not committed/pushed)
+
+---
+### Convergence: Tier 3 — Legal Vertical Integrated
+**Time**: 2026-06-19
+**Author**: Palette maintainer / Claude Code session
+**Scope**: Local base only — no push; Mission-Canvas untouched.
+
+**Added (spliced from origin/main into local, additive — no reflow of existing entries)**:
+- taxonomy: RIU-700..709 (legal cluster: privilege, precedent research, filing deadlines, conflicts, discovery, fiduciary duty) -> 121 to 131 RIUs
+- knowledge-library: LIB-200..219 (20 sourced legal entries, evidence_tier 1, cited to U.S. v. Heppner SDNY 2026 and firm advisories) -> 176 to 196 entries
+- riu_classification: RIU-700..709 routing (7 internal_only, 3 both)
+- buy-vs-build/integrations/ollama-local/recipe.yaml (privilege-preserving local inference)
+
+**Deliberately excluded**: LIB-186..192 (conference-sourced, mixed provenance — per brief).
+
+**Bug fixed during integration**: the legal LIB entries use the standard library_questions schema, but the scattered remote appended them under gap_additions:, where loader._normalize_gap_addition expects a proposed_answer.* schema and silently dropped related_rius (entries were unresolvable). Placed them under library_questions: instead, so related_rius links resolve. The legal vertical now works locally — better than the remote ever had it.
+
+**Counts updated**: MANIFEST (taxonomy 131, knowledge_library 196); riu_classification header+summary (total_rius 131, internal_only +7, both +3); taxonomy_statistics total_rius 131. NOTE: descriptive distribution stats were NOT regenerated.
+
+**Verification (before -> after)**: queries that returned 17%/no-match now resolve end-to-end — "attorney-client privilege" -> LIB-208 -> RIU-707; "Delaware fiduciary duty" -> LIB-219 -> RIU-709; "filing deadlines" -> LIB-202 -> RIU-702; "conflict of interest" -> LIB-203 -> RIU-703. All YAML valid; load_all() = 131 classifications.
+
+**Outcome**: PASS (Tier 3 integrated + verified; staged locally, not committed/pushed)

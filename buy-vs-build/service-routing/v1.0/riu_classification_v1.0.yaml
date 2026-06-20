@@ -20,10 +20,10 @@
 version: "1.0"
 generated_at: "2026-02-24"
 taxonomy_version: "v1.3"
-total_rius: 121
+total_rius: 131
 service_applicable_count: 0
-both_count: 40
-internal_only_count: 81
+both_count: 43
+internal_only_count: 88
 
 classification_rule: |
   External service is material if it would meaningfully change:
@@ -1042,14 +1042,44 @@ rius:
     classification: internal_only
     rationale: Workflow definition is Palette's own structured format. No external framework replaces it.
 
+  - riu_id: RIU-700
+    name: Privilege Risk Assessment
+    classification: internal_only
+  - riu_id: RIU-701
+    name: Legal Precedent Research
+    classification: both
+  - riu_id: RIU-702
+    name: Filing Deadline Tracking
+    classification: internal_only
+  - riu_id: RIU-703
+    name: Conflict of Interest Check
+    classification: internal_only
+  - riu_id: RIU-704
+    name: Contract Clause Review
+    classification: internal_only
+  - riu_id: RIU-705
+    name: Regulatory Compliance Check
+    classification: both
+  - riu_id: RIU-706
+    name: Client Matter Intake
+    classification: internal_only
+  - riu_id: RIU-707
+    name: Discovery and Document Production
+    classification: internal_only
+  - riu_id: RIU-708
+    name: Settlement Analysis
+    classification: internal_only
+  - riu_id: RIU-709
+    name: Fiduciary Duty Analysis
+    classification: both
 # ==========================================================================
 # SUMMARY STATISTICS
 # ==========================================================================
 
 summary:
-  total_rius: 121
-  internal_only: 80
-  both: 40
+  total_rius: 131
+  internal_only: 87
+  both: 43
   service_applicable: 0
 
   # "both" breakdown by theme:
