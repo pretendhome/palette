@@ -71,6 +71,7 @@ buy-vs-build/tech/Tech-Investment-Report-*
 *.docx
 *.html
 mission-canvas/.env.production
+mission-canvas/.joseph
 
 # ── PII: Person lenses (real people — keep generic role lenses only) ──
 lenses/releases/v0/LENS-PERSON-*

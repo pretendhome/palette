@@ -1,20 +1,20 @@
 # .joseph — Mission Canvas Workspace Debug & Reference
 # This file contains everything Claude (or any AI assistant) needs to
-# diagnose and fix connection issues with Joseph's workspace.
+# diagnose and fix connection issues with Your workspace.
 # Last updated: 2026-03-31
 
 # ═══════════════════════════════════════════════════════════════════
 # 1. ARCHITECTURE OVERVIEW
 # ═══════════════════════════════════════════════════════════════════
 
-# Joseph's workspace runs across two locations:
+# Your workspace runs across two locations:
 #
-# VPS (always-on relay)         Joseph's Laptop (private)
+# VPS (always-on relay)         Your Laptop (private)
 # ├── server.mjs (:8787)       ├── git clone of pretendhome repo
-# ├── joseph_bridge.py          ├── mcp_server_remote.mjs → calls VPS
+# ├── your_bridge.py          ├── mcp_server_remote.mjs → calls VPS
 # ├── monitor_daemon.py         ├── Claude Desktop / Cursor / Codex
 # ├── cloudflared tunnel        ├── lens.yaml (PRIVATE — never upload)
-# ├── workspaces/oil-investor/  └── local files (PRIVATE — never upload)
+# ├── workspaces/YOUR_WORKSPACE_ID/  └── local files (PRIVATE — never upload)
 # └── Telegram bot polling
 #
 # All channels (MCP, Telegram, Web UI) talk to the SAME workspace
@@ -24,30 +24,30 @@
 # 2. CONNECTION DETAILS
 # ═══════════════════════════════════════════════════════════════════
 
-VPS_HOST=srv1390882.hstgr.cloud
-VPS_IP=72.60.171.27
-VPS_USER=root
-VPS_SSH="ssh root@srv1390882.hstgr.cloud"
+VPS_HOST=YOUR_VPS_HOST
+VPS_IP=YOUR_VPS_IP
+VPS_USER=YOUR_USER
+VPS_SSH="ssh YOUR_USER@YOUR_VPS_HOST"
 VPS_DIR=/root/fde/missioncanvas-site
 
 # The VPS firewall blocks all ports except SSH (22).
 # We use a Cloudflare tunnel to expose port 8787 externally.
 # The tunnel URL CHANGES every time the tunnel service restarts.
 # To get the current URL:
-#   ssh root@srv1390882.hstgr.cloud 'journalctl -u mc-tunnel --no-pager | grep -oP "https://[a-z0-9-]+\.trycloudflare\.com" | tail -1'
+#   ssh YOUR_USER@YOUR_VPS_HOST 'journalctl -u mc-tunnel --no-pager | grep -oP "https://[a-z0-9-]+\.trycloudflare\.com" | tail -1'
 
 # Current tunnel URL (will change on restart):
-TUNNEL_URL=https://blake-flower-doctors-critical.trycloudflare.com
+TUNNEL_URL=https://YOUR_TUNNEL_URL.trycloudflare.com
 
 # Internal port (on VPS, not accessible from outside):
 SERVER_PORT=8787
 
 # Telegram bot:
-TELEGRAM_BOT=@joseph_palette_bot
-TELEGRAM_BOT_TOKEN=8748740444:AAE7mncPmZFZs45xxVgKAF1xMoFvDOxOBjQ
+TELEGRAM_BOT=@YOUR_BOT_NAME
+TELEGRAM_BOT_TOKEN=YOUR_TELEGRAM_BOT_TOKEN
 
 # Workspace:
-WORKSPACE_ID=oil-investor
+WORKSPACE_ID=YOUR_WORKSPACE_ID
 
 # ═══════════════════════════════════════════════════════════════════
 # 3. SERVICES (systemd on VPS)
@@ -60,20 +60,20 @@ WORKSPACE_ID=oil-investor
 # mc-monitors.service     — Background monitor daemon (Perplexity searches)
 # mc-tunnel.service       — Cloudflare tunnel (exposes 8787 as HTTPS)
 #
-# All read env vars from: /root/fde/missioncanvas-site/joseph.env
+# All read env vars from: /root/fde/missioncanvas-site/your.env
 # Python services use venv: /root/fde/venv/bin/python3
 
 # Check all services:
-#   ssh root@srv1390882.hstgr.cloud 'systemctl is-active missioncanvas joseph-bridge mc-monitors mc-tunnel'
+#   ssh YOUR_USER@YOUR_VPS_HOST 'systemctl is-active missioncanvas joseph-bridge mc-monitors mc-tunnel'
 
 # Restart everything:
-#   ssh root@srv1390882.hstgr.cloud 'systemctl restart missioncanvas && sleep 2 && systemctl restart joseph-bridge mc-monitors mc-tunnel'
+#   ssh YOUR_USER@YOUR_VPS_HOST 'systemctl restart missioncanvas && sleep 2 && systemctl restart joseph-bridge mc-monitors mc-tunnel'
 
 # View logs:
-#   ssh root@srv1390882.hstgr.cloud 'journalctl -u missioncanvas --no-pager -n 30'
-#   ssh root@srv1390882.hstgr.cloud 'journalctl -u joseph-bridge --no-pager -n 30'
-#   ssh root@srv1390882.hstgr.cloud 'journalctl -u mc-monitors --no-pager -n 30'
-#   ssh root@srv1390882.hstgr.cloud 'journalctl -u mc-tunnel --no-pager -n 30'
+#   ssh YOUR_USER@YOUR_VPS_HOST 'journalctl -u missioncanvas --no-pager -n 30'
+#   ssh YOUR_USER@YOUR_VPS_HOST 'journalctl -u joseph-bridge --no-pager -n 30'
+#   ssh YOUR_USER@YOUR_VPS_HOST 'journalctl -u mc-monitors --no-pager -n 30'
+#   ssh YOUR_USER@YOUR_VPS_HOST 'journalctl -u mc-tunnel --no-pager -n 30'
 
 # ═══════════════════════════════════════════════════════════════════
 # 4. COMMON ISSUES AND FIXES
@@ -81,29 +81,29 @@ WORKSPACE_ID=oil-investor
 
 # ── Issue: Telegram bot not responding ──
 # Cause 1: Bridge service crashed
-#   Fix: ssh root@srv1390882.hstgr.cloud 'systemctl restart joseph-bridge'
+#   Fix: ssh YOUR_USER@YOUR_VPS_HOST 'systemctl restart joseph-bridge'
 #   Check: journalctl -u joseph-bridge --no-pager -n 20
 #
 # Cause 2: Server is down (bridge depends on it)
-#   Fix: ssh root@srv1390882.hstgr.cloud 'systemctl restart missioncanvas && sleep 2 && systemctl restart joseph-bridge'
+#   Fix: ssh YOUR_USER@YOUR_VPS_HOST 'systemctl restart missioncanvas && sleep 2 && systemctl restart joseph-bridge'
 #
 # Cause 3: Bot token revoked or another process is polling
 #   Telegram allows only ONE polling process per bot token at a time.
-#   If you run joseph_bridge.py locally AND on VPS, they will conflict.
+#   If you run your_bridge.py locally AND on VPS, they will conflict.
 #   Fix: Only run the bridge in ONE place. Kill the other:
-#     pkill -f "python.*joseph_bridge"  (local)
-#     ssh root@srv1390882.hstgr.cloud 'systemctl stop joseph-bridge'  (VPS)
+#     pkill -f "python.*your_bridge"  (local)
+#     ssh YOUR_USER@YOUR_VPS_HOST 'systemctl stop joseph-bridge'  (VPS)
 #
 # Cause 4: Bot not in group / privacy mode on
 #   The bot must have Group Privacy OFF in BotFather settings.
-#   BotFather → /mybots → @joseph_palette_bot → Bot Settings → Group Privacy → OFF
+#   BotFather → /mybots → @YOUR_BOT_NAME → Bot Settings → Group Privacy → OFF
 #   After changing, remove and re-add the bot to the group.
 
 # ── Issue: MCP tools not working in Claude Desktop ──
 # Cause 1: Tunnel URL changed (server restarted)
 #   The free Cloudflare tunnel URL changes on every restart.
 #   Fix: Get new URL and update Claude Desktop config:
-#     ssh root@srv1390882.hstgr.cloud 'journalctl -u mc-tunnel --no-pager | grep -oP "https://[a-z0-9-]+\.trycloudflare\.com" | tail -1'
+#     ssh YOUR_USER@YOUR_VPS_HOST 'journalctl -u mc-tunnel --no-pager | grep -oP "https://[a-z0-9-]+\.trycloudflare\.com" | tail -1'
 #   Then update MC_SERVER in claude_desktop_config.json and restart Claude Desktop.
 #
 # Cause 2: npm dependencies not installed
@@ -112,30 +112,30 @@ WORKSPACE_ID=oil-investor
 # Cause 3: Wrong path in claude_desktop_config.json
 #   The "cwd" must point to the missioncanvas-site directory.
 #   On Mac: /Users/<username>/pretendhome/missioncanvas-site
-#   Check: node mcp_server_remote.mjs oil-investor  (should not error immediately)
+#   Check: node mcp_server_remote.mjs YOUR_WORKSPACE_ID  (should not error immediately)
 #
 # Cause 4: Node.js not installed
 #   Fix: brew install node  (Mac) or download from nodejs.org
 
 # ── Issue: Web UI / tunnel not loading ──
 # Cause 1: Tunnel crashed
-#   Fix: ssh root@srv1390882.hstgr.cloud 'systemctl restart mc-tunnel'
+#   Fix: ssh YOUR_USER@YOUR_VPS_HOST 'systemctl restart mc-tunnel'
 #   Wait 5 seconds, then get new URL from logs.
 #
 # Cause 2: Server crashed
-#   Fix: ssh root@srv1390882.hstgr.cloud 'systemctl restart missioncanvas && sleep 2 && systemctl restart mc-tunnel'
+#   Fix: ssh YOUR_USER@YOUR_VPS_HOST 'systemctl restart missioncanvas && sleep 2 && systemctl restart mc-tunnel'
 #
 # Cause 3: URL is stale (changed after restart)
 #   The tunnel URL changes every time mc-tunnel restarts. Get the new one:
-#     ssh root@srv1390882.hstgr.cloud 'journalctl -u mc-tunnel --no-pager | grep -oP "https://[a-z0-9-]+\.trycloudflare\.com" | tail -1'
+#     ssh YOUR_USER@YOUR_VPS_HOST 'journalctl -u mc-tunnel --no-pager | grep -oP "https://[a-z0-9-]+\.trycloudflare\.com" | tail -1'
 
 # ── Issue: Monitor alerts not showing ──
 # Cause 1: Monitor daemon not running
-#   Fix: ssh root@srv1390882.hstgr.cloud 'systemctl restart mc-monitors'
+#   Fix: ssh YOUR_USER@YOUR_VPS_HOST 'systemctl restart mc-monitors'
 #
 # Cause 2: Perplexity API key missing or invalid
-#   Check: ssh root@srv1390882.hstgr.cloud 'grep PERPLEXITY /root/fde/missioncanvas-site/joseph.env'
-#   Fix: Update the key in joseph.env and restart: systemctl restart mc-monitors
+#   Check: ssh YOUR_USER@YOUR_VPS_HOST 'grep PERPLEXITY /root/fde/missioncanvas-site/your.env'
+#   Fix: Update the key in your.env and restart: systemctl restart mc-monitors
 #
 # Cause 3: Schedule hasn't elapsed
 #   Energy markets: every 2 hours. AI investments: every 6 hours.
@@ -154,10 +154,10 @@ WORKSPACE_ID=oil-investor
 #     echo "ssh-ed25519 AAAA..." >> ~/.ssh/authorized_keys
 #
 # Cause 2: Host key changed (VPS was rebuilt)
-#   Fix: ssh-keyscan srv1390882.hstgr.cloud >> ~/.ssh/known_hosts
+#   Fix: ssh-keyscan YOUR_VPS_HOST >> ~/.ssh/known_hosts
 
 # ═══════════════════════════════════════════════════════════════════
-# 5. LOCAL SETUP (Joseph's laptop)
+# 5. LOCAL SETUP (Your laptop)
 # ═══════════════════════════════════════════════════════════════════
 
 # Prerequisites:
@@ -177,7 +177,7 @@ WORKSPACE_ID=oil-investor
 #   "mcpServers": {
 #     "mission-canvas": {
 #       "command": "node",
-#       "args": ["mcp_server_remote.mjs", "oil-investor"],
+#       "args": ["mcp_server_remote.mjs", "YOUR_WORKSPACE_ID"],
 #       "cwd": "/Users/<username>/pretendhome/missioncanvas-site",
 #       "env": {
 #         "MC_SERVER": "<TUNNEL_URL from section 2>"
@@ -246,7 +246,7 @@ WORKSPACE_ID=oil-investor
 #   - Industry/domain labels
 #   - Risk posture, investment horizon
 #
-# Joseph's private files (deal memos, portfolios, financials)
+# Your private files (deal memos, portfolios, financials)
 # stay on his laptop. Claude reads them locally via MCP.
 # Only sanitized, abstract facts go to the VPS.
 
@@ -259,14 +259,14 @@ WORKSPACE_ID=oil-investor
 # ├── convergence_chain.mjs      — workspace routing engine
 # ├── workspace_coaching.mjs     — coaching/learning system
 # ├── data_boundary.mjs          — PII enforcement (Tier 1)
-# ├── joseph_bridge.py           — Telegram bridge
+# ├── your_bridge.py           — Telegram bridge
 # ├── monitor_daemon.py          — background alert daemon
 # ├── mcp_server.mjs             — MCP server (local file mode)
 # ├── mcp_server_remote.mjs      — MCP server (remote HTTP mode)
-# ├── joseph.env                 — env vars (tokens, keys)
+# ├── your.env                 — env vars (tokens, keys)
 # ├── DATA_BOUNDARY.md           — data boundary policy
 # ├── workspaces/
-# │   └── oil-investor/
+# │   └── YOUR_WORKSPACE_ID/
 # │       ├── config.yaml        — workspace config
 # │       ├── project_state.yaml — facts, decisions, gaps, health
 # │       ├── learner_lens.yaml  — coaching state
@@ -283,7 +283,7 @@ WORKSPACE_ID=oil-investor
 
 # Run this to check everything at once:
 #
-# ssh root@srv1390882.hstgr.cloud '
+# ssh YOUR_USER@YOUR_VPS_HOST '
 #   echo "=== Services ==="
 #   systemctl is-active missioncanvas joseph-bridge mc-monitors mc-tunnel
 #   echo ""
@@ -307,13 +307,13 @@ WORKSPACE_ID=oil-investor
 # After making changes locally:
 #
 # Deploy specific files:
-#   scp server.mjs joseph_bridge.py root@srv1390882.hstgr.cloud:/root/fde/missioncanvas-site/
+#   scp server.mjs your_bridge.py YOUR_USER@YOUR_VPS_HOST:/root/fde/missioncanvas-site/
 #
 # Deploy workspace data:
-#   scp workspaces/oil-investor/*.yaml root@srv1390882.hstgr.cloud:/root/fde/missioncanvas-site/workspaces/oil-investor/
+#   scp workspaces/YOUR_WORKSPACE_ID/*.yaml YOUR_USER@YOUR_VPS_HOST:/root/fde/missioncanvas-site/workspaces/YOUR_WORKSPACE_ID/
 #
 # Restart after deploy:
-#   ssh root@srv1390882.hstgr.cloud 'systemctl restart missioncanvas && sleep 2 && systemctl restart joseph-bridge mc-monitors'
+#   ssh YOUR_USER@YOUR_VPS_HOST 'systemctl restart missioncanvas && sleep 2 && systemctl restart joseph-bridge mc-monitors'
 #
 # NOTE: Restarting mc-tunnel changes the URL! Only restart it if needed.
 # If you must restart it, update the MCP config with the new URL.
