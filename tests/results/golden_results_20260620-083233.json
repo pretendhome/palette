@@ -1,0 +1,188 @@
+{
+  "timestamp": "20260620-083233",
+  "total": 20,
+  "correct": 18,
+  "accuracy": 0.9,
+  "results": [
+    {
+      "id": "GOLD-001",
+      "query": "What should we build first for the new client?",
+      "expected": "MC-WORK-001",
+      "actual": "CORE-PROTECT",
+      "match": false,
+      "confidence": 0.3,
+      "duration_ms": 61587
+    },
+    {
+      "id": "GOLD-002",
+      "query": "Who decides and who executes on this project?",
+      "expected": "MC-WORK-002",
+      "actual": "MC-WORK-002",
+      "match": true,
+      "confidence": 0.6,
+      "duration_ms": 105725
+    },
+    {
+      "id": "GOLD-003",
+      "query": "Should we settle or litigate?",
+      "expected": "MC-WORK-003",
+      "actual": "MC-WORK-003",
+      "match": true,
+      "confidence": 0.8,
+      "duration_ms": 92155
+    },
+    {
+      "id": "GOLD-004",
+      "query": "Give me a status update with risks and blockers",
+      "expected": "MC-WORK-004",
+      "actual": "MC-WORK-004",
+      "match": true,
+      "confidence": 0.8,
+      "duration_ms": 103918
+    },
+    {
+      "id": "GOLD-005",
+      "query": "Break this into tasks with dependencies",
+      "expected": "MC-WORK-005",
+      "actual": "MC-WORK-005",
+      "match": true,
+      "confidence": 0.8,
+      "duration_ms": 103973
+    },
+    {
+      "id": "GOLD-006",
+      "query": "Review this implementation for gaps and quality issues",
+      "expected": "MC-WORK-006",
+      "actual": "MC-WORK-006",
+      "match": true,
+      "confidence": 0.7,
+      "duration_ms": 98111
+    },
+    {
+      "id": "GOLD-007",
+      "query": "What did we learn from the last engagement?",
+      "expected": "MC-WORK-007",
+      "actual": "MC-WORK-007",
+      "match": true,
+      "confidence": 0.6,
+      "duration_ms": 98115
+    },
+    {
+      "id": "GOLD-008",
+      "query": "Package a handoff for the next team",
+      "expected": "MC-WORK-008",
+      "actual": "MC-WORK-008",
+      "match": true,
+      "confidence": 0.65,
+      "duration_ms": 102411
+    },
+    {
+      "id": "GOLD-009",
+      "query": "Is this attorney-client privileged?",
+      "expected": "MC-LEGAL-001",
+      "actual": "CORE-PROTECT",
+      "match": false,
+      "confidence": 0.3,
+      "duration_ms": 42804
+    },
+    {
+      "id": "GOLD-010",
+      "query": "Review the indemnification clause in this contract",
+      "expected": "MC-LEGAL-004",
+      "actual": "MC-LEGAL-004",
+      "match": true,
+      "confidence": 0.8,
+      "duration_ms": 98111
+    },
+    {
+      "id": "GOLD-011",
+      "query": "How complete and accurate is our training dataset?",
+      "expected": "MC-DATA-001",
+      "actual": "MC-DATA-001",
+      "match": true,
+      "confidence": 0.6,
+      "duration_ms": 105270
+    },
+    {
+      "id": "GOLD-012",
+      "query": "Design the ETL pipeline for ingesting customer data",
+      "expected": "MC-DATA-005",
+      "actual": "MC-DATA-005",
+      "match": true,
+      "confidence": 0.9,
+      "duration_ms": 103147
+    },
+    {
+      "id": "GOLD-013",
+      "query": "Can we send this personal data to the EU?",
+      "expected": "MC-DATA-006",
+      "actual": "MC-DATA-006",
+      "match": true,
+      "confidence": 0.8,
+      "duration_ms": 98109
+    },
+    {
+      "id": "GOLD-014",
+      "query": "Why did the system classify this query as PROTECT?",
+      "expected": "MC-GOV-002",
+      "actual": "MC-GOV-002",
+      "match": true,
+      "confidence": 0.7,
+      "duration_ms": 98113
+    },
+    {
+      "id": "GOLD-015",
+      "query": "Show me the decision audit trail from last week",
+      "expected": "MC-GOV-003",
+      "actual": "MC-GOV-003",
+      "match": true,
+      "confidence": 0.8,
+      "duration_ms": 98123
+    },
+    {
+      "id": "GOLD-016",
+      "query": "Set up a proof of concept for the legal team",
+      "expected": "MC-DEPLOY-001",
+      "actual": "MC-DEPLOY-001",
+      "match": true,
+      "confidence": 0.6,
+      "duration_ms": 104974
+    },
+    {
+      "id": "GOLD-017",
+      "query": "Help the new user get to their first value",
+      "expected": "MC-DEPLOY-002",
+      "actual": "MC-DEPLOY-002",
+      "match": true,
+      "confidence": 0.6,
+      "duration_ms": 104107
+    },
+    {
+      "id": "GOLD-018",
+      "query": "What are the filing deadlines for the Smith case?",
+      "expected": "MC-LEGAL-003",
+      "actual": "MC-LEGAL-003",
+      "match": true,
+      "confidence": 0.8,
+      "duration_ms": 104236
+    },
+    {
+      "id": "GOLD-019",
+      "query": "Evaluate whether this complies with GDPR requirements",
+      "expected": "MC-DATA-006",
+      "actual": "MC-DATA-006",
+      "match": true,
+      "confidence": 0.6,
+      "duration_ms": 97551
+    },
+    {
+      "id": "GOLD-020",
+      "query": "Draft a scope definition with assumptions and non-goals",
+      "expected": "MC-WORK-001",
+      "actual": "MC-WORK-001",
+      "match": true,
+      "confidence": 0.8500000000000001,
+      "duration_ms": 104556
+    }
+  ]
+}

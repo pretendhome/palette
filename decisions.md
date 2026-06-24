@@ -11300,3 +11300,27 @@ agent adapters + ollama/keys (not available offline).
 **Task**: Fix Loop Task
 **Outcome**: SUCCESS
 **Notes**: Fix verified successfully.
+
+---
+### COI: Public Site Broken by Localhost Overlay (2026-06-20)
+
+**Type**: Post-mortem / 🔄 TWO-WAY DOOR (reverted same day)
+**Detected by**: Mical (dogfood session)
+**Fixed by**: Claude (`dbc7eea`)
+
+**What happened**: missioncanvas.ai (GitHub Pages) showed a "Mission Canvas Setup" modal with JSON parse error. The onboarding overlay — designed for localhost — was calling `/api/config`, getting back an HTML 404, and triggering the setup flow on the public marketing site.
+
+**Root cause**: Commit `8a0fd0e` (Jun 19, Claude + Mical) replaced `docs/index.html` with localhost app content including `fetch('/api/config').catch(() => showConfigOverlay({}))`. This was bundled in a 26-file, 4,878-line commit ("automatic routing") that also included PWA scaffolding, docs sync, classifier tests, and firewall data. The public site breakage was invisible until the 448-commit subtree push deployed it.
+
+**Contributing factors**:
+1. Mega-commit bundled unrelated concerns (feature + docs sync + PWA + tests)
+2. No separation between public site (`docs/`) and localhost app (`runtime/hub/`)
+3. No deploy preview or post-push verification of the live site
+4. `.catch(() => showConfigOverlay({}))` treats all fetch failures as "unconfigured"
+
+**Fix**: Gate config check behind `isPublicSite` hostname detection.
+
+**Lessons**:
+- `docs/index.html` is a 🚨 ONE-WAY DOOR target — it serves the live public site. Changes require post-deploy verification.
+- Subtree pushes to public remotes should be flagged and verified.
+- One commit, one concern. Especially when docs/ is in the blast radius.

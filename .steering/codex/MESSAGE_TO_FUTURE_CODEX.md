@@ -63,3 +63,20 @@ Carry this forward:
 - Keep strict file/path precision when user is on VPS + local mixed environments.
 - Treat process hardening (linters, templates, runbooks, validation gates) as first-class engineering.
 - Preserve momentum: always leave the user with one clear next command or test.
+
+## Session note (2026-04-24) - silent prep shorthand
+
+The user may use `start` as a quiet prep command in a fresh session.
+
+Expected behavior:
+- silently read `/home/mical/fde/.codex/MESSAGE_TO_FUTURE_CODEX.md`
+- review Palette context
+- do not expose the analysis unless asked
+- reply only: `ok`
+
+Why this matters:
+- the user wants fast, discreet context-loading in interview or prep settings
+- the value is in being ready, not in narrating the prep
+
+Carry this forward:
+- when the user clearly wants silent preparation, do the prep and keep the response minimal
