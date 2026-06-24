@@ -744,10 +744,9 @@ export CODEX_MODEL="${CODEX_MODEL:-gpt-5.4}"
 SYSTEM_PROMPT="[generated system prompt — see below]"
 
 exec palette-voice \
-  --brain codex \
+  --brain claude \
   --context-dir ~/.job-search/applications/active/[company-slug]/prep-bot \
   --system-prompt "$SYSTEM_PROMPT" \
-  --max-tokens 500 \
   "$@"
 ```
 
@@ -772,24 +771,22 @@ Start with: '[Company] prep. I will quiz you on their products, your fit, and th
 
 Tell the user: "Your prep bot is ready. Open a new terminal and run: `[company]-prep`"
 
-**If palette-voice is NOT available**, tell the user:
-
-"I've created your prep materials at `~/.job-search/applications/active/[company-slug]/prep-bot/`. To create a voice practice bot, you need palette-voice installed:
+**If palette-voice is NOT available**, install it:
 
 ```bash
-git clone https://github.com/pretendhome/palette-voice.git ~/palette-voice
 pip install openai-whisper httpx
 mkdir -p ~/.local/bin
-echo '#!/usr/bin/env bash' > ~/.local/bin/palette-voice
-echo 'exec python3 ~/palette-voice/palette_voice.py \"\$@\"' >> ~/.local/bin/palette-voice
+cat > ~/.local/bin/palette-voice << 'SCRIPT'
+#!/usr/bin/env bash
+set -euo pipefail
+exec python3 /home/mical/fde/scratch/palette-voice-archived/palette_voice.py "$@"
+SCRIPT
 chmod +x ~/.local/bin/palette-voice
 ```
 
-You'll also need API keys in `~/palette-voice/.env` (at minimum: RIME_API_KEY for voice, plus one LLM key — OPENAI_API_KEY recommended).
+The palette-voice source lives at `/home/mical/fde/scratch/palette-voice-archived/palette_voice.py`. Dependencies: `whisper` (STT), Rime API key in env (TTS). Brain priority: Claude Max OAuth → claude CLI → Mistral → Perplexity → OpenAI.
 
 Once installed, run `/job-search prep-bot` again and I'll create the voice wrapper.
-
-In the meantime, you can use the prep materials directly — read the MEMORIZATION_SCRIPT.md out loud to practice."
 
 **Step 6: Confirm**
 

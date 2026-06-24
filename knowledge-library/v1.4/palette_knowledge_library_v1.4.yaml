@@ -10524,9 +10524,7 @@ context_specific_questions:
   answer: 'Use the COMPACT protocol (RIU-607). Before context fills: flush canonical facts to MEMORY.md, write a daily log
     with continuation note, update decisions.md. Next session starts by reading MEMORY.md + latest daily log + decisions.md
     before touching any phase artifacts. This prevents the two most common continuity failures: number drift between documents
-    and lost operational context.
-
-    '
+    and lost operational context.'
   problem_type: Engagement Operations
   related_rius:
   - RIU-607
@@ -10674,10 +10672,40 @@ context_specific_questions:
   question: How does Palette's taxonomy routing work and why does it classify before retrieving?
   answer: 'Palette uses a 121-node taxonomy of Reusable Intelligence Units (RIUs) to classify every incoming problem BEFORE
     retrieval happens. This is the ''context selection, not context accumulation'' principle. Instead of searching everything
-    and filtering results, the taxonomy narrows the domain first, then retrieval operates within that domain only.
+    and filtering results, the taxonomy narrows the domain first, then retrieval operates within that domain only.'
+  sources:
+  - title: Palette architecture — taxonomy-first design
+    url: core/palette-core.md
+    type: internal_implementation
+    date: '2026-02-01'
+  related_rius:
+  - RIU-001
+  evidence_tier: 1
+  tags:
+  - taxonomy
+  - routing
+  validated: true
+  journey_stage: foundation
 - id: LIB-187
   question: How does Palette's hybrid retrieval work and what are the three retrieval modes?
   answer: 'Palette V3 retrieves knowledge using three complementary modes, applied after taxonomy routing selects the domain:
+    keyword prefix matching (fastest, exact), FTS5 full-text search with BM25 scoring and Porter stemming (balanced),
+    and vector similarity via nomic-embed-text through Ollama (semantic). Results are merged using Reciprocal Rank Fusion (RRF).
+    The system degrades gracefully — when embeddings are unavailable, keyword and FTS5 continue to function.'
+  sources:
+  - title: Palette V3 retrieval engine implementation
+    url: scripts/palette_intelligence_system/query_engine.py
+    type: internal_implementation
+    date: '2026-02-26'
+  related_rius:
+  - RIU-001
+  - RIU-021
+  evidence_tier: 1
+  tags:
+  - retrieval
+  - hybrid-search
+  validated: true
+  journey_stage: retrieval
 - id: LIB-188
   question: What is the palette query CLI and how does it enforce behavioral structure for agents?
   answer: "The `palette query` command is a single CLI entry point that runs the full agent chain with five internal steps,\
@@ -10782,7 +10810,21 @@ context_specific_questions:
 - id: LIB-191
   question: What are wire contracts and how do they prevent lossy handoffs between agents?
   answer: 'Wire contracts are the fixed envelope schema that defines exactly what data flows between agents on the peers bus.
-    Every message must conform to the schema — malformed envelopes are rejected.
+    Every message must conform to the schema — malformed envelopes are rejected. 7 canonical fields in, 7 out, linked by ID.
+    Glass-box invariant: if status != success, blockers MUST explain why.'
+  sources:
+  - title: Wire contract V2.2 implementation
+    url: sdk/palette_sdk/wire.py
+    type: internal_implementation
+    date: '2026-03-16'
+  related_rius:
+  - RIU-001
+  evidence_tier: 1
+  tags:
+  - wire-contract
+  - multi-agent
+  validated: true
+  journey_stage: orchestration
 - id: LIB-192
   question: What is Palette's Voice Hub architecture and how does voice-first multi-agent interaction work?
   answer: "Voice Hub is the primary interface to Palette — a voice-first system where users speak to coordinate multiple AI\
